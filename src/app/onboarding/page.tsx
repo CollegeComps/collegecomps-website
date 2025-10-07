@@ -1,0 +1,468 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import {
+  AcademicCapIcon,
+  BuildingLibraryIcon,
+  CalendarIcon,
+  CheckCircleIcon,
+  ChevronRightIcon,
+  ChevronLeftIcon
+} from '@heroicons/react/24/outline';
+import AIAutocomplete from '@/components/AIAutocomplete';
+
+export default function OnboardingPage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+  
+  const [formData, setFormData] = useState({
+    intended_major: '',
+    degree_level: 'bachelors',
+    target_schools: [] as string[],
+    expected_graduation_year: new Date().getFullYear() + 4,
+    gpa: '',
+    sat_score: '',
+    act_score: '',
+    budget_range: '',
+    location_preference: '',
+  });
+
+  const [schoolInput, setSchoolInput] = useState('');
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/auth/signin');
+    }
+  }, [status, router]);
+
+  const addSchool = (school: string) => {
+    if (school && !formData.target_schools.includes(school)) {
+      setFormData(prev => ({
+        ...prev,
+        target_schools: [...prev.target_schools, school]
+      }));
+      setSchoolInput('');
+    }
+  };
+
+  const removeSchool = (school: string) => {
+    setFormData(prev => ({
+      ...prev,
+      target_schools: prev.target_schools.filter(s => s !== school)
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+
+      const response = await fetch('/api/user/onboarding', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) throw new Error('Failed to save preferences');
+
+      // Track onboarding completion
+      await fetch('/api/analytics/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          eventType: 'onboarding_completed',
+          eventData: {
+            major: formData.intended_major,
+            schools_count: formData.target_schools.length,
+            graduation_year: formData.expected_graduation_year
+          },
+          pageUrl: '/onboarding'
+        })
+      });
+
+      router.push('/');
+    } catch (error) {
+      console.error('Error saving onboarding:', error);
+      alert('Failed to save preferences. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSkip = async () => {
+    try {
+      // Mark onboarding as complete even if skipped
+      await fetch('/api/user/onboarding', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          intended_major: '',
+          degree_level: '',
+          target_schools: [],
+          expected_graduation_year: new Date().getFullYear()
+        })
+      });
+      router.push('/');
+    } catch (error) {
+      console.error('Error skipping onboarding:', error);
+      router.push('/');
+    }
+  };
+
+  const canProceed = () => {
+    if (step === 1) return formData.intended_major.length > 0;
+    if (step === 2) return formData.target_schools.length > 0;
+    if (step === 3) return formData.expected_graduation_year > 0;
+    if (step === 4) return true; // Academic info is optional
+    return false;
+  };
+
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+      <div className="max-w-3xl w-full">
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div className={`flex items-center ${step >= 1 ? 'text-blue-600' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-300'}`}>
+                {step > 1 ? <CheckCircleIcon className="h-6 w-6" /> : '1'}
+              </div>
+              <span className="ml-2 font-medium hidden sm:inline">Major</span>
+            </div>
+            <div className={`flex-1 h-1 mx-2 ${step >= 2 ? 'bg-blue-600' : 'bg-gray-300'}`} />
+            <div className={`flex items-center ${step >= 2 ? 'text-blue-600' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-300'}`}>
+                {step > 2 ? <CheckCircleIcon className="h-6 w-6" /> : '2'}
+              </div>
+              <span className="ml-2 font-medium hidden sm:inline">Schools</span>
+            </div>
+            <div className={`flex-1 h-1 mx-2 ${step >= 3 ? 'bg-blue-600' : 'bg-gray-300'}`} />
+            <div className={`flex items-center ${step >= 3 ? 'text-blue-600' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-blue-600 text-white' : 'bg-gray-300'}`}>
+                {step > 3 ? <CheckCircleIcon className="h-6 w-6" /> : '3'}
+              </div>
+              <span className="ml-2 font-medium hidden sm:inline">Timeline</span>
+            </div>
+            <div className={`flex-1 h-1 mx-2 ${step >= 4 ? 'bg-blue-600' : 'bg-gray-300'}`} />
+            <div className={`flex items-center ${step >= 4 ? 'text-blue-600' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 4 ? 'bg-blue-600 text-white' : 'bg-gray-300'}`}>
+                {step > 4 ? <CheckCircleIcon className="h-6 w-6" /> : '4'}
+              </div>
+              <span className="ml-2 font-medium hidden sm:inline">Profile</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Card */}
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          {/* Step 1: Intended Major */}
+          {step === 1 && (
+            <div className="space-y-6">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+                  <AcademicCapIcon className="h-8 w-8 text-blue-600" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">What do you want to study?</h2>
+                <p className="text-gray-600">We'll personalize your experience based on your interests</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  Degree Level
+                </label>
+                <select
+                  value={formData.degree_level}
+                  onChange={(e) => setFormData(prev => ({ ...prev, degree_level: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                >
+                  <option value="bachelors">Bachelor's Degree</option>
+                  <option value="masters">Master's Degree</option>
+                  <option value="doctorate">Doctorate/PhD</option>
+                  <option value="associate">Associate Degree</option>
+                  <option value="certificate">Certificate Program</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  Intended Major or Field of Study
+                </label>
+                <AIAutocomplete
+                  type="major"
+                  value={formData.intended_major}
+                  onChange={(value) => setFormData(prev => ({ ...prev, intended_major: value }))}
+                  onSelect={(value) => setFormData(prev => ({ ...prev, intended_major: value }))}
+                  placeholder="e.g., Computer Science, Business, Engineering..."
+                  context={{
+                    degree_level: formData.degree_level,
+                    gpa: formData.gpa,
+                    sat_score: formData.sat_score,
+                    act_score: formData.act_score
+                  }}
+                />
+              </div>
+
+              <p className="text-sm text-gray-500">
+                💡 Don't worry, you can change this later in your profile
+              </p>
+            </div>
+          )}
+
+          {/* Step 2: Target Schools */}
+          {step === 2 && (
+            <div className="space-y-6">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 rounded-full mb-4">
+                  <BuildingLibraryIcon className="h-8 w-8 text-indigo-600" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">Which schools interest you?</h2>
+                <p className="text-gray-600">Add schools you're considering (you can add more later)</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  Search and Add Schools
+                </label>
+                <AIAutocomplete
+                  type="school"
+                  value={schoolInput}
+                  onChange={(value) => setSchoolInput(value)}
+                  onSelect={(value) => addSchool(value)}
+                  placeholder="Type to search schools..."
+                  context={{
+                    intended_major: formData.intended_major,
+                    degree_level: formData.degree_level,
+                    gpa: formData.gpa,
+                    sat_score: formData.sat_score,
+                    act_score: formData.act_score,
+                    budget_range: formData.budget_range,
+                    location_preference: formData.location_preference
+                  }}
+                />
+              </div>
+
+              {/* Selected Schools */}
+              {formData.target_schools.length > 0 && (
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-gray-900">
+                    Your Target Schools ({formData.target_schools.length})
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {formData.target_schools.map((school) => (
+                      <div
+                        key={school}
+                        className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full"
+                      >
+                        <span className="text-sm font-medium">{school}</span>
+                        <button
+                          onClick={() => removeSchool(school)}
+                          className="text-blue-600 hover:text-blue-800"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Step 3: Graduation Year */}
+          {step === 3 && (
+            <div className="space-y-6">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
+                  <CalendarIcon className="h-8 w-8 text-purple-600" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">When do you plan to graduate?</h2>
+                <p className="text-gray-600">This helps us show relevant ROI projections</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  Expected Graduation Year
+                </label>
+                <select
+                  value={formData.expected_graduation_year}
+                  onChange={(e) => setFormData(prev => ({ ...prev, expected_graduation_year: parseInt(e.target.value) }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                >
+                  {Array.from({ length: 10 }, (_, i) => currentYear + i).map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="bg-blue-50 rounded-lg p-4">
+                <h3 className="font-semibold text-blue-900 mb-2">📊 What's Next?</h3>
+                <ul className="space-y-1 text-sm text-blue-800">
+                  <li>• Personalized college recommendations</li>
+                  <li>• ROI calculations for your major</li>
+                  <li>• Salary insights from alumni in your field</li>
+                  <li>• Side-by-side comparisons of your target schools</li>
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* Step 4: Academic Profile (Optional) */}
+          {step === 4 && (
+            <div className="space-y-6">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+                  <AcademicCapIcon className="h-8 w-8 text-green-600" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">Tell us about your academics</h2>
+                <p className="text-gray-600">This helps us provide better school recommendations (all optional)</p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    GPA (if available)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    max="4.0"
+                    value={formData.gpa}
+                    onChange={(e) => setFormData(prev => ({ ...prev, gpa: e.target.value }))}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                    placeholder="e.g., 3.75"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    Budget Range (Annual)
+                  </label>
+                  <select
+                    value={formData.budget_range}
+                    onChange={(e) => setFormData(prev => ({ ...prev, budget_range: e.target.value }))}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  >
+                    <option value="">Select budget range...</option>
+                    <option value="0-20000">$0 - $20,000</option>
+                    <option value="20000-40000">$20,000 - $40,000</option>
+                    <option value="40000-60000">$40,000 - $60,000</option>
+                    <option value="60000+">$60,000+</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    SAT Score (if taken)
+                  </label>
+                  <input
+                    type="number"
+                    min="400"
+                    max="1600"
+                    value={formData.sat_score}
+                    onChange={(e) => setFormData(prev => ({ ...prev, sat_score: e.target.value }))}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                    placeholder="e.g., 1450"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    ACT Score (if taken)
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="36"
+                    value={formData.act_score}
+                    onChange={(e) => setFormData(prev => ({ ...prev, act_score: e.target.value }))}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                    placeholder="e.g., 32"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  Location Preference
+                </label>
+                <input
+                  type="text"
+                  value={formData.location_preference}
+                  onChange={(e) => setFormData(prev => ({ ...prev, location_preference: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  placeholder="e.g., Northeast, California, Urban areas..."
+                />
+              </div>
+
+              <div className="bg-green-50 rounded-lg p-4">
+                <p className="text-sm text-green-800">
+                  ✨ <strong>Premium users:</strong> This information helps our AI provide smarter, personalized school recommendations based on your academic profile and preferences!
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Navigation Buttons */}
+          <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+            <button
+              onClick={() => setStep(s => Math.max(1, s - 1))}
+              disabled={step === 1}
+              className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-colors ${
+                step === 1
+                  ? 'text-gray-400 cursor-not-allowed'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <ChevronLeftIcon className="h-5 w-5" />
+              Back
+            </button>
+
+            {step < 4 ? (
+              <button
+                onClick={() => setStep(s => s + 1)}
+                disabled={!canProceed()}
+                className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-colors ${
+                  canProceed()
+                    ? 'bg-blue-600 text-white hover:bg-blue-700'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                Next
+                <ChevronRightIcon className="h-5 w-5" />
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                disabled={loading}
+                className={`flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-colors ${
+                  !loading
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                {loading ? 'Saving...' : 'Complete Setup'}
+                {!loading && <CheckCircleIcon className="h-5 w-5" />}
+              </button>
+            )}
+          </div>
+
+          {/* Skip Option */}
+          <div className="text-center mt-4">
+            <button
+              onClick={handleSkip}
+              className="text-sm text-gray-500 hover:text-gray-700"
+            >
+              Skip for now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,30 @@
+version: 1
+applications:
+  - appRoot: roi-calculator
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - echo "Installing dependencies..."
+            - npm ci
+            - echo "Node version:" && node --version
+            - echo "NPM version:" && npm --version
+        build:
+          commands:
+            - echo "Building Next.js application..."
+            - npm run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+          - .next/cache/**/*
+      # Environment variables (set in Amplify Console)
+      # NEXTAUTH_URL
+      # NEXTAUTH_SECRET
+      # DATABASE_URL
+      # AWS_REGION
+      # S3_BUCKET
+      # NODE_ENV=production

@@ -1,0 +1,426 @@
+'use client';
+
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import {
+  CheckCircleIcon,
+  XCircleIcon,
+  SparklesIcon,
+  ChartBarIcon,
+  BellAlertIcon,
+  DocumentArrowDownIcon,
+  FolderIcon,
+  ArrowPathIcon,
+  CreditCardIcon,
+} from '@heroicons/react/24/outline';
+
+interface SubscriptionFeature {
+  name: string;
+  description: string;
+  available: boolean;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  link?: string;
+}
+
+interface UsageStats {
+  saved_comparisons: number;
+  exports_this_month: number;
+  alerts_configured: number;
+  folders_created: number;
+}
+
+export default function SubscriptionPage() {
+  const { data: session } = useSession();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [usageStats, setUsageStats] = useState<UsageStats>({
+    saved_comparisons: 0,
+    exports_this_month: 0,
+    alerts_configured: 0,
+    folders_created: 0,
+  });
+
+  const isPremium = session?.user?.subscriptionTier === 'premium';
+
+  useEffect(() => {
+    if (!session) {
+      router.push('/login?callbackUrl=/subscription');
+      return;
+    }
+
+    fetchUsageStats();
+  }, [session]);
+
+  const fetchUsageStats = async () => {
+    try {
+      const response = await fetch('/api/user/usage-stats');
+      if (response.ok) {
+        const data = await response.json();
+        setUsageStats(data);
+      }
+    } catch (error) {
+      console.error('Error fetching usage stats:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const freeFeatures: SubscriptionFeature[] = [
+    {
+      name: 'Basic ROI Calculator',
+      description: 'Calculate return on investment for education',
+      available: true,
+      icon: ChartBarIcon,
+      link: '/roi-calculator',
+    },
+    {
+      name: 'College Data Explorer',
+      description: 'Browse institutions and programs',
+      available: true,
+      icon: SparklesIcon,
+      link: '/colleges',
+    },
+    {
+      name: 'My Timeline',
+      description: 'Track submissions and important dates',
+      available: true,
+      icon: ChartBarIcon,
+      link: '/my-timeline',
+    },
+    {
+      name: 'Save 1 Comparison',
+      description: 'Save one college comparison',
+      available: true,
+      icon: FolderIcon,
+      link: '/saved-comparisons',
+    },
+  ];
+
+  const premiumFeatures: SubscriptionFeature[] = [
+    {
+      name: 'Advanced Salary Analytics',
+      description: 'P25/P50/P75 analysis, career trajectories, peer comparison',
+      available: isPremium,
+      icon: ChartBarIcon,
+      link: '/advanced-analytics',
+    },
+    {
+      name: 'AI-Powered Suggestions',
+      description: 'Smart school and major recommendations',
+      available: isPremium,
+      icon: SparklesIcon,
+      link: '/onboarding',
+    },
+    {
+      name: 'Custom Alerts & Notifications',
+      description: 'Email alerts for salary updates, deadlines, and ROI changes',
+      available: isPremium,
+      icon: BellAlertIcon,
+      link: '/alerts',
+    },
+    {
+      name: 'Export & Reports',
+      description: 'Download as PDF/Excel, create shareable links',
+      available: isPremium,
+      icon: DocumentArrowDownIcon,
+      link: '/exports',
+    },
+    {
+      name: 'Unlimited Comparisons',
+      description: 'Save unlimited comparisons with folders and tags',
+      available: isPremium,
+      icon: FolderIcon,
+      link: '/comparison-manager',
+    },
+  ];
+
+  const handleManageSubscription = () => {
+    // TODO: Integrate with Stripe customer portal
+    alert('Stripe Customer Portal coming soon! You can manage billing, update payment methods, and view invoices.');
+  };
+
+  const handleUpgrade = () => {
+    router.push('/pricing');
+  };
+
+  const handleCancelSubscription = () => {
+    // TODO: Integrate with Stripe cancellation
+    if (confirm('Are you sure you want to cancel your Premium subscription? You\'ll lose access to all premium features at the end of your billing period.')) {
+      alert('Stripe cancellation flow coming soon!');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading subscription details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">My Subscription</h1>
+          <p className="text-lg text-gray-600">
+            Manage your plan and view feature access
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Current Plan Card */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+              <div className="flex items-start justify-between mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                    {isPremium ? '⭐ Premium Plan' : 'Free Plan'}
+                  </h2>
+                  <p className="text-gray-600">
+                    {isPremium 
+                      ? 'You have access to all premium features'
+                      : 'Upgrade to unlock advanced features'
+                    }
+                  </p>
+                </div>
+                {isPremium && (
+                  <span className="px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-sm font-bold rounded-full">
+                    Active
+                  </span>
+                )}
+              </div>
+
+              {isPremium && (
+                <div className="border-t border-gray-200 pt-6">
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div>
+                      <p className="text-sm text-gray-600">Billing Cycle</p>
+                      <p className="text-lg font-semibold text-gray-900">Monthly</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">Next Billing Date</p>
+                      <p className="text-lg font-semibold text-gray-900">Oct 30, 2025</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">Amount</p>
+                      <p className="text-lg font-semibold text-gray-900">$9.99/month</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">Payment Method</p>
+                      <p className="text-lg font-semibold text-gray-900">•••• 4242</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={handleManageSubscription}
+                      className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      <CreditCardIcon className="w-5 h-5" />
+                      Manage Billing
+                    </button>
+                    <button
+                      onClick={handleCancelSubscription}
+                      className="flex-1 px-4 py-3 border border-red-300 text-red-600 font-semibold rounded-lg hover:bg-red-50 transition-colors"
+                    >
+                      Cancel Subscription
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {!isPremium && (
+                <button
+                  onClick={handleUpgrade}
+                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold py-4 rounded-lg hover:shadow-lg transition-all transform hover:-translate-y-1"
+                >
+                  🚀 Upgrade to Premium - $9.99/month
+                </button>
+              )}
+            </div>
+
+            {/* Features Grid */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Free Features */}
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Free Features</h3>
+                <div className="space-y-3">
+                  {freeFeatures.map((feature, idx) => (
+                    <div key={idx} className="flex items-start gap-3">
+                      <CheckCircleIcon className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                      <div className="flex-1">
+                        <p className="font-medium text-gray-900">{feature.name}</p>
+                        <p className="text-sm text-gray-600">{feature.description}</p>
+                        {feature.link && (
+                          <Link
+                            href={feature.link}
+                            className="text-sm text-blue-600 hover:underline mt-1 inline-block"
+                          >
+                            Go to feature →
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Premium Features */}
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Premium Features</h3>
+                <div className="space-y-3">
+                  {premiumFeatures.map((feature, idx) => (
+                    <div key={idx} className="flex items-start gap-3">
+                      {feature.available ? (
+                        <CheckCircleIcon className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+                      ) : (
+                        <XCircleIcon className="w-5 h-5 text-gray-300 flex-shrink-0 mt-0.5" />
+                      )}
+                      <div className="flex-1">
+                        <p className={`font-medium ${feature.available ? 'text-gray-900' : 'text-gray-400'}`}>
+                          {feature.name}
+                        </p>
+                        <p className={`text-sm ${feature.available ? 'text-gray-600' : 'text-gray-400'}`}>
+                          {feature.description}
+                        </p>
+                        {feature.available && feature.link && (
+                          <Link
+                            href={feature.link}
+                            className="text-sm text-blue-600 hover:underline mt-1 inline-block"
+                          >
+                            Go to feature →
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Usage Stats Sidebar */}
+          <div className="space-y-6">
+            {/* Usage Overview */}
+            <div className="bg-white rounded-xl shadow-md p-6">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Usage This Month</h3>
+              <div className="space-y-4">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-gray-600">Saved Comparisons</span>
+                    <span className="font-semibold text-gray-900">
+                      {usageStats.saved_comparisons} / {isPremium ? '∞' : '1'}
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className="bg-blue-600 h-2 rounded-full"
+                      style={{ 
+                        width: isPremium 
+                          ? '30%' 
+                          : `${Math.min((usageStats.saved_comparisons / 1) * 100, 100)}%` 
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {isPremium && (
+                  <>
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm text-gray-600">Exports</span>
+                        <span className="font-semibold text-gray-900">{usageStats.exports_this_month}</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm text-gray-600">Active Alerts</span>
+                        <span className="font-semibold text-gray-900">{usageStats.alerts_configured}</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm text-gray-600">Folders Created</span>
+                        <span className="font-semibold text-gray-900">{usageStats.folders_created}</span>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="bg-white rounded-xl shadow-md p-6">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h3>
+              <div className="space-y-3">
+                <Link
+                  href="/pricing"
+                  className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  <ArrowPathIcon className="w-5 h-5 text-blue-600" />
+                  <div>
+                    <p className="font-medium text-gray-900">
+                      {isPremium ? 'Change Plan' : 'View Plans'}
+                    </p>
+                    <p className="text-xs text-gray-600">
+                      {isPremium ? 'Switch to annual billing' : 'See all features'}
+                    </p>
+                  </div>
+                </Link>
+
+                {isPremium && (
+                  <>
+                    <button
+                      onClick={handleManageSubscription}
+                      className="w-full flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <CreditCardIcon className="w-5 h-5 text-blue-600" />
+                      <div>
+                        <p className="font-medium text-gray-900">Update Payment</p>
+                        <p className="text-xs text-gray-600">Change card or billing info</p>
+                      </div>
+                    </button>
+
+                    <Link
+                      href="/alerts"
+                      className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                    >
+                      <BellAlertIcon className="w-5 h-5 text-blue-600" />
+                      <div>
+                        <p className="font-medium text-gray-900">Manage Alerts</p>
+                        <p className="text-xs text-gray-600">Configure notifications</p>
+                      </div>
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Support */}
+            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl shadow-md p-6 text-white">
+              <h3 className="text-xl font-bold mb-2">Need Help?</h3>
+              <p className="text-blue-100 mb-4 text-sm">
+                Our support team is here to help with any questions about your subscription.
+              </p>
+              <a
+                href="mailto:support@collegeroi.com"
+                className="inline-block bg-white text-blue-600 font-semibold px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors"
+              >
+                Contact Support
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
