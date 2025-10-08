@@ -1,5 +1,6 @@
 import Database from 'better-sqlite3';
 import path from 'path';
+import fs from 'fs';
 
 // Database path - adjust this to point to your college_data.db
 const DB_PATH = path.join(process.cwd(), '..', 'college-scrapper', 'data', 'college_data.db');
@@ -9,10 +10,26 @@ let db: Database.Database | null = null;
 export function getDatabase() {
   if (!db) {
     try {
+      // Check if database file exists before trying to open it
+      // This prevents build errors when the database isn't available
+      if (!fs.existsSync(DB_PATH)) {
+        console.warn(`Database file not found at ${DB_PATH} - database features will be unavailable`);
+        // Return a mock database object during build that will fail gracefully at runtime
+        if (process.env.NODE_ENV === 'production' && !process.env.VERCEL) {
+          throw new Error('Database file not found');
+        }
+        return null as any; // During build, return null to avoid errors
+      }
+      
       db = new Database(DB_PATH, { readonly: true });
       console.log('Connected to SQLite database');
     } catch (error) {
       console.error('Failed to connect to database:', error);
+      // During build time, don't throw - just log and continue
+      if (process.env.NEXT_PHASE === 'phase-production-build') {
+        console.warn('Skipping database connection during build');
+        return null as any;
+      }
       throw new Error('Database connection failed');
     }
   }
