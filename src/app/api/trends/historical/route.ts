@@ -194,8 +194,13 @@ export async function GET(req: NextRequest) {
 
   } catch (error) {
     console.error('Historical Trends error:', error);
+    console.error('Error details:', error instanceof Error ? error.message : String(error));
+    console.error('Stack:', error instanceof Error ? error.stack : 'No stack');
     return NextResponse.json(
-      { error: 'Failed to fetch historical trends' },
+      { 
+        error: 'Failed to fetch historical trends',
+        details: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     );
   }

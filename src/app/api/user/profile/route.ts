@@ -32,7 +32,12 @@ export async function GET() {
     return NextResponse.json({ profile: profile || null });
   } catch (error) {
     console.error('Profile fetch error:', error);
-    return NextResponse.json({ error: 'Failed to fetch profile' }, { status: 500 });
+    console.error('Error details:', error instanceof Error ? error.message : String(error));
+    console.error('Stack:', error instanceof Error ? error.stack : 'No stack');
+    return NextResponse.json({ 
+      error: 'Failed to fetch profile',
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 });
   }
 }
 
