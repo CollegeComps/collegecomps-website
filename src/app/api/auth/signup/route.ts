@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Database from 'better-sqlite3'
 import bcrypt from 'bcryptjs'
-
-const db = new Database('data/users.db')
+import { getUsersDb } from '@/lib/db-helper'
 
 export async function POST(req: NextRequest) {
   try {
+    const db = getUsersDb();
+    if (!db) {
+      return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+    }
+    
     const { email, password, name } = await req.json()
 
     // Validation

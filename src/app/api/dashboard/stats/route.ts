@@ -4,6 +4,9 @@ import { getDatabase } from '@/lib/database';
 export async function GET() {
   try {
     const db = getDatabase();
+    if (!db) {
+      return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+    }
     
     // Overall statistics - using available data
     const overallStats = db.prepare(`

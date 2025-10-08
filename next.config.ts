@@ -10,10 +10,8 @@ const nextConfig: NextConfig = {
     // Optional: Also ignore TypeScript errors during build if needed
     // ignoreBuildErrors: true,
   },
-  experimental: {
-    // Prevent better-sqlite3 from being bundled (it's a native module)
-    serverComponentsExternalPackages: ['better-sqlite3'],
-  },
+  // Prevent better-sqlite3 from being bundled (it's a native module)
+  serverExternalPackages: ['better-sqlite3'],
   // Skip database initialization during static page generation
   webpack: (config, { isServer }) => {
     if (isServer) {

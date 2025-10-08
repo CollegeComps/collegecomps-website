@@ -4,6 +4,9 @@ import { getDatabase } from '@/lib/database';
 export async function GET() {
   try {
     const db = getDatabase();
+    if (!db) {
+      return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+    }
     
     // Get top programs by total graduates
     const topPrograms = db.prepare(`

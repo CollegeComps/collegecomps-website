@@ -1,23 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import Database from 'better-sqlite3';
+import { getUsersDb } from '@/lib/db-helper'
 
-const db = new Database('data/users.db');
+// Helper to add columns if they don't exist
+function ensureColumns(db: any) {
+  try {
+    db.exec(`ALTER TABLE saved_comparisons ADD COLUMN folder_id INTEGER`);
+  } catch (e) {
+    // Column already exists
+  }
 
-// Add folder_id and tags columns if they don't exist
-try {
-  db.exec(`ALTER TABLE saved_comparisons ADD COLUMN folder_id INTEGER`);
-} catch (e) {
-  // Column already exists
-}
-
-try {
-  db.exec(`ALTER TABLE saved_comparisons ADD COLUMN tags TEXT DEFAULT '[]'`);
-} catch (e) {
-  // Column already exists
+  try {
+    db.exec(`ALTER TABLE saved_comparisons ADD COLUMN tags TEXT DEFAULT '[]'`);
+  } catch (e) {
+    // Column already exists
+  }
 }
 
 export async function POST(req: NextRequest) {
+  const db = getUsersDb();
+  if (!db) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+  
+  ensureColumns(db);
+
   try {
     const session = await auth();
 

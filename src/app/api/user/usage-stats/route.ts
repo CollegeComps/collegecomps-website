@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import Database from 'better-sqlite3';
+;
+import { getUsersDb } from '@/lib/db-helper'
 
-const db = new Database('data/users.db');
+
 
 export async function GET(req: NextRequest) {
+  const db = getUsersDb();
+  if (!db) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+
   try {
     const session = await auth();
 

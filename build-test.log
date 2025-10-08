@@ -1,0 +1,66 @@
+
+> temp-roi@0.1.0 build
+> next build
+
+ ⚠ Invalid next.config.ts options detected: 
+ ⚠     Unrecognized key(s) in object: 'serverComponentsExternalPackages' at "experimental"
+ ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+ ⚠ `experimental.serverComponentsExternalPackages` has been moved to `serverExternalPackages`. Please update your next.config.ts file accordingly.
+   ▲ Next.js 15.5.4
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · serverComponentsExternalPackages
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 8.6s
+   Skipping linting
+   Checking validity of types ...
+   Collecting page data ...
+TypeError: Cannot open database because the directory does not exist
+    at 40145 (.next/server/app/api/auth/signup/route.js:1:977)
+    at c (.next/server/webpack-runtime.js:1:143)
+    at <unknown> (.next/server/app/api/auth/signup/route.js:4:6034)
+    at c.X (.next/server/webpack-runtime.js:1:1285)
+    at <unknown> (.next/server/app/api/auth/signup/route.js:4:6009)
+    at Object.<anonymous> (.next/server/app/api/auth/signup/route.js:4:6066)
+TypeError: Cannot open database because the directory does not exist
+    at 46940 (.next/server/app/api/analytics/stats/route.js:1:798)
+    at c (.next/server/webpack-runtime.js:1:143)
+    at 64007 (.next/server/app/api/analytics/stats/route.js:4:1104)
+    at c (.next/server/webpack-runtime.js:1:143)
+    at <unknown> (.next/server/app/api/analytics/stats/route.js:45:5861)
+    at c.X (.next/server/webpack-runtime.js:1:1285)
+    at <unknown> (.next/server/app/api/analytics/stats/route.js:45:5831)
+    at Object.<anonymous> (.next/server/app/api/analytics/stats/route.js:45:5893)
+TypeError: Cannot open database because the directory does not exist
+    at 46940 (.next/server/app/api/admin/support/tickets/route.js:21:7199)
+    at c (.next/server/webpack-runtime.js:1:143)
+    at 2281 (.next/server/app/api/admin/support/tickets/route.js:1:533)
+    at c (.next/server/webpack-runtime.js:1:143)
+    at <unknown> (.next/server/app/api/admin/support/tickets/route.js:24:995)
+    at c.X (.next/server/webpack-runtime.js:1:1285)
+    at <unknown> (.next/server/app/api/admin/support/tickets/route.js:24:965)
+    at Object.<anonymous> (.next/server/app/api/admin/support/tickets/route.js:24:1026)
+TypeError: Cannot open database because the directory does not exist
+    at 46940 (.next/server/app/api/ai/recommendations/route.js:1:848)
+    at c (.next/server/webpack-runtime.js:1:143)
+    at 94830 (.next/server/app/api/ai/recommendations/route.js:4:1270)
+    at c (.next/server/webpack-runtime.js:1:143)
+    at <unknown> (.next/server/app/api/ai/recommendations/route.js:25:6873)
+    at c.X (.next/server/webpack-runtime.js:1:1285)
+    at <unknown> (.next/server/app/api/ai/recommendations/route.js:25:6843)
+    at Object.<anonymous> (.next/server/app/api/ai/recommendations/route.js:25:6905)
+TypeError: Cannot open database because the directory does not exist
+    at 46940 (.next/server/app/api/alerts/preferences/route.js:21:5944)
+    at c (.next/server/webpack-runtime.js:1:143)
+    at 1467 (.next/server/app/api/alerts/preferences/route.js:1:532)
+    at c (.next/server/webpack-runtime.js:1:143)
+    at <unknown> (.next/server/app/api/alerts/preferences/route.js:24:992)
+    at c.X (.next/server/webpack-runtime.js:1:1285)
+    at <unknown> (.next/server/app/api/alerts/preferences/route.js:24:962)
+    at Object.<anonymous> (.next/server/app/api/alerts/preferences/route.js:24:1023)
+
+> Build error occurred
+[Error: Failed to collect page data for /api/auth/signup] {
+  type: 'Error'
+}

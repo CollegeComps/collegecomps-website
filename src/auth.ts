@@ -2,11 +2,9 @@ import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import Google from "next-auth/providers/google"
 import GitHub from "next-auth/providers/github"
-import Database from 'better-sqlite3'
 import bcrypt from 'bcryptjs'
 import { User } from "next-auth"
-
-const db = new Database('data/users.db')
+import { getUsersDb } from './lib/db-helper'
 
 interface DbUser {
   id: number
@@ -28,6 +26,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           return null
+        }
+        
+        const db = getUsersDb();
+        if (!db) {
+          console.error('Database unavailable during authorization');
+          return null;
         }
 
         const user = db.prepare('SELECT * FROM users WHERE email = ?')
@@ -67,6 +71,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account && account.provider !== 'credentials') {
+        const db = getUsersDb();
+        if (!db) {
+          console.error('Database unavailable during OAuth sign in');
+          return false;
+        }
+        
         // Handle OAuth sign in
         const existingUser = db.prepare('SELECT * FROM users WHERE email = ?')
           .get(user.email!) as DbUser | undefined
@@ -83,6 +93,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async jwt({ token, user, account }) {
       if (user) {
+        const db = getUsersDb();
+        if (!db) {
+          console.error('Database unavailable during JWT creation');
+          return token;
+        }
+        
         const dbUser = db.prepare('SELECT * FROM users WHERE email = ?')
           .get(user.email!) as DbUser | undefined
         

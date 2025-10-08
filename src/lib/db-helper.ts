@@ -40,3 +40,28 @@ export function isBuildTime(): boolean {
   return process.env.NEXT_PHASE === 'phase-production-build' ||
          (process.env.NODE_ENV === 'production' && !process.env.VERCEL_URL);
 }
+
+// Singleton instances for frequently used databases
+let usersDb: Database.Database | null | undefined = undefined;
+let collegeDb: Database.Database | null | undefined = undefined;
+
+/**
+ * Get or create users database connection (lazy initialization)
+ */
+export function getUsersDb(): Database.Database | null {
+  if (usersDb === undefined) {
+    usersDb = safeOpenDatabase('data/users.db');
+  }
+  return usersDb;
+}
+
+/**
+ * Get or create college database connection (lazy initialization)
+ */
+export function getCollegeDb(): Database.Database | null {
+  if (collegeDb === undefined) {
+    const dbPath = path.join(process.cwd(), '..', 'college-scrapper', 'data', 'college_data.db');
+    collegeDb = safeOpenDatabase(dbPath, { readonly: true });
+  }
+  return collegeDb;
+}

@@ -1,39 +1,8 @@
 import Database from 'better-sqlite3';
-import path from 'path';
-import fs from 'fs';
-
-// Database path - adjust this to point to your college_data.db
-const DB_PATH = path.join(process.cwd(), '..', 'college-scrapper', 'data', 'college_data.db');
-
-let db: Database.Database | null = null;
+import { getCollegeDb } from './db-helper';
 
 export function getDatabase() {
-  if (!db) {
-    try {
-      // Check if database file exists before trying to open it
-      // This prevents build errors when the database isn't available
-      if (!fs.existsSync(DB_PATH)) {
-        console.warn(`Database file not found at ${DB_PATH} - database features will be unavailable`);
-        // Return a mock database object during build that will fail gracefully at runtime
-        if (process.env.NODE_ENV === 'production' && !process.env.VERCEL) {
-          throw new Error('Database file not found');
-        }
-        return null as any; // During build, return null to avoid errors
-      }
-      
-      db = new Database(DB_PATH, { readonly: true });
-      console.log('Connected to SQLite database');
-    } catch (error) {
-      console.error('Failed to connect to database:', error);
-      // During build time, don't throw - just log and continue
-      if (process.env.NEXT_PHASE === 'phase-production-build') {
-        console.warn('Skipping database connection during build');
-        return null as any;
-      }
-      throw new Error('Database connection failed');
-    }
-  }
-  return db;
+  return getCollegeDb();
 }
 
 export interface Institution {
@@ -129,10 +98,17 @@ export interface AcademicProgram {
 }
 
 export class CollegeDataService {
-  private db: Database.Database;
+  private db: Database.Database | null;
 
   constructor() {
     this.db = getDatabase();
+  }
+  
+  private ensureDb(): Database.Database {
+    if (!this.db) {
+      throw new Error('Database not available');
+    }
+    return this.db;
   }
 
   // Get all institutions with basic info and financial data (optimized)
@@ -177,7 +153,7 @@ export class CollegeDataService {
     query += ` LIMIT ? OFFSET ?`;
     params.push(limit, offset);
     
-    const results = this.db.prepare(query).all(...params) as any[];
+    const results = this.ensureDb().prepare(query).all(...params) as any[];
     
     // Map the results to ensure all required fields are present
     return results.map(row => ({
@@ -229,7 +205,7 @@ export class CollegeDataService {
       LIMIT 1
     `;
     
-    const result = this.db.prepare(query).get(unitid) as any;
+    const result = this.ensureDb().prepare(query).get(unitid) as any;
     
     if (!result) return null;
     
@@ -273,19 +249,19 @@ export class CollegeDataService {
     financialData: FinancialData[];
     earningsData: EarningsOutcome | null;
   } | null {
-    const institutionStmt = this.db.prepare(`
+    const institutionStmt = this.ensureDb().prepare(`
       SELECT * FROM institutions WHERE unitid = ?
     `);
     const institution = institutionStmt.get(unitid) as Institution;
     
     if (!institution) return null;
 
-    const financialStmt = this.db.prepare(`
+    const financialStmt = this.ensureDb().prepare(`
       SELECT * FROM financial_data WHERE unitid = ? ORDER BY year DESC
     `);
     const financialData = financialStmt.all(unitid) as FinancialData[];
 
-    const earningsStmt = this.db.prepare(`
+    const earningsStmt = this.ensureDb().prepare(`
       SELECT * FROM earnings_outcomes WHERE unitid = ?
     `);
     const earningsData = earningsStmt.get(unitid) as EarningsOutcome | null;
@@ -299,7 +275,7 @@ export class CollegeDataService {
 
   // Get programs for an institution (deduplicated and safe)
   getInstitutionPrograms(unitid: number): AcademicProgram[] {
-    const stmt = this.db.prepare(`
+    const stmt = this.ensureDb().prepare(`
       SELECT 
         unitid,
         cipcode,
@@ -320,7 +296,7 @@ export class CollegeDataService {
 
   // Get financial data for an institution
   getInstitutionFinancialData(unitid: number): FinancialData | null {
-    const stmt = this.db.prepare(`
+    const stmt = this.ensureDb().prepare(`
       SELECT * FROM financial_data WHERE unitid = ? ORDER BY year DESC LIMIT 1
     `);
     const result = stmt.get(unitid) as FinancialData | undefined;
@@ -329,7 +305,7 @@ export class CollegeDataService {
 
   // Get earnings data for an institution  
   getInstitutionEarningsData(unitid: number): EarningsOutcome | null {
-    const stmt = this.db.prepare(`
+    const stmt = this.ensureDb().prepare(`
       SELECT * FROM earnings_outcomes WHERE unitid = ? LIMIT 1
     `);
     const result = stmt.get(unitid) as EarningsOutcome | undefined;
@@ -338,7 +314,7 @@ export class CollegeDataService {
 
   // Get program count for a specific institution (separate query for performance)
   getInstitutionProgramCount(unitid: number): number {
-    const stmt = this.db.prepare('SELECT COUNT(DISTINCT cipcode) as count FROM programs_safe_view WHERE unitid = ?');
+    const stmt = this.ensureDb().prepare('SELECT COUNT(DISTINCT cipcode) as count FROM programs_safe_view WHERE unitid = ?');
     const result = stmt.get(unitid) as { count: number } | undefined;
     return result?.count || 0;
   }
@@ -421,7 +397,7 @@ export class CollegeDataService {
     
     query += ` LIMIT 1000`; // Add reasonable limit for search results
     
-    const results = this.db.prepare(query).all(...params) as any[];
+    const results = this.ensureDb().prepare(query).all(...params) as any[];
     
     return results.map(row => ({
       id: row.unitid,
@@ -457,9 +433,9 @@ export class CollegeDataService {
 
   // Get summary statistics
   getDatabaseStats() {
-    const institutionsCount = this.db.prepare('SELECT COUNT(*) as count FROM institutions').get() as { count: number };
-    const programsCount = this.db.prepare('SELECT COUNT(*) as count FROM academic_programs').get() as { count: number };
-    const statesCount = this.db.prepare('SELECT COUNT(DISTINCT state) as count FROM institutions WHERE state IS NOT NULL').get() as { count: number };
+    const institutionsCount = this.ensureDb().prepare('SELECT COUNT(*) as count FROM institutions').get() as { count: number };
+    const programsCount = this.ensureDb().prepare('SELECT COUNT(*) as count FROM academic_programs').get() as { count: number };
+    const statesCount = this.ensureDb().prepare('SELECT COUNT(DISTINCT state) as count FROM institutions WHERE state IS NOT NULL').get() as { count: number };
     
     return {
       totalInstitutions: institutionsCount.count,
@@ -472,7 +448,7 @@ export class CollegeDataService {
   close() {
     if (this.db) {
       this.db.close();
-      db = null;
+      this.db = null;
     }
   }
 }

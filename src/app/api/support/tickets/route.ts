@@ -1,46 +1,57 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import Database from 'better-sqlite3';
+import { getUsersDb } from '@/lib/db-helper'
 
-const db = new Database('data/users.db');
+// Helper to initialize tables
+function initTables(db: any) {
+  try {
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS support_tickets (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        user_email TEXT NOT NULL,
+        user_name TEXT,
+        subscription_tier TEXT NOT NULL DEFAULT 'free',
+        subject TEXT NOT NULL,
+        category TEXT NOT NULL,
+        priority TEXT NOT NULL DEFAULT 'normal',
+        status TEXT NOT NULL DEFAULT 'open',
+        description TEXT NOT NULL,
+        attachments TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        resolved_at DATETIME,
+        first_response_at DATETIME,
+        assigned_to TEXT,
+        response_count INTEGER DEFAULT 0,
+        last_activity_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
 
-// Initialize support tables
-db.exec(`
-  CREATE TABLE IF NOT EXISTS support_tickets (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    user_email TEXT NOT NULL,
-    user_name TEXT,
-    subscription_tier TEXT NOT NULL DEFAULT 'free',
-    subject TEXT NOT NULL,
-    category TEXT NOT NULL,
-    priority TEXT NOT NULL DEFAULT 'normal',
-    status TEXT NOT NULL DEFAULT 'open',
-    description TEXT NOT NULL,
-    attachments TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    resolved_at DATETIME,
-    first_response_at DATETIME,
-    assigned_to TEXT,
-    response_count INTEGER DEFAULT 0,
-    last_activity_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  );
-
-  CREATE TABLE IF NOT EXISTS support_messages (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    ticket_id INTEGER NOT NULL,
-    user_id INTEGER,
-    is_staff BOOLEAN DEFAULT 0,
-    message TEXT NOT NULL,
-    attachments TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (ticket_id) REFERENCES support_tickets(id) ON DELETE CASCADE
-  );
-`);
+      CREATE TABLE IF NOT EXISTS support_messages (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        ticket_id INTEGER NOT NULL,
+        user_id INTEGER,
+        is_staff BOOLEAN DEFAULT 0,
+        message TEXT NOT NULL,
+        attachments TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (ticket_id) REFERENCES support_tickets(id) ON DELETE CASCADE
+      );
+    `);
+  } catch (e) {
+    // Tables might already exist
+  }
+}
 
 // GET - Fetch user's tickets
 export async function GET(req: NextRequest) {
+  const db = getUsersDb();
+  if (!db) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+  
+  initTables(db);
+
   try {
     const session = await auth();
 
@@ -74,6 +85,11 @@ export async function GET(req: NextRequest) {
 
 // POST - Create new support ticket
 export async function POST(req: NextRequest) {
+  const db = getUsersDb();
+  if (!db) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+
   try {
     const session = await auth();
 

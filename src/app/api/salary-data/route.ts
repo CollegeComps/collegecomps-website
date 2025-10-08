@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/auth'
-import Database from 'better-sqlite3'
 
-const db = new Database('data/users.db')
+import { getUsersDb } from '@/lib/db-helper'
+
 
 // GET - Fetch salary submissions (for analytics/display)
 export async function GET(req: NextRequest) {
+  const db = getUsersDb();
+  if (!db) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+
   try {
     const { searchParams } = new URL(req.url)
     const major = searchParams.get('major')
@@ -74,6 +79,11 @@ export async function GET(req: NextRequest) {
 
 // POST - Submit new salary data
 export async function POST(req: NextRequest) {
+  const db = getUsersDb();
+  if (!db) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+
   try {
     const session = await auth()
 
