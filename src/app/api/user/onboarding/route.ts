@@ -25,11 +25,11 @@ export async function POST(req: NextRequest) {
     const userId = parseInt(session.user.id)
 
     // Check if preferences exist
-    const existing = db.prepare('SELECT * FROM user_preferences WHERE user_id = ?').get(userId)
+    const existing = await db.prepare('SELECT * FROM user_preferences WHERE user_id = ?').get(userId)
 
     if (existing) {
       // Update existing preferences
-      db.prepare(`
+      await db.prepare(`
         UPDATE user_preferences
         SET intended_major = ?,
             degree_level = ?,
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
       )
     } else {
       // Insert new preferences
-      db.prepare(`
+      await db.prepare(`
         INSERT INTO user_preferences (
           user_id,
           intended_major,
@@ -95,7 +95,7 @@ export async function GET(req: NextRequest) {
     }
 
     const userId = parseInt(session.user.id)
-    const preferences = db.prepare('SELECT * FROM user_preferences WHERE user_id = ?').get(userId) as any
+    const preferences = await db.prepare('SELECT * FROM user_preferences WHERE user_id = ?').get(userId) as any
 
     if (!preferences) {
       return NextResponse.json({

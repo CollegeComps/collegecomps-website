@@ -94,8 +94,9 @@ export default function OnboardingPage() {
 
   const handleSkip = async () => {
     try {
+      setLoading(true);
       // Mark onboarding as complete even if skipped
-      await fetch('/api/user/onboarding', {
+      const response = await fetch('/api/user/onboarding', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -105,10 +106,21 @@ export default function OnboardingPage() {
           expected_graduation_year: new Date().getFullYear()
         })
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to save onboarding status');
+      }
+
+      // Wait a bit to ensure the database update is complete
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       router.push('/');
+      router.refresh();
     } catch (error) {
       console.error('Error skipping onboarding:', error);
       router.push('/');
+    } finally {
+      setLoading(false);
     }
   };
 
