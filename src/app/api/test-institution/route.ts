@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     }
     
     const collegeService = new CollegeDataService();
-    const institution = collegeService.getInstitutionByUnitid(parseInt(unitid));
+    const institution = await collegeService.getInstitutionByUnitid(parseInt(unitid));
     
     return NextResponse.json({
       unitid: parseInt(unitid),

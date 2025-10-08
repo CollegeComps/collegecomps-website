@@ -17,7 +17,7 @@ export async function GET(
     }
 
     const collegeService = new CollegeDataService();
-    const programs = collegeService.getInstitutionPrograms(unitidNum);
+    const programs = await collegeService.getInstitutionPrograms(unitidNum);
     
     return NextResponse.json({ programs });
   } catch (error) {

@@ -17,7 +17,7 @@ export async function GET(
     }
 
     const collegeService = new CollegeDataService();
-    const details = collegeService.getInstitutionDetails(unitidNum);
+    const details = await collegeService.getInstitutionDetails(unitidNum);
     
     if (!details) {
       return NextResponse.json(

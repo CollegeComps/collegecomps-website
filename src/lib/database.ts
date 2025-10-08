@@ -113,7 +113,7 @@ export class CollegeDataService {
   }
 
   // Get all institutions with basic info and financial data (optimized)
-  getInstitutions(limit: number = 100, offset: number = 0, search?: string, sortBy: string = 'name'): Institution[] {
+  async getInstitutions(limit: number = 100, offset: number = 0, search?: string, sortBy: string = 'name'): Promise<Institution[]> {
     let query = `
       SELECT 
         i.id, i.unitid, i.opeid, i.name, i.city, i.state, i.zip_code, i.region, 
@@ -154,7 +154,7 @@ export class CollegeDataService {
     query += ` LIMIT ? OFFSET ?`;
     params.push(limit, offset);
     
-    const results = this.ensureDb().prepare(query).all(...params) as any[];
+    const results = await this.ensureDb().prepare(query).all(...params) as any[];
     
     // Map the results to ensure all required fields are present
     return results.map(row => ({
@@ -192,7 +192,7 @@ export class CollegeDataService {
   }
 
   // Get a specific institution by unitid (optimized for detail page)
-  getInstitutionByUnitid(unitid: number): Institution | null {
+  async getInstitutionByUnitid(unitid: number): Promise<Institution | null> {
     const query = `
       SELECT 
         i.id, i.unitid, i.opeid, i.name, i.city, i.state, i.zip_code, i.region, 
@@ -206,7 +206,7 @@ export class CollegeDataService {
       LIMIT 1
     `;
     
-    const result = this.ensureDb().prepare(query).get(unitid) as any;
+    const result = await this.ensureDb().prepare(query).get(unitid) as any;
     
     if (!result) return null;
     
@@ -245,27 +245,27 @@ export class CollegeDataService {
   }
 
   // Get institution by ID with financial and earnings data
-  getInstitutionDetails(unitid: number): {
+  async getInstitutionDetails(unitid: number): Promise<{
     institution: Institution;
     financialData: FinancialData[];
     earningsData: EarningsOutcome | null;
-  } | null {
+  } | null> {
     const institutionStmt = this.ensureDb().prepare(`
       SELECT * FROM institutions WHERE unitid = ?
     `);
-    const institution = institutionStmt.get(unitid) as Institution;
+    const institution = await institutionStmt.get(unitid) as Institution;
     
     if (!institution) return null;
 
     const financialStmt = this.ensureDb().prepare(`
       SELECT * FROM financial_data WHERE unitid = ? ORDER BY year DESC
     `);
-    const financialData = financialStmt.all(unitid) as FinancialData[];
+    const financialData = await financialStmt.all(unitid) as FinancialData[];
 
     const earningsStmt = this.ensureDb().prepare(`
       SELECT * FROM earnings_outcomes WHERE unitid = ?
     `);
-    const earningsData = earningsStmt.get(unitid) as EarningsOutcome | null;
+    const earningsData = await earningsStmt.get(unitid) as EarningsOutcome | null;
 
     return {
       institution,
@@ -275,7 +275,7 @@ export class CollegeDataService {
   }
 
   // Get programs for an institution (deduplicated and safe)
-  getInstitutionPrograms(unitid: number): AcademicProgram[] {
+  async getInstitutionPrograms(unitid: number): Promise<AcademicProgram[]> {
     const stmt = this.ensureDb().prepare(`
       SELECT 
         unitid,
@@ -292,36 +292,36 @@ export class CollegeDataService {
       WHERE unitid = ? AND cip_title IS NOT NULL
       ORDER BY total_completions DESC, cip_title ASC
     `);
-    return stmt.all(unitid) as AcademicProgram[];
+    return await stmt.all(unitid) as AcademicProgram[];
   }
 
   // Get financial data for an institution
-  getInstitutionFinancialData(unitid: number): FinancialData | null {
+  async getInstitutionFinancialData(unitid: number): Promise<FinancialData | null> {
     const stmt = this.ensureDb().prepare(`
       SELECT * FROM financial_data WHERE unitid = ? ORDER BY year DESC LIMIT 1
     `);
-    const result = stmt.get(unitid) as FinancialData | undefined;
+    const result = await stmt.get(unitid) as FinancialData | undefined;
     return result || null;
   }
 
   // Get earnings data for an institution  
-  getInstitutionEarningsData(unitid: number): EarningsOutcome | null {
+  async getInstitutionEarningsData(unitid: number): Promise<EarningsOutcome | null> {
     const stmt = this.ensureDb().prepare(`
       SELECT * FROM earnings_outcomes WHERE unitid = ? LIMIT 1
     `);
-    const result = stmt.get(unitid) as EarningsOutcome | undefined;
+    const result = await stmt.get(unitid) as EarningsOutcome | undefined;
     return result || null;
   }
 
   // Get program count for a specific institution (separate query for performance)
-  getInstitutionProgramCount(unitid: number): number {
+  async getInstitutionProgramCount(unitid: number): Promise<number> {
     const stmt = this.ensureDb().prepare('SELECT COUNT(DISTINCT cipcode) as count FROM programs_safe_view WHERE unitid = ?');
-    const result = stmt.get(unitid) as { count: number } | undefined;
+    const result = await stmt.get(unitid) as { count: number } | undefined;
     return result?.count || 0;
   }
 
   // Search institutions by various criteria (optimized)
-  searchInstitutions(filters: {
+  async searchInstitutions(filters: {
     name?: string;
     state?: string;
     city?: string;
@@ -330,7 +330,7 @@ export class CollegeDataService {
     maxTuition?: number;
     minEarnings?: number;
     sortBy?: string;
-  }): Institution[] {
+  }): Promise<Institution[]> {
     let query = `
       SELECT i.*, f.tuition_in_state, f.tuition_out_state, f.room_board_on_campus,
              e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
@@ -398,7 +398,7 @@ export class CollegeDataService {
     
     query += ` LIMIT 1000`; // Add reasonable limit for search results
     
-    const results = this.ensureDb().prepare(query).all(...params) as any[];
+    const results = await this.ensureDb().prepare(query).all(...params) as any[];
     
     return results.map(row => ({
       id: row.unitid,
@@ -433,10 +433,10 @@ export class CollegeDataService {
   }
 
   // Get summary statistics
-  getDatabaseStats() {
-    const institutionsCount = this.ensureDb().prepare('SELECT COUNT(*) as count FROM institutions').get() as { count: number };
-    const programsCount = this.ensureDb().prepare('SELECT COUNT(*) as count FROM academic_programs').get() as { count: number };
-    const statesCount = this.ensureDb().prepare('SELECT COUNT(DISTINCT state) as count FROM institutions WHERE state IS NOT NULL').get() as { count: number };
+  async getDatabaseStats() {
+    const institutionsCount = await this.ensureDb().prepare('SELECT COUNT(*) as count FROM institutions').get() as { count: number };
+    const programsCount = await this.ensureDb().prepare('SELECT COUNT(*) as count FROM academic_programs').get() as { count: number };
+    const statesCount = await this.ensureDb().prepare('SELECT COUNT(DISTINCT state) as count FROM institutions WHERE state IS NOT NULL').get() as { count: number };
     
     return {
       totalInstitutions: institutionsCount.count,

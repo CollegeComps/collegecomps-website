@@ -22,11 +22,11 @@ export async function GET(request: NextRequest) {
     
     // Handle single institution lookup by unitid
     if (unitid) {
-      const singleInst = collegeService.getInstitutionByUnitid(parseInt(unitid));
+      const singleInst = await collegeService.getInstitutionByUnitid(parseInt(unitid));
       institutions = singleInst ? [singleInst] : [];
     } else if (search || state || city || zipCode || control || maxTuition || minEarnings || sortBy !== 'name') {
       // Use search with filters
-      institutions = collegeService.searchInstitutions({
+      institutions = await collegeService.searchInstitutions({
         name: search || undefined,
         state: state || undefined,
         city: city || undefined,
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
     } else {
       // Get all institutions with pagination
       const offset = (page - 1) * limit;
-      institutions = collegeService.getInstitutions(limit, offset, search || undefined, sortBy);
+      institutions = await collegeService.getInstitutions(limit, offset, search || undefined, sortBy);
     }
 
     return NextResponse.json({

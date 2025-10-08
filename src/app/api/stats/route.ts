@@ -4,7 +4,7 @@ import { CollegeDataService } from '@/lib/database';
 export async function GET() {
   try {
     const collegeService = new CollegeDataService();
-    const stats = collegeService.getDatabaseStats();
+    const stats = await collegeService.getDatabaseStats();
     
     return NextResponse.json(stats);
   } catch (error) {
