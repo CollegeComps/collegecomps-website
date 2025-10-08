@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      id: result.lastInsertRowid
+      id: Number(result.lastInsertRowid)
     }, { status: 201 })
   } catch (error) {
     console.error('Error saving comparison:', error)

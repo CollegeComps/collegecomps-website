@@ -129,7 +129,7 @@ export async function POST(req: NextRequest) {
 
     const ticket = await db.prepare(`
       SELECT * FROM support_tickets WHERE id = ?
-    `).get(result.lastInsertRowid);
+    `).get(Number(result.lastInsertRowid));
 
     // TODO: Send email notification to support team
     // TODO: For professional tier, trigger priority notification

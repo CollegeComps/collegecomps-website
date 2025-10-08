@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
     `).run(session.user.id, name, color);
 
     return NextResponse.json({
-      id: result.lastInsertRowid,
+      id: Number(result.lastInsertRowid),
       message: 'Folder created successfully',
     });
   } catch (error) {

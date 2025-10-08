@@ -287,7 +287,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      submission_id: result.lastInsertRowid,
+      submission_id: Number(result.lastInsertRowid),
       status: qualityScore >= 70 ? 'approved' : 'pending_review',
       message: qualityScore >= 70
         ? 'Thank you! Your submission has been approved and will help others.'

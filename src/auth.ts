@@ -78,16 +78,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return false;
         }
         
-        // Handle OAuth sign in
+        // Handle OAuth sign in - check if user already exists
         const existingUser = await db.prepare('SELECT * FROM users WHERE email = ?')
           .get(user.email!) as DbUser | undefined
 
         if (!existingUser) {
-          // Create new user for OAuth (no password needed)
+          // Create new user for OAuth (no password needed, email verified by OAuth provider)
           await db.prepare(`
             INSERT INTO users (email, name, email_verified)
             VALUES (?, ?, 1)
           `).run(user.email, user.name)
+        } else {
+          // User exists - just update email_verified if not set
+          if (!existingUser.email_verified) {
+            await db.prepare(`
+              UPDATE users SET email_verified = 1 WHERE email = ?
+            `).run(user.email)
+          }
         }
       }
       return true

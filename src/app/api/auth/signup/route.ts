@@ -27,10 +27,21 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if user already exists
-    const existingUser = await db.prepare('SELECT id FROM users WHERE email = ?')
-      .get(email)
+    const existingUser = await db.prepare('SELECT id, password_hash FROM users WHERE email = ?')
+      .get(email) as { id: number, password_hash: string | null } | undefined
 
     if (existingUser) {
+      // Check if account was created via OAuth (no password)
+      if (!existingUser.password_hash) {
+        return NextResponse.json(
+          { 
+            error: 'Account already exists with this email via Google/GitHub sign-in. Please sign in using that method or reset your password.',
+            oauth: true 
+          },
+          { status: 409 }
+        )
+      }
+      
       return NextResponse.json(
         { error: 'User already exists' },
         { status: 409 }
@@ -50,7 +61,7 @@ export async function POST(req: NextRequest) {
       { 
         success: true,
         message: 'Account created successfully',
-        userId: result.lastInsertRowid
+        userId: Number(result.lastInsertRowid)
       },
       { status: 201 }
     )
