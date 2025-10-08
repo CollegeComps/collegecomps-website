@@ -1,6 +1,7 @@
 import Database from 'better-sqlite3';
 import fs from 'fs';
 import path from 'path';
+import { TursoAdapter } from './turso-adapter';
 
 /**
  * Safely opens a SQLite database with build-time error handling
@@ -43,7 +44,7 @@ export function isBuildTime(): boolean {
 
 // Singleton instances for frequently used databases
 let usersDb: Database.Database | null | undefined = undefined;
-let collegeDb: Database.Database | null | undefined = undefined;
+let collegeDb: Database.Database | TursoAdapter | null | undefined = undefined;
 
 /**
  * Get or create users database connection (lazy initialization)
@@ -57,11 +58,35 @@ export function getUsersDb(): Database.Database | null {
 
 /**
  * Get or create college database connection (lazy initialization)
+ * Uses Turso in production (via TURSO_DATABASE_URL env var)
+ * Uses local SQLite file in development
  */
-export function getCollegeDb(): Database.Database | null {
+export function getCollegeDb(): Database.Database | TursoAdapter | null {
   if (collegeDb === undefined) {
-    const dbPath = path.join(process.cwd(), '..', 'college-scrapper', 'data', 'college_data.db');
-    collegeDb = safeOpenDatabase(dbPath, { readonly: true });
+    // Production: Use Turso if URL is provided
+    if (process.env.TURSO_DATABASE_URL && process.env.TURSO_DATABASE_URL.startsWith('libsql://')) {
+      console.log('Initializing Turso client for college data...');
+      try {
+        collegeDb = new TursoAdapter(
+          process.env.TURSO_DATABASE_URL,
+          process.env.TURSO_AUTH_TOKEN || ''
+        );
+        console.log('✅ Turso client initialized successfully');
+      } catch (error) {
+        console.error('❌ Failed to initialize Turso client:', error);
+        collegeDb = null;
+      }
+    } 
+    // Development: Use local SQLite file
+    else {
+      if (isBuildTime()) {
+        console.warn('Build time detected, returning null for college database');
+        collegeDb = null;
+      } else {
+        const dbPath = path.join(process.cwd(), '..', 'college-scrapper', 'data', 'college_data.db');
+        collegeDb = safeOpenDatabase(dbPath, { readonly: true });
+      }
+    }
   }
   return collegeDb;
 }

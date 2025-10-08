@@ -1,5 +1,6 @@
 import Database from 'better-sqlite3';
 import { getCollegeDb } from './db-helper';
+import type { TursoAdapter } from './turso-adapter';
 
 export function getDatabase() {
   return getCollegeDb();
@@ -98,13 +99,13 @@ export interface AcademicProgram {
 }
 
 export class CollegeDataService {
-  private db: Database.Database | null;
+  private db: Database.Database | TursoAdapter | null;
 
   constructor() {
     this.db = getDatabase();
   }
   
-  private ensureDb(): Database.Database {
+  private ensureDb(): Database.Database | TursoAdapter {
     if (!this.db) {
       throw new Error('Database not available');
     }
