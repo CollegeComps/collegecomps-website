@@ -12,8 +12,9 @@ interface DbUser {
   password_hash: string | null
   name: string | null
   subscription_tier: string
-  subscription_status: string
-  subscription_expires_at: string | null
+  email_verified: number
+  created_at: string
+  updated_at: string
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -34,7 +35,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        const user = db.prepare('SELECT * FROM users WHERE email = ?')
+        const user = await db.prepare('SELECT * FROM users WHERE email = ?')
           .get(credentials.email) as DbUser | undefined
 
         if (!user || !user.password_hash) {
@@ -55,7 +56,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           email: user.email,
           name: user.name,
           subscriptionTier: user.subscription_tier,
-          subscriptionStatus: user.subscription_status
+          subscriptionStatus: 'active' // Default to active since column doesn't exist
         }
       }
     }),
@@ -78,15 +79,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
         
         // Handle OAuth sign in
-        const existingUser = db.prepare('SELECT * FROM users WHERE email = ?')
+        const existingUser = await db.prepare('SELECT * FROM users WHERE email = ?')
           .get(user.email!) as DbUser | undefined
 
         if (!existingUser) {
-          // Create new user
-          db.prepare(`
-            INSERT INTO users (email, name, provider, provider_account_id)
-            VALUES (?, ?, ?, ?)
-          `).run(user.email, user.name, account.provider, account.providerAccountId)
+          // Create new user for OAuth (no password needed)
+          await db.prepare(`
+            INSERT INTO users (email, name, email_verified)
+            VALUES (?, ?, 1)
+          `).run(user.email, user.name)
         }
       }
       return true
@@ -99,12 +100,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return token;
         }
         
-        const dbUser = db.prepare('SELECT * FROM users WHERE email = ?')
+        const dbUser = await db.prepare('SELECT * FROM users WHERE email = ?')
           .get(user.email!) as DbUser | undefined
         
         if (dbUser) {
           token.subscriptionTier = dbUser.subscription_tier
-          token.subscriptionStatus = dbUser.subscription_status
+          token.subscriptionStatus = 'active' // Default since column doesn't exist
           token.userId = dbUser.id.toString()
         }
       }

@@ -42,8 +42,8 @@ export async function POST(req: NextRequest) {
 
     // Create user
     const result = await db.prepare(`
-      INSERT INTO users (email, password_hash, name, provider)
-      VALUES (?, ?, ?, 'credentials')
+      INSERT INTO users (email, password_hash, name)
+      VALUES (?, ?, ?)
     `).run(email, passwordHash, name || null)
 
     return NextResponse.json(
