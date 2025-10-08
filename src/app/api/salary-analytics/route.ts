@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import Database from 'better-sqlite3';
-import path from 'path';
+import { getCollegeDb } from '@/lib/db-helper';
 
 export async function GET(req: NextRequest) {
+  const db = getCollegeDb();
+  if (!db) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+
   try {
     const session = await auth();
 
@@ -16,12 +20,8 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Premium subscription required' }, { status: 403 });
     }
 
-    // Open college data database
-    const dbPath = path.join(process.cwd(), '..', 'college-scrapper', 'data', 'college_data.db');
-    const db = new Database(dbPath, { readonly: true });
-
     // Query salary data with percentiles
-    const salaryData = db.prepare(`
+    const salaryData = await db.prepare(`
       SELECT 
         i.institution_name as institution,
         eo.program_title as major,
@@ -38,8 +38,6 @@ export async function GET(req: NextRequest) {
       ORDER BY eo.earnings_median DESC
       LIMIT 100
     `).all();
-
-    db.close();
 
     return NextResponse.json({
       analytics: salaryData,

@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import Database from 'better-sqlite3';
-import path from 'path';
+import { getUsersDb } from '@/lib/db-helper';
 
 export async function GET(request: Request) {
+  const db = getUsersDb();
+  if (!db) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+
   try {
     const session = await auth();
 
@@ -21,9 +25,6 @@ export async function GET(request: Request) {
     const status = searchParams.get('status');
     const priority = searchParams.get('priority');
     const category = searchParams.get('category');
-
-    const dbPath = path.join(process.cwd(), 'data', 'users.db');
-    const db = new Database(dbPath);
 
     let query = `
       SELECT 
@@ -55,10 +56,10 @@ export async function GET(request: Request) {
 
     query += ' ORDER BY t.priority DESC, t.created_at DESC';
 
-    const tickets = db.prepare(query).all(...params);
+    const tickets = await db.prepare(query).all(...params);
     
     // Get statistics
-    const stats = db.prepare(`
+    const stats = await db.prepare(`
       SELECT 
         COUNT(*) as total_tickets,
         SUM(CASE WHEN status = 'open' THEN 1 ELSE 0 END) as open_tickets,
@@ -69,8 +70,6 @@ export async function GET(request: Request) {
         SUM(CASE WHEN priority = 'low' THEN 1 ELSE 0 END) as low_priority
       FROM support_tickets
     `).get();
-
-    db.close();
 
     return NextResponse.json({ tickets, stats });
   } catch (error) {
@@ -83,6 +82,11 @@ export async function GET(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+  const db = getUsersDb();
+  if (!db) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+
   try {
     const session = await auth();
 
@@ -102,9 +106,6 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: 'Ticket ID is required' }, { status: 400 });
     }
 
-    const dbPath = path.join(process.cwd(), 'data', 'users.db');
-    const db = new Database(dbPath);
-
     const updates: string[] = [];
     const params: any[] = [];
 
@@ -119,7 +120,6 @@ export async function PATCH(request: Request) {
     }
 
     if (updates.length === 0) {
-      db.close();
       return NextResponse.json({ error: 'No updates provided' }, { status: 400 });
     }
 
@@ -127,9 +127,7 @@ export async function PATCH(request: Request) {
     params.push(ticketId);
 
     const query = `UPDATE support_tickets SET ${updates.join(', ')} WHERE id = ?`;
-    db.prepare(query).run(...params);
-
-    db.close();
+    await db.prepare(query).run(...params);
 
     return NextResponse.json({ success: true });
   } catch (error) {

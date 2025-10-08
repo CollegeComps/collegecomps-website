@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import Database from 'better-sqlite3';
-import path from 'path';
+import { getUsersDb, getCollegeDb } from '@/lib/db-helper';
 
 interface UserProfile {
   gpa?: number;
@@ -25,6 +24,13 @@ interface SchoolScore {
 }
 
 export async function GET(req: NextRequest) {
+  const userDb = getUsersDb();
+  const collegeDb = getCollegeDb();
+  
+  if (!userDb || !collegeDb) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+
   try {
     const session = await auth();
     
@@ -41,10 +47,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Get user profile data
-    const userDbPath = path.join(process.cwd(), 'data', 'users.db');
-    const userDb = new Database(userDbPath);
-
-    const profile = userDb.prepare(`
+    const profile = await userDb.prepare(`
       SELECT gpa, sat, act, budget, location_preference, program_interest, career_goals
       FROM user_profiles
       WHERE user_id = ?
@@ -57,12 +60,8 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Get college data
-    const collegeDbPath = path.join(process.cwd(), '..', 'college-scrapper', 'data', 'college_data.db');
-    const collegeDb = new Database(collegeDbPath);
-
     // Get college data with available fields
-    const colleges = collegeDb.prepare(`
+    const colleges = await collegeDb.prepare(`
       SELECT 
         i.unitid as id,
         i.name,
@@ -165,9 +164,6 @@ export async function GET(req: NextRequest) {
     const safety = topRecommendations.filter(r => r.admissionChance === 'High').slice(0, 5);
     const target = topRecommendations.filter(r => r.admissionChance === 'Moderate').slice(0, 10);
     const reach = topRecommendations.filter(r => r.admissionChance === 'Reach').slice(0, 5);
-
-    userDb.close();
-    collegeDb.close();
 
     return NextResponse.json({
       profile: {

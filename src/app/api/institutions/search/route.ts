@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Database from 'better-sqlite3';
-import path from 'path';
-
-const dbPath = path.join(process.cwd(), '..', 'college-scrapper', 'data', 'college_data.db');
+import { getCollegeDb } from '@/lib/db-helper';
 
 export async function GET(request: NextRequest) {
+  const db = getCollegeDb();
+  if (!db) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('q');
 
@@ -13,9 +15,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const db = new Database(dbPath, { readonly: true });
-
-    const institutions = db
+    const institutions = await db
       .prepare(
         `SELECT DISTINCT
           name
@@ -25,8 +25,6 @@ export async function GET(request: NextRequest) {
         LIMIT 15`
       )
       .all(`%${query}%`) as { name: string }[];
-
-    db.close();
 
     return NextResponse.json({ institutions: institutions.map(i => i.name) });
   } catch (error) {
