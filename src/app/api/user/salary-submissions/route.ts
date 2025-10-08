@@ -32,11 +32,13 @@ export async function GET(req: NextRequest) {
         current_salary,
         total_compensation,
         job_title,
-        company_name,
+        industry,
+        location_city,
+        location_state,
         years_since_graduation,
         created_at,
         is_approved,
-        moderation_status
+        is_public
       FROM salary_submissions
       WHERE user_id = ?
       ORDER BY created_at DESC

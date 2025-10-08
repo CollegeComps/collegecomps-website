@@ -3,9 +3,9 @@ import { auth } from '@/auth';
 import { getUsersDb } from '@/lib/db-helper'
 
 // Helper to initialize table
-function initTable(db: any) {
+async function initTable(db: any) {
   try {
-    db.exec(`
+    await db.exec(`
       CREATE TABLE IF NOT EXISTS alert_preferences (
         user_id INTEGER PRIMARY KEY,
         preferences TEXT NOT NULL,
@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
   }
   
-  initTable(db);
+  await initTable(db);
 
   try {
     const session = await auth();
@@ -39,14 +39,14 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Premium subscription required' }, { status: 403 });
     }
 
-    const prefs = db.prepare(`
+    const prefs = await db.prepare(`
       SELECT preferences, frequency
       FROM alert_preferences
       WHERE user_id = ?
     `).get(session.user.id) as { preferences: string; frequency: string } | undefined;
 
     return NextResponse.json({
-      preferences: prefs ? JSON.parse(prefs.preferences) : null,
+      preferences: prefs?.preferences ? JSON.parse(prefs.preferences) : null,
       frequency: prefs?.frequency || 'instant',
     });
   } catch (error) {
@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Upsert alert preferences
-    db.prepare(`
+    await db.prepare(`
       INSERT INTO alert_preferences (user_id, preferences, frequency, updated_at)
       VALUES (?, ?, ?, CURRENT_TIMESTAMP)
       ON CONFLICT(user_id) DO UPDATE SET

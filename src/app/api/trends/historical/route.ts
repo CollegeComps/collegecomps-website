@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import Database from 'better-sqlite3';
-import path from 'path';
+import { getCollegeDb } from '@/lib/db-helper';
 
 interface TrendData {
   year: number;
@@ -21,6 +20,11 @@ interface CategoryTrend {
 }
 
 export async function GET(req: NextRequest) {
+  const db = getCollegeDb();
+  if (!db) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+
   try {
     const session = await auth();
     
@@ -40,12 +44,8 @@ export async function GET(req: NextRequest) {
     const category = searchParams.get('category') || 'all';
     const years = parseInt(searchParams.get('years') || '5');
 
-    // Connect to database
-    const collegeDbPath = path.join(process.cwd(), '..', 'college-scrapper', 'data', 'college_data.db');
-    const db = new Database(collegeDbPath);
-
     // Get historical data by year
-    const historicalData = db.prepare(`
+    const historicalData = await db.prepare(`
       SELECT 
         f.year,
         AVG(COALESCE(f.tuition_out_state, f.tuition_in_state, 0) + COALESCE(f.fees, 0) + COALESCE(f.room_board_on_campus, 0)) as avg_cost,
@@ -159,7 +159,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Get top growing fields
-    const topGrowingFields = db.prepare(`
+    const topGrowingFields = await db.prepare(`
       SELECT 
         ap.cipcode,
         ap.program_name,
@@ -174,8 +174,6 @@ export async function GET(req: NextRequest) {
       ORDER BY avg_earnings DESC
       LIMIT 10
     `).all() as any[];
-
-    db.close();
 
     return NextResponse.json({
       historical: trends.reverse(), // Oldest to newest for chart display
