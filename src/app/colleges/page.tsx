@@ -99,8 +99,13 @@ export default function CollegesPage() {
     setPage(1);
   }, [filters]);
 
-  const fetchInstitutions = async () => {
-    setLoading(true);
+  const fetchInstitutions = async (isLoadMore = false) => {
+    if (isLoadMore) {
+      setLoadingMore(true);
+    } else {
+      setLoading(true);
+    }
+    
     try {
       const params = new URLSearchParams();
       if (filters.search) params.append('search', filters.search);
@@ -111,6 +116,13 @@ export default function CollegesPage() {
       if (filters.maxTuition) params.append('maxTuition', filters.maxTuition.toString());
       if (filters.minEarnings) params.append('minEarnings', filters.minEarnings.toString());
       if (filters.sortBy) params.append('sortBy', filters.sortBy);
+      
+      // Add pagination parameters
+      const currentPage = isLoadMore ? page + 1 : 1;
+      const limit = 30; // items per page
+      const offset = (currentPage - 1) * limit;
+      params.append('limit', limit.toString());
+      params.append('offset', offset.toString());
 
       const response = await fetch(`/api/institutions?${params}`);
       if (!response.ok) {
@@ -118,19 +130,34 @@ export default function CollegesPage() {
       }
       
       const data = await response.json();
-      setInstitutions(data.institutions || []);
-      setHasMore(data.hasMore || false);
+      
+      if (isLoadMore) {
+        setInstitutions(prev => [...prev, ...(data.institutions || [])]);
+        setPage(currentPage);
+      } else {
+        setInstitutions(data.institutions || []);
+        setPage(1);
+      }
+      
+      // Check if there are more results
+      setHasMore((data.institutions || []).length === limit);
     } catch (error) {
       console.error('Error fetching institutions:', error);
-      setInstitutions([]);
+      if (!isLoadMore) {
+        setInstitutions([]);
+      }
       setHasMore(false);
     } finally {
-      setLoading(false);
+      if (isLoadMore) {
+        setLoadingMore(false);
+      } else {
+        setLoading(false);
+      }
     }
   };
 
   const loadMore = () => {
-    fetchInstitutions();
+    fetchInstitutions(true);
   };
 
   const handleFilterChange = (key: keyof SearchFilters, value: string) => {
@@ -382,7 +409,7 @@ export default function CollegesPage() {
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center">
                       <BuildingOffice2Icon className="w-4 h-4 mr-2 text-gray-400" />
-                      <span>{getControlTypeLabel(institution.control_of_institution)}</span>
+                      <span className="text-gray-700 font-medium">{getControlTypeLabel(institution.control_of_institution)}</span>
                     </div>
 
                     {institution.earnings_6_years_after_entry && (

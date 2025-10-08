@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     }
 
     const db = new CollegeDataService();
-    const financialData = db.getInstitutionFinancialData(unitidNum);
+    const financialData = await db.getInstitutionFinancialData(unitidNum);
 
     return NextResponse.json({
       financialData,
