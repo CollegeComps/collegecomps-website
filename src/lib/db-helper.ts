@@ -38,8 +38,7 @@ export function safeOpenDatabase(dbPath: string, options?: Database.Options): Da
  * Checks if we're in a build environment where databases might not be available
  */
 export function isBuildTime(): boolean {
-  return process.env.NEXT_PHASE === 'phase-production-build' ||
-         (process.env.NODE_ENV === 'production' && !process.env.VERCEL_URL);
+  return process.env.NEXT_PHASE === 'phase-production-build';
 }
 
 // Singleton instances for frequently used databases
@@ -63,9 +62,18 @@ export function getUsersDb(): Database.Database | null {
  */
 export function getCollegeDb(): Database.Database | TursoAdapter | null {
   if (collegeDb === undefined) {
+    // Check environment
+    console.log('🔍 getCollegeDb() environment check:', {
+      TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL ? 'SET' : 'NOT SET',
+      TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN ? 'SET' : 'NOT SET',
+      NODE_ENV: process.env.NODE_ENV,
+      VERCEL: process.env.VERCEL ? 'true' : 'false',
+      isBuildTime: isBuildTime(),
+    });
+
     // Production: Use Turso if URL is provided
     if (process.env.TURSO_DATABASE_URL && process.env.TURSO_DATABASE_URL.startsWith('libsql://')) {
-      console.log('Initializing Turso client for college data...');
+      console.log('🚀 Initializing Turso client for college data...');
       try {
         collegeDb = new TursoAdapter(
           process.env.TURSO_DATABASE_URL,
@@ -77,12 +85,19 @@ export function getCollegeDb(): Database.Database | TursoAdapter | null {
         collegeDb = null;
       }
     } 
-    // Development: Use local SQLite file
+    // Development/Fallback: Use local SQLite file or return null
     else {
       if (isBuildTime()) {
-        console.warn('Build time detected, returning null for college database');
+        console.warn('⚠️ Build time detected, returning null for college database');
+        collegeDb = null;
+      } else if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+        // In production but no Turso URL - return null instead of trying local file
+        console.error('❌ TURSO_DATABASE_URL not set in production environment!');
+        console.error('   Add environment variable in Vercel dashboard');
         collegeDb = null;
       } else {
+        // Local development - try local file
+        console.log('📁 Using local SQLite file for development');
         const dbPath = path.join(process.cwd(), '..', 'college-scrapper', 'data', 'college_data.db');
         collegeDb = safeOpenDatabase(dbPath, { readonly: true });
       }
