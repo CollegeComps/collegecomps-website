@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { 
   CalculatorIcon, 
   BuildingOffice2Icon, 
@@ -26,6 +27,7 @@ interface NavItem {
   href: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   description: string;
+  requiresAuth?: boolean; // Add this flag
 }
 
 const navigation: NavItem[] = [
@@ -33,73 +35,85 @@ const navigation: NavItem[] = [
     name: 'ROI Calculator',
     href: '/roi-calculator',
     icon: CalculatorIcon,
-    description: 'Calculate return on investment for education'
+    description: 'Calculate return on investment for education',
+    requiresAuth: false
   },
   {
     name: 'Compare Colleges',
     href: '/compare',
     icon: ArrowsRightLeftIcon,
-    description: 'Compare colleges side-by-side'
+    description: 'Compare colleges side-by-side',
+    requiresAuth: false
   },
   {
     name: 'Salary Insights',
     href: '/salary-insights',
     icon: CurrencyDollarIcon,
-    description: 'Real post-grad salary data from alumni'
+    description: 'Real post-grad salary data from alumni',
+    requiresAuth: false
   },
   {
     name: 'Advanced Analytics',
     href: '/advanced-analytics',
     icon: SparklesIcon,
-    description: 'Premium salary analytics and insights'
+    description: 'Premium salary analytics and insights',
+    requiresAuth: true
   },
   {
     name: 'College Explorer',
     href: '/colleges',
     icon: BuildingOffice2Icon,
-    description: 'Browse and compare institutions'
+    description: 'Browse and compare institutions',
+    requiresAuth: false
   },
   {
     name: 'Program Analysis',
     href: '/programs',
     icon: AcademicCapIcon,
-    description: 'Analyze programs and career outcomes'
+    description: 'Analyze programs and career outcomes',
+    requiresAuth: false
   },
   {
     name: 'Data Dashboard',
     href: '/dashboard',
     icon: ChartBarIcon,
-    description: 'Interactive data visualizations'
+    description: 'Interactive data visualizations',
+    requiresAuth: false
   },
   {
     name: 'Historical Trends',
     href: '/historical-trends',
     icon: ArrowTrendingUpIcon,
-    description: 'View historical data and AI predictions'
+    description: 'View historical data and AI predictions',
+    requiresAuth: true
   },
   {
     name: 'Priority Data Access',
     href: '/priority-data',
     icon: BoltIcon,
-    description: 'Early access to new data and insights'
+    description: 'Early access to new data and insights',
+    requiresAuth: true
   },
   {
     name: 'My Timeline',
     href: '/my-timeline',
     icon: CalendarIcon,
-    description: 'Track submissions and important dates'
+    description: 'Track submissions and important dates',
+    requiresAuth: true
   },
   {
     name: 'Academic Profile',
     href: '/profile/academic',
     icon: UserCircleIcon,
-    description: 'Set up your academic profile for AI recommendations'
+    description: 'Set up your academic profile for AI recommendations',
+    requiresAuth: true
   },
   {
     name: 'Support',
     href: '/support',
     icon: LifebuoyIcon,
-    description: 'Get help from our support team'
+    description: 'Get help from our support team',
+    requiresAuth: true
   },
 ];
 
@@ -110,6 +124,15 @@ interface SidebarProps {
 export default function Sidebar({ children }: SidebarProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const { data: session } = useSession();
+  
+  // Filter navigation based on authentication status
+  const visibleNavigation = navigation.filter(item => {
+    // If the item doesn't require auth, always show it
+    if (!item.requiresAuth) return true;
+    // If the item requires auth, only show it if user is logged in
+    return !!session?.user;
+  });
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -146,7 +169,7 @@ export default function Sidebar({ children }: SidebarProps) {
         {/* Navigation - Scrollable */}
         <nav className="flex-1 overflow-y-auto px-3 py-4">
           <div className="space-y-1">
-            {navigation.map((item) => {
+            {visibleNavigation.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <Link
