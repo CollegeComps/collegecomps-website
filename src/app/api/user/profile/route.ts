@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import Database from 'better-sqlite3';
-import path from 'path';
-
-const usersDbPath = path.join(process.cwd(), 'data', 'users.db');
+import { getUsersDb } from '@/lib/db-helper';
 
 export async function GET() {
+  const db = getUsersDb();
+  if (!db) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+
   const session = await auth();
 
   if (!session?.user?.email) {
@@ -13,24 +15,19 @@ export async function GET() {
   }
 
   try {
-    const db = new Database(usersDbPath);
-    
     // Get user ID
-    const user = db.prepare('SELECT id FROM users WHERE email = ?').get(session.user.email) as { id: number } | undefined;
+    const user = await db.prepare('SELECT id FROM users WHERE email = ?').get(session.user.email) as { id: number } | undefined;
     
     if (!user) {
-      db.close();
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     // Get academic profile
-    const profile = db.prepare(`
+    const profile = await db.prepare(`
       SELECT gpa, sat, act, budget, location_preference, program_interest, career_goals
       FROM user_profiles
       WHERE user_id = ?
     `).get(user.id);
-
-    db.close();
 
     return NextResponse.json({ profile: profile || null });
   } catch (error) {
@@ -40,6 +37,11 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
+  const db = getUsersDb();
+  if (!db) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+
   const session = await auth();
 
   if (!session?.user?.email) {
@@ -49,29 +51,26 @@ export async function PUT(request: NextRequest) {
   try {
     const data = await request.json();
     const { name, gpa, sat, act, budget, location_preference, program_interest, career_goals } = data;
-
-    const db = new Database(usersDbPath);
     
     // Get user ID
-    const user = db.prepare('SELECT id FROM users WHERE email = ?').get(session.user.email) as { id: number } | undefined;
+    const user = await db.prepare('SELECT id FROM users WHERE email = ?').get(session.user.email) as { id: number } | undefined;
     
     if (!user) {
-      db.close();
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     // Update user name if provided
     if (name && name.trim().length > 0) {
-      db.prepare('UPDATE users SET name = ? WHERE email = ?').run(name.trim(), session.user.email);
+      await db.prepare('UPDATE users SET name = ? WHERE email = ?').run(name.trim(), session.user.email);
     }
 
     // Update or insert academic profile if any academic data is provided
     if (gpa || sat || act || budget || location_preference || program_interest || career_goals) {
-      const existing = db.prepare('SELECT id FROM user_profiles WHERE user_id = ?').get(user.id);
+      const existing = await db.prepare('SELECT id FROM user_profiles WHERE user_id = ?').get(user.id);
 
       if (existing) {
         // Update existing profile
-        db.prepare(`
+        await db.prepare(`
           UPDATE user_profiles
           SET gpa = COALESCE(?, gpa), 
               sat = COALESCE(?, sat), 
@@ -85,14 +84,12 @@ export async function PUT(request: NextRequest) {
         `).run(gpa, sat, act, budget, location_preference, program_interest, career_goals, user.id);
       } else {
         // Create new profile
-        db.prepare(`
+        await db.prepare(`
           INSERT INTO user_profiles (user_id, gpa, sat, act, budget, location_preference, program_interest, career_goals)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         `).run(user.id, gpa, sat, act, budget, location_preference, program_interest, career_goals);
       }
     }
-
-    db.close();
 
     return NextResponse.json({ 
       success: true, 

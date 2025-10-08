@@ -3,9 +3,9 @@ import { auth } from '@/auth';
 import { getUsersDb } from '@/lib/db-helper'
 
 // Helper to initialize tables
-function initTables(db: any) {
+async function initTables(db: any) {
   try {
-    db.exec(`
+    await db.exec(`
       CREATE TABLE IF NOT EXISTS support_tickets (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
   }
   
-  initTables(db);
+  await initTables(db);
 
   try {
     const session = await auth();
@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const tickets = db.prepare(`
+    const tickets = await db.prepare(`
       SELECT * FROM support_tickets
       WHERE user_id = ?
       ORDER BY 
