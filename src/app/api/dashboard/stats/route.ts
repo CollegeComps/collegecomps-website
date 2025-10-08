@@ -9,7 +9,7 @@ export async function GET() {
     }
     
     // Overall statistics - using available data
-    const overallStats = db.prepare(`
+    const overallStats = await db.prepare(`
       SELECT 
         COUNT(DISTINCT i.unitid) as total_institutions,
         AVG(f.tuition_in_state) as avg_in_state_tuition,
@@ -20,7 +20,7 @@ export async function GET() {
     `).get();
 
     // Institutions by control type
-    const byControlType = db.prepare(`
+    const byControlType = await db.prepare(`
       SELECT 
         i.control_public_private,
         COUNT(*) as count,
@@ -33,7 +33,7 @@ export async function GET() {
     `).all();
 
     // Top states by number of institutions
-    const topStates = db.prepare(`
+    const topStates = await db.prepare(`
       SELECT 
         i.state,
         COUNT(DISTINCT i.unitid) as num_institutions,
@@ -48,7 +48,7 @@ export async function GET() {
     `).all();
 
     // Cost distribution (buckets)
-    const costDistribution = db.prepare(`
+    const costDistribution = await db.prepare(`
       SELECT 
         CASE 
           WHEN f.tuition_in_state < 5000 THEN '< $5K'
@@ -74,7 +74,7 @@ export async function GET() {
     `).all();
 
     // Room & Board distribution
-    const roomBoardDistribution = db.prepare(`
+    const roomBoardDistribution = await db.prepare(`
       SELECT 
         CASE 
           WHEN f.room_board_on_campus < 5000 THEN '< $5K'
@@ -100,7 +100,7 @@ export async function GET() {
     `).all();
 
     // Total cost leaders (tuition + room & board)
-    const totalCostLeaders = db.prepare(`
+    const totalCostLeaders = await db.prepare(`
       SELECT 
         i.name,
         i.state,
@@ -116,7 +116,7 @@ export async function GET() {
     `).all();
 
     // Most affordable public institutions
-    const affordablePublic = db.prepare(`
+    const affordablePublic = await db.prepare(`
       SELECT 
         i.name,
         i.state,
