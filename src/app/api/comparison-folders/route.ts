@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Premium subscription required' }, { status: 403 });
     }
 
-    const folders = db.prepare(`
+    const folders = await db.prepare(`
       SELECT 
         f.id,
         f.name,
@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Folder name is required' }, { status: 400 });
     }
 
-    const result = db.prepare(`
+    const result = await db.prepare(`
       INSERT INTO comparison_folders (user_id, name, color)
       VALUES (?, ?, ?)
     `).run(session.user.id, name, color);
@@ -130,7 +130,7 @@ export async function DELETE(req: NextRequest) {
     }
 
     // Verify folder belongs to user
-    const folder = db.prepare(`
+    const folder = await db.prepare(`
       SELECT id FROM comparison_folders
       WHERE id = ? AND user_id = ?
     `).get(folderId, session.user.id);
@@ -140,14 +140,14 @@ export async function DELETE(req: NextRequest) {
     }
 
     // Move comparisons out of folder before deleting
-    db.prepare(`
+    await db.prepare(`
       UPDATE saved_comparisons
       SET folder_id = NULL
       WHERE folder_id = ?
     `).run(folderId);
 
     // Delete folder
-    db.prepare(`
+    await db.prepare(`
       DELETE FROM comparison_folders
       WHERE id = ?
     `).run(folderId);

@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
 
     const userId = parseInt(session.user.id)
 
-    const submissions = db.prepare(`
+    const submissions = await db.prepare(`
       SELECT 
         id,
         institution_name,

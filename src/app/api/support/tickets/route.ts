@@ -111,7 +111,7 @@ export async function POST(req: NextRequest) {
     const tier = session.user.subscriptionTier || 'free';
     const priority = tier === 'professional' ? 'high' : tier === 'premium' ? 'normal' : 'low';
 
-    const result = db.prepare(`
+    const result = await db.prepare(`
       INSERT INTO support_tickets (
         user_id, user_email, user_name, subscription_tier,
         subject, category, description, priority
@@ -127,7 +127,7 @@ export async function POST(req: NextRequest) {
       priority
     );
 
-    const ticket = db.prepare(`
+    const ticket = await db.prepare(`
       SELECT * FROM support_tickets WHERE id = ?
     `).get(result.lastInsertRowid);
 

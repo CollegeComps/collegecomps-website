@@ -1,0 +1,94 @@
+
+> temp-roi@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.4
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 3.0s
+   Skipping linting
+   Checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/63) ...
+   Generating static pages (15/63) 
+   Generating static pages (31/63) 
+   Generating static pages (47/63) 
+ ✓ Generating static pages (63/63)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    5.85 kB         111 kB
+├ ○ /_not-found                             1 kB         103 kB
+├ ○ /admin/analytics                     3.41 kB         112 kB
+├ ○ /admin/support                       3.28 kB         112 kB
+├ ○ /advanced-analytics                  4.54 kB         113 kB
+├ ○ /ai-recommendations                  3.16 kB         112 kB
+├ ○ /alerts                              4.01 kB         112 kB
+├ ƒ /api/admin/support/tickets             227 B         102 kB
+├ ƒ /api/ai/recommendations                227 B         102 kB
+├ ƒ /api/ai/suggestions                    227 B         102 kB
+├ ƒ /api/alerts/preferences                227 B         102 kB
+├ ƒ /api/analytics/stats                   227 B         102 kB
+├ ƒ /api/analytics/track                   227 B         102 kB
+├ ƒ /api/auth/[...nextauth]                227 B         102 kB
+├ ƒ /api/auth/signup                       227 B         102 kB
+├ ƒ /api/colleges/search                   227 B         102 kB
+├ ƒ /api/comparison-folders                227 B         102 kB
+├ ƒ /api/dashboard/stats                   227 B         102 kB
+├ ƒ /api/earnings-data                     227 B         102 kB
+├ ƒ /api/exports/comparison                227 B         102 kB
+├ ƒ /api/exports/share                     227 B         102 kB
+├ ƒ /api/financial-data                    227 B         102 kB
+├ ƒ /api/institutions                      227 B         102 kB
+├ ƒ /api/institutions/[unitid]             227 B         102 kB
+├ ƒ /api/institutions/[unitid]/programs    227 B         102 kB
+├ ƒ /api/institutions/search               227 B         102 kB
+├ ƒ /api/majors/search                     227 B         102 kB
+├ ƒ /api/programs                          227 B         102 kB
+├ ƒ /api/programs/stats                    227 B         102 kB
+├ ƒ /api/salary-analytics                  227 B         102 kB
+├ ƒ /api/salary-data                       227 B         102 kB
+├ ƒ /api/saved-comparisons                 227 B         102 kB
+├ ƒ /api/saved-comparisons/move            227 B         102 kB
+├ ƒ /api/saved-comparisons/tags            227 B         102 kB
+├ ƒ /api/stats                             227 B         102 kB
+├ ƒ /api/support/tickets                   227 B         102 kB
+├ ƒ /api/test-institution                  227 B         102 kB
+├ ƒ /api/trends/historical                 227 B         102 kB
+├ ƒ /api/user/onboarding                   227 B         102 kB
+├ ƒ /api/user/password                     227 B         102 kB
+├ ƒ /api/user/profile                      227 B         102 kB
+├ ƒ /api/user/salary-submissions           227 B         102 kB
+├ ƒ /api/user/usage-stats                  227 B         102 kB
+├ ○ /colleges                            4.55 kB         106 kB
+├ ƒ /colleges/[unitid]                   4.15 kB         106 kB
+├ ○ /compare                             2.53 kB         108 kB
+├ ○ /comparison-manager                  4.03 kB         112 kB
+├ ○ /dashboard                           2.85 kB         105 kB
+├ ○ /edit-preferences                    3.99 kB         109 kB
+├ ○ /exports                              3.6 kB         112 kB
+├ ○ /historical-trends                    104 kB         209 kB
+├ ○ /my-timeline                         3.77 kB         112 kB
+├ ○ /onboarding                          5.72 kB         111 kB
+├ ○ /pricing                             3.23 kB         108 kB
+├ ○ /priority-data                       3.79 kB         109 kB
+├ ○ /profile                             5.01 kB         113 kB
+├ ○ /profile/academic                    2.03 kB         107 kB
+├ ○ /programs                              227 B         102 kB
+├ ○ /roi-calculator                       8.9 kB         111 kB
+├ ○ /salary-insights                     3.46 kB         112 kB
+├ ○ /saved-comparisons                   2.19 kB         111 kB
+├ ○ /submit-salary                       4.66 kB         113 kB
+├ ○ /subscription                        4.23 kB         113 kB
+└ ○ /support                             4.26 kB         113 kB
++ First Load JS shared by all             102 kB
+  ├ chunks/1255-ad92d48e3e7ce61a.js      45.6 kB
+  ├ chunks/4bd1b696-100b9d70ed4e49c1.js  54.2 kB
+  └ other shared chunks (total)          1.94 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

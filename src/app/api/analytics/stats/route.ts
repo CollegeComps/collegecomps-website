@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
     const userId = parseInt(session.user.id)
 
     // Get overall statistics
-    const stats = db.prepare(`
+    const stats = await db.prepare(`
       SELECT 
         COUNT(*) as total_events,
         COUNT(DISTINCT event_type) as unique_event_types,
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
     `).get(userId)
 
     // Get event breakdown
-    const eventBreakdown = db.prepare(`
+    const eventBreakdown = await db.prepare(`
       SELECT 
         event_type,
         COUNT(*) as count,
@@ -47,7 +47,7 @@ export async function GET(req: NextRequest) {
     `).all(userId)
 
     // Get activity timeline (last 30 days)
-    const timeline = db.prepare(`
+    const timeline = await db.prepare(`
       SELECT 
         DATE(created_at) as date,
         COUNT(*) as event_count,
@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
     `).all(userId)
 
     // Get recent events
-    const recentEvents = db.prepare(`
+    const recentEvents = await db.prepare(`
       SELECT 
         event_type,
         event_data,
@@ -78,12 +78,12 @@ export async function GET(req: NextRequest) {
     }))
 
     // Get user's saved comparisons count
-    const comparisons = db.prepare(`
+    const comparisons = await db.prepare(`
       SELECT COUNT(*) as count FROM saved_comparisons WHERE user_id = ?
     `).get(userId) as { count: number }
 
     // Get user's salary submissions count
-    const submissions = db.prepare(`
+    const submissions = await db.prepare(`
       SELECT COUNT(*) as count FROM salary_submissions WHERE user_id = ?
     `).get(userId) as { count: number }
 

@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
       )
     }
 
-    const comparisons = userDb.prepare(`
+    const comparisons = await userDb.prepare(`
       SELECT *
       FROM saved_comparisons
       WHERE user_id = ?
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
 
     // Check limit for free users
     if (session.user.subscriptionTier === 'free') {
-      const count = userDb.prepare('SELECT COUNT(*) as count FROM saved_comparisons WHERE user_id = ?')
+      const count = await userDb.prepare('SELECT COUNT(*) as count FROM saved_comparisons WHERE user_id = ?')
         .get(parseInt(session.user.id)) as { count: number }
       
       if (count.count >= 1) {
@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const result = userDb.prepare(`
+    const result = await userDb.prepare(`
       INSERT INTO saved_comparisons (user_id, name, colleges, program_data, notes)
       VALUES (?, ?, ?, ?, ?)
     `).run(
@@ -126,7 +126,7 @@ export async function DELETE(req: NextRequest) {
     }
 
     // Ensure user owns this comparison
-    userDb.prepare(`
+    await userDb.prepare(`
       DELETE FROM saved_comparisons
       WHERE id = ? AND user_id = ?
     `).run(parseInt(id), parseInt(session.user.id))
