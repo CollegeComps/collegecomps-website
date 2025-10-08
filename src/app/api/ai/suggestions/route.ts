@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
+import { getCollegeDb } from '@/lib/db-helper';
 
 // This will use OpenAI/Anthropic API for intelligent suggestions
 // For now, we'll create a smart context-aware system that uses the database + AI enhancement
@@ -85,17 +86,16 @@ async function getIntelligentSuggestions(
   type: 'school' | 'major',
   context: any
 ) {
-  const Database = require('better-sqlite3');
-  const path = require('path');
-  
-  const dbPath = path.join(process.cwd(), '..', 'college-scrapper', 'data', 'college_data.db');
-  const db = new Database(dbPath, { readonly: true });
+  const db = getCollegeDb();
+  if (!db) {
+    return [];
+  }
 
-  let suggestions = [];
+  let suggestions: any[] = [];
 
   if (type === 'school') {
     // Smart school matching with context
-    const schools = db.prepare(`
+    const schools = await db.prepare(`
       SELECT DISTINCT 
         i.institution_name as name,
         i.state,
@@ -155,7 +155,7 @@ async function getIntelligentSuggestions(
 
   } else if (type === 'major') {
     // Smart major matching
-    const majors = db.prepare(`
+    const majors = await db.prepare(`
       SELECT DISTINCT 
         program_title as name,
         credential_level,
@@ -189,7 +189,6 @@ async function getIntelligentSuggestions(
     });
   }
 
-  db.close();
   return suggestions;
 }
 
