@@ -42,15 +42,55 @@ export function isBuildTime(): boolean {
 }
 
 // Singleton instances for frequently used databases
-let usersDb: Database.Database | null | undefined = undefined;
+let usersDb: TursoAdapter | Database.Database | null | undefined = undefined;
 let collegeDb: Database.Database | TursoAdapter | null | undefined = undefined;
 
 /**
  * Get or create users database connection (lazy initialization)
+ * Uses Turso in production (via USERS_DB_URL env var)
+ * Uses local SQLite file in development
  */
-export function getUsersDb(): Database.Database | null {
+export function getUsersDb(): TursoAdapter | Database.Database | null {
   if (usersDb === undefined) {
-    usersDb = safeOpenDatabase('data/users.db');
+    // Check environment
+    console.log('🔍 getUsersDb() environment check:', {
+      USERS_DB_URL: process.env.USERS_DB_URL ? 'SET' : 'NOT SET',
+      USERS_DB_TOKEN: process.env.USERS_DB_TOKEN ? 'SET' : 'NOT SET',
+      NODE_ENV: process.env.NODE_ENV,
+      VERCEL: process.env.VERCEL ? 'true' : 'false',
+      isBuildTime: isBuildTime(),
+    });
+
+    // Production: Use Turso if URL is provided
+    if (process.env.USERS_DB_URL && process.env.USERS_DB_URL.startsWith('libsql://')) {
+      console.log('🚀 Initializing Turso client for users data...');
+      try {
+        usersDb = new TursoAdapter(
+          process.env.USERS_DB_URL,
+          process.env.USERS_DB_TOKEN || ''
+        );
+        console.log('✅ Turso users client initialized successfully');
+      } catch (error) {
+        console.error('❌ Failed to initialize Turso users client:', error);
+        usersDb = null;
+      }
+    } 
+    // Development/Fallback: Use local SQLite file or return null
+    else {
+      if (isBuildTime()) {
+        console.warn('⚠️ Build time detected, returning null for users database');
+        usersDb = null;
+      } else if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+        // In production but no Turso URL - return null instead of trying local file
+        console.error('❌ USERS_DB_URL not set in production environment!');
+        console.error('   Add environment variable in Vercel dashboard');
+        usersDb = null;
+      } else {
+        // Local development - try local file
+        console.log('📁 Using local SQLite file for users database in development');
+        usersDb = safeOpenDatabase('data/users.db');
+      }
+    }
   }
   return usersDb;
 }

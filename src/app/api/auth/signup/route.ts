@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if user already exists
-    const existingUser = db.prepare('SELECT id FROM users WHERE email = ?')
+    const existingUser = await db.prepare('SELECT id FROM users WHERE email = ?')
       .get(email)
 
     if (existingUser) {
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     const passwordHash = await bcrypt.hash(password, 10)
 
     // Create user
-    const result = db.prepare(`
+    const result = await db.prepare(`
       INSERT INTO users (email, password_hash, name, provider)
       VALUES (?, ?, ?, 'credentials')
     `).run(email, passwordHash, name || null)

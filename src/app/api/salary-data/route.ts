@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
     query += ` HAVING sample_size >= 3` // Privacy: require at least 3 submissions
     query += ` ORDER BY years_since_graduation ASC`
 
-    const results = db.prepare(query).all(...params)
+    const results = await db.prepare(query).all(...params)
 
     return NextResponse.json({ data: results, success: true })
   } catch (error) {
@@ -208,7 +208,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Check submission limits (prevent spam)
-    const userStats = db.prepare('SELECT * FROM user_submission_stats WHERE user_id = ?')
+    const userStats = await db.prepare('SELECT * FROM user_submission_stats WHERE user_id = ?')
       .get(parseInt(session.user.id)) as any
 
     if (userStats && userStats.reputation_score < 50) {
@@ -220,7 +220,7 @@ export async function POST(req: NextRequest) {
 
     // Check daily limit for free users
     if (session.user.subscriptionTier === 'free') {
-      const todaySubmissions = db.prepare(`
+      const todaySubmissions = await db.prepare(`
         SELECT COUNT(*) as count 
         FROM salary_submissions 
         WHERE user_id = ? AND DATE(created_at) = DATE('now')
@@ -243,7 +243,7 @@ export async function POST(req: NextRequest) {
     if (total_compensation && total_compensation < current_salary) qualityScore -= 20 // Suspicious
 
     // Insert submission
-    const result = db.prepare(`
+    const result = await db.prepare(`
       INSERT INTO salary_submissions (
         user_id, institution_name, degree_level, major, graduation_year,
         current_salary, years_since_graduation, total_compensation,
@@ -277,7 +277,7 @@ export async function POST(req: NextRequest) {
     )
 
     // Update user submission stats
-    db.prepare(`
+    await db.prepare(`
       INSERT INTO user_submission_stats (user_id, total_submissions, verified_submissions, last_submission_date)
       VALUES (?, 1, 0, datetime('now'))
       ON CONFLICT(user_id) DO UPDATE SET
