@@ -114,13 +114,31 @@ export async function POST(req: NextRequest) {
       remote_status,
       student_debt_remaining,
       student_debt_original,
-      is_public
+      is_public,
+      has_degree = true, // Default to true for backwards compatibility
+      years_experience // Total years of work experience
     } = data
 
-    // Required field validation
-    if (!institution_name || !degree_level || !major || !graduation_year || !current_salary || years_since_graduation === undefined) {
+    // Required field validation - adjusted for non-degree submissions
+    if (!current_salary) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Current salary is required' },
+        { status: 400 }
+      )
+    }
+
+    // If has_degree is true, require degree-related fields
+    if (has_degree && (!institution_name || !degree_level || !major || !graduation_year || years_since_graduation === undefined)) {
+      return NextResponse.json(
+        { error: 'Missing required degree fields. If you do not have a degree, please uncheck "I have a degree"' },
+        { status: 400 }
+      )
+    }
+
+    // If no degree, require years_experience
+    if (!has_degree && !years_experience) {
+      return NextResponse.json(
+        { error: 'Years of work experience is required for non-degree submissions' },
         { status: 400 }
       )
     }
@@ -200,9 +218,18 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    if (graduation_year < 1950 || graduation_year > new Date().getFullYear()) {
+    // Validation for graduation year (only if has degree)
+    if (has_degree && (graduation_year < 1950 || graduation_year > new Date().getFullYear())) {
       return NextResponse.json(
         { error: 'Invalid graduation year' },
+        { status: 400 }
+      )
+    }
+
+    // Validation for years of experience
+    if (years_experience !== undefined && (years_experience < 0 || years_experience > 60)) {
+      return NextResponse.json(
+        { error: 'Years of experience must be between 0 and 60' },
         { status: 400 }
       )
     }
@@ -236,11 +263,13 @@ export async function POST(req: NextRequest) {
 
     // Calculate data quality score (simple algorithm)
     let qualityScore = 100.0
+    if (!has_degree) qualityScore -= 15 // Slight penalty for non-degree to encourage verification
     if (!company_name) qualityScore -= 10
     if (!job_title) qualityScore -= 10
     if (!industry) qualityScore -= 5
     if (!location_state) qualityScore -= 5
     if (total_compensation && total_compensation < current_salary) qualityScore -= 20 // Suspicious
+    if (has_degree && !institution_name) qualityScore -= 15
 
     // Insert submission
     const result = await db.prepare(`
@@ -250,16 +279,17 @@ export async function POST(req: NextRequest) {
         job_title, company_name, industry, company_size,
         location_city, location_state, remote_status,
         student_debt_remaining, student_debt_original,
-        is_public, data_quality_score, is_approved, moderation_status
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        is_public, data_quality_score, is_approved, moderation_status,
+        has_degree, years_experience
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       parseInt(session.user.id),
-      institution_name,
-      degree_level,
-      major,
-      graduation_year,
+      institution_name || null,
+      degree_level || null,
+      major || null,
+      graduation_year || null,
       current_salary,
-      years_since_graduation,
+      years_since_graduation || null,
       total_compensation || null,
       job_title || null,
       company_name || null,
@@ -273,7 +303,9 @@ export async function POST(req: NextRequest) {
       is_public !== false ? 1 : 0,
       qualityScore,
       qualityScore >= 70 ? 1 : 0, // Auto-approve if quality score is high
-      qualityScore >= 70 ? 'approved' : 'pending'
+      qualityScore >= 70 ? 'approved' : 'pending',
+      has_degree ? 1 : 0,
+      years_experience || null
     )
 
     // Update user submission stats

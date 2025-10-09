@@ -50,18 +50,15 @@ export async function GET(req: NextRequest) {
     
     console.log(`Historical Trends: Fetching data for ${years} years, category: ${category}`);
 
-    // Get actual financial data for the latest year
+    // Get actual financial data for the latest year (using optimized view)
     console.log('Historical Trends: Querying financial data...');
     const actualData = await db.prepare(`
       SELECT 
-        f.year,
-        AVG(COALESCE(f.tuition_out_state, f.tuition_in_state, 0) + COALESCE(f.fees, 0) + COALESCE(f.room_board_on_campus, 0)) as avg_cost,
-        COUNT(DISTINCT f.unitid) as data_points
-      FROM financial_data f
-      WHERE f.year IS NOT NULL 
-        AND (f.tuition_in_state IS NOT NULL OR f.tuition_out_state IS NOT NULL)
-      GROUP BY f.year
-      ORDER BY f.year DESC
+        year,
+        avg_total_cost as avg_cost,
+        school_count as data_points
+      FROM v_yearly_cost_trends
+      ORDER BY year DESC
       LIMIT 1
     `).get() as any;
     
@@ -70,23 +67,45 @@ export async function GET(req: NextRequest) {
     // Try to get user-submitted salary data to enhance accuracy
     const usersDb = getUsersDb();
     let userSalaryData: any = null;
+    let submissionCount = 0;
+    
     if (usersDb) {
       try {
-        userSalaryData = await usersDb.prepare(`
-          SELECT 
-            AVG(current_salary) as avg_salary,
-            COUNT(*) as submission_count,
-            AVG(years_since_graduation) as avg_years_out
-          FROM salary_submissions
-          WHERE is_approved = 1 
-            AND current_salary > 0
-        `).get();
+        // Use optimized view for fast summary (if enough submissions exist)
+        const summary = await usersDb.prepare(`
+          SELECT * FROM v_salary_submissions_summary
+        `).get() as any;
         
-        if (userSalaryData?.submission_count > 0) {
-          console.log(`Historical Trends: Using ${userSalaryData.submission_count} user salary submissions to enhance data`);
+        submissionCount = summary?.approved_submissions || 0;
+        console.log(`Historical Trends: Found ${submissionCount} approved salary submissions`);
+        
+        // Only use real data if we have enough submissions (100+ for reliable data)
+        if (submissionCount >= 100) {
+          userSalaryData = {
+            avg_salary: summary.avg_approved_salary,
+            submission_count: summary.approved_submissions,
+            avg_years_out: summary.avg_years_out,
+            earliest_grad_year: summary.earliest_grad_year,
+            latest_grad_year: summary.latest_grad_year
+          };
+          
+          console.log(`Historical Trends: Using ${userSalaryData.submission_count} user submissions (threshold: 100+ for real data)`);
+        } else {
+          console.log(`Historical Trends: Using synthetic data (need 100+ submissions, have ${submissionCount})`);
         }
       } catch (err) {
-        console.log('Historical Trends: No user salary data available');
+        console.log('Historical Trends: Error fetching user salary data:', err);
+        // Fall back to count query if view doesn't exist yet
+        try {
+          const countResult = await usersDb.prepare(`
+            SELECT COUNT(*) as count
+            FROM salary_submissions
+            WHERE is_approved = 1 AND current_salary > 0
+          `).get() as { count: number };
+          submissionCount = countResult?.count || 0;
+        } catch (e) {
+          console.log('Historical Trends: Could not get submission count');
+        }
       }
     }
 
@@ -96,8 +115,14 @@ export async function GET(req: NextRequest) {
     const costInflationRate = 0.04; // 4% annual college cost inflation (historical average)
     const salaryGrowthRate = 0.03; // 3% annual salary growth
     
-    // Use user-submitted data if available, otherwise use national median
-    const baseSalary = userSalaryData?.avg_salary || 60000;
+    // Determine data source and base salary
+    const useRealData = submissionCount >= 100 && userSalaryData?.avg_salary;
+    const baseSalary = useRealData ? userSalaryData.avg_salary : 60000;
+    const dataSource = useRealData 
+      ? `Based on ${submissionCount} real user salary submissions` 
+      : `Projected using industry rates (${submissionCount} submissions, need 100+ for real data)`;
+    
+    console.log(`Historical Trends: Data source - ${dataSource}, Base salary: $${baseSalary.toLocaleString()}`);
     
     // Generate historical data for requested years
     const trends: TrendData[] = [];
@@ -206,21 +231,17 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // Get top growing fields based on program completions and enrollment
+    // Get top growing fields based on program completions (using optimized view)
     console.log('Historical Trends: Querying top programs...');
     const topGrowingFields = await db.prepare(`
       SELECT 
-        ap.cipcode,
-        ap.cip_title as program_name,
-        SUM(ap.completions) as total_completions,
-        COUNT(DISTINCT ap.unitid) as school_count,
-        AVG(ap.completions) as avg_completions
-      FROM academic_programs ap
-      WHERE ap.cip_title IS NOT NULL 
-        AND ap.completions > 0
-      GROUP BY ap.cipcode, ap.cip_title
-      HAVING school_count >= 5
-      ORDER BY total_completions DESC
+        cipcode,
+        program_name,
+        total_completions,
+        school_count,
+        avg_completions
+      FROM v_top_programs_by_completions
+      WHERE school_count >= 5
       LIMIT 10
     `).all() as any[];
     
@@ -242,10 +263,12 @@ export async function GET(req: NextRequest) {
       summary: {
         yearsAnalyzed: trends.length,
         latestYear: currentYear,
-        dataSource: 'Projected based on industry inflation rates and actual ' + currentYear + ' data',
+        dataSource: dataSource,
         totalDataPoints: trends.reduce((sum, t) => sum + t.dataPoints, 0),
         predictionsGenerated: predictions.length,
-        industryFieldsAnalyzed: topGrowingFields.length
+        industryFieldsAnalyzed: topGrowingFields.length,
+        userSubmissions: submissionCount,
+        usingRealData: useRealData
       }
     });
 
