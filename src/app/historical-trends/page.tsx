@@ -47,6 +47,7 @@ interface TopProgram {
   totalCompletions: number;
   schoolCount: number;
   avgCompletions: number;
+  avgSalary: number;
   growthIndicator: 'high' | 'medium' | 'low';
 }
 
@@ -174,12 +175,15 @@ export default function HistoricalTrendsPage() {
 
   const generateMockPrograms = (): TopProgram[] => {
     return [
-      { name: 'Computer Science', cipcode: '11.0701', totalCompletions: 125000, schoolCount: 450, avgCompletions: 278, growthIndicator: 'high' },
-      { name: 'Nursing', cipcode: '51.3801', totalCompletions: 180000, schoolCount: 680, avgCompletions: 265, growthIndicator: 'high' },
-      { name: 'Business Administration', cipcode: '52.0201', totalCompletions: 220000, schoolCount: 890, avgCompletions: 247, growthIndicator: 'high' },
-      { name: 'Psychology', cipcode: '42.0101', totalCompletions: 95000, schoolCount: 520, avgCompletions: 183, growthIndicator: 'medium' },
-      { name: 'Mechanical Engineering', cipcode: '14.1901', totalCompletions: 42000, schoolCount: 280, avgCompletions: 150, growthIndicator: 'medium' },
-      { name: 'Biology', cipcode: '26.0101', totalCompletions: 78000, schoolCount: 450, avgCompletions: 173, growthIndicator: 'medium' }
+      { name: 'Computer Science', cipcode: '11.0701', totalCompletions: 125000, schoolCount: 450, avgCompletions: 278, avgSalary: 95000, growthIndicator: 'high' },
+      { name: 'Nursing', cipcode: '51.3801', totalCompletions: 180000, schoolCount: 680, avgCompletions: 265, avgSalary: 72000, growthIndicator: 'high' },
+      { name: 'Business Administration', cipcode: '52.0201', totalCompletions: 220000, schoolCount: 890, avgCompletions: 247, avgSalary: 68000, growthIndicator: 'high' },
+      { name: 'Psychology', cipcode: '42.0101', totalCompletions: 95000, schoolCount: 520, avgCompletions: 183, avgSalary: 58000, growthIndicator: 'medium' },
+      { name: 'Mechanical Engineering', cipcode: '14.1901', totalCompletions: 42000, schoolCount: 280, avgCompletions: 150, avgSalary: 82000, growthIndicator: 'medium' },
+      { name: 'Biology', cipcode: '26.0101', totalCompletions: 78000, schoolCount: 450, avgCompletions: 173, avgSalary: 68000, growthIndicator: 'medium' },
+      { name: 'Liberal Arts', cipcode: '24.0101', totalCompletions: 320000, schoolCount: 1200, avgCompletions: 267, avgSalary: 52000, growthIndicator: 'high' },
+      { name: 'Criminal Justice', cipcode: '43.0104', totalCompletions: 85000, schoolCount: 420, avgCompletions: 202, avgSalary: 62000, growthIndicator: 'medium' },
+      { name: 'Education', cipcode: '13.0101', totalCompletions: 95000, schoolCount: 680, avgCompletions: 140, avgSalary: 48000, growthIndicator: 'medium' }
     ];
   };
 
@@ -375,11 +379,11 @@ export default function HistoricalTrendsPage() {
           </div>
         </div>
 
-        {/* Top Programs by Completions */}
+        {/* Top Programs by Average Salary */}
         <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Most Popular Academic Programs</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Average Salary by Program</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {topPrograms.map((program, index) => (
+            {topPrograms.slice(0, 9).map((program, index) => (
               <div 
                 key={program.cipcode}
                 className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
@@ -389,31 +393,18 @@ export default function HistoricalTrendsPage() {
                     <h3 className="font-semibold text-gray-900 mb-1">{program.name}</h3>
                     <p className="text-xs text-gray-500">CIP: {program.cipcode}</p>
                   </div>
-                  {program.growthIndicator === 'high' && (
-                    <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">High</span>
-                  )}
-                  {program.growthIndicator === 'medium' && (
-                    <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded">Medium</span>
-                  )}
-                  {program.growthIndicator === 'low' && (
-                    <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded">Low</span>
-                  )}
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <div>
-                    <p className="text-xs text-gray-500">Total Completions</p>
-                    <p className="text-lg font-bold text-blue-600">
-                      {program.totalCompletions.toLocaleString()}
+                    <p className="text-xs text-gray-500">Average Starting Salary</p>
+                    <p className="text-2xl font-bold text-green-600">
+                      {formatCurrency(program.avgSalary)}
                     </p>
                   </div>
-                  <div className="grid grid-cols-2 gap-2 pt-2 border-t">
-                    <div>
-                      <p className="text-xs text-gray-500">Schools</p>
-                      <p className="text-sm font-semibold text-gray-900">{program.schoolCount}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Avg/School</p>
-                      <p className="text-sm font-semibold text-gray-900">{program.avgCompletions}</p>
+                  <div className="pt-3 border-t">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-gray-500">Offered by</span>
+                      <span className="text-sm font-semibold text-gray-900">{program.schoolCount.toLocaleString()} schools</span>
                     </div>
                   </div>
                 </div>
