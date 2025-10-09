@@ -41,12 +41,22 @@ interface CategoryTrend {
   trend: 'up' | 'down' | 'stable';
 }
 
+interface TopProgram {
+  name: string;
+  cipcode: string;
+  totalCompletions: number;
+  schoolCount: number;
+  avgCompletions: number;
+  growthIndicator: 'high' | 'medium' | 'low';
+}
+
 export default function HistoricalTrendsPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [trendData, setTrendData] = useState<TrendData[]>([]);
   const [categoryTrends, setCategoryTrends] = useState<CategoryTrend[]>([]);
+  const [topPrograms, setTopPrograms] = useState<TopProgram[]>([]);
   const [selectedView, setSelectedView] = useState<'cost' | 'salary' | 'roi'>('salary');
 
   useEffect(() => {
@@ -99,7 +109,7 @@ export default function HistoricalTrendsPage() {
       
       setTrendData(combinedData);
       
-      // Transform category trends
+      // Transform category trends (general metrics)
       const transformedCategories = (data.categoryTrends || []).map((cat: any) => ({
         category: cat.category,
         growth: cat.changePercent,
@@ -108,11 +118,15 @@ export default function HistoricalTrendsPage() {
       }));
       
       setCategoryTrends(transformedCategories);
+      
+      // Set top growing programs/fields
+      setTopPrograms(data.topGrowingFields || []);
     } catch (error) {
       console.error('Error fetching trends:', error);
       // Use mock data as fallback
       setTrendData(generateMockData());
       setCategoryTrends(generateMockCategories());
+      setTopPrograms(generateMockPrograms());
     } finally {
       setLoading(false);
     }
@@ -155,6 +169,17 @@ export default function HistoricalTrendsPage() {
       { category: 'Healthcare', growth: 12.8, avgSalary: 72000, trend: 'up' },
       { category: 'Education', growth: -1.5, avgSalary: 48000, trend: 'down' },
       { category: 'Arts & Humanities', growth: 2.1, avgSalary: 45000, trend: 'stable' }
+    ];
+  };
+
+  const generateMockPrograms = (): TopProgram[] => {
+    return [
+      { name: 'Computer Science', cipcode: '11.0701', totalCompletions: 125000, schoolCount: 450, avgCompletions: 278, growthIndicator: 'high' },
+      { name: 'Nursing', cipcode: '51.3801', totalCompletions: 180000, schoolCount: 680, avgCompletions: 265, growthIndicator: 'high' },
+      { name: 'Business Administration', cipcode: '52.0201', totalCompletions: 220000, schoolCount: 890, avgCompletions: 247, growthIndicator: 'high' },
+      { name: 'Psychology', cipcode: '42.0101', totalCompletions: 95000, schoolCount: 520, avgCompletions: 183, growthIndicator: 'medium' },
+      { name: 'Mechanical Engineering', cipcode: '14.1901', totalCompletions: 42000, schoolCount: 280, avgCompletions: 150, growthIndicator: 'medium' },
+      { name: 'Biology', cipcode: '26.0101', totalCompletions: 78000, schoolCount: 450, avgCompletions: 173, growthIndicator: 'medium' }
     ];
   };
 
@@ -308,39 +333,46 @@ export default function HistoricalTrendsPage() {
           </div>
         </div>
 
-        {/* Category Trends */}
+        {/* Industry Growth Trends - Top Programs */}
         <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Industry Growth Trends</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Top Growing Programs by Completions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {categoryTrends.map((category, index) => (
+            {topPrograms.map((program, index) => (
               <div 
-                key={index}
+                key={program.cipcode}
                 className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className="font-semibold text-gray-900">{category.category}</h3>
-                  {category.trend === 'up' && (
-                    <ArrowTrendingUpIcon className="w-5 h-5 text-green-600" />
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900 mb-1">{program.name}</h3>
+                    <p className="text-xs text-gray-500">CIP: {program.cipcode}</p>
+                  </div>
+                  {program.growthIndicator === 'high' && (
+                    <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">High</span>
                   )}
-                  {category.trend === 'down' && (
-                    <ArrowTrendingDownIcon className="w-5 h-5 text-red-600" />
+                  {program.growthIndicator === 'medium' && (
+                    <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded">Medium</span>
                   )}
-                  {category.trend === 'stable' && (
-                    <div className="w-5 h-0.5 bg-gray-400"></div>
+                  {program.growthIndicator === 'low' && (
+                    <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded">Low</span>
                   )}
                 </div>
                 <div className="space-y-2">
                   <div>
-                    <p className="text-xs text-gray-500">5-Year Growth</p>
-                    <p className={`text-lg font-bold ${
-                      category.growth > 0 ? 'text-green-600' : category.growth < 0 ? 'text-red-600' : 'text-gray-600'
-                    }`}>
-                      {category.growth > 0 ? '+' : ''}{category.growth}%
+                    <p className="text-xs text-gray-500">Total Completions</p>
+                    <p className="text-lg font-bold text-blue-600">
+                      {program.totalCompletions.toLocaleString()}
                     </p>
                   </div>
-                  <div>
-                    <p className="text-xs text-gray-500">Avg Starting Salary</p>
-                    <p className="text-lg font-bold text-gray-900">{formatCurrency(category.avgSalary)}</p>
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t">
+                    <div>
+                      <p className="text-xs text-gray-500">Schools</p>
+                      <p className="text-sm font-semibold text-gray-900">{program.schoolCount}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Avg/School</p>
+                      <p className="text-sm font-semibold text-gray-900">{program.avgCompletions}</p>
+                    </div>
                   </div>
                 </div>
               </div>
