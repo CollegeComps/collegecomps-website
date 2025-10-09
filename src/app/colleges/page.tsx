@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Institution } from '@/lib/database';
 import {
   MagnifyingGlassIcon,
@@ -94,9 +94,14 @@ export default function CollegesPage() {
   });
   const [showFilters, setShowFilters] = useState(false);
 
+  // Debounced search effect - only trigger after user stops typing for 500ms
   useEffect(() => {
-    fetchInstitutions();
-    setPage(1);
+    const debounceTimer = setTimeout(() => {
+      fetchInstitutions();
+      setPage(1);
+    }, filters.search ? 500 : 0); // Debounce search only, instant for other filters
+
+    return () => clearTimeout(debounceTimer);
   }, [filters]);
 
   const fetchInstitutions = async (isLoadMore = false) => {
@@ -119,10 +124,9 @@ export default function CollegesPage() {
       
       // Add pagination parameters
       const currentPage = isLoadMore ? page + 1 : 1;
-      const limit = 30; // items per page
-      const offset = (currentPage - 1) * limit;
+      const limit = 30;
+      params.append('page', currentPage.toString());
       params.append('limit', limit.toString());
-      params.append('offset', offset.toString());
 
       const response = await fetch(`/api/institutions?${params}`);
       if (!response.ok) {

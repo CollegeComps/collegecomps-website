@@ -121,7 +121,8 @@ export class CollegeDataService {
         f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
         f.net_price, e.earnings_6_years_after_entry
       FROM institutions i
-      LEFT JOIN financial_data f ON i.unitid = f.unitid
+      LEFT JOIN financial_data f ON i.unitid = f.unitid 
+        AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
       LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
     `;
     
@@ -200,7 +201,8 @@ export class CollegeDataService {
         f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
         f.net_price, e.earnings_6_years_after_entry
       FROM institutions i
-      LEFT JOIN financial_data f ON i.unitid = f.unitid
+      LEFT JOIN financial_data f ON i.unitid = f.unitid 
+        AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
       LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
       WHERE i.unitid = ?
       LIMIT 1
@@ -335,7 +337,8 @@ export class CollegeDataService {
       SELECT i.*, f.tuition_in_state, f.tuition_out_state, f.room_board_on_campus,
              e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
       FROM institutions i
-      LEFT JOIN financial_data f ON i.unitid = f.unitid
+      LEFT JOIN financial_data f ON i.unitid = f.unitid 
+        AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
       LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
       WHERE 1=1
     `;
