@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { getCollegeDb, getUsersDb } from '@/lib/db-helper';
 
+// Enable caching for 5 minutes (data doesn't change frequently)
+export const revalidate = 300;
+
 interface TrendData {
   year: number;
   avgSalary: number;
@@ -20,6 +23,9 @@ interface CategoryTrend {
 }
 
 export async function GET(req: NextRequest) {
+  const startTime = Date.now();
+  console.log('🕐 [TRENDS] Request started at', new Date().toISOString());
+  
   const db = getCollegeDb();
   if (!db) {
     console.error('Historical Trends: Database unavailable');
@@ -28,7 +34,9 @@ export async function GET(req: NextRequest) {
 
   try {
     console.log('Historical Trends: Starting request');
+    const authStart = Date.now();
     const session = await auth();
+    console.log(`⏱️ [TRENDS] Auth took ${Date.now() - authStart}ms`);
     
     if (!session?.user) {
       console.log('Historical Trends: No session/user');
@@ -40,8 +48,7 @@ export async function GET(req: NextRequest) {
       console.log('Historical Trends: User is free tier');
       return NextResponse.json(
         { error: 'Historical Trends require Advance tier or higher. Upgrade to access trend analysis.' },
-        { status: 403 }
-      );
+        { status: 403 });
     }
 
     const { searchParams } = new URL(req.url);
@@ -50,62 +57,65 @@ export async function GET(req: NextRequest) {
     
     console.log(`Historical Trends: Fetching data for ${years} years, category: ${category}`);
 
-    // Get actual financial data for the latest year (using optimized view)
-    console.log('Historical Trends: Querying financial data...');
-    const actualData = await db.prepare(`
-      SELECT 
-        year,
-        avg_total_cost as avg_cost,
-        school_count as data_points
-      FROM v_yearly_cost_trends
-      ORDER BY year DESC
-      LIMIT 1
-    `).get() as any;
+    // Execute all database queries in parallel for maximum speed
+    console.log('Historical Trends: Starting parallel queries...');
+    const queryStart = Date.now();
     
-    console.log(`Historical Trends: Found actual data for year ${actualData?.year}`);
-
-    // Try to get user-submitted salary data to enhance accuracy
     const usersDb = getUsersDb();
-    let userSalaryData: any = null;
-    let submissionCount = 0;
     
-    if (usersDb) {
-      try {
-        // Use optimized view for fast summary (if enough submissions exist)
-        const summary = await usersDb.prepare(`
-          SELECT * FROM v_salary_submissions_summary
-        `).get() as any;
-        
-        submissionCount = summary?.approved_submissions || 0;
-        console.log(`Historical Trends: Found ${submissionCount} approved salary submissions`);
-        
-        // Only use real data if we have enough submissions (100+ for reliable data)
-        if (submissionCount >= 100) {
-          userSalaryData = {
-            avg_salary: summary.avg_approved_salary,
-            submission_count: summary.approved_submissions,
-            avg_years_out: summary.avg_years_out,
-            earliest_grad_year: summary.earliest_grad_year,
-            latest_grad_year: summary.latest_grad_year
-          };
-          
-          console.log(`Historical Trends: Using ${userSalaryData.submission_count} user submissions (threshold: 100+ for real data)`);
-        } else {
-          console.log(`Historical Trends: Using synthetic data (need 100+ submissions, have ${submissionCount})`);
-        }
-      } catch (err) {
-        console.log('Historical Trends: Error fetching user salary data:', err);
-        // Fall back to count query if view doesn't exist yet
-        try {
-          const countResult = await usersDb.prepare(`
-            SELECT COUNT(*) as count
-            FROM salary_submissions
-            WHERE is_approved = 1 AND current_salary > 0
-          `).get() as { count: number };
-          submissionCount = countResult?.count || 0;
-        } catch (e) {
-          console.log('Historical Trends: Could not get submission count');
-        }
+    const [actualData, userSalaryResult, topGrowingFields] = await Promise.all([
+      // Query 1: Get actual financial data for latest year
+      db.prepare(`
+        SELECT 
+          year,
+          avg_total_cost as avg_cost,
+          school_count as data_points
+        FROM v_yearly_cost_trends
+        ORDER BY year DESC
+        LIMIT 1
+      `).get() as Promise<any>,
+      
+      // Query 2: Get user salary data (if available)
+      usersDb ? (usersDb.prepare(`
+        SELECT * FROM v_salary_submissions_summary
+      `).get() as Promise<any>).catch(() => null as any) : Promise.resolve(null as any),
+      
+      // Query 3: Get top programs
+      db.prepare(`
+        SELECT 
+          cipcode,
+          program_name,
+          total_completions,
+          school_count,
+          avg_completions
+        FROM v_top_programs_by_completions
+        WHERE school_count >= 5
+        LIMIT 10
+      `).all() as Promise<any[]>
+    ]);
+    
+    console.log(`⏱️ [TRENDS] All parallel queries took ${Date.now() - queryStart}ms`);
+    console.log(`Historical Trends: Found actual data for year ${actualData?.year}`);
+    
+    // Process salary data
+    let submissionCount = 0;
+    let userSalaryData: any = null;
+    
+    if (userSalaryResult) {
+      submissionCount = userSalaryResult.approved_submissions || 0;
+      console.log(`Historical Trends: Found ${submissionCount} approved salary submissions`);
+      
+      if (submissionCount >= 100) {
+        userSalaryData = {
+          avg_salary: userSalaryResult.avg_approved_salary,
+          submission_count: userSalaryResult.approved_submissions,
+          avg_years_out: userSalaryResult.avg_years_out,
+          earliest_grad_year: userSalaryResult.earliest_grad_year,
+          latest_grad_year: userSalaryResult.latest_grad_year
+        };
+        console.log(`Historical Trends: Using ${userSalaryData.submission_count} user submissions (threshold: 100+ for real data)`);
+      } else {
+        console.log(`Historical Trends: Using synthetic data (need 100+ submissions, have ${submissionCount})`);
       }
     }
 
@@ -234,28 +244,16 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // Get top growing fields based on program completions (using optimized view)
-    console.log('Historical Trends: Querying top programs...');
-    const topGrowingFields = await db.prepare(`
-      SELECT 
-        cipcode,
-        program_name,
-        total_completions,
-        school_count,
-        avg_completions
-      FROM v_top_programs_by_completions
-      WHERE school_count >= 5
-      LIMIT 10
-    `).all() as any[];
-    
+    // Top growing fields already fetched in parallel query above
     console.log(`Historical Trends: Found ${topGrowingFields.length} top programs with completions data`);
 
     console.log('Historical Trends: Returning response');
+    console.log(`🎯 [TRENDS] Total request time: ${Date.now() - startTime}ms`);
     return NextResponse.json({
       historical: trends, // Already in chronological order (oldest to newest)
       predictions,
       categoryTrends,
-      topGrowingFields: topGrowingFields.map(field => ({
+      topGrowingFields: topGrowingFields.map((field: any) => ({
         name: field.program_name,
         cipcode: field.cipcode,
         totalCompletions: field.total_completions,
