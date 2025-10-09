@@ -99,34 +99,21 @@ export async function GET(req: NextRequest) {
       `).get() as any;
       console.log(`✅ [TRENDS] Query 1 complete in ${Date.now() - queryStart}ms`);
       
-      // Query top programs
+      // Query top programs from materialized table (fast!)
       console.log('📊 [TRENDS] Query 2: Top programs...');  
-      try {
-        // Add 10 second timeout for this expensive query
-        const programsQueryPromise = db.prepare(`
-          SELECT 
-            cipcode,
-            program_name,
-            total_completions,
-            school_count,
-            avg_completions
-          FROM v_top_programs_by_completions
-          WHERE school_count >= 5
-          LIMIT 10
-        `).all() as Promise<any[]>;
-        
-        const timeoutPromise = new Promise<any[]>((_, reject) => 
-          setTimeout(() => reject(new Error('Programs query timeout')), 10000)
-        );
-        
-        topGrowingFields = await Promise.race([programsQueryPromise, timeoutPromise]);
-        console.log(`✅ [TRENDS] Query 2 complete in ${Date.now() - queryStart}ms`);
-      } catch (err) {
-        console.error(`❌ [TRENDS] Query 2 failed or timed out:`, err);
-        // Use empty array as fallback
-        topGrowingFields = [];
-        console.log('⚠️ [TRENDS] Using empty programs list as fallback');
-      }
+      topGrowingFields = await db.prepare(`
+        SELECT 
+          cipcode,
+          program_name,
+          total_completions,
+          school_count,
+          avg_completions
+        FROM top_programs_by_completions
+        WHERE school_count >= 5
+        ORDER BY total_completions DESC
+        LIMIT 10
+      `).all() as any[];
+      console.log(`✅ [TRENDS] Query 2 complete in ${Date.now() - queryStart}ms`);
       
       // Update cache
       cachedData = {
