@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 const DEGREE_LEVELS = [
+  { value: 'none', label: 'No Degree (Self-taught / Bootcamp / Certification)' },
   { value: 'bachelors', label: "Bachelor's Degree" },
   { value: 'masters', label: "Master's Degree" },
   { value: 'phd', label: 'PhD/Doctorate' },
@@ -48,6 +49,7 @@ export default function SubmitSalaryPage() {
     graduation_year: new Date().getFullYear(),
     current_salary: '',
     years_since_graduation: '',
+    years_experience: '', // Total years in the field
     total_compensation: '',
     job_title: '',
     company_name: '',
@@ -58,7 +60,8 @@ export default function SubmitSalaryPage() {
     remote_status: '',
     student_debt_remaining: '',
     student_debt_original: '',
-    is_public: true
+    is_public: true,
+    has_degree: true // Track if they have a degree
   });
 
   // Close dropdowns when clicking outside
@@ -198,10 +201,13 @@ export default function SubmitSalaryPage() {
         body: JSON.stringify({
           ...formData,
           current_salary: salary,
-          years_since_graduation: parseInt(formData.years_since_graduation),
+          years_since_graduation: formData.has_degree ? parseInt(formData.years_since_graduation) : 0,
+          years_experience: parseInt(formData.years_experience),
           total_compensation: totalComp > 0 ? totalComp : null,
           student_debt_remaining: debtRemaining > 0 ? debtRemaining : null,
           student_debt_original: debtOriginal > 0 ? debtOriginal : null,
+          has_degree: formData.has_degree,
+          institution_name: formData.has_degree ? formData.institution_name : 'N/A (No Degree)',
         })
       });
 
@@ -274,36 +280,38 @@ export default function SubmitSalaryPage() {
               Education Background
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
-              <div ref={institutionRef} className="relative">
-                <label className="block text-sm font-semibold text-gray-900 mb-1">
-                  College/University *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.institution_name}
-                  onChange={(e) => setFormData({ ...formData, institution_name: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
-                  placeholder="e.g., Stanford University"
-                />
-                {showInstitutionDropdown && institutionSuggestions.length > 0 && (
-                  <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                    {institutionSuggestions.map((institution, index) => (
-                      <button
-                        key={index}
-                        type="button"
-                        onClick={() => {
-                          setFormData({ ...formData, institution_name: institution });
-                          setShowInstitutionDropdown(false);
-                        }}
-                        className="w-full text-left px-4 py-2 hover:bg-blue-50 text-gray-900 text-sm"
-                      >
-                        {institution}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+              {formData.degree_level !== 'none' && (
+                <div ref={institutionRef} className="relative">
+                  <label className="block text-sm font-semibold text-gray-900 mb-1">
+                    College/University *
+                  </label>
+                  <input
+                    type="text"
+                    required={formData.has_degree}
+                    value={formData.institution_name}
+                    onChange={(e) => setFormData({ ...formData, institution_name: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                    placeholder="e.g., Stanford University"
+                  />
+                  {showInstitutionDropdown && institutionSuggestions.length > 0 && (
+                    <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                      {institutionSuggestions.map((institution, index) => (
+                        <button
+                          key={index}
+                          type="button"
+                          onClick={() => {
+                            setFormData({ ...formData, institution_name: institution });
+                            setShowInstitutionDropdown(false);
+                          }}
+                          className="w-full text-left px-4 py-2 hover:bg-blue-50 text-gray-900 text-sm"
+                        >
+                          {institution}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-1">
@@ -312,7 +320,18 @@ export default function SubmitSalaryPage() {
                 <select
                   required
                   value={formData.degree_level}
-                  onChange={(e) => setFormData({ ...formData, degree_level: e.target.value })}
+                  onChange={(e) => {
+                    const hasDegree = e.target.value !== 'none';
+                    setFormData({ 
+                      ...formData, 
+                      degree_level: e.target.value,
+                      has_degree: hasDegree,
+                      // Clear college fields if no degree
+                      institution_name: hasDegree ? formData.institution_name : '',
+                      graduation_year: hasDegree ? formData.graduation_year : new Date().getFullYear(),
+                      years_since_graduation: hasDegree ? formData.years_since_graduation : ''
+                    });
+                  }}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                 >
                   <option value="">Select degree level</option>
@@ -320,6 +339,11 @@ export default function SubmitSalaryPage() {
                     <option key={level.value} value={level.value}>{level.label}</option>
                   ))}
                 </select>
+                {formData.degree_level === 'none' && (
+                  <p className="mt-1 text-sm text-blue-600">
+                    Great! You can still share your salary data even without a college degree.
+                  </p>
+                )}
               </div>
 
               <div ref={majorRef} className="relative">
@@ -353,30 +377,32 @@ export default function SubmitSalaryPage() {
                 )}
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1">
-                  Graduation Year *
-                </label>
-                <input
-                  type="number"
-                  required
-                  min="1950"
-                  max={new Date().getFullYear()}
-                  value={formData.graduation_year}
-                  onChange={(e) => setFormData({ ...formData, graduation_year: parseInt(e.target.value) })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
-                />
-              </div>
+              {formData.degree_level !== 'none' && (
+                <>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-1">
+                      Graduation Year *
+                    </label>
+                    <input
+                      type="number"
+                      required={formData.has_degree}
+                      min="1950"
+                      max={new Date().getFullYear()}
+                      value={formData.graduation_year}
+                      onChange={(e) => setFormData({ ...formData, graduation_year: parseInt(e.target.value) })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                    />
+                  </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1">
-                  Years Since Graduation *
-                </label>
-                <select
-                  required
-                  value={formData.years_since_graduation}
-                  onChange={(e) => setFormData({ ...formData, years_since_graduation: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-1">
+                      Years Since Graduation *
+                    </label>
+                    <select
+                      required={formData.has_degree}
+                      value={formData.years_since_graduation}
+                      onChange={(e) => setFormData({ ...formData, years_since_graduation: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                 >
                   <option value="">Select years</option>
                   <option value="0">Just graduated</option>
@@ -388,6 +414,36 @@ export default function SubmitSalaryPage() {
                   <option value="15">15 years</option>
                   <option value="20">20+ years</option>
                 </select>
+              </div>
+                </>
+              )}
+
+              {/* Total Years of Experience (for everyone, especially non-degree holders) */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-1">
+                  Total Years of Experience in Field *
+                </label>
+                <select
+                  required
+                  value={formData.years_experience}
+                  onChange={(e) => setFormData({ ...formData, years_experience: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                >
+                  <option value="">Select years</option>
+                  <option value="0">Less than 1 year</option>
+                  <option value="1">1 year</option>
+                  <option value="2">2 years</option>
+                  <option value="3">3 years</option>
+                  <option value="4">4 years</option>
+                  <option value="5">5 years</option>
+                  <option value="7">7 years</option>
+                  <option value="10">10 years</option>
+                  <option value="15">15 years</option>
+                  <option value="20">20+ years</option>
+                </select>
+                <p className="mt-1 text-xs text-gray-500">
+                  Total time working in this field, including internships and self-taught work
+                </p>
               </div>
             </div>
           </div>

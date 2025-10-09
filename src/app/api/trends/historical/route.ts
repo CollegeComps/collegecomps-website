@@ -294,11 +294,55 @@ export async function GET(req: NextRequest) {
     // Top growing fields already fetched in parallel query above
     console.log(`Historical Trends: Found ${topGrowingFields.length} top programs with completions data`);
 
-    // Helper function to estimate salary based on CIP code
-    const estimateSalary = (cipcode: string, programName: string): number => {
-      const cip = cipcode.substring(0, 2); // Get first 2 digits for category
+    // Fetch real salary data by major from user submissions
+    const userDb = await getUsersDb();
+    let salaryByMajor: any[] = [];
+    
+    if (userDb) {
+      salaryByMajor = await userDb.prepare(`
+        SELECT 
+          major,
+          COUNT(*) as submission_count,
+          ROUND(AVG(current_salary)) as avg_salary
+        FROM salary_submissions
+        WHERE is_approved = 1 
+          AND current_salary > 0
+        GROUP BY LOWER(major)
+        HAVING COUNT(*) >= 3
+      `).all() as any[];
+    }
+    
+    console.log(`Historical Trends: Found ${salaryByMajor.length} majors with real salary data`);
+
+    // Create a map for quick lookup (case-insensitive)
+    const salaryDataMap = new Map<string, { avgSalary: number; count: number }>();
+    salaryByMajor.forEach((item: any) => {
+      salaryDataMap.set(item.major.toLowerCase().trim(), {
+        avgSalary: item.avg_salary,
+        count: item.submission_count
+      });
+    });
+
+    // Helper function to get salary - uses real data if available, falls back to estimates
+    const getSalaryForProgram = (cipcode: string, programName: string): { salary: number; isRealData: boolean; submissionCount: number } => {
+      // Try to match with real user data first (case-insensitive partial match)
+      const programLower = programName.toLowerCase();
       
-      // CIP code salary estimates based on industry data
+      // Direct match
+      if (salaryDataMap.has(programLower)) {
+        const data = salaryDataMap.get(programLower)!;
+        return { salary: data.avgSalary, isRealData: true, submissionCount: data.count };
+      }
+      
+      // Partial match (e.g., "Computer Science" matches "computer science", "comp sci", etc.)
+      for (const [major, data] of salaryDataMap.entries()) {
+        if (programLower.includes(major) || major.includes(programLower)) {
+          return { salary: data.avgSalary, isRealData: true, submissionCount: data.count };
+        }
+      }
+      
+      // Fall back to CIP code estimates
+      const cip = cipcode.substring(0, 2);
       const salaryMap: { [key: string]: number } = {
         '11': 95000,  // Computer & Information Sciences
         '14': 82000,  // Engineering
@@ -327,7 +371,7 @@ export async function GET(req: NextRequest) {
         '44': 65000,  // Public Administration
       };
       
-      return salaryMap[cip] || 60000; // Default to 60k if not found
+      return { salary: salaryMap[cip] || 60000, isRealData: false, submissionCount: 0 };
     };
 
     console.log('Historical Trends: Returning response');
@@ -336,15 +380,20 @@ export async function GET(req: NextRequest) {
       historical: trends, // Already in chronological order (oldest to newest)
       predictions,
       categoryTrends,
-      topGrowingFields: topGrowingFields.map((field: any) => ({
-        name: field.program_name,
-        cipcode: field.cipcode,
-        totalCompletions: field.total_completions,
-        schoolCount: field.school_count,
-        avgCompletions: Math.round(field.avg_completions),
-        avgSalary: estimateSalary(field.cipcode, field.program_name),
-        growthIndicator: 'high' // Based on completion numbers
-      })),
+      topGrowingFields: topGrowingFields.map((field: any) => {
+        const salaryData = getSalaryForProgram(field.cipcode, field.program_name);
+        return {
+          name: field.program_name,
+          cipcode: field.cipcode,
+          totalCompletions: field.total_completions,
+          schoolCount: field.school_count,
+          avgCompletions: Math.round(field.avg_completions),
+          avgSalary: salaryData.salary,
+          isRealData: salaryData.isRealData,
+          submissionCount: salaryData.submissionCount,
+          growthIndicator: 'high' // Based on completion numbers
+        };
+      }),
       summary: {
         yearsAnalyzed: trends.length,
         latestYear: currentYear,

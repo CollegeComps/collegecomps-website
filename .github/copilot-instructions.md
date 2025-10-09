@@ -59,3 +59,9 @@ This Next.js web application calculates return on investment for college program
 - Cost analysis (tuition, fees, living costs)
 - ROI calculations and visualizations
 - Responsive design for all devices
+
+**Documentation:**
+Don't create or modify any documentation files except for `.github/copilot-instructions.md` and `README.md`. Ensure these files contain accurate and up-to-date information about the project, including setup instructions, usage guidelines, and any other relevant details. Don't create information not requested by the user. And keep 'README.md' concise, focusing on essential information.
+
+**Commits:**
+- Never make long commits, keep them short and focused.
