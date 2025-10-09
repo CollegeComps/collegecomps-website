@@ -1,45 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { getCollegeDb, getUsersDb } from '@/lib/db-helper';
-import { unstable_cache } from 'next/cache';
 
-// Enable caching for 5 minutes (data doesn't change frequently)
-export const revalidate = 300;
+// Enable aggressive caching - 10 minutes
+export const revalidate = 600;
 
-// Cache expensive database queries for 10 minutes
-const getCachedFinancialData = unstable_cache(
-  async (db: any) => {
-    return await db.prepare(`
-      SELECT 
-        year,
-        avg_total_cost as avg_cost,
-        school_count as data_points
-      FROM v_yearly_cost_trends
-      ORDER BY year DESC
-      LIMIT 1
-    `).get();
-  },
-  ['financial-trends-data'],
-  { revalidate: 600, tags: ['financial-data'] }
-);
+// Simple in-memory cache to reduce DB hits
+let cachedData: {
+  financial: any;
+  programs: any;
+  timestamp: number;
+} | null = null;
 
-const getCachedTopPrograms = unstable_cache(
-  async (db: any) => {
-    return await db.prepare(`
-      SELECT 
-        cipcode,
-        program_name,
-        total_completions,
-        school_count,
-        avg_completions
-      FROM v_top_programs_by_completions
-      WHERE school_count >= 5
-      LIMIT 10
-    `).all();
-  },
-  ['top-programs-data'],
-  { revalidate: 600, tags: ['programs-data'] }
-);
+const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes in ms
 
 interface TrendData {
   year: number;
@@ -99,48 +72,72 @@ export async function GET(req: NextRequest) {
     
     const usersDb = getUsersDb();
     
-    console.log('📊 [TRENDS] Starting Query 1: Financial data (CACHED)...');
-    const financialPromise = getCachedFinancialData(db).then((result: any) => {
+    // Check if we have cached data (less than 10 minutes old)
+    const now = Date.now();
+    const isCacheValid = cachedData && (now - cachedData.timestamp) < CACHE_DURATION;
+    
+    let actualData: any;
+    let topGrowingFields: any[];
+    
+    if (isCacheValid) {
+      console.log('✅ [TRENDS] Using cached data - skipping DB queries');
+      actualData = cachedData!.financial;
+      topGrowingFields = cachedData!.programs;
+    } else {
+      console.log('📊 [TRENDS] Cache miss or expired - querying database...');
+      
+      // Query financial data
+      console.log('📊 [TRENDS] Query 1: Financial data...');
+      actualData = await db.prepare(`
+        SELECT 
+          year,
+          avg_total_cost as avg_cost,
+          school_count as data_points
+        FROM v_yearly_cost_trends
+        ORDER BY year DESC
+        LIMIT 1
+      `).get() as any;
       console.log(`✅ [TRENDS] Query 1 complete in ${Date.now() - queryStart}ms`);
-      return result;
-    }).catch((err: any) => {
-      console.error(`❌ [TRENDS] Query 1 failed:`, err);
-      throw err;
-    });
-    
-    console.log('📊 [TRENDS] Starting Query 2: Salary submissions...');
-    const salaryPromise = usersDb ? (usersDb.prepare(`
-      SELECT * FROM v_salary_submissions_summary
-    `).get() as Promise<any>).then((result: any) => {
+      
+      // Query top programs
+      console.log('📊 [TRENDS] Query 2: Top programs...');  
+      topGrowingFields = await db.prepare(`
+        SELECT 
+          cipcode,
+          program_name,
+          total_completions,
+          school_count,
+          avg_completions
+        FROM v_top_programs_by_completions
+        WHERE school_count >= 5
+        LIMIT 10
+      `).all() as any[];
       console.log(`✅ [TRENDS] Query 2 complete in ${Date.now() - queryStart}ms`);
-      return result;
-    }).catch((err: any) => {
-      console.warn(`⚠️ [TRENDS] Query 2 failed (continuing):`, err);
-      return null;
-    }) : Promise.resolve(null as any);
+      
+      // Update cache
+      cachedData = {
+        financial: actualData,
+        programs: topGrowingFields,
+        timestamp: now
+      };
+      console.log('💾 [TRENDS] Cache updated');
+    }
     
-    console.log('📊 [TRENDS] Starting Query 3: Top programs (CACHED)...');
-    const programsPromise = getCachedTopPrograms(db).then((result: any) => {
-      console.log(`✅ [TRENDS] Query 3 complete in ${Date.now() - queryStart}ms`);
-      return result;
-    }).catch((err: any) => {
-      console.error(`❌ [TRENDS] Query 3 failed:`, err);
-      throw err;
-    });
+    // Always query salary data (small, fast query)
+    console.log('📊 [TRENDS] Query 3: Salary submissions...');
+    let userSalaryResult = null;
+    if (usersDb) {
+      try {
+        userSalaryResult = await usersDb.prepare(`
+          SELECT * FROM v_salary_submissions_summary
+        `).get() as any;
+        console.log(`✅ [TRENDS] Query 3 complete in ${Date.now() - queryStart}ms`);
+      } catch (err) {
+        console.warn(`⚠️ [TRENDS] Query 3 failed:`, err);
+      }
+    }
     
-    console.log('⏳ [TRENDS] Waiting for all queries to complete...');
-    
-    // Add timeout to detect hanging queries
-    const timeoutPromise = new Promise((_, reject) => {
-      setTimeout(() => reject(new Error('Query timeout after 30 seconds')), 30000);
-    });
-    
-    const [actualData, userSalaryResult, topGrowingFields] = await Promise.race([
-      Promise.all([financialPromise, salaryPromise, programsPromise]),
-      timeoutPromise
-    ]) as [any, any, any];
-    
-    console.log(`⏱️ [TRENDS] All parallel queries took ${Date.now() - queryStart}ms`);
+    console.log(`⏱️ [TRENDS] All queries took ${Date.now() - queryStart}ms`);
     console.log(`Historical Trends: Found actual data for year ${actualData?.year}`);
     
     // Process salary data
