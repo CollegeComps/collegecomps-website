@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
     const stats = await db.prepare(`
       SELECT 
         COUNT(*) as total_events,
-        COUNT(DISTINCT event_type) as unique_event_types,
+        COUNT(DISTINCT action) as unique_event_types,
         COUNT(DISTINCT DATE(created_at)) as active_days,
         MIN(created_at) as first_activity,
         MAX(created_at) as last_activity
@@ -37,12 +37,12 @@ export async function GET(req: NextRequest) {
     // Get event breakdown
     const eventBreakdown = await db.prepare(`
       SELECT 
-        event_type,
+        action as event_type,
         COUNT(*) as count,
         MAX(created_at) as last_occurrence
       FROM user_analytics
       WHERE user_id = ?
-      GROUP BY event_type
+      GROUP BY action
       ORDER BY count DESC
     `).all(userId)
 
@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
       SELECT 
         DATE(created_at) as date,
         COUNT(*) as event_count,
-        COUNT(DISTINCT event_type) as event_types
+        COUNT(DISTINCT action) as event_types
       FROM user_analytics
       WHERE user_id = ? AND created_at >= datetime('now', '-30 days')
       GROUP BY DATE(created_at)
@@ -61,9 +61,8 @@ export async function GET(req: NextRequest) {
     // Get recent events
     const recentEvents = await db.prepare(`
       SELECT 
-        event_type,
-        event_data,
-        page_url,
+        action as event_type,
+        metadata as event_data,
         created_at
       FROM user_analytics
       WHERE user_id = ?

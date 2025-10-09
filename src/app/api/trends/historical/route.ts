@@ -22,18 +22,22 @@ interface CategoryTrend {
 export async function GET(req: NextRequest) {
   const db = getCollegeDb();
   if (!db) {
+    console.error('Historical Trends: Database unavailable');
     return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
   }
 
   try {
+    console.log('Historical Trends: Starting request');
     const session = await auth();
     
     if (!session?.user) {
+      console.log('Historical Trends: No session/user');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Check if user has Premium or Professional tier
     if (session.user.subscriptionTier === 'free') {
+      console.log('Historical Trends: User is free tier');
       return NextResponse.json(
         { error: 'Historical Trends require Advance tier or higher. Upgrade to access trend analysis.' },
         { status: 403 }
@@ -43,8 +47,11 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const category = searchParams.get('category') || 'all';
     const years = parseInt(searchParams.get('years') || '5');
+    
+    console.log(`Historical Trends: Fetching data for ${years} years, category: ${category}`);
 
     // Get historical data by year
+    console.log('Historical Trends: Querying financial data...');
     const historicalData = await db.prepare(`
       SELECT 
         f.year,
@@ -58,6 +65,8 @@ export async function GET(req: NextRequest) {
       ORDER BY f.year DESC
       LIMIT ?
     `).all(years) as any[];
+    
+    console.log(`Historical Trends: Found ${historicalData.length} years of data`);
 
     // Calculate trends with estimated salary (since earnings_outcomes is empty)
     const estimatedBaseSalary = 55000; // National average starting salary for college grads
@@ -159,6 +168,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Get top growing fields
+    console.log('Historical Trends: Querying top programs...');
     const topGrowingFields = await db.prepare(`
       SELECT 
         ap.cipcode,
@@ -171,7 +181,10 @@ export async function GET(req: NextRequest) {
       ORDER BY ap.cipcode ASC
       LIMIT 10
     `).all() as any[];
+    
+    console.log(`Historical Trends: Found ${topGrowingFields.length} top programs`);
 
+    console.log('Historical Trends: Returning response');
     return NextResponse.json({
       historical: trends.reverse(), // Oldest to newest for chart display
       predictions,

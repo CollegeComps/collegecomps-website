@@ -20,22 +20,21 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Premium subscription required' }, { status: 403 });
     }
 
-    // Query salary data with percentiles
+    // Query salary data with available earnings data
+    // Note: earnings_outcomes table has earnings_6_years_after_entry and earnings_10_years_after_entry
     const salaryData = await db.prepare(`
       SELECT 
         i.name as institution,
-        eo.program_title as major,
-        eo.earnings_p25 as p25,
-        eo.earnings_median as median,
-        eo.earnings_p75 as p75,
-        eo.count
+        eo.earnings_6_years_after_entry as earnings_6yr,
+        eo.earnings_10_years_after_entry as earnings_10yr,
+        eo.median_debt,
+        eo.completion_rate,
+        eo.student_count
       FROM earnings_outcomes eo
-      JOIN institutions i ON eo.institution_id = i.id
-      WHERE eo.earnings_median IS NOT NULL 
-        AND eo.earnings_p25 IS NOT NULL 
-        AND eo.earnings_p75 IS NOT NULL
-        AND eo.count > 10
-      ORDER BY eo.earnings_median DESC
+      JOIN institutions i ON eo.unitid = i.unitid
+      WHERE (eo.earnings_6_years_after_entry IS NOT NULL OR eo.earnings_10_years_after_entry IS NOT NULL)
+        AND eo.student_count > 10
+      ORDER BY COALESCE(eo.earnings_10_years_after_entry, eo.earnings_6_years_after_entry) DESC
       LIMIT 100
     `).all();
 

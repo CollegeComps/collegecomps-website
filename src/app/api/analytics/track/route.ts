@@ -30,15 +30,13 @@ export async function POST(req: NextRequest) {
     }
 
     // Track the event
-    db.prepare(`
-      INSERT INTO user_analytics (user_id, event_type, event_data, page_url, session_id)
-      VALUES (?, ?, ?, ?, ?)
+    await db.prepare(`
+      INSERT INTO user_analytics (user_id, action, metadata)
+      VALUES (?, ?, ?)
     `).run(
       parseInt(session.user.id),
       eventType,
-      eventData ? JSON.stringify(eventData) : null,
-      pageUrl || null,
-      session.user.id // Using user ID as session identifier for now
+      eventData ? JSON.stringify(eventData) : null
     )
 
     return NextResponse.json({ success: true })
