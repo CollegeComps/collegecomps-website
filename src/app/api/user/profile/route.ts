@@ -24,7 +24,7 @@ export async function GET() {
 
     // Get academic profile
     const profile = await db.prepare(`
-      SELECT gpa, sat, act, budget, location_preference, program_interest, career_goals
+      SELECT gpa, sat_score, act_score
       FROM user_profiles
       WHERE user_id = ?
     `).get(user.id);
@@ -55,7 +55,7 @@ export async function PUT(request: NextRequest) {
 
   try {
     const data = await request.json();
-    const { name, gpa, sat, act, budget, location_preference, program_interest, career_goals } = data;
+    const { name, gpa, sat_score, act_score } = data;
     
     // Get user ID
     const user = await db.prepare('SELECT id FROM users WHERE email = ?').get(session.user.email) as { id: number } | undefined;
@@ -70,7 +70,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Update or insert academic profile if any academic data is provided
-    if (gpa || sat || act || budget || location_preference || program_interest || career_goals) {
+    if (gpa || sat_score || act_score) {
       const existing = await db.prepare('SELECT id FROM user_profiles WHERE user_id = ?').get(user.id);
 
       if (existing) {
@@ -78,21 +78,16 @@ export async function PUT(request: NextRequest) {
         await db.prepare(`
           UPDATE user_profiles
           SET gpa = COALESCE(?, gpa), 
-              sat = COALESCE(?, sat), 
-              act = COALESCE(?, act), 
-              budget = COALESCE(?, budget), 
-              location_preference = COALESCE(?, location_preference),
-              program_interest = COALESCE(?, program_interest),
-              career_goals = COALESCE(?, career_goals),
-              updated_at = CURRENT_TIMESTAMP
+              sat_score = COALESCE(?, sat_score), 
+              act_score = COALESCE(?, act_score)
           WHERE user_id = ?
-        `).run(gpa, sat, act, budget, location_preference, program_interest, career_goals, user.id);
+        `).run(gpa, sat_score, act_score, user.id);
       } else {
         // Create new profile
         await db.prepare(`
-          INSERT INTO user_profiles (user_id, gpa, sat, act, budget, location_preference, program_interest, career_goals)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        `).run(user.id, gpa, sat, act, budget, location_preference, program_interest, career_goals);
+          INSERT INTO user_profiles (user_id, gpa, sat_score, act_score)
+          VALUES (?, ?, ?, ?)
+        `).run(user.id, gpa, sat_score, act_score);
       }
     }
 

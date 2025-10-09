@@ -162,16 +162,13 @@ export async function GET(req: NextRequest) {
     const topGrowingFields = await db.prepare(`
       SELECT 
         ap.cipcode,
-        ap.program_name,
-        AVG(e.earnings_10_years_after_entry) as avg_earnings,
+        ap.cip_title as program_name,
         COUNT(DISTINCT ap.unitid) as school_count
       FROM academic_programs ap
-      JOIN earnings_outcomes e ON ap.unitid = e.unitid
-      WHERE e.earnings_10_years_after_entry IS NOT NULL
-        AND ap.program_name IS NOT NULL
+      WHERE ap.cip_title IS NOT NULL
       GROUP BY ap.cipcode
       HAVING school_count >= 5
-      ORDER BY avg_earnings DESC
+      ORDER BY ap.cipcode ASC
       LIMIT 10
     `).all() as any[];
 
@@ -181,7 +178,6 @@ export async function GET(req: NextRequest) {
       categoryTrends,
       topGrowingFields: topGrowingFields.map(field => ({
         name: field.program_name,
-        avgEarnings: Math.round(field.avg_earnings),
         schoolCount: field.school_count
       })),
       summary: {

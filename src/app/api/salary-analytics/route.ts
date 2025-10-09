@@ -23,14 +23,14 @@ export async function GET(req: NextRequest) {
     // Query salary data with percentiles
     const salaryData = await db.prepare(`
       SELECT 
-        i.institution_name as institution,
+        i.name as institution,
         eo.program_title as major,
         eo.earnings_p25 as p25,
         eo.earnings_median as median,
         eo.earnings_p75 as p75,
         eo.count
       FROM earnings_outcomes eo
-      JOIN institutions i ON eo.institution_id = i.institution_id
+      JOIN institutions i ON eo.institution_id = i.id
       WHERE eo.earnings_median IS NOT NULL 
         AND eo.earnings_p25 IS NOT NULL 
         AND eo.earnings_p75 IS NOT NULL
