@@ -333,9 +333,51 @@ export default function HistoricalTrendsPage() {
           </div>
         </div>
 
-        {/* Industry Growth Trends - Top Programs */}
+        {/* Key Metrics Trends */}
         <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Top Growing Programs by Completions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Key Metrics Year-over-Year</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {categoryTrends.map((category, index) => (
+              <div 
+                key={index}
+                className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="font-semibold text-gray-900">{category.category}</h3>
+                  {category.trend === 'up' && (
+                    <ArrowTrendingUpIcon className="w-5 h-5 text-green-600" />
+                  )}
+                  {category.trend === 'down' && (
+                    <ArrowTrendingDownIcon className="w-5 h-5 text-red-600" />
+                  )}
+                  {category.trend === 'stable' && (
+                    <div className="w-5 h-0.5 bg-gray-400"></div>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <div>
+                    <p className="text-xs text-gray-500">Change vs Previous Year</p>
+                    <p className={`text-lg font-bold ${
+                      category.growth > 0 ? 'text-green-600' : category.growth < 0 ? 'text-red-600' : 'text-gray-600'
+                    }`}>
+                      {category.growth > 0 ? '+' : ''}{category.growth}%
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Current Value</p>
+                    <p className="text-lg font-bold text-gray-900">
+                      {category.category.includes('ROI') ? category.avgSalary.toLocaleString() : formatCurrency(category.avgSalary)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Top Programs by Completions */}
+        <div className="bg-white rounded-xl shadow-lg p-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Most Popular Academic Programs</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {topPrograms.map((program, index) => (
               <div 

@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { getCollegeDb, getUsersDb } from '@/lib/db-helper';
 
+// Mark route as dynamic to prevent build-time rendering errors
+export const dynamic = 'force-dynamic';
+
 // Enable aggressive caching - 10 minutes
 export const revalidate = 600;
 
