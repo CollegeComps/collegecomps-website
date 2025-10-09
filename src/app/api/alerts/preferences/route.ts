@@ -40,14 +40,27 @@ export async function GET(req: NextRequest) {
     }
 
     const prefs = await db.prepare(`
-      SELECT preferences, frequency
+      SELECT 
+        price_changes,
+        new_salary_data,
+        admission_updates,
+        deadline_reminders,
+        email_notifications,
+        sms_notifications
       FROM alert_preferences
       WHERE user_id = ?
-    `).get(session.user.id) as { preferences: string; frequency: string } | undefined;
+    `).get(session.user.id) as any;
 
     return NextResponse.json({
-      preferences: prefs?.preferences ? JSON.parse(prefs.preferences) : null,
-      frequency: prefs?.frequency || 'instant',
+      preferences: prefs ? {
+        priceChanges: Boolean(prefs.price_changes),
+        newSalaryData: Boolean(prefs.new_salary_data),
+        admissionUpdates: Boolean(prefs.admission_updates),
+        deadlineReminders: Boolean(prefs.deadline_reminders),
+        emailNotifications: Boolean(prefs.email_notifications),
+        smsNotifications: Boolean(prefs.sms_notifications)
+      } : null,
+      frequency: 'instant', // Default for now
     });
   } catch (error) {
     console.error('Error fetching alert preferences:', error);
@@ -76,7 +89,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { preferences, frequency = 'instant' } = body;
+    const { preferences } = body;
 
     if (!preferences) {
       return NextResponse.json({ error: 'Preferences are required' }, { status: 400 });
@@ -84,13 +97,34 @@ export async function POST(req: NextRequest) {
 
     // Upsert alert preferences
     await db.prepare(`
-      INSERT INTO alert_preferences (user_id, preferences, frequency, updated_at)
-      VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+      INSERT INTO alert_preferences (
+        user_id, 
+        price_changes, 
+        new_salary_data, 
+        admission_updates, 
+        deadline_reminders,
+        email_notifications,
+        sms_notifications,
+        updated_at
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
       ON CONFLICT(user_id) DO UPDATE SET
-        preferences = excluded.preferences,
-        frequency = excluded.frequency,
+        price_changes = excluded.price_changes,
+        new_salary_data = excluded.new_salary_data,
+        admission_updates = excluded.admission_updates,
+        deadline_reminders = excluded.deadline_reminders,
+        email_notifications = excluded.email_notifications,
+        sms_notifications = excluded.sms_notifications,
         updated_at = CURRENT_TIMESTAMP
-    `).run(session.user.id, JSON.stringify(preferences), frequency);
+    `).run(
+      session.user.id,
+      preferences.priceChanges ? 1 : 0,
+      preferences.newSalaryData ? 1 : 0,
+      preferences.admissionUpdates ? 1 : 0,
+      preferences.deadlineReminders ? 1 : 0,
+      preferences.emailNotifications ? 1 : 0,
+      preferences.smsNotifications ? 1 : 0
+    );
 
     return NextResponse.json({
       message: 'Alert preferences saved successfully',

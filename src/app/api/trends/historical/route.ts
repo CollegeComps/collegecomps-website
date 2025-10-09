@@ -124,29 +124,32 @@ export async function GET(req: NextRequest) {
     
     console.log(`Historical Trends: Data source - ${dataSource}, Base salary: $${baseSalary.toLocaleString()}`);
     
-    // Generate historical data for requested years
-    const trends: TrendData[] = [];
+    // Pre-calculate inflation factors for each year to optimize loop
+    const inflationFactors: { year: number; costFactor: number; salaryFactor: number; }[] = [];
     for (let i = years - 1; i >= 0; i--) {
       const year = currentYear - i;
       const yearDiff = currentYear - year;
-      
-      // Calculate historical cost (deflate from current)
-      const historicalCost = Math.round(currentCost / Math.pow(1 + costInflationRate, yearDiff));
-      
-      // Calculate historical salary (deflate from base)
-      const historicalSalary = Math.round(baseSalary / Math.pow(1 + salaryGrowthRate, yearDiff));
-      
-      // ROI calculation: 10-year salary earnings - 4-year cost
+      inflationFactors.push({
+        year,
+        costFactor: 1 / Math.pow(1 + costInflationRate, yearDiff),
+        salaryFactor: 1 / Math.pow(1 + salaryGrowthRate, yearDiff)
+      });
+    }
+    
+    // Generate historical data using pre-calculated factors
+    const trends: TrendData[] = inflationFactors.map(({ year, costFactor, salaryFactor }) => {
+      const historicalCost = Math.round(currentCost * costFactor);
+      const historicalSalary = Math.round(baseSalary * salaryFactor);
       const roi = Math.round((historicalSalary * 10) - (historicalCost * 4));
       
-      trends.push({
-        year: year,
+      return {
+        year,
         avgSalary: historicalSalary,
         avgCost: historicalCost,
         avgROI: roi,
         dataPoints: year === currentYear ? (actualData?.data_points || 0) : 0
-      });
-    }
+      };
+    });
     
     console.log(`Historical Trends: Generated ${trends.length} years of trend data`);
 
@@ -165,7 +168,7 @@ export async function GET(req: NextRequest) {
         currentValue: latestSalary,
         previousValue: previousSalary,
         change: salaryChange,
-        changePercent: salaryChangePercent,
+        changePercent: Math.round(salaryChangePercent * 100) / 100,
         trend: salaryChange > 0 ? 'up' : salaryChange < 0 ? 'down' : 'stable'
       });
 
@@ -180,7 +183,7 @@ export async function GET(req: NextRequest) {
         currentValue: latestCost,
         previousValue: previousCost,
         change: costChange,
-        changePercent: costChangePercent,
+        changePercent: Math.round(costChangePercent * 100) / 100,
         trend: costChange > 0 ? 'up' : costChange < 0 ? 'down' : 'stable'
       });
 
@@ -195,7 +198,7 @@ export async function GET(req: NextRequest) {
         currentValue: latestROI,
         previousValue: previousROI,
         change: roiChange,
-        changePercent: roiChangePercent,
+        changePercent: Math.round(roiChangePercent * 100) / 100,
         trend: roiChange > 0 ? 'up' : roiChange < 0 ? 'down' : 'stable'
       });
     }
