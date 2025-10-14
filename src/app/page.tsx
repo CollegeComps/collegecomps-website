@@ -429,9 +429,9 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Explore Plan (Free) */}
-            <div className="bg-white rounded-2xl shadow-lg border-2 border-gray-200 p-8">
+            <div className="bg-white rounded-2xl shadow-lg border-2 border-gray-200 p-8 hover:shadow-xl transition-shadow">
               <div className="text-center mb-6">
                 <div className="inline-flex items-center gap-1 mb-2">
                   <span className="text-2xl">�</span>
@@ -484,7 +484,7 @@ export default function Home() {
             </div>
 
             {/* Premium Plan */}
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl shadow-xl border-2 border-blue-500 p-8 relative transform scale-105">
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl shadow-xl border-2 border-blue-500 p-8 relative hover:shadow-2xl transition-shadow">
               <div className="absolute top-0 right-0 bg-blue-600 text-white px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm font-bold">
                 POPULAR
               </div>

@@ -36,14 +36,20 @@ export async function GET(request: NextRequest) {
           c.cipcode,
           c.cip_title,
           c.institution_count,
-          c.total_completions
+          c.total_completions,
+          CASE
+            WHEN LOWER(c.cip_title) = LOWER(?) THEN 0
+            WHEN LOWER(c.cip_title) LIKE LOWER(?) THEN 1
+            WHEN LOWER(c.cip_title) LIKE LOWER(?) THEN 2
+            ELSE 3
+          END as relevance
         FROM programs_fts f
         JOIN programs_search_cache c ON f.cipcode = c.cipcode
         WHERE programs_fts MATCH ?
         GROUP BY c.cipcode
-        ORDER BY c.total_completions DESC
+        ORDER BY relevance ASC, c.total_completions DESC
         LIMIT 50
-      `).all(ftsQuery);
+      `).all(query, query, `${query}%`, ftsQuery);
       
     } catch (ftsError) {
       // FTS5 not available - use improved LIKE search

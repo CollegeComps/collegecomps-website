@@ -11,13 +11,14 @@ export default function TermsOfServicePage() {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">Terms of Service</h1>
-        <p className="text-sm text-gray-600 mb-8">Last Updated: October 14, 2025</p>
+        <p className="text-sm text-gray-600 mb-2">Last Updated: October 14, 2025</p>
+        <p className="text-sm text-gray-600 mb-8">These Terms apply to users in the United States only.</p>
 
         <div className="prose prose-blue max-w-none">
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Acceptance of Terms</h2>
             <p className="text-gray-700 leading-relaxed">
-              By accessing or using CollegeComps ("the Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the Service. We reserve the right to modify these Terms at any time, and your continued use constitutes acceptance of any changes.
+              By accessing or using CollegeComps ("the Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the Service. We reserve the right to modify these Terms at any time, and your continued use constitutes acceptance of any changes. CollegeComps is a United States-based service and these Terms are governed by US law.
             </p>
           </section>
 

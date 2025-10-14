@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy - How We Protect Your Data',
-  description: 'Learn how CollegeComps collects, uses, and protects your personal information. GDPR and CCPA compliant privacy practices.',
+  description: 'Learn how CollegeComps collects, uses, and protects your personal information. COPPA and CCPA compliant privacy practices for US users.',
   robots: { index: false, follow: false },
 };
 
@@ -11,13 +11,17 @@ export default function PrivacyPolicyPage() {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">Privacy Policy</h1>
-        <p className="text-sm text-gray-600 mb-8">Last Updated: October 14, 2025</p>
+        <p className="text-sm text-gray-600 mb-2">Last Updated: October 14, 2025</p>
+        <p className="text-sm text-gray-600 mb-8">This Privacy Policy applies to users in the United States only.</p>
 
         <div className="prose prose-blue max-w-none">
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Introduction</h2>
             <p className="text-gray-700 leading-relaxed">
               Welcome to CollegeComps ("we," "our," or "us"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website collegecomps.com and use our services.
+            </p>
+            <p className="text-gray-700 leading-relaxed mt-4">
+              <strong>Note:</strong> CollegeComps currently operates exclusively in the United States. This Privacy Policy is designed to comply with United States federal privacy laws including COPPA (Children's Online Privacy Protection Act) and California's CCPA (California Consumer Privacy Act).
             </p>
           </section>
 
@@ -122,19 +126,11 @@ export default function PrivacyPolicyPage() {
               <li><strong>Export:</strong> Download your data in a portable format</li>
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">7.2 GDPR Rights (EU Residents)</h3>
-            <ul className="list-disc pl-6 space-y-2 text-gray-700">
-              <li>Right to data portability</li>
-              <li>Right to object to processing</li>
-              <li>Right to restrict processing</li>
-              <li>Right to withdraw consent</li>
-            </ul>
-
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">7.3 CCPA Rights (California Residents)</h3>
+            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">7.2 CCPA Rights (California Residents)</h3>
             <ul className="list-disc pl-6 space-y-2 text-gray-700">
               <li>Right to know what personal information is collected</li>
               <li>Right to know if personal information is sold or disclosed</li>
-              <li>Right to opt-out of the sale of personal information</li>
+              <li>Right to opt-out of the sale of personal information (we do not sell your data)</li>
               <li>Right to non-discrimination for exercising rights</li>
             </ul>
 
@@ -173,14 +169,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">10. International Data Transfers</h2>
-            <p className="text-gray-700 leading-relaxed">
-              Your information may be transferred to and processed in countries other than your country of residence. These countries may have different data protection laws. By using our services, you consent to the transfer of your information to the United States and other countries where we operate.
-            </p>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">11. Changes to This Privacy Policy</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">10. Changes to This Privacy Policy</h2>
             <p className="text-gray-700 leading-relaxed">
               We may update this Privacy Policy from time to time. We will notify you of any material changes by:
             </p>
@@ -195,7 +184,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">12. Contact Us</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">11. Contact Us</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
               If you have questions or concerns about this Privacy Policy or our data practices, please contact us:
             </p>
@@ -207,7 +196,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">13. Third-Party Links</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">12. Third-Party Links</h2>
             <p className="text-gray-700 leading-relaxed">
               Our website may contain links to third-party websites (e.g., college websites, government resources). We are not responsible for the privacy practices of these external sites. We encourage you to review their privacy policies before providing any personal information.
             </p>
@@ -215,10 +204,10 @@ export default function PrivacyPolicyPage() {
 
           <div className="mt-12 pt-8 border-t border-gray-200">
             <p className="text-sm text-gray-600">
-              <strong>California Residents:</strong> For specific CCPA disclosures and opt-out instructions, please see Section 7.3 above.
+              <strong>California Residents:</strong> For specific CCPA disclosures and opt-out instructions, please see Section 7.2 above.
             </p>
             <p className="text-sm text-gray-600 mt-2">
-              <strong>EU Residents:</strong> For specific GDPR rights and procedures, please see Section 7.2 above.
+              <strong>Note:</strong> CollegeComps is a US-based service. We do not currently operate in the European Union or other international markets.
             </p>
           </div>
         </div>
