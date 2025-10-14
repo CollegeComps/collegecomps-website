@@ -104,6 +104,95 @@ export default function ROICalculatorApp() {
     };
   }, [roiResult, costs, earnings, financialAid, session, selectedInstitution, selectedProgram]);
 
+  // Load saved scenario from URL parameter
+  useEffect(() => {
+    const loadScenario = async () => {
+      // Check URL for loadScenario parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const scenarioId = urlParams.get('loadScenario');
+      
+      if (!scenarioId || !session?.user) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/roi/scenarios?id=${scenarioId}`);
+        if (!response.ok) {
+          throw new Error('Failed to load scenario');
+        }
+
+        const data = await response.json();
+        const scenario = data.scenario;
+
+        if (!scenario) {
+          throw new Error('Scenario not found');
+        }
+
+        // Load institution
+        const instResponse = await fetch(`/api/institutions/${scenario.institution_unitid}`);
+        if (instResponse.ok) {
+          const instData = await instResponse.json();
+          setSelectedInstitution(instData.institution);
+        }
+
+        // Load program if available
+        if (scenario.program_cipcode) {
+          const programData: AcademicProgram = {
+            id: 0,
+            unitid: scenario.institution_unitid,
+            cipcode: scenario.program_cipcode,
+            cip_title: scenario.program_name,
+            completions: 0,
+            total_completions: 0
+          };
+          setSelectedProgram(programData);
+        }
+
+        // Restore cost inputs
+        setCosts({
+          tuition: scenario.tuition || 0,
+          fees: scenario.fees || 0,
+          roomBoard: scenario.room_board || 0,
+          books: scenario.books_supplies || 1200,
+          otherExpenses: scenario.other_expenses || 2000,
+          programLength: scenario.program_length || 4,
+          residency: 'in-state' // Default, can be enhanced
+        });
+
+        // Restore earnings inputs
+        setEarnings({
+          baselineSalary: scenario.baseline_salary || 35000,
+          projectedSalary: scenario.projected_salary || 50000,
+          careerLength: scenario.career_length || 30,
+          salaryGrowthRate: scenario.salary_growth_rate || 3
+        });
+
+        // Restore financial aid
+        setFinancialAid({
+          grants: scenario.grants || 0,
+          scholarships: scenario.scholarships || 0,
+          workStudy: scenario.work_study || 0,
+          loans: scenario.loans || 0,
+          interestRate: scenario.loan_interest_rate || 5.5
+        });
+
+        // Recalculate ROI with loaded data
+        setTimeout(() => {
+          calculateROI();
+        }, 100);
+
+        // Clean URL after loading
+        window.history.replaceState({}, '', '/roi-calculator');
+
+      } catch (error) {
+        console.error('Error loading scenario:', error);
+        alert('Failed to load scenario. Please try again.');
+      }
+    };
+
+    loadScenario();
+  }, [session?.user]); // Only run when session changes
+
   // Handle beforeunload event to prompt user
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
