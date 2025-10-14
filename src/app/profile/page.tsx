@@ -23,6 +23,10 @@ export default function ProfilePage() {
   const [bookmarkedColleges, setBookmarkedColleges] = useState<any[]>([]);
   const [bookmarksLoading, setBookmarksLoading] = useState(true);
 
+  // ROI Scenarios
+  const [roiScenarios, setRoiScenarios] = useState<any[]>([]);
+  const [scenariosLoading, setScenariosLoading] = useState(true);
+
   // Password form
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -34,6 +38,7 @@ export default function ProfilePage() {
       setEmail(session.user.email || '');
       fetchPreferences();
       fetchBookmarks();
+      fetchROIScenarios();
     }
   }, [session]);
 
@@ -64,6 +69,21 @@ export default function ProfilePage() {
     }
   };
 
+  const fetchROIScenarios = async () => {
+    try {
+      setScenariosLoading(true);
+      const response = await fetch('/api/roi/scenarios');
+      if (response.ok) {
+        const data = await response.json();
+        setRoiScenarios(data.scenarios || []);
+      }
+    } catch (error) {
+      console.error('Error fetching ROI scenarios:', error);
+    } finally {
+      setScenariosLoading(false);
+    }
+  };
+
   const removeBookmark = async (unitid: number) => {
     try {
       const response = await fetch('/api/bookmarks/colleges', {
@@ -81,6 +101,24 @@ export default function ProfilePage() {
     } catch (error) {
       console.error('Error removing bookmark:', error);
       setMessage({ type: 'error', text: 'Failed to remove bookmark' });
+    }
+  };
+
+  const deleteScenario = async (scenarioId: number) => {
+    try {
+      const response = await fetch(`/api/roi/scenarios?id=${scenarioId}`, {
+        method: 'DELETE'
+      });
+
+      if (response.ok) {
+        setRoiScenarios(prev => prev.filter(s => s.id !== scenarioId));
+        setMessage({ type: 'success', text: 'Scenario deleted' });
+      } else {
+        setMessage({ type: 'error', text: 'Failed to delete scenario' });
+      }
+    } catch (error) {
+      console.error('Error deleting scenario:', error);
+      setMessage({ type: 'error', text: 'Failed to delete scenario' });
     }
   };
 
@@ -414,6 +452,145 @@ export default function ProfilePage() {
                       className="w-full px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"
                     >
                       Compare All Bookmarked Colleges
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Saved ROI Scenarios */}
+          <div className="bg-white rounded-xl shadow-md p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-gray-900">Saved ROI Scenarios</h2>
+              <Link
+                href="/roi-calculator"
+                className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
+              >
+                ROI Calculator →
+              </Link>
+            </div>
+            
+            {scenariosLoading ? (
+              <div className="text-center py-8">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                <p className="mt-2 text-gray-600">Loading scenarios...</p>
+              </div>
+            ) : roiScenarios.length === 0 ? (
+              <div className="text-center py-12 border-2 border-dashed border-gray-200 rounded-lg">
+                <svg
+                  className="mx-auto h-12 w-12 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                  />
+                </svg>
+                <h3 className="mt-2 text-sm font-medium text-gray-900">No saved scenarios</h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  Calculate ROI for different programs and save scenarios to compare them
+                </p>
+                <div className="mt-6">
+                  <a
+                    href="/roi-calculator"
+                    className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                  >
+                    Try ROI Calculator
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {roiScenarios.map((scenario) => (
+                  <div
+                    key={scenario.id}
+                    className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+                          {scenario.scenario_name}
+                          {scenario.is_draft === 1 && (
+                            <span className="px-2 py-0.5 text-xs bg-yellow-100 text-yellow-800 rounded">
+                              Draft
+                            </span>
+                          )}
+                        </h3>
+                        <p className="text-sm text-gray-600 mt-1">
+                          {scenario.institution_name}
+                        </p>
+                        {scenario.program_name && (
+                          <p className="text-xs text-gray-500 mt-1">{scenario.program_name}</p>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => {
+                          if (confirm(`Delete scenario "${scenario.scenario_name}"?`)) {
+                            deleteScenario(scenario.id);
+                          }
+                        }}
+                        className="ml-4 px-3 py-1 text-xs font-medium text-red-600 hover:text-red-700 border border-red-600 hover:border-red-700 rounded transition-colors"
+                      >
+                        Delete
+                      </button>
+                    </div>
+
+                    {/* ROI Metrics */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3 pt-3 border-t border-gray-200">
+                      <div>
+                        <p className="text-xs text-gray-500">Total Cost</p>
+                        <p className="text-sm font-semibold text-gray-900">
+                          ${scenario.total_cost?.toLocaleString() || 'N/A'}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500">Net ROI</p>
+                        <p className={`text-sm font-semibold ${
+                          scenario.net_roi > 0 ? 'text-green-600' : 'text-red-600'
+                        }`}>
+                          ${scenario.net_roi?.toLocaleString() || 'N/A'}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500">ROI %</p>
+                        <p className={`text-sm font-semibold ${
+                          scenario.roi_percentage > 0 ? 'text-green-600' : 'text-red-600'
+                        }`}>
+                          {scenario.roi_percentage > 0 ? '+' : ''}{scenario.roi_percentage?.toFixed(1) || 'N/A'}%
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500">Payback</p>
+                        <p className="text-sm font-semibold text-gray-900">
+                          {scenario.payback_period ? `${scenario.payback_period.toFixed(1)} yrs` : 'Never'}
+                        </p>
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-gray-400 mt-3">
+                      Saved {new Date(scenario.created_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                ))}
+
+                {roiScenarios.filter(s => s.is_draft !== 1).length >= 2 && (
+                  <div className="pt-4 border-t border-gray-200">
+                    <button
+                      onClick={() => {
+                        const scenarioIds = roiScenarios
+                          .filter(s => s.is_draft !== 1)
+                          .map(s => s.id)
+                          .join(',');
+                        window.location.href = `/compare-roi?scenarios=${scenarioIds}`;
+                      }}
+                      className="w-full px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+                    >
+                      Compare All Scenarios
                     </button>
                   </div>
                 )}

@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 import InstitutionSelector from './InstitutionSelector';
 import ProgramSelector from './ProgramSelector';
 import CostAnalyzer from './CostAnalyzer';
 import ROIResults from './ROIResults';
+import SaveROIScenarioModal from './SaveROIScenarioModal';
 import { Institution as DatabaseInstitution, AcademicProgram } from '@/lib/database';
 import { Institution, Program, CostInputs, EarningsInputs, FinancialAid, ROICalculation } from '@/types';
 import { ROICalculator } from '@/utils/roiCalculator';
@@ -35,6 +37,7 @@ const adaptProgram = (acadProg: AcademicProgram): Program => ({
 });
 
 export default function ROICalculatorApp() {
+  const { data: session } = useSession();
   const [selectedInstitution, setSelectedInstitution] = useState<DatabaseInstitution | null>(null);
   const [selectedProgram, setSelectedProgram] = useState<AcademicProgram | null>(null);
   const [adaptedInstitution, setAdaptedInstitution] = useState<Institution | null>(null);
@@ -62,10 +65,76 @@ export default function ROICalculatorApp() {
     interestRate: 5.5
   });
   const [roiResult, setRoiResult] = useState<ROICalculation | null>(null);
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
   const calculateROI = () => {
     const result = ROICalculator.calculateROI(costs, earnings, financialAid);
     setRoiResult(result);
+    setSaveSuccess(false); // Reset save success message when recalculating
+  };
+
+  const handleSaveScenario = async (scenarioName: string, isDraft: boolean) => {
+    if (!session?.user?.id || !roiResult || !selectedInstitution) {
+      throw new Error('Missing required data to save scenario');
+    }
+
+    // Calculate additional values from roiResult and inputs
+    const lifetimeEarningsWithDegree = ROICalculator.calculateLifetimeEarnings(earnings);
+    const lifetimeEarningsWithoutDegree = ROICalculator.calculateBaselineEarnings(earnings);
+    const opportunityCost = earnings.baselineSalary * costs.programLength;
+
+    const scenarioData = {
+      user_id: session.user.id,
+      scenario_name: scenarioName,
+      institution_unitid: selectedInstitution.unitid,
+      institution_name: selectedInstitution.name,
+      program_cipcode: selectedProgram?.cipcode || null,
+      program_name: selectedProgram?.cip_title || null,
+      // Costs
+      tuition: costs.tuition,
+      fees: costs.fees,
+      room_board: costs.roomBoard,
+      books_supplies: costs.books,
+      other_expenses: costs.otherExpenses,
+      program_length: costs.programLength,
+      // Financial Aid
+      grants: financialAid.grants,
+      scholarships: financialAid.scholarships,
+      work_study: financialAid.workStudy,
+      loans: financialAid.loans,
+      loan_interest_rate: financialAid.interestRate,
+      // Earnings
+      baseline_salary: earnings.baselineSalary,
+      projected_salary: earnings.projectedSalary,
+      career_length: earnings.careerLength,
+      salary_growth_rate: earnings.salaryGrowthRate,
+      // Results
+      total_cost: roiResult.totalCost,
+      opportunity_cost: opportunityCost,
+      total_investment: roiResult.totalCost + opportunityCost,
+      total_earnings_with_degree: lifetimeEarningsWithDegree,
+      total_earnings_without_degree: lifetimeEarningsWithoutDegree,
+      lifetime_earnings_increase: lifetimeEarningsWithDegree - lifetimeEarningsWithoutDegree,
+      net_roi: roiResult.netROI,
+      roi_percentage: roiResult.roiPercentage,
+      payback_period: roiResult.paybackPeriod === Infinity ? null : roiResult.paybackPeriod,
+      is_draft: isDraft
+    };
+
+    const response = await fetch('/api/roi/scenarios', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(scenarioData)
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to save scenario');
+    }
+
+    setSaveSuccess(true);
+    setTimeout(() => setSaveSuccess(false), 5000); // Hide success message after 5 seconds
   };
 
   return (
@@ -202,6 +271,38 @@ export default function ROICalculatorApp() {
             >
               Calculate ROI
             </button>
+          )}
+
+          {/* Save Scenario Button */}
+          {roiResult && session?.user && (
+            <div className="space-y-2">
+              <button
+                onClick={() => setShowSaveModal(true)}
+                className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-lg flex items-center justify-center"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                </svg>
+                Save Scenario
+              </button>
+              {saveSuccess && (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center text-green-800">
+                  <svg className="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  Scenario saved successfully!
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Sign in prompt if not authenticated */}
+          {roiResult && !session?.user && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+              <p className="text-blue-800 mb-2">
+                <a href="/auth/signin" className="font-semibold hover:underline">Sign in</a> to save and compare ROI scenarios
+              </p>
+            </div>
           )}
         </div>
 
@@ -430,6 +531,27 @@ export default function ROICalculatorApp() {
           </div>
         </div>
       </div>
+
+      {/* Save ROI Scenario Modal */}
+      {roiResult && selectedInstitution && (
+        <SaveROIScenarioModal
+          isOpen={showSaveModal}
+          onClose={() => setShowSaveModal(false)}
+          onSave={handleSaveScenario}
+          result={roiResult}
+          institution={{
+            unitid: selectedInstitution.unitid,
+            name: selectedInstitution.name
+          }}
+          program={selectedProgram ? {
+            cipcode: selectedProgram.cipcode || '',
+            cip_title: selectedProgram.cip_title || ''
+          } : null}
+          costs={costs}
+          earnings={earnings}
+          financialAid={financialAid}
+        />
+      )}
     </div>
   );
 }
