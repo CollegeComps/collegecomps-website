@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
         ap.cipcode,
         ap.cip_title,
         COUNT(DISTINCT ap.unitid) as institution_count,
-        SUM(ap.total_completions) as total_completions
+        SUM(ap.completions) as total_completions
       FROM academic_programs ap
       WHERE (
         LOWER(ap.cip_title) LIKE ? 
