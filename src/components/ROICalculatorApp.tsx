@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSession } from 'next-auth/react';
 import InstitutionSelector from './InstitutionSelector';
 import ProgramSelector from './ProgramSelector';
@@ -67,11 +67,97 @@ export default function ROICalculatorApp() {
   const [roiResult, setRoiResult] = useState<ROICalculation | null>(null);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [showAutoSaveModal, setShowAutoSaveModal] = useState(false);
+  const autoSaveTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const lastAutoSaveRef = useRef<string>('');
+
+  // Auto-save functionality
+  useEffect(() => {
+    // Only enable auto-save if user is authenticated and has calculated results
+    if (!session?.user || !roiResult || !selectedInstitution) {
+      return;
+    }
+
+    // Mark as having unsaved changes when roiResult changes
+    setHasUnsavedChanges(true);
+
+    // Clear existing timer
+    if (autoSaveTimerRef.current) {
+      clearTimeout(autoSaveTimerRef.current);
+    }
+
+    // Set a new 30-second auto-save timer
+    autoSaveTimerRef.current = setTimeout(() => {
+      autoSaveCalculation();
+    }, 30000); // 30 seconds
+
+    // Cleanup timer on unmount or when dependencies change
+    return () => {
+      if (autoSaveTimerRef.current) {
+        clearTimeout(autoSaveTimerRef.current);
+      }
+    };
+  }, [roiResult, costs, earnings, financialAid, session, selectedInstitution, selectedProgram]);
+
+  // Handle beforeunload event to prompt user
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (hasUnsavedChanges && roiResult && session?.user) {
+        e.preventDefault();
+        // Modern browsers require returnValue to be set
+        e.returnValue = 'You have unsaved ROI calculations. Do you want to save before leaving?';
+        // Show our custom modal instead
+        setShowAutoSaveModal(true);
+        return e.returnValue;
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [hasUnsavedChanges, roiResult, session]);
+
+  const autoSaveCalculation = async () => {
+    if (!session?.user?.id || !roiResult || !selectedInstitution) {
+      return;
+    }
+
+    // Create a hash of current state to avoid duplicate saves
+    const currentStateHash = JSON.stringify({
+      institution: selectedInstitution.unitid,
+      program: selectedProgram?.cipcode,
+      costs,
+      earnings,
+      financialAid
+    });
+
+    // Don't save if nothing has changed since last auto-save
+    if (currentStateHash === lastAutoSaveRef.current) {
+      return;
+    }
+
+    try {
+      const autoSaveName = `Auto-save: ${selectedInstitution.name}${
+        selectedProgram ? ` - ${selectedProgram.cip_title}` : ''
+      } (${new Date().toLocaleString()})`;
+
+      await handleSaveScenario(autoSaveName, true); // Save as draft
+      lastAutoSaveRef.current = currentStateHash;
+      setHasUnsavedChanges(false);
+      
+      // Show brief auto-save indicator
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 2000);
+    } catch (error) {
+      console.error('Auto-save failed:', error);
+    }
+  };
 
   const calculateROI = () => {
     const result = ROICalculator.calculateROI(costs, earnings, financialAid);
     setRoiResult(result);
     setSaveSuccess(false); // Reset save success message when recalculating
+    setHasUnsavedChanges(true);
   };
 
   const handleSaveScenario = async (scenarioName: string, isDraft: boolean) => {
@@ -135,6 +221,7 @@ export default function ROICalculatorApp() {
 
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 5000); // Hide success message after 5 seconds
+    setHasUnsavedChanges(false); // Mark as saved
   };
 
   return (
@@ -291,6 +378,14 @@ export default function ROICalculatorApp() {
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   Scenario saved successfully!
+                </div>
+              )}
+              {hasUnsavedChanges && !saveSuccess && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 flex items-center text-blue-800 text-sm">
+                  <svg className="w-5 h-5 mr-2 text-blue-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Auto-save in 30 seconds...
                 </div>
               )}
             </div>
