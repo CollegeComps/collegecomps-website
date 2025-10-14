@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCollegeDb } from '@/lib/db-helper';
+import { getStatesInClause } from '@/lib/constants';
 
 export async function GET(request: NextRequest) {
   try {
@@ -18,24 +19,29 @@ export async function GET(request: NextRequest) {
         { status: 500 }
       );
     }
+
+    const { clause: statesClause, params: stateParams } = getStatesInClause();
     
     // Search for programs by title or CIP code
     // Group by CIP code to avoid duplicates across institutions
+    // Only include programs from institutions in valid states
     const programs = await db.prepare(`
       SELECT 
-        cipcode,
-        cip_title,
-        COUNT(DISTINCT unitid) as institution_count,
-        SUM(total_completions) as total_completions
-      FROM academic_programs
+        ap.cipcode,
+        ap.cip_title,
+        COUNT(DISTINCT ap.unitid) as institution_count,
+        SUM(ap.total_completions) as total_completions
+      FROM academic_programs ap
+      INNER JOIN institutions i ON ap.unitid = i.unitid
       WHERE (
-        LOWER(cip_title) LIKE ? 
-        OR LOWER(cipcode) LIKE ?
+        LOWER(ap.cip_title) LIKE ? 
+        OR LOWER(ap.cipcode) LIKE ?
       )
-      GROUP BY cipcode, cip_title
+      AND ${statesClause}
+      GROUP BY ap.cipcode, ap.cip_title
       ORDER BY total_completions DESC
       LIMIT 50
-    `).all(`%${query.toLowerCase()}%`, `%${query.toLowerCase()}%`);
+    `).all(`%${query.toLowerCase()}%`, `%${query.toLowerCase()}%`, ...stateParams);
 
     return NextResponse.json({ 
       programs: programs.map((p: any) => ({

@@ -80,7 +80,7 @@ export default function HistoricalTrendsPage() {
 
   const fetchTrendData = async () => {
     try {
-      const response = await fetch('/api/trends/historical?years=5');
+      const response = await fetch('/api/trends/historical?years=7');
       if (!response.ok) {
         if (response.status === 403) {
           router.push('/pricing');
@@ -137,8 +137,8 @@ export default function HistoricalTrendsPage() {
     const currentYear = new Date().getFullYear();
     const data: TrendData[] = [];
     
-    // Historical data (5 years back)
-    for (let i = 5; i >= 0; i--) {
+    // Historical data (6 years back to match API: 2019-2025)
+    for (let i = 6; i >= 0; i--) {
       data.push({
         year: currentYear - i,
         avgCost: 45000 + (i * 2000) + Math.random() * 3000,
