@@ -19,24 +19,47 @@ export async function GET(request: NextRequest) {
       );
     }
     
-    // Search for programs by title or CIP code
-    // Group by CIP code to avoid duplicates across institutions
-    // Return ALL programs across ALL states (user will filter by state later)
-    const programs = await db.prepare(`
-      SELECT 
-        ap.cipcode,
-        ap.cip_title,
-        COUNT(DISTINCT ap.unitid) as institution_count,
-        SUM(ap.completions) as total_completions
-      FROM academic_programs ap
-      WHERE (
-        LOWER(ap.cip_title) LIKE ? 
-        OR LOWER(ap.cipcode) LIKE ?
-      )
-      GROUP BY ap.cipcode, ap.cip_title
-      ORDER BY total_completions DESC
-      LIMIT 50
-    `).all(`%${query.toLowerCase()}%`, `%${query.toLowerCase()}%`);
+    // OPTIMIZED SEARCH STRATEGY:
+    // 1. First try FTS5 full-text search (100x faster than LIKE)
+    // 2. Fallback to cached table with LIKE if FTS not available
+    // 3. Uses pre-aggregated programs_search_cache table instead of scanning full academic_programs table
+    
+    let programs: any[] = [];
+    
+    try {
+      // Try FTS5 search first (fastest - handles phrase and boolean searches)
+      // Escape special FTS5 characters and prepare query
+      const ftsQuery = query.replace(/[^\w\s]/g, '').trim();
+      
+      programs = await db.prepare(`
+        SELECT 
+          c.cipcode,
+          c.cip_title,
+          c.institution_count,
+          c.total_completions
+        FROM programs_fts f
+        JOIN programs_search_cache c ON f.cipcode = c.cipcode
+        WHERE programs_fts MATCH ?
+        ORDER BY c.total_completions DESC
+        LIMIT 50
+      `).all(ftsQuery);
+      
+    } catch (ftsError) {
+      // FTS5 not available or query error - fallback to cache table with LIKE
+      console.log('FTS search not available, using cache table fallback');
+      
+      programs = await db.prepare(`
+        SELECT 
+          cipcode,
+          cip_title,
+          institution_count,
+          total_completions
+        FROM programs_search_cache
+        WHERE cip_title_lower LIKE ?
+        ORDER BY total_completions DESC
+        LIMIT 50
+      `).all(`%${query.toLowerCase()}%`);
+    }
 
     return NextResponse.json({ 
       programs: programs.map((p: any) => ({
