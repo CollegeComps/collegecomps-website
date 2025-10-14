@@ -123,7 +123,7 @@ const highlights = [
   {
     icon: MapPinIcon,
     title: 'Nationwide Coverage',
-    description: 'Comprehensive data covering institutions across all 50 U.S. states.'
+    description: 'Comprehensive data covering institutions across all 50 U.S. states and Washington, DC.'
   }
 ];
 
@@ -189,8 +189,8 @@ export default function Home() {
                       <div className="text-sm text-gray-600">Programs</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-3xl font-bold text-purple-600">{stats.statesCovered}</div>
-                      <div className="text-sm text-gray-600">States Covered</div>
+                      <div className="text-3xl font-bold text-purple-600">{stats.statesCovered} States + DC</div>
+                      <div className="text-sm text-gray-600">Coverage</div>
                     </div>
                   </>
                 )

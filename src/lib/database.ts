@@ -461,9 +461,10 @@ export class CollegeDataService {
        WHERE ap.unitid IN (SELECT unitid FROM institutions WHERE ${statesClause})`
     ).all(...stateParams) as any;
     
-    // Count distinct states
+    // Count distinct states (excluding DC from count since it's a district, not a state)
+    // But we still include DC institutions in the other counts above
     const statesCount = await this.ensureDb().prepare(
-      `SELECT COUNT(DISTINCT state) as count FROM institutions WHERE ${statesClause}`
+      `SELECT COUNT(DISTINCT state) as count FROM institutions WHERE ${statesClause} AND state != 'DC'`
     ).all(...stateParams) as any;
     
     return {
