@@ -1,6 +1,7 @@
 import Database from 'better-sqlite3';
 import { getCollegeDb } from './db-helper';
 import type { TursoAdapter } from './turso-adapter';
+import { VALID_US_STATES, getStatesInClause } from './constants';
 
 export function getDatabase() {
   return getCollegeDb();
@@ -114,6 +115,8 @@ export class CollegeDataService {
 
   // Get all institutions with basic info and financial data (optimized)
   async getInstitutions(limit: number = 100, offset: number = 0, search?: string, sortBy: string = 'name'): Promise<Institution[]> {
+    const { clause: statesClause, params: stateParams } = getStatesInClause();
+    
     let query = `
       SELECT 
         i.id, i.unitid, i.opeid, i.name, i.city, i.state, i.zip_code, i.region, 
@@ -124,12 +127,13 @@ export class CollegeDataService {
       LEFT JOIN financial_data f ON i.unitid = f.unitid 
         AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
       LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
+      WHERE ${statesClause}
     `;
     
-    const params: any[] = [];
+    const params: any[] = [...stateParams];
     
     if (search) {
-      query += ` WHERE (i.name LIKE ? OR i.city LIKE ? OR i.state LIKE ?)`;
+      query += ` AND (i.name LIKE ? OR i.city LIKE ? OR i.state LIKE ?)`;
       const searchPattern = `%${search}%`;
       params.push(searchPattern, searchPattern, searchPattern);
     }
@@ -194,6 +198,8 @@ export class CollegeDataService {
 
   // Get a specific institution by unitid (optimized for detail page)
   async getInstitutionByUnitid(unitid: number): Promise<Institution | null> {
+    const { clause: statesClause, params: stateParams } = getStatesInClause();
+    
     const query = `
       SELECT 
         i.id, i.unitid, i.opeid, i.name, i.city, i.state, i.zip_code, i.region, 
@@ -204,11 +210,11 @@ export class CollegeDataService {
       LEFT JOIN financial_data f ON i.unitid = f.unitid 
         AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
       LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
-      WHERE i.unitid = ?
+      WHERE i.unitid = ? AND ${statesClause}
       LIMIT 1
     `;
     
-    const result = await this.ensureDb().prepare(query).get(unitid) as any;
+    const result = await this.ensureDb().prepare(query).get(unitid, ...stateParams) as any;
     
     if (!result) return null;
     
@@ -252,10 +258,12 @@ export class CollegeDataService {
     financialData: FinancialData[];
     earningsData: EarningsOutcome | null;
   } | null> {
+    const { clause: statesClause, params: stateParams } = getStatesInClause();
+    
     const institutionStmt = this.ensureDb().prepare(`
-      SELECT * FROM institutions WHERE unitid = ?
+      SELECT * FROM institutions WHERE unitid = ? AND ${statesClause}
     `);
-    const institution = await institutionStmt.get(unitid) as Institution;
+    const institution = await institutionStmt.get(unitid, ...stateParams) as Institution;
     
     if (!institution) return null;
 
@@ -333,6 +341,8 @@ export class CollegeDataService {
     minEarnings?: number;
     sortBy?: string;
   }): Promise<Institution[]> {
+    const { clause: statesClause, params: stateParams } = getStatesInClause();
+    
     let query = `
       SELECT i.*, f.tuition_in_state, f.tuition_out_state, f.room_board_on_campus,
              e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
@@ -340,10 +350,10 @@ export class CollegeDataService {
       LEFT JOIN financial_data f ON i.unitid = f.unitid 
         AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
       LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
-      WHERE 1=1
+      WHERE ${statesClause}
     `;
     
-    const params: any[] = [];
+    const params: any[] = [...stateParams];
     
     if (filters.name) {
       query += ` AND i.name LIKE ?`;
@@ -437,18 +447,29 @@ export class CollegeDataService {
 
   // Get summary statistics
   async getDatabaseStats() {
-    const institutionsCount = await this.ensureDb().prepare('SELECT COUNT(*) as count FROM institutions').get() as { count: number };
-    const programsCount = await this.ensureDb().prepare('SELECT COUNT(*) as count FROM academic_programs').get() as { count: number };
+    // Import at top of file: import { VALID_US_STATES, getStatesInClause } from './constants';
+    const { clause: statesClause, params: stateParams } = getStatesInClause();
     
-    // Only count the 50 US states, excluding territories
-    const validStates = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];
-    const statesCount = await this.ensureDb().prepare(`SELECT COUNT(DISTINCT state) as count FROM institutions WHERE state IN (${validStates.map(() => '?').join(',')})`)
-      .all(...validStates) as any;
+    // Only count institutions in the 50 US states + DC, excluding territories
+    const institutionsCount = await this.ensureDb().prepare(
+      `SELECT COUNT(*) as count FROM institutions WHERE ${statesClause}`
+    ).all(...stateParams) as any;
+    
+    // Only count programs from institutions in the 50 US states + DC
+    const programsCount = await this.ensureDb().prepare(
+      `SELECT COUNT(*) as count FROM academic_programs ap 
+       WHERE ap.unitid IN (SELECT unitid FROM institutions WHERE ${statesClause})`
+    ).all(...stateParams) as any;
+    
+    // Count distinct states
+    const statesCount = await this.ensureDb().prepare(
+      `SELECT COUNT(DISTINCT state) as count FROM institutions WHERE ${statesClause}`
+    ).all(...stateParams) as any;
     
     return {
-      totalInstitutions: institutionsCount.count,
-      totalPrograms: programsCount.count,
-      statesCovered: (statesCount as any).count || (statesCount as any)[0]?.count || 0
+      totalInstitutions: (institutionsCount as any)[0]?.count || 0,
+      totalPrograms: (programsCount as any)[0]?.count || 0,
+      statesCovered: (statesCount as any)[0]?.count || 0
     };
   }
 
