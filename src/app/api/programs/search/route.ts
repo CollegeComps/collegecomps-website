@@ -40,6 +40,7 @@ export async function GET(request: NextRequest) {
         FROM programs_fts f
         JOIN programs_search_cache c ON f.cipcode = c.cipcode
         WHERE programs_fts MATCH ?
+        GROUP BY c.cipcode
         ORDER BY c.total_completions DESC
         LIMIT 50
       `).all(ftsQuery);
@@ -57,21 +58,31 @@ export async function GET(request: NextRequest) {
       programs = await db.prepare(`
         SELECT 
           cipcode,
-          cip_title,
-          institution_count,
-          total_completions
+          MAX(cip_title) as cip_title,
+          SUM(institution_count) as institution_count,
+          SUM(total_completions) as total_completions
         FROM programs_search_cache
         WHERE ${conditions}
+        GROUP BY cipcode
         ORDER BY 
           CASE
-            WHEN cip_title_lower = ? THEN 0
-            WHEN cip_title_lower LIKE ? THEN 1
+            WHEN LOWER(MAX(cip_title)) = ? THEN 0
+            WHEN LOWER(MAX(cip_title)) LIKE ? THEN 1
             ELSE 2
           END,
-          total_completions DESC
+          SUM(total_completions) DESC
         LIMIT 50
       `).all(...params, query.toLowerCase(), `${query.toLowerCase()}%`);
     }
+    
+    // Remove duplicates by cipcode (in case of data inconsistencies)
+    const uniquePrograms = new Map();
+    programs.forEach((p: any) => {
+      if (!uniquePrograms.has(p.cipcode)) {
+        uniquePrograms.set(p.cipcode, p);
+      }
+    });
+    programs = Array.from(uniquePrograms.values());
 
     return NextResponse.json({ 
       programs: programs.map((p: any) => ({
