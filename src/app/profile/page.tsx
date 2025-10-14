@@ -19,6 +19,10 @@ export default function ProfilePage() {
   // User preferences
   const [preferences, setPreferences] = useState<any>(null);
 
+  // Bookmarked colleges
+  const [bookmarkedColleges, setBookmarkedColleges] = useState<any[]>([]);
+  const [bookmarksLoading, setBookmarksLoading] = useState(true);
+
   // Password form
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -29,6 +33,7 @@ export default function ProfilePage() {
       setName(session.user.name || '');
       setEmail(session.user.email || '');
       fetchPreferences();
+      fetchBookmarks();
     }
   }, [session]);
 
@@ -41,6 +46,41 @@ export default function ProfilePage() {
       }
     } catch (error) {
       console.error('Error fetching preferences:', error);
+    }
+  };
+
+  const fetchBookmarks = async () => {
+    try {
+      setBookmarksLoading(true);
+      const response = await fetch('/api/bookmarks/colleges');
+      if (response.ok) {
+        const data = await response.json();
+        setBookmarkedColleges(data.bookmarks || []);
+      }
+    } catch (error) {
+      console.error('Error fetching bookmarks:', error);
+    } finally {
+      setBookmarksLoading(false);
+    }
+  };
+
+  const removeBookmark = async (unitid: number) => {
+    try {
+      const response = await fetch('/api/bookmarks/colleges', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ unitid, action: 'remove' })
+      });
+
+      if (response.ok) {
+        setBookmarkedColleges(prev => prev.filter(b => b.unitid !== unitid));
+        setMessage({ type: 'success', text: 'Bookmark removed' });
+      } else {
+        setMessage({ type: 'error', text: 'Failed to remove bookmark' });
+      }
+    } catch (error) {
+      console.error('Error removing bookmark:', error);
+      setMessage({ type: 'error', text: 'Failed to remove bookmark' });
     }
   };
 
@@ -270,6 +310,115 @@ export default function ProfilePage() {
                 {loading ? 'Saving...' : 'Save Profile'}
               </button>
             </form>
+          </div>
+
+          {/* Bookmarked Colleges */}
+          <div className="bg-white rounded-xl shadow-md p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-gray-900">Bookmarked Colleges</h2>
+              <Link
+                href="/colleges"
+                className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
+              >
+                Explore Colleges →
+              </Link>
+            </div>
+            
+            {bookmarksLoading ? (
+              <div className="text-center py-8">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                <p className="mt-2 text-gray-600">Loading bookmarks...</p>
+              </div>
+            ) : bookmarkedColleges.length === 0 ? (
+              <div className="text-center py-12 border-2 border-dashed border-gray-200 rounded-lg">
+                <svg
+                  className="mx-auto h-12 w-12 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                  />
+                </svg>
+                <h3 className="mt-2 text-sm font-medium text-gray-900">No bookmarked colleges</h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  Start bookmarking colleges from the College Explorer to save them here
+                </p>
+                <div className="mt-6">
+                  <a
+                    href="/colleges"
+                    className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                  >
+                    Browse Colleges
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {bookmarkedColleges.map((bookmark) => (
+                  <div
+                    key={bookmark.id}
+                    className="flex items-start justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-sm font-semibold text-gray-900 truncate">
+                        <a
+                          href={`/colleges/${bookmark.unitid}`}
+                          className="hover:text-blue-600"
+                        >
+                          {bookmark.institution_name}
+                        </a>
+                      </h3>
+                      <p className="text-sm text-gray-600 mt-1">
+                        {bookmark.city}, {bookmark.state}
+                      </p>
+                      {bookmark.control && (
+                        <p className="text-xs text-gray-500 mt-1">{bookmark.control}</p>
+                      )}
+                      <p className="text-xs text-gray-400 mt-1">
+                        Bookmarked {new Date(bookmark.bookmarked_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <div className="flex gap-2 ml-4">
+                      <a
+                        href={`/colleges/${bookmark.unitid}`}
+                        className="px-3 py-1 text-xs font-medium text-blue-600 hover:text-blue-700 border border-blue-600 hover:border-blue-700 rounded transition-colors"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        View
+                      </a>
+                      <button
+                        onClick={() => {
+                          if (confirm(`Remove ${bookmark.institution_name} from bookmarks?`)) {
+                            removeBookmark(bookmark.unitid);
+                          }
+                        }}
+                        className="px-3 py-1 text-xs font-medium text-red-600 hover:text-red-700 border border-red-600 hover:border-red-700 rounded transition-colors"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                {bookmarkedColleges.length > 0 && (
+                  <div className="pt-4 border-t border-gray-200">
+                    <button
+                      onClick={() => {
+                        const unitids = bookmarkedColleges.map(b => b.unitid).join(',');
+                        window.location.href = `/compare?unitids=${unitids}`;
+                      }}
+                      className="w-full px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"
+                    >
+                      Compare All Bookmarked Colleges
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Change Password */}

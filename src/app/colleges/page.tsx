@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useSession } from 'next-auth/react';
 import { Institution } from '@/lib/database';
 import {
   MagnifyingGlassIcon,
@@ -8,8 +9,10 @@ import {
   BuildingOffice2Icon,
   CurrencyDollarIcon,
   AcademicCapIcon,
-  FunnelIcon
+  FunnelIcon,
+  BookmarkIcon as BookmarkOutlineIcon
 } from '@heroicons/react/24/outline';
+import { BookmarkIcon as BookmarkSolidIcon } from '@heroicons/react/24/solid';
 
 interface SearchFilters {
   search: string;
@@ -77,11 +80,14 @@ const US_STATES = [
 ];
 
 export default function CollegesPage() {
+  const { data: session } = useSession();
   const [institutions, setInstitutions] = useState<Institution[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [bookmarkedUnitids, setBookmarkedUnitids] = useState<Set<number>>(new Set());
+  const [bookmarkLoading, setBookmarkLoading] = useState<Set<number>>(new Set());
   const [filters, setFilters] = useState<SearchFilters>({
     search: '',
     state: '',
@@ -93,6 +99,82 @@ export default function CollegesPage() {
     sortBy: 'name'
   });
   const [showFilters, setShowFilters] = useState(false);
+
+  // Fetch bookmarked colleges
+  useEffect(() => {
+    if (session?.user) {
+      fetchBookmarks();
+    }
+  }, [session]);
+
+  const fetchBookmarks = async () => {
+    try {
+      const response = await fetch('/api/bookmarks/colleges');
+      if (response.ok) {
+        const data = await response.json();
+        const unitids: Set<number> = new Set(data.bookmarks.map((b: any) => Number(b.unitid)));
+        setBookmarkedUnitids(unitids);
+      }
+    } catch (error) {
+      console.error('Error fetching bookmarks:', error);
+    }
+  };
+
+  const toggleBookmark = async (e: React.MouseEvent, institution: Institution) => {
+    e.stopPropagation(); // Prevent card click
+
+    if (!session?.user) {
+      alert('Please sign in to bookmark colleges');
+      window.location.href = '/auth/signin';
+      return;
+    }
+
+    const unitid = institution.unitid;
+    const isBookmarked = bookmarkedUnitids.has(unitid);
+
+    // Optimistic update
+    setBookmarkLoading(prev => new Set(prev).add(unitid));
+    const newBookmarks = new Set(bookmarkedUnitids);
+    if (isBookmarked) {
+      newBookmarks.delete(unitid);
+    } else {
+      newBookmarks.add(unitid);
+    }
+    setBookmarkedUnitids(newBookmarks);
+
+    try {
+      const response = await fetch('/api/bookmarks/colleges', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          unitid,
+          action: isBookmarked ? 'remove' : 'add',
+          institution_name: institution.name,
+          city: institution.city,
+          state: institution.state,
+          control: getControlTypeLabel(institution.control_of_institution)
+        })
+      });
+
+      if (!response.ok) {
+        // Revert on error
+        setBookmarkedUnitids(bookmarkedUnitids);
+        const data = await response.json();
+        alert(data.error || 'Failed to update bookmark');
+      }
+    } catch (error) {
+      console.error('Error toggling bookmark:', error);
+      // Revert on error
+      setBookmarkedUnitids(bookmarkedUnitids);
+      alert('Failed to update bookmark');
+    } finally {
+      setBookmarkLoading(prev => {
+        const next = new Set(prev);
+        next.delete(unitid);
+        return next;
+      });
+    }
+  };
 
   // Debounced search effect - only trigger after user stops typing for 500ms
   useEffect(() => {
@@ -364,10 +446,24 @@ export default function CollegesPage() {
             institutions.map((institution) => (
               <div 
                 key={institution.id} 
-                className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer"
+                className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer relative"
                 onClick={() => window.location.href = `/colleges/${institution.unitid}`}
               >
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+                {/* Bookmark button */}
+                <button
+                  onClick={(e) => toggleBookmark(e, institution)}
+                  disabled={bookmarkLoading.has(institution.unitid)}
+                  className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors disabled:opacity-50"
+                  title={bookmarkedUnitids.has(institution.unitid) ? 'Remove bookmark' : 'Bookmark college'}
+                >
+                  {bookmarkedUnitids.has(institution.unitid) ? (
+                    <BookmarkSolidIcon className="w-6 h-6 text-yellow-500" />
+                  ) : (
+                    <BookmarkOutlineIcon className="w-6 h-6 text-gray-400 hover:text-yellow-500" />
+                  )}
+                </button>
+
+                <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 pr-10">
                   {institution.name}
                 </h3>
                 
