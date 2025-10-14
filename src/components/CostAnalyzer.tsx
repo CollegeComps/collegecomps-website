@@ -1,6 +1,7 @@
 'use client';
 
 import { Institution, CostInputs, EarningsInputs, FinancialAid } from '@/types';
+import DataCitation from './DataCitation';
 
 interface CostAnalyzerProps {
   institution: Institution;
@@ -371,6 +372,44 @@ export default function CostAnalyzer({
             </div>
           </div>
         </div>
+
+        {/* Data Sources & Citations */}
+        <DataCitation
+          sources={[
+            {
+              name: 'IPEDS',
+              description: 'Institutional tuition and fee data',
+              year: '2023-2024',
+              url: 'https://nces.ed.gov/ipeds/',
+              lastUpdated: 'September 2024'
+            },
+            {
+              name: 'College Scorecard',
+              description: 'Graduate earnings data',
+              year: '2022',
+              url: 'https://collegescorecard.ed.gov/'
+            },
+            {
+              name: 'Bureau of Labor Statistics',
+              description: 'Salary growth rates and baseline earnings',
+              url: 'https://www.bls.gov/'
+            },
+            {
+              name: 'User Submissions',
+              description: 'Crowdsourced salary data from verified alumni',
+              year: '2024-2025'
+            }
+          ]}
+          assumptions={[
+            'Tuition inflation: 4.5% annually (NCES historical average)',
+            'Salary growth: 3% annually (BLS historical average)',
+            'Full-time enrollment assumed',
+            'Room & board costs are for on-campus housing',
+            'Baseline salary represents no-degree earnings in same field',
+            'Financial aid amounts remain constant throughout program',
+            'Calculations exclude additional income from summer work or co-ops'
+          ]}
+        />
       </div>
     </div>
   );

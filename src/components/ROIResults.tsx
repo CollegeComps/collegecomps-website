@@ -2,6 +2,7 @@
 
 import { ROICalculation, Institution, Program, CostInputs, EarningsInputs } from '@/types';
 import { ROICalculator } from '@/utils/roiCalculator';
+import DataCitation from './DataCitation';
 
 interface ROIResultsProps {
   result: ROICalculation;
@@ -195,6 +196,36 @@ export default function ROIResults({ result, institution, program, costs, earnin
           </div>
         </div>
       </div>
+
+      {/* Data Sources & Methodology */}
+      <DataCitation
+        sources={[
+          {
+            name: 'ROI Calculation Methodology',
+            description: 'Net ROI = Total Lifetime Earnings - Total Investment Cost'
+          },
+          {
+            name: 'Investment Cost Components',
+            description: 'Tuition, fees, room & board, books, supplies, opportunity cost, minus financial aid'
+          },
+          {
+            name: 'Earnings Projections',
+            description: 'Based on College Scorecard alumni data and BLS occupation forecasts'
+          },
+          {
+            name: 'Time Value Considerations',
+            description: 'Calculations use nominal dollars without present value discounting'
+          }
+        ]}
+        assumptions={[
+          'Steady employment throughout career period',
+          'No major career changes or gaps in employment',
+          'Baseline salary assumes no college degree in same field',
+          'Does not account for taxes, inflation, or investment returns',
+          'Regional cost of living differences not factored',
+          'Graduate outcomes vary significantly by individual circumstances'
+        ]}
+      />
     </div>
     </div>
   );
