@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { DataSourcesFooter } from '@/components/DataSources';
 import {
   CalculatorIcon,
   BuildingOffice2Icon,
@@ -420,6 +421,9 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* Data Sources Footer */}
+      <DataSourcesFooter />
     </div>
   );
 }

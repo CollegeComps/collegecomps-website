@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { Institution } from '@/lib/database';
+import { DataSourcesBadge } from '@/components/DataSources';
 import {
   MagnifyingGlassIcon,
   MapPinIcon,
@@ -277,12 +278,17 @@ export default function CollegesPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            College Explorer
-          </h1>
-          <p className="text-gray-600 text-lg">
-            Browse and compare thousands of institutions with detailed information about costs, outcomes, and programs.
-          </p>
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                College Explorer
+              </h1>
+              <p className="text-gray-600 text-lg">
+                Browse and compare thousands of institutions with detailed information about costs, outcomes, and programs.
+              </p>
+            </div>
+            <DataSourcesBadge />
+          </div>
         </div>
 
         {/* Search and Filters */}
