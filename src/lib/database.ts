@@ -439,12 +439,16 @@ export class CollegeDataService {
   async getDatabaseStats() {
     const institutionsCount = await this.ensureDb().prepare('SELECT COUNT(*) as count FROM institutions').get() as { count: number };
     const programsCount = await this.ensureDb().prepare('SELECT COUNT(*) as count FROM academic_programs').get() as { count: number };
-    const statesCount = await this.ensureDb().prepare('SELECT COUNT(DISTINCT state) as count FROM institutions WHERE state IS NOT NULL').get() as { count: number };
+    
+    // Only count the 50 US states, excluding territories
+    const validStates = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];
+    const statesCount = await this.ensureDb().prepare(`SELECT COUNT(DISTINCT state) as count FROM institutions WHERE state IN (${validStates.map(() => '?').join(',')})`)
+      .all(...validStates) as any;
     
     return {
       totalInstitutions: institutionsCount.count,
       totalPrograms: programsCount.count,
-      statesCovered: statesCount.count
+      statesCovered: (statesCount as any).count || (statesCount as any)[0]?.count || 0
     };
   }
 
