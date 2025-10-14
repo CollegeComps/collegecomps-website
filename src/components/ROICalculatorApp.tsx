@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useSession } from 'next-auth/react';
 import InstitutionSelector from './InstitutionSelector';
 import ProgramSelector from './ProgramSelector';
+import DegreeSelector from './DegreeSelector';
+import InstitutionsByDegree from './InstitutionsByDegree';
 import CostAnalyzer from './CostAnalyzer';
 import ROIResults from './ROIResults';
 import SaveROIScenarioModal from './SaveROIScenarioModal';
@@ -38,8 +40,10 @@ const adaptProgram = (acadProg: AcademicProgram): Program => ({
 
 export default function ROICalculatorApp() {
   const { data: session } = useSession();
+  const [searchMode, setSearchMode] = useState<'institution' | 'degree'>('institution');
   const [selectedInstitution, setSelectedInstitution] = useState<DatabaseInstitution | null>(null);
   const [selectedProgram, setSelectedProgram] = useState<AcademicProgram | null>(null);
+  const [selectedDegree, setSelectedDegree] = useState<AcademicProgram | null>(null);
   const [adaptedInstitution, setAdaptedInstitution] = useState<Institution | null>(null);
   const [adaptedProgram, setAdaptedProgram] = useState<Program | null>(null);
   const [costs, setCosts] = useState<CostInputs>({
@@ -224,8 +228,130 @@ export default function ROICalculatorApp() {
     setHasUnsavedChanges(false); // Mark as saved
   };
 
+  const handleSelectInstitutionFromDegree = async (institution: any) => {
+    // Convert the institution from degree search to DatabaseInstitution format
+    const dbInstitution: DatabaseInstitution = {
+      id: institution.unitid,
+      unitid: institution.unitid,
+      name: institution.name,
+      city: institution.city,
+      state: institution.state,
+      control_public_private: institution.control === 'Public' ? 1 : 2,
+      ownership: 0,
+      website: undefined
+    };
+    
+    setSelectedInstitution(dbInstitution);
+    
+    // Set the program from the selected degree
+    if (selectedDegree) {
+      const programData: AcademicProgram = {
+        id: 0,
+        unitid: institution.unitid,
+        cipcode: selectedDegree.cipcode || '',
+        cip_title: institution.cip_title || selectedDegree.cip_title || '',
+        total_completions: institution.total_completions,
+        completions: institution.total_completions,
+        credential_level: 0,
+        credential_name: institution.credential_name
+      };
+      setSelectedProgram(programData);
+      
+      // Adapt and set program
+      const adapted = adaptProgram(programData);
+      setAdaptedProgram(adapted);
+    }
+    
+    // Update adapted institution
+    const adapted = adaptInstitution(dbInstitution);
+    setAdaptedInstitution(adapted);
+    
+    // Fetch financial data
+    try {
+      const [finResponse, earningsResponse] = await Promise.all([
+        fetch(`/api/financial-data?unitid=${institution.unitid}`),
+        fetch(`/api/earnings-data?unitid=${institution.unitid}`)
+      ]);
+      
+      if (finResponse.ok) {
+        const finData = await finResponse.json();
+        if (finData.financialData) {
+          const fin = finData.financialData;
+          setCosts(prev => ({
+            ...prev,
+            tuition: fin.tuition_in_state || fin.tuition_out_state || prev.tuition,
+            fees: fin.fees || prev.fees,
+            roomBoard: fin.room_board_on_campus || fin.room_board_off_campus || prev.roomBoard,
+            books: fin.books_supplies || prev.books,
+            otherExpenses: fin.other_expenses || prev.otherExpenses
+          }));
+        }
+      }
+      
+      if (earningsResponse.ok) {
+        const earningsData = await earningsResponse.json();
+        if (earningsData.earningsData) {
+          const earn = earningsData.earningsData;
+          setEarnings(prev => ({
+            ...prev,
+            projectedSalary: earn.earnings_6_years_after_entry || prev.projectedSalary
+          }));
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching financial/earnings data:', error);
+    }
+  };
+
   return (
     <div className="max-w-6xl mx-auto space-y-8">
+      {/* Search Mode Toggle */}
+      <div className="bg-white rounded-lg shadow-sm border p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Choose Your Search Method</h3>
+        <div className="grid grid-cols-2 gap-4">
+          <button
+            onClick={() => {
+              setSearchMode('institution');
+              setSelectedDegree(null);
+            }}
+            className={`p-4 rounded-lg border-2 transition-all ${
+              searchMode === 'institution'
+                ? 'border-blue-600 bg-blue-50'
+                : 'border-gray-200 hover:border-gray-300'
+            }`}
+          >
+            <div className="flex items-center justify-center mb-2">
+              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+            </div>
+            <h4 className="font-semibold text-gray-900 mb-1">Search by Institution</h4>
+            <p className="text-sm text-gray-600">Find a college first, then explore their programs</p>
+          </button>
+          
+          <button
+            onClick={() => {
+              setSearchMode('degree');
+              setSelectedInstitution(null);
+              setSelectedProgram(null);
+            }}
+            className={`p-4 rounded-lg border-2 transition-all ${
+              searchMode === 'degree'
+                ? 'border-blue-600 bg-blue-50'
+                : 'border-gray-200 hover:border-gray-300'
+            }`}
+          >
+            <div className="flex items-center justify-center mb-2">
+              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h4 className="font-semibold text-gray-900 mb-1">Search by Degree</h4>
+            <p className="text-sm text-gray-600">Choose your field of study, see all institutions offering it</p>
+          </button>
+        </div>
+      </div>
+
       {/* Progress Indicator */}
       <div className="bg-white rounded-lg shadow-sm border p-6">
         <div className="flex items-center justify-between mb-4">
@@ -247,13 +373,15 @@ export default function ROICalculatorApp() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left Column - Inputs */}
         <div className="space-y-6">
-          {/* Institution Selection */}
-          <InstitutionSelector
-            selectedInstitution={selectedInstitution}
-            onSelect={async (institution) => {
-              setSelectedInstitution(institution);
-              setSelectedProgram(null); // Reset program when institution changes
-              // Update adapted institution
+          {searchMode === 'institution' ? (
+            <>
+              {/* Institution Selection */}
+              <InstitutionSelector
+                selectedInstitution={selectedInstitution}
+                onSelect={async (institution) => {
+                  setSelectedInstitution(institution);
+                  setSelectedProgram(null); // Reset program when institution changes
+                  // Update adapted institution
               if (institution) {
                 const adapted = adaptInstitution(institution);
                 setAdaptedInstitution(adapted);
@@ -398,6 +526,90 @@ export default function ROICalculatorApp() {
                 <a href="/auth/signin" className="font-semibold hover:underline">Sign in</a> to save and compare ROI scenarios
               </p>
             </div>
+          )}
+            </>
+          ) : (
+            <>
+              {/* Degree-First Flow */}
+              <DegreeSelector
+                selectedDegree={selectedDegree}
+                onSelect={(degree) => {
+                  setSelectedDegree(degree);
+                  setSelectedInstitution(null);
+                  setSelectedProgram(null);
+                }}
+              />
+
+              {selectedDegree && (
+                <InstitutionsByDegree
+                  cipcode={selectedDegree.cipcode || ''}
+                  degreeName={selectedDegree.cip_title || ''}
+                  onSelectInstitution={handleSelectInstitutionFromDegree}
+                />
+              )}
+
+              {/* Cost Analysis for degree-first mode */}
+              {adaptedInstitution && selectedDegree && (
+                <CostAnalyzer
+                  institution={adaptedInstitution}
+                  costs={costs}
+                  earnings={earnings}
+                  financialAid={financialAid}
+                  onCostsChange={setCosts}
+                  onEarningsChange={setEarnings}
+                  onFinancialAidChange={setFinancialAid}
+                />
+              )}
+
+              {/* Calculate Button for degree-first mode */}
+              {selectedInstitution && selectedDegree && (
+                <button
+                  onClick={calculateROI}
+                  className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors shadow-lg"
+                >
+                  Calculate ROI
+                </button>
+              )}
+
+              {/* Save and sign-in prompts for degree-first mode */}
+              {roiResult && session?.user && (
+                <div className="space-y-2">
+                  <button
+                    onClick={() => setShowSaveModal(true)}
+                    className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-lg flex items-center justify-center"
+                  >
+                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                    </svg>
+                    Save Scenario
+                  </button>
+                  {saveSuccess && (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center text-green-800">
+                      <svg className="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Scenario saved successfully!
+                    </div>
+                  )}
+                  {hasUnsavedChanges && !saveSuccess && (
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 flex items-center text-blue-800 text-sm">
+                      <svg className="w-5 h-5 mr-2 text-blue-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Auto-save in 30 seconds...
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {roiResult && !session?.user && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+                  <p className="text-blue-800 mb-2">
+                    <a href="/auth/signin" className="font-semibold hover:underline">Sign in</a> to save and compare ROI scenarios
+                  </p>
+                </div>
+              )}
+            </>
           )}
         </div>
 
