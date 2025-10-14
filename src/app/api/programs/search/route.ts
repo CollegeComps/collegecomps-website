@@ -45,20 +45,31 @@ export async function GET(request: NextRequest) {
       `).all(ftsQuery);
       
     } catch (ftsError) {
-      // FTS5 not available or query error - fallback to cache table with LIKE
+      // FTS5 not available or query error - fallback to cache table with improved LIKE search
       console.log('FTS search not available, using cache table fallback');
+      
+      const searchTerms = query.toLowerCase().trim().split(/\s+/);
+      
+      // Build WHERE clause to match ALL search terms
+      const conditions = searchTerms.map(() => `cip_title_lower LIKE ?`).join(' AND ');
+      const params = searchTerms.map(term => `%${term}%`);
       
       programs = await db.prepare(`
         SELECT 
           cipcode,
           cip_title,
           institution_count,
-          total_completions
+          total_completions,
+          CASE
+            WHEN cip_title_lower = ? THEN 1
+            WHEN cip_title_lower LIKE ? THEN 2
+            ELSE 3
+          END as relevance
         FROM programs_search_cache
-        WHERE cip_title_lower LIKE ?
-        ORDER BY total_completions DESC
+        WHERE ${conditions}
+        ORDER BY relevance ASC, total_completions DESC
         LIMIT 50
-      `).all(`%${query.toLowerCase()}%`);
+      `).all(query.toLowerCase(), `${query.toLowerCase()} %`, ...params);
     }
 
     return NextResponse.json({ 
