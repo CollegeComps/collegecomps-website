@@ -68,7 +68,7 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => degrees.length > 0 && setShowDropdown(true)}
           placeholder="Search by degree name (e.g., Computer Science, Nursing, Business)"
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500"
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500 text-gray-900"
         />
         {selectedDegree && (
           <button
