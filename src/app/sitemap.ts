@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { getDatabase } from '@/lib/database';
+import { CollegeDataService } from '@/lib/database';
 
 const BASE_URL = 'https://collegecomps.com';
 
@@ -53,28 +53,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let collegePages: MetadataRoute.Sitemap = [];
   
   try {
-    const db = getDatabase();
+    const collegeService = new CollegeDataService();
     
-    if (!db) {
-      console.error('Database not available for sitemap generation');
-      return staticPages;
-    }
+    // Get all institutions (limit to a reasonable number for sitemap)
+    const institutions = await collegeService.getInstitutions(10000, 0);
 
-    const colleges = db.prepare(`
-      SELECT DISTINCT unitid 
-      FROM institutions 
-      WHERE unitid IS NOT NULL
-      ORDER BY unitid
-    `).all() as Array<{ unitid: number }>;
-
-    collegePages = colleges.map((college) => ({
+    collegePages = institutions.map((college) => ({
       url: `${BASE_URL}/colleges/${college.unitid}`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     }));
 
-    console.log(`Generated sitemap with ${colleges.length} college pages`);
+    console.log(`Generated sitemap with ${institutions.length} college pages`);
   } catch (error) {
     console.error('Error generating college pages for sitemap:', error);
     // If database fails, return static pages only
