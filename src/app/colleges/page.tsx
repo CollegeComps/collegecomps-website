@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { Institution } from '@/lib/database';
 import { DataSourcesBadge } from '@/components/DataSources';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import {
   MagnifyingGlassIcon,
   MapPinIcon,
@@ -274,9 +275,10 @@ export default function CollegesPage() {
   };
 
   return (
-    <div className="p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
+    <ErrorBoundary>
+      <div className="p-6">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
         <div className="mb-8">
           <div className="flex items-start justify-between mb-4">
             <div>
@@ -580,5 +582,6 @@ export default function CollegesPage() {
         )}
       </div>
     </div>
+    </ErrorBoundary>
   );
 }

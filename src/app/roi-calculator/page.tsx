@@ -1,4 +1,5 @@
 import ROICalculatorApp from '@/components/ROICalculatorApp';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 export default function ROICalculatorPage() {
   return (
@@ -13,7 +14,9 @@ export default function ROICalculatorPage() {
           </p>
         </div>
         
-        <ROICalculatorApp />
+        <ErrorBoundary>
+          <ROICalculatorApp />
+        </ErrorBoundary>
       </div>
     </div>
   );
