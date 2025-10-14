@@ -53,13 +53,6 @@ const navigation: NavItem[] = [
     requiresAuth: false
   },
   {
-    name: 'Advanced Analytics',
-    href: '/advanced-analytics',
-    icon: SparklesIcon,
-    description: 'Premium salary analytics and insights',
-    requiresAuth: true
-  },
-  {
     name: 'College Explorer',
     href: '/colleges',
     icon: BuildingOffice2Icon,
@@ -74,38 +67,10 @@ const navigation: NavItem[] = [
     requiresAuth: false
   },
   {
-    name: 'Data Dashboard',
-    href: '/dashboard',
-    icon: ChartBarIcon,
-    description: 'Interactive data visualizations',
-    requiresAuth: false
-  },
-  {
     name: 'Historical Trends',
     href: '/historical-trends',
     icon: ArrowTrendingUpIcon,
     description: 'View historical data and AI predictions',
-    requiresAuth: true
-  },
-  {
-    name: 'Priority Data Access',
-    href: '/priority-data',
-    icon: BoltIcon,
-    description: 'Early access to new data and insights',
-    requiresAuth: true
-  },
-  {
-    name: 'My Timeline',
-    href: '/my-timeline',
-    icon: CalendarIcon,
-    description: 'Track submissions and important dates',
-    requiresAuth: true
-  },
-  {
-    name: 'Academic Profile',
-    href: '/profile/academic',
-    icon: UserCircleIcon,
-    description: 'Set up your academic profile for AI recommendations',
     requiresAuth: true
   },
   {

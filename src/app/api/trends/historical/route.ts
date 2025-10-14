@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
     if (session.user.subscriptionTier === 'free') {
       console.log('Historical Trends: User is free tier');
       return NextResponse.json(
-        { error: 'Historical Trends require Advance tier or higher. Upgrade to access trend analysis.' },
+        { error: 'Historical Trends require Premium tier. Upgrade to access trend analysis.' },
         { status: 403 });
     }
 
