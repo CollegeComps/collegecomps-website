@@ -4,6 +4,7 @@ import "./globals.css";
 import Sidebar from "@/components/Sidebar";
 import SessionProvider from "@/components/SessionProvider";
 import OnboardingCheck from "@/components/OnboardingCheck";
+import CookieConsent from "@/components/CookieConsent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
               {children}
             </Sidebar>
           </OnboardingCheck>
+          <CookieConsent />
         </SessionProvider>
       </body>
     </html>

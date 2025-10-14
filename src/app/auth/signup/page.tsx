@@ -13,6 +13,7 @@ export default function SignUpPage() {
     email: '',
     password: '',
     confirmPassword: '',
+    ageConfirmation: false,
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,11 @@ export default function SignUpPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (!formData.ageConfirmation) {
+      setError('You must be at least 13 years old to use CollegeComps');
+      return;
+    }
 
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
@@ -161,6 +167,30 @@ export default function SignUpPage() {
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="Confirm password"
               />
+            </div>
+          </div>
+
+          {/* Age Verification Checkbox (COPPA Compliance) */}
+          <div className="flex items-start">
+            <div className="flex items-center h-5">
+              <input
+                id="ageConfirmation"
+                name="ageConfirmation"
+                type="checkbox"
+                required
+                checked={formData.ageConfirmation}
+                onChange={(e) => setFormData({ ...formData, ageConfirmation: e.target.checked })}
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+            </div>
+            <div className="ml-3 text-sm">
+              <label htmlFor="ageConfirmation" className="font-medium text-gray-700">
+                I confirm that I am at least 13 years old
+              </label>
+              <p className="text-xs text-gray-500 mt-1">
+                Required for COPPA compliance. Learn more in our{' '}
+                <a href="/privacy" target="_blank" className="text-blue-600 hover:underline">Privacy Policy</a>.
+              </p>
             </div>
           </div>
 

@@ -576,6 +576,63 @@ export default function Home() {
 
       {/* Data Sources Footer */}
       <DataSourcesFooter />
+
+      {/* Legal Footer */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h3 className="font-bold text-lg mb-4">CollegeComps</h3>
+              <p className="text-gray-400 text-sm">
+                Make smarter education decisions with comprehensive college data and ROI analysis.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Product</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><a href="/roi-calculator" className="hover:text-white transition-colors">ROI Calculator</a></li>
+                <li><a href="/compare" className="hover:text-white transition-colors">Compare Colleges</a></li>
+                <li><a href="/colleges" className="hover:text-white transition-colors">College Explorer</a></li>
+                <li><a href="/pricing" className="hover:text-white transition-colors">Pricing</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Company</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><a href="/about" className="hover:text-white transition-colors">About Us</a></li>
+                <li><a href="/support" className="hover:text-white transition-colors">Support</a></li>
+                <li><a href="mailto:contact@collegecomps.com" className="hover:text-white transition-colors">Contact</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Legal</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                <li><a href="/terms" className="hover:text-white transition-colors">Terms of Service</a></li>
+                <li><a href="mailto:legal@collegecomps.com" className="hover:text-white transition-colors">Legal Inquiries</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+              <p>&copy; {new Date().getFullYear()} CollegeComps. All rights reserved.</p>
+              <div className="flex gap-6 mt-4 md:mt-0">
+                <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
+                <a href="/terms" className="hover:text-white transition-colors">Terms</a>
+                <button 
+                  onClick={() => {
+                    localStorage.removeItem('cookieConsent');
+                    window.location.reload();
+                  }} 
+                  className="hover:text-white transition-colors"
+                >
+                  Cookie Preferences
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
