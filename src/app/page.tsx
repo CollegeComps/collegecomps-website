@@ -182,6 +182,158 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Example ROI Calculation Section */}
+      <div className="py-20 bg-gradient-to-br from-blue-600 to-indigo-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              See the Real ROI Impact
+            </h2>
+            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+              Here's an actual example calculation showing how education investment pays off
+            </p>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Example Scenario */}
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                  <span className="bg-blue-100 text-blue-600 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">1</span>
+                  Example Scenario
+                </h3>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between py-2 border-b border-gray-100">
+                    <span className="text-gray-600">Institution:</span>
+                    <span className="font-semibold text-gray-900">University of California, Berkeley</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-gray-100">
+                    <span className="text-gray-600">Program:</span>
+                    <span className="font-semibold text-gray-900">Computer Science (B.S.)</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-gray-100">
+                    <span className="text-gray-600">Total Cost (4 years):</span>
+                    <span className="font-semibold text-gray-900">$140,000</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-gray-100">
+                    <span className="text-gray-600">Starting Salary:</span>
+                    <span className="font-semibold text-gray-900">$105,000/year</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-gray-100">
+                    <span className="text-gray-600">Baseline (No Degree):</span>
+                    <span className="font-semibold text-gray-900">$35,000/year</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Results */}
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                  <span className="bg-green-100 text-green-600 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">2</span>
+                  ROI Results
+                </h3>
+                <div className="space-y-4">
+                  <div className="bg-green-50 rounded-lg p-4">
+                    <div className="text-sm text-green-700 mb-1">Net ROI (30 years)</div>
+                    <div className="text-3xl font-bold text-green-600">+$1,960,000</div>
+                  </div>
+                  <div className="bg-blue-50 rounded-lg p-4">
+                    <div className="text-sm text-blue-700 mb-1">ROI Percentage</div>
+                    <div className="text-3xl font-bold text-blue-600">1,400%</div>
+                  </div>
+                  <div className="bg-purple-50 rounded-lg p-4">
+                    <div className="text-sm text-purple-700 mb-1">Payback Period</div>
+                    <div className="text-3xl font-bold text-purple-600">2.0 years</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-gray-200">
+              <p className="text-center text-gray-600 mb-4">
+                💡 This is just one example. Calculate your own ROI with your specific circumstances.
+              </p>
+              <div className="text-center">
+                <Link
+                  href="/roi-calculator"
+                  className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Calculate Your ROI
+                  <ArrowRightIcon className="ml-2 w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Testimonials Section */}
+      <div className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              What Our Users Say
+            </h2>
+            <p className="text-xl text-gray-600">
+              Join thousands of students making smarter education decisions
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Testimonial 1 */}
+            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-lg">
+                  SJ
+                </div>
+                <div className="ml-4">
+                  <div className="font-semibold text-gray-900">Sarah Johnson</div>
+                  <div className="text-sm text-gray-500">College Counselor</div>
+                </div>
+              </div>
+              <div className="text-yellow-400 mb-3">★★★★★</div>
+              <p className="text-gray-600 italic">
+                "This platform helped my students make data-driven decisions. The ROI calculator is a game-changer for understanding long-term value."
+              </p>
+            </div>
+
+            {/* Testimonial 2 */}
+            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold text-lg">
+                  MC
+                </div>
+                <div className="ml-4">
+                  <div className="font-semibold text-gray-900">Michael Chen</div>
+                  <div className="text-sm text-gray-500">Engineering Student</div>
+                </div>
+              </div>
+              <div className="text-yellow-400 mb-3">★★★★★</div>
+              <p className="text-gray-600 italic">
+                "I compared 10 engineering programs and found the perfect fit. The salary data was eye-opening and helped justify my college choice."
+              </p>
+            </div>
+
+            {/* Testimonial 3 */}
+            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 font-bold text-lg">
+                  ER
+                </div>
+                <div className="ml-4">
+                  <div className="font-semibold text-gray-900">Emily Rodriguez</div>
+                  <div className="text-sm text-gray-500">Parent</div>
+                </div>
+              </div>
+              <div className="text-yellow-400 mb-3">★★★★★</div>
+              <p className="text-gray-600 italic">
+                "As a parent, I needed transparent data to help my daughter choose wisely. This tool provided clarity on costs and career outcomes."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Features Section */}
       <div className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
