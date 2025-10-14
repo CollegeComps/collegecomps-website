@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Institution, AcademicProgram } from '@/lib/database';
+import { CollegeSchema, BreadcrumbSchema } from '@/components/StructuredData';
 import {
   ArrowLeftIcon,
   MapPinIcon,
@@ -170,6 +171,26 @@ export default function CollegeDetailPage() {
 
   return (
     <div className="p-6">
+      {/* Structured Data for SEO */}
+      <CollegeSchema
+        name={institution.name}
+        url={institution.website || institution.website_url}
+        address={{
+          city: institution.city,
+          state: institution.state || institution.state_postal_code,
+          zipCode: institution.zip_code || institution.zipcode,
+        }}
+        tuition={institution.tuition_in_state}
+        description={`${institution.name} - Located in ${institution.city}, ${institution.state || institution.state_postal_code}. ${getControlTypeLabel(institution.control_public_private || institution.control_of_institution)} institution.`}
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: 'https://collegecomps.com' },
+          { name: 'Colleges', url: 'https://collegecomps.com/colleges' },
+          { name: institution.name, url: `https://collegecomps.com/colleges/${unitid}` },
+        ]}
+      />
+
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-6">
