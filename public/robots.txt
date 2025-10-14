@@ -1,0 +1,25 @@
+# https://www.robotstxt.org/robotstxt.html
+# CollegeComps robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /admin/
+Disallow: /profile/
+Disallow: /onboarding
+Disallow: /subscription
+Disallow: /edit-preferences
+
+# Sitemap
+Sitemap: https://collegecomps.com/sitemap.xml
+
+# Crawl-delay (be nice to our servers)
+Crawl-delay: 1
+
+# Block specific bots if needed (uncomment if necessary)
+# User-agent: GPTBot
+# Disallow: /
+
+# User-agent: CCBot
+# Disallow: /

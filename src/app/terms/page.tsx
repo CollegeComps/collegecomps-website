@@ -1,4 +1,10 @@
-'use client';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Terms of Service - CollegeComps User Agreement',
+  description: 'Read our Terms of Service to understand your rights and responsibilities when using CollegeComps.',
+  robots: { index: false, follow: false },
+};
 
 export default function TermsOfServicePage() {
   return (

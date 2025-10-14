@@ -1,4 +1,10 @@
-'use client';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy - How We Protect Your Data',
+  description: 'Learn how CollegeComps collects, uses, and protects your personal information. GDPR and CCPA compliant privacy practices.',
+  robots: { index: false, follow: false },
+};
 
 export default function PrivacyPolicyPage() {
   return (
