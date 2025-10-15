@@ -55,3 +55,6 @@ test_performance.sh
 # IDE
 .vscode/
 .idea/
+
+# Sentry Config File
+.env.sentry-build-plugin
