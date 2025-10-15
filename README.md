@@ -1,128 +1,71 @@
-# CollegeComps ROI Calculator
+# CollegeComps Web App
 
-A Next.js application for analyzing college return on investment (ROI) with comprehensive salary data, college comparisons, and AI-powered recommendations.
-
-## Features
-
-- **ROI Calculator**: Calculate return on investment for different colleges
-- **College Comparison**: Compare multiple colleges side-by-side
-- **Salary Insights**: Real post-grad salary data from alumni
-- **Advanced Analytics**: Premium salary analytics and insights
-- **AI Recommendations**: Personalized college recommendations based on your profile
-- **Historical Trends**: View historical data and AI-powered predictions
-- **Priority Data Access**: Early access to new data releases (Excel tier)
-- **Support System**: Priority support with tier-based response times
+Internal repository for the CollegeComps web application.
 
 ## Tech Stack
 
-- **Framework**: Next.js 15.5.4 with App Router
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Authentication**: NextAuth.js
-- **Database**: SQLite (better-sqlite3)
-- **Charts**: Recharts
-- **Icons**: Heroicons
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+ 
-- npm or yarn
-
-### Installation
-
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Set up environment variables:
-   ```bash
-   cp .env.example .env.local
-   ```
-   
-   Update `.env.local` with:
-   - `NEXTAUTH_SECRET`: Your NextAuth secret
-   - `ADMIN_EMAILS`: Comma-separated list of admin emails
-   - Other required environment variables
-
-4. Set up the database:
-   ```bash
-   sqlite3 data/users.db < scripts/setup-user-profiles.sql
-   sqlite3 data/users.db < scripts/setup-support-db.sql
-   ```
-
-5. Run the development server:
-   ```bash
-   npm run dev
-   ```
-
-6. Open [http://localhost:3000](http://localhost:3000)
+- Next.js 15 (App Router)
+- TypeScript
+- Turso (libSQL) - 2 databases
+- NextAuth.js
+- Tailwind CSS
+- Recharts
+- Vercel
 
 ## Project Structure
 
 ```
 src/
-├── app/                    # Next.js app directory
-│   ├── api/               # API routes
-│   ├── auth/              # Authentication pages
-│   ├── compare/           # College comparison
-│   ├── historical-trends/ # Trends & predictions
-│   ├── priority-data/     # Priority data access
-│   ├── support/           # Support system
-│   └── ...
-├── components/            # Reusable components
-├── lib/                   # Utility functions
-└── types/                 # TypeScript types
+├── app/
+│   ├── api/                 # API routes
+│   ├── auth/                # Auth pages (signin, signup, reset)
+│   ├── roi-calculator/      # Main ROI tool
+│   ├── colleges/            # College explorer
+│   ├── compare/             # Compare colleges
+│   ├── historical-trends/   # Trends & predictions
+│   ├── salary-insights/     # Premium salary data
+│   ├── profile/             # User dashboard
+│   └── pricing/             # Pricing page
+├── components/              # React components
+└── lib/                     # Utils, DB client, auth config
 
-data/
-├── users.db              # User data and profiles
-└── college_data.db       # College information
-
-docs/
-└── project-docs/         # Project documentation
+database/                    # SQL schemas
+public/                      # Static assets
 ```
 
-## Subscription Tiers
+## Local Setup
 
-1. **Explore (Free)**: Basic access
-2. **Advance (Premium)**: $9.99/month - Advanced analytics, exports
-3. **Excel (Professional)**: $19.99/month - AI features, priority data, priority support
-4. **Enterprise**: Custom pricing - Full access, dedicated support
+1. Clone and install:
+   ```bash
+   npm install
+   ```
 
-## Admin Access
+2. Get env vars from Vercel or another engineer, create `.env.local`:
+   ```env
+   DATABASE_URL=
+   DATABASE_AUTH_TOKEN=
+   USERS_DATABASE_URL=
+   USERS_DATABASE_AUTH_TOKEN=
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=
+   RESEND_API_KEY=
+   EMAIL_FROM=noreply@collegecomps.com
+   ```
 
-To enable admin features, add admin emails to your `.env.local`:
+3. Run dev server:
+   ```bash
+   npm run dev
+   ```
 
-```
-ADMIN_EMAILS=admin@example.com,support@example.com
-```
+## Databases
 
-Admin users can access:
-- `/admin/support` - Support ticket dashboard
+Two Turso (libSQL) databases:
 
-## Scripts
+1. **collegecomps** - College data (institutions, programs, financial, academic)
+2. **users** - User accounts, subscriptions, saved scenarios
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm start` - Start production server
-- `npm run lint` - Run ESLint
+## Deployment
 
-## Database Setup
+Auto-deploys to Vercel on push to `main`.
 
-The application uses two SQLite databases:
-
-1. **users.db**: User accounts, profiles, support tickets, saved data
-2. **college_data.db**: College information, salary data, trends
-
-SQL setup scripts are in the `scripts/` directory.
-
-## Documentation
-
-Detailed project documentation is available in `/docs/project-docs/`
-
-## License
-
-Proprietary - All rights reserved
+Production: https://www.collegecomps.com

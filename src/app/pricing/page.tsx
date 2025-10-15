@@ -60,13 +60,13 @@ export default function PricingPage() {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-          {/* Explore Plan (Free) */}
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {/* Free Plan */}
           <div className="bg-white rounded-2xl shadow-lg border-2 border-gray-200 p-8 hover:shadow-xl transition-shadow">
             <div className="text-center mb-6">
               <div className="inline-flex items-center gap-1 mb-2">
                 <span className="text-2xl">🔍</span>
-                <h3 className="text-2xl font-bold text-gray-900">Explore</h3>
+                <h3 className="text-2xl font-bold text-gray-900">Free</h3>
               </div>
               <div className="text-4xl font-bold text-gray-900 mb-2">
                 $0
@@ -86,7 +86,13 @@ export default function PricingPage() {
                 <svg className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">College Explorer</span>
+                <span className="text-gray-700">College Search & Explorer</span>
+              </li>
+              <li className="flex items-start">
+                <svg className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                <span className="text-gray-700">Compare up to 3 Colleges</span>
               </li>
               <li className="flex items-start">
                 <svg className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -98,32 +104,25 @@ export default function PricingPage() {
                 <svg className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">My Timeline</span>
+                <span className="text-gray-700">Historical Trends</span>
               </li>
               <li className="flex items-start">
                 <svg className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">1 Saved Comparison</span>
+                <span className="text-gray-700">Limited Saved Scenarios</span>
               </li>
             </ul>
             
             <button
-              onClick={() => !currentTier || currentTier === 'free' ? router.push('/roi-calculator') : handleUpgrade('free')}
-              disabled={currentTier === 'free' || currentTier === 'premium' || currentTier === 'professional' || currentTier === 'enterprise'}
-              className={`w-full py-3 px-6 rounded-lg font-semibold transition-all ${
-                currentTier === 'free'
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : (currentTier === 'premium' || currentTier === 'professional' || currentTier === 'enterprise')
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-              }`}
+              onClick={() => !session ? router.push('/auth/signin') : router.push('/roi-calculator')}
+              className="w-full py-3 px-6 rounded-lg font-semibold transition-all bg-gray-100 text-gray-800 hover:bg-gray-200"
             >
-              {currentTier === 'free' ? '✓ Current Plan' : (currentTier === 'premium' || currentTier === 'professional' || currentTier === 'enterprise') ? '✓ Included in Your Plan' : 'Get Started'}
+              {currentTier === 'free' ? '✓ Current Plan' : 'Get Started Free'}
             </button>
           </div>
 
-          {/* Advance Plan (Premium) */}
+          {/* Premium Plan */}
           <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl shadow-xl border-2 border-blue-500 p-8 relative transform md:scale-105 hover:shadow-2xl transition-all">
             <div className="absolute top-0 right-0 bg-blue-600 text-white px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm font-bold">
               POPULAR
@@ -148,179 +147,62 @@ export default function PricingPage() {
                 <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700 font-medium">Everything in Explore</span>
+                <span className="text-gray-700 font-medium">Everything in Free</span>
               </li>
               <li className="flex items-start">
                 <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">Advanced Analytics</span>
+                <span className="text-gray-700">💰 Detailed Salary Insights</span>
               </li>
               <li className="flex items-start">
                 <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">📊 Historical Trends & Predictions</span>
+                <span className="text-gray-700">Compare Unlimited Colleges</span>
               </li>
               <li className="flex items-start">
                 <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">Unlimited Saves & Folders</span>
+                <span className="text-gray-700">Unlimited Saved Scenarios & Bookmarks</span>
               </li>
               <li className="flex items-start">
                 <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">Price Alerts & Notifications</span>
+                <span className="text-gray-700">📊 Advanced Analytics & Reports</span>
               </li>
               <li className="flex items-start">
                 <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">Export to PDF/Excel</span>
+                <span className="text-gray-700">🔔 Price Alerts & Notifications</span>
+              </li>
+              <li className="flex items-start">
+                <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                <span className="text-gray-700">📥 Export to PDF/Excel</span>
+              </li>
+              <li className="flex items-start">
+                <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                <span className="text-gray-700">✉️ Priority Support</span>
               </li>
             </ul>
             
             <button
               onClick={() => handleUpgrade('premium')}
-              disabled={currentTier === 'premium' || currentTier === 'professional' || currentTier === 'enterprise'}
+              disabled={currentTier === 'premium'}
               className={`w-full py-3 px-6 rounded-lg font-semibold transition-all ${
                 currentTier === 'premium'
-                  ? 'bg-blue-400 text-white cursor-not-allowed'
-                  : (currentTier === 'professional' || currentTier === 'enterprise')
                   ? 'bg-blue-400 text-white cursor-not-allowed'
                   : 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
               }`}
             >
-              {currentTier === 'premium' ? '✓ Current Plan' : (currentTier === 'professional' || currentTier === 'enterprise') ? '✓ Included in Your Plan' : 'Start Free Trial'}
-            </button>
-          </div>
-
-          {/* Excel Plan (Professional) */}
-          <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl shadow-xl border-2 border-purple-500 p-8 hover:shadow-2xl transition-all">
-            <div className="text-center mb-6">
-              <div className="inline-flex items-center gap-1 mb-2">
-                <span className="text-2xl">⭐</span>
-                <h3 className="text-2xl font-bold text-gray-900">Excel</h3>
-              </div>
-              <div className="text-4xl font-bold text-gray-900 mb-2">
-                ${billingCycle === 'monthly' ? '19.99' : '16.67'}
-                <span className="text-lg text-gray-500 font-normal">/month</span>
-              </div>
-              <p className="text-gray-600">
-                {billingCycle === 'annual' ? 'Billed annually at $200' : 'or $200/year (save $40)'}
-              </p>
-            </div>
-            
-            <ul className="space-y-3 mb-8">
-              <li className="flex items-start">
-                <svg className="w-5 h-5 text-purple-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700 font-medium">Everything in Advance</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-5 h-5 text-purple-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700">✨ AI-Powered School Recommendations</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-5 h-5 text-purple-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700">✨ Smart Student-School Matching</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-5 h-5 text-purple-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700">✨ Personalized Insights & Predictions</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-5 h-5 text-purple-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700">⚡ Priority Data Access (30-day early releases)</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-5 h-5 text-purple-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700">Priority Support</span>
-              </li>
-            </ul>
-            
-            <button
-              onClick={() => handleUpgrade('professional')}
-              disabled={currentTier === 'professional' || currentTier === 'enterprise'}
-              className={`w-full py-3 px-6 rounded-lg font-semibold transition-all ${
-                currentTier === 'professional'
-                  ? 'bg-purple-400 text-white cursor-not-allowed'
-                  : currentTier === 'enterprise'
-                  ? 'bg-purple-400 text-white cursor-not-allowed'
-                  : 'bg-purple-600 text-white hover:bg-purple-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
-              }`}
-            >
-              {currentTier === 'professional' ? '✓ Current Plan' : currentTier === 'enterprise' ? '✓ Included in Your Plan' : '⭐ Maximize Your Potential'}
-            </button>
-          </div>
-
-          {/* Enterprise Plan */}
-          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl shadow-xl border-2 border-orange-500 p-8 hover:shadow-2xl transition-all">
-            <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Enterprise</h3>
-              <div className="text-4xl font-bold text-gray-900 mb-2">
-                Custom
-              </div>
-              <p className="text-gray-600">For advisors, counselors & institutions</p>
-            </div>
-            
-            <ul className="space-y-3 mb-8">
-              <li className="flex items-start">
-                <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700 font-medium">Everything in Excel</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700">API Access & Data Exports</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700">White Label Options</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700">Bulk User Management</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700">Dedicated Account Manager</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700">Priority Support & Training</span>
-              </li>
-            </ul>
-            
-            <button
-              onClick={() => window.location.href = 'mailto:sales@collegecomps.com?subject=Enterprise Plan Inquiry'}
-              className="w-full py-3 px-6 rounded-lg font-semibold transition-all bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-            >
-              📧 Contact Sales
+              {currentTier === 'premium' ? '✓ Current Plan' : 'Upgrade to Premium'}
             </button>
           </div>
         </div>
