@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 
     try {
       // Get all institutions offering this program
-      // Note: academic_programs table uses 'completions' not 'total_completions'
+      // Using only guaranteed columns from academic_programs table
       const institutions = await db.prepare(`
         SELECT DISTINCT
           i.unitid,
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
           i.control_public_private,
           ap.cip_title,
           ap.completions as total_completions,
-          ap.credential_name
+          COALESCE(ap.credential_level, 0) as credential_level
         FROM institutions i
         INNER JOIN academic_programs ap ON i.unitid = ap.unitid
         WHERE ap.cipcode = ?
@@ -47,11 +47,25 @@ export async function GET(request: NextRequest) {
 
       console.log(`Found ${institutions.length} institutions for CIP code ${cipcode}`);
 
+      // Map credential levels to names
+      const credentialNames: { [key: number]: string } = {
+        1: 'Award of less than 1 academic year',
+        2: 'Award of at least 1 but less than 2 academic years',
+        3: 'Associate\'s degree',
+        4: 'Award of at least 2 but less than 4 academic years',
+        5: 'Bachelor\'s degree',
+        6: 'Postbaccalaureate certificate',
+        7: 'Master\'s degree',
+        8: 'Post-master\'s certificate',
+        9: 'Doctor\'s degree'
+      };
+
       return NextResponse.json({ 
         institutions: institutions.map((inst: any) => ({
           ...inst,
           control: inst.control_public_private === 1 ? 'Public' : 
-                   inst.control_public_private === 2 ? 'Private nonprofit' : 'Private for-profit'
+                   inst.control_public_private === 2 ? 'Private nonprofit' : 'Private for-profit',
+          credential_name: credentialNames[inst.credential_level] || 'Unknown'
         }))
       });
     } catch (queryError) {
