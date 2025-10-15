@@ -84,20 +84,25 @@ routeFiles.forEach(file => {
   
   const requiresAuth = file.includes('/user/') || 
                       file.includes('/bookmarks/') || 
-                      file.includes('/saved-comparisons/') || 
-                      file.includes('/dashboard/') ||
+                      file.includes('/saved-comparisons/') ||
                       file.includes('/roi/scenarios') ||
                       file.includes('/support/tickets') ||
                       file.includes('/alerts/');
 
   const requiresTier = file.includes('/salary-data') || 
-                       file.includes('/trends/historical') ||
                        file.includes('/ai/') ||
                        file.includes('/salary-analytics');
 
+  // Public routes that don't need auth
+  const isPublicRoute = file.includes('/dashboard/stats') ||
+                       file.includes('/colleges/search') ||
+                       file.includes('/institutions/') ||
+                       file.includes('/programs/') ||
+                       file.includes('/majors/');
+
   if (hasAuthCall && hasSessionCheck) {
     results.hasAuth.push(file);
-  } else if (requiresAuth) {
+  } else if (requiresAuth && !isPublicRoute) {
     results.noAuth.push(file);
   }
 
