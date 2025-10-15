@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { DataSourcesFooter } from '@/components/DataSources';
 import { OrganizationSchema, WebApplicationSchema } from '@/components/StructuredData';
 import RotatingTestimonials from '@/components/RotatingTestimonials';
+import SocialShare from '@/components/SocialShare';
 import {
   CalculatorIcon,
   BuildingOffice2Icon,
@@ -569,6 +570,17 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-gray-800 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-6">
+              <div>
+                <p className="text-gray-400 text-sm mb-2">Help others make better education decisions</p>
+                <SocialShare 
+                  url="https://www.collegecomps.com"
+                  title="CollegeComps - Calculate Your College ROI"
+                  description="Make data-driven college decisions with real financial data, salary analytics, and ROI calculations."
+                  hashtags={['CollegeROI', 'EducationPlanning', 'CollegeSearch']}
+                />
+              </div>
+            </div>
             <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
               <p>&copy; {new Date().getFullYear()} CollegeComps. All rights reserved.</p>
               <div className="flex gap-6 mt-4 md:mt-0">

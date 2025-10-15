@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import SocialShare from '@/components/SocialShare';
 
 interface College {
   id: number;
@@ -297,7 +298,12 @@ export default function ComparePage() {
 
         {/* Save Comparison */}
         {selectedColleges.length > 1 && session && (
-          <div className="mt-6 flex justify-end">
+          <div className="mt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <SocialShare 
+              title={`Compare ${selectedColleges.map(c => c.name).join(' vs ')} - CollegeComps`}
+              description={`Side-by-side comparison of ${selectedColleges.length} colleges with tuition, admissions, and outcomes data.`}
+              hashtags={['CollegeComparison', 'CollegeSearch']}
+            />
             <button
               onClick={async () => {
                 try {
