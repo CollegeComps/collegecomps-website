@@ -1,25 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { getCollegeDb } from '@/lib/db-helper';
+import { requireTier } from '@/lib/auth-helpers';
 
+// Salary Analytics - PREMIUM FEATURE
 export async function GET(req: NextRequest) {
+  // Verify authentication and premium subscription
+  const session = await auth();
+  const tierError = requireTier(session, 'premium');
+  if (tierError) return tierError;
+
   const db = getCollegeDb();
   if (!db) {
     return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
   }
 
   try {
-    const session = await auth();
-
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    // Check premium status
-    if (session.user.subscriptionTier !== 'premium') {
-      return NextResponse.json({ error: 'Premium subscription required' }, { status: 403 });
-    }
-
     // Query salary data with available earnings data
     // Note: earnings_outcomes table has earnings_6_years_after_entry and earnings_10_years_after_entry
     const salaryData = await db.prepare(`

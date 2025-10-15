@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/auth'
-
 import { getUsersDb } from '@/lib/db-helper'
+import { requireTier } from '@/lib/auth-helpers'
 
 
-// GET - Fetch salary submissions (for analytics/display)
+// GET - Fetch salary submissions (for analytics/display) - PREMIUM FEATURE
 export async function GET(req: NextRequest) {
+  // Verify authentication and premium subscription
+  const session = await auth();
+  const tierError = requireTier(session, 'premium');
+  if (tierError) return tierError;
+
   const db = getUsersDb();
   if (!db) {
     return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });

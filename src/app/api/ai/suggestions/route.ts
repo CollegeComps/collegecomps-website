@@ -1,27 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { getCollegeDb } from '@/lib/db-helper';
+import { requireTier } from '@/lib/auth-helpers';
 
 // This will use OpenAI/Anthropic API for intelligent suggestions
 // For now, we'll create a smart context-aware system that uses the database + AI enhancement
 
+// AI Suggestions - PREMIUM FEATURE
 export async function POST(req: NextRequest) {
   try {
+    // Verify authentication and premium subscription
     const session = await auth();
-
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    // Check if user has premium access
-    const isPremium = session.user.subscriptionTier === 'premium';
-    
-    if (!isPremium) {
-      return NextResponse.json({ 
-        error: 'Premium subscription required for AI-powered suggestions',
-        isPremium: false 
-      }, { status: 403 });
-    }
+    const tierError = requireTier(session, 'premium');
+    if (tierError) return tierError;
 
     const body = await req.json();
     const { query, type, context } = body; // type: 'school' | 'major'

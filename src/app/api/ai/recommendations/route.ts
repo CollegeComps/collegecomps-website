@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { getUsersDb, getCollegeDb } from '@/lib/db-helper';
+import { requireTier } from '@/lib/auth-helpers';
 
 interface UserProfile {
   gpa?: number;
@@ -23,7 +24,13 @@ interface SchoolScore {
   roi: number;
 }
 
+// AI Recommendations - PREMIUM FEATURE
 export async function GET(req: NextRequest) {
+  // Verify authentication and premium subscription
+  const session = await auth();
+  const tierError = requireTier(session, 'premium');
+  if (tierError) return tierError;
+
   const userDb = getUsersDb();
   const collegeDb = getCollegeDb();
   
