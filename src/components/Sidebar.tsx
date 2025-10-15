@@ -59,13 +59,13 @@ const navigation: NavItem[] = [
     description: 'Browse and compare institutions',
     requiresAuth: false
   },
-  {
-    name: 'Program Analysis',
-    href: '/programs',
-    icon: AcademicCapIcon,
-    description: 'Analyze programs and career outcomes',
-    requiresAuth: false
-  },
+  // {
+  //   name: 'Program Analysis',
+  //   href: '/programs',
+  //   icon: AcademicCapIcon,
+  //   description: 'Analyze programs and career outcomes',
+  //   requiresAuth: false
+  // },
   {
     name: 'Historical Trends',
     href: '/historical-trends',
