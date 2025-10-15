@@ -42,8 +42,11 @@ export async function POST(req: NextRequest) {
       WHERE id = ?
     `).run(resetTokenHash, resetTokenExpiry.toISOString(), user.id);
 
-    // Create reset link
-    const resetLink = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/auth/reset-password?token=${resetToken}`;
+    // Create reset link with production domain
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? 'https://www.collegecomps.com' 
+      : (process.env.NEXTAUTH_URL || 'http://localhost:3000');
+    const resetLink = `${baseUrl}/auth/reset-password?token=${resetToken}`;
 
     // Send email with Resend
     try {

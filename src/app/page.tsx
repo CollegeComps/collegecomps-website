@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { DataSourcesFooter } from '@/components/DataSources';
 import { OrganizationSchema, WebApplicationSchema } from '@/components/StructuredData';
+import RotatingTestimonials from '@/components/RotatingTestimonials';
 import {
   CalculatorIcon,
   BuildingOffice2Icon,
@@ -284,58 +285,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Testimonial 1 */}
-            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-lg">
-                  SJ
-                </div>
-                <div className="ml-4">
-                  <div className="font-semibold text-gray-900">Sarah Johnson</div>
-                  <div className="text-sm text-gray-500">College Counselor</div>
-                </div>
-              </div>
-              <div className="text-yellow-400 mb-3">★★★★★</div>
-              <p className="text-gray-600 italic">
-                "This platform helped my students make data-driven decisions. The ROI calculator is a game-changer for understanding long-term value."
-              </p>
-            </div>
-
-            {/* Testimonial 2 */}
-            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold text-lg">
-                  MC
-                </div>
-                <div className="ml-4">
-                  <div className="font-semibold text-gray-900">Michael Chen</div>
-                  <div className="text-sm text-gray-500">Engineering Student</div>
-                </div>
-              </div>
-              <div className="text-yellow-400 mb-3">★★★★★</div>
-              <p className="text-gray-600 italic">
-                "I compared 10 engineering programs and found the perfect fit. The salary data was eye-opening and helped justify my college choice."
-              </p>
-            </div>
-
-            {/* Testimonial 3 */}
-            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 font-bold text-lg">
-                  ER
-                </div>
-                <div className="ml-4">
-                  <div className="font-semibold text-gray-900">Emily Rodriguez</div>
-                  <div className="text-sm text-gray-500">Parent</div>
-                </div>
-              </div>
-              <div className="text-yellow-400 mb-3">★★★★★</div>
-              <p className="text-gray-600 italic">
-                "As a parent, I needed transparent data to help my daughter choose wisely. This tool provided clarity on costs and career outcomes."
-              </p>
-            </div>
-          </div>
+          <RotatingTestimonials />
         </div>
       </div>
 
