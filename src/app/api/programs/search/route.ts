@@ -28,8 +28,12 @@ export async function GET(request: NextRequest) {
     
     try {
       // Try FTS5 search first (fastest - handles phrase and boolean searches)
-      // Escape special FTS5 characters and prepare query
-      const ftsQuery = query.replace(/[^\w\s]/g, '').trim();
+      // For better matching, we'll use phrase search with quotes to require exact term matching
+      const searchTerms = query.toLowerCase().trim().split(/\s+/).filter(t => t.length > 0);
+      
+      // Create FTS5 query: require ALL terms to be present (AND logic)
+      // Use quotes for phrase matching on each term
+      const ftsQuery = searchTerms.map(term => `"${term}"`).join(' ');
       
       programs = await db.prepare(`
         SELECT 

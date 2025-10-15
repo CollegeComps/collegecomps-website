@@ -87,7 +87,7 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">Our Story</h2>
           
-          <div className="prose prose-lg max-w-none text-gray-700">
+          <div className="prose prose-lg max-w-none text-gray-700 text-center">
             <p className="mb-4">
               CollegeComps was born from a simple realization: choosing a college shouldn't be 
               a guessing game. With rising tuition costs and an increasingly complex higher education 

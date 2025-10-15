@@ -175,10 +175,6 @@ export default function Sidebar({ children }: SidebarProps) {
           <div className="mb-3">
             <UserMenu />
           </div>
-          <div className="text-xs text-gray-500 text-center">
-            <div>College Data Analysis</div>
-            <div className="mt-1 text-gray-400">v1.0.0</div>
-          </div>
         </div>
       </div>
 
