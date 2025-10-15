@@ -15,7 +15,9 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'signin' }: Au
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>(defaultTab);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
+  const [ageConfirmation, setAgeConfirmation] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -56,6 +58,19 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'signin' }: Au
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    // Validate password match
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    // Validate age confirmation
+    if (!ageConfirmation) {
+      setError('You must be at least 13 years old to use CollegeComps');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -187,6 +202,18 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'signin' }: Au
                     />
                   </div>
 
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm">
+                      <a
+                        href="/auth/forgot-password"
+                        className="font-medium text-blue-600 hover:text-blue-500"
+                        onClick={onClose}
+                      >
+                        Forgot your password?
+                      </a>
+                    </div>
+                  </div>
+
                   <button
                     type="submit"
                     disabled={loading}
@@ -245,6 +272,39 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'signin' }: Au
                       minLength={6}
                     />
                     <p className="mt-1 text-xs text-gray-600">At least 6 characters</p>
+                  </div>
+
+                  <div>
+                    <label htmlFor="signup-confirm-password" className="block text-sm font-semibold text-gray-900 mb-2">
+                      Confirm Password
+                    </label>
+                    <input
+                      id="signup-confirm-password"
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      placeholder="••••••••"
+                      required
+                      minLength={6}
+                    />
+                  </div>
+
+                  <div className="flex items-start">
+                    <input
+                      id="age-confirmation"
+                      type="checkbox"
+                      checked={ageConfirmation}
+                      onChange={(e) => setAgeConfirmation(e.target.checked)}
+                      className="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                      required
+                    />
+                    <label htmlFor="age-confirmation" className="ml-2 text-sm text-gray-700">
+                      I confirm that I am at least 13 years old{' '}
+                      <span className="text-xs text-gray-500">
+                        (Required for <a href="/privacy" className="text-blue-600 hover:underline" target="_blank">COPPA compliance</a>)
+                      </span>
+                    </label>
                   </div>
 
                   <button
