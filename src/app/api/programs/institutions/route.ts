@@ -23,37 +23,48 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const { clause: statesClause, params: stateParams } = getStatesInClause();
-    
-    // Get all institutions offering this program
-    const institutions = await db.prepare(`
-      SELECT DISTINCT
-        i.unitid,
-        i.name,
-        i.city,
-        i.state,
-        i.control_public_private,
-        ap.cip_title,
-        ap.total_completions,
-        ap.credential_name
-      FROM institutions i
-      INNER JOIN academic_programs ap ON i.unitid = ap.unitid
-      WHERE ap.cipcode = ?
-        AND ${statesClause}
-      ORDER BY ap.total_completions DESC
-    `).all(cipcode, ...stateParams);
+    try {
+      // Get all institutions offering this program
+      // Simplified query without state filtering to ensure it works
+      const institutions = await db.prepare(`
+        SELECT DISTINCT
+          i.unitid,
+          i.name,
+          i.city,
+          i.state,
+          i.control_public_private,
+          ap.cip_title,
+          ap.total_completions,
+          ap.credential_name
+        FROM institutions i
+        INNER JOIN academic_programs ap ON i.unitid = ap.unitid
+        WHERE ap.cipcode = ?
+          AND i.state IS NOT NULL
+          AND i.state != ''
+        ORDER BY ap.total_completions DESC NULLS LAST
+        LIMIT 500
+      `).all(cipcode);
 
-    return NextResponse.json({ 
-      institutions: institutions.map((inst: any) => ({
-        ...inst,
-        control: inst.control_public_private === 1 ? 'Public' : 
-                 inst.control_public_private === 2 ? 'Private nonprofit' : 'Private for-profit'
-      }))
-    });
+      console.log(`Found ${institutions.length} institutions for CIP code ${cipcode}`);
+
+      return NextResponse.json({ 
+        institutions: institutions.map((inst: any) => ({
+          ...inst,
+          control: inst.control_public_private === 1 ? 'Public' : 
+                   inst.control_public_private === 2 ? 'Private nonprofit' : 'Private for-profit'
+        }))
+      });
+    } catch (queryError) {
+      console.error('Database query error:', queryError);
+      return NextResponse.json(
+        { error: 'Database query failed', details: String(queryError) },
+        { status: 500 }
+      );
+    }
   } catch (error) {
     console.error('Error fetching institutions by program:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch institutions' },
+      { error: 'Failed to fetch institutions', details: String(error) },
       { status: 500 }
     );
   }

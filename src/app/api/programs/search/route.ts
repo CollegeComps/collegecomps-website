@@ -22,13 +22,15 @@ export async function GET(request: NextRequest) {
     // OPTIMIZED SEARCH STRATEGY:
     // Use LIKE-based search for accurate, predictable results
     // FTS5 was returning irrelevant results due to tokenization issues
+    // Supports partial word matching (e.g., "computer sc" matches "computer science")
     
     let programs: any[] = [];
     
     // Split query into individual search terms
     const searchTerms = query.toLowerCase().trim().split(/\s+/).filter(t => t.length > 0);
     
-    // Build WHERE clause to match ALL search terms in the title
+    // Build WHERE clause with partial matching - each term must appear somewhere
+    // This allows "computer sc" to match "computer science"
     const conditions = searchTerms.map(() => `LOWER(cip_title) LIKE ?`).join(' AND ');
     const params = searchTerms.map(term => `%${term}%`);
     
