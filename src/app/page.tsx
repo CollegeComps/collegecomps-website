@@ -444,10 +444,10 @@ export default function Home() {
                   <h3 className="text-2xl font-bold text-gray-900">Premium</h3>
                 </div>
                 <div className="text-4xl font-bold text-gray-900 mb-2">
-                  $9.99
+                  $6.99
                   <span className="text-lg text-gray-500 font-normal">/month</span>
                 </div>
-                <p className="text-gray-600">or $100/year (save $20)</p>
+                <p className="text-gray-600">or $69.99/year (save $14)</p>
               </div>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-start">

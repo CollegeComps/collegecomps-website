@@ -55,13 +55,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Check if user has Premium or Professional tier
-    if (session.user.subscriptionTier === 'free') {
-      console.log('Historical Trends: User is free tier');
-      return NextResponse.json(
-        { error: 'Historical Trends require Premium tier. Upgrade to access trend analysis.' },
-        { status: 403 });
-    }
+    // Historical Trends is now available to all tiers (free + premium)
 
     const { searchParams } = new URL(req.url);
     const category = searchParams.get('category') || 'all';
@@ -215,8 +209,8 @@ export async function GET(req: NextRequest) {
 
     // Overall salary trend
     if (trends.length >= 2) {
-      const latestSalary = trends[0].avgSalary;
-      const previousSalary = trends[1].avgSalary;
+      const latestSalary = trends[trends.length - 1].avgSalary;
+      const previousSalary = trends[trends.length - 2].avgSalary;
       const salaryChange = latestSalary - previousSalary;
       const salaryChangePercent = (salaryChange / previousSalary) * 100;
 
@@ -230,8 +224,8 @@ export async function GET(req: NextRequest) {
       });
 
       // Cost trend
-      const latestCost = trends[0].avgCost;
-      const previousCost = trends[1].avgCost;
+      const latestCost = trends[trends.length - 1].avgCost;
+      const previousCost = trends[trends.length - 2].avgCost;
       const costChange = latestCost - previousCost;
       const costChangePercent = (costChange / previousCost) * 100;
 
@@ -245,8 +239,8 @@ export async function GET(req: NextRequest) {
       });
 
       // ROI trend
-      const latestROI = trends[0].avgROI;
-      const previousROI = trends[1].avgROI;
+      const latestROI = trends[trends.length - 1].avgROI;
+      const previousROI = trends[trends.length - 2].avgROI;
       const roiChange = latestROI - previousROI;
       const roiChangePercent = previousROI !== 0 ? (roiChange / Math.abs(previousROI)) * 100 : 0;
 
@@ -267,19 +261,22 @@ export async function GET(req: NextRequest) {
       const salaryChanges = [];
       const costChanges = [];
       
-      for (let i = 0; i < trends.length - 1; i++) {
-        salaryChanges.push(trends[i].avgSalary - trends[i + 1].avgSalary);
-        costChanges.push(trends[i].avgCost - trends[i + 1].avgCost);
+      for (let i = 1; i < trends.length; i++) {
+        salaryChanges.push(trends[i].avgSalary - trends[i - 1].avgSalary);
+        costChanges.push(trends[i].avgCost - trends[i - 1].avgCost);
       }
       
       const avgSalaryChange = salaryChanges.reduce((a, b) => a + b, 0) / salaryChanges.length;
       const avgCostChange = costChanges.reduce((a, b) => a + b, 0) / costChanges.length;
 
-      // Project next 3 years
-      const latestYear = trends[0].year;
+      // Project next 3 years from latest year
+      const latestYear = trends[trends.length - 1].year;
+      const latestSalary = trends[trends.length - 1].avgSalary;
+      const latestCost = trends[trends.length - 1].avgCost;
+      
       for (let i = 1; i <= 3; i++) {
-        const predictedSalary = Math.round(trends[0].avgSalary + (avgSalaryChange * i));
-        const predictedCost = Math.round(trends[0].avgCost + (avgCostChange * i));
+        const predictedSalary = Math.round(latestSalary + (avgSalaryChange * i));
+        const predictedCost = Math.round(latestCost + (avgCostChange * i));
         
         predictions.push({
           year: latestYear + i,

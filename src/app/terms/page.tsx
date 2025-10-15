@@ -86,7 +86,7 @@ export default function TermsOfServicePage() {
             <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">5.1 Subscription Tiers</h3>
             <ul className="list-disc pl-6 space-y-2 text-gray-700">
               <li><strong>Free Tier:</strong> Basic features with limited saved scenarios and bookmarks</li>
-              <li><strong>Premium Tier ($9.99/month):</strong> Unlimited features, historical trends, advanced analytics</li>
+              <li><strong>Premium Tier ($6.99/month):</strong> Unlimited features, historical trends, advanced analytics</li>
             </ul>
 
             <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">5.2 Billing and Payments</h3>

@@ -95,7 +95,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
           <select
             value={stateFilter}
             onChange={(e) => setStateFilter(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-600"
           >
             <option value="all">All States ({institutions.length} institutions)</option>
             {availableStates.map(state => (

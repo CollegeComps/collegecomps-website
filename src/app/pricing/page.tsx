@@ -135,11 +135,11 @@ export default function PricingPage() {
                 <h3 className="text-2xl font-bold text-gray-900">Premium</h3>
               </div>
               <div className="text-4xl font-bold text-gray-900 mb-2">
-                ${billingCycle === 'monthly' ? '9.99' : '8.33'}
+                ${billingCycle === 'monthly' ? '6.99' : '5.83'}
                 <span className="text-lg text-gray-500 font-normal">/month</span>
               </div>
               <p className="text-gray-600">
-                {billingCycle === 'annual' ? 'Billed annually at $100' : 'or $100/year (save $20)'}
+                {billingCycle === 'annual' ? 'Billed annually at $69.99' : 'or $69.99/year (save $14)'}
               </p>
             </div>
             

@@ -68,13 +68,7 @@ export default function HistoricalTrendsPage() {
     }
 
     if (status === 'authenticated') {
-      // Check tier access
-      const tier = session?.user?.subscriptionTier || 'free';
-      if (tier === 'free') {
-        router.push('/pricing');
-        return;
-      }
-      
+      // Historical Trends is now available to all users (free + premium)
       fetchTrendData();
     }
   }, [status, router, session]);

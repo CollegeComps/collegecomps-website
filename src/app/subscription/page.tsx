@@ -210,7 +210,7 @@ export default function SubscriptionPage() {
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Amount</p>
-                      <p className="text-lg font-semibold text-gray-900">$9.99/month</p>
+                      <p className="text-lg font-semibold text-gray-900">$6.99/month</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Payment Method</p>
@@ -241,7 +241,7 @@ export default function SubscriptionPage() {
                   onClick={handleUpgrade}
                   className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold py-4 rounded-lg hover:shadow-lg transition-all transform hover:-translate-y-1"
                 >
-                  🚀 Upgrade to Premium - $9.99/month
+                  🚀 Upgrade to Premium - $6.99/month
                 </button>
               )}
             </div>
