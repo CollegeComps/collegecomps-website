@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 
     try {
       // Get all institutions offering this program
-      // Simplified query without state filtering to ensure it works
+      // Note: academic_programs table uses 'completions' not 'total_completions'
       const institutions = await db.prepare(`
         SELECT DISTINCT
           i.unitid,
@@ -34,14 +34,14 @@ export async function GET(request: NextRequest) {
           i.state,
           i.control_public_private,
           ap.cip_title,
-          ap.total_completions,
+          ap.completions as total_completions,
           ap.credential_name
         FROM institutions i
         INNER JOIN academic_programs ap ON i.unitid = ap.unitid
         WHERE ap.cipcode = ?
           AND i.state IS NOT NULL
           AND i.state != ''
-        ORDER BY ap.total_completions DESC NULLS LAST
+        ORDER BY ap.completions DESC NULLS LAST
         LIMIT 500
       `).all(cipcode);
 
