@@ -3,6 +3,9 @@ import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import { getUsersDb } from '@/lib/db-helper'
 import { sendWelcomeEmail } from '@/lib/email-service'
+import { signupSchema } from '@/lib/validation-schemas'
+import { sanitizeInput, authRateLimiter } from '@/lib/sanitization'
+import { z } from 'zod'
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,22 +14,37 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
     }
     
-    const { email, password, name } = await req.json()
-
-    // Validation
-    if (!email || !password) {
+    // Rate limiting - 5 signups per 15 minutes per IP
+    const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    if (!authRateLimiter.isAllowed(`signup:${ip}`, 5, 15 * 60 * 1000)) {
       return NextResponse.json(
-        { error: 'Email and password are required' },
-        { status: 400 }
-      )
+        { error: 'Too many signup attempts. Please try again later.' },
+        { status: 429 }
+      );
     }
 
-    if (password.length < 8) {
-      return NextResponse.json(
-        { error: 'Password must be at least 8 characters' },
-        { status: 400 }
-      )
+    const body = await req.json()
+
+    // Validate and sanitize input with Zod
+    let validatedData;
+    try {
+      validatedData = signupSchema.parse({
+        email: body.email,
+        password: body.password,
+        name: body.name
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const zodError = error as z.ZodError;
+        return NextResponse.json(
+          { error: zodError.issues[0].message },
+          { status: 400 }
+        );
+      }
+      throw error;
     }
+
+    const { email, password, name } = validatedData;
 
     // Check if user already exists
     const existingUser = await db.prepare('SELECT id, password_hash FROM users WHERE email = ?')
@@ -57,17 +75,20 @@ export async function POST(req: NextRequest) {
     const verificationToken = crypto.randomBytes(32).toString('hex')
     const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
 
+    // Sanitize name if provided
+    const sanitizedName = name ? sanitizeInput(name) : null;
+
     // Create user
     const result = await db.prepare(`
       INSERT INTO users (email, password_hash, name, verification_token, verification_token_expires, email_verified)
       VALUES (?, ?, ?, ?, ?, 0)
-    `).run(email, passwordHash, name || null, verificationToken, verificationExpires.toISOString())
+    `).run(email, passwordHash, sanitizedName, verificationToken, verificationExpires.toISOString())
 
     const userId = Number(result.lastInsertRowid)
 
     // Send welcome email with verification link
     try {
-      await sendWelcomeEmail(email, name || 'there', verificationToken, userId.toString())
+      await sendWelcomeEmail(email, sanitizedName || 'there', verificationToken, userId.toString())
       console.log(`✅ Welcome email sent to ${email}`)
     } catch (emailError) {
       console.error('❌ Failed to send welcome email:', emailError)

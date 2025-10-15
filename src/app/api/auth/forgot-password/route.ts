@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getUsersDb } from '@/lib/db-helper';
 import crypto from 'crypto';
 import { sendPasswordResetEmail } from '@/lib/email-service';
+import { forgotPasswordSchema } from '@/lib/validation-schemas';
+import { authRateLimiter } from '@/lib/sanitization';
+import { z } from 'zod';
 
 export async function POST(req: NextRequest) {
   const db = getUsersDb();
@@ -10,11 +13,33 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { email } = await req.json();
-
-    if (!email) {
-      return NextResponse.json({ error: 'Email is required' }, { status: 400 });
+    // Rate limiting - 3 forgot password requests per 15 minutes per IP
+    const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    if (!authRateLimiter.isAllowed(`forgot-password:${ip}`, 3, 15 * 60 * 1000)) {
+      return NextResponse.json(
+        { error: 'Too many reset attempts. Please try again later.' },
+        { status: 429 }
+      );
     }
+
+    const body = await req.json();
+
+    // Validate input
+    let validatedData;
+    try {
+      validatedData = forgotPasswordSchema.parse(body);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const zodError = error as z.ZodError;
+        return NextResponse.json(
+          { error: zodError.issues[0].message },
+          { status: 400 }
+        );
+      }
+      throw error;
+    }
+
+    const { email } = validatedData;
 
     // Check if user exists
     const user = await db.prepare('SELECT id, email, name FROM users WHERE email = ?').get(email) as { id: number; email: string; name: string } | undefined;
