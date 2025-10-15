@@ -5,6 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import SessionProvider from "@/components/SessionProvider";
 import OnboardingCheck from "@/components/OnboardingCheck";
 import CookieConsent from "@/components/CookieConsent";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -86,6 +87,7 @@ export default function RootLayout({
           </OnboardingCheck>
           <CookieConsent />
         </SessionProvider>
+        <Analytics />
       </body>
     </html>
   );

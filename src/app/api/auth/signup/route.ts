@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
+import crypto from 'crypto'
 import { getUsersDb } from '@/lib/db-helper'
+import { sendWelcomeEmail } from '@/lib/email-service'
 
 export async function POST(req: NextRequest) {
   try {
@@ -51,17 +53,33 @@ export async function POST(req: NextRequest) {
     // Hash password
     const passwordHash = await bcrypt.hash(password, 10)
 
+    // Generate email verification token
+    const verificationToken = crypto.randomBytes(32).toString('hex')
+    const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
+
     // Create user
     const result = await db.prepare(`
-      INSERT INTO users (email, password_hash, name)
-      VALUES (?, ?, ?)
-    `).run(email, passwordHash, name || null)
+      INSERT INTO users (email, password_hash, name, verification_token, verification_token_expires, email_verified)
+      VALUES (?, ?, ?, ?, ?, 0)
+    `).run(email, passwordHash, name || null, verificationToken, verificationExpires.toISOString())
+
+    const userId = Number(result.lastInsertRowid)
+
+    // Send welcome email with verification link
+    try {
+      await sendWelcomeEmail(email, name || 'there', verificationToken, userId.toString())
+      console.log(`✅ Welcome email sent to ${email}`)
+    } catch (emailError) {
+      console.error('❌ Failed to send welcome email:', emailError)
+      // Don't fail signup if email fails - user can verify later
+    }
 
     return NextResponse.json(
       { 
         success: true,
-        message: 'Account created successfully',
-        userId: Number(result.lastInsertRowid)
+        message: 'Account created successfully. Please check your email to verify your account.',
+        userId,
+        requiresVerification: true
       },
       { status: 201 }
     )
