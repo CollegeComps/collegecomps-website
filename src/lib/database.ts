@@ -376,11 +376,24 @@ export class CollegeDataService {
     control?: number;
     maxTuition?: number;
     minEarnings?: number;
+    majorCategory?: string;
     sortBy?: string;
   }): Promise<Institution[]> {
     const { clause: statesClause, params: stateParams } = getStatesInClause();
     
-    let query = `
+    // If filtering by major category, we need to join with academic_programs
+    const needsProgramsJoin = filters.majorCategory !== undefined;
+    
+    let query = needsProgramsJoin ? `
+      SELECT DISTINCT i.*, f.tuition_in_state, f.tuition_out_state, f.room_board_on_campus,
+             e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
+      FROM institutions i
+      LEFT JOIN financial_data f ON i.unitid = f.unitid 
+        AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
+      LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
+      INNER JOIN academic_programs ap ON i.unitid = ap.unitid
+      WHERE ${statesClause}
+    ` : `
       SELECT i.*, f.tuition_in_state, f.tuition_out_state, f.room_board_on_campus,
              e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
       FROM institutions i
@@ -391,6 +404,18 @@ export class CollegeDataService {
     `;
     
     const params: any[] = [...stateParams];
+    
+    // ENG-25: Filter by major category using CIP code mapping
+    if (filters.majorCategory) {
+      const { getCIPCodesForCategory } = require('@/lib/cip-category-mapping');
+      const cipPrefixes = getCIPCodesForCategory(filters.majorCategory);
+      
+      if (cipPrefixes.length > 0) {
+        const cipConditions = cipPrefixes.map(() => `ap.cipcode LIKE ?`).join(' OR ');
+        query += ` AND (${cipConditions})`;
+        cipPrefixes.forEach((prefix: string) => params.push(`${prefix}%`));
+      }
+    }
     
     if (filters.name) {
       query += ` AND i.name LIKE ?`;
