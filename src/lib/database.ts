@@ -384,9 +384,11 @@ export class CollegeDataService {
     // If filtering by major category, we need to join with academic_programs
     const needsProgramsJoin = filters.majorCategory !== undefined;
     
+    // ENG-30: Include admissions and ROI fields
     let query = needsProgramsJoin ? `
       SELECT DISTINCT i.*, f.tuition_in_state, f.tuition_out_state, f.room_board_on_campus,
-             e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
+             e.earnings_6_years_after_entry, e.earnings_10_years_after_entry,
+             i.implied_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference
       FROM institutions i
       LEFT JOIN financial_data f ON i.unitid = f.unitid 
         AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
@@ -395,7 +397,8 @@ export class CollegeDataService {
       WHERE ${statesClause}
     ` : `
       SELECT i.*, f.tuition_in_state, f.tuition_out_state, f.room_board_on_campus,
-             e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
+             e.earnings_6_years_after_entry, e.earnings_10_years_after_entry,
+             i.implied_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference
       FROM institutions i
       LEFT JOIN financial_data f ON i.unitid = f.unitid 
         AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
@@ -505,7 +508,13 @@ export class CollegeDataService {
       tuition_out_state: row.tuition_out_state,
       room_board_on_campus: row.room_board_on_campus,
       mean_earnings_6_years: row.earnings_6_years_after_entry,
-      mean_earnings_10_years: row.earnings_10_years_after_entry
+      mean_earnings_10_years: row.earnings_10_years_after_entry,
+      // ENG-30: Add admissions and ROI fields
+      implied_roi: row.implied_roi,
+      acceptance_rate: row.acceptance_rate,
+      average_sat: row.average_sat,
+      average_act: row.average_act,
+      athletic_conference: row.athletic_conference
     }));
   }
 
