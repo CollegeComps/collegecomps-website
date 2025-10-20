@@ -15,6 +15,9 @@ import {
   UsersIcon
 } from '@heroicons/react/24/outline';
 
+// Dynamic import for school categories
+const { getSchoolBadges } = require('@/lib/school-categories');
+
 interface InstitutionDetails {
   institution: Institution;
   programs: AcademicProgram[];
@@ -203,14 +206,37 @@ export default function CollegeDetailPage() {
           </button>
           
           <div className="flex items-start justify-between">
-            <div>
+            <div className="flex-1">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
                 {institution.name}
               </h1>
-              <div className="flex items-center text-gray-600 text-lg">
+              <div className="flex items-center text-gray-600 text-lg mb-3">
                 <MapPinIcon className="w-5 h-5 mr-2" />
                 {institution.city}, {institution.state}
               </div>
+              
+              {/* School Category Badges */}
+              {(() => {
+                const badges = getSchoolBadges({
+                  unitid: institution.unitid,
+                  historically_black: institution.historically_black,
+                  control_of_institution: institution.control_of_institution,
+                  name: institution.name
+                });
+                return badges.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {badges.map((badge: any) => (
+                      <span
+                        key={badge.category}
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${badge.color} ${badge.bgColor}`}
+                        title={badge.description}
+                      >
+                        {badge.label}
+                      </span>
+                    ))}
+                  </div>
+                );
+              })()}
             </div>
             
             {institution.website && (
@@ -300,6 +326,39 @@ export default function CollegeDetailPage() {
           <div className="lg:col-span-2">
             {activeTab === 'overview' && (
               <div className="space-y-6">
+                {/* Admissions Data */}
+                {(institution.acceptance_rate || institution.average_sat || institution.average_act) && (
+                  <div className="bg-white rounded-lg shadow-sm border p-6">
+                    <h2 className="text-xl font-semibold text-gray-900 mb-4">Admissions</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                      {institution.acceptance_rate && (
+                        <div>
+                          <dt className="text-sm font-medium text-gray-500 mb-1">Acceptance Rate</dt>
+                          <dd className="text-2xl font-bold text-purple-700">
+                            {(institution.acceptance_rate * 100).toFixed(1)}%
+                          </dd>
+                        </div>
+                      )}
+                      {institution.average_sat && (
+                        <div>
+                          <dt className="text-sm font-medium text-gray-500 mb-1">Average SAT</dt>
+                          <dd className="text-2xl font-bold text-indigo-700">
+                            {institution.average_sat}
+                          </dd>
+                        </div>
+                      )}
+                      {institution.average_act && (
+                        <div>
+                          <dt className="text-sm font-medium text-gray-500 mb-1">Average ACT</dt>
+                          <dd className="text-2xl font-bold text-indigo-700">
+                            {institution.average_act}
+                          </dd>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+                
                 <div className="bg-white rounded-lg shadow-sm border p-6">
                   <h2 className="text-xl font-semibold text-gray-900 mb-4">Institution Information</h2>
                   <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -426,14 +485,28 @@ export default function CollegeDetailPage() {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {institution.earnings_6_years_after_entry && (
+            {(institution.earnings_6_years_after_entry || institution.mean_earnings_10_years) && (
               <div className="bg-white rounded-lg shadow-sm border p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Graduate Outcomes</h3>
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm text-gray-600">Average Earnings (6 years after entry)</p>
-                    <p className="text-2xl font-bold text-gray-900">{formatCurrency(institution.earnings_6_years_after_entry)}</p>
-                  </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Graduate Outcomes</h3>
+                <div className="space-y-4">
+                  {institution.earnings_6_years_after_entry && (
+                    <div>
+                      <p className="text-sm text-gray-600 mb-1">Average Earnings (6 years)</p>
+                      <div className="flex items-center">
+                        <CurrencyDollarIcon className="w-5 h-5 text-green-500 mr-2" />
+                        <p className="text-2xl font-bold text-gray-900">{formatCurrency(institution.earnings_6_years_after_entry)}</p>
+                      </div>
+                    </div>
+                  )}
+                  {institution.mean_earnings_10_years && (
+                    <div>
+                      <p className="text-sm text-gray-600 mb-1">Average Earnings (10 years)</p>
+                      <div className="flex items-center">
+                        <CurrencyDollarIcon className="w-5 h-5 text-blue-500 mr-2" />
+                        <p className="text-2xl font-bold text-gray-900">{formatCurrency(institution.mean_earnings_10_years)}</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
