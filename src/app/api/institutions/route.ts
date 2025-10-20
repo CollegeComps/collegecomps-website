@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { CollegeDataService } from '@/lib/database';
+import { 
+  getZipCodeCoordinates, 
+  filterByProximity, 
+  normalizeZipCode 
+} from '@/lib/geo-utils';
 
 export async function GET(request: NextRequest) {
   try {
@@ -8,6 +13,8 @@ export async function GET(request: NextRequest) {
     const state = searchParams.get('state');
     const city = searchParams.get('city');
     const zipCode = searchParams.get('zipCode');
+    const proximityZip = searchParams.get('proximityZip'); // New: zip code for proximity search
+    const radiusMiles = parseInt(searchParams.get('radiusMiles') || '50'); // Default 50 mile radius
     const control = searchParams.get('control');
     const maxTuition = searchParams.get('maxTuition');
     const minEarnings = searchParams.get('minEarnings');
@@ -40,6 +47,42 @@ export async function GET(request: NextRequest) {
       // Get all institutions with pagination
       const offset = (page - 1) * limit;
       institutions = await collegeService.getInstitutions(limit, offset, search || undefined, sortBy);
+    }
+
+    // Apply proximity filter if proximityZip is provided
+    if (proximityZip) {
+      const normalizedZip = normalizeZipCode(proximityZip);
+      
+      if (normalizedZip) {
+        const coordinates = await getZipCodeCoordinates(normalizedZip);
+        
+        if (coordinates) {
+          // Filter institutions by proximity
+          institutions = filterByProximity(
+            institutions,
+            coordinates.latitude,
+            coordinates.longitude,
+            radiusMiles
+          );
+        } else {
+          // If we couldn't get coordinates, return empty array with helpful message
+          return NextResponse.json({
+            institutions: [],
+            page,
+            limit,
+            hasMore: false,
+            error: `Unable to find coordinates for zip code ${proximityZip}. Please try a different zip code.`
+          });
+        }
+      } else {
+        return NextResponse.json({
+          institutions: [],
+          page,
+          limit,
+          hasMore: false,
+          error: 'Invalid zip code format. Please provide a 5-digit US zip code.'
+        });
+      }
     }
 
     return NextResponse.json({
