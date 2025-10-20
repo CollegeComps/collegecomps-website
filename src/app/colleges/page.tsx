@@ -483,6 +483,34 @@ export default function CollegesPage() {
                   </span>
                 </div>
 
+                {/* School Category Badges (ENG-31) */}
+                {(() => {
+                  const { getSchoolBadges } = require('@/lib/school-categories');
+                  const badges = getSchoolBadges({
+                    unitid: institution.unitid,
+                    historically_black: (institution as any).historically_black,
+                    control_public_private: institution.control_of_institution,
+                    name: institution.name
+                  });
+                  
+                  if (badges.length > 0) {
+                    return (
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {badges.map((badge: any) => (
+                          <span
+                            key={badge.category}
+                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${badge.bgColor} ${badge.color}`}
+                            title={badge.description}
+                          >
+                            {badge.label}
+                          </span>
+                        ))}
+                      </div>
+                    );
+                  }
+                  return null;
+                })()}
+
                   {/* Financial Information - Enhanced visibility */}
                   <div className="bg-gray-50 rounded-lg p-3 mb-3">
                     <h4 className="text-xs font-bold text-gray-800 uppercase tracking-wide mb-2">Cost Information</h4>
