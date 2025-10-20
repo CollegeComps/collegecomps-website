@@ -23,10 +23,6 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
   const [controlFilter, setControlFilter] = useState<'all' | 'public' | 'private'>('all');
   const [stateFilter, setStateFilter] = useState<string>('all');
 
-  useEffect(() => {
-    fetchInstitutions();
-  }, [cipcode]);
-
   const fetchInstitutions = async () => {
     setLoading(true);
     try {
@@ -41,6 +37,14 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchInstitutions();
+    // Reset filters when cipcode changes
+    setControlFilter('all');
+    setStateFilter('all');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cipcode]);
 
   const filteredInstitutions = institutions.filter(inst => {
     // Filter by control type
