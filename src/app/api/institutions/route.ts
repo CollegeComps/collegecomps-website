@@ -5,6 +5,7 @@ import {
   filterByProximity, 
   normalizeZipCode 
 } from '@/lib/geo-utils';
+import { MajorCategory } from '@/lib/cip-category-mapping';
 
 export async function GET(request: NextRequest) {
   try {
@@ -18,6 +19,7 @@ export async function GET(request: NextRequest) {
     const control = searchParams.get('control');
     const maxTuition = searchParams.get('maxTuition');
     const minEarnings = searchParams.get('minEarnings');
+    const majorCategory = searchParams.get('majorCategory') as MajorCategory | null; // ENG-25: Major category filter
     const sortBy = searchParams.get('sortBy') || 'implied_roi'; // Default to ROI sorting (ENG-18)
     const unitid = searchParams.get('unitid');
     const page = parseInt(searchParams.get('page') || '1');
@@ -31,7 +33,7 @@ export async function GET(request: NextRequest) {
     if (unitid) {
       const singleInst = await collegeService.getInstitutionByUnitid(parseInt(unitid));
       institutions = singleInst ? [singleInst] : [];
-    } else if (search || state || city || zipCode || control || maxTuition || minEarnings || sortBy !== 'implied_roi') {
+    } else if (search || state || city || zipCode || control || maxTuition || minEarnings || majorCategory || sortBy !== 'implied_roi') {
       // Use search with filters (or if non-default sort is specified)
       institutions = await collegeService.searchInstitutions({
         name: search || undefined,
@@ -41,6 +43,7 @@ export async function GET(request: NextRequest) {
         control: control ? parseInt(control) : undefined,
         maxTuition: maxTuition ? parseFloat(maxTuition) : undefined,
         minEarnings: minEarnings ? parseFloat(minEarnings) : undefined,
+        majorCategory: majorCategory || undefined,
         sortBy: sortBy
       });
     } else {
