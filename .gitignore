@@ -61,4 +61,4 @@ test_performance.sh
 # Documentation - only allow README.md and .github docs
 *.md
 !README.md
-!.github/*.md
+!.github/*.mddev.log
