@@ -3,6 +3,20 @@
 import { ROICalculation, Institution, Program, CostInputs, EarningsInputs } from '@/types';
 import { ROICalculator } from '@/utils/roiCalculator';
 import DataCitation from './DataCitation';
+import {
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  Area,
+  AreaChart
+} from 'recharts';
 
 interface ROIResultsProps {
   result: ROICalculation;
@@ -15,6 +29,41 @@ interface ROIResultsProps {
 export default function ROIResults({ result, institution, program, costs, earnings }: ROIResultsProps) {
   const isPositiveROI = result.netROI > 0;
   const isReasonablePayback = result.paybackPeriod <= 10 && result.paybackPeriod !== Infinity;
+
+  // Generate payback timeline data
+  const generatePaybackTimeline = () => {
+    const years = Math.min(Math.ceil(result.paybackPeriod) + 5, 30);
+    const timeline = [];
+    
+    for (let year = 0; year <= years; year++) {
+      const withoutDegree = earnings.baselineSalary * year * (1 + earnings.salaryGrowthRate / 100);
+      const withDegree = earnings.projectedSalary * year * (1 + earnings.salaryGrowthRate / 100) - result.totalCost;
+      
+      timeline.push({
+        year,
+        withDegree: Math.round(withDegree),
+        withoutDegree: Math.round(withoutDegree),
+        breakEven: year === Math.ceil(result.paybackPeriod)
+      });
+    }
+    
+    return timeline;
+  };
+
+  // Generate cost breakdown data
+  const generateCostBreakdown = () => {
+    const years = costs.programLength;
+    return [
+      { name: 'Tuition', value: costs.tuition * years, color: '#3B82F6' },
+      { name: 'Fees', value: costs.fees * years, color: '#10B981' },
+      { name: 'Room & Board', value: costs.roomBoard * years, color: '#F59E0B' },
+      { name: 'Books', value: costs.books * years, color: '#8B5CF6' },
+      { name: 'Other Expenses', value: costs.otherExpenses * years, color: '#EF4444' }
+    ].filter(item => item.value > 0);
+  };
+
+  const timelineData = generatePaybackTimeline();
+  const costBreakdownData = generateCostBreakdown();
 
   return (
     <div className="space-y-6">
@@ -84,6 +133,86 @@ export default function ROIResults({ result, institution, program, costs, earnin
           </div>
         </div>
       </div>
+
+      {/* Payback Timeline Visualization */}
+      <div className="bg-white rounded-lg shadow-sm border p-6">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Payback Timeline</h3>
+        <p className="text-sm text-gray-600 mb-4">
+          Cumulative earnings comparison showing when the degree investment pays off
+        </p>
+        <ResponsiveContainer width="100%" height={300}>
+          <AreaChart data={timelineData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis 
+              dataKey="year" 
+              label={{ value: 'Years After Graduation', position: 'insideBottom', offset: -5 }}
+            />
+            <YAxis 
+              tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+              label={{ value: 'Cumulative Earnings', angle: -90, position: 'insideLeft' }}
+            />
+            <Tooltip 
+              formatter={(value: number) => `$${value.toLocaleString()}`}
+              labelFormatter={(label) => `Year ${label}`}
+            />
+            <Legend />
+            <Area 
+              type="monotone" 
+              dataKey="withDegree" 
+              stroke="#3B82F6" 
+              fill="#BFDBFE" 
+              name="With Degree"
+            />
+            <Area 
+              type="monotone" 
+              dataKey="withoutDegree" 
+              stroke="#EF4444" 
+              fill="#FECACA" 
+              name="Without Degree"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+        {result.paybackPeriod !== Infinity && (
+          <p className="text-sm text-gray-600 mt-4 text-center">
+            💡 Break-even point: Year {Math.ceil(result.paybackPeriod)} - Your investment is recovered after this point
+          </p>
+        )}
+      </div>
+
+      {/* Cost Breakdown Visualization */}
+      {costBreakdownData.length > 0 && (
+        <div className="bg-white rounded-lg shadow-sm border p-6">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Total Cost Breakdown</h3>
+          <p className="text-sm text-gray-600 mb-4">
+            Distribution of education expenses over {costs.programLength} years
+          </p>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={costBreakdownData} layout="vertical">
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis 
+                type="number" 
+                tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+              />
+              <YAxis 
+                type="category" 
+                dataKey="name" 
+                width={120}
+              />
+              <Tooltip 
+                formatter={(value: number) => `$${value.toLocaleString()}`}
+              />
+              <Bar dataKey="value" fill="#3B82F6">
+                {costBreakdownData.map((entry, index) => (
+                  <rect key={`bar-${index}`} fill={entry.color} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+          <p className="text-sm text-gray-600 mt-4 text-center">
+            Total Investment: {ROICalculator.formatCurrency(result.totalCost)}
+          </p>
+        </div>
+      )}
 
       {/* Earnings Comparison */}
       <div className="bg-white rounded-lg shadow-sm border p-6">
