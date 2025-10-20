@@ -23,6 +23,7 @@ export default function AnalyticsPage() {
   const [data, setData] = useState<InstitutionDataPoint[]>([]);
   const [filteredData, setFilteredData] = useState<InstitutionDataPoint[]>([]);
   const [loading, setLoading] = useState(true);
+  const [maxCostInData, setMaxCostInData] = useState(100000);
   const [filters, setFilters] = useState<FilterState>({
     state: 'all',
     controlType: 'all',
@@ -62,6 +63,13 @@ export default function AnalyticsPage() {
         }));
 
       setData(dataPoints);
+      
+      // Calculate max cost from data
+      const maxCost = Math.max(...dataPoints.map(d => d.cost));
+      setMaxCostInData(maxCost);
+      
+      // Update filter max cost to actual maximum
+      setFilters(prev => ({ ...prev, maxCost: maxCost }));
       
       // Extract unique states
       const uniqueStates = [...new Set(dataPoints.map(d => d.state))].sort();
@@ -202,7 +210,7 @@ export default function AnalyticsPage() {
               <input
                 type="range"
                 min="0"
-                max="100000"
+                max={maxCostInData}
                 step="5000"
                 value={filters.maxCost}
                 onChange={(e) => setFilters({ ...filters, maxCost: parseInt(e.target.value) })}
