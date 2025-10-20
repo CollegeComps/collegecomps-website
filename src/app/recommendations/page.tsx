@@ -42,12 +42,15 @@ export default function RecommendationsPage() {
 
       let stats: UserStats = {};
 
+      let hasData = false;
+
       if (session?.user) {
         // User is logged in - fetch from database
         const responsesResponse = await fetch('/api/user/responses');
         if (responsesResponse.ok) {
           const { responses } = await responsesResponse.json();
           if (responses) {
+            hasData = true;
             stats = {
               gpa: responses.gpa || undefined,
               sat: responses.sat_score || undefined,
@@ -61,10 +64,11 @@ export default function RecommendationsPage() {
       }
 
       // Fallback to localStorage if no database data
-      if (!stats.gpa && !stats.sat && !stats.act) {
+      if (!hasData) {
         const savedAnswers = localStorage.getItem('questionnaireAnswers');
         if (savedAnswers) {
           const answers = JSON.parse(savedAnswers);
+          hasData = true;
           stats = {
             gpa: answers.gpa ? parseFloat(answers.gpa) : undefined,
             sat: answers.satScore ? parseInt(answers.satScore) : undefined,
@@ -77,7 +81,7 @@ export default function RecommendationsPage() {
       }
 
       // If no data at all, show empty state
-      if (!stats.gpa && !stats.sat && !stats.act) {
+      if (!hasData) {
         setLoading(false);
         return;
       }
