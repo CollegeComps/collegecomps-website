@@ -13,6 +13,7 @@ import {
   CurrencyDollarIcon,
   AcademicCapIcon,
   FunnelIcon,
+  XMarkIcon,
   BookmarkIcon as BookmarkOutlineIcon
 } from '@heroicons/react/24/outline';
 import { BookmarkIcon as BookmarkSolidIcon } from '@heroicons/react/24/solid';
@@ -423,6 +424,92 @@ export default function CollegesPage() {
             </div>
           )}
         </div>
+
+        {/* Active Filters Chips (ENG-33) */}
+        {(filters.state || filters.city || filters.zipCode || filters.control || filters.maxTuition || filters.minEarnings || filters.sortBy !== 'name') && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-semibold text-blue-900">Active Filters:</h3>
+              <button
+                onClick={clearFilters}
+                className="text-sm text-blue-700 hover:text-blue-900 font-medium underline"
+              >
+                Clear All
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {filters.state && (
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                  State: {US_STATES.find(s => s.code === filters.state)?.name}
+                  <button
+                    onClick={() => handleFilterChange('state', '')}
+                    className="hover:bg-blue-100 rounded-full p-0.5"
+                  >
+                    <XMarkIcon className="w-4 h-4" />
+                  </button>
+                </span>
+              )}
+              {filters.city && (
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                  City: {filters.city}
+                  <button
+                    onClick={() => handleFilterChange('city', '')}
+                    className="hover:bg-blue-100 rounded-full p-0.5"
+                  >
+                    <XMarkIcon className="w-4 h-4" />
+                  </button>
+                </span>
+              )}
+              {filters.zipCode && (
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                  ZIP: {filters.zipCode}
+                  <button
+                    onClick={() => handleFilterChange('zipCode', '')}
+                    className="hover:bg-blue-100 rounded-full p-0.5"
+                  >
+                    <XMarkIcon className="w-4 h-4" />
+                  </button>
+                </span>
+              )}
+              {filters.control && (
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                  Type: {filters.control === '1' ? 'Public' : filters.control === '2' ? 'Private Non-profit' : 'Private For-profit'}
+                  <button
+                    onClick={() => handleFilterChange('control', '')}
+                    className="hover:bg-blue-100 rounded-full p-0.5"
+                  >
+                    <XMarkIcon className="w-4 h-4" />
+                  </button>
+                </span>
+              )}
+              {filters.maxTuition && (
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                  Max Tuition: ${parseInt(filters.maxTuition).toLocaleString()}
+                  <button
+                    onClick={() => handleFilterChange('maxTuition', '')}
+                    className="hover:bg-blue-100 rounded-full p-0.5"
+                  >
+                    <XMarkIcon className="w-4 h-4" />
+                  </button>
+                </span>
+              )}
+              {filters.sortBy !== 'name' && (
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                  Sort: {filters.sortBy === 'tuition_low' ? 'Tuition (Low-High)' : 
+                          filters.sortBy === 'tuition_high' ? 'Tuition (High-Low)' :
+                          filters.sortBy === 'earnings_high' ? 'Earnings (High-Low)' :
+                          filters.sortBy === 'earnings_low' ? 'Earnings (Low-High)' : filters.sortBy}
+                  <button
+                    onClick={() => handleFilterChange('sortBy', 'name')}
+                    className="hover:bg-blue-100 rounded-full p-0.5"
+                  >
+                    <XMarkIcon className="w-4 h-4" />
+                  </button>
+                </span>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Results */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
