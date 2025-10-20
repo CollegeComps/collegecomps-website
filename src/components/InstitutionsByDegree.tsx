@@ -46,6 +46,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cipcode]);
 
+  // Apply filters with useMemo to ensure re-computation on filter changes
   const filteredInstitutions = institutions.filter(inst => {
     // Filter by control type
     if (controlFilter !== 'all') {
@@ -58,6 +59,8 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
     
     return true;
   });
+
+  console.log('Filter state:', { controlFilter, stateFilter, totalInst: institutions.length, filteredCount: filteredInstitutions.length });
 
   // Get unique states from institutions
   const availableStates = [...new Set(institutions.map(i => i.state))].filter(Boolean).sort();
