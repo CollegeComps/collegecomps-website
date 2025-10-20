@@ -146,13 +146,13 @@ export default function AnalyticsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* State Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-800 mb-2">
                 State
               </label>
               <select
                 value={filters.state}
                 onChange={(e) => setFilters({ ...filters, state: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="all">All States</option>
                 {states.map(state => (
@@ -163,13 +163,13 @@ export default function AnalyticsPage() {
 
             {/* Control Type Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-800 mb-2">
                 Institution Type
               </label>
               <select
                 value={filters.controlType}
                 onChange={(e) => setFilters({ ...filters, controlType: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="all">All Types</option>
                 <option value="Public">Public</option>
@@ -180,7 +180,7 @@ export default function AnalyticsPage() {
 
             {/* Min ROI Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-800 mb-2">
                 Minimum ROI: {filters.minROI}%
               </label>
               <input
@@ -196,7 +196,7 @@ export default function AnalyticsPage() {
 
             {/* Max Cost Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-800 mb-2">
                 Max Cost: ${(filters.maxCost / 1000).toFixed(0)}k
               </label>
               <input
@@ -211,8 +211,8 @@ export default function AnalyticsPage() {
             </div>
           </div>
 
-          <div className="mt-4 text-sm text-gray-600">
-            Showing <span className="font-semibold">{filteredData.length}</span> of <span className="font-semibold">{data.length}</span> institutions
+          <div className="mt-4 text-sm text-gray-700">
+            Showing <span className="font-semibold text-gray-900">{filteredData.length}</span> of <span className="font-semibold text-gray-900">{data.length}</span> institutions
           </div>
         </div>
 
@@ -220,7 +220,7 @@ export default function AnalyticsPage() {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           {loading ? (
             <div className="flex items-center justify-center h-96">
-              <div className="text-gray-500">Loading chart data...</div>
+              <div className="text-gray-700 font-medium">Loading chart data...</div>
             </div>
           ) : (
             <>
@@ -228,7 +228,7 @@ export default function AnalyticsPage() {
                 ROI vs Total Annual Cost
               </h2>
               <ResponsiveContainer width="100%" height={500}>
-                <ScatterChart margin={{ top: 20, right: 20, bottom: 60, left: 60 }}>
+                <ScatterChart margin={{ top: 20, right: 20, bottom: 60, left: 70 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis 
                     type="number" 
@@ -241,7 +241,7 @@ export default function AnalyticsPage() {
                     type="number" 
                     dataKey="roi" 
                     name="ROI"
-                    label={{ value: 'ROI (%)', angle: -90, position: 'insideLeft' }}
+                    label={{ value: 'ROI (%)', angle: -90, position: 'insideLeft', offset: 10 }}
                     tickFormatter={(value) => `${value}%`}
                   />
                   <ZAxis range={[50, 50]} />
