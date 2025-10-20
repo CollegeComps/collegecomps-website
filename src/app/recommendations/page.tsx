@@ -36,25 +36,51 @@ export default function RecommendationsPage() {
     try {
       setLoading(true);
 
-      // Get user stats from localStorage (from onboarding)
-      const savedAnswers = localStorage.getItem('questionnaireAnswers');
-      if (!savedAnswers) {
-        // No questionnaire data - show empty state instead of redirecting
+      // Try to fetch from database first
+      const sessionResponse = await fetch('/api/auth/session');
+      const session = await sessionResponse.json();
+
+      let stats: UserStats = {};
+
+      if (session?.user) {
+        // User is logged in - fetch from database
+        const responsesResponse = await fetch('/api/user/responses');
+        if (responsesResponse.ok) {
+          const { responses } = await responsesResponse.json();
+          if (responses) {
+            stats = {
+              gpa: responses.gpa || undefined,
+              sat: responses.sat_score || undefined,
+              act: responses.act_score || undefined,
+              zipCode: responses.zip_code || undefined,
+              latitude: responses.latitude || undefined,
+              longitude: responses.longitude || undefined
+            };
+          }
+        }
+      }
+
+      // Fallback to localStorage if no database data
+      if (!stats.gpa && !stats.sat && !stats.act) {
+        const savedAnswers = localStorage.getItem('questionnaireAnswers');
+        if (savedAnswers) {
+          const answers = JSON.parse(savedAnswers);
+          stats = {
+            gpa: answers.gpa ? parseFloat(answers.gpa) : undefined,
+            sat: answers.satScore ? parseInt(answers.satScore) : undefined,
+            act: answers.actScore ? parseInt(answers.actScore) : undefined,
+            zipCode: answers.zipCode,
+            latitude: answers.latitude,
+            longitude: answers.longitude
+          };
+        }
+      }
+
+      // If no data at all, show empty state
+      if (!stats.gpa && !stats.sat && !stats.act) {
         setLoading(false);
         return;
       }
-
-      const answers = JSON.parse(savedAnswers);
-      
-      // Extract user stats
-      const stats: UserStats = {
-        gpa: answers.gpa ? parseFloat(answers.gpa) : undefined,
-        sat: answers.satScore ? parseInt(answers.satScore) : undefined,
-        act: answers.actScore ? parseInt(answers.actScore) : undefined,
-        zipCode: answers.zipCode,
-        latitude: answers.latitude,
-        longitude: answers.longitude
-      };
 
       // If no location data, try to get from ZIP code
       if (!stats.latitude && stats.zipCode) {
