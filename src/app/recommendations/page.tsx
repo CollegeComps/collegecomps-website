@@ -36,11 +36,11 @@ export default function RecommendationsPage() {
     try {
       setLoading(true);
 
-      // Get user stats from localStorage (from questionnaire)
+      // Get user stats from localStorage (from onboarding)
       const savedAnswers = localStorage.getItem('questionnaireAnswers');
       if (!savedAnswers) {
-        // No questionnaire data - redirect to questionnaire
-        router.push('/questionnaire?redirect=/recommendations');
+        // No questionnaire data - show empty state instead of redirecting
+        setLoading(false);
         return;
       }
 
@@ -159,13 +159,13 @@ export default function RecommendationsPage() {
             Complete Your Profile
           </h2>
           <p className="text-gray-600 mb-6">
-            To get personalized college recommendations, please complete the questionnaire with your academic stats and location.
+            To get personalized college recommendations, please complete the onboarding with your academic stats and location.
           </p>
           <button
-            onClick={() => router.push('/questionnaire?redirect=/recommendations')}
+            onClick={() => router.push('/onboarding')}
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            Complete Questionnaire
+            Complete Onboarding
           </button>
         </div>
       </div>
