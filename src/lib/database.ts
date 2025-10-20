@@ -193,6 +193,8 @@ export class CollegeDataService {
       state: row.state,
       state_postal_code: row.state, // Map to postal code field
       zipcode: row.zip_code,
+      latitude: row.latitude,
+      longitude: row.longitude,
       website_url: row.website_url,
       control_of_institution: row.control_public_private,
       control_public_private: row.control_public_private,
@@ -457,6 +459,8 @@ export class CollegeDataService {
       state: row.state,
       state_postal_code: row.state,
       zipcode: row.zip_code,
+      latitude: row.latitude,
+      longitude: row.longitude,
       website_url: row.website_url,
       control_of_institution: row.control_public_private,
       level_of_institution: row.level_of_institution,
