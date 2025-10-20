@@ -6,11 +6,19 @@ import {
   EmailVerificationReminderEmail 
 } from './email-templates';
 
-if (!process.env.RESEND_API_KEY) {
-  throw new Error('RESEND_API_KEY is not defined in environment variables');
+// Lazy initialization - only throw error when actually trying to send email
+let resend: Resend | null = null;
+
+function getResendClient() {
+  if (!resend) {
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error('RESEND_API_KEY is not defined in environment variables');
+    }
+    resend = new Resend(process.env.RESEND_API_KEY);
+  }
+  return resend;
 }
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM_EMAIL = process.env.EMAIL_FROM || 'noreply@collegecomps.com';
 const BASE_URL = process.env.NODE_ENV === 'production' 
   ? 'https://www.collegecomps.com' 
@@ -25,6 +33,8 @@ interface SendEmailOptions {
 
 async function sendEmail({ to, subject, html, userId }: SendEmailOptions) {
   try {
+    const client = getResendClient(); // Get or initialize client
+    
     // Add unsubscribe URL to template
     const unsubscribeUrl = userId 
       ? `${BASE_URL}/api/unsubscribe?user=${encodeURIComponent(userId)}`
@@ -32,7 +42,7 @@ async function sendEmail({ to, subject, html, userId }: SendEmailOptions) {
     
     const htmlWithUnsubscribe = html.replace('{{unsubscribeUrl}}', unsubscribeUrl);
     
-    const { data, error } = await resend.emails.send({
+    const { data, error } = await client.emails.send({
       from: FROM_EMAIL,
       to,
       subject,
