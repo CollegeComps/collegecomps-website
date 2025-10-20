@@ -15,7 +15,13 @@ export function hasMinimumTier(
 ): boolean {
   if (!session?.user) return false;
 
-  const userTier = (session.user as any).subscription_tier || 'free';
+  const user = session.user as any;
+  const userTier = user.subscription_tier || 'free';
+
+  // Admin users have access to all features
+  if (user.role === 'admin' || user.email?.endsWith('@collegecomps.com')) {
+    return true;
+  }
 
   if (requiredTier === 'free') return true;
   if (requiredTier === 'premium') return userTier === 'premium';
