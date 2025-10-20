@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "populate-scorecard": "node scripts/populate-scorecard-data.js"
+    "populate-scorecard": "node scripts/populate-scorecard-data.js",
+    "apply-roi-migration": "node scripts/apply-roi-migration.js",
+    "calculate-roi": "node scripts/calculate-roi.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

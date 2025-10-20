@@ -48,6 +48,13 @@ export interface Institution {
   earnings_6_years_after_entry?: number;
   mean_earnings_6_years?: number; // For compatibility
   mean_earnings_10_years?: number; // For compatibility
+  // New ROI and admissions fields (ENG-16)
+  implied_roi?: number;
+  acceptance_rate?: number;
+  average_sat?: number;
+  average_act?: number;
+  athletic_conference?: string;
+  last_roi_calculation?: string;
 }
 
 export interface FinancialData {
@@ -121,8 +128,9 @@ export class CollegeDataService {
       SELECT 
         i.id, i.unitid, i.opeid, i.name, i.city, i.state, i.zip_code, i.region, 
         i.latitude, i.longitude, i.website, i.ownership, i.control_public_private,
+        i.implied_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference,
         f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
-        f.net_price, e.earnings_6_years_after_entry
+        f.net_price, e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
       FROM institutions i
       LEFT JOIN financial_data f ON i.unitid = f.unitid 
         AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
@@ -140,6 +148,14 @@ export class CollegeDataService {
     
     // Add sorting (simplified without GROUP BY for performance)
     switch (sortBy) {
+      case 'implied_roi':
+      case 'roi':
+      case 'roi_high':
+        query += ` ORDER BY COALESCE(i.implied_roi, -999999) DESC, i.name ASC`;
+        break;
+      case 'roi_low':
+        query += ` ORDER BY COALESCE(i.implied_roi, 999999) ASC, i.name ASC`;
+        break;
       case 'tuition_low':
         query += ` ORDER BY COALESCE(f.tuition_in_state, f.tuition_out_state, 999999) ASC`;
         break;
@@ -147,10 +163,16 @@ export class CollegeDataService {
         query += ` ORDER BY COALESCE(f.tuition_in_state, f.tuition_out_state, 0) DESC`;
         break;
       case 'earnings_high':
-        query += ` ORDER BY COALESCE(e.earnings_6_years_after_entry, 0) DESC`;
+        query += ` ORDER BY COALESCE(e.earnings_10_years_after_entry, e.earnings_6_years_after_entry, 0) DESC`;
         break;
       case 'earnings_low':
-        query += ` ORDER BY COALESCE(e.earnings_6_years_after_entry, 999999) ASC`;
+        query += ` ORDER BY COALESCE(e.earnings_10_years_after_entry, e.earnings_6_years_after_entry, 999999) ASC`;
+        break;
+      case 'acceptance_rate_low':
+        query += ` ORDER BY COALESCE(i.acceptance_rate, 999999) ASC, i.name ASC`;
+        break;
+      case 'acceptance_rate_high':
+        query += ` ORDER BY COALESCE(i.acceptance_rate, 0) DESC, i.name ASC`;
         break;
       default:
         query += ` ORDER BY i.name ASC`;
@@ -191,8 +213,14 @@ export class CollegeDataService {
       tuition_out_state: row.tuition_out_state,
       room_board_on_campus: row.room_board_on_campus,
       mean_earnings_6_years: row.earnings_6_years_after_entry,
-      mean_earnings_10_years: undefined, // Not available in this query
-      earnings_6_years_after_entry: row.earnings_6_years_after_entry
+      mean_earnings_10_years: row.earnings_10_years_after_entry,
+      earnings_6_years_after_entry: row.earnings_6_years_after_entry,
+      // New ROI and admissions fields
+      implied_roi: row.implied_roi,
+      acceptance_rate: row.acceptance_rate,
+      average_sat: row.average_sat,
+      average_act: row.average_act,
+      athletic_conference: row.athletic_conference
     }));
   }
 
@@ -204,8 +232,9 @@ export class CollegeDataService {
       SELECT 
         i.id, i.unitid, i.opeid, i.name, i.city, i.state, i.zip_code, i.region, 
         i.latitude, i.longitude, i.website, i.ownership, i.control_public_private,
+        i.implied_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference,
         f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
-        f.net_price, e.earnings_6_years_after_entry
+        f.net_price, e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
       FROM institutions i
       LEFT JOIN financial_data f ON i.unitid = f.unitid 
         AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
@@ -247,8 +276,14 @@ export class CollegeDataService {
       tuition_out_state: result.tuition_out_state,
       room_board_on_campus: result.room_board_on_campus,
       mean_earnings_6_years: result.earnings_6_years_after_entry,
-      mean_earnings_10_years: undefined,
-      earnings_6_years_after_entry: result.earnings_6_years_after_entry
+      mean_earnings_10_years: result.earnings_10_years_after_entry,
+      earnings_6_years_after_entry: result.earnings_6_years_after_entry,
+      // New ROI and admissions fields
+      implied_roi: result.implied_roi,
+      acceptance_rate: result.acceptance_rate,
+      average_sat: result.average_sat,
+      average_act: result.average_act,
+      athletic_conference: result.athletic_conference
     };
   }
 
