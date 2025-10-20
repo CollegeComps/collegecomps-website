@@ -46,10 +46,24 @@ const navigation: NavItem[] = [
     requiresAuth: false
   },
   {
+    name: 'Recommendations',
+    href: '/recommendations',
+    icon: SparklesIcon,
+    description: 'Get personalized safety/match/reach schools',
+    requiresAuth: false
+  },
+  {
     name: 'Salary Insights',
     href: '/salary-insights',
     icon: CurrencyDollarIcon,
     description: 'Real post-grad salary data from alumni',
+    requiresAuth: false
+  },
+  {
+    name: 'ROI Analytics',
+    href: '/analytics',
+    icon: ChartBarIcon,
+    description: 'Interactive ROI vs Cost analysis',
     requiresAuth: false
   },
   {
