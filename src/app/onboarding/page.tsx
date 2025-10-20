@@ -64,6 +64,7 @@ export default function OnboardingPage() {
     try {
       setLoading(true);
 
+      // Save to onboarding API
       const response = await fetch('/api/user/onboarding', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -71,6 +72,32 @@ export default function OnboardingPage() {
       });
 
       if (!response.ok) throw new Error('Failed to save preferences');
+
+      // Save to user_responses for recommendations
+      await fetch('/api/user/responses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          gpa: formData.gpa ? parseFloat(formData.gpa) : null,
+          sat_score: formData.sat_score ? parseInt(formData.sat_score) : null,
+          act_score: formData.act_score ? parseInt(formData.act_score) : null,
+          parent_income: formData.parent_income ? parseInt(formData.parent_income) : null,
+          student_income: formData.student_income ? parseInt(formData.student_income) : null,
+          preferred_major: formData.intended_major || null,
+          preferred_states: formData.location_preference ? [formData.location_preference] : null
+        })
+      });
+
+      // Also save to localStorage for backward compatibility
+      localStorage.setItem('questionnaireAnswers', JSON.stringify({
+        gpa: formData.gpa,
+        satScore: formData.sat_score,
+        actScore: formData.act_score,
+        parentIncome: formData.parent_income,
+        studentIncome: formData.student_income,
+        major: formData.intended_major,
+        state: formData.location_preference
+      }));
 
       // Track onboarding completion
       await fetch('/api/analytics/track', {
