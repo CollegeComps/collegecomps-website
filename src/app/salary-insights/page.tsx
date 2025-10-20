@@ -45,6 +45,7 @@ export default function SalaryInsightsPage() {
   const fetchSalaryData = async () => {
     try {
       setLoading(true);
+      setError(''); // Clear previous errors
       const params = new URLSearchParams();
       if (selectedMajor) params.append('major', selectedMajor);
       if (selectedInstitution) params.append('institution', selectedInstitution);
@@ -52,7 +53,13 @@ export default function SalaryInsightsPage() {
       if (selectedYears) params.append('yearsRange', selectedYears);
 
       const response = await fetch(`/api/salary-data?${params.toString()}`);
-      if (!response.ok) throw new Error('Failed to fetch salary data');
+      if (!response.ok) {
+        // Distinguish between different error types
+        if (response.status === 401 || response.status === 403) {
+          throw new Error('Premium subscription required to access salary insights');
+        }
+        throw new Error(`Unable to load salary data (${response.status})`);
+      }
 
       const result = await response.json();
       setSalaryData(result.data || []);
@@ -65,6 +72,7 @@ export default function SalaryInsightsPage() {
         setInstitutions(uniqueInstitutions as string[]);
       }
     } catch (err) {
+      console.error('Salary data fetch error:', err);
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
@@ -233,22 +241,64 @@ export default function SalaryInsightsPage() {
             <p className="text-gray-600">Loading salary data...</p>
           </div>
         ) : error ? (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-            <p className="text-red-800">❌ {error}</p>
+          <div className="bg-white rounded-xl shadow-md p-12 text-center">
+            <div className="text-6xl mb-4">⚠️</div>
+            <h3 className="text-xl font-semibold text-red-700 mb-2">
+              {error.includes('Premium') ? 'Premium Access Required' : 'Unable to Load Data'}
+            </h3>
+            <p className="text-gray-600 mb-6 max-w-lg mx-auto">
+              {error}
+            </p>
+            <div className="flex gap-4 justify-center">
+              {error.includes('Premium') ? (
+                <Link
+                  href="/pricing"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg"
+                >
+                  ✨ View Premium Plans
+                </Link>
+              ) : (
+                <button
+                  onClick={fetchSalaryData}
+                  className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all"
+                >
+                  🔄 Try Again
+                </button>
+              )}
+            </div>
           </div>
         ) : salaryData.length === 0 ? (
           <div className="bg-white rounded-xl shadow-md p-12 text-center">
             <div className="text-6xl mb-4">📊</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Data Available</h3>
-            <p className="text-gray-600 mb-6">
-              We need at least 3 submissions to show salary data for this combination.
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              {selectedMajor || selectedInstitution || selectedDegree || selectedYears 
+                ? 'No Data Matches Your Filters' 
+                : 'Be Among the First Contributors!'}
+            </h3>
+            <p className="text-gray-600 mb-2 max-w-2xl mx-auto">
+              {selectedMajor || selectedInstitution || selectedDegree || selectedYears 
+                ? 'Try adjusting your filters or contribute data for this combination.' 
+                : 'Salary Insights is powered by anonymous data submitted by our community.'}
             </p>
-            <Link
-              href="/submit-salary"
-              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all"
-            >
-              Be the First to Contribute
-            </Link>
+            <p className="text-sm text-gray-500 mb-6 max-w-xl mx-auto">
+              We require at least 3 verified submissions before displaying any salary data to protect privacy and ensure accuracy.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link
+                href="/submit-salary"
+                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg"
+              >
+                📊 Submit Your Salary Data
+              </Link>
+              {(selectedMajor || selectedInstitution || selectedDegree || selectedYears) && (
+                <button
+                  onClick={clearFilters}
+                  className="inline-flex items-center px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg border-2 border-blue-600 hover:bg-blue-50 transition-all"
+                >
+                  🔄 Clear Filters
+                </button>
+              )}
+            </div>
           </div>
         ) : (
           <div className="space-y-6">
