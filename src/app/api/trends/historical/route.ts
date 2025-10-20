@@ -161,7 +161,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Generate historical trends using industry-standard growth rates
-    const currentYear = actualData?.year || 2023;
+    const currentYear = actualData?.year || new Date().getFullYear();
     const currentCost = actualData?.avg_cost || 0;
     const costInflationRate = 0.04; // 4% annual college cost inflation (historical average)
     const salaryGrowthRate = 0.03; // 3% annual salary growth
