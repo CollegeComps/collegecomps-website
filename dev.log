@@ -11,11 +11,14 @@
 
  ✓ Starting...
  ○ Compiling /instrumentation ...
- ✓ Compiled /instrumentation in 1287ms (1085 modules)
- ✓ Ready in 3.1s
- ○ Compiling /student-loans ...
- ✓ Compiled /student-loans in 3.7s (3280 modules)
- GET /student-loans 200 in 4380ms
-(node:94958) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+ ✓ Compiled /instrumentation in 1101ms (1085 modules)
+ ✓ Ready in 3s
+ ○ Compiling /analytics ...
+ ✓ Compiled /analytics in 3.9s (4532 modules)
+ GET /analytics 200 in 4771ms
+(node:89089) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-[?25h
+ ✓ Compiled in 231ms (622 modules)
+ ✓ Compiled in 925ms (1693 modules)
+ ✓ Compiled in 86ms (622 modules)
+ ✓ Compiled in 157ms (622 modules)
