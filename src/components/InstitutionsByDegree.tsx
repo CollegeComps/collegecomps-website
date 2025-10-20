@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 interface InstitutionsByDegreeProps {
   cipcode: string;
@@ -47,20 +47,20 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
   }, [cipcode]);
 
   // Apply filters with useMemo to ensure re-computation on filter changes
-  const filteredInstitutions = institutions.filter(inst => {
-    // Filter by control type
-    if (controlFilter !== 'all') {
-      if (controlFilter === 'public' && inst.control !== 'Public') return false;
-      if (controlFilter === 'private' && !inst.control?.includes('Private')) return false;
-    }
-    
-    // Filter by state
-    if (stateFilter !== 'all' && inst.state !== stateFilter) return false;
-    
-    return true;
-  });
-
-  console.log('Filter state:', { controlFilter, stateFilter, totalInst: institutions.length, filteredCount: filteredInstitutions.length });
+  const filteredInstitutions = useMemo(() => {
+    return institutions.filter(inst => {
+      // Filter by control type
+      if (controlFilter !== 'all') {
+        if (controlFilter === 'public' && inst.control !== 'Public') return false;
+        if (controlFilter === 'private' && !inst.control?.includes('Private')) return false;
+      }
+      
+      // Filter by state
+      if (stateFilter !== 'all' && inst.state !== stateFilter) return false;
+      
+      return true;
+    });
+  }, [institutions, controlFilter, stateFilter]);
 
   // Get unique states from institutions
   const availableStates = [...new Set(institutions.map(i => i.state))].filter(Boolean).sort();
