@@ -1,0 +1,21 @@
+
+> temp-roi@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.4
+   - Local:        http://localhost:3000
+   - Network:      http://10.0.0.11:3000
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · clientTraceMetadata
+
+ ✓ Starting...
+ ○ Compiling /instrumentation ...
+ ✓ Compiled /instrumentation in 1287ms (1085 modules)
+ ✓ Ready in 3.1s
+ ○ Compiling /student-loans ...
+ ✓ Compiled /student-loans in 3.7s (3280 modules)
+ GET /student-loans 200 in 4380ms
+(node:94958) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[?25h
