@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { Institution } from '@/lib/database';
 import { DataSourcesBadge } from '@/components/DataSources';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { getAffordabilityBadge } from '@/lib/financial-calculator';
 import {
   MagnifyingGlassIcon,
   MapPinIcon,
@@ -511,6 +512,31 @@ export default function CollegesPage() {
                       </div>
                     ) : (
                       <div className="text-sm text-gray-600 italic">Cost information not available</div>
+                    )}
+                    
+                    {/* Affordability Badge (ENG-29) */}
+                    {(institution as any).affordability && (
+                      <div className="mt-3 pt-3 border-t border-gray-200">
+                        {(() => {
+                          const affordability = (institution as any).affordability;
+                          const badge = getAffordabilityBadge(affordability.tier);
+                          return (
+                            <div className="space-y-2">
+                              <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${badge.bgColor} ${badge.color}`}>
+                                {badge.label}
+                              </div>
+                              <div className="text-xs text-gray-600">
+                                Estimated Net Price: ${affordability.estimatedNetPrice?.toLocaleString() || 'N/A'}
+                              </div>
+                              {affordability.gapAmount > 0 && (
+                                <div className="text-xs text-orange-600">
+                                  Gap to cover: ${affordability.gapAmount.toLocaleString()}
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })()}
+                      </div>
                     )}
                   </div>
 
