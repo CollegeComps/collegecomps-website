@@ -47,7 +47,7 @@ next-env.d.ts
 /data/
 user_data.db
 
-# Test/Script files (cleanup  - but keep populate-scorecard scripts)
+# Test/Script files (cleanup)
 test-earnings.js
 test_performance.sh
 
@@ -57,3 +57,6 @@ test_performance.sh
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+!README.md
+*.md
