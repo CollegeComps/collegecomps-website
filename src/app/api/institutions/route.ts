@@ -6,6 +6,12 @@ import {
   normalizeZipCode 
 } from '@/lib/geo-utils';
 import { MajorCategory } from '@/lib/cip-category-mapping';
+import { 
+  calculateEFC, 
+  assessAffordability, 
+  getInstitutionType,
+  type FinancialProfile 
+} from '@/lib/financial-calculator';
 
 export async function GET(request: NextRequest) {
   try {
@@ -24,6 +30,12 @@ export async function GET(request: NextRequest) {
     const unitid = searchParams.get('unitid');
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '20');
+    
+    // ENG-29: Financial affordability filtering
+    const studentIncome = searchParams.get('studentIncome');
+    const parentIncome = searchParams.get('parentIncome');
+    const parentAssets = searchParams.get('parentAssets');
+    const maxCostMultiplier = parseFloat(searchParams.get('maxCostMultiplier') || '1.5'); // Allow up to 150% of EFC
 
     const collegeService = new CollegeDataService();
     
@@ -53,6 +65,49 @@ export async function GET(request: NextRequest) {
     } else {
       // Get all institutions with pagination
       institutions = await collegeService.getInstitutions(effectiveLimit, effectiveOffset, search || undefined, sortBy);
+    }
+
+    // ENG-29: Apply financial affordability filtering if financial data provided
+    if (studentIncome || parentIncome || parentAssets) {
+      const financialProfile: FinancialProfile = {
+        studentIncome: parseFloat(studentIncome || '0'),
+        studentAssets: 0, // Can be added to questionnaire later
+        parentIncome: parseFloat(parentIncome || '0'),
+        parentAssets: parseFloat(parentAssets || '0'),
+        numberOfParents: 2, // Default assumption
+        numberOfDependents: 2, // Default assumption
+        numberOfInCollege: 1, // Default assumption
+      };
+      
+      const efcCalc = calculateEFC(financialProfile);
+      const efc = efcCalc.totalEFC;
+      const maxAffordableCost = efc * maxCostMultiplier;
+      
+      // Filter institutions by affordability
+      institutions = institutions.filter(inst => {
+        const cost = (inst.tuition_in_state || inst.tuition_out_state || 0) + 
+                    (inst.room_board_on_campus || 0);
+        return cost <= maxAffordableCost || cost === 0; // Include institutions with no cost data
+      });
+      
+      // Add affordability metadata to each institution
+      institutions = institutions.map(inst => {
+        const cost = (inst.tuition_in_state || inst.tuition_out_state || 0) + 
+                    (inst.room_board_on_campus || 0);
+        const instType = getInstitutionType(inst.control_public_private);
+        const affordability = assessAffordability(efc, cost, instType);
+        
+        return {
+          ...inst,
+          affordability: {
+            tier: affordability.affordabilityTier,
+            estimatedCost: cost,
+            estimatedEFC: efc,
+            estimatedNetPrice: affordability.estimatedNetPrice,
+            gapAmount: affordability.gapAmount,
+          }
+        };
+      });
     }
 
     // Apply proximity filter if proximityZip is provided
