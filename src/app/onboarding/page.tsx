@@ -29,6 +29,10 @@ export default function OnboardingPage() {
     act_score: '',
     budget_range: '',
     location_preference: '',
+    // ENG-27: Enhanced financial fields for net price estimation
+    student_income: '',
+    parent_income: '',
+    parent_assets: '',
   });
 
   const [schoolInput, setSchoolInput] = useState('');
@@ -330,91 +334,150 @@ export default function OnboardingPage() {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
                   <AcademicCapIcon className="h-8 w-8 text-green-600" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">Tell us about your academics</h2>
-                <p className="text-gray-600">This helps us provide better school recommendations (all optional)</p>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">Tell us about your profile</h2>
+                <p className="text-gray-600">Help us provide better recommendations and accurate net price estimates (all optional)</p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">
-                    GPA (if available)
-                  </label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    max="4.0"
-                    value={formData.gpa}
-                    onChange={(e) => setFormData(prev => ({ ...prev, gpa: e.target.value }))}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
-                    placeholder="e.g., 3.75"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">
-                    Budget Range (Annual)
-                  </label>
-                  <select
-                    value={formData.budget_range}
-                    onChange={(e) => setFormData(prev => ({ ...prev, budget_range: e.target.value }))}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
-                  >
-                    <option value="">Select budget range...</option>
-                    <option value="0-20000">$0 - $20,000</option>
-                    <option value="20000-40000">$20,000 - $40,000</option>
-                    <option value="40000-60000">$40,000 - $60,000</option>
-                    <option value="60000+">$60,000+</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">
-                    SAT Score (if taken)
-                  </label>
-                  <input
-                    type="number"
-                    min="400"
-                    max="1600"
-                    value={formData.sat_score}
-                    onChange={(e) => setFormData(prev => ({ ...prev, sat_score: e.target.value }))}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
-                    placeholder="e.g., 1450"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">
-                    ACT Score (if taken)
-                  </label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="36"
-                    value={formData.act_score}
-                    onChange={(e) => setFormData(prev => ({ ...prev, act_score: e.target.value }))}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
-                    placeholder="e.g., 32"
-                  />
-                </div>
-              </div>
-
+              {/* Academic Info Section */}
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  Location Preference
-                </label>
-                <input
-                  type="text"
-                  value={formData.location_preference}
-                  onChange={(e) => setFormData(prev => ({ ...prev, location_preference: e.target.value }))}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
-                  placeholder="e.g., Northeast, California, Urban areas..."
-                />
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Academic Information</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      GPA (if available)
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      max="4.0"
+                      value={formData.gpa}
+                      onChange={(e) => setFormData(prev => ({ ...prev, gpa: e.target.value }))}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      placeholder="e.g., 3.75"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      SAT Score (if taken)
+                    </label>
+                    <input
+                      type="number"
+                      min="400"
+                      max="1600"
+                      value={formData.sat_score}
+                      onChange={(e) => setFormData(prev => ({ ...prev, sat_score: e.target.value }))}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      placeholder="e.g., 1450"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      ACT Score (if taken)
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="36"
+                      value={formData.act_score}
+                      onChange={(e) => setFormData(prev => ({ ...prev, act_score: e.target.value }))}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      placeholder="e.g., 32"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      Location Preference
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.location_preference}
+                      onChange={(e) => setFormData(prev => ({ ...prev, location_preference: e.target.value }))}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      placeholder="e.g., Northeast, California..."
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Financial Info Section - ENG-27 */}
+              <div className="border-t border-gray-200 pt-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Financial Information</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  This information helps us estimate your net price and financial aid eligibility at different schools.
+                </p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      Annual Student Income
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={formData.student_income}
+                      onChange={(e) => setFormData(prev => ({ ...prev, student_income: e.target.value }))}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      placeholder="e.g., 5000"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Your personal income from work/jobs</p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      Annual Parent/Guardian Income
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={formData.parent_income}
+                      onChange={(e) => setFormData(prev => ({ ...prev, parent_income: e.target.value }))}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      placeholder="e.g., 75000"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Combined household income</p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      Parent/Guardian Assets
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={formData.parent_assets}
+                      onChange={(e) => setFormData(prev => ({ ...prev, parent_assets: e.target.value }))}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      placeholder="e.g., 50000"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Savings, investments (not home equity)</p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      Estimated Budget (Annual)
+                    </label>
+                    <select
+                      value={formData.budget_range}
+                      onChange={(e) => setFormData(prev => ({ ...prev, budget_range: e.target.value }))}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                    >
+                      <option value="">Select budget range...</option>
+                      <option value="0-20000">$0 - $20,000</option>
+                      <option value="20000-40000">$20,000 - $40,000</option>
+                      <option value="40000-60000">$40,000 - $60,000</option>
+                      <option value="60000+">$60,000+</option>
+                    </select>
+                    <p className="text-xs text-gray-500 mt-1">What you can afford per year</p>
+                  </div>
+                </div>
               </div>
 
               <div className="bg-green-50 rounded-lg p-4">
                 <p className="text-sm text-green-800">
-                  ✨ <strong>Premium users:</strong> This information helps our AI provide smarter, personalized school recommendations based on your academic profile and preferences!
+                  ✨ <strong>Enhanced Recommendations:</strong> With this information, we can provide more accurate net price estimates, suggest appropriate safety/match/reach schools based on your academic profile, and help you understand your financial aid eligibility!
                 </p>
               </div>
             </div>

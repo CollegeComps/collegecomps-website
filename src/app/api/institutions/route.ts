@@ -29,6 +29,10 @@ export async function GET(request: NextRequest) {
     
     let institutions;
     
+    // If proximity filtering, get more results before filtering (pagination will be applied after)
+    const effectiveLimit = proximityZip ? 1000 : limit; // Get up to 1000 for proximity, then filter
+    const effectiveOffset = proximityZip ? 0 : (page - 1) * limit;
+    
     // Handle single institution lookup by unitid
     if (unitid) {
       const singleInst = await collegeService.getInstitutionByUnitid(parseInt(unitid));
@@ -48,8 +52,7 @@ export async function GET(request: NextRequest) {
       });
     } else {
       // Get all institutions with pagination
-      const offset = (page - 1) * limit;
-      institutions = await collegeService.getInstitutions(limit, offset, search || undefined, sortBy);
+      institutions = await collegeService.getInstitutions(effectiveLimit, effectiveOffset, search || undefined, sortBy);
     }
 
     // Apply proximity filter if proximityZip is provided
@@ -67,6 +70,19 @@ export async function GET(request: NextRequest) {
             coordinates.longitude,
             radiusMiles
           );
+          
+          // Apply pagination after proximity filtering
+          const startIdx = (page - 1) * limit;
+          const endIdx = startIdx + limit;
+          const hasMore = institutions.length > endIdx;
+          institutions = institutions.slice(startIdx, endIdx);
+          
+          return NextResponse.json({
+            institutions,
+            page,
+            limit,
+            hasMore
+          });
         } else {
           // If we couldn't get coordinates, return empty array with helpful message
           return NextResponse.json({
