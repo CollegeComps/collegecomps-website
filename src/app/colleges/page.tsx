@@ -550,7 +550,36 @@ export default function CollegesPage() {
                       <div className="flex items-center">
                         <CurrencyDollarIcon className="w-4 h-4 mr-2 text-green-500" />
                         <span className="text-gray-900">
-                          Avg Earnings: ${institution.earnings_6_years_after_entry.toLocaleString()}/year
+                          Avg Earnings (6 yrs): ${institution.earnings_6_years_after_entry.toLocaleString()}/year
+                        </span>
+                      </div>
+                    )}
+
+                    {(institution as any).mean_earnings_10_years && (
+                      <div className="flex items-center">
+                        <CurrencyDollarIcon className="w-4 h-4 mr-2 text-blue-500" />
+                        <span className="text-gray-900">
+                          Avg Earnings (10 yrs): ${(institution as any).mean_earnings_10_years.toLocaleString()}/year
+                        </span>
+                      </div>
+                    )}
+
+                    {institution.acceptance_rate && (
+                      <div className="flex items-center">
+                        <AcademicCapIcon className="w-4 h-4 mr-2 text-purple-500" />
+                        <span className="text-gray-900">
+                          Acceptance Rate: {(institution.acceptance_rate * 100).toFixed(1)}%
+                        </span>
+                      </div>
+                    )}
+
+                    {(institution.average_sat || institution.average_act) && (
+                      <div className="flex items-center">
+                        <AcademicCapIcon className="w-4 h-4 mr-2 text-indigo-500" />
+                        <span className="text-gray-900">
+                          {institution.average_sat && `Avg SAT: ${institution.average_sat}`}
+                          {institution.average_sat && institution.average_act && ' | '}
+                          {institution.average_act && `Avg ACT: ${institution.average_act}`}
                         </span>
                       </div>
                     )}
