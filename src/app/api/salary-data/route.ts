@@ -140,6 +140,15 @@ export async function POST(req: NextRequest) {
       )
     }
 
+    // Validate graduation year is not in the future
+    const currentYear = new Date().getFullYear();
+    if (graduation_year && graduation_year > currentYear) {
+      return NextResponse.json(
+        { error: `Graduation year cannot be in the future (max: ${currentYear})` },
+        { status: 400 }
+      )
+    }
+
     // If no degree, require years_experience
     if (!has_degree && !years_experience) {
       return NextResponse.json(
