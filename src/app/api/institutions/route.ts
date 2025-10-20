@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     const control = searchParams.get('control');
     const maxTuition = searchParams.get('maxTuition');
     const minEarnings = searchParams.get('minEarnings');
-    const sortBy = searchParams.get('sortBy') || 'name';
+    const sortBy = searchParams.get('sortBy') || 'implied_roi'; // Default to ROI sorting (ENG-18)
     const unitid = searchParams.get('unitid');
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '20');
@@ -31,8 +31,8 @@ export async function GET(request: NextRequest) {
     if (unitid) {
       const singleInst = await collegeService.getInstitutionByUnitid(parseInt(unitid));
       institutions = singleInst ? [singleInst] : [];
-    } else if (search || state || city || zipCode || control || maxTuition || minEarnings || sortBy !== 'name') {
-      // Use search with filters
+    } else if (search || state || city || zipCode || control || maxTuition || minEarnings || sortBy !== 'implied_roi') {
+      // Use search with filters (or if non-default sort is specified)
       institutions = await collegeService.searchInstitutions({
         name: search || undefined,
         state: state || undefined,

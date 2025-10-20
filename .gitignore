@@ -47,10 +47,9 @@ next-env.d.ts
 /data/
 user_data.db
 
-# Test/Script files (cleanup)
+# Test/Script files (cleanup  - but keep populate-scorecard scripts)
 test-earnings.js
 test_performance.sh
-/scripts/
 
 # IDE
 .vscode/
