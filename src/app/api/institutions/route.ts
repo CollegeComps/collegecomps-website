@@ -49,8 +49,8 @@ export async function GET(request: NextRequest) {
     if (unitid) {
       const singleInst = await collegeService.getInstitutionByUnitid(parseInt(unitid));
       institutions = singleInst ? [singleInst] : [];
-    } else if (search || state || city || zipCode || control || maxTuition || minEarnings || majorCategory || sortBy !== 'implied_roi') {
-      // Use search with filters (or if non-default sort is specified)
+    } else if (search || state || city || zipCode || control || maxTuition || minEarnings || majorCategory) {
+      // Use search with filters ONLY when actual filters are applied (not just sorting)
       institutions = await collegeService.searchInstitutions({
         name: search || undefined,
         state: state || undefined,
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
         sortBy: sortBy
       });
     } else {
-      // Get all institutions with pagination
+      // Get all institutions with pagination (handles all sorting including roi_high)
       institutions = await collegeService.getInstitutions(effectiveLimit, effectiveOffset, search || undefined, sortBy);
     }
 
