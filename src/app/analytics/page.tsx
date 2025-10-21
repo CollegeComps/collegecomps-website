@@ -44,19 +44,19 @@ export default function AnalyticsPage() {
     try {
       setLoading(true);
       // Fetch institutions with ROI and cost data
-      const response = await fetch('/api/institutions?sortBy=implied_roi&limit=1000');
+      const response = await fetch('/api/institutions?sortBy=roi_high&limit=3000');
       const result = await response.json();
       
       const dataPoints: InstitutionDataPoint[] = result.institutions
         .filter((inst: any) => 
-          inst.implied_roi && 
+          inst.institution_avg_roi && 
           (inst.tuition_in_state || inst.tuition_out_state) &&
-          inst.implied_roi > 0
+          inst.institution_avg_roi !== null
         )
         .map((inst: any) => ({
           name: inst.name,
           cost: (inst.tuition_in_state || inst.tuition_out_state || 0) + (inst.room_board_on_campus || 0),
-          roi: inst.implied_roi,
+          roi: inst.institution_avg_roi,
           control: inst.control_of_institution === 1 ? 'Public' : inst.control_of_institution === 2 ? 'Private Nonprofit' : 'Private For-Profit',
           state: inst.state,
           unitid: inst.unitid
@@ -108,10 +108,10 @@ export default function AnalyticsPage() {
           <p className="font-semibold text-gray-900">{data.name}</p>
           <p className="text-sm text-gray-600">{data.state} • {data.control}</p>
           <p className="text-sm mt-2">
-            <span className="font-medium">Total Cost:</span> ${data.cost.toLocaleString()}
+            <span className="font-medium">Annual Cost:</span> ${data.cost.toLocaleString()}
           </p>
           <p className="text-sm">
-            <span className="font-medium">ROI:</span> {data.roi.toFixed(2)}%
+            <span className="font-medium">30-Year ROI:</span> ${data.roi.toLocaleString()}
           </p>
         </div>
       );
@@ -189,13 +189,13 @@ export default function AnalyticsPage() {
             {/* Min ROI Filter */}
             <div>
               <label className="block text-sm font-medium text-gray-800 mb-2">
-                Minimum ROI: {filters.minROI}%
+                Minimum ROI: ${(filters.minROI / 1000).toFixed(0)}k
               </label>
               <input
                 type="range"
-                min="0"
-                max="1000"
-                step="10"
+                min="-500000"
+                max="3000000"
+                step="50000"
                 value={filters.minROI}
                 onChange={(e) => setFilters({ ...filters, minROI: parseInt(e.target.value) })}
                 className="w-full"
@@ -233,7 +233,7 @@ export default function AnalyticsPage() {
           ) : (
             <>
               <h2 className="text-lg font-semibold text-gray-900 mb-6">
-                ROI vs Total Annual Cost
+                30-Year ROI vs Annual Cost
               </h2>
               <ResponsiveContainer width="100%" height={500}>
                 <ScatterChart margin={{ top: 20, right: 20, bottom: 60, left: 70 }}>
@@ -241,7 +241,7 @@ export default function AnalyticsPage() {
                   <XAxis 
                     type="number" 
                     dataKey="cost" 
-                    name="Total Cost"
+                    name="Annual Cost"
                     label={{ value: 'Total Annual Cost ($)', position: 'bottom', offset: 40 }}
                     tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
                   />
@@ -249,8 +249,8 @@ export default function AnalyticsPage() {
                     type="number" 
                     dataKey="roi" 
                     name="ROI"
-                    label={{ value: 'ROI (%)', angle: -90, position: 'insideLeft', offset: 10 }}
-                    tickFormatter={(value) => `${value}%`}
+                    label={{ value: '30-Year ROI ($)', angle: -90, position: 'insideLeft', offset: 10 }}
+                    tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
                   />
                   <ZAxis range={[50, 50]} />
                   <Tooltip content={<CustomTooltip />} />
@@ -286,21 +286,21 @@ export default function AnalyticsPage() {
                   <h3 className="text-sm font-semibold text-blue-900 mb-1">Public Institutions</h3>
                   <p className="text-2xl font-bold text-blue-700">{publicData.length}</p>
                   <p className="text-xs text-blue-600 mt-1">
-                    Avg ROI: {publicData.length > 0 ? (publicData.reduce((sum, d) => sum + d.roi, 0) / publicData.length).toFixed(1) : 0}%
+                    Avg ROI: ${publicData.length > 0 ? ((publicData.reduce((sum, d) => sum + d.roi, 0) / publicData.length) / 1000000).toFixed(2) : 0}M
                   </p>
                 </div>
                 <div className="bg-green-50 rounded-lg p-4">
                   <h3 className="text-sm font-semibold text-green-900 mb-1">Private Nonprofit</h3>
                   <p className="text-2xl font-bold text-green-700">{privateNonprofitData.length}</p>
                   <p className="text-xs text-green-600 mt-1">
-                    Avg ROI: {privateNonprofitData.length > 0 ? (privateNonprofitData.reduce((sum, d) => sum + d.roi, 0) / privateNonprofitData.length).toFixed(1) : 0}%
+                    Avg ROI: ${privateNonprofitData.length > 0 ? ((privateNonprofitData.reduce((sum, d) => sum + d.roi, 0) / privateNonprofitData.length) / 1000000).toFixed(2) : 0}M
                   </p>
                 </div>
                 <div className="bg-red-50 rounded-lg p-4">
                   <h3 className="text-sm font-semibold text-red-900 mb-1">Private For-Profit</h3>
                   <p className="text-2xl font-bold text-red-700">{privateForProfitData.length}</p>
                   <p className="text-xs text-red-600 mt-1">
-                    Avg ROI: {privateForProfitData.length > 0 ? (privateForProfitData.reduce((sum, d) => sum + d.roi, 0) / privateForProfitData.length).toFixed(1) : 0}%
+                    Avg ROI: ${privateForProfitData.length > 0 ? ((privateForProfitData.reduce((sum, d) => sum + d.roi, 0) / privateForProfitData.length) / 1000000).toFixed(2) : 0}M
                   </p>
                 </div>
               </div>
