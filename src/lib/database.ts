@@ -151,10 +151,10 @@ export class CollegeDataService {
       case 'implied_roi':
       case 'roi':
       case 'roi_high':
-        query += ` ORDER BY COALESCE(i.implied_roi, -999999) DESC, i.name ASC`;
+        query += ` ORDER BY COALESCE(i.institution_avg_roi, -999999) DESC, i.name ASC`;
         break;
       case 'roi_low':
-        query += ` ORDER BY COALESCE(i.implied_roi, 999999) ASC, i.name ASC`;
+        query += ` ORDER BY COALESCE(i.institution_avg_roi, 999999) ASC, i.name ASC`;
         break;
       case 'tuition_low':
         query += ` ORDER BY COALESCE(f.tuition_in_state, f.tuition_out_state, 999999) ASC`;
