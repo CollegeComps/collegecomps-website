@@ -120,8 +120,6 @@ export function DataSourcesFooter() {
         {/* Last Database Update */}
         <div className="mt-6 text-center text-sm text-gray-500">
           <p>
-            Database last synchronized: <span className="font-medium text-gray-700">October 2024</span>
-            {' • '}
             <a href="/about/methodology" className="text-blue-600 hover:text-blue-700 hover:underline">
               Learn about our methodology
             </a>
@@ -135,15 +133,15 @@ export function DataSourcesFooter() {
 // Compact version for use in specific pages
 export function DataSourcesBadge() {
   return (
-    <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-600">
+    <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-lg text-sm text-gray-900">
       <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
       </svg>
-      <span>
-        Data from <span className="font-medium">IPEDS</span> & <span className="font-medium">College Scorecard</span>
+      <span className="text-gray-900">
+        Data from <span className="font-semibold text-blue-700">IPEDS</span> & <span className="font-semibold text-blue-700">College Scorecard</span>
       </span>
       <button
-        className="text-blue-600 hover:text-blue-700 hover:underline font-medium ml-1"
+        className="text-blue-600 hover:text-blue-700 hover:underline font-semibold ml-1"
         onClick={() => {
           // Scroll to footer or open modal with full sources
           const footer = document.querySelector('[data-sources-footer]');
