@@ -100,7 +100,7 @@ export default function CollegesPage() {
     control: '',
     maxTuition: '',
     minEarnings: '',
-    sortBy: 'name'
+    sortBy: 'roi_high'
   });
   const [showFilters, setShowFilters] = useState(false);
 
@@ -263,7 +263,7 @@ export default function CollegesPage() {
       control: '',
       maxTuition: '',
       minEarnings: '',
-      sortBy: 'name'
+      sortBy: 'roi_high'
     });
   };
 
@@ -404,6 +404,7 @@ export default function CollegesPage() {
                     value={filters.sortBy}
                     onChange={(e) => handleFilterChange('sortBy', e.target.value)}
                   >
+                    <option value="roi_high">ROI (High to Low)</option>
                     <option value="name">Name (A-Z)</option>
                     <option value="tuition_low">Tuition (Low to High)</option>
                     <option value="tuition_high">Tuition (High to Low)</option>
@@ -426,7 +427,7 @@ export default function CollegesPage() {
         </div>
 
         {/* Active Filters Chips (ENG-33) */}
-        {(filters.state || filters.city || filters.zipCode || filters.control || filters.maxTuition || filters.minEarnings || filters.sortBy !== 'name') && (
+        {(filters.state || filters.city || filters.zipCode || filters.control || filters.maxTuition || filters.minEarnings || filters.sortBy !== 'roi_high') && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-sm font-semibold text-blue-900">Active Filters:</h3>
@@ -493,14 +494,16 @@ export default function CollegesPage() {
                   </button>
                 </span>
               )}
-              {filters.sortBy !== 'name' && (
+              {filters.sortBy !== 'roi_high' && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
-                  Sort: {filters.sortBy === 'tuition_low' ? 'Tuition (Low-High)' : 
+                  Sort: {filters.sortBy === 'roi_high' ? 'ROI (High-Low)' :
+                          filters.sortBy === 'tuition_low' ? 'Tuition (Low-High)' : 
                           filters.sortBy === 'tuition_high' ? 'Tuition (High-Low)' :
                           filters.sortBy === 'earnings_high' ? 'Earnings (High-Low)' :
-                          filters.sortBy === 'earnings_low' ? 'Earnings (Low-High)' : filters.sortBy}
+                          filters.sortBy === 'earnings_low' ? 'Earnings (Low-High)' :
+                          filters.sortBy === 'name' ? 'Name (A-Z)' : filters.sortBy}
                   <button
-                    onClick={() => handleFilterChange('sortBy', 'name')}
+                    onClick={() => handleFilterChange('sortBy', 'roi_high')}
                     className="hover:bg-blue-100 rounded-full p-0.5"
                   >
                     <XMarkIcon className="w-4 h-4" />
