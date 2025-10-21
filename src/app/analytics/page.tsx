@@ -106,12 +106,12 @@ export default function AnalyticsPage() {
       return (
         <div className="bg-white p-4 border border-gray-300 rounded-lg shadow-lg">
           <p className="font-semibold text-gray-900">{data.name}</p>
-          <p className="text-sm text-gray-600">{data.state} • {data.control}</p>
-          <p className="text-sm mt-2">
-            <span className="font-medium">Annual Cost:</span> ${data.cost.toLocaleString()}
+          <p className="text-sm text-gray-700">{data.state} • {data.control}</p>
+          <p className="text-sm mt-2 text-gray-900">
+            <span className="font-semibold">Annual Cost:</span> ${data.cost.toLocaleString()}
           </p>
-          <p className="text-sm">
-            <span className="font-medium">30-Year ROI:</span> ${data.roi.toLocaleString()}
+          <p className="text-sm text-gray-900">
+            <span className="font-semibold">30-Year ROI:</span> ${data.roi.toLocaleString()}
           </p>
         </div>
       );
