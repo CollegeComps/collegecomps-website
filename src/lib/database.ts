@@ -50,6 +50,7 @@ export interface Institution {
   mean_earnings_10_years?: number; // For compatibility
   // New ROI and admissions fields (ENG-16)
   implied_roi?: number;
+  institution_avg_roi?: number; // ENG-54: Institution-level average ROI
   acceptance_rate?: number;
   average_sat?: number;
   average_act?: number;
@@ -128,7 +129,7 @@ export class CollegeDataService {
       SELECT 
         i.id, i.unitid, i.opeid, i.name, i.city, i.state, i.zip_code, i.region, 
         i.latitude, i.longitude, i.website, i.ownership, i.control_public_private,
-        i.implied_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference,
+        i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference,
         f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
         f.net_price, e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
       FROM institutions i
@@ -219,6 +220,7 @@ export class CollegeDataService {
       earnings_6_years_after_entry: row.earnings_6_years_after_entry,
       // New ROI and admissions fields
       implied_roi: row.implied_roi,
+      institution_avg_roi: row.institution_avg_roi,
       acceptance_rate: row.acceptance_rate,
       average_sat: row.average_sat,
       average_act: row.average_act,
@@ -234,7 +236,7 @@ export class CollegeDataService {
       SELECT 
         i.id, i.unitid, i.opeid, i.name, i.city, i.state, i.zip_code, i.region, 
         i.latitude, i.longitude, i.website, i.ownership, i.control_public_private,
-        i.implied_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference,
+        i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference,
         f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
         f.net_price, e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
       FROM institutions i
@@ -282,6 +284,7 @@ export class CollegeDataService {
       earnings_6_years_after_entry: result.earnings_6_years_after_entry,
       // New ROI and admissions fields
       implied_roi: result.implied_roi,
+      institution_avg_roi: result.institution_avg_roi,
       acceptance_rate: result.acceptance_rate,
       average_sat: result.average_sat,
       average_act: result.average_act,
@@ -388,7 +391,7 @@ export class CollegeDataService {
     let query = needsProgramsJoin ? `
       SELECT DISTINCT i.*, f.tuition_in_state, f.tuition_out_state, f.room_board_on_campus,
              e.earnings_6_years_after_entry, e.earnings_10_years_after_entry,
-             i.implied_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference
+             i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference
       FROM institutions i
       LEFT JOIN financial_data f ON i.unitid = f.unitid 
         AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
@@ -398,7 +401,7 @@ export class CollegeDataService {
     ` : `
       SELECT i.*, f.tuition_in_state, f.tuition_out_state, f.room_board_on_campus,
              e.earnings_6_years_after_entry, e.earnings_10_years_after_entry,
-             i.implied_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference
+             i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference
       FROM institutions i
       LEFT JOIN financial_data f ON i.unitid = f.unitid 
         AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
@@ -511,6 +514,7 @@ export class CollegeDataService {
       mean_earnings_10_years: row.earnings_10_years_after_entry,
       // ENG-30: Add admissions and ROI fields
       implied_roi: row.implied_roi,
+      institution_avg_roi: row.institution_avg_roi,
       acceptance_rate: row.acceptance_rate,
       average_sat: row.average_sat,
       average_act: row.average_act,
