@@ -387,6 +387,12 @@ export default function CollegeDetailPage() {
                         <dd className="text-lg text-gray-900">{institution.zip_code}</dd>
                       </div>
                     )}
+                    {institution.athletic_conference && (
+                      <div>
+                        <dt className="text-sm font-medium text-gray-500">Athletic Conference</dt>
+                        <dd className="text-lg text-gray-900">{institution.athletic_conference}</dd>
+                      </div>
+                    )}
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Unit ID</dt>
                       <dd className="text-lg text-gray-900">{institution.unitid}</dd>
