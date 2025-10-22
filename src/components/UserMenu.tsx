@@ -65,13 +65,13 @@ export default function UserMenu() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => openAuthModal('signin')}
-            className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
+            className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors cursor-pointer"
           >
             Sign In
           </button>
           <button
             onClick={() => openAuthModal('signup')}
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors cursor-pointer"
           >
             Get Started
           </button>

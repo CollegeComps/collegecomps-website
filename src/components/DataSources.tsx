@@ -16,9 +16,9 @@ const dataSources: DataSource[] = [
   },
   {
     name: "College Scorecard",
-    description: "U.S. Department of Education college cost and earnings data",
+    description: "U.S. Department of Education college cost and earnings data (6,163 institutions with 91.8% enrollment coverage, 43.6% ROI data)",
     url: "https://collegescorecard.ed.gov/",
-    lastUpdated: "September 2024",
+    lastUpdated: "October 2025",
     updateFrequency: "Annual"
   },
   {
