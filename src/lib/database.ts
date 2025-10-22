@@ -56,6 +56,12 @@ export interface Institution {
   average_act?: number;
   athletic_conference?: string;
   last_roi_calculation?: string;
+  // Enrollment and demographics (ENG-67)
+  total_enrollment?: number;
+  undergrad_enrollment?: number;
+  grad_enrollment?: number;
+  percent_male?: number;
+  percent_female?: number;
 }
 
 export interface FinancialData {
