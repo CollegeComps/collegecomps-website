@@ -1,34 +1,97 @@
 'use client';
 
-import { useState } from 'react';
-import { AcademicCapIcon, CurrencyDollarIcon, MapPinIcon, CalendarIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { AcademicCapIcon, CurrencyDollarIcon, MapPinIcon, CalendarIcon, CheckCircleIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import { ScholarshipMatch } from '@/types/scholarship';
 
 export default function ScholarshipMatchingPage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [loadingProfile, setLoadingProfile] = useState(true);
   const [submitted, setSubmitted] = useState(false);
   const [matches, setMatches] = useState<ScholarshipMatch[]>([]);
+  const [showAll, setShowAll] = useState(false);
   
   const [formData, setFormData] = useState({
     full_name: '',
     email: '',
     phone: '',
     gpa: '',
+    sat_score: '',
+    act_score: '',
     desired_major: '',
     state: '',
   });
 
+  // Load user profile data if logged in
+  useEffect(() => {
+    const loadUserProfile = async () => {
+      if (status === 'loading') return;
+      
+      if (session?.user) {
+        try {
+          const response = await fetch('/api/user/profile');
+          if (response.ok) {
+            const profile = await response.json();
+            setFormData(prev => ({
+              ...prev,
+              full_name: session.user?.name || prev.full_name,
+              email: session.user?.email || prev.email,
+              gpa: profile.gpa?.toString() || prev.gpa,
+              sat_score: profile.sat_score?.toString() || prev.sat_score,
+              act_score: profile.act_score?.toString() || prev.act_score,
+              desired_major: profile.intended_major || prev.desired_major,
+            }));
+          }
+        } catch (error) {
+          console.error('Error loading profile:', error);
+        }
+      }
+      setLoadingProfile(false);
+    };
+
+    loadUserProfile();
+  }, [session, status]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Require login for scholarship matching
+    if (!session?.user) {
+      if (confirm('You need to sign in to access scholarship matching. Would you like to sign in now?')) {
+        router.push('/auth/signin?callbackUrl=/scholarships');
+      }
+      return;
+    }
+    
     setLoading(true);
 
     try {
+      // Update user profile with new data
+      if (formData.gpa || formData.sat_score || formData.act_score || formData.desired_major) {
+        await fetch('/api/user/profile', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            gpa: formData.gpa ? parseFloat(formData.gpa) : null,
+            sat_score: formData.sat_score ? parseInt(formData.sat_score) : null,
+            act_score: formData.act_score ? parseInt(formData.act_score) : null,
+            intended_major: formData.desired_major || null,
+          }),
+        });
+      }
+
       const response = await fetch('/api/scholarships/match', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
           gpa: parseFloat(formData.gpa),
+          sat_score: formData.sat_score ? parseInt(formData.sat_score) : null,
+          act_score: formData.act_score ? parseInt(formData.act_score) : null,
         }),
       });
 
@@ -63,6 +126,9 @@ export default function ScholarshipMatchingPage() {
   };
 
   if (submitted && matches.length > 0) {
+    const displayedMatches = showAll ? matches : matches.slice(0, 10);
+    const hasMore = matches.length > 10;
+    
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 py-12 px-4">
         <div className="max-w-6xl mx-auto">
@@ -76,10 +142,15 @@ export default function ScholarshipMatchingPage() {
             <p className="text-xl text-gray-600">
               We found <strong>{matches.length} scholarships</strong> you may be eligible for
             </p>
+            {!showAll && hasMore && (
+              <p className="text-sm text-gray-500 mt-2">
+                Showing top 10 matches • <button onClick={() => setShowAll(true)} className="text-purple-600 hover:text-purple-700 font-semibold">View all {matches.length} scholarships</button>
+              </p>
+            )}
           </div>
 
           <div className="space-y-6">
-            {matches.map((match, index) => (
+            {displayedMatches.map((match, index) => (
               <div
                 key={match.scholarship.id}
                 className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow"
@@ -162,11 +233,14 @@ export default function ScholarshipMatchingPage() {
               onClick={() => {
                 setSubmitted(false);
                 setMatches([]);
+                setShowAll(false);
                 setFormData({
                   full_name: '',
                   email: '',
                   phone: '',
                   gpa: '',
+                  sat_score: '',
+                  act_score: '',
                   desired_major: '',
                   state: '',
                 });
@@ -255,6 +329,38 @@ export default function ScholarshipMatchingPage() {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
                   placeholder="3.75"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  SAT Score (optional)
+                </label>
+                <input
+                  type="number"
+                  min="400"
+                  max="1600"
+                  value={formData.sat_score}
+                  onChange={(e) => setFormData({ ...formData, sat_score: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
+                  placeholder="1200"
+                />
+                <p className="text-xs text-gray-500 mt-1">Total score (400-1600)</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  ACT Score (optional)
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  max="36"
+                  value={formData.act_score}
+                  onChange={(e) => setFormData({ ...formData, act_score: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
+                  placeholder="24"
+                />
+                <p className="text-xs text-gray-500 mt-1">Composite score (1-36)</p>
               </div>
 
               <div>
