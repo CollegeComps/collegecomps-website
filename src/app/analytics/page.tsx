@@ -55,7 +55,7 @@ export default function AnalyticsPage() {
         )
         .map((inst: any) => ({
           name: inst.name,
-          cost: (inst.tuition_in_state || inst.tuition_out_state || 0) + (inst.room_board_on_campus || 0),
+          cost: (inst.tuition_in_state || inst.tuition_out_state || 0) + (inst.fees || 0) + (inst.room_board_on_campus || 0),
           roi: inst.institution_avg_roi,
           control: inst.control_of_institution === 1 ? 'Public' : inst.control_of_institution === 2 ? 'Private Nonprofit' : 'Private For-Profit',
           state: inst.state,
