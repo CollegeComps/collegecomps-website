@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     const maxTuition = searchParams.get('maxTuition');
     const minEarnings = searchParams.get('minEarnings');
     const majorCategory = searchParams.get('majorCategory') as MajorCategory | null; // ENG-25: Major category filter
-    const sortBy = searchParams.get('sortBy') || 'implied_roi'; // Default to ROI sorting (ENG-18)
+    const sortBy = searchParams.get('sortBy') || 'roi_high'; // Default to ROI sorting (ENG-77)
     const unitid = searchParams.get('unitid');
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '20');
