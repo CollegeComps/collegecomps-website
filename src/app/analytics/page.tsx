@@ -45,8 +45,8 @@ export default function AnalyticsPage() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      // Fetch institutions with ROI and cost data
-      const response = await fetch('/api/institutions?sortBy=roi_high&limit=3000');
+      // Fetch all institutions with ROI and cost data (no limit)
+      const response = await fetch('/api/institutions?sortBy=roi_high&limit=10000');
       const result = await response.json();
       
       const dataPoints: InstitutionDataPoint[] = result.institutions
