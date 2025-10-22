@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Institution, AcademicProgram } from '@/lib/database';
 import { CollegeSchema, BreadcrumbSchema } from '@/components/StructuredData';
+import { EnrollmentCharts } from '@/components/EnrollmentCharts';
 import {
   ArrowLeftIcon,
   MapPinIcon,
@@ -358,6 +359,15 @@ export default function CollegeDetailPage() {
                     </div>
                   </div>
                 )}
+                
+                {/* Enrollment and Gender Demographics Charts */}
+                <EnrollmentCharts
+                  undergrad_enrollment={institution.undergrad_enrollment}
+                  grad_enrollment={institution.grad_enrollment}
+                  percent_male={institution.percent_male}
+                  percent_female={institution.percent_female}
+                  total_enrollment={institution.total_enrollment}
+                />
                 
                 <div className="bg-white rounded-lg shadow-sm border p-6">
                   <h2 className="text-xl font-semibold text-gray-900 mb-4">Institution Information</h2>
