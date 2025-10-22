@@ -1,87 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Scholarship, ScholarshipMatch } from '@/types/scholarship';
+import { createClient } from '@libsql/client';
 
-// Sample scholarship data - in production this would come from database
-const SCHOLARSHIPS: Scholarship[] = [
-  {
-    id: 1,
-    name: 'STEM Excellence Scholarship',
-    provider: 'National STEM Foundation',
-    amount_min: 5000,
-    amount_max: 10000,
-    gpa_requirement: 3.5,
-    major_categories: ['STEM', 'Engineering', 'Computer Science'],
-    eligible_states: ['ALL'],
-    deadline: '2026-03-15',
-    website_url: 'https://example.com/stem-scholarship',
-    description: 'Annual scholarship for students pursuing STEM degrees with strong academic performance.',
-  },
-  {
-    id: 2,
-    name: 'California Dream Scholarship',
-    provider: 'California Student Aid Commission',
-    amount_min: 1000,
-    amount_max: 5000,
-    gpa_requirement: 2.5,
-    major_categories: ['ALL'],
-    eligible_states: ['CA'],
-    deadline: '2026-03-02',
-    website_url: 'https://example.com/ca-dream',
-    description: 'Supporting California students pursuing higher education in any field.',
-  },
-  {
-    id: 3,
-    name: 'Future Engineers Grant',
-    provider: 'American Engineering Society',
-    amount_min: 10000,
-    amount_max: 15000,
-    gpa_requirement: 3.7,
-    major_categories: ['Engineering', 'STEM'],
-    eligible_states: ['ALL'],
-    deadline: '2026-02-01',
-    website_url: 'https://example.com/future-engineers',
-    description: 'Highly competitive scholarship for exceptional engineering students.',
-  },
-  {
-    id: 4,
-    name: 'Health Professions Scholarship',
-    provider: 'National Health Foundation',
-    amount_min: 5000,
-    amount_max: 7500,
-    gpa_requirement: 3.3,
-    major_categories: ['Health', 'Nursing', 'Medicine'],
-    eligible_states: ['ALL'],
-    deadline: '2026-04-15',
-    website_url: 'https://example.com/health-scholarship',
-    description: 'For students committed to careers in healthcare and medical fields.',
-  },
-  {
-    id: 5,
-    name: 'Business Leaders of Tomorrow',
-    provider: 'National Business Education Alliance',
-    amount_min: 3000,
-    amount_max: 8000,
-    gpa_requirement: 3.0,
-    major_categories: ['Business', 'Economics', 'Finance'],
-    eligible_states: ['ALL'],
-    deadline: '2026-03-31',
-    website_url: 'https://example.com/business-leaders',
-    description: 'Supporting the next generation of business leaders and entrepreneurs.',
-  },
-  {
-    id: 6,
-    name: 'Community College Transfer Scholarship',
-    provider: 'Jack Kent Cooke Foundation',
-    amount_min: 30000,
-    amount_max: 40000,
-    gpa_requirement: 3.5,
-    major_categories: ['ALL'],
-    eligible_states: ['ALL'],
-    deadline: '2026-01-15',
-    website_url: 'https://example.com/transfer-scholarship',
-    description: 'Prestigious scholarship for community college students transferring to 4-year institutions.',
-  },
-];
+// Initialize Turso client
+const turso = createClient({
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN!,
+});
 
 export async function POST(request: NextRequest) {
   try {
@@ -96,19 +21,28 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Log scholarship lead (in production, save to database)
-    console.log('Scholarship Lead:', {
-      full_name,
-      email,
-      phone,
-      gpa,
-      desired_major,
-      state,
-      timestamp: new Date().toISOString(),
-    });
+    // Save student profile to database
+    try {
+      await turso.execute({
+        sql: `INSERT OR REPLACE INTO student_profiles 
+              (email, first_name, gpa, major_interest, state, phone, opted_in_email, source, created_at, updated_at) 
+              VALUES (?, ?, ?, ?, ?, ?, 1, 'scholarship_finder', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
+        args: [
+          email,
+          full_name,
+          gpa,
+          desired_major,
+          state,
+          phone || null,
+        ],
+      });
+    } catch (dbError) {
+      console.error('Error saving student profile:', dbError);
+      // Continue even if profile save fails - don't block scholarship matching
+    }
 
-    // Find matching scholarships
-    const matches = findMatches(gpa, desired_major, state);
+    // Find matching scholarships from database
+    const matches = await findMatches(gpa, desired_major, state);
 
     return NextResponse.json({
       success: true,
@@ -124,73 +58,129 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function findMatches(
+async function findMatches(
   gpa: number,
   major: string,
   state: string
-): ScholarshipMatch[] {
+): Promise<ScholarshipMatch[]> {
   const matches: ScholarshipMatch[] = [];
 
-  for (const scholarship of SCHOLARSHIPS) {
-    let matchScore = 0;
-    const matchReasons: string[] = [];
+  try {
+    // Query active scholarships from database
+    const result = await turso.execute({
+      sql: `SELECT * FROM scholarships WHERE active = 1 ORDER BY amount_max DESC`,
+      args: [],
+    });
 
-    // Check GPA requirement
-    if (gpa >= scholarship.gpa_requirement) {
-      matchScore += 40;
-      matchReasons.push(`Meets GPA requirement (${scholarship.gpa_requirement})`);
-    } else {
-      // If GPA doesn't meet requirement, skip this scholarship
-      continue;
-    }
+    const scholarships = result.rows;
 
-    // Check major compatibility
-    const majorCategories = getMajorCategories(major);
-    const majorMatches = majorCategories.some(
-      (cat) =>
-        scholarship.major_categories.includes(cat) ||
-        scholarship.major_categories.includes('ALL')
-    );
+    for (const row of scholarships) {
+      let matchScore = 0;
+      const matchReasons: string[] = [];
 
-    if (majorMatches) {
-      matchScore += 30;
-      matchReasons.push('Matches your field of study');
-    } else if (!scholarship.major_categories.includes('ALL')) {
-      // If major doesn't match and scholarship is major-specific, reduce score
-      matchScore -= 20;
-    }
+      // Extract scholarship data
+      const scholarship = {
+        id: row.id as number,
+        name: row.name as string,
+        organization: row.organization as string,
+        amount_min: row.amount_min as number | null,
+        amount_max: row.amount_max as number | null,
+        gpa_min: row.gpa_min as number | null,
+        major_category: row.major_category as string | null,
+        state_residency: row.state_residency as string | null,
+        description: row.description as string | null,
+        website_url: row.website_url as string | null,
+        deadline: row.deadline as string | null,
+      };
 
-    // Check state eligibility
-    if (
-      scholarship.eligible_states.includes(state) ||
-      scholarship.eligible_states.includes('ALL')
-    ) {
-      matchScore += 30;
-      if (scholarship.eligible_states.includes(state) && state !== 'ALL') {
+      // Check GPA requirement
+      if (scholarship.gpa_min !== null && gpa < scholarship.gpa_min) {
+        continue; // Skip if GPA doesn't meet minimum
+      } else if (scholarship.gpa_min !== null) {
+        matchScore += 40;
+        matchReasons.push(`Meets GPA requirement (${scholarship.gpa_min})`);
+      } else {
+        matchScore += 20;
+        matchReasons.push('No GPA requirement');
+      }
+
+      // Check major compatibility
+      const majorCategories = getMajorCategories(major);
+      const scholarshipMajor = scholarship.major_category || 'any';
+      
+      if (scholarshipMajor === 'any') {
+        matchScore += 15;
+        matchReasons.push('Open to all majors');
+      } else if (majorCategories.some(cat => scholarshipMajor.toLowerCase().includes(cat.toLowerCase()))) {
+        matchScore += 40;
+        matchReasons.push(`Perfect match for ${scholarshipMajor}`);
+      } else {
+        // Partial match - still show but lower score
+        matchScore += 5;
+      }
+
+      // Check state residency
+      const scholarshipStates = (scholarship.state_residency || 'any').split(',').map(s => s.trim());
+      
+      if (scholarshipStates.includes('any')) {
+        matchScore += 15;
+        matchReasons.push('Available nationwide');
+      } else if (scholarshipStates.includes(state)) {
+        matchScore += 30;
         matchReasons.push(`Available in ${state}`);
+      } else {
+        // Skip if state-specific and doesn't match
+        if (scholarship.state_residency !== 'any') {
+          continue;
+        }
+      }
+
+      // Add deadline urgency bonus
+      if (scholarship.deadline) {
+        const deadlineDate = new Date(scholarship.deadline);
+        const today = new Date();
+        const daysUntilDeadline = Math.floor((deadlineDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+        
+        if (daysUntilDeadline > 0 && daysUntilDeadline < 90) {
+          matchScore += 10;
+          matchReasons.push(`Deadline approaching: ${scholarship.deadline}`);
+        } else if (daysUntilDeadline < 0) {
+          continue; // Skip expired scholarships
+        }
+      }
+
+      // Only include scholarships with reasonable match score
+      if (matchScore >= 25) {
+        matches.push({
+          scholarship: {
+            id: scholarship.id,
+            name: scholarship.name,
+            provider: scholarship.organization,
+            amount_min: scholarship.amount_min || 0,
+            amount_max: scholarship.amount_max || 0,
+            gpa_requirement: scholarship.gpa_min || 0.0,
+            major_categories: scholarship.major_category ? [scholarship.major_category] : ['ALL'],
+            eligible_states: scholarship.state_residency?.split(',').map(s => s.trim()) || ['ALL'],
+            deadline: scholarship.deadline || 'Rolling',
+            website_url: scholarship.website_url || '#',
+            description: scholarship.description || '',
+          },
+          match_score: matchScore,
+          match_reasons: matchReasons,
+        });
       }
     }
 
-    // Bonus points for higher award amounts
-    if (scholarship.amount_max >= 10000) {
-      matchScore += 10;
-      matchReasons.push('High award amount');
-    }
+    // Sort by match score (highest first)
+    matches.sort((a, b) => b.match_score - a.match_score);
 
-    // Only include scholarships with positive match score
-    if (matchScore > 0) {
-      matches.push({
-        scholarship,
-        match_score: Math.min(100, Math.max(0, matchScore)),
-        match_reasons: matchReasons,
-      });
-    }
+    // Limit to top 15 matches
+    return matches.slice(0, 15);
+
+  } catch (error) {
+    console.error('Error querying scholarships from database:', error);
+    return [];
   }
-
-  // Sort by match score (highest first)
-  matches.sort((a, b) => b.match_score - a.match_score);
-
-  return matches;
 }
 
 function getMajorCategories(major: string): string[] {
