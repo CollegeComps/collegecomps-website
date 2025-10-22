@@ -545,7 +545,7 @@ export default function CollegesPage() {
             institutions.map((institution) => (
               <div 
                 key={institution.id} 
-                className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer relative"
+                className="group bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-blue-300 transition-all cursor-pointer relative"
                 onClick={() => window.location.href = `/colleges/${institution.unitid}`}
               >
                 {/* Bookmark button */}
@@ -723,9 +723,12 @@ export default function CollegesPage() {
                 <div className="mt-4 pt-4 border-t border-gray-100">
                   <div className="flex justify-between items-center">
                     <span className="text-xs text-gray-500">Unit ID: {institution.unitid}</span>
-                    <span className="text-blue-600 hover:text-blue-700 text-sm font-medium">
-                      View Details →
-                    </span>
+                    <div className="flex items-center gap-1 text-blue-600 group-hover:text-blue-700 text-sm font-medium">
+                      <span>View Details</span>
+                      <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>
