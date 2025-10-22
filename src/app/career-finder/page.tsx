@@ -51,27 +51,119 @@ interface CareerMatch {
 }
 
 const CAREER_MAPPINGS: Record<string, CareerMatch[]> = {
-  'ENTJ': [
-    { name: 'Business Executive', description: 'Lead organizations and drive strategic growth', icon: BriefcaseIcon, majors: ['Business Administration', 'Management', 'Finance'], growth: '6%', salary: '$104k' },
-    { name: 'Entrepreneur', description: 'Build and scale innovative businesses', icon: LightBulbIcon, majors: ['Entrepreneurship', 'Business', 'Marketing'], growth: '8%', salary: '$90k+' },
-  ],
+  // Analysts
   'INTJ': [
     { name: 'Software Architect', description: 'Design complex software systems and solutions', icon: BeakerIcon, majors: ['Computer Science', 'Software Engineering'], growth: '22%', salary: '$120k' },
     { name: 'Data Scientist', description: 'Extract insights from complex data', icon: ChartBarIcon, majors: ['Data Science', 'Statistics', 'Computer Science'], growth: '35%', salary: '$126k' },
+    { name: 'Research Scientist', description: 'Conduct innovative research in specialized fields', icon: BeakerIcon, majors: ['Biology', 'Chemistry', 'Physics', 'Mathematics'], growth: '6%', salary: '$99k' },
+  ],
+  'INTP': [
+    { name: 'Software Developer', description: 'Build innovative applications and solve complex problems', icon: BeakerIcon, majors: ['Computer Science', 'Software Engineering'], growth: '22%', salary: '$110k' },
+    { name: 'Mathematician', description: 'Develop mathematical models and theories', icon: ChartBarIcon, majors: ['Mathematics', 'Applied Mathematics'], growth: '5%', salary: '$108k' },
+    { name: 'Physicist', description: 'Study the fundamental laws of nature', icon: BeakerIcon, majors: ['Physics', 'Applied Physics'], growth: '8%', salary: '$128k' },
+  ],
+  'ENTJ': [
+    { name: 'Business Executive', description: 'Lead organizations and drive strategic growth', icon: BriefcaseIcon, majors: ['Business Administration', 'Management', 'Finance'], growth: '6%', salary: '$104k' },
+    { name: 'Entrepreneur', description: 'Build and scale innovative businesses', icon: LightBulbIcon, majors: ['Entrepreneurship', 'Business', 'Marketing'], growth: '8%', salary: '$90k+' },
+    { name: 'Management Consultant', description: 'Solve complex business problems for clients', icon: BriefcaseIcon, majors: ['Business', 'Economics', 'Finance'], growth: '11%', salary: '$93k' },
+  ],
+  'ENTP': [
+    { name: 'Product Manager', description: 'Innovate and launch new products', icon: LightBulbIcon, majors: ['Business', 'Computer Science', 'Engineering'], growth: '10%', salary: '$125k' },
+    { name: 'Marketing Director', description: 'Create innovative marketing campaigns', icon: LightBulbIcon, majors: ['Marketing', 'Business', 'Communications'], growth: '10%', salary: '$135k' },
+    { name: 'Inventor/Innovator', description: 'Develop new technologies and solutions', icon: BeakerIcon, majors: ['Engineering', 'Computer Science'], growth: '8%', salary: '$95k+' },
+  ],
+  
+  // Diplomats
+  'INFJ': [
+    { name: 'Clinical Psychologist', description: 'Help people overcome mental health challenges', icon: HeartIcon, majors: ['Psychology', 'Clinical Psychology'], growth: '6%', salary: '$82k' },
+    { name: 'Writer/Author', description: 'Create meaningful content and stories', icon: PaintBrushIcon, majors: ['English', 'Creative Writing', 'Journalism'], growth: '4%', salary: '$67k' },
+    { name: 'Counselor', description: 'Guide individuals through personal challenges', icon: HeartIcon, majors: ['Counseling', 'Psychology', 'Social Work'], growth: '10%', salary: '$48k' },
+  ],
+  'INFP': [
+    { name: 'Creative Writer', description: 'Express ideas through creative storytelling', icon: PaintBrushIcon, majors: ['Creative Writing', 'English', 'Journalism'], growth: '4%', salary: '$67k' },
+    { name: 'Graphic Designer', description: 'Create visual content that inspires', icon: PaintBrushIcon, majors: ['Graphic Design', 'Visual Arts'], growth: '3%', salary: '$53k' },
+    { name: 'Social Worker', description: 'Support individuals and communities', icon: HeartIcon, majors: ['Social Work', 'Psychology', 'Sociology'], growth: '9%', salary: '$51k' },
   ],
   'ENFJ': [
     { name: 'School Counselor', description: 'Guide students through academic and personal challenges', icon: HeartIcon, majors: ['Psychology', 'Counseling', 'Education'], growth: '10%', salary: '$60k' },
     { name: 'Human Resources Manager', description: 'Develop talent and foster positive work culture', icon: UsersIcon, majors: ['Human Resources', 'Business', 'Psychology'], growth: '7%', salary: '$126k' },
+    { name: 'Teacher', description: 'Inspire and educate the next generation', icon: AcademicCapIcon, majors: ['Education', 'Subject-Specific Education'], growth: '4%', salary: '$61k' },
   ],
-  'INFJ': [
-    { name: 'Clinical Psychologist', description: 'Help people overcome mental health challenges', icon: HeartIcon, majors: ['Psychology', 'Clinical Psychology'], growth: '6%', salary: '$82k' },
-    { name: 'Writer/Author', description: 'Create meaningful content and stories', icon: PaintBrushIcon, majors: ['English', 'Creative Writing', 'Journalism'], growth: '4%', salary: '$67k' },
+  'ENFP': [
+    { name: 'Marketing Manager', description: 'Create engaging campaigns and brand stories', icon: LightBulbIcon, majors: ['Marketing', 'Communications', 'Business'], growth: '10%', salary: '$135k' },
+    { name: 'Public Relations Specialist', description: 'Build and maintain positive public image', icon: UsersIcon, majors: ['Public Relations', 'Communications'], growth: '6%', salary: '$62k' },
+    { name: 'Journalist', description: 'Tell important stories and inform the public', icon: PaintBrushIcon, majors: ['Journalism', 'Communications', 'English'], growth: '-3%', salary: '$49k' },
   ],
-  'DEFAULT': [
-    { name: 'Business Analyst', description: 'Analyze data to drive business decisions', icon: ChartBarIcon, majors: ['Business', 'Economics', 'Data Analytics'], growth: '11%', salary: '$82k' },
-    { name: 'Software Developer', description: 'Build applications and solve technical problems', icon: BeakerIcon, majors: ['Computer Science', 'Software Engineering'], growth: '22%', salary: '$110k' },
-    { name: 'Marketing Manager', description: 'Create and execute marketing strategies', icon: LightBulbIcon, majors: ['Marketing', 'Business', 'Communications'], growth: '10%', salary: '$135k' },
+  
+  // Sentinels
+  'ISTJ': [
+    { name: 'Accountant', description: 'Ensure financial accuracy and compliance', icon: ChartBarIcon, majors: ['Accounting', 'Finance'], growth: '4%', salary: '$77k' },
+    { name: 'Financial Analyst', description: 'Analyze financial data to guide decisions', icon: ChartBarIcon, majors: ['Finance', 'Economics', 'Accounting'], growth: '8%', salary: '$83k' },
+    { name: 'Auditor', description: 'Examine financial records for accuracy', icon: BriefcaseIcon, majors: ['Accounting', 'Finance'], growth: '6%', salary: '$77k' },
   ],
+  'ISFJ': [
+    { name: 'Nurse', description: 'Provide compassionate patient care', icon: HeartIcon, majors: ['Nursing', 'Healthcare'], growth: '6%', salary: '$77k' },
+    { name: 'Elementary Teacher', description: 'Nurture young minds and build foundations', icon: AcademicCapIcon, majors: ['Elementary Education', 'Education'], growth: '4%', salary: '$61k' },
+    { name: 'Healthcare Administrator', description: 'Manage healthcare facilities and operations', icon: BriefcaseIcon, majors: ['Healthcare Administration', 'Business'], growth: '28%', salary: '$101k' },
+  ],
+  'ESTJ': [
+    { name: 'Operations Manager', description: 'Optimize business operations and efficiency', icon: BriefcaseIcon, majors: ['Business', 'Operations Management'], growth: '6%', salary: '$104k' },
+    { name: 'Project Manager', description: 'Lead teams to deliver successful projects', icon: UsersIcon, majors: ['Business', 'Project Management', 'Engineering'], growth: '6%', salary: '$94k' },
+    { name: 'Sales Manager', description: 'Drive revenue through effective sales strategies', icon: ChartBarIcon, majors: ['Business', 'Marketing', 'Sales'], growth: '4%', salary: '$127k' },
+  ],
+  'ESFJ': [
+    { name: 'Event Planner', description: 'Create memorable experiences and events', icon: UsersIcon, majors: ['Hospitality', 'Event Management', 'Business'], growth: '8%', salary: '$51k' },
+    { name: 'Office Manager', description: 'Keep workplace organized and running smoothly', icon: BriefcaseIcon, majors: ['Business Administration', 'Management'], growth: '3%', salary: '$55k' },
+    { name: 'Customer Service Manager', description: 'Ensure excellent customer experiences', icon: HeartIcon, majors: ['Business', 'Communications'], growth: '4%', salary: '$56k' },
+  ],
+  
+  // Explorers
+  'ISTP': [
+    { name: 'Mechanical Engineer', description: 'Design and build mechanical systems', icon: BeakerIcon, majors: ['Mechanical Engineering', 'Engineering'], growth: '10%', salary: '$95k' },
+    { name: 'Computer Systems Analyst', description: 'Solve technical problems and optimize systems', icon: BeakerIcon, majors: ['Computer Science', 'Information Technology'], growth: '9%', salary: '$99k' },
+    { name: 'Forensic Scientist', description: 'Apply science to solve crimes', icon: BeakerIcon, majors: ['Forensic Science', 'Chemistry', 'Biology'], growth: '13%', salary: '$64k' },
+  ],
+  'ISFP': [
+    { name: 'Interior Designer', description: 'Create beautiful and functional spaces', icon: PaintBrushIcon, majors: ['Interior Design', 'Architecture'], growth: '1%', salary: '$58k' },
+    { name: 'Photographer', description: 'Capture meaningful moments through visual art', icon: PaintBrushIcon, majors: ['Photography', 'Visual Arts'], growth: '4%', salary: '$38k' },
+    { name: 'Chef', description: 'Create culinary experiences that delight', icon: HeartIcon, majors: ['Culinary Arts', 'Hospitality'], growth: '15%', salary: '$53k' },
+  ],
+  'ESTP': [
+    { name: 'Sales Representative', description: 'Build relationships and close deals', icon: BriefcaseIcon, majors: ['Business', 'Marketing', 'Sales'], growth: '4%', salary: '$62k' },
+    { name: 'Paramedic', description: 'Provide emergency medical care', icon: HeartIcon, majors: ['Emergency Medical Services', 'Paramedicine'], growth: '6%', salary: '$36k' },
+    { name: 'Real Estate Agent', description: 'Help people find their perfect property', icon: BriefcaseIcon, majors: ['Business', 'Real Estate'], growth: '5%', salary: '$49k' },
+  ],
+  'ESFP': [
+    { name: 'Entertainment Manager', description: 'Create engaging entertainment experiences', icon: UsersIcon, majors: ['Entertainment Management', 'Business'], growth: '8%', salary: '$75k' },
+    { name: 'Recreation Director', description: 'Organize activities that bring joy to others', icon: HeartIcon, majors: ['Recreation Management', 'Parks Management'], growth: '8%', salary: '$48k' },
+    { name: 'Flight Attendant', description: 'Ensure passenger safety and comfort', icon: UsersIcon, majors: ['Hospitality', 'Tourism'], growth: '21%', salary: '$61k' },
+  ],
+};
+
+const PERSONALITY_DESCRIPTIONS: Record<string, { title: string; description: string; category: string }> = {
+  // Analysts
+  'INTJ': { category: 'The Analyst', title: 'Strategic Thinker', description: 'You are imaginative and strategic, with a plan for everything. You excel at analyzing complex systems and developing innovative solutions.' },
+  'INTP': { category: 'The Analyst', title: 'Logical Innovator', description: 'You are innovative and curious, with an endless thirst for knowledge. You love exploring theoretical concepts and solving complex problems.' },
+  'ENTJ': { category: 'The Analyst', title: 'Bold Leader', description: 'You are bold, imaginative, and strong-willed. You excel at organizing people and resources to achieve ambitious goals.' },
+  'ENTP': { category: 'The Analyst', title: 'Creative Debater', description: 'You are smart and curious, always ready to challenge the status quo. You thrive on intellectual debates and innovative problem-solving.' },
+  
+  // Diplomats
+  'INFJ': { category: 'The Diplomat', title: 'Insightful Counselor', description: 'You are quiet and mystical, yet very inspiring and idealistic. You seek deep meaning and are driven to help others reach their potential.' },
+  'INFP': { category: 'The Diplomat', title: 'Poetic Idealist', description: 'You are poetic, kind, and altruistic, always eager to help a good cause. You value authenticity and seek to make the world a better place.' },
+  'ENFJ': { category: 'The Diplomat', title: 'Charismatic Teacher', description: 'You are charismatic and inspiring, able to mesmerize your listeners. You are passionate about helping others and creating positive change.' },
+  'ENFP': { category: 'The Diplomat', title: 'Enthusiastic Campaigner', description: 'You are enthusiastic, creative, and sociable. You approach life with excitement and see possibilities everywhere you look.' },
+  
+  // Sentinels
+  'ISTJ': { category: 'The Sentinel', title: 'Practical Logistician', description: 'You are practical and fact-minded, with reliability that cannot be doubted. You value traditions and take pride in your integrity.' },
+  'ISFJ': { category: 'The Sentinel', title: 'Dedicated Defender', description: 'You are very dedicated and warm, always ready to protect your loved ones. You are reliable and detail-oriented with a strong sense of duty.' },
+  'ESTJ': { category: 'The Sentinel', title: 'Efficient Organizer', description: 'You are excellent at managing things and people. You value order, structure, and tradition, and you get things done efficiently.' },
+  'ESFJ': { category: 'The Sentinel', title: 'Caring Provider', description: 'You are extraordinarily caring, social, and popular. You are eager to help others and create harmony in your environment.' },
+  
+  // Explorers
+  'ISTP': { category: 'The Explorer', title: 'Bold Craftsman', description: 'You are bold and practical, a master of all kinds of tools. You enjoy hands-on work and troubleshooting complex problems.' },
+  'ISFP': { category: 'The Explorer', title: 'Artistic Adventurer', description: 'You are flexible and charming, always ready to explore and experience something new. You have a strong aesthetic sense and value authenticity.' },
+  'ESTP': { category: 'The Explorer', title: 'Energetic Entrepreneur', description: 'You are smart, energetic, and perceptive. You enjoy living on the edge and are always ready for action and new experiences.' },
+  'ESFP': { category: 'The Explorer', title: 'Spontaneous Entertainer', description: 'You are spontaneous, energetic, and enthusiastic. You love being the center of attention and bringing joy to others.' },
 };
 
 export default function CareerFinderPage() {
@@ -95,23 +187,35 @@ export default function CareerFinderPage() {
   };
 
   const calculateResults = (finalAnswers: Record<number, number>) => {
+    // Calculate scores for each dimension
     const scores = { EI: 0, SN: 0, TF: 0, JP: 0 };
+    const dimensionCounts = { EI: 0, SN: 0, TF: 0, JP: 0 };
     
     QUESTIONS.forEach(q => {
-      const answer = finalAnswers[q.id] || 3;
+      const answer = finalAnswers[q.id] || 3; // Default to neutral if not answered
       const score = q.direction === 'positive' ? answer : (6 - answer);
       scores[q.dimension] += score;
+      dimensionCounts[q.dimension]++;
     });
     
-    // Determine personality type (simplified)
+    // Calculate average score for each dimension (out of 5)
+    const avgScores = {
+      EI: scores.EI / dimensionCounts.EI,
+      SN: scores.SN / dimensionCounts.SN,
+      TF: scores.TF / dimensionCounts.TF,
+      JP: scores.JP / dimensionCounts.JP,
+    };
+    
+    // Determine personality type based on whether average is above or below neutral (3.0)
+    // Scores > 3 lean toward first letter, scores < 3 lean toward second letter
     const type = 
-      (scores.EI >= 9 ? 'E' : 'I') +
-      (scores.SN >= 9 ? 'N' : 'S') +
-      (scores.TF >= 9 ? 'F' : 'T') +
-      (scores.JP >= 9 ? 'P' : 'J');
+      (avgScores.EI > 3.0 ? 'E' : 'I') +
+      (avgScores.SN > 3.0 ? 'N' : 'S') +
+      (avgScores.TF > 3.0 ? 'F' : 'T') +
+      (avgScores.JP > 3.0 ? 'P' : 'J');
     
     setPersonalityType(type);
-    setCareers(CAREER_MAPPINGS[type] || CAREER_MAPPINGS.DEFAULT);
+    setCareers(CAREER_MAPPINGS[type] || CAREER_MAPPINGS['ISTJ']); // Default to ISTJ if type not found
     setStep('results');
   };
 
@@ -261,10 +365,12 @@ export default function CareerFinderPage() {
   }
 
   // Results
+  const personalityInfo = PERSONALITY_DESCRIPTIONS[personalityType] || PERSONALITY_DESCRIPTIONS['ISTJ'];
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-12 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-24 h-24 bg-green-100 rounded-full mb-6">
             <LightBulbIcon className="w-12 h-12 text-green-600" />
           </div>
@@ -274,6 +380,13 @@ export default function CareerFinderPage() {
           <p className="text-lg text-gray-600">
             Based on your personality type: <span className="font-bold text-indigo-600">{personalityType}</span>
           </p>
+        </div>
+
+        {/* Personality Type Description */}
+        <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl shadow-lg p-8 mb-8 max-w-3xl mx-auto text-white">
+          <div className="text-sm font-semibold uppercase tracking-wide mb-2 opacity-90">{personalityInfo.category}</div>
+          <h2 className="text-3xl font-bold mb-3">{personalityInfo.title}</h2>
+          <p className="text-lg leading-relaxed opacity-95">{personalityInfo.description}</p>
         </div>
 
         {/* Email Capture */}
