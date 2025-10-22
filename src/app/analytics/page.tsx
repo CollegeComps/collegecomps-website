@@ -24,6 +24,8 @@ export default function AnalyticsPage() {
   const [filteredData, setFilteredData] = useState<InstitutionDataPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [maxCostInData, setMaxCostInData] = useState(100000);
+  const [minROIInData, setMinROIInData] = useState(0);
+  const [maxROIInData, setMaxROIInData] = useState(3000000);
   const [filters, setFilters] = useState<FilterState>({
     state: 'all',
     controlType: 'all',
@@ -64,12 +66,21 @@ export default function AnalyticsPage() {
 
       setData(dataPoints);
       
-      // Calculate max cost from data
+      // Calculate max cost and min/max ROI from data
       const maxCost = Math.max(...dataPoints.map(d => d.cost));
-      setMaxCostInData(maxCost);
+      const minROI = Math.min(...dataPoints.map(d => d.roi));
+      const maxROI = Math.max(...dataPoints.map(d => d.roi));
       
-      // Update filter max cost to actual maximum
-      setFilters(prev => ({ ...prev, maxCost: maxCost }));
+      setMaxCostInData(maxCost);
+      setMinROIInData(minROI);
+      setMaxROIInData(maxROI);
+      
+      // Update filter to use actual data ranges
+      setFilters(prev => ({ 
+        ...prev, 
+        maxCost: maxCost,
+        minROI: minROI  // Start at actual minimum ROI in dataset
+      }));
       
       // Extract unique states
       const uniqueStates = [...new Set(dataPoints.map(d => d.state))].sort();
@@ -193,8 +204,8 @@ export default function AnalyticsPage() {
               </label>
               <input
                 type="range"
-                min="-500000"
-                max="3000000"
+                min={minROIInData}
+                max={maxROIInData}
                 step="50000"
                 value={filters.minROI}
                 onChange={(e) => setFilters({ ...filters, minROI: parseInt(e.target.value) })}
