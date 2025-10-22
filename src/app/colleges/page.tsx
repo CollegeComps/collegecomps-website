@@ -23,6 +23,9 @@ interface SearchFilters {
   state: string;
   city: string;
   zipCode: string;
+  proximityZip: string;
+  radiusMiles: string;
+  majorCategory: string;
   control: string;
   maxTuition: string;
   minEarnings: string;
@@ -97,6 +100,9 @@ export default function CollegesPage() {
     state: '',
     city: '',
     zipCode: '',
+    proximityZip: '',
+    radiusMiles: '50',
+    majorCategory: '',
     control: '',
     maxTuition: '',
     minEarnings: '',
@@ -203,6 +209,11 @@ export default function CollegesPage() {
       if (filters.state) params.append('state', filters.state);
       if (filters.city) params.append('city', filters.city);
       if (filters.zipCode) params.append('zipCode', filters.zipCode);
+      if (filters.proximityZip) {
+        params.append('proximityZip', filters.proximityZip);
+        params.append('radiusMiles', filters.radiusMiles || '50');
+      }
+      if (filters.majorCategory) params.append('majorCategory', filters.majorCategory);
       if (filters.control !== undefined) params.append('control', filters.control.toString());
       if (filters.maxTuition) params.append('maxTuition', filters.maxTuition.toString());
       if (filters.minEarnings) params.append('minEarnings', filters.minEarnings.toString());
@@ -260,6 +271,9 @@ export default function CollegesPage() {
       state: '',
       city: '',
       zipCode: '',
+      proximityZip: '',
+      radiusMiles: '50',
+      majorCategory: '',
       control: '',
       maxTuition: '',
       minEarnings: '',
@@ -365,6 +379,52 @@ export default function CollegesPage() {
                     onChange={(e) => handleFilterChange('zipCode', e.target.value)}
                   />
                 </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-900 mb-1">
+                    Near ZIP Code
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="12345"
+                      className="flex-1 p-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium placeholder-gray-700"
+                      value={filters.proximityZip}
+                      onChange={(e) => handleFilterChange('proximityZip', e.target.value)}
+                    />
+                    <select
+                      className="w-24 p-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium bg-white"
+                      value={filters.radiusMiles}
+                      onChange={(e) => handleFilterChange('radiusMiles', e.target.value)}
+                    >
+                      <option value="25">25 mi</option>
+                      <option value="50">50 mi</option>
+                      <option value="100">100 mi</option>
+                      <option value="250">250 mi</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-900 mb-1">
+                    Major Category
+                  </label>
+                  <select
+                    className="w-full p-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium bg-white"
+                    value={filters.majorCategory}
+                    onChange={(e) => handleFilterChange('majorCategory', e.target.value)}
+                  >
+                    <option value="" className="text-gray-700">All Majors</option>
+                    <option value="STEM" className="text-gray-900">STEM</option>
+                    <option value="Business" className="text-gray-900">Business</option>
+                    <option value="Health" className="text-gray-900">Health</option>
+                    <option value="Education" className="text-gray-900">Education</option>
+                    <option value="Humanities" className="text-gray-900">Humanities</option>
+                    <option value="Social Sciences" className="text-gray-900">Social Sciences</option>
+                    <option value="Arts" className="text-gray-900">Arts</option>
+                    <option value="Other" className="text-gray-900">Other</option>
+                  </select>
+                </div>
                 
                 <div>
                   <label className="block text-sm font-bold text-gray-900 mb-1">
@@ -427,7 +487,7 @@ export default function CollegesPage() {
         </div>
 
         {/* Active Filters Chips (ENG-33) */}
-        {(filters.state || filters.city || filters.zipCode || filters.control || filters.maxTuition || filters.minEarnings || filters.sortBy !== 'roi_high') && (
+        {(filters.state || filters.city || filters.zipCode || filters.proximityZip || filters.majorCategory || filters.control || filters.maxTuition || filters.minEarnings || filters.sortBy !== 'roi_high') && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-sm font-semibold text-blue-900">Active Filters:</h3>
@@ -466,6 +526,28 @@ export default function CollegesPage() {
                   ZIP: {filters.zipCode}
                   <button
                     onClick={() => handleFilterChange('zipCode', '')}
+                    className="hover:bg-blue-100 rounded-full p-0.5"
+                  >
+                    <XMarkIcon className="w-4 h-4" />
+                  </button>
+                </span>
+              )}
+              {filters.proximityZip && (
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                  Within {filters.radiusMiles} mi of {filters.proximityZip}
+                  <button
+                    onClick={() => handleFilterChange('proximityZip', '')}
+                    className="hover:bg-blue-100 rounded-full p-0.5"
+                  >
+                    <XMarkIcon className="w-4 h-4" />
+                  </button>
+                </span>
+              )}
+              {filters.majorCategory && (
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                  Major: {filters.majorCategory}
+                  <button
+                    onClick={() => handleFilterChange('majorCategory', '')}
                     className="hover:bg-blue-100 rounded-full p-0.5"
                   >
                     <XMarkIcon className="w-4 h-4" />
