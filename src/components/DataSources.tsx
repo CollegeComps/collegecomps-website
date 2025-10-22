@@ -9,14 +9,14 @@ interface DataSource {
 const dataSources: DataSource[] = [
   {
     name: "IPEDS (Integrated Postsecondary Education Data System)",
-    description: "Official higher education data from the National Center for Education Statistics",
+    description: "Official higher education data from the National Center for Education Statistics - 6,163 institutions with comprehensive demographics and institutional characteristics",
     url: "https://nces.ed.gov/ipeds/",
     lastUpdated: "2024-2025 Academic Year",
     updateFrequency: "Annual"
   },
   {
     name: "College Scorecard",
-    description: "U.S. Department of Education college cost and earnings data (6,163 institutions with 91.8% enrollment coverage, 43.6% ROI data)",
+    description: "U.S. Department of Education earnings and financial data - 3,209 institutions with ROI calculations (52.1% coverage), earnings data for 10 years after entry",
     url: "https://collegescorecard.ed.gov/",
     lastUpdated: "October 2025",
     updateFrequency: "Annual"
