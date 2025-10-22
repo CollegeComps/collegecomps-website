@@ -18,7 +18,10 @@ import {
   LifebuoyIcon,
   UserCircleIcon,
   ArrowTrendingUpIcon,
-  BoltIcon
+  BoltIcon,
+  LightBulbIcon,
+  GiftIcon,
+  BanknotesIcon
 } from '@heroicons/react/24/outline';
 import UserMenu from './UserMenu';
 
@@ -36,6 +39,27 @@ const navigation: NavItem[] = [
     href: '/roi-calculator',
     icon: CalculatorIcon,
     description: 'Calculate return on investment for education',
+    requiresAuth: false
+  },
+  {
+    name: 'Career Finder',
+    href: '/career-finder',
+    icon: LightBulbIcon,
+    description: 'Discover careers that match your personality',
+    requiresAuth: false
+  },
+  {
+    name: 'Scholarship Finder',
+    href: '/scholarships',
+    icon: GiftIcon,
+    description: 'Find scholarships you qualify for',
+    requiresAuth: false
+  },
+  {
+    name: 'Loan Calculator',
+    href: '/tools/loan-calculator',
+    icon: BanknotesIcon,
+    description: 'Calculate student loan payments',
     requiresAuth: false
   },
   {
