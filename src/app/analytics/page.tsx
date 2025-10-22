@@ -51,9 +51,8 @@ export default function AnalyticsPage() {
       
       const dataPoints: InstitutionDataPoint[] = result.institutions
         .filter((inst: any) => 
-          inst.institution_avg_roi && 
-          (inst.tuition_in_state || inst.tuition_out_state) &&
-          inst.institution_avg_roi !== null
+          inst.institution_avg_roi != null &&  // Allow negative and zero values
+          (inst.tuition_in_state || inst.tuition_out_state)
         )
         .map((inst: any) => ({
           name: inst.name,
@@ -262,6 +261,7 @@ export default function AnalyticsPage() {
                     name="ROI"
                     label={{ value: '30-Year ROI ($)', angle: -90, position: 'insideLeft', offset: 10 }}
                     tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
+                    domain={['auto', 'auto']}
                   />
                   <ZAxis range={[50, 50]} />
                   <Tooltip content={<CustomTooltip />} />
