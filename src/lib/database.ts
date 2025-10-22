@@ -214,6 +214,7 @@ export class CollegeDataService {
       open_admission_policy: undefined,
       tuition_in_state: row.tuition_in_state,
       tuition_out_state: row.tuition_out_state,
+      fees: row.fees,
       room_board_on_campus: row.room_board_on_campus,
       mean_earnings_6_years: row.earnings_6_years_after_entry,
       mean_earnings_10_years: row.earnings_10_years_after_entry,
@@ -278,6 +279,7 @@ export class CollegeDataService {
       open_admission_policy: undefined,
       tuition_in_state: result.tuition_in_state,
       tuition_out_state: result.tuition_out_state,
+      fees: result.fees,
       room_board_on_campus: result.room_board_on_campus,
       mean_earnings_6_years: result.earnings_6_years_after_entry,
       mean_earnings_10_years: result.earnings_10_years_after_entry,
@@ -389,7 +391,7 @@ export class CollegeDataService {
     
     // ENG-30: Include admissions and ROI fields
     let query = needsProgramsJoin ? `
-      SELECT DISTINCT i.*, f.tuition_in_state, f.tuition_out_state, f.room_board_on_campus,
+      SELECT DISTINCT i.*, f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
              e.earnings_6_years_after_entry, e.earnings_10_years_after_entry,
              i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference
       FROM institutions i
@@ -399,7 +401,7 @@ export class CollegeDataService {
       INNER JOIN academic_programs ap ON i.unitid = ap.unitid
       WHERE ${statesClause}
     ` : `
-      SELECT i.*, f.tuition_in_state, f.tuition_out_state, f.room_board_on_campus,
+      SELECT i.*, f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
              e.earnings_6_years_after_entry, e.earnings_10_years_after_entry,
              i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference
       FROM institutions i
@@ -509,6 +511,7 @@ export class CollegeDataService {
       open_admission_policy: row.open_admission_policy,
       tuition_in_state: row.tuition_in_state,
       tuition_out_state: row.tuition_out_state,
+      fees: row.fees,
       room_board_on_campus: row.room_board_on_campus,
       mean_earnings_6_years: row.earnings_6_years_after_entry,
       mean_earnings_10_years: row.earnings_10_years_after_entry,
