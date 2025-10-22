@@ -596,6 +596,32 @@ export default function CollegesPage() {
           </div>
         )}
 
+        {/* Results Header - ENG-99 */}
+        {!loading && institutions.length > 0 && (
+          <div className="mb-4 flex items-center justify-between">
+            <div className="text-sm text-gray-700">
+              <span className="font-semibold text-gray-900">
+                {institutions.length} {institutions.length === 1 ? 'college' : 'colleges'}
+              </span>
+              {' '}found
+              {!hasMore && (
+                <span className="text-gray-500"> (all results)</span>
+              )}
+            </div>
+            <div className="text-sm font-medium text-gray-600">
+              Sorted by: <span className="text-gray-900">
+                {filters.sortBy === 'roi_high' && 'ROI (High to Low)'}
+                {filters.sortBy === 'roi_low' && 'ROI (Low to High)'}
+                {filters.sortBy === 'name' && 'Name (A-Z)'}
+                {filters.sortBy === 'tuition_low' && 'Tuition (Low to High)'}
+                {filters.sortBy === 'tuition_high' && 'Tuition (High to Low)'}
+                {filters.sortBy === 'earnings_high' && 'Earnings (High to Low)'}
+                {filters.sortBy === 'earnings_low' && 'Earnings (Low to High)'}
+              </span>
+            </div>
+          </div>
+        )}
+
         {/* Results */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {loading ? (
@@ -655,33 +681,44 @@ export default function CollegesPage() {
                   </span>
                 </div>
 
-                {/* School Category Badges (ENG-31) */}
-                {(() => {
-                  const { getSchoolBadges } = require('@/lib/school-categories');
-                  const badges = getSchoolBadges({
-                    unitid: institution.unitid,
-                    historically_black: (institution as any).historically_black,
-                    control_public_private: institution.control_of_institution,
-                    name: institution.name
-                  });
-                  
-                  if (badges.length > 0) {
-                    return (
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {badges.map((badge: any) => (
-                          <span
-                            key={badge.category}
-                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${badge.bgColor} ${badge.color}`}
-                            title={badge.description}
-                          >
-                            {badge.label}
-                          </span>
-                        ))}
-                      </div>
-                    );
-                  }
-                  return null;
-                })()}
+                {/* School Category Badges (ENG-31) + ROI Badge (ENG-99) */}
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {/* ROI Badge */}
+                  {((institution as any).institution_avg_roi || (institution as any).implied_roi) && (
+                    <span 
+                      className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-sm"
+                      title="Average Return on Investment (ROI) - Higher is better"
+                    >
+                      <CurrencyDollarIcon className="w-3.5 h-3.5 mr-1" />
+                      ROI: {((institution as any).institution_avg_roi || (institution as any).implied_roi).toLocaleString('en-US', { 
+                        style: 'percent', 
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0 
+                      })}
+                    </span>
+                  )}
+
+                  {/* School Category Badges */}
+                  {(() => {
+                    const { getSchoolBadges } = require('@/lib/school-categories');
+                    const badges = getSchoolBadges({
+                      unitid: institution.unitid,
+                      historically_black: (institution as any).historically_black,
+                      control_public_private: institution.control_of_institution,
+                      name: institution.name
+                    });
+                    
+                    return badges.map((badge: any) => (
+                      <span
+                        key={badge.category}
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${badge.bgColor} ${badge.color}`}
+                        title={badge.description}
+                      >
+                        {badge.label}
+                      </span>
+                    ));
+                  })()}
+                </div>
 
                   {/* Financial Information - Enhanced visibility */}
                   <div className="bg-gray-50 rounded-lg p-3 mb-3">
