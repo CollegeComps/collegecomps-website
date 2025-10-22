@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Institution, AcademicProgram } from '@/lib/database';
 import { CollegeSchema, BreadcrumbSchema } from '@/components/StructuredData';
+import { CollegeLocationMap } from '@/components/CollegeLocationMap';
 import { EnrollmentCharts } from '@/components/EnrollmentCharts';
 import {
   ArrowLeftIcon,
@@ -542,6 +543,16 @@ export default function CollegeDetailPage() {
                 )}
               </div>
             </div>
+
+            {/* Location Map */}
+            <CollegeLocationMap
+              name={institution.name}
+              latitude={institution.latitude}
+              longitude={institution.longitude}
+              city={institution.city}
+              state={institution.state}
+              zip_code={institution.zip_code}
+            />
           </div>
         </div>
       </div>
