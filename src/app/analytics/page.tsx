@@ -156,6 +156,21 @@ export default function AnalyticsPage() {
           <p className="mt-2 text-gray-600">
             Visualize the relationship between college costs and return on investment
           </p>
+          
+          {/* Negative ROI Explanation */}
+          <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="flex items-start">
+              <svg className="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+              <div>
+                <h3 className="text-sm font-semibold text-blue-900 mb-1">Understanding Negative ROI</h3>
+                <p className="text-sm text-blue-800">
+                  Some institutions show negative ROI values. This is mathematically accurate and represents schools where the total 4-year cost exceeds the expected lifetime earnings benefit. These are typically expensive private institutions (often art schools or specialized programs) where graduates earn close to the baseline income. This data helps you make informed decisions about educational investments.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Filters */}
