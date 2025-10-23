@@ -681,20 +681,27 @@ export default function CollegesPage() {
                   </span>
                 </div>
 
-                {/* School Category Badges (ENG-31) + ROI Badge (ENG-99) */}
+                {/* School Category Badges (ENG-31) + ROI Badge (ENG-99, ENG-103) */}
                 <div className="flex flex-wrap gap-2 mb-3">
                   {/* ROI Badge */}
                   {((institution as any).institution_avg_roi || (institution as any).implied_roi) && (
                     <span 
                       className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-sm"
-                      title="Average Return on Investment (ROI) - Higher is better"
+                      title="30-Year Return on Investment - Net present value of earnings minus costs"
                     >
                       <CurrencyDollarIcon className="w-3.5 h-3.5 mr-1" />
-                      ROI: {((institution as any).institution_avg_roi || (institution as any).implied_roi).toLocaleString('en-US', { 
-                        style: 'percent', 
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0 
-                      })}
+                      {(() => {
+                        const roiValue = (institution as any).institution_avg_roi || (institution as any).implied_roi;
+                        if (roiValue >= 1000000) {
+                          return `ROI: $${(roiValue / 1000000).toFixed(1)}M`;
+                        } else if (roiValue >= 1000) {
+                          return `ROI: $${(roiValue / 1000).toFixed(0)}K`;
+                        } else if (roiValue < 0) {
+                          return `ROI: -$${Math.abs(roiValue).toLocaleString()}`;
+                        } else {
+                          return `ROI: $${roiValue.toLocaleString()}`;
+                        }
+                      })()}
                     </span>
                   )}
 
