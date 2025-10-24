@@ -26,7 +26,7 @@ interface SearchFilters {
   proximityZip: string;
   radiusMiles: string;
   majorCategory: string;
-  control: string;
+  control: string[]; // Changed to array for multi-select
   maxTuition: string;
   minEarnings: string;
   sortBy: string;
@@ -103,7 +103,7 @@ export default function CollegesPage() {
     proximityZip: '',
     radiusMiles: '50',
     majorCategory: '',
-    control: '',
+    control: [], // Array for multi-select
     maxTuition: '',
     minEarnings: '',
     sortBy: 'roi_high'
@@ -214,7 +214,10 @@ export default function CollegesPage() {
         params.append('radiusMiles', filters.radiusMiles || '50');
       }
       if (filters.majorCategory) params.append('majorCategory', filters.majorCategory);
-      if (filters.control !== undefined) params.append('control', filters.control.toString());
+      // Send control types as comma-separated string
+      if (filters.control && filters.control.length > 0) {
+        params.append('control', filters.control.join(','));
+      }
       if (filters.maxTuition) params.append('maxTuition', filters.maxTuition.toString());
       if (filters.minEarnings) params.append('minEarnings', filters.minEarnings.toString());
       if (filters.sortBy) params.append('sortBy', filters.sortBy);
@@ -274,7 +277,7 @@ export default function CollegesPage() {
       proximityZip: '',
       radiusMiles: '50',
       majorCategory: '',
-      control: '',
+      control: [], // Array for multi-select
       maxTuition: '',
       minEarnings: '',
       sortBy: 'roi_high'
@@ -427,19 +430,31 @@ export default function CollegesPage() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-1">
-                    Type
+                  <label className="block text-sm font-bold text-gray-900 mb-2">
+                    Type (Select Multiple)
                   </label>
-                  <select
-                    className="w-full p-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium bg-white"
-                    value={filters.control}
-                    onChange={(e) => handleFilterChange('control', e.target.value)}
-                  >
-                    <option value="" className="text-gray-700">All Types</option>
-                    <option value="1" className="text-gray-900">Public</option>
-                    <option value="2" className="text-gray-900">Private Non-profit</option>
-                    <option value="3" className="text-gray-900">Private For-profit</option>
-                  </select>
+                  <div className="space-y-2">
+                    {[
+                      { value: '1', label: 'Public' },
+                      { value: '2', label: 'Private Non-profit' },
+                      { value: '3', label: 'Private For-profit' }
+                    ].map((option) => (
+                      <label key={option.value} className="flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={filters.control.includes(option.value)}
+                          onChange={(e) => {
+                            const newControl = e.target.checked
+                              ? [...filters.control, option.value]
+                              : filters.control.filter(c => c !== option.value);
+                            setFilters({ ...filters, control: newControl });
+                          }}
+                          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        />
+                        <span className="ml-2 text-sm font-medium text-gray-900">{option.label}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
 
                 <div>
@@ -487,7 +502,7 @@ export default function CollegesPage() {
         </div>
 
         {/* Active Filters Chips (ENG-33) */}
-        {(filters.state || filters.city || filters.zipCode || filters.proximityZip || filters.majorCategory || filters.control || filters.maxTuition || filters.minEarnings || filters.sortBy !== 'roi_high') && (
+        {(filters.state || filters.city || filters.zipCode || filters.proximityZip || filters.majorCategory || (filters.control && filters.control.length > 0) || filters.maxTuition || filters.minEarnings || filters.sortBy !== 'roi_high') && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-sm font-semibold text-blue-900">Active Filters:</h3>
@@ -554,17 +569,23 @@ export default function CollegesPage() {
                   </button>
                 </span>
               )}
-              {filters.control && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
-                  Type: {filters.control === '1' ? 'Public' : filters.control === '2' ? 'Private Non-profit' : 'Private For-profit'}
-                  <button
-                    onClick={() => handleFilterChange('control', '')}
-                    className="hover:bg-blue-100 rounded-full p-0.5"
-                  >
-                    <XMarkIcon className="w-4 h-4" />
-                  </button>
-                </span>
-              )}
+              {filters.control && filters.control.length > 0 && filters.control.map((controlType) => {
+                const typeLabel = controlType === '1' ? 'Public' : controlType === '2' ? 'Private Non-profit' : 'Private For-profit';
+                return (
+                  <span key={controlType} className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                    Type: {typeLabel}
+                    <button
+                      onClick={() => {
+                        const newControl = filters.control.filter(c => c !== controlType);
+                        setFilters({ ...filters, control: newControl });
+                      }}
+                      className="hover:bg-blue-100 rounded-full p-0.5"
+                    >
+                      <XMarkIcon className="w-4 h-4" />
+                    </button>
+                  </span>
+                );
+              })}
               {filters.maxTuition && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
                   Max Tuition: ${parseInt(filters.maxTuition).toLocaleString()}

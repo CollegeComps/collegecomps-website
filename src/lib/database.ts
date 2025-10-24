@@ -384,7 +384,7 @@ export class CollegeDataService {
     state?: string;
     city?: string;
     zipCode?: string;
-    control?: number;
+    control?: number | number[]; // Support single value or array
     maxTuition?: number;
     minEarnings?: number;
     majorCategory?: string;
@@ -452,8 +452,18 @@ export class CollegeDataService {
     }
     
     if (filters.control !== undefined) {
-      query += ` AND i.control_public_private = ?`;
-      params.push(filters.control);
+      if (Array.isArray(filters.control)) {
+        // Multiple control types selected
+        if (filters.control.length > 0) {
+          const placeholders = filters.control.map(() => '?').join(',');
+          query += ` AND i.control_public_private IN (${placeholders})`;
+          params.push(...filters.control);
+        }
+      } else {
+        // Single control type (backwards compatibility)
+        query += ` AND i.control_public_private = ?`;
+        params.push(filters.control);
+      }
     }
     
     if (filters.maxTuition) {

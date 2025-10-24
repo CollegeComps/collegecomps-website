@@ -22,7 +22,8 @@ export async function GET(request: NextRequest) {
     const zipCode = searchParams.get('zipCode');
     const proximityZip = searchParams.get('proximityZip'); // New: zip code for proximity search
     const radiusMiles = parseInt(searchParams.get('radiusMiles') || '50'); // Default 50 mile radius
-    const control = searchParams.get('control');
+    const controlParam = searchParams.get('control');
+    const control = controlParam ? controlParam.split(',').map(c => parseInt(c.trim())) : undefined;
     const maxTuition = searchParams.get('maxTuition');
     const minEarnings = searchParams.get('minEarnings');
     const majorCategory = searchParams.get('majorCategory') as MajorCategory | null; // ENG-25: Major category filter
@@ -56,7 +57,7 @@ export async function GET(request: NextRequest) {
         state: state || undefined,
         city: city || undefined,
         zipCode: zipCode || undefined,
-        control: control ? parseInt(control) : undefined,
+        control: control || undefined, // Now accepts array of numbers
         maxTuition: maxTuition ? parseFloat(maxTuition) : undefined,
         minEarnings: minEarnings ? parseFloat(minEarnings) : undefined,
         majorCategory: majorCategory || undefined,
