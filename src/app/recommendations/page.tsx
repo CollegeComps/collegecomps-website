@@ -278,20 +278,76 @@ export default function RecommendationsPage() {
             <BuildingOffice2Icon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">No schools found</h3>
             {!userStats.latitude || !userStats.longitude ? (
-              <div className="space-y-3">
+              <div className="space-y-4 max-w-md mx-auto">
                 <p className="text-gray-600">
                   We need your location to find nearby colleges.
                 </p>
-                <p className="text-sm text-gray-500">
-                  Please add your zip code in your{' '}
-                  <button
-                    onClick={() => router.push('/onboarding')}
-                    className="text-blue-600 hover:text-blue-700 font-semibold underline"
-                  >
-                    profile settings
-                  </button>
-                  {' '}to see recommendations.
-                </p>
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <p className="text-sm text-gray-700 mb-3">
+                    Enter a zip code to search or update your{' '}
+                    <button
+                      onClick={() => router.push('/onboarding')}
+                      className="text-blue-600 hover:text-blue-700 font-semibold underline cursor-pointer hover:bg-blue-100 px-1 rounded transition-colors"
+                    >
+                      profile settings
+                    </button>
+                  </p>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Enter zip code (e.g., 10001)"
+                      maxLength={5}
+                      pattern="[0-9]{5}"
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      onKeyDown={async (e) => {
+                        if (e.key === 'Enter' && e.currentTarget.value.length === 5) {
+                          const zip = e.currentTarget.value;
+                          try {
+                            const geoResponse = await fetch(`/api/geocode?zip=${zip}`);
+                            if (geoResponse.ok) {
+                              const geoData = await geoResponse.json();
+                              setUserStats(prev => ({
+                                ...prev,
+                                zipCode: zip,
+                                latitude: geoData.latitude,
+                                longitude: geoData.longitude
+                              }));
+                              setMaxDistance(50); // Trigger reload
+                            }
+                          } catch (error) {
+                            console.error('Error geocoding zip:', error);
+                          }
+                        }
+                      }}
+                    />
+                    <button
+                      onClick={async (e) => {
+                        const input = e.currentTarget.previousElementSibling as HTMLInputElement;
+                        if (input && input.value.length === 5) {
+                          const zip = input.value;
+                          try {
+                            const geoResponse = await fetch(`/api/geocode?zip=${zip}`);
+                            if (geoResponse.ok) {
+                              const geoData = await geoResponse.json();
+                              setUserStats(prev => ({
+                                ...prev,
+                                zipCode: zip,
+                                latitude: geoData.latitude,
+                                longitude: geoData.longitude
+                              }));
+                              setMaxDistance(50); // Trigger reload
+                            }
+                          } catch (error) {
+                            console.error('Error geocoding zip:', error);
+                          }
+                        }
+                      }}
+                      className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                    >
+                      Search
+                    </button>
+                  </div>
+                </div>
               </div>
             ) : (
               <p className="text-gray-600 mb-4">

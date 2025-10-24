@@ -173,6 +173,8 @@ sqlite> SELECT COUNT(*) FROM institutions WHERE name IS NULL;
 sqlite> SELECT * FROM institutions WHERE state = 'CA' LIMIT 5;
 ```
 
+- Always test database changes against dev if it works and nothing breaks before deploying to production.
+
 ### API Endpoints
 
 ```bash
@@ -474,6 +476,7 @@ git push origin ENG-XXX/feature-description
 - **Tests prevent regressions** - take time to write them
 - **Documentation in code** - write clear comments for complex logic
 - **Ask if unsure** - better to clarify than to guess
+- **Never use icons/emojis in commit messages or PR titles or any part of the website unless asked for it explicitly.**
 
 ---
 
