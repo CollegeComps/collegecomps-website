@@ -48,10 +48,15 @@ INSERT INTO scholarships (name, organization, amount_min, amount_max, deadline, 
 
 -- Arts, Media & Creative Fields
 INSERT INTO scholarships (name, organization, amount_min, amount_max, deadline, gpa_min, major_category, state_residency, description, website_url) VALUES
-('YoungArts (National Foundation for Advancement in the Arts)', 'National YoungArts Foundation', 250, 10000, '2025-10-13', NULL, 'Arts', NULL, 'For emerging artists age 15-18 in visual, literary, design, and performing arts. Cash awards and opportunities.', 'https://www.youngarts.org/'),
-('Scholastic Art & Writing Awards', 'Alliance for Young Artists & Writers', 500, 10000, '2025-12-01', NULL, 'Arts', NULL, 'Largest and longest-running recognition program for creative teens. Over $250K in awards annually.', 'https://www.artandwriting.org/'),
-('Princess Grace Awards', 'Princess Grace Foundation-USA', 5000, 25000, '2026-03-31', NULL, 'Arts', NULL, 'For emerging artists in theater, dance, and film. Awards range from $5-25K.', 'https://www.pgfusa.org/'),
-('BMI Future Jazz Master Scholarship', 'BMI Foundation', 5000, 5000, '2026-03-01', NULL, 'Arts', NULL, 'For talented young jazz musicians. $5K scholarship plus performance opportunities.', 'https://www.bmifoundation.org/');
+('National YoungArts Foundation', 'YoungArts', 0, 10000, '2025-10-14', NULL, 'Arts', NULL, 'Merit-based awards for emerging artists ages 15-18 in visual, literary, design and performing arts.', 'https://www.youngarts.org/'),
+('Scholastic Art & Writing Awards', 'Scholastic', 500, 10000, '2025-12-15', NULL, 'Arts', NULL, 'National competition for creative students grades 7-12. Awards in art and writing categories.', 'https://www.artandwriting.org/'),
+('Princess Grace Foundation Scholarships', 'Princess Grace Foundation', 5000, 30000, '2026-03-31', NULL, 'Arts', NULL, 'For emerging artists in theater, dance, and film. Grants range from $5K to $30K.', 'https://www.pgfusa.org/'),
+('NAMM Foundation Music Scholarship', 'National Association of Music Merchants', 1000, 5000, '2026-02-15', 3.0, 'Arts', NULL, 'For students pursuing music-related careers. Multiple awards available.', 'https://www.nammfoundation.org/'),
+('BMI Future Jazz Master Scholarship', 'BMI Foundation', 5000, 5000, '2026-02-01', NULL, 'Arts', NULL, 'For jazz performance students attending college or music conservatory. $5K award.', 'https://www.bmifoundation.org/');
+('YoungArts (National Foundation for Advancement in the Arts)', 'National YoungArts Foundation', 250, 10000, '2025-10-13', NULL, 'Arts', NULL, 'For emerging artists age 15-18 in visual, literary, design, and performing arts. Cash awards and opportunities.', 'https://www.youngarts.org/')),
+('Scholastic Art & Writing Awards', 'Alliance for Young Artists & Writers', 500, 10000, '2025-12-01', NULL, 'Arts', NULL, 'Largest and longest-running recognition program for creative teens. Over $250K in awards annually.', 'https://www.artandwriting.org/')),
+('Princess Grace Awards', 'Princess Grace Foundation-USA', 5000, 25000, '2026-03-31', NULL, 'Arts', NULL, 'For emerging artists in theater, dance, and film. Awards range from $5-25K.', 'https://www.pgfusa.org/')),
+('BMI Future Jazz Master Scholarship', 'BMI Foundation', 5000, 5000, '2026-03-01', NULL, 'Arts', NULL, 'For talented young jazz musicians. $5K scholarship plus performance opportunities.', 'https://www.bmifoundation.org/'));
 
 -- Business & Economics
 INSERT INTO scholarships (name, organization, amount_min, amount_max, deadline, gpa_min, major_category, state_residency, description, website_url) VALUES
@@ -85,7 +90,7 @@ INSERT INTO scholarships (name, organization, amount_min, amount_max, deadline, 
 
 -- Miscellaneous & Unique Scholarships
 INSERT INTO scholarships (name, organization, amount_min, amount_max, deadline, gpa_min, major_category, state_residency, description, website_url) VALUES
-('Tall Clubs International Scholarship', 'Tall Clubs International', 1000, 1000, '2026-03-01', NULL, NULL, NULL, 'For tall students (women 5\'10"+, men 6\'2"+) pursuing higher education. Fun and unusual!', 'https://www.tall.org/scholarship/'),
+('Tall Clubs International Scholarship', 'Tall Clubs International', 1000, 1000, '2026-03-01', NULL, NULL, NULL, 'For tall students (women 5''10"+, men 6''2"+) pursuing higher education. Fun and unusual!', 'https://www.tall.org/scholarship/'),
 ('Vegetarian Resource Group Scholarship', 'Vegetarian Resource Group', 5000, 10000, '2026-02-20', NULL, NULL, NULL, 'For students who promoted vegetarianism in their schools or communities. $10K award.', 'https://www.vrg.org/student/scholar.htm'),
 ('Duck Brand Duct Tape Stuck at Prom Scholarship', 'ShurTech Brands', 1000, 10000, '2026-06-12', NULL, NULL, NULL, 'Create prom outfit from duct tape for chance to win $10K. Fun and creative!', 'https://www.duckbrand.com/stuck-at-prom'),
 ('Flavor of the Month Scholarship', 'Unigo', 1500, 1500, '2025-12-31', NULL, NULL, NULL, 'Monthly scholarship with quirky essay questions. Easy to apply, quick turnaround.', 'https://www.unigo.com/scholarships'),

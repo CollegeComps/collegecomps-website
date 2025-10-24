@@ -59,14 +59,24 @@ export class ROICalculator {
    */
   static calculateROI(costs: CostInputs, earnings: EarningsInputs, financialAid?: FinancialAid): ROICalculation {
     const totalCost = this.calculateTotalCost(costs, financialAid);
-    const lifetimeEarningsWithDegree = this.calculateLifetimeEarnings(earnings);
-    const baselineEarnings = this.calculateBaselineEarnings(earnings);
+    
+    // Validate earnings data - if projected salary is suspiciously low, use baseline as fallback
+    const MIN_REASONABLE_SALARY = 20000; // $20K minimum threshold
+    const projectedSalary = earnings.projectedSalary >= MIN_REASONABLE_SALARY 
+      ? earnings.projectedSalary 
+      : earnings.baselineSalary;
+    
+    // Use the validated salary for calculations
+    const validatedEarnings = { ...earnings, projectedSalary };
+    
+    const lifetimeEarningsWithDegree = this.calculateLifetimeEarnings(validatedEarnings);
+    const baselineEarnings = this.calculateBaselineEarnings(validatedEarnings);
     const expectedEarnings = lifetimeEarningsWithDegree - baselineEarnings;
     
     const netROI = expectedEarnings - totalCost;
     const roiPercentage = totalCost > 0 ? (netROI / totalCost) * 100 : 0;
     
-    const annualSalaryIncrease = earnings.projectedSalary - earnings.baselineSalary;
+    const annualSalaryIncrease = validatedEarnings.projectedSalary - validatedEarnings.baselineSalary;
     const paybackPeriod = this.calculatePaybackPeriod(totalCost, annualSalaryIncrease);
     
     const breakEvenPoint = totalCost; // Point where cumulative extra earnings equal total cost
