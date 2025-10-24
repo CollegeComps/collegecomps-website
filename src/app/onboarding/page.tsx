@@ -157,7 +157,7 @@ export default function OnboardingPage() {
 
   const canProceed = () => {
     if (step === 1) return formData.intended_major.length > 0;
-    if (step === 2) return formData.target_schools.length > 0;
+    if (step === 2) return true; // School selection is now optional
     if (step === 3) return formData.expected_graduation_year > 0;
     if (step === 4) return true; // Academic info is optional
     return false;
@@ -264,12 +264,12 @@ export default function OnboardingPage() {
                   <BuildingLibraryIcon className="h-8 w-8 text-indigo-600" />
                 </div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">Which schools interest you?</h2>
-                <p className="text-gray-600">Add schools you're considering (you can add more later)</p>
+                <p className="text-gray-600">Add schools you're considering (optional - you can add or change these later)</p>
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  Search and Add Schools
+                  Search and Add Schools (Optional)
                 </label>
                 <AIAutocomplete
                   type="school"
@@ -287,6 +287,9 @@ export default function OnboardingPage() {
                     location_preference: formData.location_preference
                   }}
                 />
+                <p className="text-xs text-gray-500 mt-2">
+                  Skip this step if you're still exploring options - you can add schools anytime from your profile
+                </p>
               </div>
 
               {/* Selected Schools */}
