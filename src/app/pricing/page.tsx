@@ -138,7 +138,7 @@ export default function PricingPage() {
                 <span className="text-lg text-gray-500 font-normal">/month</span>
               </div>
               <p className="text-gray-600">
-                {billingCycle === 'annual' ? 'Billed annually at $59.99' : 'or $59.99/year (save $24)'}
+                {billingCycle === 'annual' ? 'Billed annually at $49.99' : 'or $49.99/year (save $10)'}
               </p>
             </div>
             
