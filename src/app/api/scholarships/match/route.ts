@@ -122,7 +122,7 @@ async function findMatches(
       // Check state residency
       const scholarshipStates = (scholarship.state_residency || 'any').split(',').map(s => s.trim());
       
-      if (scholarshipStates.includes('any')) {
+      if (!scholarship.state_residency || scholarship.state_residency === 'any' || scholarshipStates.includes('any')) {
         matchScore += 15;
         matchReasons.push('Available nationwide');
       } else if (scholarshipStates.includes(state)) {
@@ -130,9 +130,7 @@ async function findMatches(
         matchReasons.push(`Available in ${state}`);
       } else {
         // Skip if state-specific and doesn't match
-        if (scholarship.state_residency !== 'any') {
-          continue;
-        }
+        continue;
       }
 
       // Add deadline urgency bonus
@@ -150,7 +148,7 @@ async function findMatches(
       }
 
       // Only include scholarships with reasonable match score
-      if (matchScore >= 25) {
+      if (matchScore >= 20) {  // Lowered from 25 to include more matches
         matches.push({
           scholarship: {
             id: scholarship.id,
@@ -174,8 +172,8 @@ async function findMatches(
     // Sort by match score (highest first)
     matches.sort((a, b) => b.match_score - a.match_score);
 
-    // Limit to top 15 matches
-    return matches.slice(0, 15);
+    // Increased from 15 to 25 to show more scholarship opportunities
+    return matches.slice(0, 25);
 
   } catch (error) {
     console.error('Error querying scholarships from database:', error);
