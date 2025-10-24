@@ -594,6 +594,32 @@ export class CollegeDataService {
     };
   }
 
+  // Determine if institution is primarily 2-year or 4-year based on credential distribution
+  async getInstitutionProgramLength(unitid: number): Promise<number> {
+    const query = `
+      SELECT 
+        SUM(CASE WHEN credential_level = 4 THEN completions ELSE 0 END) as associate_completions,
+        SUM(CASE WHEN credential_level = 7 THEN completions ELSE 0 END) as bachelor_completions
+      FROM academic_programs
+      WHERE unitid = ?
+      GROUP BY unitid
+    `;
+
+    const result = await this.ensureDb().prepare(query).all(unitid) as any;
+
+    if (result && result.length > 0) {
+      const row = result[0];
+      const associateCompletions = Number(row.associate_completions) || 0;
+      const bachelorCompletions = Number(row.bachelor_completions) || 0;
+
+      // If more associate degrees are awarded than bachelor's, it's a 2-year institution
+      return associateCompletions > bachelorCompletions ? 2 : 4;
+    }
+
+    // Default to 4-year if no data
+    return 4;
+  }
+
   // Close database connection
   close() {
     if (this.db) {
@@ -603,4 +629,3 @@ export class CollegeDataService {
   }
 }
 
-export default CollegeDataService;
