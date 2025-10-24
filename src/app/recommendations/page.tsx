@@ -180,7 +180,8 @@ export default function RecommendationsPage() {
     );
   }
 
-  if (!userStats || !userStats.latitude) {
+  // Only redirect if NO data at all (not just missing location)
+  if (!userStats || (!userStats.gpa && !userStats.sat && !userStats.act)) {
     return (
       <div className="p-6">
         <div className="max-w-4xl mx-auto text-center">
