@@ -122,15 +122,27 @@ async function findMatches(
       // Check state residency
       const scholarshipStates = (scholarship.state_residency || 'any').split(',').map(s => s.trim());
       
-      if (!scholarship.state_residency || scholarship.state_residency === 'any' || scholarshipStates.includes('any')) {
-        matchScore += 15;
-        matchReasons.push('Available nationwide');
-      } else if (scholarshipStates.includes(state)) {
-        matchScore += 30;
-        matchReasons.push(`Available in ${state}`);
+      // If user selects "ANY", show all scholarships (nationwide and state-specific)
+      if (state === 'ANY') {
+        if (!scholarship.state_residency || scholarship.state_residency === 'any' || scholarshipStates.includes('any')) {
+          matchScore += 20;
+          matchReasons.push('Available nationwide');
+        } else {
+          matchScore += 10;
+          matchReasons.push(`State-specific (${scholarshipStates.join(', ')})`);
+        }
       } else {
-        // Skip if state-specific and doesn't match
-        continue;
+        // User selected specific state
+        if (!scholarship.state_residency || scholarship.state_residency === 'any' || scholarshipStates.includes('any')) {
+          matchScore += 15;
+          matchReasons.push('Available nationwide');
+        } else if (scholarshipStates.includes(state)) {
+          matchScore += 30;
+          matchReasons.push(`Available in ${state}`);
+        } else {
+          // Skip if state-specific and doesn't match
+          continue;
+        }
       }
 
       // Add deadline urgency bonus
