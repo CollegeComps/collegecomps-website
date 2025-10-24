@@ -34,6 +34,27 @@ export default function ScholarshipMatchingPage() {
       
       if (session?.user) {
         try {
+          // Try to load from user_responses first (more complete data)
+          const responsesRes = await fetch('/api/user/responses');
+          if (responsesRes.ok) {
+            const { responses } = await responsesRes.json();
+            if (responses) {
+              setFormData(prev => ({
+                ...prev,
+                full_name: session.user?.name || prev.full_name,
+                email: session.user?.email || prev.email,
+                gpa: responses.gpa?.toString() || prev.gpa,
+                sat_score: responses.sat_score?.toString() || prev.sat_score,
+                act_score: responses.act_score?.toString() || prev.act_score,
+                desired_major: responses.preferred_major || prev.desired_major,
+                state: responses.preferred_states?.[0] || prev.state, // Use first preferred state
+              }));
+              setLoadingProfile(false);
+              return;
+            }
+          }
+
+          // Fallback to user profile if no responses
           const response = await fetch('/api/user/profile');
           if (response.ok) {
             const profile = await response.json();
@@ -71,7 +92,22 @@ export default function ScholarshipMatchingPage() {
     setLoading(true);
 
     try {
-      // Update user profile with new data
+      // Update user responses with scholarship questionnaire data
+      if (formData.gpa || formData.sat_score || formData.act_score || formData.desired_major || formData.state) {
+        await fetch('/api/user/responses', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            gpa: formData.gpa ? parseFloat(formData.gpa) : null,
+            sat_score: formData.sat_score ? parseInt(formData.sat_score) : null,
+            act_score: formData.act_score ? parseInt(formData.act_score) : null,
+            preferred_major: formData.desired_major || null,
+            preferred_states: formData.state ? [formData.state] : null,
+          }),
+        });
+      }
+
+      // Update user profile with new data (for backward compatibility)
       if (formData.gpa || formData.sat_score || formData.act_score || formData.desired_major) {
         await fetch('/api/user/profile', {
           method: 'PUT',
