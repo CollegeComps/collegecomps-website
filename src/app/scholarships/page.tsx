@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { AcademicCapIcon, CurrencyDollarIcon, MapPinIcon, CalendarIcon, CheckCircleIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import { ScholarshipMatch } from '@/types/scholarship';
+import { US_STATES } from '@/lib/constants/states';
 
 export default function ScholarshipMatchingPage() {
   const { data: session, status } = useSession();
@@ -388,12 +389,13 @@ export default function ScholarshipMatchingPage() {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
                 >
                   <option value="">Select state...</option>
-                  <option value="CA">California</option>
-                  <option value="NY">New York</option>
-                  <option value="TX">Texas</option>
-                  <option value="FL">Florida</option>
-                  <option value="MA">Massachusetts</option>
-                  {/* Add more states as needed */}
+                  <option value="ANY">Any State (Nationwide Scholarships)</option>
+                  <option disabled>────────────────────────</option>
+                  {US_STATES.map((state) => (
+                    <option key={state.code} value={state.code}>
+                      {state.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
