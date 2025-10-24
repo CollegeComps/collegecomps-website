@@ -364,12 +364,26 @@ export default function ROICalculatorApp() {
     const adapted = adaptInstitution(dbInstitution);
     setAdaptedInstitution(adapted);
     
-    // Fetch financial data
+    // Fetch financial data and program length info
     try {
-      const [finResponse, earningsResponse] = await Promise.all([
+      const [finResponse, earningsResponse, programLengthResponse] = await Promise.all([
         fetch(`/api/financial-data?unitid=${institution.unitid}`),
-        fetch(`/api/earnings-data?unitid=${institution.unitid}`)
+        fetch(`/api/earnings-data?unitid=${institution.unitid}`),
+        fetch(`/api/program-length?unitid=${institution.unitid}`)
       ]);
+      
+      // Determine program length (2-year vs 4-year)
+      let programLength = 4; // Default to 4-year
+      if (programLengthResponse.ok) {
+        const lengthData = await programLengthResponse.json();
+        programLength = lengthData.programLength || 4;
+      } else {
+        // Fallback: check institution name for indicators
+        const name = institution.name.toLowerCase();
+        if (name.includes('community college') || name.includes('technical college') || name.includes('junior college')) {
+          programLength = 2;
+        }
+      }
       
       if (finResponse.ok) {
         const finData = await finResponse.json();
@@ -381,7 +395,8 @@ export default function ROICalculatorApp() {
             fees: fin.fees || prev.fees,
             roomBoard: fin.room_board_on_campus || fin.room_board_off_campus || prev.roomBoard,
             books: fin.books_supplies || prev.books,
-            otherExpenses: fin.other_expenses || prev.otherExpenses
+            otherExpenses: fin.other_expenses || prev.otherExpenses,
+            programLength: programLength // Set detected program length
           }));
         }
       }
