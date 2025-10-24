@@ -140,7 +140,13 @@ export class CollegeDataService {
         f.net_price, e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
       FROM institutions i
       LEFT JOIN financial_data f ON i.unitid = f.unitid 
-        AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
+        AND f.year = (
+          SELECT year FROM financial_data 
+          WHERE unitid = i.unitid 
+            AND NOT (i.control_public_private = 1 AND tuition_in_state = tuition_out_state)
+          ORDER BY year DESC 
+          LIMIT 1
+        )
       LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
       WHERE ${statesClause}
     `;
@@ -248,7 +254,13 @@ export class CollegeDataService {
         f.net_price, e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
       FROM institutions i
       LEFT JOIN financial_data f ON i.unitid = f.unitid 
-        AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
+        AND f.year = (
+          SELECT year FROM financial_data 
+          WHERE unitid = i.unitid 
+            AND NOT (i.control_public_private = 1 AND tuition_in_state = tuition_out_state)
+          ORDER BY year DESC 
+          LIMIT 1
+        )
       LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
       WHERE i.unitid = ? AND ${statesClause}
       LIMIT 1
@@ -402,7 +414,13 @@ export class CollegeDataService {
              i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference
       FROM institutions i
       LEFT JOIN financial_data f ON i.unitid = f.unitid 
-        AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
+        AND f.year = (
+          SELECT year FROM financial_data 
+          WHERE unitid = i.unitid 
+            AND NOT (i.control_public_private = 1 AND tuition_in_state = tuition_out_state)
+          ORDER BY year DESC 
+          LIMIT 1
+        )
       LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
       INNER JOIN academic_programs ap ON i.unitid = ap.unitid
       WHERE ${statesClause}
@@ -412,7 +430,13 @@ export class CollegeDataService {
              i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference
       FROM institutions i
       LEFT JOIN financial_data f ON i.unitid = f.unitid 
-        AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
+        AND f.year = (
+          SELECT year FROM financial_data 
+          WHERE unitid = i.unitid 
+            AND NOT (i.control_public_private = 1 AND tuition_in_state = tuition_out_state)
+          ORDER BY year DESC 
+          LIMIT 1
+        )
       LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
       WHERE ${statesClause}
     `;
