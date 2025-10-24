@@ -200,6 +200,9 @@ export default function ROIResults({ result, institution, program, costs, earnin
               />
               <Tooltip 
                 formatter={(value: number) => `$${value.toLocaleString()}`}
+                contentStyle={{ backgroundColor: '#fff', border: '1px solid #e5e7eb' }}
+                labelStyle={{ color: '#111827', fontWeight: 600 }}
+                itemStyle={{ color: '#111827' }}
               />
               <Bar dataKey="value" fill="#3B82F6">
                 {costBreakdownData.map((entry, index) => (
