@@ -55,8 +55,9 @@ export default function ROICalculatorApp() {
     programLength: 4,
     residency: 'in-state'
   });
+  const [hasHighSchoolDiploma, setHasHighSchoolDiploma] = useState<boolean>(true);
   const [earnings, setEarnings] = useState<EarningsInputs>({
-    baselineSalary: 35000,
+    baselineSalary: 42000, // With diploma default
     projectedSalary: 50000,
     careerLength: 30,
     salaryGrowthRate: 3
@@ -75,6 +76,14 @@ export default function ROICalculatorApp() {
   const [showAutoSaveModal, setShowAutoSaveModal] = useState(false);
   const autoSaveTimerRef = useRef<NodeJS.Timeout | null>(null);
   const lastAutoSaveRef = useRef<string>('');
+
+  // Update baseline salary when diploma status changes
+  useEffect(() => {
+    setEarnings(prev => ({
+      ...prev,
+      baselineSalary: hasHighSchoolDiploma ? 42000 : 33000
+    }));
+  }, [hasHighSchoolDiploma]);
 
   // Auto-save functionality
   useEffect(() => {
@@ -704,6 +713,45 @@ export default function ROICalculatorApp() {
 
         {/* Right Column - Results */}
         <div className="space-y-6">
+          {/* Baseline Salary Settings */}
+          <div className="bg-white rounded-lg shadow-sm border p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Baseline Salary Settings</h3>
+            <div className="space-y-3">
+              <label className="block text-sm font-medium text-gray-700">
+                Education Level for Baseline Comparison
+              </label>
+              <div className="flex flex-col space-y-2">
+                <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                  <input
+                    type="radio"
+                    checked={hasHighSchoolDiploma}
+                    onChange={() => setHasHighSchoolDiploma(true)}
+                    className="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  />
+                  <div className="flex-1">
+                    <span className="font-medium text-gray-900">With High School Diploma</span>
+                    <span className="ml-2 text-green-600 font-semibold">${earnings.baselineSalary === 42000 ? '42,000' : '42,000'}/year</span>
+                  </div>
+                </label>
+                <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                  <input
+                    type="radio"
+                    checked={!hasHighSchoolDiploma}
+                    onChange={() => setHasHighSchoolDiploma(false)}
+                    className="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  />
+                  <div className="flex-1">
+                    <span className="font-medium text-gray-900">Without Diploma</span>
+                    <span className="ml-2 text-green-600 font-semibold">${earnings.baselineSalary === 33000 ? '33,000' : '33,000'}/year</span>
+                  </div>
+                </label>
+              </div>
+              <p className="text-xs text-gray-500 mt-2">
+                This baseline salary is used to calculate your ROI - how much more you'll earn with a college degree compared to without one.
+              </p>
+            </div>
+          </div>
+
           {roiResult && adaptedInstitution && (
             <>
               <ROIResults
