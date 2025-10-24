@@ -37,6 +37,61 @@ export default function OnboardingPage() {
 
   const [schoolInput, setSchoolInput] = useState('');
 
+  // Load existing data from user_responses or onboarding
+  useEffect(() => {
+    const loadExistingData = async () => {
+      if (status === 'loading') return;
+      
+      if (session?.user) {
+        try {
+          // Try to load from user_responses first (scholarship finder data)
+          const responsesRes = await fetch('/api/user/responses');
+          if (responsesRes.ok) {
+            const { responses } = await responsesRes.json();
+            if (responses) {
+              setFormData(prev => ({
+                ...prev,
+                gpa: responses.gpa?.toString() || prev.gpa,
+                sat_score: responses.sat_score?.toString() || prev.sat_score,
+                act_score: responses.act_score?.toString() || prev.act_score,
+                intended_major: responses.preferred_major || prev.intended_major,
+                parent_income: responses.parent_income?.toString() || prev.parent_income,
+                student_income: responses.student_income?.toString() || prev.student_income,
+              }));
+            }
+          }
+
+          // Also try to load from onboarding API (if they've completed it before)
+          const onboardingRes = await fetch('/api/user/onboarding');
+          if (onboardingRes.ok) {
+            const data = await onboardingRes.json();
+            if (data) {
+              setFormData(prev => ({
+                ...prev,
+                intended_major: data.intended_major || prev.intended_major,
+                degree_level: data.degree_level || prev.degree_level,
+                target_schools: data.target_schools || prev.target_schools,
+                expected_graduation_year: data.expected_graduation_year || prev.expected_graduation_year,
+                gpa: data.gpa?.toString() || prev.gpa,
+                sat_score: data.sat_score?.toString() || prev.sat_score,
+                act_score: data.act_score?.toString() || prev.act_score,
+                budget_range: data.budget_range || prev.budget_range,
+                location_preference: data.location_preference || prev.location_preference,
+                student_income: data.student_income?.toString() || prev.student_income,
+                parent_income: data.parent_income?.toString() || prev.parent_income,
+                parent_assets: data.parent_assets?.toString() || prev.parent_assets,
+              }));
+            }
+          }
+        } catch (error) {
+          console.error('Error loading existing data:', error);
+        }
+      }
+    };
+
+    loadExistingData();
+  }, [session, status]);
+
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/auth/signin');
