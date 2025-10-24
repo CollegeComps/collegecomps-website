@@ -250,20 +250,26 @@ export default function RecommendationsPage() {
 
           {/* Distance Filter */}
           <div className="flex items-center gap-4">
-            <label className="text-sm font-medium text-gray-700">Distance:</label>
+            <label className="text-sm font-medium text-gray-900">Distance:</label>
             <select
               value={maxDistance}
               onChange={(e) => setMaxDistance(parseInt(e.target.value))}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border border-gray-300 rounded-lg px-3 py-2 text-gray-900 font-medium focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="25">Within 25 miles</option>
               <option value="50">Within 50 miles</option>
               <option value="100">Within 100 miles</option>
               <option value="250">Within 250 miles</option>
+              <option value="500">Within 500 miles</option>
             </select>
             <span className="text-sm text-gray-600">
               {totalRecommendations} schools found
             </span>
+            {userStats.zipCode && (
+              <span className="text-xs text-gray-500">
+                from {userStats.zipCode}
+              </span>
+            )}
           </div>
         </div>
 
@@ -271,9 +277,27 @@ export default function RecommendationsPage() {
           <div className="text-center py-12">
             <BuildingOffice2Icon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">No schools found</h3>
-            <p className="text-gray-600 mb-4">
-              Try increasing the distance radius to find more colleges.
-            </p>
+            {!userStats.latitude || !userStats.longitude ? (
+              <div className="space-y-3">
+                <p className="text-gray-600">
+                  We need your location to find nearby colleges.
+                </p>
+                <p className="text-sm text-gray-500">
+                  Please add your zip code in your{' '}
+                  <button
+                    onClick={() => router.push('/onboarding')}
+                    className="text-blue-600 hover:text-blue-700 font-semibold underline"
+                  >
+                    profile settings
+                  </button>
+                  {' '}to see recommendations.
+                </p>
+              </div>
+            ) : (
+              <p className="text-gray-600 mb-4">
+                Try increasing the distance radius to find more colleges.
+              </p>
+            )}
           </div>
         ) : (
           <div className="space-y-8">
