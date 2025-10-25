@@ -104,19 +104,38 @@ async function findMatches(
         matchReasons.push('No GPA requirement');
       }
 
-      // Check major compatibility
+      // Check major compatibility with improved matching
       const majorCategories = getMajorCategories(major);
       const scholarshipMajor = scholarship.major_category || 'any';
       
-      if (scholarshipMajor === 'any') {
+      if (scholarshipMajor === 'any' || scholarshipMajor.toLowerCase() === 'all') {
         matchScore += 15;
         matchReasons.push('Open to all majors');
-      } else if (majorCategories.some(cat => scholarshipMajor.toLowerCase().includes(cat.toLowerCase()))) {
-        matchScore += 40;
-        matchReasons.push(`Perfect match for ${scholarshipMajor}`);
       } else {
-        // Partial match - still show but lower score
-        matchScore += 5;
+        // Check for exact or close match
+        let matched = false;
+        for (const userCategory of majorCategories) {
+          const scholarshipMajorLower = scholarshipMajor.toLowerCase();
+          const userCategoryLower = userCategory.toLowerCase();
+          
+          // Perfect match
+          if (scholarshipMajorLower === userCategoryLower ||
+              scholarshipMajorLower.includes(userCategoryLower) ||
+              userCategoryLower.includes(scholarshipMajorLower)) {
+            matchScore += 40;
+            matchReasons.push(`Perfect match for ${scholarshipMajor}`);
+            matched = true;
+            break;
+          }
+        }
+        
+        // If no match but scholarship is "ANY" category, give partial points
+        if (!matched && majorCategories.includes('ALL')) {
+          matchScore += 10;
+        } else if (!matched) {
+          // Skip scholarships that don't match the user's major
+          continue;
+        }
       }
 
       // Check state residency
@@ -184,8 +203,9 @@ async function findMatches(
     // Sort by match score (highest first)
     matches.sort((a, b) => b.match_score - a.match_score);
 
-    // Increased from 15 to 25 to show more scholarship opportunities
-    return matches.slice(0, 25);
+    // Return top 100 matches instead of artificially limiting to 25
+    // This allows users to see all qualifying scholarships
+    return matches.slice(0, 100);
 
   } catch (error) {
     console.error('Error querying scholarships from database:', error);
@@ -201,41 +221,81 @@ function getMajorCategories(major: string): string[] {
   if (
     majorLower.includes('computer') ||
     majorLower.includes('software') ||
-    majorLower.includes('data science')
+    majorLower.includes('data science') ||
+    majorLower.includes('information technology') ||
+    majorLower.includes('cybersecurity')
   ) {
-    categories.push('Computer Science', 'STEM');
+    categories.push('Computer Science', 'STEM', 'Technology');
   } else if (
     majorLower.includes('engineering') ||
     majorLower.includes('mechanical') ||
-    majorLower.includes('electrical')
+    majorLower.includes('electrical') ||
+    majorLower.includes('civil') ||
+    majorLower.includes('aerospace')
   ) {
     categories.push('Engineering', 'STEM');
   } else if (
     majorLower.includes('biology') ||
     majorLower.includes('chemistry') ||
     majorLower.includes('physics') ||
-    majorLower.includes('math')
+    majorLower.includes('math') ||
+    majorLower.includes('statistics')
   ) {
-    categories.push('STEM');
+    categories.push('STEM', 'Science');
   } else if (
     majorLower.includes('nursing') ||
     majorLower.includes('medicine') ||
-    majorLower.includes('health')
+    majorLower.includes('health') ||
+    majorLower.includes('pre-med')
   ) {
     categories.push('Health', 'Nursing', 'Medicine');
   } else if (
     majorLower.includes('business') ||
+    majorLower.includes('management') ||
+    majorLower.includes('administration')
+  ) {
+    categories.push('Business');
+  } else if (
+    majorLower.includes('marketing') ||
+    majorLower.includes('advertising') ||
+    majorLower.includes('communications')
+  ) {
+    categories.push('Marketing', 'Communications', 'Business');
+  } else if (
     majorLower.includes('finance') ||
     majorLower.includes('accounting') ||
     majorLower.includes('economics')
   ) {
-    categories.push('Business', 'Economics', 'Finance');
+    categories.push('Finance', 'Economics', 'Business');
+  } else if (
+    majorLower.includes('education') ||
+    majorLower.includes('teaching')
+  ) {
+    categories.push('Education');
+  } else if (
+    majorLower.includes('art') ||
+    majorLower.includes('design') ||
+    majorLower.includes('music') ||
+    majorLower.includes('theater') ||
+    majorLower.includes('creative')
+  ) {
+    categories.push('Arts', 'Creative');
+  } else if (
+    majorLower.includes('psychology') ||
+    majorLower.includes('sociology') ||
+    majorLower.includes('social work')
+  ) {
+    categories.push('Social Sciences', 'Psychology');
+  } else if (
+    majorLower.includes('law') ||
+    majorLower.includes('legal') ||
+    majorLower.includes('pre-law')
+  ) {
+    categories.push('Law', 'Legal Studies');
   }
 
-  // If no specific category matched, add 'ALL'
-  if (categories.length === 0) {
-    categories.push('ALL');
-  }
+  // Always add 'ALL' to match general scholarships
+  categories.push('ALL');
 
   return categories;
 }
