@@ -29,6 +29,7 @@ export default function OnboardingPage() {
     act_score: '',
     budget_range: '',
     location_preference: '',
+    zip_code: '',
     // ENG-27: Enhanced financial fields for net price estimation
     student_income: '',
     parent_income: '',
@@ -57,6 +58,7 @@ export default function OnboardingPage() {
                 intended_major: responses.preferred_major || prev.intended_major,
                 parent_income: responses.parent_income?.toString() || prev.parent_income,
                 student_income: responses.student_income?.toString() || prev.student_income,
+                zip_code: responses.zip_code || prev.zip_code,
               }));
             }
           }
@@ -77,6 +79,7 @@ export default function OnboardingPage() {
                 act_score: data.act_score?.toString() || prev.act_score,
                 budget_range: data.budget_range || prev.budget_range,
                 location_preference: data.location_preference || prev.location_preference,
+                zip_code: data.zip_code || prev.zip_code,
                 student_income: data.student_income?.toString() || prev.student_income,
                 parent_income: data.parent_income?.toString() || prev.parent_income,
                 parent_assets: data.parent_assets?.toString() || prev.parent_assets,
@@ -139,7 +142,8 @@ export default function OnboardingPage() {
           parent_income: formData.parent_income ? parseInt(formData.parent_income) : null,
           student_income: formData.student_income ? parseInt(formData.student_income) : null,
           preferred_major: formData.intended_major || null,
-          preferred_states: formData.location_preference ? [formData.location_preference] : null
+          preferred_states: formData.location_preference ? [formData.location_preference] : null,
+          zip_code: formData.zip_code || null
         })
       });
 
@@ -151,7 +155,8 @@ export default function OnboardingPage() {
         parentIncome: formData.parent_income,
         studentIncome: formData.student_income,
         major: formData.intended_major,
-        state: formData.location_preference
+        state: formData.location_preference,
+        zipCode: formData.zip_code
       }));
 
       // Track onboarding completion
@@ -484,6 +489,24 @@ export default function OnboardingPage() {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                       placeholder="e.g., Northeast, California..."
                     />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      Zip Code
+                    </label>
+                    <input
+                      type="text"
+                      pattern="[0-9]{5}"
+                      maxLength={5}
+                      value={formData.zip_code}
+                      onChange={(e) => setFormData(prev => ({ ...prev, zip_code: e.target.value }))}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      placeholder="e.g., 10001"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Used to find nearby colleges in recommendations
+                    </p>
                   </div>
                 </div>
               </div>
