@@ -93,6 +93,19 @@ export default function RecommendationsPage() {
           const geoData = await geoResponse.json();
           stats.latitude = geoData.latitude;
           stats.longitude = geoData.longitude;
+          
+          // Save the lat/long back to user_responses for future use
+          if (session?.user) {
+            await fetch('/api/user/responses', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                ...stats,
+                latitude: geoData.latitude,
+                longitude: geoData.longitude
+              })
+            });
+          }
         }
       }
 
