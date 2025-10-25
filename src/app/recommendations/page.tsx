@@ -30,7 +30,7 @@ export default function RecommendationsPage() {
 
   useEffect(() => {
     loadUserStatsAndRecommendations();
-  }, [maxDistance]);
+  }, [maxDistance, userStats?.latitude, userStats?.longitude]);
 
   const loadUserStatsAndRecommendations = async () => {
     try {
@@ -319,13 +319,21 @@ export default function RecommendationsPage() {
                             const geoResponse = await fetch(`/api/geocode?zip=${zip}`);
                             if (geoResponse.ok) {
                               const geoData = await geoResponse.json();
-                              setUserStats(prev => ({
-                                ...prev,
+                              const newStats = {
+                                ...userStats,
                                 zipCode: zip,
                                 latitude: geoData.latitude,
                                 longitude: geoData.longitude
-                              }));
-                              setMaxDistance(50); // Trigger reload
+                              };
+                              setUserStats(newStats);
+                              
+                              // Immediately regenerate recommendations with new location
+                              const response = await fetch('/api/institutions?limit=1000');
+                              const data = await response.json();
+                              const institutions: Institution[] = data.institutions || [];
+                              const recs = generateRecommendations(institutions, newStats, maxDistance);
+                              const grouped = groupRecommendationsByCategory(recs);
+                              setRecommendations(grouped);
                             }
                           } catch (error) {
                             console.error('Error geocoding zip:', error);
@@ -342,13 +350,21 @@ export default function RecommendationsPage() {
                             const geoResponse = await fetch(`/api/geocode?zip=${zip}`);
                             if (geoResponse.ok) {
                               const geoData = await geoResponse.json();
-                              setUserStats(prev => ({
-                                ...prev,
+                              const newStats = {
+                                ...userStats,
                                 zipCode: zip,
                                 latitude: geoData.latitude,
                                 longitude: geoData.longitude
-                              }));
-                              setMaxDistance(50); // Trigger reload
+                              };
+                              setUserStats(newStats);
+                              
+                              // Immediately regenerate recommendations with new location
+                              const response = await fetch('/api/institutions?limit=1000');
+                              const data = await response.json();
+                              const institutions: Institution[] = data.institutions || [];
+                              const recs = generateRecommendations(institutions, newStats, maxDistance);
+                              const grouped = groupRecommendationsByCategory(recs);
+                              setRecommendations(grouped);
                             }
                           } catch (error) {
                             console.error('Error geocoding zip:', error);
