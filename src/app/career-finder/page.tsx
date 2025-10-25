@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   LightBulbIcon,
   UsersIcon, 
@@ -44,12 +45,13 @@ const QUESTIONS: Question[] = [
 ];
 
 export default function CareerFinderPage() {
+  const router = useRouter();
   const [step, setStep] = useState<'intro' | 'quiz' | 'results'>('intro');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
-  const [email, setEmail] = useState('');
-  const [personalityType, setPersonalityType] = useState('');
+  const [personalityType, setPersonalityType] = useState('ISTJ');
   const [careers, setCareers] = useState<CareerMatch[]>([]);
+  const [email, setEmail] = useState('');
   const [showAllCareers, setShowAllCareers] = useState(false);
 
   const handleAnswer = (value: number) => {
@@ -338,7 +340,10 @@ export default function CareerFinderPage() {
                   </div>
                 </div>
 
-                <button className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors">
+                <button 
+                  onClick={() => router.push(`/recommendations?career=${encodeURIComponent(career.name)}&majors=${encodeURIComponent(career.majors.join(','))}`)}
+                  className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
+                >
                   Explore Programs
                 </button>
               </div>
