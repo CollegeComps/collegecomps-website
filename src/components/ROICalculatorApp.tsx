@@ -78,11 +78,23 @@ export default function ROICalculatorApp() {
   const lastAutoSaveRef = useRef<string>('');
 
   // Update baseline salary when diploma status changes
+  // Note: Without HS diploma, both baseline AND projected salaries are lower
   useEffect(() => {
-    setEarnings(prev => ({
-      ...prev,
-      baselineSalary: hasHighSchoolDiploma ? 42000 : 33000
-    }));
+    setEarnings(prev => {
+      const baselineSalary = hasHighSchoolDiploma ? 42000 : 33000;
+      // If no diploma, reduce projected salary by same proportion (about 21% lower)
+      const projectedAdjustment = hasHighSchoolDiploma ? 1.0 : 0.79;
+      const currentProjected = prev.projectedSalary;
+      
+      return {
+        ...prev,
+        baselineSalary,
+        // Only adjust projected if it's at a default value, don't override user selections
+        projectedSalary: currentProjected === 50000 || currentProjected === 39500 
+          ? (hasHighSchoolDiploma ? 50000 : 39500)
+          : currentProjected
+      };
+    });
   }, [hasHighSchoolDiploma]);
 
   // Auto-recalculate ROI when baseline salary changes (if ROI already calculated)
@@ -752,7 +764,7 @@ export default function ROICalculatorApp() {
                   />
                   <div className="flex-1">
                     <span className="font-medium text-gray-900">With High School Diploma</span>
-                    <span className="ml-2 text-green-600 font-semibold">${earnings.baselineSalary === 42000 ? '42,000' : '42,000'}/year</span>
+                    <span className="ml-2 text-green-600 font-semibold">$42,000/year</span>
                   </div>
                 </label>
                 <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
@@ -764,12 +776,12 @@ export default function ROICalculatorApp() {
                   />
                   <div className="flex-1">
                     <span className="font-medium text-gray-900">Without Diploma</span>
-                    <span className="ml-2 text-green-600 font-semibold">${earnings.baselineSalary === 33000 ? '33,000' : '33,000'}/year</span>
+                    <span className="ml-2 text-green-600 font-semibold">$33,000/year</span>
                   </div>
                 </label>
               </div>
               <p className="text-xs text-gray-500 mt-2">
-                This baseline salary is used to calculate your ROI - how much more you'll earn with a college degree compared to without one.
+                This baseline salary is used to calculate your ROI. Note: Without a diploma, both baseline and projected earnings are typically lower.
               </p>
             </div>
           </div>
