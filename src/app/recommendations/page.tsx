@@ -32,6 +32,8 @@ export default function RecommendationsPage() {
     reach: RecommendationResult[];
   }>({ safety: [], match: [], reach: [] });
   const [maxDistance, setMaxDistance] = useState(50);
+  const [zipCodeInput, setZipCodeInput] = useState('');
+  const [zipCodeError, setZipCodeError] = useState('');
 
   useEffect(() => {
     // Read career and majors from URL params (from career-finder)
@@ -164,6 +166,48 @@ export default function RecommendationsPage() {
       setRecommendations(grouped);
     } catch (error) {
       console.error('Error regenerating recommendations:', error);
+    }
+  };
+
+  const handleZipCodeChange = async (zip: string) => {
+    if (zip.length !== 5 || !/^\d{5}$/.test(zip)) {
+      setZipCodeError('Please enter a valid 5-digit zip code');
+      return;
+    }
+
+    setZipCodeError('');
+    setLoading(true);
+
+    try {
+      const geoResponse = await fetch(`/api/geocode?zip=${zip}`);
+      if (!geoResponse.ok) {
+        setZipCodeError('Invalid zip code or geocoding failed');
+        setLoading(false);
+        return;
+      }
+
+      const geoData = await geoResponse.json();
+      const newStats = {
+        ...userStats,
+        zipCode: zip,
+        latitude: geoData.latitude,
+        longitude: geoData.longitude
+      };
+      setUserStats(newStats);
+      setZipCodeInput(''); // Clear input after successful change
+
+      // Regenerate recommendations with new location
+      const response = await fetch('/api/institutions?limit=1000');
+      const data = await response.json();
+      const institutions: Institution[] = data.institutions || [];
+      const recs = generateRecommendations(institutions, newStats, maxDistance);
+      const grouped = groupRecommendationsByCategory(recs);
+      setRecommendations(grouped);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error updating zip code:', error);
+      setZipCodeError('Error updating location. Please try again.');
+      setLoading(false);
     }
   };
 
@@ -339,27 +383,64 @@ export default function RecommendationsPage() {
             </div>
           </div>
 
-          {/* Distance Filter */}
-          <div className="flex items-center gap-4">
-            <label className="text-sm font-medium text-gray-900">Distance:</label>
-            <select
-              value={maxDistance}
-              onChange={(e) => setMaxDistance(parseInt(e.target.value))}
-              className="border border-gray-300 rounded-lg px-3 py-2 text-gray-900 font-medium focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="25">Within 25 miles</option>
-              <option value="50">Within 50 miles</option>
-              <option value="100">Within 100 miles</option>
-              <option value="250">Within 250 miles</option>
-              <option value="500">Within 500 miles</option>
-            </select>
-            <span className="text-sm text-gray-600">
-              {totalRecommendations} schools found
-            </span>
-            {userStats.zipCode && (
-              <span className="text-xs text-gray-500">
-                from {userStats.zipCode}
-              </span>
+          {/* Distance Filter & Zip Code Override */}
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-900">Distance:</label>
+              <select
+                value={maxDistance}
+                onChange={(e) => setMaxDistance(parseInt(e.target.value))}
+                className="border border-gray-300 rounded-lg px-3 py-2 text-gray-900 font-medium focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="25">Within 25 miles</option>
+                <option value="50">Within 50 miles</option>
+                <option value="100">Within 100 miles</option>
+                <option value="250">Within 250 miles</option>
+                <option value="500">Within 500 miles</option>
+              </select>
+            </div>
+
+            {/* Zip Code Override */}
+            <div className="flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-900">
+                {userStats.zipCode ? 'Try different zip:' : 'Set zip code:'}
+              </label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={zipCodeInput}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, '').slice(0, 5);
+                    setZipCodeInput(value);
+                    if (zipCodeError) setZipCodeError('');
+                  }}
+                  placeholder={userStats.zipCode || '10001'}
+                  maxLength={5}
+                  className="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400 text-sm"
+                />
+                <button
+                  onClick={() => handleZipCodeChange(zipCodeInput)}
+                  disabled={zipCodeInput.length !== 5}
+                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+                >
+                  Update
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <span>{totalRecommendations} schools found</span>
+              {userStats.zipCode && (
+                <span className="text-xs text-gray-500">
+                  from {userStats.zipCode}
+                </span>
+              )}
+            </div>
+
+            {zipCodeError && (
+              <div className="w-full text-sm text-red-600">
+                {zipCodeError}
+              </div>
             )}
           </div>
         </div>
