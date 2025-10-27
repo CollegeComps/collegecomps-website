@@ -62,7 +62,15 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
     });
   }, [institutions, controlFilter, stateFilter]);
 
-  console.log('Filter state:', { controlFilter, stateFilter, totalInst: institutions.length, filteredCount: filteredInstitutions.length });
+  // Log filter changes for debugging
+  useEffect(() => {
+    console.log('Filters applied:', { 
+      controlFilter, 
+      stateFilter, 
+      total: institutions.length, 
+      filtered: filteredInstitutions.length 
+    });
+  }, [controlFilter, stateFilter, institutions.length, filteredInstitutions.length]);
 
   // Get unique states from institutions
   const availableStates = [...new Set(institutions.map(i => i.state))].filter(Boolean).sort();
