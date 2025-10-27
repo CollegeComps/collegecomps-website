@@ -29,7 +29,17 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
       const response = await fetch(`/api/programs/search?q=${encodeURIComponent(searchQuery)}`);
       if (response.ok) {
         const data = await response.json();
-        setDegrees(data.programs || []);
+        const programs = data.programs || [];
+        
+        // Deduplicate by cipcode (in case API returns duplicates)
+        const uniquePrograms = new Map<string, AcademicProgram>();
+        programs.forEach((program: AcademicProgram) => {
+          if (program.cipcode && !uniquePrograms.has(program.cipcode)) {
+            uniquePrograms.set(program.cipcode, program);
+          }
+        });
+        
+        setDegrees(Array.from(uniquePrograms.values()));
         setShowDropdown(true);
       }
     } catch (error) {
@@ -88,9 +98,9 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
 
       {showDropdown && degrees.length > 0 && (
         <div className="mt-2 max-h-96 overflow-y-auto border border-gray-200 rounded-lg bg-white shadow-lg">
-          {degrees.map((degree, index) => (
+          {degrees.map((degree) => (
             <button
-              key={`${degree.cipcode}-${index}`}
+              key={degree.cipcode}
               onClick={() => handleSelectDegree(degree)}
               className="w-full text-left px-4 py-3 hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0"
             >
