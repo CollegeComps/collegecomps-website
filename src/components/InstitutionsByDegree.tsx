@@ -48,18 +48,26 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
 
   // Apply filters with useMemo to ensure re-computation on filter changes
   const filteredInstitutions = useMemo(() => {
-    return institutions.filter(inst => {
+    console.log('Applying filters:', { controlFilter, stateFilter, totalInstitutions: institutions.length });
+    const filtered = institutions.filter(inst => {
       // Filter by control type
       if (controlFilter !== 'all') {
-        if (controlFilter === 'public' && inst.control !== 'Public') return false;
-        if (controlFilter === 'private' && !inst.control?.includes('Private')) return false;
+        const control = inst.control?.trim() || '';
+        if (controlFilter === 'public' && control !== 'Public') return false;
+        if (controlFilter === 'private' && !control.includes('Private')) return false;
       }
       
-      // Filter by state
-      if (stateFilter !== 'all' && inst.state !== stateFilter) return false;
+      // Filter by state with case-insensitive comparison
+      if (stateFilter !== 'all') {
+        const instState = (inst.state || '').trim();
+        const filterState = stateFilter.trim();
+        if (instState !== filterState) return false;
+      }
       
       return true;
     });
+    console.log('Filtered institutions:', filtered.length);
+    return filtered;
   }, [institutions, controlFilter, stateFilter]);
 
   // Log filter changes for debugging
@@ -164,7 +172,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
       </div>
 
       {/* Institutions List */}
-      <div className="space-y-3 max-h-96 overflow-y-auto">
+      <div className="space-y-3 max-h-96 overflow-y-auto" key={`${controlFilter}-${stateFilter}`}>
         {filteredInstitutions.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             <p className="mb-2">No institutions found with the selected filters</p>
