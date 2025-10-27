@@ -165,7 +165,7 @@ export default function ComparePage() {
         {/* Comparison Table */}
         {selectedColleges.length === 0 ? (
           <div className="bg-white rounded-xl shadow-md p-12 text-center">
-            <div className="text-6xl mb-4">🎓</div>
+            
             <h3 className="text-xl font-semibold text-gray-900 mb-2">No Colleges Selected</h3>
             <p className="text-gray-600 mb-6">
               Start by searching and adding colleges to compare their costs, admissions, and outcomes

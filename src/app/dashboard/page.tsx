@@ -360,7 +360,7 @@ export default function DashboardPage() {
               <span>Room & board costs typically range from <strong>$8K-$15K annually</strong></span>
             </div>
             <div className="flex items-start">
-              <span className="text-orange-600 mr-2">🏛️</span>
+              <span className="text-orange-600 mr-2"></span>
               <span><strong>Public institutions</strong> offer the most affordable in-state tuition</span>
             </div>
             <div className="flex items-start">

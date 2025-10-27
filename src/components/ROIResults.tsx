@@ -174,7 +174,7 @@ export default function ROIResults({ result, institution, program, costs, earnin
         </ResponsiveContainer>
         {result.paybackPeriod !== Infinity && (
           <p className="text-sm text-gray-600 mt-4 text-center">
-            💡 Break-even point: Year {Math.ceil(result.paybackPeriod)} - Your investment is recovered after this point
+            Break-even point: Year {Math.ceil(result.paybackPeriod)} - Your investment is recovered after this point
           </p>
         )}
       </div>

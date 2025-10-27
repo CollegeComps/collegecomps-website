@@ -258,7 +258,7 @@ export default function Home() {
 
             <div className="mt-8 pt-6 border-t border-gray-200">
               <p className="text-center text-gray-600 mb-4">
-                💡 This is just one example. Calculate your own ROI with your specific circumstances.
+                This is just one example. Calculate your own ROI with your specific circumstances.
               </p>
               <div className="text-center">
                 <Link
@@ -322,7 +322,7 @@ export default function Home() {
                     </h3>
                     {feature.tier === 'premium' && (
                       <span className="inline-block mt-1 px-2 py-0.5 text-xs font-bold bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-full">
-                        ⭐ Premium
+                        Premium
                       </span>
                     )}
                   </div>

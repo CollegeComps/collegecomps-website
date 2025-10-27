@@ -151,7 +151,7 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
       )}
 
       <div className="mt-4 bg-gray-50 rounded-lg p-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-2">💡 Search Tips</h4>
+        <h4 className="text-sm font-semibold text-gray-900 mb-2">Search Tips</h4>
         <ul className="text-xs text-gray-600 space-y-1">
           <li>• Enter at least 2 characters to start searching</li>
           <li>• Search by field of study (e.g., "Engineering", "Healthcare")</li>
