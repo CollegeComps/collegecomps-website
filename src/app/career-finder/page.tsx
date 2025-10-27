@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { 
   LightBulbIcon,
   UsersIcon, 
@@ -46,6 +47,7 @@ const QUESTIONS: Question[] = [
 
 export default function CareerFinderPage() {
   const router = useRouter();
+  const { data: session } = useSession();
   const [step, setStep] = useState<'intro' | 'quiz' | 'results'>('intro');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
@@ -54,9 +56,16 @@ export default function CareerFinderPage() {
   const [email, setEmail] = useState('');
   const [showAllCareers, setShowAllCareers] = useState(false);
 
+  // Helper to get user-specific storage key
+  const getStorageKey = () => {
+    const userEmail = session?.user?.email || 'guest';
+    return `careerFinderResults_${userEmail}`;
+  };
+
   // Load saved results from sessionStorage on mount
   useEffect(() => {
-    const savedResults = sessionStorage.getItem('careerFinderResults');
+    const storageKey = getStorageKey();
+    const savedResults = sessionStorage.getItem(storageKey);
     if (savedResults) {
       try {
         const { personalityType: savedType, careerNames, answers: savedAnswers } = JSON.parse(savedResults);
@@ -73,10 +82,10 @@ export default function CareerFinderPage() {
         setStep('results');
       } catch (e) {
         console.error('Error loading saved career finder results:', e);
-        sessionStorage.removeItem('careerFinderResults'); // Clear corrupted data
+        sessionStorage.removeItem(storageKey); // Clear corrupted data
       }
     }
-  }, []);
+  }, [session?.user?.email]);
 
   const handleAnswer = (value: number) => {
     const newAnswers = { ...answers, [QUESTIONS[currentQuestion].id]: value };
@@ -125,7 +134,9 @@ export default function CareerFinderPage() {
     setStep('results');
     
     // Save results to sessionStorage (without icons, which can't be serialized)
-    sessionStorage.setItem('careerFinderResults', JSON.stringify({
+    // Use user-specific key to prevent cross-user caching
+    const storageKey = getStorageKey();
+    sessionStorage.setItem(storageKey, JSON.stringify({
       personalityType: type,
       careerNames: matchedCareers.map(c => c.name), // Store only names, not full objects
       answers: finalAnswers
