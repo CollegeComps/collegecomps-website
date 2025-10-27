@@ -13,8 +13,15 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
   const [degrees, setDegrees] = useState<AcademicProgram[]>([]);
   const [loading, setLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [skipSearch, setSkipSearch] = useState(false);
 
   useEffect(() => {
+    // Skip search if this is a programmatic update (after selection)
+    if (skipSearch) {
+      setSkipSearch(false);
+      return;
+    }
+    
     if (searchQuery.length >= 2) {
       searchDegrees();
     } else {
@@ -51,6 +58,7 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
 
   const handleSelectDegree = (degree: AcademicProgram) => {
     onSelect(degree);
+    setSkipSearch(true); // Prevent search on next searchQuery update
     setSearchQuery(degree.cip_title || '');
     setShowDropdown(false);
   };
