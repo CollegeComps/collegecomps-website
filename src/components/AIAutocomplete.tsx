@@ -121,7 +121,6 @@ export default function AIAutocomplete({
 
   const handleSelect = (suggestion: AISuggestion) => {
     onSelect(suggestion.name);
-    onChange(suggestion.name);
     setShowSuggestions(false);
   };
 
