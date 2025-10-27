@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Institution } from '@/lib/database';
 import {
   generateRecommendations,
@@ -19,8 +19,11 @@ import {
 
 export default function RecommendationsPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [userStats, setUserStats] = useState<UserStats | null>(null);
+  const [career, setCareer] = useState<string>('');
+  const [majors, setMajors] = useState<string[]>([]);
   const [recommendations, setRecommendations] = useState<{
     safety: RecommendationResult[];
     match: RecommendationResult[];
@@ -29,7 +32,25 @@ export default function RecommendationsPage() {
   const [maxDistance, setMaxDistance] = useState(50);
 
   useEffect(() => {
+    // Read career and majors from URL params (from career-finder)
+    const careerParam = searchParams.get('career');
+    const majorsParam = searchParams.get('majors');
+    
+    if (careerParam) {
+      setCareer(careerParam);
+    }
+    if (majorsParam) {
+      setMajors(majorsParam.split(','));
+    }
+    
     loadUserStatsAndRecommendations();
+  }, []);
+
+  useEffect(() => {
+    // Regenerate recommendations when distance or location changes
+    if (userStats?.latitude && userStats?.longitude) {
+      regenerateRecommendations();
+    }
   }, [maxDistance, userStats?.latitude, userStats?.longitude]);
 
   const loadUserStatsAndRecommendations = async () => {
@@ -124,6 +145,23 @@ export default function RecommendationsPage() {
       console.error('Error loading recommendations:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const regenerateRecommendations = async () => {
+    if (!userStats?.latitude || !userStats?.longitude) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/institutions?limit=1000');
+      const data = await response.json();
+      const institutions: Institution[] = data.institutions || [];
+      const recs = generateRecommendations(institutions, userStats, maxDistance);
+      const grouped = groupRecommendationsByCategory(recs);
+      setRecommendations(grouped);
+    } catch (error) {
+      console.error('Error regenerating recommendations:', error);
     }
   };
 
@@ -231,10 +269,25 @@ export default function RecommendationsPage() {
             Based on your stats and location, here are colleges within {maxDistance} miles
           </p>
 
+          {/* Career/Majors info if coming from career-finder */}
+          {career && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+              <div className="flex items-start gap-3">
+                <AcademicCapIcon className="w-6 h-6 text-blue-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <h3 className="font-semibold text-blue-900">Career Match: {career}</h3>
+                  {majors.length > 0 && (
+                    <p className="text-sm text-blue-700 mt-1">
+                      Recommended majors: {majors.join(', ')}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* User Stats Summary */}
-          <div className="bg-gray-50 rounded-lg p-4 mb-4">
-            <div className="flex flex-wrap gap-4">
-              {userStats.gpa && (
+          <div className="bg-gray-50 rounded-lg p-4 mb-4">\n            <div className="flex flex-wrap gap-4">\n              {userStats.gpa && (
                 <div className="flex items-center">
                   <span className="text-sm font-medium text-gray-600 mr-2">GPA:</span>
                   <span className="text-sm font-bold text-gray-900">{userStats.gpa.toFixed(2)}</span>
