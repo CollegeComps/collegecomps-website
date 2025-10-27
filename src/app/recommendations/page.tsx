@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { Institution } from '@/lib/database';
 import {
   generateRecommendations,
@@ -20,6 +21,7 @@ import {
 export default function RecommendationsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { data: session, status } = useSession();
   const [loading, setLoading] = useState(true);
   const [userStats, setUserStats] = useState<UserStats | null>(null);
   const [career, setCareer] = useState<string>('');
@@ -226,6 +228,29 @@ export default function RecommendationsPage() {
               ))}
             </div>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Require authentication
+  if (status === 'unauthenticated') {
+    return (
+      <div className="p-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <AcademicCapIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Sign In Required
+          </h2>
+          <p className="text-gray-600 mb-6">
+            Please sign in to view personalized college recommendations based on your profile.
+          </p>
+          <button
+            onClick={() => router.push('/auth/signin?callbackUrl=/recommendations')}
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     );
