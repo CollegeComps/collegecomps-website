@@ -38,6 +38,7 @@ export default function AIAutocomplete({
   const [loading, setLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [useAI, setUseAI] = useState(false);
+  const [skipSearch, setSkipSearch] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const isPremium = session?.user?.subscriptionTier === 'premium';
@@ -55,6 +56,12 @@ export default function AIAutocomplete({
 
   // Fetch suggestions with AI enhancement
   useEffect(() => {
+    // Skip search if this is a programmatic update (after selection)
+    if (skipSearch) {
+      setSkipSearch(false);
+      return;
+    }
+    
     if (value.length < 2) {
       setSuggestions([]);
       setShowSuggestions(false);
@@ -120,6 +127,7 @@ export default function AIAutocomplete({
   }, [value, type, context, isPremium, useAI]);
 
   const handleSelect = (suggestion: AISuggestion) => {
+    setSkipSearch(true); // Prevent search on next value update
     onSelect(suggestion.name);
     setShowSuggestions(false);
   };
