@@ -53,7 +53,7 @@ let collegeDb: Database.Database | TursoAdapter | null | undefined = undefined;
 export function getUsersDb(): TursoAdapter | Database.Database | null {
   if (usersDb === undefined) {
     // Check environment
-    console.log('🔍 getUsersDb() environment check:', {
+    console.log('getUsersDb() environment check:', {
       USERS_DB_URL: process.env.USERS_DB_URL ? 'SET' : 'NOT SET',
       USERS_DB_TOKEN: process.env.USERS_DB_TOKEN ? 'SET' : 'NOT SET',
       NODE_ENV: process.env.NODE_ENV,
@@ -63,7 +63,7 @@ export function getUsersDb(): TursoAdapter | Database.Database | null {
 
     // Production: Use Turso if URL is provided
     if (process.env.USERS_DB_URL && process.env.USERS_DB_URL.startsWith('libsql://')) {
-      console.log('🚀 Initializing Turso client for users data...');
+      console.log('Initializing Turso client for users data...');
       try {
         usersDb = new TursoAdapter(
           process.env.USERS_DB_URL,
@@ -78,7 +78,7 @@ export function getUsersDb(): TursoAdapter | Database.Database | null {
     // Development/Fallback: Use local SQLite file or return null
     else {
       if (isBuildTime()) {
-        console.warn('⚠️ Build time detected, returning null for users database');
+        console.warn('Build time detected, returning null for users database');
         usersDb = null;
       } else if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
         // In production but no Turso URL - return null instead of trying local file
@@ -103,7 +103,7 @@ export function getUsersDb(): TursoAdapter | Database.Database | null {
 export function getCollegeDb(): Database.Database | TursoAdapter | null {
   if (collegeDb === undefined) {
     // Check environment
-    console.log('🔍 getCollegeDb() environment check:', {
+    console.log('getCollegeDb() environment check:', {
       TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL ? 'SET' : 'NOT SET',
       TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN ? 'SET' : 'NOT SET',
       NODE_ENV: process.env.NODE_ENV,
@@ -113,7 +113,7 @@ export function getCollegeDb(): Database.Database | TursoAdapter | null {
 
     // Production: Use Turso if URL is provided
     if (process.env.TURSO_DATABASE_URL && process.env.TURSO_DATABASE_URL.startsWith('libsql://')) {
-      console.log('🚀 Initializing Turso client for college data...');
+      console.log('Initializing Turso client for college data...');
       try {
         collegeDb = new TursoAdapter(
           process.env.TURSO_DATABASE_URL,
@@ -128,7 +128,7 @@ export function getCollegeDb(): Database.Database | TursoAdapter | null {
     // Development/Fallback: Use local SQLite file or return null
     else {
       if (isBuildTime()) {
-        console.warn('⚠️ Build time detected, returning null for college database');
+        console.warn('Build time detected, returning null for college database');
         collegeDb = null;
       } else if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
         // In production but no Turso URL - return null instead of trying local file

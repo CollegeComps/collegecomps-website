@@ -416,7 +416,7 @@ export default function RecommendationsPage() {
                   }}
                   placeholder={userStats.zipCode || '10001'}
                   maxLength={5}
-                  className="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400 text-sm"
+                  className="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-600 text-sm font-medium"
                 />
                 <button
                   onClick={() => handleZipCodeChange(zipCodeInput)}
@@ -470,7 +470,7 @@ export default function RecommendationsPage() {
                       placeholder="Enter zip code (e.g., 10001)"
                       maxLength={5}
                       pattern="[0-9]{5}"
-                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-600 font-medium"
                       onKeyDown={async (e) => {
                         if (e.key === 'Enter' && e.currentTarget.value.length === 5) {
                           const zip = e.currentTarget.value;

@@ -181,7 +181,7 @@ export default function SubscriptionPage() {
               <div className="flex items-start justify-between mb-6">
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                    {isPremium ? '⭐ Premium Plan' : 'Free Plan'}
+                    {isPremium ? 'Premium Plan' : 'Free Plan'}
                   </h2>
                   <p className="text-gray-600">
                     {isPremium 
@@ -241,7 +241,7 @@ export default function SubscriptionPage() {
                   onClick={handleUpgrade}
                   className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold py-4 rounded-lg hover:shadow-lg transition-all transform hover:-translate-y-1"
                 >
-                  🚀 Upgrade to Premium - $6.99/month
+                  Upgrade to Premium - $6.99/month
                 </button>
               )}
             </div>
