@@ -74,50 +74,67 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account && account.provider !== 'credentials') {
+        // Ensure we have user email for OAuth sign in
+        if (!user?.email) {
+          console.error('OAuth sign in failed: no email provided');
+          return false;
+        }
+
         const db = getUsersDb();
         if (!db) {
           console.error('Database unavailable during OAuth sign in');
           return false;
         }
         
-        // Handle OAuth sign in - check if user already exists
-        const existingUser = await db.prepare('SELECT * FROM users WHERE email = ?')
-          .get(user.email!) as DbUser | undefined
+        try {
+          // Handle OAuth sign in - check if user already exists
+          const existingUser = await db.prepare('SELECT * FROM users WHERE email = ?')
+            .get(user.email) as DbUser | undefined
 
-        if (!existingUser) {
-          // Create new user for OAuth (no password needed, email verified by OAuth provider)
-          await db.prepare(`
-            INSERT INTO users (email, name, email_verified)
-            VALUES (?, ?, 1)
-          `).run(user.email, user.name)
-        } else {
-          // User exists - just update email_verified if not set
-          if (!existingUser.email_verified) {
+          if (!existingUser) {
+            // Create new user for OAuth (no password needed, email verified by OAuth provider)
             await db.prepare(`
-              UPDATE users SET email_verified = 1 WHERE email = ?
-            `).run(user.email)
+              INSERT INTO users (email, name, email_verified)
+              VALUES (?, ?, 1)
+            `).run(user.email, user.name || null)
+          } else {
+            // User exists - just update email_verified if not set
+            if (!existingUser.email_verified) {
+              await db.prepare(`
+                UPDATE users SET email_verified = 1 WHERE email = ?
+              `).run(user.email)
+            }
           }
+        } catch (error) {
+          console.error('Error during OAuth sign in:', error);
+          return false;
         }
       }
       return true
     },
     async jwt({ token, user, account }) {
-      if (user) {
+      // Only query database if we need to populate token with user data
+      if (user?.email) {
         const db = getUsersDb();
         if (!db) {
           console.error('Database unavailable during JWT creation');
           return token;
         }
         
-        const dbUser = await db.prepare('SELECT * FROM users WHERE email = ?')
-          .get(user.email!) as DbUser | undefined
-        
-        if (dbUser) {
-          token.subscriptionTier = dbUser.subscription_tier
-          token.subscriptionStatus = 'active' // Default since column doesn't exist
-          token.userId = dbUser.id.toString()
+        try {
+          const dbUser = await db.prepare('SELECT * FROM users WHERE email = ?')
+            .get(user.email) as DbUser | undefined
+          
+          if (dbUser) {
+            token.subscriptionTier = dbUser.subscription_tier
+            token.subscriptionStatus = 'active' // Default since column doesn't exist
+            token.userId = dbUser.id.toString()
+          }
+        } catch (error) {
+          console.error('Error during JWT creation:', error);
         }
       }
+      // On subsequent requests, token already has all needed data
       return token
     },
     async session({ session, token }) {
