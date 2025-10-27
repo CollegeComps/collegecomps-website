@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   LightBulbIcon,
@@ -54,6 +54,22 @@ export default function CareerFinderPage() {
   const [email, setEmail] = useState('');
   const [showAllCareers, setShowAllCareers] = useState(false);
 
+  // Load saved results from sessionStorage on mount
+  useEffect(() => {
+    const savedResults = sessionStorage.getItem('careerFinderResults');
+    if (savedResults) {
+      try {
+        const { personalityType: savedType, careers: savedCareers, answers: savedAnswers } = JSON.parse(savedResults);
+        setPersonalityType(savedType);
+        setCareers(savedCareers);
+        setAnswers(savedAnswers);
+        setStep('results');
+      } catch (e) {
+        console.error('Error loading saved career finder results:', e);
+      }
+    }
+  }, []);
+
   const handleAnswer = (value: number) => {
     const newAnswers = { ...answers, [QUESTIONS[currentQuestion].id]: value };
     setAnswers(newAnswers);
@@ -94,9 +110,18 @@ export default function CareerFinderPage() {
       (avgScores.TF > 3.0 ? 'F' : 'T') +
       (avgScores.JP > 3.0 ? 'P' : 'J');
     
+    const matchedCareers = COMPREHENSIVE_CAREER_MAPPINGS[type] || COMPREHENSIVE_CAREER_MAPPINGS['ISTJ'];
+    
     setPersonalityType(type);
-    setCareers(COMPREHENSIVE_CAREER_MAPPINGS[type] || COMPREHENSIVE_CAREER_MAPPINGS['ISTJ']); // Default to ISTJ if type not found
+    setCareers(matchedCareers);
     setStep('results');
+    
+    // Save results to sessionStorage so users can navigate back
+    sessionStorage.setItem('careerFinderResults', JSON.stringify({
+      personalityType: type,
+      careers: matchedCareers,
+      answers: finalAnswers
+    }));
   };
 
   if (step === 'intro') {
