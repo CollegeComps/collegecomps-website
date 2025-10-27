@@ -320,7 +320,7 @@ export default function OnboardingPage() {
               </div>
 
               <p className="text-sm text-gray-500">
-                💡 Don't worry, you can change this later in your profile
+                Don't worry, you can change this later in your profile
               </p>
             </div>
           )}
@@ -415,7 +415,7 @@ export default function OnboardingPage() {
               </div>
 
               <div className="bg-blue-50 rounded-lg p-4">
-                <h3 className="font-semibold text-blue-900 mb-2">📊 What's Next?</h3>
+                <h3 className="font-semibold text-blue-900 mb-2">What's Next?</h3>
                 <ul className="space-y-1 text-sm text-blue-800">
                   <li>• Personalized college recommendations</li>
                   <li>• ROI calculations for your major</li>
@@ -510,7 +510,7 @@ export default function OnboardingPage() {
                       maxLength={5}
                       value={formData.zip_code}
                       onChange={(e) => setFormData(prev => ({ ...prev, zip_code: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-600 font-medium"
                       placeholder="e.g., 10001"
                     />
                     <p className="text-xs text-gray-500 mt-1">
@@ -594,7 +594,7 @@ export default function OnboardingPage() {
 
               <div className="bg-green-50 rounded-lg p-4">
                 <p className="text-sm text-green-800">
-                  ✨ <strong>Enhanced Recommendations:</strong> With this information, we can provide more accurate net price estimates, suggest appropriate safety/match/reach schools based on your academic profile, and help you understand your financial aid eligibility!
+                  <strong>Enhanced Recommendations:</strong> With this information, we can provide more accurate net price estimates, suggest appropriate safety/match/reach schools based on your academic profile, and help you understand your financial aid eligibility!
                 </p>
               </div>
             </div>

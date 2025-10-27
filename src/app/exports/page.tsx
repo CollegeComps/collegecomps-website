@@ -165,7 +165,7 @@ export default function ExportsPage() {
               href="/pricing"
               className="inline-block bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-lg transition-all transform hover:-translate-y-1"
             >
-              🚀 Upgrade to Premium
+              Upgrade to Premium
             </Link>
           </div>
         </div>

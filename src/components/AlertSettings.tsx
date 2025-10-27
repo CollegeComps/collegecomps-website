@@ -142,7 +142,7 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
               href="/pricing"
               className="inline-block px-6 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold rounded-lg hover:shadow-lg transition-all"
             >
-              ✨ Upgrade to Premium
+              Upgrade to Premium
             </a>
           </div>
         </div>

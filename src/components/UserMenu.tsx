@@ -130,12 +130,12 @@ export default function UserMenu() {
                 href="/pricing"
                 className="mt-2 block text-xs text-center font-semibold text-blue-600 hover:text-blue-700 bg-blue-100 rounded-lg px-3 py-1.5 transition-colors"
               >
-                ✨ Upgrade to Premium
+                Upgrade to Premium
               </Link>
             )}
             {isPremium && (
               <div className="mt-2 flex items-center justify-center gap-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold py-1 px-3 rounded-lg">
-                <span>⭐</span>
+                
                 <span>Premium Member</span>
               </div>
             )}

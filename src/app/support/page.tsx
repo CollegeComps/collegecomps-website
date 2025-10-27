@@ -28,9 +28,9 @@ interface Ticket {
 const categories = [
   { value: 'technical', label: 'Technical Issues', icon: '🔧' },
   { value: 'billing', label: 'Billing & Subscription', icon: '💳' },
-  { value: 'feature_request', label: 'Feature Request', icon: '💡' },
+  { value: 'feature_request', label: 'Feature Request', icon: "" },
   { value: 'account', label: 'Account Issues', icon: '👤' },
-  { value: 'data', label: 'Data Questions', icon: '📊' },
+  { value: 'data', label: 'Data Questions', icon: "" },
   { value: 'general', label: 'General Inquiry', icon: '❓' },
 ];
 
@@ -152,8 +152,8 @@ export default function SupportPage() {
               </div>
               <p className="text-lg text-gray-600">
                 Get help from our support team
-                {isProfessional && <span className="ml-2 text-purple-600 font-semibold">✨ Priority Support Active</span>}
-                {isPremium && <span className="ml-2 text-blue-600 font-semibold">🚀 Premium Support Active</span>}
+                {isProfessional && <span className="ml-2 text-purple-600 font-semibold">Priority Support Active</span>}
+                {isPremium && <span className="ml-2 text-blue-600 font-semibold">Premium Support Active</span>}
               </p>
             </div>
             <button

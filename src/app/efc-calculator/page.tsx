@@ -293,7 +293,7 @@ export default function EFCCalculatorPage() {
 
                   {/* What This Means */}
                   <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                    <h3 className="font-semibold text-gray-900 mb-2">💡 What This Means</h3>
+                    <h3 className="font-semibold text-gray-900 mb-2">What This Means</h3>
                     <p className="text-sm text-gray-700 leading-relaxed">
                       This is the amount federal aid formulas expect your family to contribute annually toward college costs.
                       The difference between college costs and your EFC determines your financial need.
@@ -335,21 +335,21 @@ export default function EFCCalculatorPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-4 bg-blue-50 rounded-lg">
-              <h3 className="font-semibold text-gray-900 mb-2">📊 What is EFC?</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">What is EFC?</h3>
               <p className="text-sm text-gray-700">
                 Your Expected Family Contribution (EFC) is a measure of your family's financial strength and is calculated according to a formula established by law.
               </p>
             </div>
 
             <div className="p-4 bg-green-50 rounded-lg">
-              <h3 className="font-semibold text-gray-900 mb-2">💰 How It's Used</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">How It's Used</h3>
               <p className="text-sm text-gray-700">
                 Colleges subtract your EFC from their Cost of Attendance to determine your financial need. This determines your eligibility for need-based aid.
               </p>
             </div>
 
             <div className="p-4 bg-purple-50 rounded-lg">
-              <h3 className="font-semibold text-gray-900 mb-2">🎯 Important Notes</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">Important Notes</h3>
               <p className="text-sm text-gray-700">
                 This is an estimate using Federal Methodology. Some colleges use their own formulas and may calculate a different family contribution.
               </p>

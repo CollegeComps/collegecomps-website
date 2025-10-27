@@ -940,7 +940,7 @@ export default function ROICalculatorApp() {
 
                     {/* Additional Insights */}
                     <div className="bg-blue-50 rounded-lg p-4">
-                      <h4 className="font-semibold text-blue-900 mb-2">💡 Key Considerations</h4>
+                      <h4 className="font-semibold text-blue-900 mb-2">Key Considerations</h4>
                       <ul className="space-y-2 text-sm text-blue-800">
                         <li className="flex items-start">
                           <span className="mr-2">•</span>

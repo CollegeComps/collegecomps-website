@@ -23,7 +23,7 @@ export function EmailTemplate({ children }: EmailTemplateProps) {
               <tr>
                 <td style="padding: 40px 40px 20px; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px 8px 0 0;">
                   <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: bold;">
-                    🎓 CollegeComps
+                    CollegeComps
                   </h1>
                 </td>
               </tr>
@@ -171,7 +171,7 @@ interface EmailVerificationReminderProps {
 export function EmailVerificationReminderEmail({ userName, verificationUrl }: EmailVerificationReminderProps) {
   const content = `
     <h2 style="margin: 0 0 20px; color: #212529; font-size: 24px;">
-      Please Verify Your Email ✉️
+      Please Verify Your Email 
     </h2>
     <p style="margin: 0 0 16px; color: #495057; font-size: 16px; line-height: 1.6;">
       Hi ${userName || 'there'},

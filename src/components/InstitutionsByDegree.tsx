@@ -239,7 +239,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
       {filteredInstitutions.length > 0 && (
         <div className="mt-4 pt-4 border-t border-gray-200">
           <p className="text-sm text-gray-600 text-center">
-            💡 <strong>Next Step:</strong> Click "Calculate ROI" on any institution to see detailed financial analysis for this program
+            <strong>Next Step:</strong> Click "Calculate ROI" on any institution to see detailed financial analysis for this program
           </p>
         </div>
       )}

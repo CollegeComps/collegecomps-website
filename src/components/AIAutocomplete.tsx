@@ -135,7 +135,7 @@ export default function AIAutocomplete({
   const getSuggestionIcon = (suggestion: AISuggestion) => {
     if (suggestion.type === 'reach') return '🎯';
     if (suggestion.type === 'match') return '✅';
-    if (suggestion.type === 'safety') return '🛡️';
+    if (suggestion.type === 'safety') return '';
     return '📚';
   };
 
@@ -217,7 +217,7 @@ export default function AIAutocomplete({
 
                   {suggestion.tuition && (
                     <p className="text-xs text-gray-500 mt-1">
-                      💰 ${suggestion.tuition.toLocaleString()}/year
+                      ${suggestion.tuition.toLocaleString()}/year
                     </p>
                   )}
 

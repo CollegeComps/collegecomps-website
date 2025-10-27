@@ -224,7 +224,7 @@ export default function StudentLoanCalculator() {
 
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                 <p className="text-sm text-yellow-800">
-                  💡 <strong>Tip:</strong> Making extra payments toward the principal can significantly reduce your total interest paid and shorten your loan term.
+                  <strong>Tip:</strong> Making extra payments toward the principal can significantly reduce your total interest paid and shorten your loan term.
                 </p>
               </div>
             </>

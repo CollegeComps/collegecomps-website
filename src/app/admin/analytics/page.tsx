@@ -190,7 +190,7 @@ export default function AdminAnalyticsPage() {
             </div>
             {data.subscriptionTier === 'free' && data.savedComparisons >= 3 && (
               <p className="mt-2 text-xs text-orange-600">
-                ⚠️ At limit (3/3)
+                At limit (3/3)
               </p>
             )}
           </div>

@@ -229,7 +229,7 @@ export default function ProfilePage() {
                 <span className="text-gray-700 font-medium">Subscription</span>
                 {isPremium ? (
                   <span className="px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-sm font-bold rounded-full">
-                    ⭐ Premium
+                    Premium
                   </span>
                 ) : (
                   <span className="px-3 py-1 bg-gray-200 text-gray-700 text-sm font-semibold rounded-full">
@@ -247,7 +247,7 @@ export default function ProfilePage() {
                     href="/pricing"
                     className="block w-full text-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
                   >
-                    ✨ Upgrade to Premium
+                    Upgrade to Premium
                   </a>
                 </div>
               )}

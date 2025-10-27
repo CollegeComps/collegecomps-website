@@ -35,7 +35,7 @@ export function DataSourcesFooter() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
           <h3 className="text-2xl font-bold text-gray-900 mb-2">
-            📊 Our Data Sources
+            Our Data Sources
           </h3>
           <p className="text-gray-600 max-w-2xl mx-auto">
             We use only official government data and verified user submissions to ensure accuracy and reliability.

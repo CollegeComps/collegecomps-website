@@ -349,7 +349,7 @@ export default function MyTimelinePage() {
             {/* Subscription Status */}
             {session?.user?.subscriptionTier === 'free' && (
               <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg shadow-lg p-6 text-white">
-                <h3 className="text-lg font-bold mb-2">⭐ Upgrade to Premium</h3>
+                <h3 className="text-lg font-bold mb-2">Upgrade to Premium</h3>
                 <p className="text-sm text-blue-100 mb-4">
                   Get unlimited comparisons, advanced insights, and personalized recommendations
                 </p>

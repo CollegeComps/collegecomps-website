@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
     console.log('Historical Trends: Starting request');
     const authStart = Date.now();
     const session = await auth();
-    console.log(`⏱️ [TRENDS] Auth took ${Date.now() - authStart}ms`);
+    console.log(`[TRENDS] Auth took ${Date.now() - authStart}ms`);
     
     if (!session?.user) {
       console.log('Historical Trends: No session/user');
@@ -81,10 +81,10 @@ export async function GET(req: NextRequest) {
       actualData = cachedData!.financial;
       topGrowingFields = cachedData!.programs;
     } else {
-      console.log('📊 [TRENDS] Cache miss or expired - querying database...');
+      console.log('[TRENDS] Cache miss or expired - querying database...');
       
       // Query financial data
-      console.log('📊 [TRENDS] Query 1: Financial data...');
+      console.log('[TRENDS] Query 1: Financial data...');
       actualData = await db.prepare(`
         SELECT 
           year,
@@ -97,7 +97,7 @@ export async function GET(req: NextRequest) {
       console.log(`✅ [TRENDS] Query 1 complete in ${Date.now() - queryStart}ms`);
       
       // Query top programs from materialized table (fast!)
-      console.log('📊 [TRENDS] Query 2: Top programs...');  
+      console.log('[TRENDS] Query 2: Top programs...');  
       topGrowingFields = await db.prepare(`
         SELECT 
           cipcode,
@@ -122,7 +122,7 @@ export async function GET(req: NextRequest) {
     }
     
     // Always query salary data (small, fast query)
-    console.log('📊 [TRENDS] Query 3: Salary submissions...');
+    console.log('[TRENDS] Query 3: Salary submissions...');
     let userSalaryResult = null;
     if (usersDb) {
       try {
@@ -131,11 +131,11 @@ export async function GET(req: NextRequest) {
         `).get() as any;
         console.log(`✅ [TRENDS] Query 3 complete in ${Date.now() - queryStart}ms`);
       } catch (err) {
-        console.warn(`⚠️ [TRENDS] Query 3 failed:`, err);
+        console.warn(`[TRENDS] Query 3 failed:`, err);
       }
     }
     
-    console.log(`⏱️ [TRENDS] All queries took ${Date.now() - queryStart}ms`);
+    console.log(`[TRENDS] All queries took ${Date.now() - queryStart}ms`);
     console.log(`Historical Trends: Found actual data for year ${actualData?.year}`);
     
     // Process salary data
@@ -372,7 +372,7 @@ export async function GET(req: NextRequest) {
     };
 
     console.log('Historical Trends: Returning response');
-    console.log(`🎯 [TRENDS] Total request time: ${Date.now() - startTime}ms`);
+    console.log(`[TRENDS] Total request time: ${Date.now() - startTime}ms`);
     return NextResponse.json({
       historical: trends, // Already in chronological order (oldest to newest)
       predictions,

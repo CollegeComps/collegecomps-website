@@ -104,7 +104,7 @@ export default function SalaryInsightsPage() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            💰 Real-World Salary Insights
+            Real-World Salary Insights
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Discover actual post-graduation salaries from alumni. Make informed decisions based on real data.
@@ -116,14 +116,14 @@ export default function SalaryInsightsPage() {
               href="/submit-salary"
               className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg"
             >
-              📊 Contribute Your Data
+              Contribute Your Data
             </Link>
             {!isPremium && (
               <Link
                 href="/pricing"
                 className="inline-flex items-center px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg border-2 border-blue-600 hover:bg-blue-50 transition-all"
               >
-                ✨ Upgrade for Full Insights
+                Upgrade for Full Insights
               </Link>
             )}
           </div>
@@ -150,7 +150,7 @@ export default function SalaryInsightsPage() {
         {/* Filters */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">🔍 Filter Data</h2>
+            <h2 className="text-lg font-semibold text-gray-900">Filter Data</h2>
             {(selectedMajor || selectedInstitution || selectedDegree || selectedYears) && (
               <button
                 onClick={clearFilters}
@@ -242,7 +242,7 @@ export default function SalaryInsightsPage() {
           </div>
         ) : error ? (
           <div className="bg-white rounded-xl shadow-md p-12 text-center">
-            <div className="text-6xl mb-4">⚠️</div>
+            
             <h3 className="text-xl font-semibold text-red-700 mb-2">
               {error.includes('Premium') ? 'Premium Access Required' : 'Unable to Load Data'}
             </h3>
@@ -255,7 +255,7 @@ export default function SalaryInsightsPage() {
                   href="/pricing"
                   className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg"
                 >
-                  ✨ View Premium Plans
+                  View Premium Plans
                 </Link>
               ) : (
                 <button
@@ -269,7 +269,7 @@ export default function SalaryInsightsPage() {
           </div>
         ) : salaryData.length === 0 ? (
           <div className="bg-white rounded-xl shadow-md p-12 text-center">
-            <div className="text-6xl mb-4">📊</div>
+            
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
               {selectedMajor || selectedInstitution || selectedDegree || selectedYears 
                 ? 'No Data Matches Your Filters' 
@@ -288,7 +288,7 @@ export default function SalaryInsightsPage() {
                 href="/submit-salary"
                 className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg"
               >
-                📊 Submit Your Salary Data
+                Submit Your Salary Data
               </Link>
               {(selectedMajor || selectedInstitution || selectedDegree || selectedYears) && (
                 <button
@@ -306,7 +306,7 @@ export default function SalaryInsightsPage() {
             {!isPremium && (
               <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-yellow-300 rounded-xl p-6">
                 <div className="flex items-start gap-4">
-                  <div className="text-3xl">✨</div>
+                  
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">
                       Unlock Full Salary Insights
@@ -380,7 +380,7 @@ export default function SalaryInsightsPage() {
                   <div className="mt-6 pt-6 border-t border-gray-200">
                     <div className="flex items-center gap-2 mb-4">
                       <span className="inline-flex items-center px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-bold rounded-full">
-                        ✨ PREMIUM
+                        PREMIUM
                       </span>
                       <span className="text-sm text-gray-600">Detailed Salary Distribution</span>
                     </div>
@@ -461,7 +461,7 @@ export default function SalaryInsightsPage() {
             href="/submit-salary"
             className="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition-all shadow-lg text-lg"
           >
-            📊 Contribute Your Salary Data
+            Contribute Your Salary Data
           </Link>
           <p className="text-sm text-blue-200 mt-4">100% anonymous • Takes 2 minutes • Helps future students</p>
         </div>
