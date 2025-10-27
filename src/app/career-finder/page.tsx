@@ -59,13 +59,21 @@ export default function CareerFinderPage() {
     const savedResults = sessionStorage.getItem('careerFinderResults');
     if (savedResults) {
       try {
-        const { personalityType: savedType, careers: savedCareers, answers: savedAnswers } = JSON.parse(savedResults);
+        const { personalityType: savedType, careerNames, answers: savedAnswers } = JSON.parse(savedResults);
+        
+        // Reconstruct careers with icons from the database
+        const fullCareerData = COMPREHENSIVE_CAREER_MAPPINGS[savedType] || COMPREHENSIVE_CAREER_MAPPINGS['ISTJ'];
+        const reconstructedCareers = fullCareerData.filter(career => 
+          careerNames.includes(career.name)
+        );
+        
         setPersonalityType(savedType);
-        setCareers(savedCareers);
+        setCareers(reconstructedCareers);
         setAnswers(savedAnswers);
         setStep('results');
       } catch (e) {
         console.error('Error loading saved career finder results:', e);
+        sessionStorage.removeItem('careerFinderResults'); // Clear corrupted data
       }
     }
   }, []);
@@ -116,10 +124,10 @@ export default function CareerFinderPage() {
     setCareers(matchedCareers);
     setStep('results');
     
-    // Save results to sessionStorage so users can navigate back
+    // Save results to sessionStorage (without icons, which can't be serialized)
     sessionStorage.setItem('careerFinderResults', JSON.stringify({
       personalityType: type,
-      careers: matchedCareers,
+      careerNames: matchedCareers.map(c => c.name), // Store only names, not full objects
       answers: finalAnswers
     }));
   };
