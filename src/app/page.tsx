@@ -304,7 +304,9 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature, index) => (
+            {features.map((feature, index) => {
+              const IconComponent = feature.icon;
+              return (
               <Link
                 key={index}
                 href={feature.href}
@@ -312,7 +314,7 @@ export default function Home() {
               >
                 <div className="flex items-start mb-4">
                   <div className={`w-12 h-12 ${feature.color} rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
-                    <feature.icon className="w-6 h-6 text-white" />
+                    <IconComponent className="w-6 h-6 text-white" />
                   </div>
                   <div className="ml-3">
                     <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
@@ -333,7 +335,8 @@ export default function Home() {
                   <ArrowRightIcon className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
@@ -351,10 +354,12 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {highlights.map((highlight, index) => (
+            {highlights.map((highlight, index) => {
+              const IconComponent = highlight.icon;
+              return (
               <div key={index} className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <highlight.icon className="w-8 h-8 text-white" />
+                  <IconComponent className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">
                   {highlight.title}
@@ -363,7 +368,8 @@ export default function Home() {
                   {highlight.description}
                 </p>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

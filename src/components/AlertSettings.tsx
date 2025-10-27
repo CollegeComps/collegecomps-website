@@ -186,7 +186,9 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
       )}
 
       <div className="space-y-3">
-        {alerts.map((alert) => (
+        {alerts.map((alert) => {
+          const IconComponent = alert.icon;
+          return (
           <div
             key={alert.id}
             className={`flex items-start justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors ${
@@ -195,7 +197,7 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
           >
             <div className="flex items-start gap-3 flex-1">
               <div className="mt-1">
-                <alert.icon className={`text-blue-600 ${compact ? 'w-4 h-4' : 'w-5 h-5'}`} />
+                <IconComponent className={`text-blue-600 ${compact ? 'w-4 h-4' : 'w-5 h-5'}`} />
               </div>
               <div>
                 <h3 className={`font-semibold text-gray-900 ${compact ? 'text-sm' : ''}`}>
@@ -220,7 +222,8 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
               />
             </button>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       <button

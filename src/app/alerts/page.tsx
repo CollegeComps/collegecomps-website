@@ -225,14 +225,16 @@ export default function AlertsPage() {
           </p>
 
           <div className="space-y-4">
-            {alerts.map((alert) => (
+            {alerts.map((alert) => {
+              const IconComponent = alert.icon;
+              return (
               <div
                 key={alert.id}
                 className="flex items-start justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 <div className="flex items-start gap-3 flex-1">
                   <div className="mt-1">
-                    <alert.icon className="w-5 h-5 text-blue-600" />
+                    <IconComponent className="w-5 h-5 text-blue-600" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">{alert.type}</h3>
@@ -252,7 +254,8 @@ export default function AlertsPage() {
                   />
                 </button>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

@@ -174,6 +174,7 @@ export default function Sidebar({ children }: SidebarProps) {
           <div className="space-y-1">
             {visibleNavigation.map((item) => {
               const isActive = pathname === item.href;
+              const IconComponent = item.icon;
               return (
                 <Link
                   key={item.name}
@@ -187,7 +188,7 @@ export default function Sidebar({ children }: SidebarProps) {
                     }
                   `}
                 >
-                  <item.icon
+                  <IconComponent
                     className={`
                       mr-3 h-5 w-5 flex-shrink-0 transition-colors duration-150
                       ${isActive ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600'}
