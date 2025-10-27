@@ -85,6 +85,13 @@ export default function ROICalculatorApp() {
     }));
   }, [hasHighSchoolDiploma]);
 
+  // Auto-recalculate ROI when baseline salary changes (if ROI already calculated)
+  useEffect(() => {
+    if (roiResult && earnings.baselineSalary) {
+      calculateROI();
+    }
+  }, [earnings.baselineSalary]);
+
   // Auto-save functionality
   useEffect(() => {
     // Only enable auto-save if user is authenticated and has calculated results
