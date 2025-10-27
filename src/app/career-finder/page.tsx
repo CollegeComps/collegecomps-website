@@ -331,11 +331,13 @@ export default function CareerFinderPage() {
           </div>
           
           <div className="grid md:grid-cols-2 gap-6 mb-8">
-            {(showAllCareers ? careers : careers.slice(0, 6)).map((career, index) => (
+            {(showAllCareers ? careers : careers.slice(0, 6)).map((career, index) => {
+              const IconComponent = career.icon;
+              return (
               <div key={index} className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow">
                 <div className="flex items-start gap-4 mb-4">
                   <div className="bg-indigo-100 w-14 h-14 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <career.icon className="w-7 h-7 text-indigo-600" />
+                    <IconComponent className="w-7 h-7 text-indigo-600" />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-2xl font-bold text-gray-900 mb-1">{career.name}</h3>
@@ -372,7 +374,8 @@ export default function CareerFinderPage() {
                   Explore Programs
                 </button>
               </div>
-            ))}
+              );
+            })}
           </div>
           
           {!showAllCareers && careers.length > 6 && (
