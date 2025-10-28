@@ -20,6 +20,7 @@ function getResendClient() {
 }
 
 const FROM_EMAIL = process.env.EMAIL_FROM || 'noreply@collegecomps.com';
+const SUPPORT_EMAIL = process.env.SUPPORT_EMAIL || 'support@collegecomps.com';
 const BASE_URL = process.env.NODE_ENV === 'production' 
   ? 'https://www.collegecomps.com' 
   : 'http://localhost:3000';
@@ -29,9 +30,10 @@ interface SendEmailOptions {
   subject: string;
   html: string;
   userId?: string;
+  replyTo?: string;
 }
 
-async function sendEmail({ to, subject, html, userId }: SendEmailOptions) {
+async function sendEmail({ to, subject, html, userId, replyTo }: SendEmailOptions) {
   try {
     const client = getResendClient(); // Get or initialize client
     
@@ -42,12 +44,19 @@ async function sendEmail({ to, subject, html, userId }: SendEmailOptions) {
     
     const htmlWithUnsubscribe = html.replace('{{unsubscribeUrl}}', unsubscribeUrl);
     
-    const { data, error } = await client.emails.send({
+    const emailData: any = {
       from: FROM_EMAIL,
       to,
       subject,
       html: htmlWithUnsubscribe,
-    });
+    };
+
+    // Add reply-to if provided
+    if (replyTo) {
+      emailData.reply_to = replyTo;
+    }
+
+    const { data, error } = await client.emails.send(emailData);
 
     if (error) {
       console.error('❌ Resend error:', error);
@@ -168,9 +177,10 @@ export async function sendSupportTicketConfirmation(
   
   return sendEmail({
     to: email,
-    subject: `Support Ticket Created #${ticketId}: ${subject}`,
+    subject: `[Ticket #${ticketId}] ${subject}`,
     html,
     userId,
+    replyTo: SUPPORT_EMAIL,
   });
 }
 
@@ -223,8 +233,9 @@ export async function sendSupportTicketReply(
   
   return sendEmail({
     to: email,
-    subject: `Re: Support Ticket #${ticketId} - ${subject}`,
+    subject: `Re: [Ticket #${ticketId}] ${subject}`,
     html,
     userId,
+    replyTo: SUPPORT_EMAIL,
   });
 }
