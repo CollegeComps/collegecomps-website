@@ -20,72 +20,91 @@ interface DbUser {
   updated_at: string
 }
 
+// Build providers array conditionally based on environment variables
+const providers: any[] = [
+  Credentials({
+    credentials: {
+      email: { label: "Email", type: "email" },
+      password: { label: "Password", type: "password" }
+    },
+    async authorize(credentials) {
+      if (!credentials?.email || !credentials?.password) {
+        return null
+      }
+      
+      const db = getUsersDb();
+      if (!db) {
+        console.error('Database unavailable during authorization');
+        return null;
+      }
+
+      const user = await db.prepare('SELECT * FROM users WHERE email = ?')
+        .get(credentials.email) as DbUser | undefined
+
+      if (!user || !user.password_hash) {
+        return null
+      }
+
+      const isValid = await bcrypt.compare(
+        credentials.password as string,
+        user.password_hash
+      )
+
+      if (!isValid) {
+        return null
+      }
+
+      return {
+        id: user.id.toString(),
+        email: user.email,
+        name: user.name,
+        subscriptionTier: user.subscription_tier,
+        subscriptionStatus: 'active' // Default to active since column doesn't exist
+      }
+    }
+  })
+];
+
+// Only add OAuth providers if credentials are configured
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  providers.push(Google({
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  }));
+}
+
+if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
+  providers.push(GitHub({
+    clientId: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  }));
+}
+
+if (process.env.LINKEDIN_CLIENT_ID && process.env.LINKEDIN_CLIENT_SECRET) {
+  providers.push(LinkedIn({
+    clientId: process.env.LINKEDIN_CLIENT_ID,
+    clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+  }));
+}
+
+if (process.env.FACEBOOK_CLIENT_ID && process.env.FACEBOOK_CLIENT_SECRET) {
+  providers.push(Facebook({
+    clientId: process.env.FACEBOOK_CLIENT_ID,
+    clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+  }));
+}
+
+if (process.env.TWITTER_CLIENT_ID && process.env.TWITTER_CLIENT_SECRET) {
+  providers.push(Twitter({
+    clientId: process.env.TWITTER_CLIENT_ID,
+    clientSecret: process.env.TWITTER_CLIENT_SECRET,
+  }));
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
   trustHost: true,
-  providers: [
-    Credentials({
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          return null
-        }
-        
-        const db = getUsersDb();
-        if (!db) {
-          console.error('Database unavailable during authorization');
-          return null;
-        }
-
-        const user = await db.prepare('SELECT * FROM users WHERE email = ?')
-          .get(credentials.email) as DbUser | undefined
-
-        if (!user || !user.password_hash) {
-          return null
-        }
-
-        const isValid = await bcrypt.compare(
-          credentials.password as string,
-          user.password_hash
-        )
-
-        if (!isValid) {
-          return null
-        }
-
-        return {
-          id: user.id.toString(),
-          email: user.email,
-          name: user.name,
-          subscriptionTier: user.subscription_tier,
-          subscriptionStatus: 'active' // Default to active since column doesn't exist
-        }
-      }
-    }),
-    Google({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
-    GitHub({
-      clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    }),
-    LinkedIn({
-      clientId: process.env.LINKEDIN_CLIENT_ID,
-      clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-    }),
-    Facebook({
-      clientId: process.env.FACEBOOK_CLIENT_ID,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-    }),
-    Twitter({
-      clientId: process.env.TWITTER_CLIENT_ID,
-      clientSecret: process.env.TWITTER_CLIENT_SECRET,
-    })
-  ],
+  providers,
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account && account.provider !== 'credentials') {
