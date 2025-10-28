@@ -109,3 +109,122 @@ export async function sendVerificationReminderEmail(
     userId,
   });
 }
+
+export async function sendSupportTicketConfirmation(
+  email: string,
+  userName: string,
+  ticketId: number,
+  subject: string,
+  category: string,
+  priority: string,
+  userId: string
+) {
+  const ticketUrl = `${BASE_URL}/support?ticket=${ticketId}`;
+  
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      </head>
+      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f4f4f4;">
+        <div style="max-width: 600px; margin: 20px auto; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 24px;">Support Ticket Created</h1>
+          </div>
+          
+          <div style="padding: 30px;">
+            <p style="margin: 0 0 20px;">Hi ${userName},</p>
+            
+            <p style="margin: 0 0 20px;">Your support ticket has been successfully created and assigned ticket number <strong>#${ticketId}</strong>.</p>
+            
+            <div style="background: #f8f9fa; border-left: 4px solid #667eea; padding: 15px; margin: 20px 0; border-radius: 4px;">
+              <p style="margin: 0 0 10px;"><strong>Subject:</strong> ${subject}</p>
+              <p style="margin: 0 0 10px;"><strong>Category:</strong> ${category}</p>
+              <p style="margin: 0;"><strong>Priority:</strong> <span style="color: ${priority === 'high' ? '#dc2626' : priority === 'normal' ? '#f59e0b' : '#10b981'}; font-weight: bold;">${priority.toUpperCase()}</span></p>
+            </div>
+            
+            <p style="margin: 20px 0;">Our support team will review your ticket and respond ${priority === 'high' ? 'within 4 hours' : priority === 'normal' ? 'within 24 hours' : 'within 48 hours'}.</p>
+            
+            <p style="margin: 20px 0;">You can view and track your ticket status at any time:</p>
+            
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="${ticketUrl}" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: bold;">View Ticket</a>
+            </div>
+            
+            <p style="margin: 20px 0; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 14px;">
+              <strong>Tip:</strong> You can reply to this email to add more information to your ticket. Your response will be automatically added to ticket #${ticketId}.
+            </p>
+            
+            <p style="margin: 0; color: #6b7280; font-size: 14px;">
+              Thank you for using CollegeComps!
+            </p>
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+  
+  return sendEmail({
+    to: email,
+    subject: `Support Ticket Created #${ticketId}: ${subject}`,
+    html,
+    userId,
+  });
+}
+
+export async function sendSupportTicketReply(
+  email: string,
+  userName: string,
+  ticketId: number,
+  subject: string,
+  replyMessage: string,
+  isStaff: boolean,
+  userId: string
+) {
+  const ticketUrl = `${BASE_URL}/support?ticket=${ticketId}`;
+  
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      </head>
+      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f4f4f4;">
+        <div style="max-width: 600px; margin: 20px auto; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 24px;">New Reply to Your Ticket</h1>
+          </div>
+          
+          <div style="padding: 30px;">
+            <p style="margin: 0 0 20px;">Hi ${userName},</p>
+            
+            <p style="margin: 0 0 20px;">${isStaff ? 'Our support team' : 'You'} ${isStaff ? 'has' : 'have'} added a new reply to ticket <strong>#${ticketId}</strong>.</p>
+            
+            <div style="background: #f8f9fa; border-left: 4px solid #667eea; padding: 15px; margin: 20px 0; border-radius: 4px;">
+              <p style="margin: 0 0 10px;"><strong>Ticket:</strong> ${subject}</p>
+              <p style="margin: 10px 0 0; white-space: pre-wrap;">${replyMessage}</p>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="${ticketUrl}" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: bold;">View Full Conversation</a>
+            </div>
+            
+            <p style="margin: 20px 0; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 14px;">
+              <strong>Reply directly:</strong> Simply reply to this email to add your response to ticket #${ticketId}.
+            </p>
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+  
+  return sendEmail({
+    to: email,
+    subject: `Re: Support Ticket #${ticketId} - ${subject}`,
+    html,
+    userId,
+  });
+}

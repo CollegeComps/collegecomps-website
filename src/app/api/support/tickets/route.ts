@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import { getUsersDb } from '@/lib/db-helper'
+import { getUsersDb } from '@/lib/db-helper';
+import { sendSupportTicketConfirmation } from '@/lib/email-service';
 
 // Helper to initialize tables
 async function initTables(db: any) {
@@ -131,8 +132,21 @@ export async function POST(req: NextRequest) {
       SELECT * FROM support_tickets WHERE id = ?
     `).get(Number(result.lastInsertRowid));
 
-    // TODO: Send email notification to support team
-    // TODO: For professional tier, trigger priority notification
+    // Send confirmation email to user
+    try {
+      await sendSupportTicketConfirmation(
+        session.user.email!,
+        session.user.name || 'User',
+        Number(result.lastInsertRowid),
+        subject,
+        category,
+        priority,
+        session.user.id!
+      );
+    } catch (emailError) {
+      console.error('Failed to send support ticket email:', emailError);
+      // Don't fail the ticket creation if email fails
+    }
 
     return NextResponse.json({
       message: 'Support ticket created successfully',
