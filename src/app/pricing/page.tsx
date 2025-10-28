@@ -3,20 +3,33 @@
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { createCheckoutSession } from '@/lib/stripe-client';
 
 export default function PricingPage() {
   const { data: session } = useSession();
   const router = useRouter();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('annual');
+  const [loading, setLoading] = useState(false);
   
   const currentTier = session?.user?.subscriptionTier || 'free';
 
-  const handleUpgrade = (tier: string) => {
+  const handleUpgrade = async (tier: string) => {
     if (!session) {
       router.push('/auth/signin?callbackUrl=/pricing');
       return;
     }
-    alert(`Upgrade to ${tier} - Payment integration coming soon!`);
+    
+    if (tier === 'premium') {
+      try {
+        setLoading(true);
+        await createCheckoutSession('premium', billingCycle);
+      } catch (error) {
+        console.error('Checkout error:', error);
+        alert('Failed to start checkout. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   return (
@@ -195,14 +208,14 @@ export default function PricingPage() {
             
             <button
               onClick={() => handleUpgrade('premium')}
-              disabled={currentTier === 'premium'}
+              disabled={currentTier === 'premium' || loading}
               className={`w-full py-3 px-6 rounded-lg font-semibold transition-all ${
-                currentTier === 'premium'
+                currentTier === 'premium' || loading
                   ? 'bg-blue-400 text-white cursor-not-allowed'
                   : 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
               }`}
             >
-              {currentTier === 'premium' ? '✓ Current Plan' : 'Upgrade to Premium'}
+              {loading ? 'Loading...' : currentTier === 'premium' ? 'Current Plan' : 'Upgrade to Premium'}
             </button>
           </div>
         </div>
