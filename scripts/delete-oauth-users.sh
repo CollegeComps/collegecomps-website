@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Delete OAuth users from production database
-# This script removes users created via Google/GitHub OAuth
+# Usage: TURSO_DATABASE_NAME=collegecomps-users ./delete-oauth-users.sh
 
 set -e
 
@@ -10,25 +10,20 @@ echo "OAuth User Deletion Script"
 echo "========================================="
 echo ""
 
-# Check if TURSO_DATABASE_URL is set
-if [ -z "$TURSO_DATABASE_URL" ]; then
-    echo "ERROR: TURSO_DATABASE_URL environment variable not set"
-    echo "Please set it to your production database URL"
+# Check if TURSO_DATABASE_NAME is set
+if [ -z "$TURSO_DATABASE_NAME" ]; then
+    echo "ERROR: TURSO_DATABASE_NAME environment variable not set"
+    echo "Usage: TURSO_DATABASE_NAME=collegecomps-users ./delete-oauth-users.sh"
     exit 1
 fi
 
-# Check if TURSO_AUTH_TOKEN is set
-if [ -z "$TURSO_AUTH_TOKEN" ]; then
-    echo "ERROR: TURSO_AUTH_TOKEN environment variable not set"
-    echo "Please set it to your production database auth token"
-    exit 1
-fi
-
+echo "Using database: $TURSO_DATABASE_NAME"
+echo ""
 echo "Step 1: Checking OAuth users in database..."
 echo ""
 
 # Count OAuth users
-OAUTH_COUNT=$(turso db shell "$TURSO_DATABASE_URL" --token "$TURSO_AUTH_TOKEN" "SELECT COUNT(*) FROM users WHERE email_verified = 1 AND (password IS NULL OR password = '')" 2>/dev/null | tail -1)
+OAUTH_COUNT=$(turso db shell "$TURSO_DATABASE_NAME" "SELECT COUNT(*) FROM users WHERE email_verified = 1 AND (password IS NULL OR password = '')" 2>/dev/null | tail -1)
 
 echo "Found $OAUTH_COUNT OAuth users"
 echo ""
@@ -41,7 +36,7 @@ fi
 echo "Step 2: Listing OAuth users..."
 echo ""
 
-turso db shell "$TURSO_DATABASE_URL" --token "$TURSO_AUTH_TOKEN" "SELECT id, email, name, created_at FROM users WHERE email_verified = 1 AND (password IS NULL OR password = '')"
+turso db shell "$TURSO_DATABASE_NAME" "SELECT id, email, name, created_at FROM users WHERE email_verified = 1 AND (password IS NULL OR password = '')"
 
 echo ""
 echo "========================================="
@@ -58,14 +53,14 @@ fi
 echo ""
 echo "Step 3: Deleting OAuth users..."
 
-turso db shell "$TURSO_DATABASE_URL" --token "$TURSO_AUTH_TOKEN" "DELETE FROM users WHERE email_verified = 1 AND (password IS NULL OR password = '')"
+turso db shell "$TURSO_DATABASE_NAME" "DELETE FROM users WHERE email_verified = 1 AND (password IS NULL OR password = '')"
 
 echo ""
-echo "✓ OAuth users deleted successfully"
+echo "OAuth users deleted successfully"
 echo ""
 
 # Verify deletion
-REMAINING=$(turso db shell "$TURSO_DATABASE_URL" --token "$TURSO_AUTH_TOKEN" "SELECT COUNT(*) FROM users WHERE email_verified = 1 AND (password IS NULL OR password = '')" 2>/dev/null | tail -1)
+REMAINING=$(turso db shell "$TURSO_DATABASE_NAME" "SELECT COUNT(*) FROM users WHERE email_verified = 1 AND (password IS NULL OR password = '')" 2>/dev/null | tail -1)
 
 echo "Remaining OAuth users: $REMAINING"
 echo "========================================="

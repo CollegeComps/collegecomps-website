@@ -133,7 +133,7 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
           <BellAlertIcon className="w-8 h-8 text-yellow-600 flex-shrink-0" />
           <div>
             <h3 className="text-lg font-bold text-gray-900 mb-2">
-              🔔 Alert Notifications - Premium Feature
+              Alert Notifications - Premium Feature
             </h3>
             <p className="text-gray-700 mb-4">
               Get instant notifications about salary updates, ROI changes, scholarship deadlines, and more!
