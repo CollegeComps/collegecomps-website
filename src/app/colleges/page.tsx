@@ -408,12 +408,12 @@ export default function CollegesPage() {
                   </div>
                 </div>
 
-                <div>
+                <div className="relative">
                   <label className="block text-sm font-bold text-gray-900 mb-1">
                     Major Category
                   </label>
                   <select
-                    className="w-full p-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium bg-white"
+                    className="w-full p-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium bg-white relative z-10"
                     value={filters.majorCategory}
                     onChange={(e) => handleFilterChange('majorCategory', e.target.value)}
                   >
