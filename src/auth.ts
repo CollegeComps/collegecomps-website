@@ -70,7 +70,7 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
   providers.push(Google({
     clientId: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    checks: ["pkce", "state"],
+    checks: ["pkce"],
     authorization: {
         params: {
           prompt: "consent",
