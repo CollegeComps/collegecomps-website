@@ -51,6 +51,18 @@ public/                      # Static assets
    RESEND_API_KEY=
    EMAIL_FROM=noreply@collegecomps.com
    
+   # OAuth Providers
+   GOOGLE_CLIENT_ID=
+   GOOGLE_CLIENT_SECRET=
+   GITHUB_CLIENT_ID=
+   GITHUB_CLIENT_SECRET=
+   LINKEDIN_CLIENT_ID=
+   LINKEDIN_CLIENT_SECRET=
+   FACEBOOK_CLIENT_ID=
+   FACEBOOK_CLIENT_SECRET=
+   TWITTER_CLIENT_ID=
+   TWITTER_CLIENT_SECRET=
+   
    # Stripe (different keys for dev/prod)
    STRIPE_SECRET_KEY=
    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
