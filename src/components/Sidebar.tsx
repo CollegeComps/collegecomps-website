@@ -104,13 +104,14 @@ const navigation: NavItem[] = [
   //   description: 'Analyze programs and career outcomes',
   //   requiresAuth: false
   // },
-  {
-    name: 'Historical Trends',
-    href: '/historical-trends',
-    icon: ArrowTrendingUpIcon,
-    description: 'View historical data and AI predictions',
-    requiresAuth: true
-  },
+  // Historical Trends temporarily hidden
+  // {
+  //   name: 'Historical Trends',
+  //   href: '/historical-trends',
+  //   icon: ArrowTrendingUpIcon,
+  //   description: 'View historical data and AI predictions',
+  //   requiresAuth: true
+  // },
   {
     name: 'Support',
     href: '/support',
