@@ -58,7 +58,9 @@ test_performance.sh
 # Sentry Config File
 .env.sentry-build-plugin
 
+
 # Documentation - only allow README.md and .github docs
 *.md
 !README.md
-!.github/*.mddev.log
+!.github/*.md
+
