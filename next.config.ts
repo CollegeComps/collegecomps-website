@@ -31,8 +31,9 @@ export default withSentryConfig(nextConfig, {
 
   project: "collegecomps",
 
-  // Only print logs for uploading source maps in CI
-  silent: !process.env.CI,
+  // Suppress sourcemap upload warnings - silent in all environments
+  // Set to false when SENTRY_AUTH_TOKEN is configured for sourcemap uploads
+  silent: true,
 
   // For all available options, see:
   // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
