@@ -48,7 +48,6 @@ export default function SubmitSalaryPage() {
     major: '',
     graduation_year: new Date().getFullYear(),
     current_salary: '',
-    years_since_graduation: '',
     years_experience: '', // Total years in the field
     total_compensation: '',
     job_title: '',
@@ -201,7 +200,6 @@ export default function SubmitSalaryPage() {
         body: JSON.stringify({
           ...formData,
           current_salary: salary,
-          years_since_graduation: formData.has_degree ? parseInt(formData.years_since_graduation) : 0,
           years_experience: parseInt(formData.years_experience),
           total_compensation: totalComp > 0 ? totalComp : null,
           student_debt_remaining: debtRemaining > 0 ? debtRemaining : null,
@@ -328,8 +326,7 @@ export default function SubmitSalaryPage() {
                       has_degree: hasDegree,
                       // Clear college fields if no degree
                       institution_name: hasDegree ? formData.institution_name : '',
-                      graduation_year: hasDegree ? formData.graduation_year : new Date().getFullYear(),
-                      years_since_graduation: hasDegree ? formData.years_since_graduation : ''
+                      graduation_year: hasDegree ? formData.graduation_year : new Date().getFullYear()
                     });
                   }}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
@@ -393,28 +390,6 @@ export default function SubmitSalaryPage() {
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                     />
                   </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-1">
-                      Years Since Graduation *
-                    </label>
-                    <select
-                      required={formData.has_degree}
-                      value={formData.years_since_graduation}
-                      onChange={(e) => setFormData({ ...formData, years_since_graduation: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
-                >
-                  <option value="">Select years</option>
-                  <option value="0">Just graduated</option>
-                  <option value="1">1 year</option>
-                  <option value="2">2 years</option>
-                  <option value="3">3 years</option>
-                  <option value="5">5 years</option>
-                  <option value="10">10 years</option>
-                  <option value="15">15 years</option>
-                  <option value="20">20+ years</option>
-                </select>
-              </div>
                 </>
               )}
 

@@ -108,7 +108,6 @@ export async function POST(req: NextRequest) {
       major,
       graduation_year,
       current_salary,
-      years_since_graduation,
       total_compensation,
       job_title,
       company_name,
@@ -124,6 +123,10 @@ export async function POST(req: NextRequest) {
       years_experience // Total years of work experience
     } = data
 
+    // Calculate years_since_graduation from graduation_year
+    const currentYear = new Date().getFullYear();
+    const years_since_graduation = graduation_year ? currentYear - graduation_year : null;
+
     // Required field validation - adjusted for non-degree submissions
     if (!current_salary) {
       return NextResponse.json(
@@ -133,7 +136,7 @@ export async function POST(req: NextRequest) {
     }
 
     // If has_degree is true, require degree-related fields
-    if (has_degree && (!institution_name || !degree_level || !major || !graduation_year || years_since_graduation === undefined)) {
+    if (has_degree && (!institution_name || !degree_level || !major || !graduation_year)) {
       return NextResponse.json(
         { error: 'Missing required degree fields. If you do not have a degree, please uncheck "I have a degree"' },
         { status: 400 }
@@ -141,7 +144,6 @@ export async function POST(req: NextRequest) {
     }
 
     // Validate graduation year is not in the future
-    const currentYear = new Date().getFullYear();
     if (graduation_year && graduation_year > currentYear) {
       return NextResponse.json(
         { error: `Graduation year cannot be in the future (max: ${currentYear})` },
