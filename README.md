@@ -50,6 +50,13 @@ public/                      # Static assets
    NEXTAUTH_SECRET=
    RESEND_API_KEY=
    EMAIL_FROM=noreply@collegecomps.com
+   
+   # Stripe (different keys for dev/prod)
+   STRIPE_SECRET_KEY=
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+   STRIPE_WEBHOOK_SECRET=
+   STRIPE_PREMIUM_MONTHLY_PRICE_ID=
+   STRIPE_PREMIUM_ANNUAL_PRICE_ID=
    ```
 
 3. Run dev server:

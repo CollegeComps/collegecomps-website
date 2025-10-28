@@ -15,6 +15,7 @@ import {
   ArrowPathIcon,
   CreditCardIcon,
 } from '@heroicons/react/24/outline';
+import { createCustomerPortalSession } from '@/lib/stripe-client';
 
 interface SubscriptionFeature {
   name: string;
@@ -136,9 +137,13 @@ export default function SubscriptionPage() {
     },
   ];
 
-  const handleManageSubscription = () => {
-    // TODO: Integrate with Stripe customer portal
-    alert('Stripe Customer Portal coming soon! You can manage billing, update payment methods, and view invoices.');
+  const handleManageSubscription = async () => {
+    try {
+      await createCustomerPortalSession();
+    } catch (error) {
+      console.error('Portal error:', error);
+      alert('Failed to open billing portal. Please try again or contact support.');
+    }
   };
 
   const handleUpgrade = () => {
