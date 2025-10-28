@@ -57,15 +57,16 @@ const features = [
     stats: 'Smart comparisons',
     tier: 'free'
   },
-  {
-    title: 'Historical Trends',
-    description: 'Analyze past trends and future projections for college costs, salaries, and ROI over time.',
-    icon: SparklesIcon,
-    href: '/historical-trends',
-    color: 'bg-gradient-to-br from-yellow-400 to-orange-500',
-    stats: 'Premium feature',
-    tier: 'premium'
-  },
+  // Historical Trends temporarily hidden
+  // {
+  //   title: 'Historical Trends',
+  //   description: 'Analyze past trends and future projections for college costs, salaries, and ROI over time.',
+  //   icon: SparklesIcon,
+  //   href: '/historical-trends',
+  //   color: 'bg-gradient-to-br from-yellow-400 to-orange-500',
+  //   stats: 'Premium feature',
+  //   tier: 'premium'
+  // },
   {
     title: 'Salary Analytics',
     description: 'Real salary data from graduates with detailed breakdowns by major, school, and experience level.',
@@ -463,12 +464,13 @@ export default function Home() {
                   </svg>
                   <span className="text-gray-700 font-medium">Everything in Explore</span>
                 </li>
-                <li className="flex items-start">
+                {/* Historical Trends temporarily hidden */}
+                {/* <li className="flex items-start">
                   <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                   <span className="text-gray-700">Historical Trends & Projections</span>
-                </li>
+                </li> */}
                 <li className="flex items-start">
                   <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
