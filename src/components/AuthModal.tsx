@@ -205,6 +205,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'signin' }: Au
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                       placeholder="you@example.com"
+                      autoComplete="email"
                       required
                     />
                   </div>
@@ -220,6 +221,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'signin' }: Au
                       onChange={(e) => setPassword(e.target.value)}
                       className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                       placeholder="••••••••"
+                      autoComplete="current-password"
                       required
                     />
                   </div>
@@ -275,6 +277,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'signin' }: Au
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                       placeholder="you@example.com"
+                      autoComplete="email"
                       required
                     />
                   </div>
@@ -290,6 +293,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'signin' }: Au
                       onChange={(e) => setPassword(e.target.value)}
                       className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                       placeholder="••••••••"
+                      autoComplete="new-password"
                       required
                       minLength={6}
                     />
@@ -307,6 +311,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'signin' }: Au
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                       placeholder="••••••••"
+                      autoComplete="new-password"
                       required
                       minLength={6}
                     />
