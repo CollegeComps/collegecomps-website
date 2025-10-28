@@ -120,7 +120,8 @@ export async function POST(req: NextRequest) {
       student_debt_original,
       is_public,
       has_degree = true, // Default to true for backwards compatibility
-      years_experience // Total years of work experience
+      years_experience, // Total years of work experience
+      additional_degrees // JSON string of additional degrees array
     } = data
 
     // Calculate years_since_graduation from graduation_year
@@ -296,8 +297,8 @@ export async function POST(req: NextRequest) {
         location_city, location_state, remote_status,
         student_debt_remaining, student_debt_original,
         is_public, data_quality_score, is_approved, moderation_status,
-        has_degree, years_experience
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        has_degree, years_experience, additional_degrees
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       parseInt(session.user.id),
       institution_name || null,
@@ -321,7 +322,8 @@ export async function POST(req: NextRequest) {
       qualityScore >= 70 ? 1 : 0, // Auto-approve if quality score is high
       qualityScore >= 70 ? 'approved' : 'pending',
       has_degree ? 1 : 0,
-      years_experience || null
+      years_experience || null,
+      additional_degrees || null
     )
 
     // Update user submission stats
