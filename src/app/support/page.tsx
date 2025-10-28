@@ -26,12 +26,12 @@ interface Ticket {
 }
 
 const categories = [
-  { value: 'technical', label: 'Technical Issues', icon: '🔧' },
-  { value: 'billing', label: 'Billing & Subscription', icon: '💳' },
-  { value: 'feature_request', label: 'Feature Request', icon: "" },
-  { value: 'account', label: 'Account Issues', icon: '👤' },
-  { value: 'data', label: 'Data Questions', icon: "" },
-  { value: 'general', label: 'General Inquiry', icon: '❓' },
+  { value: 'technical', label: 'Technical Issues', icon: '' },
+  { value: 'billing', label: 'Billing & Subscription', icon: '' },
+  { value: 'feature_request', label: 'Feature Request', icon: '' },
+  { value: 'account', label: 'Account Issues', icon: '' },
+  { value: 'data', label: 'Data Questions', icon: '' },
+  { value: 'general', label: 'General Inquiry', icon: '' },
 ];
 
 export default function SupportPage() {
@@ -197,39 +197,39 @@ export default function SupportPage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Create Support Ticket</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+                <label className="block text-sm font-bold text-gray-900 mb-2">Subject</label>
                 <input
                   type="text"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
+                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium placeholder-gray-500"
                   placeholder="Brief description of your issue"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                <label className="block text-sm font-bold text-gray-900 mb-2">Category</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium bg-white"
                 >
                   {categories.map((cat) => (
-                    <option key={cat.value} value={cat.value}>
-                      {cat.icon} {cat.label}
+                    <option key={cat.value} value={cat.value} className="text-gray-900">
+                      {cat.label}
                     </option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <label className="block text-sm font-bold text-gray-900 mb-2">Description</label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={6}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
+                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium placeholder-gray-500"
                   placeholder="Please provide as much detail as possible..."
                   required
                 />
