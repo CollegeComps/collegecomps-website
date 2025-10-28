@@ -383,7 +383,7 @@ export default function CollegesPage() {
                   />
                 </div>
 
-                <div>
+                <div className="relative z-10">
                   <label className="block text-sm font-bold text-gray-900 mb-1">
                     Near ZIP Code
                   </label>
@@ -408,7 +408,7 @@ export default function CollegesPage() {
                   </div>
                 </div>
 
-                <div>
+                <div className="relative z-0">
                   <label className="block text-sm font-bold text-gray-900 mb-1">
                     Major Category
                   </label>
