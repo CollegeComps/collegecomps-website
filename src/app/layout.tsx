@@ -64,7 +64,7 @@ export const metadata: Metadata = {
   },
   other: {
     'application-name': 'CollegeComps',
-    'apple-mobile-web-app-capable': 'yes',
+    'mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
     'apple-mobile-web-app-title': 'CollegeComps',
   },

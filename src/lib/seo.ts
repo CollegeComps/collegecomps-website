@@ -71,7 +71,6 @@ export function generateSEOMetadata({
     },
     other: {
       'application-name': siteName,
-      'apple-mobile-web-app-capable': 'yes',
       'apple-mobile-web-app-status-bar-style': 'default',
       'apple-mobile-web-app-title': siteName,
       'format-detection': 'telephone=no',
