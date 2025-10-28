@@ -63,6 +63,14 @@ export default function SubmitSalaryPage() {
     has_degree: true // Track if they have a degree
   });
 
+  // Additional degrees state (for users with multiple degrees)
+  const [additionalDegrees, setAdditionalDegrees] = useState<Array<{
+    institution_name: string;
+    degree_level: string;
+    major: string;
+    graduation_year: number;
+  }>>([]);
+
   // Close dropdowns when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -206,6 +214,7 @@ export default function SubmitSalaryPage() {
           student_debt_original: debtOriginal > 0 ? debtOriginal : null,
           has_degree: formData.has_degree,
           institution_name: formData.has_degree ? formData.institution_name : 'N/A (No Degree)',
+          additional_degrees: additionalDegrees.length > 0 ? JSON.stringify(additionalDegrees) : null
         })
       });
 
@@ -390,6 +399,95 @@ export default function SubmitSalaryPage() {
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                     />
                   </div>
+
+                  {/* Additional Degrees Section */}
+                  {additionalDegrees.map((degree, index) => (
+                    <div key={index} className="p-4 bg-blue-50 border border-blue-200 rounded-lg space-y-3">
+                      <div className="flex justify-between items-center mb-2">
+                        <h4 className="font-semibold text-gray-900">Additional Degree {index + 1}</h4>
+                        <button
+                          type="button"
+                          onClick={() => setAdditionalDegrees(additionalDegrees.filter((_, i) => i !== index))}
+                          className="text-red-600 hover:text-red-800 text-sm font-medium"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Institution</label>
+                        <input
+                          type="text"
+                          value={degree.institution_name}
+                          onChange={(e) => {
+                            const updated = [...additionalDegrees];
+                            updated[index].institution_name = e.target.value;
+                            setAdditionalDegrees(updated);
+                          }}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+                          placeholder="e.g., Stanford University"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Degree Level</label>
+                        <select
+                          value={degree.degree_level}
+                          onChange={(e) => {
+                            const updated = [...additionalDegrees];
+                            updated[index].degree_level = e.target.value;
+                            setAdditionalDegrees(updated);
+                          }}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+                        >
+                          <option value="">Select degree level</option>
+                          {DEGREE_LEVELS.filter(l => l.value !== 'none').map(level => (
+                            <option key={level.value} value={level.value}>{level.label}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Major</label>
+                        <input
+                          type="text"
+                          value={degree.major}
+                          onChange={(e) => {
+                            const updated = [...additionalDegrees];
+                            updated[index].major = e.target.value;
+                            setAdditionalDegrees(updated);
+                          }}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+                          placeholder="e.g., Computer Science"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Graduation Year</label>
+                        <input
+                          type="number"
+                          min="1950"
+                          max={new Date().getFullYear()}
+                          value={degree.graduation_year}
+                          onChange={(e) => {
+                            const updated = [...additionalDegrees];
+                            updated[index].graduation_year = parseInt(e.target.value);
+                            setAdditionalDegrees(updated);
+                          }}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+                        />
+                      </div>
+                    </div>
+                  ))}
+
+                  <button
+                    type="button"
+                    onClick={() => setAdditionalDegrees([...additionalDegrees, {
+                      institution_name: '',
+                      degree_level: '',
+                      major: '',
+                      graduation_year: new Date().getFullYear()
+                    }])}
+                    className="w-full py-2 px-4 border-2 border-dashed border-blue-400 text-blue-600 rounded-lg hover:bg-blue-50 font-medium transition-colors flex items-center justify-center gap-2"
+                  >
+                    <span className="text-xl">+</span> Add Another Degree
+                  </button>
                 </>
               )}
 
