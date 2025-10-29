@@ -28,20 +28,29 @@ const providers: any[] = [
       password: { label: "Password", type: "password" }
     },
     async authorize(credentials) {
+      console.log('[Auth] Credentials authorize called for:', credentials?.email);
+      
       if (!credentials?.email || !credentials?.password) {
+        console.log('[Auth] Missing email or password');
         return null
       }
       
       const db = getUsersDb();
       if (!db) {
-        console.error('Database unavailable during authorization');
+        console.error('[Auth] Database unavailable during authorization');
         return null;
       }
 
       const user = await db.prepare('SELECT * FROM users WHERE email = ?')
         .get(credentials.email) as DbUser | undefined
 
-      if (!user || !user.password_hash) {
+      if (!user) {
+        console.log('[Auth] User not found:', credentials.email);
+        return null
+      }
+      
+      if (!user.password_hash) {
+        console.log('[Auth] User has no password (OAuth user):', credentials.email);
         return null
       }
 
@@ -51,8 +60,15 @@ const providers: any[] = [
       )
 
       if (!isValid) {
+        console.log('[Auth] Invalid password for:', credentials.email);
         return null
       }
+
+      console.log('[Auth] User authenticated successfully:', {
+        id: user.id,
+        email: user.email,
+        tier: user.subscription_tier
+      });
 
       return {
         id: user.id.toString(),
@@ -70,6 +86,11 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
   providers.push(Google({
     clientId: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    authorization: {
+      params: {
+        prompt: "select_account", // Force account selection screen
+      },
+    },
   }));
 }
 
@@ -153,9 +174,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user, account }) {
       // Only query database if we need to populate token with user data
       if (user?.email) {
+        console.log('[Auth] JWT callback - populating token for:', user.email);
+        
         const db = getUsersDb();
         if (!db) {
-          console.error('Database unavailable during JWT creation');
+          console.error('[Auth] Database unavailable during JWT creation');
           return token;
         }
         
@@ -167,9 +190,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.subscriptionTier = dbUser.subscription_tier
             token.subscriptionStatus = 'active' // Default since column doesn't exist
             token.userId = dbUser.id.toString()
+            token.email = dbUser.email
+            
+            console.log('[Auth] JWT token populated:', {
+              userId: token.userId,
+              email: token.email,
+              tier: token.subscriptionTier
+            });
+          } else {
+            console.error('[Auth] User not found in database during JWT creation:', user.email);
           }
         } catch (error) {
-          console.error('Error during JWT creation:', error);
+          console.error('[Auth] Error during JWT creation:', error);
         }
       }
       // On subsequent requests, token already has all needed data
@@ -180,6 +212,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.subscriptionTier = token.subscriptionTier || 'free'
         session.user.subscriptionStatus = token.subscriptionStatus || 'active'
         session.user.id = token.userId || ''
+        session.user.email = token.email || session.user.email
+        
+        console.log('[Auth] Session created for:', {
+          id: session.user.id,
+          email: session.user.email,
+          tier: session.user.subscriptionTier
+        });
       }
       return session
     }
