@@ -429,7 +429,7 @@ export default function CollegesPage() {
                   </select>
                 </div>
                 
-                <div>
+                <div className="self-start">
                   <label className="block text-sm font-bold text-gray-900 mb-2">
                     Type (Select Multiple)
                   </label>
