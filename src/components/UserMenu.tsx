@@ -117,7 +117,7 @@ export default function UserMenu() {
       {/* Dropdown */}
       {isOpen && (
         <div
-          className={`absolute right-0 md:left-0 md:right-auto w-72 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50 ${
+          className={`absolute left-0 md:right-0 md:left-auto w-72 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50 ${
             dropdownPosition === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'
           }`}
         >
