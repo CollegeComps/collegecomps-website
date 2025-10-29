@@ -28,55 +28,92 @@ const providers: any[] = [
       password: { label: "Password", type: "password" }
     },
     async authorize(credentials) {
-      console.log('[Auth] Credentials authorize called for:', credentials?.email);
+      console.log('[Auth] ========== AUTHORIZE START ==========');
+      console.log('[Auth] Credentials received:', {
+        email: credentials?.email,
+        hasPassword: !!credentials?.password,
+        passwordLength: typeof credentials?.password === 'string' ? credentials.password.length : 0
+      });
       
       if (!credentials?.email || !credentials?.password) {
-        console.log('[Auth] Missing email or password');
+        console.error('[Auth] ❌ FAILED: Missing email or password');
         return null
       }
       
+      console.log('[Auth] Step 1: Getting database connection...');
       const db = getUsersDb();
       if (!db) {
-        console.error('[Auth] Database unavailable during authorization');
+        console.error('[Auth] ❌ FAILED: Database unavailable during authorization');
+        return null;
+      }
+      console.log('[Auth] ✅ Database connection obtained:', db.constructor.name);
+
+      console.log('[Auth] Step 2: Querying user from database...');
+      console.log('[Auth] Query: SELECT * FROM users WHERE email = ?', credentials.email);
+      
+      let user: DbUser | undefined;
+      try {
+        user = await db.prepare('SELECT * FROM users WHERE email = ?')
+          .get(credentials.email) as DbUser | undefined;
+        console.log('[Auth] Query result:', user ? {
+          id: user.id,
+          email: user.email,
+          hasPasswordHash: !!user.password_hash,
+          passwordHashLength: user.password_hash?.length
+        } : 'null');
+      } catch (error) {
+        console.error('[Auth] ❌ FAILED: Database query error:', error);
         return null;
       }
 
-      const user = await db.prepare('SELECT * FROM users WHERE email = ?')
-        .get(credentials.email) as DbUser | undefined
-
       if (!user) {
-        console.log('[Auth] User not found:', credentials.email);
+        console.error('[Auth] ❌ FAILED: User not found:', credentials.email);
         return null
       }
       
       if (!user.password_hash) {
-        console.log('[Auth] User has no password (OAuth user):', credentials.email);
+        console.error('[Auth] ❌ FAILED: User has no password (OAuth user):', credentials.email);
         return null
       }
 
-      const isValid = await bcrypt.compare(
-        credentials.password as string,
-        user.password_hash
-      )
+      console.log('[Auth] Step 3: Comparing password...');
+      console.log('[Auth] Password hash from DB:', user.password_hash.substring(0, 20) + '...');
+      
+      let isValid: boolean;
+      try {
+        isValid = await bcrypt.compare(
+          credentials.password as string,
+          user.password_hash
+        );
+        console.log('[Auth] Password comparison result:', isValid);
+      } catch (error) {
+        console.error('[Auth] ❌ FAILED: bcrypt compare error:', error);
+        return null;
+      }
 
       if (!isValid) {
-        console.log('[Auth] Invalid password for:', credentials.email);
+        console.error('[Auth] ❌ FAILED: Invalid password for:', credentials.email);
         return null
       }
 
-      console.log('[Auth] User authenticated successfully:', {
+      console.log('[Auth] ✅ SUCCESS: User authenticated successfully:', {
         id: user.id,
         email: user.email,
         tier: user.subscription_tier
       });
 
-      return {
+      const authUser = {
         id: user.id.toString(),
         email: user.email,
         name: user.name,
         subscriptionTier: user.subscription_tier,
-        subscriptionStatus: 'active' // Default to active since column doesn't exist
-      }
+        subscriptionStatus: 'active'
+      };
+      
+      console.log('[Auth] Returning user object:', authUser);
+      console.log('[Auth] ========== AUTHORIZE END ==========');
+
+      return authUser;
     }
   })
 ];
