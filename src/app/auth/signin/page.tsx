@@ -72,8 +72,9 @@ export default function SignInPage() {
         setError('Invalid email or password');
         setLoading(false);
       } else if (result?.ok) {
-        // Login successful - redirect to callback URL
-        window.location.href = callbackUrl;
+        // Login successful - use router.push to stay on same domain
+        // instead of window.location.href which might redirect to different domain
+        router.push(callbackUrl);
       } else {
         // Unexpected response
         setError('An error occurred. Please try again.');
