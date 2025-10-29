@@ -31,11 +31,20 @@ export default function SignInPage() {
   });
 
   useEffect(() => {
+    // Check for error parameter in URL (from NextAuth redirect)
+    const errorParam = searchParams.get('error');
+    if (errorParam === 'CredentialsSignin') {
+      setError('Invalid email or password');
+    } else if (errorParam) {
+      setError('An error occurred. Please try again.');
+    }
+
+    // Fetch available providers
     fetch('/api/auth/providers')
       .then(res => res.json())
       .then(data => setAvailableProviders(data))
       .catch(() => {});
-  }, []);
+  }, [searchParams]);
 
   const handleCredentialsSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,21 +52,17 @@ export default function SignInPage() {
     setLoading(true);
 
     try {
-      const result = await signIn('credentials', {
+      // Use NextAuth's built-in redirect handling to ensure cookies are properly set
+      // before navigation. This fixes issues with credential login persistence across browsers.
+      await signIn('credentials', {
         email,
         password,
-        redirect: false,
+        callbackUrl,
       });
-
-      if (result?.error) {
-        setError('Invalid email or password');
-      } else {
-        router.push(callbackUrl);
-        router.refresh();
-      }
+      // Note: NextAuth will handle the redirect automatically on success.
+      // On error, it will redirect to /auth/signin?error=CredentialsSignin
     } catch (error) {
       setError('An error occurred. Please try again.');
-    } finally {
       setLoading(false);
     }
   };
