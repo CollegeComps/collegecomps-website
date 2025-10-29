@@ -315,7 +315,7 @@ export default function SupportPage() {
               <div>
                 <h3 className="text-xl font-bold mb-2">Get Faster Support</h3>
                 <p className="text-blue-100 mb-4">
-                  Upgrade to Premium for 24-hour response time, or Excel for priority 4-hour support
+                  Upgrade to Premium for priority 24-hour response time
                 </p>
                 <div className="flex gap-4">
                   <Link

@@ -75,7 +75,7 @@ export default function PricingPage() {
         {/* Pricing Cards */}
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Free Plan */}
-          <div className="bg-white rounded-2xl shadow-lg border-2 border-gray-200 p-8 hover:shadow-xl transition-shadow">
+          <div className="bg-white rounded-2xl shadow-lg border-2 border-gray-200 p-8 hover:shadow-xl transition-shadow flex flex-col">
             <div className="text-center mb-6">
               <div className="inline-flex items-center gap-1 mb-2">
                 <span className="text-2xl">🔍</span>
@@ -88,7 +88,7 @@ export default function PricingPage() {
               <p className="text-gray-600">Start your journey</p>
             </div>
             
-            <ul className="space-y-3 mb-8">
+            <ul className="space-y-3 mb-8 flex-grow">
               <li className="flex items-start">
                 <svg className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -137,7 +137,7 @@ export default function PricingPage() {
           </div>
 
           {/* Premium Plan */}
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl shadow-xl border-2 border-blue-500 p-8 relative transform md:scale-105 hover:shadow-2xl transition-all">
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl shadow-xl border-2 border-blue-500 p-8 relative transform md:scale-105 hover:shadow-2xl transition-all flex flex-col">
             <div className="absolute top-0 right-0 bg-blue-600 text-white px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm font-bold">
               POPULAR
             </div>
@@ -156,7 +156,7 @@ export default function PricingPage() {
               </p>
             </div>
             
-            <ul className="space-y-3 mb-8">
+            <ul className="space-y-3 mb-8 flex-grow">
               <li className="flex items-start">
                 <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
