@@ -171,37 +171,52 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return true
     },
-    async jwt({ token, user, account }) {
-      // Only query database if we need to populate token with user data
-      if (user?.email) {
-        console.log('[Auth] JWT callback - populating token for:', user.email);
+    async jwt({ token, user, account, trigger }) {
+      // On initial signin, user object is provided from authorize()
+      if (user) {
+        console.log('[Auth] JWT callback - initial signin for:', user.email);
         
-        const db = getUsersDb();
-        if (!db) {
-          console.error('[Auth] Database unavailable during JWT creation');
-          return token;
-        }
-        
-        try {
-          const dbUser = await db.prepare('SELECT * FROM users WHERE email = ?')
-            .get(user.email) as DbUser | undefined
+        // For credentials provider, user already has all needed data from authorize()
+        if (account?.provider === 'credentials') {
+          token.subscriptionTier = (user as any).subscriptionTier || 'free'
+          token.subscriptionStatus = (user as any).subscriptionStatus || 'active'
+          token.userId = user.id
+          token.email = user.email
           
-          if (dbUser) {
-            token.subscriptionTier = dbUser.subscription_tier
-            token.subscriptionStatus = 'active' // Default since column doesn't exist
-            token.userId = dbUser.id.toString()
-            token.email = dbUser.email
-            
-            console.log('[Auth] JWT token populated:', {
-              userId: token.userId,
-              email: token.email,
-              tier: token.subscriptionTier
-            });
-          } else {
-            console.error('[Auth] User not found in database during JWT creation:', user.email);
+          console.log('[Auth] JWT token populated from credentials:', {
+            userId: token.userId,
+            email: token.email,
+            tier: token.subscriptionTier
+          });
+        } else if (user.email) {
+          // For OAuth providers, query database to get subscription info
+          const db = getUsersDb();
+          if (!db) {
+            console.error('[Auth] Database unavailable during JWT creation');
+            return token;
           }
-        } catch (error) {
-          console.error('[Auth] Error during JWT creation:', error);
+          
+          try {
+            const dbUser = await db.prepare('SELECT * FROM users WHERE email = ?')
+              .get(user.email) as DbUser | undefined
+            
+            if (dbUser) {
+              token.subscriptionTier = dbUser.subscription_tier
+              token.subscriptionStatus = 'active'
+              token.userId = dbUser.id.toString()
+              token.email = dbUser.email
+              
+              console.log('[Auth] JWT token populated from OAuth:', {
+                userId: token.userId,
+                email: token.email,
+                tier: token.subscriptionTier
+              });
+            } else {
+              console.error('[Auth] User not found in database during JWT creation:', user.email);
+            }
+          } catch (error) {
+            console.error('[Auth] Error during JWT creation:', error);
+          }
         }
       }
       // On subsequent requests, token already has all needed data
