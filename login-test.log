@@ -1,0 +1,26 @@
+🧪 Replicating login issue from collegecomps.com
+
+1️⃣ Getting CSRF token...
+CSRF Token: 53f58631ffd0d132e73e0b1c711a727f444ca4b38cff95e74ac2b8d3844a2103
+
+2️⃣ Attempting login...
+Login Response Status: 302
+Login Response Headers:
+  cache-control: public, max-age=0, must-revalidate
+  content-length: 0
+  date: Wed, 29 Oct 2025 19:44:53 GMT
+  location: https://collegecomps.com/auth/signin?error=MissingCSRF
+  server: Vercel
+  strict-transport-security: max-age=63072000
+  vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+  x-matched-path: /api/auth/[...nextauth]
+  x-vercel-cache: MISS
+  x-vercel-id: cle1::iad1::8rv9l-1761767093644-7eb2118b02b1
+
+❌ NO COOKIES SET!
+SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at parseJSONFromBytes (node:internal/deps/undici/undici:6433:19)
+    at successSteps (node:internal/deps/undici/undici:6414:27)
+    at readAllBytes (node:internal/deps/undici/undici:5380:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
