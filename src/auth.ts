@@ -29,17 +29,26 @@ const providers: any[] = [
       email: { label: "Email", type: "email" },
       password: { label: "Password", type: "password" }
     },
-    authorize: async (credentials) => {
+    async authorize(credentials) {
       // TEMP: Hardcoded test to see if authorize is even being called
       console.log('[Auth] ========== AUTHORIZE CALLED ==========');
-      console.log('[Auth] Credentials:', credentials);
+      console.log('[Auth] Credentials:', JSON.stringify(credentials));
+      
+      // Must validate credentials exist
+      if (!credentials?.email || !credentials?.password) {
+        console.log('[Auth] Missing credentials');
+        return null;
+      }
       
       // Return hardcoded user for testing
-      return {
+      const user = {
         id: '1',
         email: 'admin@collegecomps.com',
         name: 'Test User'
       };
+      
+      console.log('[Auth] Returning user:', JSON.stringify(user));
+      return user;
     },
   }),
 ];
