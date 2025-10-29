@@ -281,18 +281,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
-  cookies: {
-    sessionToken: {
-      name: `${process.env.NODE_ENV === 'production' ? '__Secure-' : ''}authjs.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-        secure: process.env.NODE_ENV === 'production',
-        // Set domain to work on both www and non-www
-        domain: process.env.NODE_ENV === 'production' ? '.collegecomps.com' : undefined,
-      },
-    },
-  },
-  useSecureCookies: process.env.NODE_ENV === 'production',
+  // Let NextAuth v5 use its default cookie configuration
+  // It automatically handles secure cookies and domain settings based on trustHost
 })
