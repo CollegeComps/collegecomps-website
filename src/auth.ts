@@ -23,11 +23,13 @@ interface DbUser {
 // Build providers array conditionally based on environment variables
 const providers: any[] = [
   Credentials({
+    id: "credentials",
+    name: "Credentials",
     credentials: {
       email: { label: "Email", type: "email" },
       password: { label: "Password", type: "password" }
     },
-    async authorize(credentials) {
+    authorize: async (credentials) => {
       console.log('[Auth] ========== AUTHORIZE START ==========');
       console.log('[Auth] Credentials received:', {
         email: credentials?.email,
