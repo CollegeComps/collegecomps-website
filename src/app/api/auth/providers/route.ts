@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   const providers = {
+    credentials: true, // Credentials provider is always available
     google: !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET),
     github: !!(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET),
     linkedin: !!(process.env.LINKEDIN_CLIENT_ID && process.env.LINKEDIN_CLIENT_SECRET),
