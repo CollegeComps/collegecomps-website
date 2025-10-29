@@ -43,9 +43,10 @@ export default function UserMenu() {
     }
   }, [isOpen]);
 
-  const handleSignOut = () => {
-    signOut({ callbackUrl: '/' });
+  const handleSignOut = async () => {
     setIsOpen(false);
+    // Use redirect: true to force full page reload and clear client-side cache
+    await signOut({ callbackUrl: '/', redirect: true });
   };
 
   const openAuthModal = (tab: 'signin' | 'signup') => {
