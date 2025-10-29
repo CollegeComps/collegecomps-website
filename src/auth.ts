@@ -252,6 +252,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         sameSite: 'lax',
         path: '/',
         secure: process.env.NODE_ENV === 'production',
+        // Set domain to work on both www and non-www
+        domain: process.env.NODE_ENV === 'production' ? '.collegecomps.com' : undefined,
       },
     },
   },
