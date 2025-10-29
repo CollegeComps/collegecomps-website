@@ -1,6 +1,6 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -17,6 +17,7 @@ export default function SignInPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const { data: session, status } = useSession();
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,6 +30,13 @@ export default function SignInPage() {
     facebook: false,
     twitter: false,
   });
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (status === 'authenticated' && session) {
+      router.push(callbackUrl);
+    }
+  }, [status, session, router, callbackUrl]);
 
   useEffect(() => {
     // Check for error parameter in URL (from NextAuth redirect)
@@ -52,15 +60,25 @@ export default function SignInPage() {
     setLoading(true);
 
     try {
-      // Use NextAuth's built-in redirect handling to ensure cookies are properly set
-      // before navigation. This fixes issues with credential login persistence across browsers.
-      await signIn('credentials', {
+      // Call signIn with redirect: false to handle the response ourselves
+      const result = await signIn('credentials', {
         email,
         password,
-        callbackUrl,
+        redirect: false,
       });
-      // Note: NextAuth will handle the redirect automatically on success.
-      // On error, it will redirect to /auth/signin?error=CredentialsSignin
+
+      if (result?.error) {
+        // Login failed
+        setError('Invalid email or password');
+        setLoading(false);
+      } else if (result?.ok) {
+        // Login successful - redirect to callback URL
+        window.location.href = callbackUrl;
+      } else {
+        // Unexpected response
+        setError('An error occurred. Please try again.');
+        setLoading(false);
+      }
     } catch (error) {
       setError('An error occurred. Please try again.');
       setLoading(false);
