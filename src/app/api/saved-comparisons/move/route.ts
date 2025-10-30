@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
+import { auth } from '@/lib/auth';
 import { getUsersDb } from '@/lib/db-helper'
 
 // Helper to add columns if they don't exist

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
+import { auth } from '@/lib/auth';
 import { getCollegeDb, getUsersDb } from '@/lib/db-helper';
 
 // Mark route as dynamic to prevent build-time rendering errors
