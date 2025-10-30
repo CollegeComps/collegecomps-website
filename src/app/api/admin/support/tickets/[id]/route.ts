@@ -4,7 +4,7 @@ import { getUsersDb } from '@/lib/db-helper';
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const db = getUsersDb();
   if (!db) {
@@ -24,7 +24,8 @@ export async function GET(
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
     }
 
-    const ticketId = params.id;
+    const { id } = await params;
+    const ticketId = id;
 
     // Get ticket details
     const ticketQuery = `
@@ -74,7 +75,7 @@ export async function GET(
 // POST - Add a reply message to the ticket
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const db = getUsersDb();
   if (!db) {
@@ -94,7 +95,8 @@ export async function POST(
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
     }
 
-    const ticketId = params.id;
+    const { id } = await params;
+    const ticketId = id;
     const { message } = await request.json();
 
     if (!message || !message.trim()) {
@@ -137,7 +139,7 @@ export async function POST(
 // PATCH - Update ticket status or priority
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const db = getUsersDb();
   if (!db) {
@@ -157,7 +159,8 @@ export async function PATCH(
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
     }
 
-    const ticketId = params.id;
+    const { id } = await params;
+    const ticketId = id;
     const body = await request.json();
     const { status, priority } = body;
 
