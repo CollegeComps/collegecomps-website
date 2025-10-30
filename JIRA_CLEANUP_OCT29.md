@@ -40,11 +40,14 @@ These may have been resolved by the v4 migration and should be tested:
 ## 🔄 New Tickets (In Review - Pending PR Merge)
 
 ### UI Improvements
-- **ENG-261** - Hide mobile nav buttons (PR #157) ✅
-- **ENG-262** - Fix college filter layout (PR #158) ✅  
-- **ENG-263** - Admin support ticket detail page (PR #159) ✅
+- **ENG-261** - Hide mobile nav buttons (PR #157) ✅ MERGED
+- **ENG-262** - Fix college filter layout (PR #158) ✅ MERGED
+- **ENG-263** - Admin support ticket detail page (PR #159) ✅ MERGED
+- **ENG-264** - User support ticket detail + dropdown fix (PR #160) 🔄 IN REVIEW
 
-**Action**: Merge PRs, then close tickets as Done
+**Action**: 
+- ENG-261, 262, 263: Close as Done (PRs merged)
+- ENG-264: Merge PR, then close as Done
 
 ---
 
