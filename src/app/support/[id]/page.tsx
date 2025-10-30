@@ -21,8 +21,8 @@ interface Ticket {
   subscription_tier: string;
   subject: string;
   category: string;
-  priority: 'low' | 'normal' | 'high';
-  status: 'open' | 'in_progress' | 'resolved' | 'closed';
+  priority: string;
+  status: string;
   description: string;
   created_at: string;
   updated_at: string;
@@ -197,16 +197,16 @@ export default function TicketDetailPage() {
               <div className="flex items-center gap-3 mb-2">
                 {getStatusIcon(ticket.status)}
                 <h1 className="text-2xl font-bold text-gray-900">
-                  {ticket.subject}
+                  {ticket.subject || 'No Subject'}
                 </h1>
               </div>
               <p className="text-gray-600">Ticket #{ticket.id}</p>
             </div>
             <div className="flex flex-wrap gap-2">
-              <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getPriorityColor(ticket.priority)}`}>
+              <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getPriorityColor(ticket.priority || 'normal')}`}>
                 {ticket.priority || 'normal'} priority
               </span>
-              <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getStatusColor(ticket.status)}`}>
+              <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getStatusColor(ticket.status || 'open')}`}>
                 {formatStatus(ticket.status)}
               </span>
             </div>
@@ -228,7 +228,7 @@ export default function TicketDetailPage() {
           <div className="border-t mt-4 pt-4">
             <p className="text-sm font-semibold text-gray-700 mb-2">Original Request:</p>
             <div className="bg-gray-50 rounded-lg p-4">
-              <p className="text-gray-800 whitespace-pre-wrap">{ticket.description}</p>
+              <p className="text-gray-800 whitespace-pre-wrap">{ticket.description || 'No description provided'}</p>
             </div>
           </div>
         </div>
@@ -309,7 +309,7 @@ export default function TicketDetailPage() {
               <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
                 <CheckCircleIcon className="w-8 h-8 text-green-600 mx-auto mb-2" />
                 <p className="text-green-800 font-semibold">
-                  This ticket has been {ticket.status === 'closed' ? 'closed' : 'resolved'}
+                  This ticket has been {formatStatus(ticket.status)}
                 </p>
                 <p className="text-green-700 text-sm mt-1">
                   If you need further assistance, please create a new ticket.
