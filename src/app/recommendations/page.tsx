@@ -37,8 +37,8 @@ export default function RecommendationsPage() {
 
   useEffect(() => {
     // Read career and majors from URL params (from career-finder)
-    const careerParam = searchParams.get('career');
-    const majorsParam = searchParams.get('majors');
+    const careerParam = searchParams?.get('career');
+    const majorsParam = searchParams?.get('majors');
     
     if (careerParam) {
       setCareer(careerParam);

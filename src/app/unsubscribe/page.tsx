@@ -6,8 +6,8 @@ import { Suspense } from 'react';
 
 function UnsubscribeContent() {
   const searchParams = useSearchParams();
-  const success = searchParams.get('success');
-  const error = searchParams.get('error');
+  const success = searchParams?.get('success');
+  const error = searchParams?.get('error');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center px-4">
