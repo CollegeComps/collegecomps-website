@@ -39,6 +39,17 @@ interface Message {
   author_email: string;
 }
 
+// Helper functions for safe formatting
+const formatStatus = (status: string | undefined): string => {
+  if (!status) return 'Unknown';
+  return status.replace(/_/g, ' ');
+};
+
+const formatCategory = (category: string | undefined): string => {
+  if (!category) return 'Uncategorized';
+  return category.replace(/_/g, ' ');
+};
+
 export default function TicketDetailPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -135,16 +146,6 @@ export default function TicketDetailPage() {
       default:
         return null;
     }
-  };
-
-  const formatStatus = (status: string | undefined) => {
-    if (!status) return 'Unknown';
-    return status.replace(/_/g, ' ');
-  };
-
-  const formatCategory = (category: string | undefined) => {
-    if (!category) return 'General';
-    return category.replace(/_/g, ' ');
   };
 
   if (loading) {
