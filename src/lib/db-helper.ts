@@ -54,6 +54,8 @@ export function getUsersDb(): TursoAdapter | Database.Database | null {
   if (usersDb === undefined) {
     // Check environment
     console.log('getUsersDb() environment check:', {
+      TURSO_DEV_DATABASE_URL: process.env.TURSO_DEV_DATABASE_URL ? 'SET' : 'NOT SET',
+      TURSO_DEV_AUTH_TOKEN: process.env.TURSO_DEV_AUTH_TOKEN ? 'SET' : 'NOT SET',
       USERS_DB_URL: process.env.USERS_DB_URL ? 'SET' : 'NOT SET',
       USERS_DB_TOKEN: process.env.USERS_DB_TOKEN ? 'SET' : 'NOT SET',
       NODE_ENV: process.env.NODE_ENV,
@@ -61,8 +63,24 @@ export function getUsersDb(): TursoAdapter | Database.Database | null {
       isBuildTime: isBuildTime(),
     });
 
+    // Development: Use dev Turso database if configured
+    if (process.env.NODE_ENV === 'development' && 
+        process.env.TURSO_DEV_DATABASE_URL && 
+        process.env.TURSO_DEV_DATABASE_URL.startsWith('libsql://')) {
+      console.log('Initializing Turso DEV client for users data...');
+      try {
+        usersDb = new TursoAdapter(
+          process.env.TURSO_DEV_DATABASE_URL,
+          process.env.TURSO_DEV_AUTH_TOKEN || ''
+        );
+        console.log('✅ Turso DEV users client initialized successfully');
+      } catch (error) {
+        console.error('❌ Failed to initialize Turso DEV users client:', error);
+        usersDb = null;
+      }
+    }
     // Production: Use Turso if URL is provided
-    if (process.env.USERS_DB_URL && process.env.USERS_DB_URL.startsWith('libsql://')) {
+    else if (process.env.USERS_DB_URL && process.env.USERS_DB_URL.startsWith('libsql://')) {
       console.log('Initializing Turso client for users data...');
       try {
         usersDb = new TursoAdapter(
@@ -104,6 +122,8 @@ export function getCollegeDb(): Database.Database | TursoAdapter | null {
   if (collegeDb === undefined) {
     // Check environment
     console.log('getCollegeDb() environment check:', {
+      TURSO_DEV_DATABASE_URL: process.env.TURSO_DEV_DATABASE_URL ? 'SET' : 'NOT SET',
+      TURSO_DEV_AUTH_TOKEN: process.env.TURSO_DEV_AUTH_TOKEN ? 'SET' : 'NOT SET',
       TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL ? 'SET' : 'NOT SET',
       TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN ? 'SET' : 'NOT SET',
       NODE_ENV: process.env.NODE_ENV,
@@ -111,8 +131,24 @@ export function getCollegeDb(): Database.Database | TursoAdapter | null {
       isBuildTime: isBuildTime(),
     });
 
+    // Development: Use dev Turso database if configured
+    if (process.env.NODE_ENV === 'development' && 
+        process.env.TURSO_DEV_DATABASE_URL && 
+        process.env.TURSO_DEV_DATABASE_URL.startsWith('libsql://')) {
+      console.log('Initializing Turso DEV client for college data...');
+      try {
+        collegeDb = new TursoAdapter(
+          process.env.TURSO_DEV_DATABASE_URL,
+          process.env.TURSO_DEV_AUTH_TOKEN || ''
+        );
+        console.log('✅ Turso DEV client initialized successfully');
+      } catch (error) {
+        console.error('❌ Failed to initialize Turso DEV client:', error);
+        collegeDb = null;
+      }
+    }
     // Production: Use Turso if URL is provided
-    if (process.env.TURSO_DATABASE_URL && process.env.TURSO_DATABASE_URL.startsWith('libsql://')) {
+    else if (process.env.TURSO_DATABASE_URL && process.env.TURSO_DATABASE_URL.startsWith('libsql://')) {
       console.log('Initializing Turso client for college data...');
       try {
         collegeDb = new TursoAdapter(
