@@ -15,7 +15,7 @@ export default function OnboardingCheck({ children }: { children: React.ReactNod
       if (status === 'authenticated' && session?.user?.id) {
         // Skip check for certain pages
         const skipPaths = ['/onboarding', '/auth/signin', '/auth/signup', '/api'];
-        if (skipPaths.some(path => pathname.startsWith(path))) {
+        if (pathname && skipPaths.some(path => pathname.startsWith(path))) {
           setChecked(true);
           return;
         }
