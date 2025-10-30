@@ -338,7 +338,8 @@ export default function CollegesPage() {
           {/* Advanced Filters */}
           {showFilters && (
             <div className="border-t pt-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 items-start">
+              {/* Grid layout: 1 col on mobile, 2 on sm, 3 on lg, auto-fit on xl to prevent overlapping */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-start">
                 <div>
                   <label className="block text-sm font-bold text-gray-900 mb-1">
                     State
@@ -408,7 +409,7 @@ export default function CollegesPage() {
                   </div>
                 </div>
 
-                <div className="xl:order-last">
+                <div>
                   <label className="block text-sm font-bold text-gray-900 mb-1">
                     Major Category
                   </label>
@@ -429,7 +430,8 @@ export default function CollegesPage() {
                   </select>
                 </div>
                 
-                <div className="self-start">
+                {/* Type filter with proper spacing - takes full height of row */}
+                <div className="min-h-full">
                   <label className="block text-sm font-bold text-gray-900 mb-2">
                     Type (Select Multiple)
                   </label>
