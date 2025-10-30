@@ -7,7 +7,7 @@ import Link from 'next/link';
 function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const token = searchParams.get('token');
+  const token = searchParams?.get('token');
   
   const [status, setStatus] = useState<'verifying' | 'success' | 'error' | 'already-verified'>('verifying');
   const [message, setMessage] = useState('');

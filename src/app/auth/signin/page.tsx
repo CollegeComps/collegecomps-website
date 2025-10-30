@@ -16,7 +16,7 @@ interface AvailableProviders {
 export default function SignInPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const callbackUrl = searchParams?.get('callbackUrl') || '/';
   const { data: session, status } = useSession();
   
   const [email, setEmail] = useState('');
@@ -40,7 +40,7 @@ export default function SignInPage() {
 
   useEffect(() => {
     // Check for error parameter in URL (from NextAuth redirect)
-    const errorParam = searchParams.get('error');
+    const errorParam = searchParams?.get('error');
     if (errorParam === 'CredentialsSignin') {
       setError('Invalid email or password');
     } else if (errorParam) {
