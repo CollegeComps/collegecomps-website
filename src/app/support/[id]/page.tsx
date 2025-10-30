@@ -39,6 +39,17 @@ interface Message {
   author_email: string;
 }
 
+// Helper functions for safe formatting
+const formatStatus = (status: string | undefined): string => {
+  if (!status) return 'Unknown';
+  return status.replace(/_/g, ' ');
+};
+
+const formatCategory = (category: string | undefined): string => {
+  if (!category) return 'Uncategorized';
+  return category.replace(/_/g, ' ');
+};
+
 export default function TicketDetailPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -193,10 +204,10 @@ export default function TicketDetailPage() {
             </div>
             <div className="flex flex-wrap gap-2">
               <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getPriorityColor(ticket.priority)}`}>
-                {ticket.priority} priority
+                {ticket.priority || 'normal'} priority
               </span>
               <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getStatusColor(ticket.status)}`}>
-                {ticket.status.replace('_', ' ')}
+                {formatStatus(ticket.status)}
               </span>
             </div>
           </div>
@@ -205,7 +216,7 @@ export default function TicketDetailPage() {
           <div className="border-t pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <p className="text-sm text-gray-600">Category</p>
-              <p className="font-medium text-gray-900 capitalize">{ticket.category.replace('_', ' ')}</p>
+              <p className="font-medium text-gray-900 capitalize">{formatCategory(ticket.category)}</p>
             </div>
             <div>
               <p className="text-sm text-gray-600">Created</p>
