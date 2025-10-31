@@ -241,28 +241,28 @@ export default function OnboardingPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div className={`flex items-center ${step >= 1 ? 'text-blue-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-300'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-orange-500 text-white' : 'bg-gray-300'}`}>
                 {step > 1 ? <CheckCircleIcon className="h-6 w-6" /> : '1'}
               </div>
               <span className="ml-2 font-medium hidden sm:inline">Major</span>
             </div>
-            <div className={`flex-1 h-1 mx-2 ${step >= 2 ? 'bg-blue-600' : 'bg-gray-300'}`} />
+            <div className={`flex-1 h-1 mx-2 ${step >= 2 ? 'bg-orange-500' : 'bg-gray-300'}`} />
             <div className={`flex items-center ${step >= 2 ? 'text-blue-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-300'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-orange-500 text-white' : 'bg-gray-300'}`}>
                 {step > 2 ? <CheckCircleIcon className="h-6 w-6" /> : '2'}
               </div>
               <span className="ml-2 font-medium hidden sm:inline">Schools</span>
             </div>
-            <div className={`flex-1 h-1 mx-2 ${step >= 3 ? 'bg-blue-600' : 'bg-gray-300'}`} />
+            <div className={`flex-1 h-1 mx-2 ${step >= 3 ? 'bg-orange-500' : 'bg-gray-300'}`} />
             <div className={`flex items-center ${step >= 3 ? 'text-blue-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-blue-600 text-white' : 'bg-gray-300'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-orange-500 text-white' : 'bg-gray-300'}`}>
                 {step > 3 ? <CheckCircleIcon className="h-6 w-6" /> : '3'}
               </div>
               <span className="ml-2 font-medium hidden sm:inline">Timeline</span>
             </div>
-            <div className={`flex-1 h-1 mx-2 ${step >= 4 ? 'bg-blue-600' : 'bg-gray-300'}`} />
+            <div className={`flex-1 h-1 mx-2 ${step >= 4 ? 'bg-orange-500' : 'bg-gray-300'}`} />
             <div className={`flex items-center ${step >= 4 ? 'text-blue-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 4 ? 'bg-blue-600 text-white' : 'bg-gray-300'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 4 ? 'bg-orange-500 text-white' : 'bg-gray-300'}`}>
                 {step > 4 ? <CheckCircleIcon className="h-6 w-6" /> : '4'}
               </div>
               <span className="ml-2 font-medium hidden sm:inline">Profile</span>
@@ -621,7 +621,7 @@ export default function OnboardingPage() {
                 disabled={!canProceed()}
                 className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-colors ${
                   canProceed()
-                    ? 'bg-blue-600 text-white hover:bg-blue-700'
+                    ? 'bg-orange-500 text-white hover:bg-blue-700'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
