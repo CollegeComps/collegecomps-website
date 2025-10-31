@@ -36,7 +36,7 @@ const features = [
     description: 'Calculate the return on investment for different college programs and make informed decisions about your education.',
     icon: CalculatorIcon,
     href: '/roi-calculator',
-    color: 'bg-blue-500',
+    color: 'bg-orange-500',
     stats: 'Real financial data',
     tier: 'free'
   },
@@ -45,7 +45,7 @@ const features = [
     description: 'Browse and compare thousands of institutions with detailed information about costs, outcomes, and programs.',
     icon: BuildingOffice2Icon,
     href: '/colleges',
-    color: 'bg-green-500',
+    color: 'bg-orange-600',
     stats: 'Comprehensive database',
     tier: 'free'
   },
@@ -54,7 +54,7 @@ const features = [
     description: 'Side-by-side comparison of colleges with costs, programs, and outcomes to make the best choice.',
     icon: ChartBarIcon,
     href: '/compare',
-    color: 'bg-purple-500',
+    color: 'bg-orange-500',
     stats: 'Smart comparisons',
     tier: 'free'
   },
@@ -128,16 +128,16 @@ export default function Home() {
       <WebApplicationSchema />
       
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      <div className="bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
           <div className="text-center">
-            <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-4xl sm:text-6xl font-extrabold text-white mb-6">
               Make Smarter{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600">
                 Education Decisions
               </span>
             </h1>
-            <p className="text-xl sm:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl sm:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed font-medium">
               Comprehensive college data analysis platform with ROI calculators, program comparisons, 
               and career outcome insights to help you choose the right educational path.
             </p>
@@ -148,8 +148,8 @@ export default function Home() {
                 <div className="flex space-x-8">
                   {[1, 2, 3].map((i) => (
                     <div key={i} className="text-center">
-                      <div className="h-8 w-16 bg-gray-200 rounded animate-pulse mb-2"></div>
-                      <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
+                      <div className="h-8 w-16 bg-gray-800 rounded animate-pulse mb-2"></div>
+                      <div className="h-4 w-20 bg-gray-800 rounded animate-pulse"></div>
                     </div>
                   ))}
                 </div>
@@ -157,16 +157,16 @@ export default function Home() {
                 stats && (
                   <>
                     <div className="text-center">
-                      <div className="text-3xl font-bold text-blue-600">{stats.totalInstitutions.toLocaleString()}</div>
-                      <div className="text-sm text-gray-600">Institutions</div>
+                      <div className="text-3xl font-extrabold text-orange-500">{stats.totalInstitutions.toLocaleString()}</div>
+                      <div className="text-sm text-gray-400 font-semibold">Institutions</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-3xl font-bold text-indigo-600">{stats.totalPrograms.toLocaleString()}</div>
-                      <div className="text-sm text-gray-600">Programs</div>
+                      <div className="text-3xl font-extrabold text-orange-500">{stats.totalPrograms.toLocaleString()}</div>
+                      <div className="text-sm text-gray-400 font-semibold">Programs</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-3xl font-bold text-purple-600">{stats.statesCovered} States</div>
-                      <div className="text-sm text-gray-600">Coverage</div>
+                      <div className="text-3xl font-extrabold text-orange-500">{stats.statesCovered} States</div>
+                      <div className="text-sm text-gray-400 font-semibold">Coverage</div>
                     </div>
                   </>
                 )
@@ -176,7 +176,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/roi-calculator"
-                className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors shadow-lg inline-flex items-center justify-center"
+                className="bg-gradient-to-r from-orange-600 to-orange-500 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-lg shadow-orange-500/20 inline-flex items-center justify-center"
               >
                 Start Calculating ROI
                 <ArrowRightIcon className="ml-2 w-5 h-5" />
@@ -194,80 +194,80 @@ export default function Home() {
       </div>
 
       {/* Example ROI Calculation Section */}
-      <div className="py-20 bg-gradient-to-br from-blue-600 to-indigo-700">
+      <div className="py-20 bg-gradient-to-br from-gray-900 to-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
               See the Real ROI Impact
             </h2>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto font-medium">
               Here's an actual example calculation showing how education investment pays off
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-5xl mx-auto">
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl p-8 max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8">
               {/* Example Scenario */}
               <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-                  <span className="bg-blue-100 text-blue-600 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">1</span>
+                <h3 className="text-xl font-bold text-white mb-4 flex items-center">
+                  <span className="bg-orange-500/20 text-orange-500 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm font-bold">1</span>
                   Example Scenario
                 </h3>
                 <div className="space-y-3 text-sm">
-                  <div className="flex justify-between py-2 border-b border-gray-100">
-                    <span className="text-gray-600">Institution:</span>
-                    <span className="font-semibold text-gray-900">University of California, Berkeley</span>
+                  <div className="flex justify-between py-2 border-b border-gray-800">
+                    <span className="text-gray-400 font-medium">Institution:</span>
+                    <span className="font-semibold text-white">University of California, Berkeley</span>
                   </div>
-                  <div className="flex justify-between py-2 border-b border-gray-100">
-                    <span className="text-gray-600">Program:</span>
-                    <span className="font-semibold text-gray-900">Computer Science (B.S.)</span>
+                  <div className="flex justify-between py-2 border-b border-gray-800">
+                    <span className="text-gray-400 font-medium">Program:</span>
+                    <span className="font-semibold text-white">Computer Science (B.S.)</span>
                   </div>
-                  <div className="flex justify-between py-2 border-b border-gray-100">
-                    <span className="text-gray-600">Total Cost (4 years):</span>
-                    <span className="font-semibold text-gray-900">$140,000</span>
+                  <div className="flex justify-between py-2 border-b border-gray-800">
+                    <span className="text-gray-400 font-medium">Total Cost (4 years):</span>
+                    <span className="font-semibold text-white">$140,000</span>
                   </div>
-                  <div className="flex justify-between py-2 border-b border-gray-100">
-                    <span className="text-gray-600">Starting Salary:</span>
-                    <span className="font-semibold text-gray-900">$105,000/year</span>
+                  <div className="flex justify-between py-2 border-b border-gray-800">
+                    <span className="text-gray-400 font-medium">Starting Salary:</span>
+                    <span className="font-semibold text-white">$105,000/year</span>
                   </div>
-                  <div className="flex justify-between py-2 border-b border-gray-100">
-                    <span className="text-gray-600">Baseline (No Degree):</span>
-                    <span className="font-semibold text-gray-900">$35,000/year</span>
+                  <div className="flex justify-between py-2 border-b border-gray-800">
+                    <span className="text-gray-400 font-medium">Baseline (No Degree):</span>
+                    <span className="font-semibold text-white">$35,000/year</span>
                   </div>
                 </div>
               </div>
 
               {/* Results */}
               <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-                  <span className="bg-green-100 text-green-600 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">2</span>
+                <h3 className="text-xl font-bold text-white mb-4 flex items-center">
+                  <span className="bg-green-500/20 text-green-400 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm font-bold">2</span>
                   ROI Results
                 </h3>
                 <div className="space-y-4">
-                  <div className="bg-green-50 rounded-lg p-4">
-                    <div className="text-sm text-green-700 mb-1">Net ROI (30 years)</div>
-                    <div className="text-3xl font-bold text-green-600">+$1,960,000</div>
+                  <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+                    <div className="text-sm text-green-400 mb-1 font-semibold">Net ROI (30 years)</div>
+                    <div className="text-3xl font-extrabold text-green-400">+$1,960,000</div>
                   </div>
-                  <div className="bg-blue-50 rounded-lg p-4">
-                    <div className="text-sm text-blue-700 mb-1">ROI Percentage</div>
-                    <div className="text-3xl font-bold text-blue-600">1,400%</div>
+                  <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-4">
+                    <div className="text-sm text-orange-400 mb-1 font-semibold">ROI Percentage</div>
+                    <div className="text-3xl font-extrabold text-orange-500">1,400%</div>
                   </div>
-                  <div className="bg-purple-50 rounded-lg p-4">
-                    <div className="text-sm text-purple-700 mb-1">Payback Period</div>
-                    <div className="text-3xl font-bold text-purple-600">2.0 years</div>
+                  <div className="bg-orange-600/10 border border-orange-600/20 rounded-lg p-4">
+                    <div className="text-sm text-orange-500 mb-1 font-semibold">Payback Period</div>
+                    <div className="text-3xl font-extrabold text-orange-500">2.0 years</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-gray-200">
-              <p className="text-center text-gray-600 mb-4">
+            <div className="mt-8 pt-6 border-t border-gray-800">
+              <p className="text-center text-gray-300 mb-4 font-medium">
                 This is just one example. Calculate your own ROI with your specific circumstances.
               </p>
               <div className="text-center">
                 <Link
                   href="/roi-calculator"
-                  className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold rounded-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-lg shadow-orange-500/20"
                 >
                   Calculate Your ROI
                   <ArrowRightIcon className="ml-2 w-4 h-4" />
@@ -279,13 +279,13 @@ export default function Home() {
       </div>
 
       {/* Testimonials Section */}
-      <div className="py-20 bg-gray-50">
+      <div className="py-20 bg-black border-t border-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
               What Our Users Say
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-gray-300 font-medium">
               Join thousands of students making smarter education decisions
             </p>
           </div>
@@ -295,13 +295,13 @@ export default function Home() {
       </div>
 
       {/* Features Section */}
-      <div className="py-20 bg-white">
+      <div className="py-20 bg-black border-t border-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
               Everything You Need to Make Informed Decisions
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto font-medium">
               Our comprehensive platform provides all the tools and data you need to evaluate 
               college programs and make the best investment in your future.
             </p>
@@ -314,14 +314,14 @@ export default function Home() {
               <Link
                 key={index}
                 href={feature.href}
-                className="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                className="group bg-gray-900 rounded-xl shadow-lg border border-gray-800 p-6 hover:shadow-xl hover:shadow-orange-500/10 hover:border-orange-500/50 transition-all duration-300 hover:-translate-y-1"
               >
                 <div className="flex items-start mb-4">
                   <div className={`w-12 h-12 ${feature.color} rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
                     <IconComponent className="w-6 h-6 text-white" />
                   </div>
                   <div className="ml-3">
-                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                    <h3 className="text-lg font-bold text-white group-hover:text-orange-500 transition-colors">
                       {feature.title}
                     </h3>
                     {feature.tier === 'premium' && (
@@ -331,10 +331,10 @@ export default function Home() {
                     )}
                   </div>
                 </div>
-                <p className="text-gray-600 leading-relaxed text-sm">
+                <p className="text-gray-400 leading-relaxed text-sm font-medium">
                   {feature.description}
                 </p>
-                <div className="mt-4 flex items-center text-blue-600 font-medium group-hover:text-blue-700 text-sm">
+                <div className="mt-4 flex items-center text-orange-500 font-bold group-hover:text-orange-400 text-sm">
                   {feature.tier === 'premium' ? 'Upgrade to access' : 'Learn more'}
                   <ArrowRightIcon className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -346,13 +346,13 @@ export default function Home() {
       </div>
 
       {/* Highlights Section */}
-      <div className="py-20 bg-gray-50">
+      <div className="py-20 bg-black border-t border-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
               Powered by Real Data
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-gray-300 font-medium">
               Our platform uses comprehensive, up-to-date information from official sources
             </p>
           </div>
