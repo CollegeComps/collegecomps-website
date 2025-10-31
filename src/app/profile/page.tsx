@@ -199,7 +199,7 @@ export default function ProfilePage() {
   const isPremium = session.user.subscriptionTier === 'premium';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -212,8 +212,8 @@ export default function ProfilePage() {
           <div
             className={`mb-6 p-4 rounded-lg ${
               message.type === 'success'
-                ? 'bg-green-50 border border-green-200 text-green-800'
-                : 'bg-red-50 border border-red-200 text-red-800'
+                ? 'bg-green-900/20 border border-green-500 text-green-400'
+                : 'bg-red-900/20 border border-red-500 text-red-400'
             }`}
           >
             {message.text}
@@ -328,7 +328,7 @@ export default function ProfilePage() {
                           {preferences.target_schools.map((school: string, idx: number) => (
                             <span 
                               key={idx}
-                              className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full"
+                              className="px-3 py-1 bg-orange-500/20 border border-orange-500 text-orange-400 text-xs font-medium rounded-full"
                             >
                               {school}
                             </span>

@@ -159,9 +159,9 @@ export default function SubscriptionPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-500 mx-auto mb-4"></div>
           <p className="text-gray-300">Loading subscription details...</p>
         </div>
       </div>
@@ -169,7 +169,7 @@ export default function SubscriptionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4">
+    <div className="min-h-screen bg-black py-8 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -244,7 +244,7 @@ export default function SubscriptionPage() {
               {!isPremium && (
                 <button
                   onClick={handleUpgrade}
-                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold py-4 rounded-lg hover:shadow-lg transition-all transform hover:-translate-y-1"
+                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-4 rounded-lg hover:shadow-lg transition-all transform hover:-translate-y-1"
                 >
                   Upgrade to Premium - $6.99/month
                 </button>
@@ -259,7 +259,7 @@ export default function SubscriptionPage() {
                 <div className="space-y-3">
                   {freeFeatures.map((feature, idx) => (
                     <div key={idx} className="flex items-start gap-3">
-                      <CheckCircleIcon className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                      <CheckCircleIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                       <div className="flex-1">
                         <p className="font-medium text-white font-bold">{feature.name}</p>
                         <p className="text-sm text-gray-300">{feature.description}</p>
@@ -369,7 +369,7 @@ export default function SubscriptionPage() {
               <div className="space-y-3">
                 <Link
                   href="/pricing"
-                  className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+                  className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors"
                 >
                   <ArrowPathIcon className="w-5 h-5 text-orange-500" />
                   <div>
@@ -386,7 +386,7 @@ export default function SubscriptionPage() {
                   <>
                     <button
                       onClick={handleManageSubscription}
-                      className="w-full flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-left"
+                      className="w-full flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors text-left"
                     >
                       <CreditCardIcon className="w-5 h-5 text-orange-500" />
                       <div>
@@ -397,7 +397,7 @@ export default function SubscriptionPage() {
 
                     <Link
                       href="/alerts"
-                      className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors"
                     >
                       <BellAlertIcon className="w-5 h-5 text-orange-500" />
                       <div>
@@ -411,14 +411,14 @@ export default function SubscriptionPage() {
             </div>
 
             {/* Support */}
-            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl shadow-md p-6 text-white">
+            <div className="bg-gradient-to-br from-orange-600 to-orange-700 rounded-xl shadow-md p-6 text-white">
               <h3 className="text-xl font-bold mb-2">Need Help?</h3>
-              <p className="text-blue-100 mb-4 text-sm">
+              <p className="text-orange-100 mb-4 text-sm">
                 Our support team is here to help with any questions about your subscription.
               </p>
               <a
                 href="mailto:support@collegeroi.com"
-                className="inline-block bg-orange-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-orange-500/10 transition-colors"
+                className="inline-block bg-white text-orange-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 Contact Support
               </a>
