@@ -236,7 +236,7 @@ export default function LoanCalculatorPage() {
                   {/* Amortization Schedule Button */}
                   <button
                     onClick={() => setShowSchedule(!showSchedule)}
-                    className="w-full mt-6 px-4 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors shadow-lg"
+                    className="w-full mt-6 px-4 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors shadow-[0_0_12px_rgba(249,115,22,0.08)]"
                   >
                     {showSchedule ? 'Hide' : 'View'} Payment Schedule
                   </button>

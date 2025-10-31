@@ -113,7 +113,7 @@ export default function EditPreferencesPage() {
           </p>
         </div>
 
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 space-y-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 space-y-6">
           <div>
             <label className="block text-sm font-semibold text-white font-bold mb-2">
               Degree Level

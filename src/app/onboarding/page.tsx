@@ -271,7 +271,7 @@ export default function OnboardingPage() {
         </div>
 
         {/* Main Card */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl p-10">
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.15)] p-10">
           {/* Step 1: Intended Major */}
           {step === 1 && (
             <div className="space-y-6">

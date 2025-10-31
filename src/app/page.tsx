@@ -205,7 +205,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl p-8 max-w-5xl mx-auto">
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.15)] p-8 max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8">
               {/* Example Scenario */}
               <div>
@@ -445,7 +445,7 @@ export default function Home() {
             </div>
 
             {/* Premium Plan */}
-            <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl shadow-2xl border-2 border-orange-500 p-8 relative hover:shadow-orange-500/20 hover:shadow-xl transition-all flex flex-col">
+            <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.15)] border-2 border-orange-500 p-8 relative hover:shadow-orange-500/20 hover:shadow-xl transition-all flex flex-col">
               <div className="absolute top-0 right-0 bg-gradient-to-r from-orange-600 to-orange-500 text-white px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm font-bold shadow-lg">
                 POPULAR
               </div>

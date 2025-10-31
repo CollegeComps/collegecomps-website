@@ -320,9 +320,9 @@ export default function AdminAnalyticsPage() {
 
         {/* Upgrade CTA for Free Users */}
         {data.subscriptionTier === 'free' && (
-          <div className="mt-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg shadow-lg p-8 text-white">
+          <div className="mt-8 bg-gradient-to-r from-orange-600 to-orange-700 rounded-lg shadow-[0_0_20px_rgba(249,115,22,0.2)] p-8 text-white">
             <h3 className="text-2xl font-bold mb-2">Unlock More Insights</h3>
-            <p className="mb-4 text-blue-100">
+            <p className="mb-4 text-orange-100">
               Upgrade to Premium for unlimited comparisons, advanced analytics, and personalized recommendations.
             </p>
             <Link

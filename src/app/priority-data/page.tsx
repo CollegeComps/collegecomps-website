@@ -200,7 +200,7 @@ export default function PriorityDataPage() {
         </div>
 
         {/* Category Filter */}
-        <div className="mb-6 bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-4">
+        <div className="mb-6 bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-4">
           <div className="flex gap-3 flex-wrap">
             <button
               onClick={() => setSelectedCategory('all')}
@@ -262,7 +262,7 @@ export default function PriorityDataPage() {
             const daysUntilPublic = getDaysUntilPublic(release.publicReleaseDate);
             
             return (
-              <div key={release.id} className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+              <div key={release.id} className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] hover:shadow-[0_0_20px_rgba(249,115,22,0.15)] hover:border-orange-500/50 hover:scale-[1.02] p-6 transition-all duration-300">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-3">
@@ -320,7 +320,7 @@ export default function PriorityDataPage() {
         </div>
 
         {filteredReleases.length === 0 && (
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-12 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-12 text-center">
             <BoltIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-400 text-lg">No data releases in this category</p>
           </div>

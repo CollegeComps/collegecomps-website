@@ -143,10 +143,10 @@ export default function ComparisonManagerPage() {
 
   if (!isPremium) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4">
+      <div className="min-h-screen bg-black py-8 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full mb-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.15)] p-8 text-center">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-600 to-orange-700 rounded-full mb-6">
               <LockClosedIcon className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-4xl font-bold text-white font-bold mb-4">
@@ -178,7 +178,7 @@ export default function ComparisonManagerPage() {
             </div>
             <Link
               href="/pricing"
-              className="inline-block bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-lg transition-all transform hover:-translate-y-1"
+              className="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-4 rounded-lg text-lg shadow-[0_4px_15px_rgba(249,115,22,0.3)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.4)] transition-all active:scale-95"
             >
               Upgrade to Premium
             </Link>
@@ -213,7 +213,7 @@ export default function ComparisonManagerPage() {
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8 mb-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 mb-6">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
               <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -243,7 +243,7 @@ export default function ComparisonManagerPage() {
         <div className="grid md:grid-cols-4 gap-6">
           {/* Folders Sidebar */}
           <div className="md:col-span-1">
-            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-bold text-white font-bold">Folders</h2>
                 <button
@@ -290,7 +290,7 @@ export default function ComparisonManagerPage() {
           {/* Comparisons List */}
           <div className="md:col-span-3">
             {filteredComparisons.length === 0 ? (
-              <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-14 text-center">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-14 text-center">
                 <FolderOpenIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                 <p className="text-gray-400 text-lg">No comparisons found</p>
                 <Link
@@ -305,7 +305,7 @@ export default function ComparisonManagerPage() {
                 {filteredComparisons.map((comp) => (
                   <div
                     key={comp.id}
-                    className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8 hover:shadow-lg transition-shadow"
+                    className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] hover:shadow-[0_0_25px_rgba(249,115,22,0.2)] hover:border-orange-500/50 hover:scale-[1.02] p-8 transition-all duration-300 cursor-pointer"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
