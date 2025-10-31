@@ -4,8 +4,14 @@ import { useState, useRef, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import AuthModal from './AuthModal';
+import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 
-export default function UserMenu() {
+interface UserMenuProps {
+  isInSidebar?: boolean;
+  isExpanded?: boolean;
+}
+
+export default function UserMenu({ isInSidebar = false, isExpanded = false }: UserMenuProps) {
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -87,8 +93,64 @@ export default function UserMenu() {
     );
   }
 
-  const isPremium = session.user.subscriptionTier === 'premium';
+  const isPremium = session?.user?.subscriptionTier === 'premium';
 
+  // Sidebar version - simple logout button
+  if (isInSidebar && session?.user) {
+    return (
+      <div className="p-3">
+        <button
+          onClick={handleSignOut}
+          className={`
+            group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 w-full
+            text-gray-300 hover:bg-gray-800 hover:text-white
+            ${!isExpanded ? 'justify-center' : ''}
+          `}
+          title={!isExpanded ? 'Sign Out' : ''}
+        >
+          <ArrowRightOnRectangleIcon
+            className={`
+              h-5 w-5 flex-shrink-0 transition-colors duration-150
+              text-gray-400 group-hover:text-orange-500
+              ${isExpanded ? 'mr-3' : ''}
+            `}
+          />
+          {isExpanded && (
+            <span className="font-medium text-sm whitespace-nowrap">Sign Out</span>
+          )}
+        </button>
+      </div>
+    );
+  }
+
+  // Sidebar version - auth buttons for non-logged in users
+  if (isInSidebar && !session?.user) {
+    return (
+      <div className="p-3">
+        <button
+          onClick={() => openAuthModal('signin')}
+          className={`
+            group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 w-full mb-2
+            text-gray-300 hover:bg-gray-800 hover:text-white
+            ${!isExpanded ? 'justify-center' : ''}
+          `}
+        >
+          {isExpanded ? (
+            <span className="font-medium text-sm whitespace-nowrap">Sign In</span>
+          ) : (
+            <span className="font-medium text-xs">In</span>
+          )}
+        </button>
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          defaultTab={authTab}
+        />
+      </div>
+    );
+  }
+
+  // Top bar version continues below
   return (
     <div className="relative" ref={menuRef}>
       <button
