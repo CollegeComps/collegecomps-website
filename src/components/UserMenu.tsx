@@ -66,33 +66,6 @@ export default function UserMenu({ isInSidebar = false, isExpanded = false }: Us
     );
   }
 
-  if (!session?.user) {
-    return (
-      <>
-        {/* Hide auth buttons on mobile to avoid clutter - only show on md and up */}
-        <div className="hidden md:flex items-center gap-3">
-          <button
-            onClick={() => openAuthModal('signin')}
-            className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors cursor-pointer"
-          >
-            Sign In
-          </button>
-          <button
-            onClick={() => openAuthModal('signup')}
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors cursor-pointer"
-          >
-            Get Started
-          </button>
-        </div>
-        <AuthModal
-          isOpen={showAuthModal}
-          onClose={() => setShowAuthModal(false)}
-          defaultTab={authTab}
-        />
-      </>
-    );
-  }
-
   const isPremium = session?.user?.subscriptionTier === 'premium';
 
   // Sidebar version - simple logout button (only show if logged in)
