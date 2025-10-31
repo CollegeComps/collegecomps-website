@@ -81,8 +81,8 @@ export default function InstitutionSelector({ selectedInstitution, onSelect }: I
   };
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border border-gray-200 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
+    <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
+      <h3 className="text-lg font-semibold text-white mb-4">
         Step 1: Select Institution
       </h3>
       

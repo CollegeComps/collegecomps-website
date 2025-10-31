@@ -10,6 +10,11 @@ import {
   LockClosedIcon,
   CheckCircleIcon,
   XCircleIcon,
+  CurrencyDollarIcon,
+  ChartBarIcon,
+  CalendarIcon,
+  BriefcaseIcon,
+  BuildingOffice2Icon,
 } from '@heroicons/react/24/outline';
 
 interface AlertPreference {
@@ -128,10 +133,10 @@ export default function AlertsPage() {
 
   if (!isPremium) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4">
+      <div className="min-h-screen bg-black py-8 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full mb-6">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-600 to-orange-700 rounded-full mb-6">
               <LockClosedIcon className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-4xl font-bold text-white font-bold mb-4">
@@ -163,7 +168,7 @@ export default function AlertsPage() {
             </div>
             <Link
               href="/pricing"
-              className="inline-block bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-lg transition-all transform hover:-translate-y-1"
+              className="inline-block bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-lg transition-all transform hover:-translate-y-1"
             >
               Upgrade to Premium
             </Link>
@@ -175,9 +180,9 @@ export default function AlertsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-500 mx-auto mb-4"></div>
           <p className="text-gray-300">Loading preferences...</p>
         </div>
       </div>
@@ -185,7 +190,7 @@ export default function AlertsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4">
+    <div className="min-h-screen bg-black py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -200,8 +205,8 @@ export default function AlertsPage() {
         {message && (
           <div className={`mb-6 p-4 rounded-lg ${
             message.type === 'success' 
-              ? 'bg-green-50 text-green-800 border border-green-200' 
-              : 'bg-red-50 text-red-800 border border-red-200'
+              ? 'bg-green-900/20 text-green-400 border border-green-500' 
+              : 'bg-red-900/20 text-red-400 border border-red-500'
           }`}>
             <div className="flex items-center gap-2">
               {message.type === 'success' ? (
@@ -230,7 +235,7 @@ export default function AlertsPage() {
               return (
               <div
                 key={alert.id}
-                className="flex items-start justify-between p-4 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+                className="flex items-start justify-between p-4 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors"
               >
                 <div className="flex items-start gap-3 flex-1">
                   <div className="mt-1">
@@ -244,7 +249,7 @@ export default function AlertsPage() {
                 <button
                   onClick={() => toggleAlert(alert.id)}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    alert.enabled ? 'bg-blue-600' : 'bg-gray-300'
+                    alert.enabled ? 'bg-orange-500' : 'bg-gray-600'
                   }`}
                 >
                   <span
@@ -263,21 +268,21 @@ export default function AlertsPage() {
         <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 mb-6">
           <h2 className="text-2xl font-bold text-white font-bold mb-4">Notification Frequency</h2>
           <div className="space-y-3">
-            <label className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-100">
+            <label className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-700">
               <input type="radio" name="frequency" value="instant" defaultChecked className="w-4 h-4 text-orange-500" />
               <div>
                 <p className="font-semibold text-white font-bold">Instant</p>
                 <p className="text-sm text-gray-300">Receive alerts as they happen</p>
               </div>
             </label>
-            <label className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-100">
+            <label className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-700">
               <input type="radio" name="frequency" value="daily" className="w-4 h-4 text-orange-500" />
               <div>
                 <p className="font-semibold text-white font-bold">Daily Digest</p>
                 <p className="text-sm text-gray-300">One email per day with all updates</p>
               </div>
             </label>
-            <label className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-100">
+            <label className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-700">
               <input type="radio" name="frequency" value="weekly" className="w-4 h-4 text-orange-500" />
               <div>
                 <p className="font-semibold text-white font-bold">Weekly Summary</p>
@@ -291,7 +296,7 @@ export default function AlertsPage() {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold py-4 rounded-lg hover:shadow-lg transition-all transform hover:-translate-y-1 disabled:opacity-50 disabled:transform-none"
+          className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-4 rounded-lg hover:shadow-lg transition-all transform hover:-translate-y-1 disabled:opacity-50 disabled:transform-none"
         >
           {saving ? 'Saving...' : 'Save Preferences'}
         </button>
@@ -299,12 +304,3 @@ export default function AlertsPage() {
     </div>
   );
 }
-
-// Import additional icons used in alert preferences
-import { 
-  CurrencyDollarIcon,
-  ChartBarIcon,
-  CalendarIcon,
-  BriefcaseIcon,
-  BuildingOffice2Icon
-} from '@heroicons/react/24/outline';
