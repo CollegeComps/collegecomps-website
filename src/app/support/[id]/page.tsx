@@ -127,8 +127,8 @@ export default function TicketDetailPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'open': return 'bg-blue-100 text-blue-800';
-      case 'in_progress': return 'bg-purple-100 text-purple-800';
+      case 'open': return 'bg-orange-500/10 border border-orange-500 text-orange-600';
+      case 'in_progress': return 'bg-orange-500/10 border border-orange-500 text-orange-600';
       case 'resolved': return 'bg-green-100 text-green-800';
       case 'closed': return 'bg-gray-100 text-gray-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -142,7 +142,7 @@ export default function TicketDetailPage() {
       case 'in_progress':
         return <ClockIcon className="w-5 h-5 text-purple-600" />;
       case 'open':
-        return <ExclamationCircleIcon className="w-5 h-5 text-blue-600" />;
+        return <ExclamationCircleIcon className="w-5 h-5 text-orange-500" />;
       default:
         return null;
     }
@@ -150,10 +150,10 @@ export default function TicketDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading ticket...</p>
+          <p className="mt-4 text-gray-300">Loading ticket...</p>
         </div>
       </div>
     );
@@ -161,11 +161,11 @@ export default function TicketDetailPage() {
 
   if (error || !ticket) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12 px-4">
+      <div className="min-h-screen bg-black py-12 px-4">
         <div className="max-w-2xl mx-auto">
           <Link
             href="/support"
-            className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4"
+            className="inline-flex items-center text-orange-500 hover:text-orange-600 mb-4"
           >
             <ArrowLeftIcon className="w-4 h-4 mr-2" />
             Back to My Tickets
@@ -179,28 +179,28 @@ export default function TicketDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Back Link */}
         <Link
           href="/support"
-          className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
+          className="inline-flex items-center text-orange-500 hover:text-orange-600 mb-6"
         >
           <ArrowLeftIcon className="w-4 h-4 mr-2" />
           Back to My Tickets
         </Link>
 
         {/* Ticket Header */}
-        <div className="bg-white rounded-lg shadow mb-6 p-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow mb-6 p-6">
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-4">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
                 {getStatusIcon(ticket.status)}
-                <h1 className="text-2xl font-bold text-gray-900">
+                <h1 className="text-2xl font-bold text-white">
                   {ticket.subject || 'No Subject'}
                 </h1>
               </div>
-              <p className="text-gray-600">Ticket #{ticket.id}</p>
+              <p className="text-gray-300">Ticket #{ticket.id}</p>
             </div>
             <div className="flex flex-wrap gap-2">
               <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getPriorityColor(ticket.priority || 'normal')}`}>
@@ -215,27 +215,27 @@ export default function TicketDetailPage() {
           {/* Ticket Info */}
           <div className="border-t pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <p className="text-sm text-gray-600">Category</p>
-              <p className="font-medium text-gray-900 capitalize">{formatCategory(ticket.category)}</p>
+              <p className="text-sm text-gray-300">Category</p>
+              <p className="font-medium text-white capitalize">{formatCategory(ticket.category)}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-600">Created</p>
-              <p className="font-medium text-gray-900">{new Date(ticket.created_at).toLocaleString()}</p>
+              <p className="text-sm text-gray-300">Created</p>
+              <p className="font-medium text-white">{new Date(ticket.created_at).toLocaleString()}</p>
             </div>
           </div>
 
           {/* Original Description */}
           <div className="border-t mt-4 pt-4">
-            <p className="text-sm font-semibold text-gray-700 mb-2">Original Request:</p>
-            <div className="bg-gray-50 rounded-lg p-4">
+            <p className="text-sm font-semibold text-gray-300 font-medium mb-2">Original Request:</p>
+            <div className="bg-black rounded-lg p-4">
               <p className="text-gray-800 whitespace-pre-wrap">{ticket.description || 'No description provided'}</p>
             </div>
           </div>
         </div>
 
         {/* Messages */}
-        <div className="bg-white rounded-lg shadow mb-6 p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow mb-6 p-6">
+          <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
             <ChatBubbleLeftRightIcon className="w-5 h-5" />
             Conversation
           </h2>
@@ -253,12 +253,12 @@ export default function TicketDetailPage() {
                   className={`p-4 rounded-lg ${
                     message.is_admin_reply
                       ? 'bg-blue-50 border-l-4 border-blue-500'
-                      : 'bg-gray-50 border-l-4 border-gray-300'
+                      : 'bg-black border-l-4 border-gray-300'
                   }`}
                 >
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <p className="font-semibold text-gray-900">
+                      <p className="font-semibold text-white">
                         {message.is_admin_reply ? 'Support Team' : 'You'}
                         {message.is_admin_reply && (
                           <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">
@@ -280,7 +280,7 @@ export default function TicketDetailPage() {
           {/* Reply Form - Only show if ticket is not closed */}
           {ticket.status !== 'closed' && ticket.status !== 'resolved' && (
             <form onSubmit={handleSendReply} className="border-t pt-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-300 font-medium mb-2">
                 Add a Message
               </label>
               <textarea
