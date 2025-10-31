@@ -145,81 +145,81 @@ export default function CareerFinderPage() {
 
   if (step === 'intro') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-12 px-4">
+      <div className="min-h-screen bg-black py-12 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-100 rounded-full mb-6">
-              <LightBulbIcon className="w-10 h-10 text-indigo-600" />
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-orange-500/20 border border-orange-500 rounded-full mb-6">
+              <LightBulbIcon className="w-10 h-10 text-orange-500" />
             </div>
-            <h1 className="text-5xl font-bold text-gray-900 mb-4">
+            <h1 className="text-5xl font-extrabold text-white mb-4">
               Career Finder
             </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto font-medium">
               Discover careers that match your personality and interests. Take our quick assessment to find your ideal path.
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">What You'll Discover:</h2>
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 md:p-12 mb-8">
+            <h2 className="text-2xl font-bold text-white mb-6">What You'll Discover:</h2>
             
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               <div className="flex items-start gap-4">
-                <div className="bg-indigo-100 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <BriefcaseIcon className="w-6 h-6 text-indigo-600" />
+                <div className="bg-orange-500/20 border border-orange-500 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <BriefcaseIcon className="w-6 h-6 text-orange-500" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Career Matches</h3>
-                  <p className="text-sm text-gray-600">Careers aligned with your personality and strengths</p>
+                  <h3 className="font-bold text-white mb-1">Career Matches</h3>
+                  <p className="text-sm text-gray-300 font-medium">Careers aligned with your personality and strengths</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <AcademicCapIcon className="w-6 h-6 text-purple-600" />
+                <div className="bg-orange-500/20 border border-orange-500 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <AcademicCapIcon className="w-6 h-6 text-orange-500" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">College Majors</h3>
-                  <p className="text-sm text-gray-600">Recommended majors for your career path</p>
+                  <h3 className="font-bold text-white mb-1">College Majors</h3>
+                  <p className="text-sm text-gray-300 font-medium">Recommended majors for your career path</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="bg-green-100 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <ChartBarIcon className="w-6 h-6 text-green-600" />
+                <div className="bg-green-500/20 border border-green-500 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <ChartBarIcon className="w-6 h-6 text-green-500" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Salary Insights</h3>
-                  <p className="text-sm text-gray-600">Expected earnings and job growth data</p>
+                  <h3 className="font-bold text-white mb-1">Salary Insights</h3>
+                  <p className="text-sm text-gray-300 font-medium">Expected earnings and job growth data</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="bg-pink-100 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <HeartIcon className="w-6 h-6 text-pink-600" />
+                <div className="bg-pink-500/20 border border-pink-500 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <HeartIcon className="w-6 h-6 text-pink-500" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Personality Profile</h3>
-                  <p className="text-sm text-gray-600">Understand your unique strengths and preferences</p>
+                  <h3 className="font-bold text-white mb-1">Personality Profile</h3>
+                  <p className="text-sm text-gray-300 font-medium">Understand your unique strengths and preferences</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mb-8">
-              <p className="text-sm text-indigo-800">
+            <div className="bg-black border border-gray-800 rounded-lg p-4 mb-8">
+              <p className="text-sm text-gray-300 font-medium">
                 Takes just 5 minutes • Based on personality psychology • Personalized results
               </p>
             </div>
 
             <button
               onClick={() => setStep('quiz')}
-              className="w-full bg-indigo-600 text-white py-4 rounded-lg font-semibold text-lg hover:bg-indigo-700 transition-colors"
+              className="w-full bg-gradient-to-r from-orange-600 to-orange-500 text-white py-4 rounded-lg font-bold text-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-lg shadow-orange-500/20"
             >
               Start Assessment
             </button>
           </div>
 
-          <div className="text-center text-sm text-gray-500">
-            <p>This assessment is based on personality psychology and career research</p>
+          <div className="text-center text-sm text-gray-400">
+            <p className="font-medium">This assessment is based on personality psychology and career research</p>
           </div>
         </div>
       </div>
@@ -230,29 +230,29 @@ export default function CareerFinderPage() {
     const progress = ((currentQuestion + 1) / QUESTIONS.length) * 100;
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-12 px-4">
+      <div className="min-h-screen bg-black py-12 px-4">
         <div className="max-w-3xl mx-auto">
           {/* Progress */}
           <div className="mb-8">
             <div className="flex justify-between mb-2">
-              <span className="text-sm font-medium text-gray-700">
+              <span className="text-sm font-semibold text-gray-300">
                 Question {currentQuestion + 1} of {QUESTIONS.length}
               </span>
-              <span className="text-sm font-medium text-indigo-600">
+              <span className="text-sm font-bold text-orange-500">
                 {Math.round(progress)}% Complete
               </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-gray-800 rounded-full h-2">
               <div 
-                className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
+                className="bg-gradient-to-r from-orange-600 to-orange-500 h-2 rounded-full transition-all duration-300 shadow-lg shadow-orange-500/30"
                 style={{ width: `${progress}%` }}
               />
             </div>
           </div>
 
           {/* Question */}
-          <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 md:p-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-8 text-center">
               {QUESTIONS[currentQuestion].text}
             </h2>
 
@@ -267,7 +267,7 @@ export default function CareerFinderPage() {
                 <button
                   key={option.value}
                   onClick={() => handleAnswer(option.value)}
-                  className="w-full p-4 border-2 border-gray-200 rounded-lg hover:border-indigo-600 hover:bg-indigo-50 transition-all text-left font-medium text-gray-700 hover:text-indigo-700"
+                  className="w-full p-4 border-2 border-gray-700 bg-black rounded-lg hover:border-orange-500 hover:bg-gray-800 transition-all text-left font-semibold text-gray-300 hover:text-orange-500"
                 >
                   {option.label}
                 </button>
@@ -277,7 +277,7 @@ export default function CareerFinderPage() {
             {currentQuestion > 0 && (
               <button
                 onClick={() => setCurrentQuestion(currentQuestion - 1)}
-                className="mt-6 text-indigo-600 hover:text-indigo-700 font-medium"
+                className="mt-6 text-orange-500 hover:text-orange-400 font-bold"
               >
                 ← Back
               </button>
@@ -292,41 +292,41 @@ export default function CareerFinderPage() {
   const personalityInfo = PERSONALITY_DESCRIPTIONS[personalityType] || PERSONALITY_DESCRIPTIONS['ISTJ'];
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-12 px-4">
+    <div className="min-h-screen bg-black py-12 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-24 h-24 bg-green-100 rounded-full mb-6">
-            <LightBulbIcon className="w-12 h-12 text-green-600" />
+          <div className="inline-flex items-center justify-center w-24 h-24 bg-green-500/20 border border-green-500 rounded-full mb-6">
+            <LightBulbIcon className="w-12 h-12 text-green-500" />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-extrabold text-white mb-4">
             Your Career Matches
           </h1>
-          <p className="text-lg text-gray-600">
-            Based on your personality type: <span className="font-bold text-indigo-600">{personalityType}</span>
+          <p className="text-lg text-gray-300 font-medium">
+            Based on your personality type: <span className="font-bold text-orange-500">{personalityType}</span>
           </p>
         </div>
 
         {/* Personality Type Description */}
-        <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl shadow-lg p-8 mb-8 max-w-3xl mx-auto text-white">
-          <div className="text-sm font-semibold uppercase tracking-wide mb-2 opacity-90">{personalityInfo.category}</div>
-          <h2 className="text-3xl font-bold mb-3">{personalityInfo.title}</h2>
-          <p className="text-lg leading-relaxed opacity-95">{personalityInfo.description}</p>
+        <div className="bg-gradient-to-r from-orange-600 to-orange-500 rounded-xl shadow-lg shadow-orange-500/20 p-8 mb-8 max-w-3xl mx-auto text-white border border-orange-500/30">
+          <div className="text-sm font-bold uppercase tracking-wide mb-2 opacity-90">{personalityInfo.category}</div>
+          <h2 className="text-3xl font-extrabold mb-3">{personalityInfo.title}</h2>
+          <p className="text-lg leading-relaxed opacity-95 font-medium">{personalityInfo.description}</p>
         </div>
 
         {/* Email Capture */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-2xl mx-auto">
-          <h3 className="font-semibold text-gray-900 mb-3">Get Your Full Results via Email</h3>
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6 mb-8 max-w-2xl mx-auto">
+          <h3 className="font-bold text-white mb-3">Get Your Full Results via Email</h3>
           <div className="flex gap-3">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="flex-1 px-4 py-2 bg-black border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white placeholder-gray-500"
             />
             <button 
               onClick={() => alert('Results sent!')}
-              className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+              className="bg-gradient-to-r from-orange-600 to-orange-500 text-white px-6 py-2 rounded-lg hover:from-orange-700 hover:to-orange-600 transition-all font-bold shadow-lg shadow-orange-500/20"
             >
               Send Results
             </button>
@@ -336,13 +336,13 @@ export default function CareerFinderPage() {
         {/* Career Matches */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-extrabold text-white">
               Your Top Career Matches ({careers.length} total)
             </h2>
             {careers.length > 6 && (
               <button
                 onClick={() => setShowAllCareers(!showAllCareers)}
-                className="text-indigo-600 hover:text-indigo-700 font-semibold"
+                className="text-orange-500 hover:text-orange-400 font-bold"
               >
                 {showAllCareers ? 'Show Less ↑' : `Show All ${careers.length} Careers ↓`}
               </button>
@@ -353,33 +353,33 @@ export default function CareerFinderPage() {
             {(showAllCareers ? careers : careers.slice(0, 6)).map((career, index) => {
               const IconComponent = career.icon;
               return (
-              <div key={index} className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow">
+              <div key={index} className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-8 hover:shadow-xl hover:shadow-orange-500/10 hover:border-orange-500/50 transition-all">
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="bg-indigo-100 w-14 h-14 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <IconComponent className="w-7 h-7 text-indigo-600" />
+                  <div className="bg-orange-500/20 border border-orange-500 w-14 h-14 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <IconComponent className="w-7 h-7 text-orange-500" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-1">{career.name}</h3>
-                    <p className="text-gray-600">{career.description}</p>
+                    <h3 className="text-2xl font-extrabold text-white mb-1">{career.name}</h3>
+                    <p className="text-gray-300 font-medium">{career.description}</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="bg-green-50 p-3 rounded-lg">
-                    <p className="text-xs text-green-700 font-medium mb-1">AVG SALARY</p>
-                    <p className="text-lg font-bold text-green-900">{career.salary}</p>
+                  <div className="bg-green-500/10 border border-green-500/30 p-3 rounded-lg">
+                    <p className="text-xs text-green-500 font-bold mb-1">AVG SALARY</p>
+                    <p className="text-lg font-extrabold text-green-400">{career.salary}</p>
                   </div>
-                  <div className="bg-blue-50 p-3 rounded-lg">
-                    <p className="text-xs text-blue-700 font-medium mb-1">JOB GROWTH</p>
-                    <p className="text-lg font-bold text-blue-900">{career.growth}</p>
+                  <div className="bg-orange-500/100/10 border border-blue-500/30 p-3 rounded-lg">
+                    <p className="text-xs text-blue-500 font-bold mb-1">JOB GROWTH</p>
+                    <p className="text-lg font-extrabold text-blue-400">{career.growth}</p>
                   </div>
                 </div>
 
                 <div className="mb-6">
-                  <p className="text-sm font-semibold text-gray-700 mb-2">Recommended Majors:</p>
+                  <p className="text-sm font-bold text-gray-300 mb-2">Recommended Majors:</p>
                   <div className="flex flex-wrap gap-2">
                     {career.majors.map((major, idx) => (
-                      <span key={idx} className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">
+                      <span key={idx} className="px-3 py-1 bg-orange-500/20 border border-orange-500/50 text-orange-400 rounded-full text-sm font-semibold">
                         {major}
                       </span>
                     ))}
@@ -388,7 +388,7 @@ export default function CareerFinderPage() {
 
                 <button 
                   onClick={() => router.push(`/recommendations?career=${encodeURIComponent(career.name)}&majors=${encodeURIComponent(career.majors.join(','))}`)}
-                  className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
+                  className="w-full bg-gradient-to-r from-orange-600 to-orange-500 text-white py-3 rounded-lg font-bold hover:from-orange-700 hover:to-orange-600 transition-all shadow-lg shadow-orange-500/20"
                 >
                   Explore Programs
                 </button>
@@ -401,7 +401,7 @@ export default function CareerFinderPage() {
             <div className="text-center">
               <button
                 onClick={() => setShowAllCareers(true)}
-                className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 px-6 py-3 rounded-lg font-semibold hover:bg-indigo-200 transition-colors"
+                className="inline-flex items-center gap-2 bg-orange-500/20 border border-orange-500 text-orange-400 px-6 py-3 rounded-lg font-bold hover:bg-orange-500/30 transition-all"
               >
                 View All {careers.length} Career Options
               </button>
@@ -410,16 +410,16 @@ export default function CareerFinderPage() {
         </div>
 
         {/* Next Steps */}
-        <div className="bg-white rounded-xl shadow-lg p-8 max-w-4xl mx-auto">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">Next Steps on Your Journey</h3>
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-8 max-w-4xl mx-auto">
+          <h3 className="text-2xl font-bold text-white font-bold mb-6">Next Steps on Your Journey</h3>
           <div className="space-y-4">
             <div className="flex items-start gap-4">
               <div className="bg-indigo-100 w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
                 <span className="font-bold text-indigo-600">1</span>
               </div>
               <div>
-                <h4 className="font-semibold text-gray-900">Explore College Programs</h4>
-                <p className="text-sm text-gray-600">Search for colleges offering your recommended majors</p>
+                <h4 className="font-semibold text-white font-bold">Explore College Programs</h4>
+                <p className="text-sm text-gray-300">Search for colleges offering your recommended majors</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -427,8 +427,8 @@ export default function CareerFinderPage() {
                 <span className="font-bold text-indigo-600">2</span>
               </div>
               <div>
-                <h4 className="font-semibold text-gray-900">Calculate Your ROI</h4>
-                <p className="text-sm text-gray-600">See the financial return on your education investment</p>
+                <h4 className="font-semibold text-white font-bold">Calculate Your ROI</h4>
+                <p className="text-sm text-gray-300">See the financial return on your education investment</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -436,8 +436,8 @@ export default function CareerFinderPage() {
                 <span className="font-bold text-indigo-600">3</span>
               </div>
               <div>
-                <h4 className="font-semibold text-gray-900">Find Scholarships</h4>
-                <p className="text-sm text-gray-600">Discover funding opportunities for your chosen field</p>
+                <h4 className="font-semibold text-white font-bold">Find Scholarships</h4>
+                <p className="text-sm text-gray-300">Discover funding opportunities for your chosen field</p>
               </div>
             </div>
           </div>

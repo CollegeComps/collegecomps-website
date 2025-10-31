@@ -126,7 +126,7 @@ export default function AdminTicketDetailPage() {
       case 'high': return 'bg-red-100 text-red-800';
       case 'normal': return 'bg-yellow-100 text-yellow-800';
       case 'low': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      default: return 'bg-gray-100 text-white font-bold';
     }
   };
 
@@ -135,15 +135,15 @@ export default function AdminTicketDetailPage() {
       case 'open': return 'bg-blue-100 text-blue-800';
       case 'in_progress': return 'bg-purple-100 text-purple-800';
       case 'resolved': return 'bg-green-100 text-green-800';
-      case 'closed': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'closed': return 'bg-gray-100 text-white font-bold';
+      default: return 'bg-gray-100 text-white font-bold';
     }
   };
 
   const getTierBadge = (tier: string) => {
     const colors: Record<string, string> = {
-      free: 'bg-gray-100 text-gray-700',
-      premium: 'bg-blue-100 text-blue-700',
+      free: 'bg-gray-100 text-gray-300',
+      premium: 'bg-blue-100 text-orange-400',
       professional: 'bg-purple-100 text-purple-700'
     };
     return colors[tier] || colors.free;
@@ -154,7 +154,7 @@ export default function AdminTicketDetailPage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading ticket...</p>
+          <p className="mt-4 text-gray-300">Loading ticket...</p>
         </div>
       </div>
     );
@@ -162,11 +162,11 @@ export default function AdminTicketDetailPage() {
 
   if (error || !ticket) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12 px-4">
+      <div className="min-h-screen bg-black py-12 px-4">
         <div className="max-w-2xl mx-auto">
           <Link
             href="/admin/support"
-            className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4"
+            className="inline-flex items-center text-orange-500 hover:text-blue-800 mb-4"
           >
             <ArrowLeftIcon className="w-4 h-4 mr-2" />
             Back to Support Dashboard
@@ -180,25 +180,25 @@ export default function AdminTicketDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
         {/* Back Link */}
         <Link
           href="/admin/support"
-          className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
+          className="inline-flex items-center text-orange-500 hover:text-blue-800 mb-6"
         >
           <ArrowLeftIcon className="w-4 h-4 mr-2" />
           Back to Support Dashboard
         </Link>
 
         {/* Ticket Header */}
-        <div className="bg-white rounded-lg shadow mb-6 p-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow mb-6 p-6">
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl font-bold text-white font-bold mb-2">
                 #{ticket.id} - {ticket.subject}
               </h1>
-              <p className="text-gray-600">Category: {ticket.category}</p>
+              <p className="text-gray-300">Category: {ticket.category}</p>
             </div>
             <div className="flex flex-wrap gap-2">
               <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getPriorityColor(ticket.priority)}`}>
@@ -213,15 +213,15 @@ export default function AdminTicketDetailPage() {
           {/* User Info */}
           <div className="border-t pt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <p className="text-sm text-gray-600">User</p>
-              <p className="font-medium text-gray-900">{ticket.user_name || 'Unknown'}</p>
+              <p className="text-sm text-gray-300">User</p>
+              <p className="font-medium text-white font-bold">{ticket.user_name || 'Unknown'}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-600">Email</p>
-              <p className="font-medium text-gray-900">{ticket.user_email}</p>
+              <p className="text-sm text-gray-300">Email</p>
+              <p className="font-medium text-white font-bold">{ticket.user_email}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-600">Subscription</p>
+              <p className="text-sm text-gray-300">Subscription</p>
               <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getTierBadge(ticket.subscription_tier)}`}>
                 {ticket.subscription_tier}
               </span>
@@ -231,13 +231,13 @@ export default function AdminTicketDetailPage() {
           {/* Update Controls */}
           <div className="border-t mt-4 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Status
               </label>
               <select
                 value={ticket.status}
                 onChange={(e) => updateTicket({ status: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
               >
                 <option value="open">Open</option>
                 <option value="in_progress">In Progress</option>
@@ -246,13 +246,13 @@ export default function AdminTicketDetailPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Priority
               </label>
               <select
                 value={ticket.priority}
                 onChange={(e) => updateTicket({ priority: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
               >
                 <option value="low">Low</option>
                 <option value="normal">Normal</option>
@@ -262,7 +262,7 @@ export default function AdminTicketDetailPage() {
           </div>
 
           {/* Timestamps */}
-          <div className="border-t mt-4 pt-4 flex items-center gap-6 text-sm text-gray-600">
+          <div className="border-t mt-4 pt-4 flex items-center gap-6 text-sm text-gray-300">
             <div className="flex items-center gap-2">
               <ClockIcon className="w-4 h-4" />
               <span>Created: {new Date(ticket.created_at).toLocaleString()}</span>
@@ -275,28 +275,28 @@ export default function AdminTicketDetailPage() {
         </div>
 
         {/* Messages */}
-        <div className="bg-white rounded-lg shadow mb-6 p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow mb-6 p-6">
+          <h2 className="text-lg font-bold text-white font-bold mb-4 flex items-center gap-2">
             <ChatBubbleLeftRightIcon className="w-5 h-5" />
             Conversation
           </h2>
 
           <div className="space-y-4 mb-6">
             {messages.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">No messages yet</p>
+              <p className="text-gray-400 text-center py-8">No messages yet</p>
             ) : (
               messages.map((message) => (
                 <div
                   key={message.id}
                   className={`p-4 rounded-lg ${
                     message.is_admin_reply
-                      ? 'bg-blue-50 border-l-4 border-blue-500 ml-8'
+                      ? 'bg-orange-500/10 border-l-4 border-blue-500 ml-8'
                       : 'bg-gray-50 border-l-4 border-gray-300 mr-8'
                   }`}
                 >
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <p className="font-semibold text-gray-900">
+                      <p className="font-semibold text-white font-bold">
                         {message.author_name || message.author_email || 'Unknown'}
                         {message.is_admin_reply && (
                           <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">
@@ -304,12 +304,12 @@ export default function AdminTicketDetailPage() {
                           </span>
                         )}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-400">
                         {new Date(message.created_at).toLocaleString()}
                       </p>
                     </div>
                   </div>
-                  <p className="text-gray-800 whitespace-pre-wrap">{message.message}</p>
+                  <p className="text-white font-bold whitespace-pre-wrap">{message.message}</p>
                 </div>
               ))
             )}
@@ -317,7 +317,7 @@ export default function AdminTicketDetailPage() {
 
           {/* Reply Form */}
           <form onSubmit={handleSendReply} className="border-t pt-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Reply to User
             </label>
             <textarea
@@ -325,7 +325,7 @@ export default function AdminTicketDetailPage() {
               onChange={(e) => setReplyText(e.target.value)}
               placeholder="Type your response here..."
               rows={4}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 resize-none"
               disabled={sending}
             />
             <div className="flex justify-end mt-3">

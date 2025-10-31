@@ -93,28 +93,28 @@ export default function StudentLoanCalculator() {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
+    <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6 md:p-8">
       <div className="flex items-center gap-3 mb-6">
-        <div className="bg-blue-100 p-3 rounded-lg">
-          <CalculatorIcon className="h-6 w-6 text-blue-600" />
+        <div className="bg-orange-500/10 border border-orange-500 p-3 rounded-lg">
+          <CalculatorIcon className="h-6 w-6 text-orange-500" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">Student Loan Calculator</h2>
+        <h2 className="text-2xl font-bold text-white">Student Loan Calculator</h2>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8">
         {/* Input Section */}
         <div className="space-y-6">
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-bold text-white mb-2">
               Loan Amount
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">$</span>
               <input
                 type="number"
                 value={loanAmount}
                 onChange={(e) => setLoanAmount(e.target.value)}
-                className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                className="w-full pl-8 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-medium"
                 placeholder="30000"
                 min="0"
                 step="1000"
@@ -123,7 +123,7 @@ export default function StudentLoanCalculator() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-bold text-white mb-2">
               Interest Rate (%)
             </label>
             <div className="relative">
@@ -131,25 +131,25 @@ export default function StudentLoanCalculator() {
                 type="number"
                 value={interestRate}
                 onChange={(e) => setInterestRate(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-medium"
                 placeholder="5.5"
                 min="0"
                 max="20"
                 step="0.1"
               />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">%</span>
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">%</span>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-bold text-white mb-2">
               Loan Term (Years)
             </label>
             <input
               type="number"
               value={loanTerm}
               onChange={(e) => setLoanTerm(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-medium"
               placeholder="10"
               min="1"
               max="30"
@@ -158,18 +158,18 @@ export default function StudentLoanCalculator() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-bold text-white mb-2">
               Repayment Plan
             </label>
             <select
               value={repaymentPlan}
               onChange={(e) => setRepaymentPlan(e.target.value as RepaymentPlan)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-medium"
             >
               <option value="standard">Standard (Fixed Payment)</option>
               <option value="graduated">Graduated (Increases Over Time)</option>
             </select>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-gray-400 font-medium mt-1">
               {repaymentPlan === 'standard' 
                 ? 'Fixed monthly payment throughout the loan term'
                 : 'Payments start lower and increase every 2 years'}
@@ -181,50 +181,50 @@ export default function StudentLoanCalculator() {
         <div className="space-y-6">
           {calculation ? (
             <>
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-100">
+              <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-6">
                 <div className="flex items-center gap-2 mb-4">
-                  <CurrencyDollarIcon className="h-5 w-5 text-blue-600" />
-                  <h3 className="font-semibold text-gray-900">
+                  <CurrencyDollarIcon className="h-5 w-5 text-orange-500" />
+                  <h3 className="font-bold text-white">
                     {repaymentPlan === 'standard' ? 'Monthly Payment' : 'Average Monthly Payment'}
                   </h3>
                 </div>
-                <p className="text-4xl font-bold text-blue-600">
+                <p className="text-4xl font-extrabold text-orange-500">
                   {formatCurrency(calculation.monthlyPayment)}
                 </p>
                 {repaymentPlan === 'graduated' && (
-                  <p className="text-sm text-gray-600 mt-2">
+                  <p className="text-sm text-gray-300 font-medium mt-2">
                     Starting payment is lower, increases over time
                   </p>
                 )}
               </div>
 
               <div className="space-y-4">
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-sm font-medium text-gray-600 mb-1">Total Interest Paid</p>
-                  <p className="text-2xl font-bold text-gray-900">
+                <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+                  <p className="text-sm font-bold text-gray-300 mb-1">Total Interest Paid</p>
+                  <p className="text-2xl font-bold text-white">
                     {formatCurrency(calculation.totalInterest)}
                   </p>
                 </div>
 
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-sm font-medium text-gray-600 mb-1">Total Amount Paid</p>
-                  <p className="text-2xl font-bold text-gray-900">
+                <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+                  <p className="text-sm font-bold text-gray-300 mb-1">Total Amount Paid</p>
+                  <p className="text-2xl font-bold text-white">
                     {formatCurrency(calculation.totalPayment)}
                   </p>
                 </div>
 
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-sm font-medium text-gray-600 mb-1">Interest Rate Impact</p>
-                  <p className="text-sm text-gray-700">
-                    You'll pay <strong>{formatCurrency(calculation.totalInterest)}</strong> in interest,
-                    which is <strong>{Math.round((calculation.totalInterest / parseFloat(loanAmount)) * 100)}%</strong> of your original loan amount.
+                <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+                  <p className="text-sm font-bold text-gray-300 mb-1">Interest Rate Impact</p>
+                  <p className="text-sm text-gray-300 font-medium">
+                    You'll pay <strong className="text-orange-500">{formatCurrency(calculation.totalInterest)}</strong> in interest,
+                    which is <strong className="text-orange-500">{Math.round((calculation.totalInterest / parseFloat(loanAmount)) * 100)}%</strong> of your original loan amount.
                   </p>
                 </div>
               </div>
 
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                <p className="text-sm text-yellow-800">
-                  <strong>Tip:</strong> Making extra payments toward the principal can significantly reduce your total interest paid and shorten your loan term.
+              <div className="bg-yellow-500/10 border border-yellow-500 rounded-lg p-4">
+                <p className="text-sm text-gray-300 font-medium">
+                  <strong className="text-yellow-400">Tip:</strong> Making extra payments toward the principal can significantly reduce your total interest paid and shorten your loan term.
                 </p>
               </div>
             </>
@@ -232,7 +232,7 @@ export default function StudentLoanCalculator() {
             <div className="flex items-center justify-center h-full text-gray-400">
               <div className="text-center">
                 <CalculatorIcon className="h-16 w-16 mx-auto mb-4" />
-                <p className="text-lg font-medium">Enter loan details to see calculations</p>
+                <p className="text-lg font-bold text-white">Enter loan details to see calculations</p>
               </div>
             </div>
           )}

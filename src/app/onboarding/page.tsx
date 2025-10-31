@@ -235,34 +235,34 @@ export default function OnboardingPage() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-black flex items-center justify-center p-4">
       <div className="max-w-3xl w-full">
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <div className={`flex items-center ${step >= 1 ? 'text-blue-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-300'}`}>
+            <div className={`flex items-center ${step >= 1 ? 'text-orange-500' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-orange-500 text-white' : 'bg-gray-300'}`}>
                 {step > 1 ? <CheckCircleIcon className="h-6 w-6" /> : '1'}
               </div>
               <span className="ml-2 font-medium hidden sm:inline">Major</span>
             </div>
-            <div className={`flex-1 h-1 mx-2 ${step >= 2 ? 'bg-blue-600' : 'bg-gray-300'}`} />
-            <div className={`flex items-center ${step >= 2 ? 'text-blue-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-300'}`}>
+            <div className={`flex-1 h-1 mx-2 ${step >= 2 ? 'bg-orange-500' : 'bg-gray-300'}`} />
+            <div className={`flex items-center ${step >= 2 ? 'text-orange-500' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-orange-500 text-white' : 'bg-gray-300'}`}>
                 {step > 2 ? <CheckCircleIcon className="h-6 w-6" /> : '2'}
               </div>
               <span className="ml-2 font-medium hidden sm:inline">Schools</span>
             </div>
-            <div className={`flex-1 h-1 mx-2 ${step >= 3 ? 'bg-blue-600' : 'bg-gray-300'}`} />
-            <div className={`flex items-center ${step >= 3 ? 'text-blue-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-blue-600 text-white' : 'bg-gray-300'}`}>
+            <div className={`flex-1 h-1 mx-2 ${step >= 3 ? 'bg-orange-500' : 'bg-gray-300'}`} />
+            <div className={`flex items-center ${step >= 3 ? 'text-orange-500' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-orange-500 text-white' : 'bg-gray-300'}`}>
                 {step > 3 ? <CheckCircleIcon className="h-6 w-6" /> : '3'}
               </div>
               <span className="ml-2 font-medium hidden sm:inline">Timeline</span>
             </div>
-            <div className={`flex-1 h-1 mx-2 ${step >= 4 ? 'bg-blue-600' : 'bg-gray-300'}`} />
-            <div className={`flex items-center ${step >= 4 ? 'text-blue-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 4 ? 'bg-blue-600 text-white' : 'bg-gray-300'}`}>
+            <div className={`flex-1 h-1 mx-2 ${step >= 4 ? 'bg-orange-500' : 'bg-gray-300'}`} />
+            <div className={`flex items-center ${step >= 4 ? 'text-orange-500' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 4 ? 'bg-orange-500 text-white' : 'bg-gray-300'}`}>
                 {step > 4 ? <CheckCircleIcon className="h-6 w-6" /> : '4'}
               </div>
               <span className="ml-2 font-medium hidden sm:inline">Profile</span>
@@ -271,26 +271,26 @@ export default function OnboardingPage() {
         </div>
 
         {/* Main Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl p-10">
           {/* Step 1: Intended Major */}
           {step === 1 && (
             <div className="space-y-6">
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-                  <AcademicCapIcon className="h-8 w-8 text-blue-600" />
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
+                  <AcademicCapIcon className="h-8 w-8 text-orange-500" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">What do you want to study?</h2>
-                <p className="text-gray-600">We'll personalize your experience based on your interests</p>
+                <h2 className="text-3xl font-bold text-white font-bold mb-2">What do you want to study?</h2>
+                <p className="text-gray-300">We'll personalize your experience based on your interests</p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-white font-bold mb-2">
                   Degree Level
                 </label>
                 <select
                   value={formData.degree_level}
                   onChange={(e) => setFormData(prev => ({ ...prev, degree_level: e.target.value }))}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                 >
                   <option value="bachelors">Bachelor's Degree</option>
                   <option value="masters">Master's Degree</option>
@@ -301,7 +301,7 @@ export default function OnboardingPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-white font-bold mb-2">
                   Intended Major or Field of Study
                 </label>
                 <AIAutocomplete
@@ -319,7 +319,7 @@ export default function OnboardingPage() {
                 />
               </div>
 
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-400">
                 Don't worry, you can change this later in your profile
               </p>
             </div>
@@ -329,15 +329,15 @@ export default function OnboardingPage() {
           {step === 2 && (
             <div className="space-y-6">
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 rounded-full mb-4">
-                  <BuildingLibraryIcon className="h-8 w-8 text-indigo-600" />
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
+                  <BuildingLibraryIcon className="h-8 w-8 text-orange-500" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">Which schools interest you?</h2>
-                <p className="text-gray-600">Add schools you're considering (optional - you can add or change these later)</p>
+                <h2 className="text-3xl font-bold text-white font-bold mb-2">Which schools interest you?</h2>
+                <p className="text-gray-300">Add schools you're considering (optional - you can add or change these later)</p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-white font-bold mb-2">
                   Search and Add Schools (Optional)
                 </label>
                 <AIAutocomplete
@@ -356,7 +356,7 @@ export default function OnboardingPage() {
                     location_preference: formData.location_preference
                   }}
                 />
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs text-gray-400 mt-2">
                   Skip this step if you're still exploring options - you can add schools anytime from your profile
                 </p>
               </div>
@@ -364,19 +364,19 @@ export default function OnboardingPage() {
               {/* Selected Schools */}
               {formData.target_schools.length > 0 && (
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-900">
+                  <label className="block text-sm font-semibold text-white font-bold">
                     Your Target Schools ({formData.target_schools.length})
                   </label>
                   <div className="flex flex-wrap gap-2">
                     {formData.target_schools.map((school) => (
                       <div
                         key={school}
-                        className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full"
+                        className="inline-flex items-center gap-2 bg-orange-500/20 border border-orange-500 text-orange-400 px-3 py-1 rounded-full"
                       >
                         <span className="text-sm font-medium">{school}</span>
                         <button
                           onClick={() => removeSchool(school)}
-                          className="text-blue-600 hover:text-blue-800"
+                          className="text-orange-300 hover:text-orange-500"
                         >
                           ×
                         </button>
@@ -392,21 +392,21 @@ export default function OnboardingPage() {
           {step === 3 && (
             <div className="space-y-6">
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
-                  <CalendarIcon className="h-8 w-8 text-purple-600" />
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
+                  <CalendarIcon className="h-8 w-8 text-orange-500" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">When do you plan to graduate?</h2>
-                <p className="text-gray-600">This helps us show relevant ROI projections</p>
+                <h2 className="text-3xl font-bold text-white font-bold mb-2">When do you plan to graduate?</h2>
+                <p className="text-gray-300">This helps us show relevant ROI projections</p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-white font-bold mb-2">
                   Expected Graduation Year
                 </label>
                 <select
                   value={formData.expected_graduation_year}
                   onChange={(e) => setFormData(prev => ({ ...prev, expected_graduation_year: parseInt(e.target.value) }))}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                 >
                   {Array.from({ length: 10 }, (_, i) => currentYear + i).map(year => (
                     <option key={year} value={year}>{year}</option>
@@ -414,9 +414,9 @@ export default function OnboardingPage() {
                 </select>
               </div>
 
-              <div className="bg-blue-50 rounded-lg p-4">
-                <h3 className="font-semibold text-blue-900 mb-2">What's Next?</h3>
-                <ul className="space-y-1 text-sm text-blue-800">
+              <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4">
+                <h3 className="font-semibold text-white font-bold mb-2">What's Next?</h3>
+                <ul className="space-y-1 text-sm text-orange-400">
                   <li>• Personalized college recommendations</li>
                   <li>• ROI calculations for your major</li>
                   <li>• Salary insights from alumni in your field</li>
@@ -430,19 +430,19 @@ export default function OnboardingPage() {
           {step === 4 && (
             <div className="space-y-6">
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
-                  <AcademicCapIcon className="h-8 w-8 text-green-600" />
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
+                  <AcademicCapIcon className="h-8 w-8 text-orange-500" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">Tell us about your profile</h2>
-                <p className="text-gray-600">Help us provide better recommendations and accurate net price estimates (all optional)</p>
+                <h2 className="text-3xl font-bold text-white font-bold mb-2">Tell us about your profile</h2>
+                <p className="text-gray-300">Help us provide better recommendations and accurate net price estimates (all optional)</p>
               </div>
 
               {/* Academic Info Section */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Academic Information</h3>
+                <h3 className="text-lg font-semibold text-white font-bold mb-3">Academic Information</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       GPA (if available)
                     </label>
                     <input
@@ -452,13 +452,13 @@ export default function OnboardingPage() {
                       max="4.0"
                       value={formData.gpa}
                       onChange={(e) => setFormData(prev => ({ ...prev, gpa: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 3.75"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       SAT Score (if taken)
                     </label>
                     <input
@@ -467,13 +467,13 @@ export default function OnboardingPage() {
                       max="1600"
                       value={formData.sat_score}
                       onChange={(e) => setFormData(prev => ({ ...prev, sat_score: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 1450"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       ACT Score (if taken)
                     </label>
                     <input
@@ -482,26 +482,26 @@ export default function OnboardingPage() {
                       max="36"
                       value={formData.act_score}
                       onChange={(e) => setFormData(prev => ({ ...prev, act_score: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 32"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       Location Preference
                     </label>
                     <input
                       type="text"
                       value={formData.location_preference}
                       onChange={(e) => setFormData(prev => ({ ...prev, location_preference: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., Northeast, California..."
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       Zip Code
                     </label>
                     <input
@@ -510,10 +510,10 @@ export default function OnboardingPage() {
                       maxLength={5}
                       value={formData.zip_code}
                       onChange={(e) => setFormData(prev => ({ ...prev, zip_code: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-600 font-medium"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold placeholder-gray-600 font-medium"
                       placeholder="e.g., 10001"
                     />
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-400 mt-1">
                       Used to find nearby colleges in recommendations
                     </p>
                   </div>
@@ -522,13 +522,13 @@ export default function OnboardingPage() {
 
               {/* Financial Info Section - ENG-27 */}
               <div className="border-t border-gray-200 pt-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Financial Information</h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <h3 className="text-lg font-semibold text-white font-bold mb-3">Financial Information</h3>
+                <p className="text-sm text-gray-300 mb-4">
                   This information helps us estimate your net price and financial aid eligibility at different schools.
                 </p>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       Annual Student Income
                     </label>
                     <input
@@ -536,14 +536,14 @@ export default function OnboardingPage() {
                       min="0"
                       value={formData.student_income}
                       onChange={(e) => setFormData(prev => ({ ...prev, student_income: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 5000"
                     />
-                    <p className="text-xs text-gray-500 mt-1">Your personal income from work/jobs</p>
+                    <p className="text-xs text-gray-400 mt-1">Your personal income from work/jobs</p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       Annual Parent/Guardian Income
                     </label>
                     <input
@@ -551,14 +551,14 @@ export default function OnboardingPage() {
                       min="0"
                       value={formData.parent_income}
                       onChange={(e) => setFormData(prev => ({ ...prev, parent_income: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 75000"
                     />
-                    <p className="text-xs text-gray-500 mt-1">Combined household income</p>
+                    <p className="text-xs text-gray-400 mt-1">Combined household income</p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       Parent/Guardian Assets
                     </label>
                     <input
@@ -566,20 +566,20 @@ export default function OnboardingPage() {
                       min="0"
                       value={formData.parent_assets}
                       onChange={(e) => setFormData(prev => ({ ...prev, parent_assets: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 50000"
                     />
-                    <p className="text-xs text-gray-500 mt-1">Savings, investments (not home equity)</p>
+                    <p className="text-xs text-gray-400 mt-1">Savings, investments (not home equity)</p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       Estimated Budget (Annual)
                     </label>
                     <select
                       value={formData.budget_range}
                       onChange={(e) => setFormData(prev => ({ ...prev, budget_range: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                     >
                       <option value="">Select budget range...</option>
                       <option value="0-20000">$0 - $20,000</option>
@@ -587,7 +587,7 @@ export default function OnboardingPage() {
                       <option value="40000-60000">$40,000 - $60,000</option>
                       <option value="60000+">$60,000+</option>
                     </select>
-                    <p className="text-xs text-gray-500 mt-1">What you can afford per year</p>
+                    <p className="text-xs text-gray-400 mt-1">What you can afford per year</p>
                   </div>
                 </div>
               </div>
@@ -601,14 +601,14 @@ export default function OnboardingPage() {
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+          <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-800">
             <button
               onClick={() => setStep(s => Math.max(1, s - 1))}
               disabled={step === 1}
               className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-colors ${
                 step === 1
-                  ? 'text-gray-400 cursor-not-allowed'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'text-gray-600 cursor-not-allowed'
+                  : 'text-gray-300 hover:bg-gray-800'
               }`}
             >
               <ChevronLeftIcon className="h-5 w-5" />
@@ -621,8 +621,8 @@ export default function OnboardingPage() {
                 disabled={!canProceed()}
                 className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-colors ${
                   canProceed()
-                    ? 'bg-blue-600 text-white hover:bg-blue-700'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? 'bg-orange-500 text-white hover:bg-orange-600'
+                    : 'bg-gray-800 text-gray-600 cursor-not-allowed'
                 }`}
               >
                 Next
@@ -634,8 +634,8 @@ export default function OnboardingPage() {
                 disabled={loading}
                 className={`flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-colors ${
                   !loading
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700'
+                    : 'bg-gray-800 text-gray-600 cursor-not-allowed'
                 }`}
               >
                 {loading ? 'Saving...' : 'Complete Setup'}
@@ -648,7 +648,7 @@ export default function OnboardingPage() {
           <div className="text-center mt-4">
             <button
               onClick={handleSkip}
-              className="text-sm text-gray-500 hover:text-gray-700"
+              className="text-sm text-gray-400 hover:text-gray-300"
             >
               Skip for now
             </button>

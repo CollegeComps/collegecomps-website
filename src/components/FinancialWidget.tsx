@@ -40,13 +40,13 @@ export default function FinancialWidget({ title, value, subtitle, icon, color }:
   const colors = colorClasses[color];
 
   return (
-    <div className={`bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-200 p-5 border-l-4 ${colors.border}`}>
+    <div className={`bg-gray-900 border border-gray-800 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 p-5 border-l-4 ${colors.border}`}>
       <div className="flex items-center justify-between mb-2">
-        <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">{title}</div>
+        <div className="text-xs font-medium text-gray-400 uppercase tracking-wide">{title}</div>
         <div className={`${colors.icon}`}>{icon}</div>
       </div>
       <div className={`text-3xl font-bold ${colors.value}`}>{value}</div>
-      {subtitle && <div className="text-xs text-gray-500 mt-1">{subtitle}</div>}
+      {subtitle && <div className="text-xs text-gray-400 mt-1">{subtitle}</div>}
     </div>
   );
 }

@@ -199,12 +199,12 @@ export default function ProfilePage() {
   const isPremium = session.user.subscriptionTier === 'premium';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Account Settings</h1>
-          <p className="text-lg text-gray-600">Manage your profile and account preferences</p>
+          <h1 className="text-4xl font-bold text-white mb-2">Account Settings</h1>
+          <p className="text-lg text-gray-300">Manage your profile and account preferences</p>
         </div>
 
         {/* Message Banner */}
@@ -212,8 +212,8 @@ export default function ProfilePage() {
           <div
             className={`mb-6 p-4 rounded-lg ${
               message.type === 'success'
-                ? 'bg-green-50 border border-green-200 text-green-800'
-                : 'bg-red-50 border border-red-200 text-red-800'
+                ? 'bg-green-900/20 border border-green-500 text-green-400'
+                : 'bg-red-900/20 border border-red-500 text-red-400'
             }`}
           >
             {message.text}
@@ -222,30 +222,30 @@ export default function ProfilePage() {
 
         <div className="grid gap-6">
           {/* Account Status Card */}
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Account Status</h2>
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+            <h2 className="text-xl font-bold text-white mb-4">Account Status</h2>
             <div className="space-y-3">
               <div className="flex items-center justify-between py-2">
-                <span className="text-gray-700 font-medium">Subscription</span>
+                <span className="text-gray-300 font-medium">Subscription</span>
                 {isPremium ? (
                   <span className="px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-sm font-bold rounded-full">
                     Premium
                   </span>
                 ) : (
-                  <span className="px-3 py-1 bg-gray-200 text-gray-700 text-sm font-semibold rounded-full">
+                  <span className="px-3 py-1 bg-gray-200 text-gray-300 text-sm font-semibold rounded-full">
                     Free
                   </span>
                 )}
               </div>
               <div className="flex items-center justify-between py-2">
-                <span className="text-gray-700 font-medium">Account Email</span>
-                <span className="text-gray-600">{session.user.email}</span>
+                <span className="text-gray-300 font-medium">Account Email</span>
+                <span className="text-gray-300">{session.user.email}</span>
               </div>
               {!isPremium && (
                 <div className="pt-3 border-t border-gray-200">
                   <a
                     href="/pricing"
-                    className="block w-full text-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                    className="block w-full text-center px-4 py-2 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors"
                   >
                     Upgrade to Premium
                   </a>
@@ -255,19 +255,19 @@ export default function ProfilePage() {
           </div>
 
           {/* Profile Information */}
-          <div className="bg-white rounded-xl shadow-md p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-gray-900">Profile Information</h2>
+              <h2 className="text-xl font-bold text-white">Profile Information</h2>
               <Link
                 href="/edit-preferences"
-                className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
+                className="text-orange-500 hover:text-orange-600 font-semibold text-sm"
               >
                 Edit Preferences →
               </Link>
             </div>
             <form onSubmit={handleProfileUpdate} className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-gray-900 mb-2">
+                <label htmlFor="name" className="block text-sm font-semibold text-white mb-2">
                   Full Name
                 </label>
                 <input
@@ -275,13 +275,13 @@ export default function ProfilePage() {
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
                   placeholder="Your full name"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
+                <label htmlFor="email" className="block text-sm font-semibold text-white mb-2">
                   Email Address
                 </label>
                 <input
@@ -289,46 +289,46 @@ export default function ProfilePage() {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-gray-50"
+                  className="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-400 bg-gray-800"
                   disabled
                   title="Email cannot be changed"
                 />
-                <p className="mt-1 text-xs text-gray-500">Email address cannot be changed</p>
+                <p className="mt-1 text-xs text-gray-400">Email address cannot be changed</p>
               </div>
 
               {/* Academic Preferences Display */}
               {preferences && (
                 <div className="border-t border-gray-200 pt-4 mt-4">
-                  <h3 className="text-sm font-semibold text-gray-900 mb-3">
+                  <h3 className="text-sm font-semibold text-white mb-3">
                     Academic Preferences
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {preferences.degree_level && (
                       <div>
-                        <p className="text-xs text-gray-500 font-medium">Degree Level</p>
-                        <p className="text-sm text-gray-900 mt-1">{preferences.degree_level}</p>
+                        <p className="text-xs text-gray-400 font-medium">Degree Level</p>
+                        <p className="text-sm text-white mt-1">{preferences.degree_level}</p>
                       </div>
                     )}
                     {preferences.intended_major && (
                       <div>
-                        <p className="text-xs text-gray-500 font-medium">Intended Major</p>
-                        <p className="text-sm text-gray-900 mt-1">{preferences.intended_major}</p>
+                        <p className="text-xs text-gray-400 font-medium">Intended Major</p>
+                        <p className="text-sm text-white mt-1">{preferences.intended_major}</p>
                       </div>
                     )}
                     {preferences.expected_graduation_year && (
                       <div>
-                        <p className="text-xs text-gray-500 font-medium">Expected Graduation</p>
-                        <p className="text-sm text-gray-900 mt-1">{preferences.expected_graduation_year}</p>
+                        <p className="text-xs text-gray-400 font-medium">Expected Graduation</p>
+                        <p className="text-sm text-white mt-1">{preferences.expected_graduation_year}</p>
                       </div>
                     )}
                     {preferences.target_schools && preferences.target_schools.length > 0 && (
                       <div className="md:col-span-2">
-                        <p className="text-xs text-gray-500 font-medium mb-2">Target Schools</p>
+                        <p className="text-xs text-gray-400 font-medium mb-2">Target Schools</p>
                         <div className="flex flex-wrap gap-2">
                           {preferences.target_schools.map((school: string, idx: number) => (
                             <span 
                               key={idx}
-                              className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full"
+                              className="px-3 py-1 bg-orange-500/20 border border-orange-500 text-orange-400 text-xs font-medium rounded-full"
                             >
                               {school}
                             </span>
@@ -343,7 +343,7 @@ export default function ProfilePage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="w-full px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
               >
                 {loading ? 'Saving...' : 'Save Profile'}
               </button>
@@ -351,12 +351,12 @@ export default function ProfilePage() {
           </div>
 
           {/* Bookmarked Colleges */}
-          <div className="bg-white rounded-xl shadow-md p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-gray-900">Bookmarked Colleges</h2>
+              <h2 className="text-xl font-bold text-white">Bookmarked Colleges</h2>
               <Link
                 href="/colleges"
-                className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
+                className="text-orange-500 hover:text-orange-600 font-semibold text-sm"
               >
                 Explore Colleges →
               </Link>
@@ -365,7 +365,7 @@ export default function ProfilePage() {
             {bookmarksLoading ? (
               <div className="text-center py-8">
                 <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                <p className="mt-2 text-gray-600">Loading bookmarks...</p>
+                <p className="mt-2 text-gray-300">Loading bookmarks...</p>
               </div>
             ) : bookmarkedColleges.length === 0 ? (
               <div className="text-center py-12 border-2 border-dashed border-gray-200 rounded-lg">
@@ -382,14 +382,14 @@ export default function ProfilePage() {
                     d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
                   />
                 </svg>
-                <h3 className="mt-2 text-sm font-medium text-gray-900">No bookmarked colleges</h3>
-                <p className="mt-1 text-sm text-gray-500">
+                <h3 className="mt-2 text-sm font-medium text-white">No bookmarked colleges</h3>
+                <p className="mt-1 text-sm text-gray-400">
                   Start bookmarking colleges from the College Explorer to save them here
                 </p>
                 <div className="mt-6">
                   <a
                     href="/colleges"
-                    className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                    className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600"
                   >
                     Browse Colleges
                   </a>
@@ -400,22 +400,22 @@ export default function ProfilePage() {
                 {bookmarkedColleges.map((bookmark) => (
                   <div
                     key={bookmark.id}
-                    className="flex items-start justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex items-start justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-800 transition-colors"
                   >
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-sm font-semibold text-gray-900 truncate">
+                      <h3 className="text-sm font-semibold text-white truncate">
                         <a
                           href={`/colleges/${bookmark.unitid}`}
-                          className="hover:text-blue-600"
+                          className="hover:text-orange-500"
                         >
                           {bookmark.institution_name}
                         </a>
                       </h3>
-                      <p className="text-sm text-gray-600 mt-1">
+                      <p className="text-sm text-gray-300 mt-1">
                         {bookmark.city}, {bookmark.state}
                       </p>
                       {bookmark.control && (
-                        <p className="text-xs text-gray-500 mt-1">{bookmark.control}</p>
+                        <p className="text-xs text-gray-400 mt-1">{bookmark.control}</p>
                       )}
                       <p className="text-xs text-gray-400 mt-1">
                         Bookmarked {new Date(bookmark.bookmarked_at).toLocaleDateString()}
@@ -424,7 +424,7 @@ export default function ProfilePage() {
                     <div className="flex gap-2 ml-4">
                       <a
                         href={`/colleges/${bookmark.unitid}`}
-                        className="px-3 py-1 text-xs font-medium text-blue-600 hover:text-blue-700 border border-blue-600 hover:border-blue-700 rounded transition-colors"
+                        className="px-3 py-1 text-xs font-medium text-orange-500 hover:text-orange-600 border border-blue-600 hover:border-blue-700 rounded transition-colors"
                         onClick={(e) => e.stopPropagation()}
                       >
                         View
@@ -460,12 +460,12 @@ export default function ProfilePage() {
           </div>
 
           {/* Saved ROI Scenarios */}
-          <div className="bg-white rounded-xl shadow-md p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-gray-900">Saved ROI Scenarios</h2>
+              <h2 className="text-xl font-bold text-white">Saved ROI Scenarios</h2>
               <Link
                 href="/roi-calculator"
-                className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
+                className="text-orange-500 hover:text-orange-600 font-semibold text-sm"
               >
                 ROI Calculator →
               </Link>
@@ -474,7 +474,7 @@ export default function ProfilePage() {
             {scenariosLoading ? (
               <div className="text-center py-8">
                 <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                <p className="mt-2 text-gray-600">Loading scenarios...</p>
+                <p className="mt-2 text-gray-300">Loading scenarios...</p>
               </div>
             ) : roiScenarios.length === 0 ? (
               <div className="text-center py-12 border-2 border-dashed border-gray-200 rounded-lg">
@@ -491,14 +491,14 @@ export default function ProfilePage() {
                     d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
                   />
                 </svg>
-                <h3 className="mt-2 text-sm font-medium text-gray-900">No saved scenarios</h3>
-                <p className="mt-1 text-sm text-gray-500">
+                <h3 className="mt-2 text-sm font-medium text-white">No saved scenarios</h3>
+                <p className="mt-1 text-sm text-gray-400">
                   Calculate ROI for different programs and save scenarios to compare them
                 </p>
                 <div className="mt-6">
                   <a
                     href="/roi-calculator"
-                    className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                    className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600"
                   >
                     Try ROI Calculator
                   </a>
@@ -509,11 +509,11 @@ export default function ProfilePage() {
                 {roiScenarios.map((scenario) => (
                   <div
                     key={scenario.id}
-                    className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="p-4 border border-gray-200 rounded-lg hover:bg-gray-800 transition-colors"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+                        <h3 className="text-sm font-semibold text-white flex items-center gap-2">
                           {scenario.scenario_name}
                           {scenario.is_draft === 1 && (
                             <span className="px-2 py-0.5 text-xs bg-yellow-100 text-yellow-800 rounded">
@@ -521,17 +521,17 @@ export default function ProfilePage() {
                             </span>
                           )}
                         </h3>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-sm text-gray-300 mt-1">
                           {scenario.institution_name}
                         </p>
                         {scenario.program_name && (
-                          <p className="text-xs text-gray-500 mt-1">{scenario.program_name}</p>
+                          <p className="text-xs text-gray-400 mt-1">{scenario.program_name}</p>
                         )}
                       </div>
                       <div className="ml-4 flex gap-2">
                         <a
                           href={`/roi-calculator?loadScenario=${scenario.id}`}
-                          className="px-3 py-1 text-xs font-medium text-blue-600 hover:text-blue-700 border border-blue-600 hover:border-blue-700 rounded transition-colors inline-flex items-center gap-1"
+                          className="px-3 py-1 text-xs font-medium text-orange-500 hover:text-orange-600 border border-blue-600 hover:border-blue-700 rounded transition-colors inline-flex items-center gap-1"
                           title="Load this scenario in the ROI calculator"
                         >
                           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -555,13 +555,13 @@ export default function ProfilePage() {
                     {/* ROI Metrics */}
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3 pt-3 border-t border-gray-200">
                       <div>
-                        <p className="text-xs text-gray-500">Total Cost</p>
-                        <p className="text-sm font-semibold text-gray-900">
+                        <p className="text-xs text-gray-400">Total Cost</p>
+                        <p className="text-sm font-semibold text-white">
                           ${scenario.total_cost?.toLocaleString() || 'N/A'}
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500">Net ROI</p>
+                        <p className="text-xs text-gray-400">Net ROI</p>
                         <p className={`text-sm font-semibold ${
                           scenario.net_roi > 0 ? 'text-green-600' : 'text-red-600'
                         }`}>
@@ -569,7 +569,7 @@ export default function ProfilePage() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500">ROI %</p>
+                        <p className="text-xs text-gray-400">ROI %</p>
                         <p className={`text-sm font-semibold ${
                           scenario.roi_percentage > 0 ? 'text-green-600' : 'text-red-600'
                         }`}>
@@ -577,8 +577,8 @@ export default function ProfilePage() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500">Payback</p>
-                        <p className="text-sm font-semibold text-gray-900">
+                        <p className="text-xs text-gray-400">Payback</p>
+                        <p className="text-sm font-semibold text-white">
                           {scenario.payback_period ? `${scenario.payback_period.toFixed(1)} yrs` : 'Never'}
                         </p>
                       </div>
@@ -611,11 +611,11 @@ export default function ProfilePage() {
           </div>
 
           {/* Change Password */}
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Change Password</h2>
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+            <h2 className="text-xl font-bold text-white mb-4">Change Password</h2>
             <form onSubmit={handlePasswordChange} className="space-y-4">
               <div>
-                <label htmlFor="currentPassword" className="block text-sm font-semibold text-gray-900 mb-2">
+                <label htmlFor="currentPassword" className="block text-sm font-semibold text-white mb-2">
                   Current Password
                 </label>
                 <input
@@ -623,13 +623,13 @@ export default function ProfilePage() {
                   id="currentPassword"
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
                   placeholder="Enter current password"
                 />
               </div>
 
               <div>
-                <label htmlFor="newPassword" className="block text-sm font-semibold text-gray-900 mb-2">
+                <label htmlFor="newPassword" className="block text-sm font-semibold text-white mb-2">
                   New Password
                 </label>
                 <input
@@ -637,13 +637,13 @@ export default function ProfilePage() {
                   id="newPassword"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
                   placeholder="Enter new password (min. 6 characters)"
                 />
               </div>
 
               <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-900 mb-2">
+                <label htmlFor="confirmPassword" className="block text-sm font-semibold text-white mb-2">
                   Confirm New Password
                 </label>
                 <input
@@ -651,7 +651,7 @@ export default function ProfilePage() {
                   id="confirmPassword"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
                   placeholder="Confirm new password"
                 />
               </div>
@@ -667,12 +667,12 @@ export default function ProfilePage() {
           </div>
 
           {/* Alert Settings */}
-          <div className="bg-white rounded-xl shadow-md p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-gray-900">Alert Preferences</h2>
+              <h2 className="text-xl font-bold text-white">Alert Preferences</h2>
               <Link
                 href="/alerts"
-                className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
+                className="text-orange-500 hover:text-orange-600 font-semibold text-sm"
               >
                 Full Settings →
               </Link>
@@ -681,9 +681,9 @@ export default function ProfilePage() {
           </div>
 
           {/* Danger Zone */}
-          <div className="bg-white rounded-xl shadow-md p-6 border-2 border-red-200">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8 border-2 border-red-200">
             <h2 className="text-xl font-bold text-red-600 mb-2">Danger Zone</h2>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-300 mb-4">
               Once you delete your account, there is no going back. Please be certain.
             </p>
             <button

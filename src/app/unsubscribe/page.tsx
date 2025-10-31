@@ -11,7 +11,7 @@ function UnsubscribeContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
+      <div className="max-w-md w-full bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8">
         {success ? (
           <>
             <div className="text-center mb-6">
@@ -20,16 +20,16 @@ function UnsubscribeContent() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl font-bold text-white font-bold mb-2">
                 Successfully Unsubscribed
               </h1>
-              <p className="text-gray-600">
+              <p className="text-gray-300">
                 You've been unsubscribed from all marketing and product update emails.
               </p>
             </div>
             
-            <div className="bg-blue-50 rounded-lg p-4 mb-6">
-              <p className="text-sm text-gray-700">
+            <div className="bg-orange-500/10 rounded-lg p-4 mb-6">
+              <p className="text-sm text-gray-300">
                 <strong>Note:</strong> You'll still receive important account-related emails like password resets and security notifications.
               </p>
             </div>
@@ -43,7 +43,7 @@ function UnsubscribeContent() {
               </Link>
               <Link
                 href="/profile"
-                className="block w-full text-center py-3 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                className="block w-full text-center py-3 px-4 border border-gray-300 text-gray-300 rounded-lg hover:bg-gray-800 transition-colors"
               >
                 Manage Preferences
               </Link>
@@ -57,10 +57,10 @@ function UnsubscribeContent() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl font-bold text-white font-bold mb-2">
                 Unsubscribe Failed
               </h1>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-300 mb-4">
                 {error === 'invalid' 
                   ? 'Invalid unsubscribe link. Please use the link from your email.'
                   : 'An error occurred. Please try again later.'}
@@ -77,15 +77,15 @@ function UnsubscribeContent() {
         ) : (
           <>
             <div className="text-center mb-6">
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl font-bold text-white font-bold mb-2">
                 Manage Email Preferences
               </h1>
-              <p className="text-gray-600">
+              <p className="text-gray-300">
                 Update your email subscription preferences below.
               </p>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-4 mb-6 text-sm text-gray-600">
+            <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-6 text-sm text-gray-300">
               <p>
                 Please click the unsubscribe link in any email you've received to update your preferences.
               </p>
@@ -108,7 +108,7 @@ export default function UnsubscribePage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-gray-600">Loading...</div>
+        <div className="text-gray-300">Loading...</div>
       </div>
     }>
       <UnsubscribeContent />

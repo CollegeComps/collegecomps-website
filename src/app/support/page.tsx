@@ -106,9 +106,9 @@ export default function SupportPage() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'open':
-        return <ClockIcon className="w-5 h-5 text-blue-500" />;
+        return <ClockIcon className="w-5 h-5 text-orange-500" />;
       case 'in_progress':
-        return <ChatBubbleLeftRightIcon className="w-5 h-5 text-purple-500" />;
+        return <ChatBubbleLeftRightIcon className="w-5 h-5 text-orange-400" />;
       case 'resolved':
         return <CheckCircleIcon className="w-5 h-5 text-green-500" />;
       case 'closed':
@@ -120,45 +120,45 @@ export default function SupportPage() {
 
   const getPriorityBadge = (priority: string) => {
     const colors = {
-      urgent: 'bg-red-100 text-red-800',
-      high: 'bg-orange-100 text-orange-800',
-      normal: 'bg-blue-100 text-blue-800',
-      low: 'bg-gray-100 text-gray-600',
+      urgent: 'bg-red-900/20 border border-red-500 text-red-400',
+      high: 'bg-orange-500/20 border border-orange-500 text-orange-400',
+      normal: 'bg-gray-800 border border-gray-700 text-gray-300',
+      low: 'bg-gray-800 border border-gray-700 text-gray-400',
     };
     return colors[priority as keyof typeof colors] || colors.normal;
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading support tickets...</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-500 mx-auto mb-4"></div>
+          <p className="text-gray-300">Loading support tickets...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4">
+    <div className="min-h-screen bg-black py-8 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <LifebuoyIcon className="w-10 h-10 text-blue-600" />
-                <h1 className="text-4xl font-bold text-gray-900">Support Center</h1>
+                <LifebuoyIcon className="w-10 h-10 text-orange-500" />
+                <h1 className="text-4xl font-bold text-white font-bold">Support Center</h1>
               </div>
-              <p className="text-lg text-gray-600">
+              <p className="text-lg text-gray-300">
                 Get help from our support team
                 {isProfessional && <span className="ml-2 text-purple-600 font-semibold">Priority Support Active</span>}
-                {isPremium && <span className="ml-2 text-blue-600 font-semibold">Premium Support Active</span>}
+                {isPremium && <span className="ml-2 text-orange-500 font-semibold">Premium Support Active</span>}
               </p>
             </div>
             <button
               onClick={() => setShowNewTicket(!showNewTicket)}
-              className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all transform hover:-translate-y-0.5"
+              className="flex items-center gap-2 px-6 py-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition-all shadow-lg"
             >
               <PlusIcon className="w-5 h-5" />
               New Ticket
@@ -168,24 +168,24 @@ export default function SupportPage() {
 
         {/* Support Tier Info */}
         <div className="mb-6 grid md:grid-cols-3 gap-4">
-          <div className="bg-white rounded-lg p-4 border-2 border-gray-200">
+          <div className="bg-gray-900 border border-gray-800 rounded-lg p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-600">Your Support Tier</span>
-              {isProfessional && <SparklesIcon className="w-5 h-5 text-purple-600" />}
+              <span className="text-sm font-medium text-gray-300">Your Support Tier</span>
+              {isProfessional && <SparklesIcon className="w-5 h-5 text-orange-500" />}
             </div>
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-2xl font-bold text-white">
               {isProfessional ? 'Priority' : isPremium ? 'Premium' : 'Standard'}
             </p>
           </div>
-          <div className="bg-white rounded-lg p-4 border-2 border-gray-200">
-            <span className="text-sm font-medium text-gray-600 block mb-2">Response Time</span>
-            <p className="text-2xl font-bold text-gray-900">
+          <div className="bg-gray-900 border border-gray-800 rounded-lg p-4">
+            <span className="text-sm font-medium text-gray-300 block mb-2">Response Time</span>
+            <p className="text-2xl font-bold text-white">
               {isProfessional ? '4 hours' : isPremium ? '24 hours' : '48 hours'}
             </p>
           </div>
-          <div className="bg-white rounded-lg p-4 border-2 border-gray-200">
-            <span className="text-sm font-medium text-gray-600 block mb-2">Open Tickets</span>
-            <p className="text-2xl font-bold text-gray-900">
+          <div className="bg-gray-900 border border-gray-800 rounded-lg p-4">
+            <span className="text-sm font-medium text-gray-300 block mb-2">Open Tickets</span>
+            <p className="text-2xl font-bold text-white">
               {tickets.filter(t => t.status !== 'closed' && t.status !== 'resolved').length}
             </p>
           </div>
@@ -193,30 +193,30 @@ export default function SupportPage() {
 
         {/* New Ticket Form */}
         {showNewTicket && (
-          <div className="mb-6 bg-white rounded-xl shadow-lg p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Create Support Ticket</h2>
+          <div className="mb-6 bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6">
+            <h2 className="text-2xl font-bold text-white mb-4">Create Support Ticket</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">Subject</label>
+                <label className="block text-sm font-bold text-white mb-2">Subject</label>
                 <input
                   type="text"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium placeholder-gray-500"
+                  className="w-full px-4 py-2 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-bold bg-gray-800 placeholder-gray-500"
                   placeholder="Brief description of your issue"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">Category</label>
+                <label className="block text-sm font-bold text-white mb-2">Category</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium bg-white"
+                  className="w-full px-4 py-2 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-bold bg-gray-900"
                 >
                   {categories.map((cat) => (
-                    <option key={cat.value} value={cat.value} className="text-gray-900">
+                    <option key={cat.value} value={cat.value} className="text-white font-bold">
                       {cat.label}
                     </option>
                   ))}
@@ -224,12 +224,12 @@ export default function SupportPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">Description</label>
+                <label className="block text-sm font-bold text-white mb-2">Description</label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={6}
-                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium placeholder-gray-500"
+                  className="w-full px-4 py-2 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-bold bg-gray-800 placeholder-gray-500"
                   placeholder="Please provide as much detail as possible..."
                   required
                 />
@@ -239,14 +239,14 @@ export default function SupportPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="flex-1 bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="flex-1 bg-orange-500 text-white font-bold py-3 rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg"
                 >
                   {submitting ? 'Submitting...' : 'Submit Ticket'}
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowNewTicket(false)}
-                  className="px-6 bg-gray-200 text-gray-700 font-semibold py-3 rounded-lg hover:bg-gray-300 transition-colors"
+                  className="px-6 bg-gray-800 text-white font-bold py-3 rounded-lg hover:bg-gray-700 transition-colors"
                 >
                   Cancel
                 </button>
@@ -256,14 +256,14 @@ export default function SupportPage() {
         )}
 
         {/* Tickets List */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Tickets</h2>
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6">
+          <h2 className="text-2xl font-bold text-white font-bold mb-6">Your Tickets</h2>
           
           {tickets.length === 0 ? (
             <div className="text-center py-12">
               <LifebuoyIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-600 text-lg mb-2">No support tickets yet</p>
-              <p className="text-gray-500">Click "New Ticket" to get started</p>
+              <p className="text-gray-300 text-lg mb-2">No support tickets yet</p>
+              <p className="text-gray-400">Click "New Ticket" to get started</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -277,13 +277,13 @@ export default function SupportPage() {
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         {getStatusIcon(ticket.status)}
-                        <h3 className="text-lg font-semibold text-gray-900">{ticket.subject}</h3>
+                        <h3 className="text-lg font-semibold text-white font-bold">{ticket.subject}</h3>
                         <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getPriorityBadge(ticket.priority)}`}>
                           {ticket.priority.toUpperCase()}
                         </span>
                       </div>
-                      <p className="text-gray-600 text-sm line-clamp-2 mb-2">{ticket.description}</p>
-                      <div className="flex items-center gap-4 text-sm text-gray-500">
+                      <p className="text-gray-300 text-sm line-clamp-2 mb-2">{ticket.description}</p>
+                      <div className="flex items-center gap-4 text-sm text-gray-400">
                         <span>Category: {categories.find(c => c.value === ticket.category)?.label || ticket.category}</span>
                         <span>•</span>
                         <span>{new Date(ticket.created_at).toLocaleDateString()}</span>
@@ -296,7 +296,7 @@ export default function SupportPage() {
                         ticket.status === 'open' ? 'bg-blue-100 text-blue-800' :
                         ticket.status === 'in_progress' ? 'bg-purple-100 text-purple-800' :
                         ticket.status === 'resolved' ? 'bg-green-100 text-green-800' :
-                        'bg-gray-100 text-gray-600'
+                        'bg-gray-100 text-gray-300'
                       }`}>
                         {ticket.status.replace('_', ' ').toUpperCase()}
                       </span>
@@ -320,7 +320,7 @@ export default function SupportPage() {
                 <div className="flex gap-4">
                   <Link
                     href="/pricing"
-                    className="inline-block bg-white text-blue-600 font-bold px-6 py-2 rounded-lg hover:bg-blue-50 transition-colors"
+                    className="inline-block bg-white text-orange-500 font-bold px-6 py-2 rounded-lg hover:bg-orange-500/10 transition-colors"
                   >
                     View Plans
                   </Link>

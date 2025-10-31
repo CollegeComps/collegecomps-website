@@ -97,14 +97,14 @@ export default function CookieConsent() {
               <div className="flex items-start justify-between">
                 <div>
                   <h3 className="text-lg font-bold text-gray-900">Cookie Preferences</h3>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-sm text-gray-300 mt-1">
                     Manage your cookie settings. Learn more in our{' '}
                     <a href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</a>.
                   </p>
                 </div>
                 <button
                   onClick={() => setShowSettings(false)}
-                  className="ml-4 text-gray-400 hover:text-gray-600"
+                  className="ml-4 text-gray-400 hover:text-gray-300"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -114,13 +114,13 @@ export default function CookieConsent() {
 
               <div className="space-y-3">
                 {/* Necessary Cookies */}
-                <div className="flex items-start justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-start justify-between p-3 bg-gray-800 rounded-lg">
                   <div className="flex-1">
                     <div className="flex items-center">
                       <h4 className="font-semibold text-gray-900">Necessary Cookies</h4>
-                      <span className="ml-2 px-2 py-0.5 text-xs bg-gray-200 text-gray-700 rounded">Required</span>
+                      <span className="ml-2 px-2 py-0.5 text-xs bg-gray-200 text-gray-300 rounded">Required</span>
                     </div>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="text-sm text-gray-300 mt-1">
                       Essential for website functionality, authentication, and security. Cannot be disabled.
                     </p>
                   </div>
@@ -135,10 +135,10 @@ export default function CookieConsent() {
                 </div>
 
                 {/* Analytics Cookies */}
-                <div className="flex items-start justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-start justify-between p-3 bg-gray-800 rounded-lg">
                   <div className="flex-1">
                     <h4 className="font-semibold text-gray-900">Analytics Cookies</h4>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="text-sm text-gray-300 mt-1">
                       Help us understand how you use our website and improve your experience (Google Analytics).
                     </p>
                   </div>
@@ -153,10 +153,10 @@ export default function CookieConsent() {
                 </div>
 
                 {/* Marketing Cookies */}
-                <div className="flex items-start justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-start justify-between p-3 bg-gray-800 rounded-lg">
                   <div className="flex-1">
                     <h4 className="font-semibold text-gray-900">Marketing Cookies</h4>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="text-sm text-gray-300 mt-1">
                       Used to show you relevant advertisements (currently not in use).
                     </p>
                   </div>
@@ -196,7 +196,7 @@ export default function CookieConsent() {
                   </svg>
                   <h3 className="font-bold text-gray-900">We Value Your Privacy</h3>
                 </div>
-                <p className="text-sm text-gray-700 leading-relaxed">
+                <p className="text-sm text-gray-300 leading-relaxed">
                   We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. By clicking "Accept All", you consent to our use of cookies.{' '}
                   <a href="/privacy" className="text-blue-600 hover:underline font-medium">Read our Privacy Policy</a>.
                 </p>
@@ -205,7 +205,7 @@ export default function CookieConsent() {
               <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                 <button
                   onClick={rejectAll}
-                  className="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                  className="px-4 py-2 text-sm text-gray-300 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
                 >
                   Reject All
                 </button>

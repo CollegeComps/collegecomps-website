@@ -82,7 +82,7 @@ export default function RotatingTestimonials() {
     return (
       <div className="grid md:grid-cols-3 gap-8">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-white rounded-xl shadow-md p-6 border border-gray-100 animate-pulse">
+          <div key={i} className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8 border border-gray-100 animate-pulse">
             <div className="flex items-center mb-4">
               <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
               <div className="ml-4 flex-1">
@@ -105,18 +105,18 @@ export default function RotatingTestimonials() {
   return (
     <div className="grid md:grid-cols-3 gap-8">
       {selectedTestimonials.map((testimonial, index) => (
-        <div key={index} className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow">
+        <div key={index} className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8 border border-gray-100 hover:shadow-lg transition-shadow">
           <div className="flex items-center mb-4">
             <div className={`w-12 h-12 ${testimonial.color} rounded-full flex items-center justify-center font-bold text-lg`}>
               {testimonial.initials}
             </div>
             <div className="ml-4">
               <div className="font-semibold text-gray-900">{testimonial.name}</div>
-              <div className="text-sm text-gray-500">{testimonial.role}</div>
+              <div className="text-sm text-gray-400">{testimonial.role}</div>
             </div>
           </div>
           <div className="text-yellow-400 mb-3">★★★★★</div>
-          <p className="text-gray-600 italic">
+          <p className="text-gray-300 italic">
             "{testimonial.text}"
           </p>
         </div>

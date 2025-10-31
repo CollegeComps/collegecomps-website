@@ -33,39 +33,39 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
             Choose Your Plan
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8 font-medium">
             Start free or unlock premium features for deeper insights and advanced tools
           </p>
 
           {/* Billing Toggle */}
-          <div className="inline-flex items-center bg-white rounded-full p-1 shadow-sm border border-gray-200">
+          <div className="inline-flex items-center bg-gray-900 border border-gray-800 rounded-full p-1 shadow-lg">
             <button
               onClick={() => setBillingCycle('monthly')}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+              className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${
                 billingCycle === 'monthly'
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-lg shadow-orange-500/30'
+                  : 'text-gray-400 hover:text-gray-200'
               }`}
             >
               Monthly
             </button>
             <button
               onClick={() => setBillingCycle('annual')}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+              className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${
                 billingCycle === 'annual'
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-lg shadow-orange-500/30'
+                  : 'text-gray-400 hover:text-gray-200'
               }`}
             >
               Annual
-              <span className="ml-2 px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-semibold">
+              <span className="ml-2 px-2 py-0.5 bg-green-500/20 border border-green-500 text-green-400 text-xs rounded-full font-bold">
                 Save 20%
               </span>
             </button>
@@ -75,17 +75,17 @@ export default function PricingPage() {
         {/* Pricing Cards */}
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Free Plan */}
-          <div className="bg-white rounded-2xl shadow-lg border-2 border-gray-200 p-8 hover:shadow-xl transition-shadow flex flex-col">
+          <div className="bg-gray-900 border-2 border-gray-800 rounded-2xl shadow-lg p-8 hover:shadow-xl hover:border-gray-700 transition-all flex flex-col">
             <div className="text-center mb-6">
               <div className="inline-flex items-center gap-1 mb-2">
                 <span className="text-2xl">🔍</span>
-                <h3 className="text-2xl font-bold text-gray-900">Free</h3>
+                <h3 className="text-2xl font-bold text-white">Free</h3>
               </div>
-              <div className="text-4xl font-bold text-gray-900 mb-2">
+              <div className="text-4xl font-extrabold text-white mb-2">
                 $0
-                <span className="text-lg text-gray-500 font-normal">/forever</span>
+                <span className="text-lg text-gray-400 font-normal">/forever</span>
               </div>
-              <p className="text-gray-600">Start your journey</p>
+              <p className="text-gray-300 font-medium">Start your journey</p>
             </div>
             
             <ul className="space-y-3 mb-8 flex-grow">
@@ -93,127 +93,127 @@ export default function PricingPage() {
                 <svg className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">ROI Calculator</span>
+                <span className="text-gray-300 font-medium">ROI Calculator</span>
               </li>
               <li className="flex items-start">
                 <svg className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">College Search & Explorer</span>
+                <span className="text-gray-300 font-medium">College Search & Explorer</span>
               </li>
               <li className="flex items-start">
                 <svg className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">Compare up to 3 Colleges</span>
+                <span className="text-gray-300 font-medium">Compare up to 3 Colleges</span>
               </li>
               <li className="flex items-start">
                 <svg className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">Data Dashboard</span>
+                <span className="text-gray-300 font-medium">Data Dashboard</span>
               </li>
               {/* Historical Trends temporarily hidden */}
               {/* <li className="flex items-start">
                 <svg className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">Historical Trends</span>
+                <span className="text-gray-300">Historical Trends</span>
               </li> */}
               <li className="flex items-start">
                 <svg className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">Limited Saved Scenarios</span>
+                <span className="text-gray-300 font-medium">Limited Saved Scenarios</span>
               </li>
             </ul>
             
             <button
               onClick={() => !session ? router.push('/auth/signin') : router.push('/roi-calculator')}
-              className="w-full py-3 px-6 rounded-lg font-semibold transition-all bg-gray-100 text-gray-800 hover:bg-gray-200"
+              className="w-full py-3 px-6 rounded-lg font-bold transition-all bg-gray-800 text-white hover:bg-gray-700 shadow-md"
             >
               {currentTier === 'free' ? '✓ Current Plan' : 'Get Started Free'}
             </button>
           </div>
 
           {/* Premium Plan */}
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl shadow-xl border-2 border-blue-500 p-8 relative transform md:scale-105 hover:shadow-2xl transition-all flex flex-col">
-            <div className="absolute top-0 right-0 bg-blue-600 text-white px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm font-bold">
+          <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl shadow-2xl border-2 border-orange-500 p-8 relative transform md:scale-105 hover:shadow-orange-500/20 transition-all flex flex-col">
+            <div className="absolute top-0 right-0 bg-gradient-to-r from-orange-600 to-orange-500 text-white px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm font-bold shadow-lg">
               POPULAR
             </div>
             
             <div className="text-center mb-6 pt-4">
               <div className="inline-flex items-center gap-1 mb-2">
                 <span className="text-2xl">🚀</span>
-                <h3 className="text-2xl font-bold text-gray-900">Premium</h3>
+                <h3 className="text-2xl font-bold text-white">Premium</h3>
               </div>
-              <div className="text-4xl font-bold text-gray-900 mb-2">
+              <div className="text-4xl font-extrabold text-white mb-2">
                 ${billingCycle === 'monthly' ? '6.99' : '4.99'}
-                <span className="text-lg text-gray-500 font-normal">/month</span>
+                <span className="text-lg text-gray-400 font-normal">/month</span>
               </div>
-              <p className="text-gray-600">
+              <p className="text-gray-300 font-medium">
                 {billingCycle === 'annual' ? 'Billed annually at $59.99' : 'or $59.99/year (save $24)'}
               </p>
             </div>
             
             <ul className="space-y-3 mb-8 flex-grow">
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700 font-medium">Everything in Free</span>
+                <span className="text-gray-300 font-semibold">Everything in Free</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">Detailed Salary Insights</span>
+                <span className="text-gray-300 font-medium">Detailed Salary Insights</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">Compare Unlimited Colleges</span>
+                <span className="text-gray-300 font-medium">Compare Unlimited Colleges</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">Unlimited Saved Scenarios & Bookmarks</span>
+                <span className="text-gray-300 font-medium">Unlimited Saved Scenarios & Bookmarks</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">Advanced Analytics & Reports</span>
+                <span className="text-gray-300 font-medium">Advanced Analytics & Reports</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">Price Alerts & Notifications</span>
+                <span className="text-gray-300 font-medium">Price Alerts & Notifications</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">Export to PDF/Excel</span>
+                <span className="text-gray-300 font-medium">Export to PDF/Excel</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-gray-700">Priority Support</span>
+                <span className="text-gray-300 font-medium">Priority Support</span>
               </li>
             </ul>
             
             <button
               onClick={() => handleUpgrade('premium')}
               disabled={currentTier === 'premium' || loading}
-              className={`w-full py-3 px-6 rounded-lg font-semibold transition-all ${
+              className={`w-full py-3 px-6 rounded-lg font-bold transition-all ${
                 currentTier === 'premium' || loading
-                  ? 'bg-blue-400 text-white cursor-not-allowed'
-                  : 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
+                  ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-orange-600 to-orange-500 text-white hover:from-orange-700 hover:to-orange-600 shadow-lg shadow-orange-500/30 transform hover:-translate-y-0.5'
               }`}
             >
               {loading ? 'Loading...' : currentTier === 'premium' ? 'Current Plan' : 'Upgrade to Premium'}
@@ -223,31 +223,31 @@ export default function PricingPage() {
 
         {/* FAQ Section */}
         <div className="mt-20 max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-8">
+          <h2 className="text-3xl font-extrabold text-white text-center mb-8">
             Frequently Asked Questions
           </h2>
           <div className="space-y-6">
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
+              <h3 className="text-lg font-bold text-white mb-2">
                 Can I cancel anytime?
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-300 font-medium">
                 Yes! You can cancel your subscription at any time. You'll continue to have access until the end of your billing period.
               </p>
             </div>
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
+              <h3 className="text-lg font-bold text-white mb-2">
                 What payment methods do you accept?
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-300 font-medium">
                 We accept all major credit cards (Visa, MasterCard, American Express) through our secure payment processor, Stripe.
               </p>
             </div>
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
+              <h3 className="text-lg font-bold text-white mb-2">
                 Is there a student discount?
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-300 font-medium">
                 We're working on a student verification system. For now, the annual plan offers the best value with 20% savings.
               </p>
             </div>
@@ -256,7 +256,7 @@ export default function PricingPage() {
 
         {/* Trust Indicators */}
         <div className="mt-16 text-center">
-          <div className="inline-flex flex-wrap justify-center items-center gap-8 text-gray-500 text-sm">
+          <div className="inline-flex flex-wrap justify-center items-center gap-8 text-gray-400 text-sm">
             <div className="flex items-center gap-2">
               <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />

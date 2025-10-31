@@ -73,13 +73,13 @@ export default function SaveROIScenarioModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between">
           <h2 className="text-2xl font-bold text-gray-900">Save ROI Scenario</h2>
           <button
             onClick={handleClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-gray-400 hover:text-gray-300 transition-colors"
             disabled={saving}
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,7 +92,7 @@ export default function SaveROIScenarioModal({
         <div className="p-6 space-y-6">
           {/* Scenario Name Input */}
           <div>
-            <label htmlFor="scenarioName" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="scenarioName" className="block text-sm font-medium text-gray-300 mb-2">
               Scenario Name *
             </label>
             <input
@@ -129,44 +129,44 @@ export default function SaveROIScenarioModal({
               className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               disabled={saving}
             />
-            <label htmlFor="isDraft" className="ml-2 text-sm text-gray-700">
+            <label htmlFor="isDraft" className="ml-2 text-sm text-gray-300">
               Save as draft (won't appear in comparisons)
             </label>
           </div>
 
           {/* Summary Preview */}
-          <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+          <div className="bg-gray-800 rounded-lg p-4 space-y-3">
             <h3 className="font-semibold text-gray-900 mb-3">Scenario Summary</h3>
             
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <p className="text-gray-600">Institution</p>
+                <p className="text-gray-300">Institution</p>
                 <p className="font-semibold text-gray-900">{institution.name}</p>
               </div>
               {program && (
                 <div>
-                  <p className="text-gray-600">Program</p>
+                  <p className="text-gray-300">Program</p>
                   <p className="font-semibold text-gray-900">{program.cip_title}</p>
                 </div>
               )}
               <div>
-                <p className="text-gray-600">Total Investment</p>
+                <p className="text-gray-300">Total Investment</p>
                 <p className="font-semibold text-gray-900">${result.totalCost.toLocaleString()}</p>
               </div>
               <div>
-                <p className="text-gray-600">Net ROI</p>
+                <p className="text-gray-300">Net ROI</p>
                 <p className={`font-semibold ${result.netROI > 0 ? 'text-green-600' : 'text-red-600'}`}>
                   ${result.netROI.toLocaleString()}
                 </p>
               </div>
               <div>
-                <p className="text-gray-600">ROI Percentage</p>
+                <p className="text-gray-300">ROI Percentage</p>
                 <p className={`font-semibold ${result.roiPercentage > 0 ? 'text-green-600' : 'text-red-600'}`}>
                   {result.roiPercentage > 0 ? '+' : ''}{result.roiPercentage.toFixed(1)}%
                 </p>
               </div>
               <div>
-                <p className="text-gray-600">Payback Period</p>
+                <p className="text-gray-300">Payback Period</p>
                 <p className="font-semibold text-gray-900">
                   {result.paybackPeriod === Infinity ? 'Never' : `${result.paybackPeriod.toFixed(1)} years`}
                 </p>
@@ -227,10 +227,10 @@ export default function SaveROIScenarioModal({
         </div>
 
         {/* Footer */}
-        <div className="sticky bottom-0 bg-gray-50 px-6 py-4 flex justify-end space-x-3 border-t">
+        <div className="sticky bottom-0 bg-gray-800 px-6 py-4 flex justify-end space-x-3 border-t">
           <button
             onClick={handleClose}
-            className="px-6 py-2 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+            className="px-6 py-2 border border-gray-300 rounded-lg font-medium text-gray-300 hover:bg-gray-100 transition-colors"
             disabled={saving}
           >
             Cancel

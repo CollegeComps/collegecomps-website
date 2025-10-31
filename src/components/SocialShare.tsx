@@ -57,7 +57,7 @@ export default function SocialShare({
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-      <span className="text-sm text-gray-600 font-medium mr-2">Share:</span>
+      <span className="text-sm text-gray-300 font-medium mr-2">Share:</span>
       
       {/* Twitter */}
       <button
@@ -98,7 +98,7 @@ export default function SocialShare({
       {/* Copy Link */}
       <button
         onClick={copyToClipboard}
-        className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-700 transition-colors duration-200 relative"
+        className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-300 transition-colors duration-200 relative"
         aria-label="Copy link"
         title={copied ? 'Copied!' : 'Copy link'}
       >

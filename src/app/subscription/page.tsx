@@ -159,22 +159,22 @@ export default function SubscriptionPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading subscription details...</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-500 mx-auto mb-4"></div>
+          <p className="text-gray-300">Loading subscription details...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4">
+    <div className="min-h-screen bg-black py-8 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">My Subscription</h1>
-          <p className="text-lg text-gray-600">
+          <h1 className="text-4xl font-bold text-white font-bold mb-2">My Subscription</h1>
+          <p className="text-lg text-gray-300">
             Manage your plan and view feature access
           </p>
         </div>
@@ -182,13 +182,13 @@ export default function SubscriptionPage() {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Current Plan Card */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8 mb-6">
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                  <h2 className="text-2xl font-bold text-white font-bold mb-2">
                     {isPremium ? 'Premium Plan' : 'Free Plan'}
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-gray-300">
                     {isPremium 
                       ? 'You have access to all premium features'
                       : 'Upgrade to unlock advanced features'
@@ -206,27 +206,27 @@ export default function SubscriptionPage() {
                 <div className="border-t border-gray-200 pt-6">
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     <div>
-                      <p className="text-sm text-gray-600">Billing Cycle</p>
-                      <p className="text-lg font-semibold text-gray-900">Monthly</p>
+                      <p className="text-sm text-gray-300">Billing Cycle</p>
+                      <p className="text-lg font-semibold text-white font-bold">Monthly</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600">Next Billing Date</p>
-                      <p className="text-lg font-semibold text-gray-900">Oct 30, 2025</p>
+                      <p className="text-sm text-gray-300">Next Billing Date</p>
+                      <p className="text-lg font-semibold text-white font-bold">Oct 30, 2025</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600">Amount</p>
-                      <p className="text-lg font-semibold text-gray-900">$6.99/month</p>
+                      <p className="text-sm text-gray-300">Amount</p>
+                      <p className="text-lg font-semibold text-white font-bold">$6.99/month</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600">Payment Method</p>
-                      <p className="text-lg font-semibold text-gray-900">•••• 4242</p>
+                      <p className="text-sm text-gray-300">Payment Method</p>
+                      <p className="text-lg font-semibold text-white font-bold">•••• 4242</p>
                     </div>
                   </div>
 
                   <div className="flex gap-3">
                     <button
                       onClick={handleManageSubscription}
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors"
                     >
                       <CreditCardIcon className="w-5 h-5" />
                       Manage Billing
@@ -244,7 +244,7 @@ export default function SubscriptionPage() {
               {!isPremium && (
                 <button
                   onClick={handleUpgrade}
-                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold py-4 rounded-lg hover:shadow-lg transition-all transform hover:-translate-y-1"
+                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-4 rounded-lg hover:shadow-lg transition-all transform hover:-translate-y-1"
                 >
                   Upgrade to Premium - $6.99/month
                 </button>
@@ -254,19 +254,19 @@ export default function SubscriptionPage() {
             {/* Features Grid */}
             <div className="grid md:grid-cols-2 gap-6">
               {/* Free Features */}
-              <div className="bg-white rounded-xl shadow-md p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">Free Features</h3>
+              <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+                <h3 className="text-xl font-bold text-white font-bold mb-4">Free Features</h3>
                 <div className="space-y-3">
                   {freeFeatures.map((feature, idx) => (
                     <div key={idx} className="flex items-start gap-3">
-                      <CheckCircleIcon className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                      <CheckCircleIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                       <div className="flex-1">
-                        <p className="font-medium text-gray-900">{feature.name}</p>
-                        <p className="text-sm text-gray-600">{feature.description}</p>
+                        <p className="font-medium text-white font-bold">{feature.name}</p>
+                        <p className="text-sm text-gray-300">{feature.description}</p>
                         {feature.link && (
                           <Link
                             href={feature.link}
-                            className="text-sm text-blue-600 hover:underline mt-1 inline-block"
+                            className="text-sm text-orange-500 hover:underline mt-1 inline-block"
                           >
                             Go to feature →
                           </Link>
@@ -278,8 +278,8 @@ export default function SubscriptionPage() {
               </div>
 
               {/* Premium Features */}
-              <div className="bg-white rounded-xl shadow-md p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">Premium Features</h3>
+              <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+                <h3 className="text-xl font-bold text-white font-bold mb-4">Premium Features</h3>
                 <div className="space-y-3">
                   {premiumFeatures.map((feature, idx) => (
                     <div key={idx} className="flex items-start gap-3">
@@ -289,16 +289,16 @@ export default function SubscriptionPage() {
                         <XCircleIcon className="w-5 h-5 text-gray-300 flex-shrink-0 mt-0.5" />
                       )}
                       <div className="flex-1">
-                        <p className={`font-medium ${feature.available ? 'text-gray-900' : 'text-gray-400'}`}>
+                        <p className={`font-medium ${feature.available ? 'text-white font-bold' : 'text-gray-400'}`}>
                           {feature.name}
                         </p>
-                        <p className={`text-sm ${feature.available ? 'text-gray-600' : 'text-gray-400'}`}>
+                        <p className={`text-sm ${feature.available ? 'text-gray-300' : 'text-gray-400'}`}>
                           {feature.description}
                         </p>
                         {feature.available && feature.link && (
                           <Link
                             href={feature.link}
-                            className="text-sm text-blue-600 hover:underline mt-1 inline-block"
+                            className="text-sm text-orange-500 hover:underline mt-1 inline-block"
                           >
                             Go to feature →
                           </Link>
@@ -314,19 +314,19 @@ export default function SubscriptionPage() {
           {/* Usage Stats Sidebar */}
           <div className="space-y-6">
             {/* Usage Overview */}
-            <div className="bg-white rounded-xl shadow-md p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Usage This Month</h3>
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+              <h3 className="text-xl font-bold text-white font-bold mb-4">Usage This Month</h3>
               <div className="space-y-4">
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-gray-600">Saved Comparisons</span>
-                    <span className="font-semibold text-gray-900">
+                    <span className="text-sm text-gray-300">Saved Comparisons</span>
+                    <span className="font-semibold text-white font-bold">
                       {usageStats.saved_comparisons} / {isPremium ? '∞' : '1'}
                     </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
-                      className="bg-blue-600 h-2 rounded-full"
+                      className="bg-orange-500 h-2 rounded-full"
                       style={{ 
                         width: isPremium 
                           ? '30%' 
@@ -340,22 +340,22 @@ export default function SubscriptionPage() {
                   <>
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-gray-600">Exports</span>
-                        <span className="font-semibold text-gray-900">{usageStats.exports_this_month}</span>
+                        <span className="text-sm text-gray-300">Exports</span>
+                        <span className="font-semibold text-white font-bold">{usageStats.exports_this_month}</span>
                       </div>
                     </div>
 
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-gray-600">Active Alerts</span>
-                        <span className="font-semibold text-gray-900">{usageStats.alerts_configured}</span>
+                        <span className="text-sm text-gray-300">Active Alerts</span>
+                        <span className="font-semibold text-white font-bold">{usageStats.alerts_configured}</span>
                       </div>
                     </div>
 
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-gray-600">Folders Created</span>
-                        <span className="font-semibold text-gray-900">{usageStats.folders_created}</span>
+                        <span className="text-sm text-gray-300">Folders Created</span>
+                        <span className="font-semibold text-white font-bold">{usageStats.folders_created}</span>
                       </div>
                     </div>
                   </>
@@ -364,19 +364,19 @@ export default function SubscriptionPage() {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white rounded-xl shadow-md p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h3>
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+              <h3 className="text-xl font-bold text-white font-bold mb-4">Quick Actions</h3>
               <div className="space-y-3">
                 <Link
                   href="/pricing"
-                  className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                  className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors"
                 >
-                  <ArrowPathIcon className="w-5 h-5 text-blue-600" />
+                  <ArrowPathIcon className="w-5 h-5 text-orange-500" />
                   <div>
-                    <p className="font-medium text-gray-900">
+                    <p className="font-medium text-white font-bold">
                       {isPremium ? 'Change Plan' : 'View Plans'}
                     </p>
-                    <p className="text-xs text-gray-600">
+                    <p className="text-xs text-gray-300">
                       {isPremium ? 'Switch to annual billing' : 'See all features'}
                     </p>
                   </div>
@@ -386,23 +386,23 @@ export default function SubscriptionPage() {
                   <>
                     <button
                       onClick={handleManageSubscription}
-                      className="w-full flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left"
+                      className="w-full flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors text-left"
                     >
-                      <CreditCardIcon className="w-5 h-5 text-blue-600" />
+                      <CreditCardIcon className="w-5 h-5 text-orange-500" />
                       <div>
-                        <p className="font-medium text-gray-900">Update Payment</p>
-                        <p className="text-xs text-gray-600">Change card or billing info</p>
+                        <p className="font-medium text-white font-bold">Update Payment</p>
+                        <p className="text-xs text-gray-300">Change card or billing info</p>
                       </div>
                     </button>
 
                     <Link
                       href="/alerts"
-                      className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors"
                     >
-                      <BellAlertIcon className="w-5 h-5 text-blue-600" />
+                      <BellAlertIcon className="w-5 h-5 text-orange-500" />
                       <div>
-                        <p className="font-medium text-gray-900">Manage Alerts</p>
-                        <p className="text-xs text-gray-600">Configure notifications</p>
+                        <p className="font-medium text-white font-bold">Manage Alerts</p>
+                        <p className="text-xs text-gray-300">Configure notifications</p>
                       </div>
                     </Link>
                   </>
@@ -411,14 +411,14 @@ export default function SubscriptionPage() {
             </div>
 
             {/* Support */}
-            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl shadow-md p-6 text-white">
+            <div className="bg-gradient-to-br from-orange-600 to-orange-700 rounded-xl shadow-xl p-8 text-white">
               <h3 className="text-xl font-bold mb-2">Need Help?</h3>
-              <p className="text-blue-100 mb-4 text-sm">
+              <p className="text-orange-100 mb-4 text-sm">
                 Our support team is here to help with any questions about your subscription.
               </p>
               <a
                 href="mailto:support@collegeroi.com"
-                className="inline-block bg-white text-blue-600 font-semibold px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors"
+                className="inline-block bg-white text-orange-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 Contact Support
               </a>
