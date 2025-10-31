@@ -301,10 +301,10 @@ export default function CollegesPage() {
         <div className="mb-8">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h1 className="text-3xl font-bold text-white mb-2">
                 College Explorer
               </h1>
-              <p className="text-gray-600 text-lg">
+              <p className="text-gray-300 text-lg">
                 Browse and compare thousands of institutions with detailed information about costs, outcomes, and programs.
               </p>
             </div>
@@ -313,7 +313,7 @@ export default function CollegesPage() {
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6 mb-6">
           {/* Search Bar */}
           <div className="flex flex-col sm:flex-row gap-4 mb-4">
             <div className="flex-1 relative">
@@ -321,7 +321,7 @@ export default function CollegesPage() {
               <input
                 type="text"
                 placeholder="Search institutions by name, city, or state..."
-                className="w-full pl-10 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium placeholder-gray-600 text-lg"
+                className="w-full pl-10 pr-4 py-3 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-medium placeholder-gray-400 text-lg"
                 value={filters.search}
                 onChange={(e) => handleFilterChange('search', e.target.value)}
               />
@@ -341,15 +341,15 @@ export default function CollegesPage() {
               {/* Grid layout: 1 col on mobile, 2 on sm, 3 on lg, auto-fit on xl to prevent overlapping */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-start">
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-1">
+                  <label className="block text-sm font-bold text-white mb-1">
                     State
                   </label>
                   <select
-                    className="w-full p-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium bg-white"
+                    className="w-full p-2 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-medium bg-gray-800"
                     value={filters.state}
                     onChange={(e) => handleFilterChange('state', e.target.value)}
                   >
-                    <option value="" className="text-gray-700">All States</option>
+                    <option value="" className="text-gray-300">All States</option>
                     {US_STATES.map(state => (
                       <option key={state.code} value={state.code}>
                         {state.name}
@@ -359,45 +359,45 @@ export default function CollegesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-1">
+                  <label className="block text-sm font-bold text-white mb-1">
                     City
                   </label>
                   <input
                     type="text"
                     placeholder="Enter city name"
-                    className="w-full p-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium placeholder-gray-700"
+                    className="w-full p-2 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-medium placeholder-gray-700"
                     value={filters.city}
                     onChange={(e) => handleFilterChange('city', e.target.value)}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-1">
+                  <label className="block text-sm font-bold text-white mb-1">
                     ZIP Code
                   </label>
                   <input
                     type="text"
                     placeholder="12345"
-                    className="w-full p-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium placeholder-gray-700"
+                    className="w-full p-2 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-medium placeholder-gray-700"
                     value={filters.zipCode}
                     onChange={(e) => handleFilterChange('zipCode', e.target.value)}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-1">
+                  <label className="block text-sm font-bold text-white mb-1">
                     Near ZIP Code
                   </label>
                   <div className="flex gap-2">
                     <input
                       type="text"
                       placeholder="12345"
-                      className="flex-1 p-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium placeholder-gray-700"
+                      className="flex-1 p-2 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-medium placeholder-gray-700"
                       value={filters.proximityZip}
                       onChange={(e) => handleFilterChange('proximityZip', e.target.value)}
                     />
                     <select
-                      className="w-24 p-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium bg-white"
+                      className="w-24 p-2 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-medium bg-gray-800"
                       value={filters.radiusMiles}
                       onChange={(e) => handleFilterChange('radiusMiles', e.target.value)}
                     >
@@ -410,29 +410,29 @@ export default function CollegesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-1">
+                  <label className="block text-sm font-bold text-white mb-1">
                     Major Category
                   </label>
                   <select
-                    className="w-full p-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium bg-white"
+                    className="w-full p-2 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-medium bg-gray-800"
                     value={filters.majorCategory}
                     onChange={(e) => handleFilterChange('majorCategory', e.target.value)}
                   >
-                    <option value="" className="text-gray-700">All Majors</option>
-                    <option value="STEM" className="text-gray-900">STEM</option>
-                    <option value="Business" className="text-gray-900">Business</option>
-                    <option value="Health" className="text-gray-900">Health</option>
-                    <option value="Education" className="text-gray-900">Education</option>
-                    <option value="Humanities" className="text-gray-900">Humanities</option>
-                    <option value="Social Sciences" className="text-gray-900">Social Sciences</option>
-                    <option value="Arts" className="text-gray-900">Arts</option>
-                    <option value="Other" className="text-gray-900">Other</option>
+                    <option value="" className="text-gray-300">All Majors</option>
+                    <option value="STEM" className="text-white">STEM</option>
+                    <option value="Business" className="text-white">Business</option>
+                    <option value="Health" className="text-white">Health</option>
+                    <option value="Education" className="text-white">Education</option>
+                    <option value="Humanities" className="text-white">Humanities</option>
+                    <option value="Social Sciences" className="text-white">Social Sciences</option>
+                    <option value="Arts" className="text-white">Arts</option>
+                    <option value="Other" className="text-white">Other</option>
                   </select>
                 </div>
                 
                 {/* Type filter with proper spacing - takes full height of row */}
                 <div className="min-h-full">
-                  <label className="block text-sm font-bold text-gray-900 mb-2">
+                  <label className="block text-sm font-bold text-white mb-2">
                     Type (Select Multiple)
                   </label>
                   <div className="space-y-2">
@@ -451,33 +451,33 @@ export default function CollegesPage() {
                               : filters.control.filter(c => c !== option.value);
                             setFilters({ ...filters, control: newControl });
                           }}
-                          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                          className="w-4 h-4 text-orange-500 border-gray-700 rounded focus:ring-orange-500"
                         />
-                        <span className="ml-2 text-sm font-medium text-gray-900">{option.label}</span>
+                        <span className="ml-2 text-sm font-medium text-white">{option.label}</span>
                       </label>
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-1">
+                  <label className="block text-sm font-bold text-white mb-1">
                     Max Tuition
                   </label>
                   <input
                     type="number"
                     placeholder="$50,000"
-                    className="w-full p-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium placeholder-gray-700"
+                    className="w-full p-2 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-medium placeholder-gray-700"
                     value={filters.maxTuition}
                     onChange={(e) => handleFilterChange('maxTuition', e.target.value)}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-1">
+                  <label className="block text-sm font-bold text-white mb-1">
                     Sort By
                   </label>
                   <select
-                    className="w-full p-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium bg-white"
+                    className="w-full p-2 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-medium bg-gray-800"
                     value={filters.sortBy}
                     onChange={(e) => handleFilterChange('sortBy', e.target.value)}
                   >
@@ -494,7 +494,7 @@ export default function CollegesPage() {
               <div className="flex justify-end mt-4">
                 <button
                   onClick={clearFilters}
-                  className="px-4 py-2 text-gray-800 hover:text-gray-900 font-semibold border border-gray-400 hover:border-gray-600 rounded transition-colors"
+                  className="px-4 py-2 text-gray-800 hover:text-white font-semibold border border-gray-700 hover:border-gray-600 rounded transition-colors"
                 >
                   Clear All
                 </button>
@@ -517,7 +517,7 @@ export default function CollegesPage() {
             </div>
             <div className="flex flex-wrap gap-2">
               {filters.state && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
                   State: {US_STATES.find(s => s.code === filters.state)?.name}
                   <button
                     onClick={() => handleFilterChange('state', '')}
@@ -528,7 +528,7 @@ export default function CollegesPage() {
                 </span>
               )}
               {filters.city && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
                   City: {filters.city}
                   <button
                     onClick={() => handleFilterChange('city', '')}
@@ -539,7 +539,7 @@ export default function CollegesPage() {
                 </span>
               )}
               {filters.zipCode && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
                   ZIP: {filters.zipCode}
                   <button
                     onClick={() => handleFilterChange('zipCode', '')}
@@ -550,7 +550,7 @@ export default function CollegesPage() {
                 </span>
               )}
               {filters.proximityZip && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
                   Within {filters.radiusMiles} mi of {filters.proximityZip}
                   <button
                     onClick={() => handleFilterChange('proximityZip', '')}
@@ -561,7 +561,7 @@ export default function CollegesPage() {
                 </span>
               )}
               {filters.majorCategory && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
                   Major: {filters.majorCategory}
                   <button
                     onClick={() => handleFilterChange('majorCategory', '')}
@@ -574,7 +574,7 @@ export default function CollegesPage() {
               {filters.control && filters.control.length > 0 && filters.control.map((controlType) => {
                 const typeLabel = controlType === '1' ? 'Public' : controlType === '2' ? 'Private Non-profit' : 'Private For-profit';
                 return (
-                  <span key={controlType} className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                  <span key={controlType} className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
                     Type: {typeLabel}
                     <button
                       onClick={() => {
@@ -589,7 +589,7 @@ export default function CollegesPage() {
                 );
               })}
               {filters.maxTuition && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
                   Max Tuition: ${parseInt(filters.maxTuition).toLocaleString()}
                   <button
                     onClick={() => handleFilterChange('maxTuition', '')}
@@ -600,7 +600,7 @@ export default function CollegesPage() {
                 </span>
               )}
               {filters.sortBy !== 'roi_high' && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
                   Sort: {filters.sortBy === 'roi_high' ? 'ROI (High-Low)' :
                           filters.sortBy === 'tuition_low' ? 'Tuition (Low-High)' : 
                           filters.sortBy === 'tuition_high' ? 'Tuition (High-Low)' :
@@ -622,8 +622,8 @@ export default function CollegesPage() {
         {/* Results Header - ENG-99 */}
         {!loading && institutions.length > 0 && (
           <div className="mb-4 flex items-center justify-between">
-            <div className="text-sm text-gray-700">
-              <span className="font-semibold text-gray-900">
+            <div className="text-sm text-gray-300">
+              <span className="font-semibold text-white">
                 {institutions.length} {institutions.length === 1 ? 'college' : 'colleges'}
               </span>
               {' '}found
@@ -631,8 +631,8 @@ export default function CollegesPage() {
                 <span className="text-gray-500"> (all results)</span>
               )}
             </div>
-            <div className="text-sm font-medium text-gray-600">
-              Sorted by: <span className="text-gray-900">
+            <div className="text-sm font-medium text-gray-300">
+              Sorted by: <span className="text-white">
                 {filters.sortBy === 'roi_high' && 'ROI (High to Low)'}
                 {filters.sortBy === 'roi_low' && 'ROI (Low to High)'}
                 {filters.sortBy === 'name' && 'Name (A-Z)'}
@@ -650,7 +650,7 @@ export default function CollegesPage() {
           {loading ? (
             // Loading skeletons
             Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <div key={i} className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
                 <div className="animate-pulse">
                   <div className="h-6 bg-gray-200 rounded mb-3"></div>
                   <div className="h-4 bg-gray-200 rounded mb-2 w-3/4"></div>
@@ -665,7 +665,7 @@ export default function CollegesPage() {
           ) : institutions.length === 0 ? (
             <div className="col-span-full text-center py-12">
               <BuildingOffice2Icon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-medium text-gray-900 mb-2">
+              <h3 className="text-xl font-medium text-white mb-2">
                 No institutions found
               </h3>
               <p className="text-gray-500">
@@ -676,7 +676,7 @@ export default function CollegesPage() {
             institutions.map((institution) => (
               <div 
                 key={institution.id} 
-                className="group bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-blue-300 transition-all cursor-pointer relative"
+                className="group bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6 hover:shadow-md hover:border-blue-300 transition-all cursor-pointer relative"
                 onClick={() => window.location.href = `/colleges/${institution.unitid}`}
               >
                 {/* Bookmark button */}
@@ -693,11 +693,11 @@ export default function CollegesPage() {
                   )}
                 </button>
 
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 pr-10">
+                <h3 className="text-lg font-semibold text-white mb-2 line-clamp-2 pr-10">
                   {institution.name}
                 </h3>
                 
-                <div className="flex items-center text-gray-600 mb-3">
+                <div className="flex items-center text-gray-300 mb-3">
                   <MapPinIcon className="w-4 h-4 mr-1" />
                   <span className="text-sm">
                     {institution.city}, {institution.state}
@@ -756,29 +756,29 @@ export default function CollegesPage() {
                     {(institution.tuition_in_state || institution.tuition_out_state) ? (
                       <div className="space-y-1">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium text-gray-700">Tuition:</span>
-                          <span className="font-bold text-lg text-gray-900">
+                          <span className="text-sm font-medium text-gray-300">Tuition:</span>
+                          <span className="font-bold text-lg text-white">
                             ${(institution.tuition_in_state || institution.tuition_out_state || 0).toLocaleString()}
                             {institution.tuition_in_state && institution.control_of_institution === 1 && (
-                              <span className="text-xs text-gray-600 ml-1">(in-state)</span>
+                              <span className="text-xs text-gray-300 ml-1">(in-state)</span>
                             )}
                           </span>
                         </div>
                         {institution.tuition_in_state && institution.tuition_out_state && institution.control_of_institution === 1 && (
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-gray-600">Out-of-state:</span>
-                            <span className="font-semibold text-gray-900">${institution.tuition_out_state.toLocaleString()}</span>
+                            <span className="text-gray-300">Out-of-state:</span>
+                            <span className="font-semibold text-white">${institution.tuition_out_state.toLocaleString()}</span>
                           </div>
                         )}
                         {institution.room_board_on_campus && (
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-gray-600">Room & Board:</span>
-                            <span className="font-semibold text-gray-900">${institution.room_board_on_campus.toLocaleString()}</span>
+                            <span className="text-gray-300">Room & Board:</span>
+                            <span className="font-semibold text-white">${institution.room_board_on_campus.toLocaleString()}</span>
                           </div>
                         )}
                       </div>
                     ) : (
-                      <div className="text-sm text-gray-600 italic">Cost information not available</div>
+                      <div className="text-sm text-gray-300 italic">Cost information not available</div>
                     )}
                     
                     {/* Affordability Badge (ENG-29) */}
@@ -792,7 +792,7 @@ export default function CollegesPage() {
                               <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${badge.bgColor} ${badge.color}`}>
                                 {badge.label}
                               </div>
-                              <div className="text-xs text-gray-600">
+                              <div className="text-xs text-gray-300">
                                 Estimated Net Price: ${affordability.estimatedNetPrice?.toLocaleString() || 'N/A'}
                               </div>
                               {affordability.gapAmount > 0 && (
@@ -810,13 +810,13 @@ export default function CollegesPage() {
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center">
                       <BuildingOffice2Icon className="w-4 h-4 mr-2 text-gray-400" />
-                      <span className="text-gray-700 font-medium">{getControlTypeLabel(institution.control_of_institution)}</span>
+                      <span className="text-gray-300 font-medium">{getControlTypeLabel(institution.control_of_institution)}</span>
                     </div>
 
                     {institution.earnings_6_years_after_entry && (
                       <div className="flex items-center">
                         <CurrencyDollarIcon className="w-4 h-4 mr-2 text-green-500" />
-                        <span className="text-gray-900">
+                        <span className="text-white">
                           Avg Earnings (6 yrs): ${institution.earnings_6_years_after_entry.toLocaleString()}/year
                         </span>
                       </div>
@@ -825,7 +825,7 @@ export default function CollegesPage() {
                     {(institution as any).mean_earnings_10_years && (
                       <div className="flex items-center">
                         <CurrencyDollarIcon className="w-4 h-4 mr-2 text-blue-500" />
-                        <span className="text-gray-900">
+                        <span className="text-white">
                           Avg Earnings (10 yrs): ${(institution as any).mean_earnings_10_years.toLocaleString()}/year
                         </span>
                       </div>
@@ -834,7 +834,7 @@ export default function CollegesPage() {
                     {institution.acceptance_rate && (
                       <div className="flex items-center">
                         <AcademicCapIcon className="w-4 h-4 mr-2 text-purple-500" />
-                        <span className="text-gray-900">
+                        <span className="text-white">
                           Acceptance Rate: {(institution.acceptance_rate * 100).toFixed(1)}%
                         </span>
                       </div>
@@ -843,7 +843,7 @@ export default function CollegesPage() {
                     {(institution.average_sat || institution.average_act) && (
                       <div className="flex items-center">
                         <AcademicCapIcon className="w-4 h-4 mr-2 text-indigo-500" />
-                        <span className="text-gray-900">
+                        <span className="text-white">
                           {institution.average_sat && `Avg SAT: ${institution.average_sat}`}
                           {institution.average_sat && institution.average_act && ' | '}
                           {institution.average_act && `Avg ACT: ${institution.average_act}`}
@@ -860,7 +860,7 @@ export default function CollegesPage() {
                         href={institution.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-700 truncate"
+                        className="text-orange-500 hover:text-blue-700 truncate"
                         onClick={(e) => e.stopPropagation()}
                       >
                         Visit Website
@@ -872,7 +872,7 @@ export default function CollegesPage() {
                 <div className="mt-4 pt-4 border-t border-gray-100">
                   <div className="flex justify-between items-center">
                     <span className="text-xs text-gray-500">Unit ID: {institution.unitid}</span>
-                    <div className="flex items-center gap-1 text-blue-600 group-hover:text-blue-700 text-sm font-medium">
+                    <div className="flex items-center gap-1 text-orange-500 group-hover:text-blue-700 text-sm font-medium">
                       <span>View Details</span>
                       <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
