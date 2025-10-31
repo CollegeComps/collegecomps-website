@@ -63,11 +63,11 @@ export default function SavedComparisonsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-black py-8 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-white mb-2">
             💾 Saved Comparisons
           </h1>
           <p className="text-gray-600">
@@ -75,7 +75,7 @@ export default function SavedComparisonsPage() {
             {!isPremium && (
               <span className="ml-2 text-sm">
                 ({comparisons.length}/3 used · 
-                <Link href="/pricing" className="text-blue-600 hover:text-blue-700 ml-1">
+                <Link href="/pricing" className="text-orange-500 hover:text-orange-600 ml-1">
                   Upgrade for unlimited
                 </Link>)
               </span>
@@ -95,7 +95,7 @@ export default function SavedComparisonsPage() {
               </div>
               <Link
                 href="/pricing"
-                className="px-6 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors whitespace-nowrap"
+                className="px-6 py-3 bg-white text-orange-500 rounded-lg font-semibold hover:bg-orange-500/10 transition-colors whitespace-nowrap"
               >
                 Upgrade Now
               </Link>
@@ -105,19 +105,19 @@ export default function SavedComparisonsPage() {
 
         {/* Comparisons List */}
         {comparisons.length === 0 ? (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-12 text-center">
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No saved comparisons yet</h3>
+            <h3 className="text-lg font-semibold text-white mb-2">No saved comparisons yet</h3>
             <p className="text-gray-600 mb-6">
               Start comparing colleges and save your analyses for later reference.
             </p>
             <Link
               href="/compare"
-              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center px-6 py-3 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors"
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -128,10 +128,10 @@ export default function SavedComparisonsPage() {
         ) : (
           <div className="grid gap-6">
             {comparisons.map((comparison) => (
-              <div key={comparison.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+              <div key={comparison.id} className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    <h3 className="text-lg font-semibold text-white mb-2">
                       {comparison.name}
                     </h3>
                     <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
@@ -155,7 +155,7 @@ export default function SavedComparisonsPage() {
                     )}
                     <div className="flex flex-wrap gap-2">
                       {comparison.colleges.slice(0, 5).map((college, idx) => (
-                        <span key={idx} className="px-3 py-1 bg-blue-50 text-blue-700 text-sm rounded-full">
+                        <span key={idx} className="px-3 py-1 bg-blue-50 text-orange-600 text-sm rounded-full">
                           {college}
                         </span>
                       ))}
@@ -170,7 +170,7 @@ export default function SavedComparisonsPage() {
                   <div className="flex items-center gap-2 ml-4">
                     <button
                       onClick={() => alert('View comparison (feature coming soon)')}
-                      className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                      className="p-2 text-orange-500 hover:bg-orange-500/10 rounded-lg transition-colors"
                       title="View comparison"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

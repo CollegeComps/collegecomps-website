@@ -119,7 +119,7 @@ export default function ROIResults({ result, institution, program, costs, earnin
           <div className="flex justify-between items-center py-2 border-b border-gray-800">
             <span className="text-gray-300 font-medium">Expected Additional Earnings</span>
             <span className="font-bold text-green-500">
-              +{ROICalculator.formatCurrency(result.lifetimeAdditionalEarnings)}
+              +{ROICalculator.formatCurrency(result.expectedEarnings)}
             </span>
           </div>
           
