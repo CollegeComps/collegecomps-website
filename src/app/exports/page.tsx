@@ -140,23 +140,23 @@ export default function ExportsPage() {
             <p className="text-xl text-gray-300 mb-8">
               Export & Reports is available for Premium subscribers
             </p>
-            <div className="bg-blue-50 rounded-lg p-6 mb-8">
+            <div className="bg-orange-500/10 rounded-lg p-6 mb-8">
               <h3 className="font-bold text-white font-bold mb-4">Unlock powerful export options:</h3>
               <ul className="text-left space-y-3 text-gray-300">
                 <li className="flex items-start gap-3">
-                  <DocumentTextIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <DocumentTextIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>PDF Export:</strong> Professional reports with charts and analysis</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <TableCellsIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <TableCellsIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>Excel/CSV Export:</strong> Full data for your own analysis</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <ShareIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <ShareIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>Shareable Links:</strong> Share comparisons with counselors and family</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <CheckCircleIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircleIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>Custom Reports:</strong> Include your personal data and preferences</span>
                 </li>
               </ul>
@@ -208,7 +208,7 @@ export default function ExportsPage() {
                   <p className="text-gray-400 mb-4">No saved comparisons yet</p>
                   <Link
                     href="/compare"
-                    className="text-blue-600 hover:underline font-medium"
+                    className="text-orange-500 hover:underline font-medium"
                   >
                     Create one now →
                   </Link>
@@ -267,9 +267,9 @@ export default function ExportsPage() {
                 <button
                   onClick={() => handleExport('csv')}
                   disabled={!selectedComparison || exporting}
-                  className="flex flex-col items-center gap-3 p-6 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex flex-col items-center gap-3 p-6 bg-orange-500/10 rounded-lg hover:bg-orange-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <DocumentArrowDownIcon className="w-12 h-12 text-blue-600" />
+                  <DocumentArrowDownIcon className="w-12 h-12 text-orange-500" />
                   <span className="font-semibold text-white font-bold">CSV</span>
                   <span className="text-xs text-gray-300 text-center">Raw data file</span>
                 </button>
@@ -297,23 +297,23 @@ export default function ExportsPage() {
               <h2 className="text-xl font-bold text-white font-bold mb-4">Custom Report Options</h2>
               <div className="space-y-3">
                 <label className="flex items-center gap-3">
-                  <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />
+                  <input type="checkbox" defaultChecked className="w-4 h-4 text-orange-500 rounded" />
                   <span className="text-gray-300">Include ROI analysis</span>
                 </label>
                 <label className="flex items-center gap-3">
-                  <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />
+                  <input type="checkbox" defaultChecked className="w-4 h-4 text-orange-500 rounded" />
                   <span className="text-gray-300">Include salary data</span>
                 </label>
                 <label className="flex items-center gap-3">
-                  <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />
+                  <input type="checkbox" defaultChecked className="w-4 h-4 text-orange-500 rounded" />
                   <span className="text-gray-300">Include cost breakdown</span>
                 </label>
                 <label className="flex items-center gap-3">
-                  <input type="checkbox" className="w-4 h-4 text-blue-600 rounded" />
+                  <input type="checkbox" className="w-4 h-4 text-orange-500 rounded" />
                   <span className="text-gray-300">Include personal notes</span>
                 </label>
                 <label className="flex items-center gap-3">
-                  <input type="checkbox" className="w-4 h-4 text-blue-600 rounded" />
+                  <input type="checkbox" className="w-4 h-4 text-orange-500 rounded" />
                   <span className="text-gray-300">Include financial aid estimates</span>
                 </label>
               </div>

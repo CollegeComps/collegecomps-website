@@ -252,7 +252,7 @@ export default function TicketDetailPage() {
                   key={message.id}
                   className={`p-4 rounded-lg ${
                     message.is_admin_reply
-                      ? 'bg-blue-50 border-l-4 border-blue-500'
+                      ? 'bg-orange-500/10 border-l-4 border-blue-500'
                       : 'bg-black border-l-4 border-gray-300'
                   }`}
                 >
@@ -288,7 +288,7 @@ export default function TicketDetailPage() {
                 onChange={(e) => setReplyText(e.target.value)}
                 placeholder="Type your message here..."
                 rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 resize-none"
                 disabled={sending}
               />
               <div className="flex justify-end mt-3">

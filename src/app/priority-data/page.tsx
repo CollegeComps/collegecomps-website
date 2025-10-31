@@ -143,7 +143,7 @@ export default function PriorityDataPage() {
   const getCategoryColor = (category: string) => {
     switch (category) {
       case 'salary': return 'bg-green-100 text-green-700';
-      case 'college': return 'bg-blue-100 text-blue-700';
+      case 'college': return 'bg-blue-100 text-orange-400';
       case 'trend': return 'bg-purple-100 text-purple-700';
       case 'insight': return 'bg-orange-100 text-orange-700';
       default: return 'bg-gray-100 text-gray-300';

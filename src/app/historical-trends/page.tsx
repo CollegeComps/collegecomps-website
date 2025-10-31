@@ -195,7 +195,7 @@ export default function HistoricalTrendsPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <ArrowPathIcon className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-4" />
+          <ArrowPathIcon className="w-12 h-12 text-orange-500 animate-spin mx-auto mb-4" />
           <p className="text-gray-300">Loading trend data...</p>
         </div>
       </div>
@@ -323,7 +323,7 @@ export default function HistoricalTrendsPage() {
           
           <div className="mt-4 flex items-center gap-4 text-sm">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-blue-500 rounded"></div>
+              <div className="w-3 h-3 bg-orange-500/100 rounded"></div>
               <span className="text-gray-300">Historical Data</span>
             </div>
             <div className="flex items-center gap-2">
@@ -410,7 +410,7 @@ export default function HistoricalTrendsPage() {
         </div>
 
         {/* Insights */}
-        <div className="mt-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-200">
+        <div className="mt-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border border-orange-500">
           <div className="flex items-start gap-3">
             <SparklesIcon className="w-6 h-6 text-purple-600 flex-shrink-0 mt-1" />
             <div>

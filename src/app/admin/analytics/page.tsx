@@ -137,7 +137,7 @@ export default function AdminAnalyticsPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-white font-bold flex items-center gap-3">
-                <ChartBarIcon className="h-8 w-8 text-blue-600" />
+                <ChartBarIcon className="h-8 w-8 text-orange-500" />
                 Admin Analytics Dashboard
               </h1>
               <p className="mt-2 text-gray-300">
@@ -161,7 +161,7 @@ export default function AdminAnalyticsPage() {
                 <p className="text-3xl font-bold text-white font-bold">{data.stats.total_events}</p>
               </div>
               <div className="bg-blue-100 p-3 rounded-lg">
-                <FireIcon className="h-6 w-6 text-blue-600" />
+                <FireIcon className="h-6 w-6 text-orange-500" />
               </div>
             </div>
           </div>
@@ -218,7 +218,7 @@ export default function AdminAnalyticsPage() {
                 data.eventBreakdown.map((event) => (
                   <div key={event.event_type} className="flex items-center justify-between p-3 bg-gray-800 border border-gray-700 rounded-lg">
                     <div className="flex items-center gap-3">
-                      <div className="text-blue-600">
+                      <div className="text-orange-500">
                         {getEventIcon(event.event_type)}
                       </div>
                       <div>
@@ -327,7 +327,7 @@ export default function AdminAnalyticsPage() {
             </p>
             <Link
               href="/profile"
-              className="inline-block bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg hover:bg-blue-50 transition-colors"
+              className="inline-block bg-white text-orange-500 font-semibold px-6 py-3 rounded-lg hover:bg-orange-500/10 transition-colors"
             >
               Upgrade to Premium
             </Link>

@@ -28,7 +28,7 @@ function UnsubscribeContent() {
               </p>
             </div>
             
-            <div className="bg-blue-50 rounded-lg p-4 mb-6">
+            <div className="bg-orange-500/10 rounded-lg p-4 mb-6">
               <p className="text-sm text-gray-300">
                 <strong>Note:</strong> You'll still receive important account-related emails like password resets and security notifications.
               </p>

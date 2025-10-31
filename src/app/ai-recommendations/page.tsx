@@ -307,7 +307,7 @@ export default function AIRecommendationsPage() {
                         {school.matchReasons.map((reason, idx) => (
                           <span
                             key={idx}
-                            className="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-full"
+                            className="px-2 py-1 bg-orange-500/10 text-orange-400 text-xs rounded-full"
                           >
                             ✓ {reason}
                           </span>

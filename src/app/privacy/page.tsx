@@ -136,7 +136,7 @@ export default function PrivacyPolicyPage() {
 
             <p className="text-gray-300 leading-relaxed mt-4">
               To exercise any of these rights, please contact us at{' '}
-              <a href="mailto:privacy@collegecomps.com" className="text-blue-600 hover:underline">
+              <a href="mailto:privacy@collegecomps.com" className="text-orange-500 hover:underline">
                 privacy@collegecomps.com
               </a>
             </p>
@@ -146,7 +146,7 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-2xl font-bold text-white font-bold mb-4">8. Children's Privacy (COPPA Compliance)</h2>
             <p className="text-gray-300 leading-relaxed">
               CollegeComps is not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us immediately at{' '}
-              <a href="mailto:privacy@collegecomps.com" className="text-blue-600 hover:underline">
+              <a href="mailto:privacy@collegecomps.com" className="text-orange-500 hover:underline">
                 privacy@collegecomps.com
               </a>{' '}
               and we will delete such information.
@@ -191,7 +191,7 @@ export default function PrivacyPolicyPage() {
             <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
               <p className="text-gray-300"><strong>Email:</strong> privacy@collegecomps.com</p>
               <p className="text-gray-300 mt-2"><strong>Mail:</strong> CollegeComps<br/>Privacy Team<br/>[Your Business Address]</p>
-              <p className="text-gray-300 mt-2"><strong>Support:</strong> <a href="/support" className="text-blue-600 hover:underline">Contact Support</a></p>
+              <p className="text-gray-300 mt-2"><strong>Support:</strong> <a href="/support" className="text-orange-500 hover:underline">Contact Support</a></p>
             </div>
           </section>
 

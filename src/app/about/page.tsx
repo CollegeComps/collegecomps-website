@@ -48,7 +48,7 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-3 gap-8 mt-12">
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-                <ChartBarIcon className="w-8 h-8 text-blue-600" />
+                <ChartBarIcon className="w-8 h-8 text-orange-500" />
               </div>
               <h3 className="text-xl font-semibold text-white font-bold mb-2">Data-Driven</h3>
               <p className="text-gray-300">
@@ -125,9 +125,9 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold text-white font-bold mb-12 text-center">What We Offer</h2>
           
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-200">
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-6 border border-orange-500">
               <div className="flex items-start">
-                <AcademicCapIcon className="w-8 h-8 text-blue-600 mr-4 flex-shrink-0" />
+                <AcademicCapIcon className="w-8 h-8 text-orange-500 mr-4 flex-shrink-0" />
                 <div>
                   <h3 className="text-xl font-semibold text-white font-bold mb-2">ROI Calculator</h3>
                   <p className="text-gray-300">
@@ -235,13 +235,13 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/roi-calculator"
-              className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-colors shadow-lg"
+              className="bg-white text-orange-500 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-colors shadow-lg"
             >
               Calculate ROI
             </Link>
             <Link
               href="/colleges"
-              className="bg-transparent text-white px-8 py-4 rounded-lg font-semibold text-lg border-2 border-white hover:bg-white hover:text-blue-600 transition-colors"
+              className="bg-transparent text-white px-8 py-4 rounded-lg font-semibold text-lg border-2 border-white hover:bg-white hover:text-orange-500 transition-colors"
             >
               Explore Colleges
             </Link>
@@ -259,14 +259,14 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center text-sm">
             <Link
               href="/support"
-              className="text-blue-600 hover:text-blue-700 font-medium"
+              className="text-orange-500 hover:text-orange-400 font-medium"
             >
               Contact Support
             </Link>
             <span className="hidden sm:inline text-gray-300">|</span>
             <a
               href="mailto:hello@collegecomps.com"
-              className="text-blue-600 hover:text-blue-700 font-medium"
+              className="text-orange-500 hover:text-orange-400 font-medium"
             >
               hello@collegecomps.com
             </a>

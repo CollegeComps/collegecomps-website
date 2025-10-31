@@ -105,7 +105,7 @@ export default function EditPreferencesPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white font-bold flex items-center gap-3">
-            <PencilIcon className="h-8 w-8 text-blue-600" />
+            <PencilIcon className="h-8 w-8 text-orange-500" />
             Edit Your Preferences
           </h1>
           <p className="mt-2 text-gray-300">
@@ -121,7 +121,7 @@ export default function EditPreferencesPage() {
             <select
               value={formData.degree_level}
               onChange={(e) => setFormData(prev => ({ ...prev, degree_level: e.target.value }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
             >
               <option value="bachelors">Bachelor's Degree</option>
               <option value="masters">Master's Degree</option>
@@ -175,7 +175,7 @@ export default function EditPreferencesPage() {
                       <span className="text-sm font-medium">{school}</span>
                       <button
                         onClick={() => removeSchool(school)}
-                        className="text-blue-600 hover:text-blue-800 font-bold"
+                        className="text-orange-500 hover:text-blue-800 font-bold"
                       >
                         ×
                       </button>
@@ -193,7 +193,7 @@ export default function EditPreferencesPage() {
             <select
               value={formData.expected_graduation_year}
               onChange={(e) => setFormData(prev => ({ ...prev, expected_graduation_year: parseInt(e.target.value) }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
             >
               {Array.from({ length: 10 }, (_, i) => new Date().getFullYear() + i).map(year => (
                 <option key={year} value={year}>{year}</option>

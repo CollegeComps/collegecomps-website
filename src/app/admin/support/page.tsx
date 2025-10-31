@@ -123,7 +123,7 @@ export default function AdminSupportPage() {
   const getTierBadge = (tier: string) => {
     const colors: Record<string, string> = {
       free: 'bg-gray-100 text-gray-300',
-      premium: 'bg-blue-100 text-blue-700',
+      premium: 'bg-blue-100 text-orange-400',
       professional: 'bg-purple-100 text-purple-700'
     };
     return colors[tier] || colors.free;
@@ -169,16 +169,16 @@ export default function AdminSupportPage() {
                   <p className="text-sm text-gray-300">Total Tickets</p>
                   <p className="text-2xl font-bold text-white font-bold">{stats.total_tickets}</p>
                 </div>
-                <TicketIcon className="w-10 h-10 text-blue-600" />
+                <TicketIcon className="w-10 h-10 text-orange-500" />
               </div>
             </div>
             <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-300">Open</p>
-                  <p className="text-2xl font-bold text-blue-600">{stats.open_tickets}</p>
+                  <p className="text-2xl font-bold text-orange-500">{stats.open_tickets}</p>
                 </div>
-                <ClockIcon className="w-10 h-10 text-blue-600" />
+                <ClockIcon className="w-10 h-10 text-orange-500" />
               </div>
             </div>
             <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
@@ -209,7 +209,7 @@ export default function AdminSupportPage() {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
             >
               <option value="">All Statuses</option>
               <option value="open">Open</option>
@@ -220,7 +220,7 @@ export default function AdminSupportPage() {
             <select
               value={filterPriority}
               onChange={(e) => setFilterPriority(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
             >
               <option value="">All Priorities</option>
               <option value="high">High</option>
@@ -230,7 +230,7 @@ export default function AdminSupportPage() {
             <select
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
             >
               <option value="">All Categories</option>
               <option value="technical">Technical</option>
@@ -296,7 +296,7 @@ export default function AdminSupportPage() {
                     <select
                       value={ticket.status}
                       onChange={(e) => updateTicketStatus(ticket.id, e.target.value)}
-                      className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(ticket.status)} border-none focus:ring-2 focus:ring-blue-500`}
+                      className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(ticket.status)} border-none focus:ring-2 focus:ring-orange-500`}
                     >
                       <option value="open">Open</option>
                       <option value="in_progress">In Progress</option>
@@ -310,7 +310,7 @@ export default function AdminSupportPage() {
                   <td className="px-6 py-4">
                     <Link
                       href={`/admin/support/${ticket.id}`}
-                      className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                      className="text-orange-500 hover:text-blue-800 text-sm font-medium"
                     >
                       View Details
                     </Link>

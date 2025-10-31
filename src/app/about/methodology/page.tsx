@@ -30,7 +30,7 @@ export default function MethodologyPage() {
         <div className="grid md:grid-cols-3 gap-6 mb-16">
           <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-sm border p-6">
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-              <ShieldCheckIcon className="w-6 h-6 text-blue-600" />
+              <ShieldCheckIcon className="w-6 h-6 text-orange-500" />
             </div>
             <h3 className="text-lg font-semibold text-white font-bold mb-2">Trusted Data</h3>
             <p className="text-sm text-gray-300">
@@ -62,7 +62,7 @@ export default function MethodologyPage() {
         {/* Data Sources Section */}
         <section className="bg-gray-900 border border-gray-800 rounded-xl shadow-sm border p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
-            <GlobeAltIcon className="w-8 h-8 text-blue-600" />
+            <GlobeAltIcon className="w-8 h-8 text-orange-500" />
             <h2 className="text-2xl font-bold text-white font-bold">Data Sources</h2>
           </div>
 
@@ -253,13 +253,13 @@ export default function MethodologyPage() {
         </section>
 
         {/* Contact */}
-        <div className="mt-12 text-center bg-blue-50 border border-blue-200 rounded-lg p-6">
+        <div className="mt-12 text-center bg-orange-500/10 border border-orange-500 rounded-lg p-6">
           <p className="text-gray-300 mb-2">
             Questions about our methodology or data sources?
           </p>
           <a 
             href="/support" 
-            className="text-blue-600 hover:text-blue-700 font-semibold"
+            className="text-orange-500 hover:text-orange-400 font-semibold"
           >
             Contact our support team →
           </a>

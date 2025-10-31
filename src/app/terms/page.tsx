@@ -215,7 +215,7 @@ export default function TermsOfServicePage() {
             <h2 className="text-2xl font-bold text-white font-bold mb-4">12. Privacy</h2>
             <p className="text-gray-300 leading-relaxed">
               Your use of the Service is also governed by our{' '}
-              <a href="/privacy" className="text-blue-600 hover:underline font-semibold">
+              <a href="/privacy" className="text-orange-500 hover:underline font-semibold">
                 Privacy Policy
               </a>
               , which is incorporated into these Terms by reference. Please review the Privacy Policy to understand our data practices.
@@ -228,7 +228,7 @@ export default function TermsOfServicePage() {
             <h3 className="text-xl font-semibold text-white font-bold mt-6 mb-3">13.1 Informal Resolution</h3>
             <p className="text-gray-300 leading-relaxed">
               If you have any dispute with us, you agree to first contact us at{' '}
-              <a href="mailto:support@collegecomps.com" className="text-blue-600 hover:underline">
+              <a href="mailto:support@collegecomps.com" className="text-orange-500 hover:underline">
                 support@collegecomps.com
               </a>{' '}
               and attempt to resolve the dispute informally for at least 30 days.

@@ -369,7 +369,7 @@ export default function CareerFinderPage() {
                     <p className="text-xs text-green-500 font-bold mb-1">AVG SALARY</p>
                     <p className="text-lg font-extrabold text-green-400">{career.salary}</p>
                   </div>
-                  <div className="bg-blue-500/10 border border-blue-500/30 p-3 rounded-lg">
+                  <div className="bg-orange-500/100/10 border border-blue-500/30 p-3 rounded-lg">
                     <p className="text-xs text-blue-500 font-bold mb-1">JOB GROWTH</p>
                     <p className="text-lg font-extrabold text-blue-400">{career.growth}</p>
                   </div>

@@ -128,7 +128,7 @@ export default function MyTimelinePage() {
       case 'financial_aid':
         return <BanknotesIcon className="h-5 w-5 text-green-600" />;
       case 'enrollment':
-        return <AcademicCapIcon className="h-5 w-5 text-blue-600" />;
+        return <AcademicCapIcon className="h-5 w-5 text-orange-500" />;
       case 'semester':
         return <CalendarIcon className="h-5 w-5 text-purple-600" />;
       case 'deadline':
@@ -143,7 +143,7 @@ export default function MyTimelinePage() {
       case 'financial_aid':
         return 'bg-green-100 text-green-800 border-green-200';
       case 'enrollment':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
+        return 'bg-blue-100 text-blue-800 border-orange-500';
       case 'semester':
         return 'bg-purple-100 text-purple-800 border-purple-200';
       case 'deadline':
@@ -176,7 +176,7 @@ export default function MyTimelinePage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-white font-bold flex items-center gap-3">
-                <CalendarIcon className="h-8 w-8 text-blue-600" />
+                <CalendarIcon className="h-8 w-8 text-orange-500" />
                 My Timeline
               </h1>
               <p className="mt-2 text-gray-300">
@@ -200,7 +200,7 @@ export default function MyTimelinePage() {
             <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-white font-bold flex items-center gap-2">
-                  <CurrencyDollarIcon className="h-6 w-6 text-blue-600" />
+                  <CurrencyDollarIcon className="h-6 w-6 text-orange-500" />
                   Your Salary Submissions
                 </h2>
                 <span className="text-sm text-gray-400">
@@ -211,13 +211,13 @@ export default function MyTimelinePage() {
               {salarySubmissions.length > 0 ? (
                 <div className="space-y-3">
                   {salarySubmissions.map((submission) => (
-                    <div key={submission.id} className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors">
+                    <div key={submission.id} className="border border-gray-200 rounded-lg p-4 hover:border-orange-500 transition-colors">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <h3 className="font-semibold text-white font-bold">{submission.institution_name}</h3>
                           <p className="text-sm text-gray-300">{submission.major}</p>
                           <div className="mt-2 flex items-center gap-4">
-                            <span className="text-lg font-bold text-blue-600">
+                            <span className="text-lg font-bold text-orange-500">
                               {formatCurrency(submission.current_salary)}
                             </span>
                             <span className="text-sm text-gray-400">
@@ -299,9 +299,9 @@ export default function MyTimelinePage() {
             <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
               <h2 className="text-lg font-bold text-white font-bold mb-4">Quick Stats</h2>
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-orange-500/10 rounded-lg">
                   <span className="text-sm text-gray-300">Salary Submissions</span>
-                  <span className="text-xl font-bold text-blue-600">{salarySubmissions.length}</span>
+                  <span className="text-xl font-bold text-orange-500">{salarySubmissions.length}</span>
                 </div>
                 <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                   <span className="text-sm text-gray-300">Upcoming Deadlines</span>
@@ -355,7 +355,7 @@ export default function MyTimelinePage() {
                 </p>
                 <Link
                   href="/profile"
-                  className="block w-full bg-white text-blue-600 font-semibold px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors text-center"
+                  className="block w-full bg-white text-orange-500 font-semibold px-4 py-2 rounded-lg hover:bg-orange-500/10 transition-colors text-center"
                 >
                   Upgrade Now
                 </Link>

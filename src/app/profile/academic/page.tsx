@@ -139,7 +139,7 @@ export default function AcademicProfilePage() {
                   max="4"
                   value={formData.gpa}
                   onChange={(e) => setFormData({ ...formData, gpa: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-600"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent placeholder-gray-600"
                   placeholder="3.5"
                 />
               </div>
@@ -154,7 +154,7 @@ export default function AcademicProfilePage() {
                   max="1600"
                   value={formData.sat}
                   onChange={(e) => setFormData({ ...formData, sat: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-600"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent placeholder-gray-600"
                   placeholder="1200"
                 />
               </div>
@@ -169,7 +169,7 @@ export default function AcademicProfilePage() {
                   max="36"
                   value={formData.act}
                   onChange={(e) => setFormData({ ...formData, act: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-600"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent placeholder-gray-600"
                   placeholder="28"
                 />
               </div>
@@ -183,7 +183,7 @@ export default function AcademicProfilePage() {
                   min="0"
                   value={formData.budget}
                   onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-600"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent placeholder-gray-600"
                   placeholder="30000"
                 />
               </div>
@@ -197,7 +197,7 @@ export default function AcademicProfilePage() {
                 type="text"
                 value={formData.location_preference}
                 onChange={(e) => setFormData({ ...formData, location_preference: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-600"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent placeholder-gray-600"
                 placeholder="e.g., California, East Coast, Urban areas"
               />
             </div>
@@ -210,7 +210,7 @@ export default function AcademicProfilePage() {
                 type="text"
                 value={formData.program_interest}
                 onChange={(e) => setFormData({ ...formData, program_interest: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-600"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent placeholder-gray-600"
                 placeholder="e.g., Computer Science, Business, Engineering"
               />
             </div>
@@ -223,7 +223,7 @@ export default function AcademicProfilePage() {
                 value={formData.career_goals}
                 onChange={(e) => setFormData({ ...formData, career_goals: e.target.value })}
                 rows={4}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-600"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent placeholder-gray-600"
                 placeholder="Describe your career aspirations and goals..."
               />
             </div>

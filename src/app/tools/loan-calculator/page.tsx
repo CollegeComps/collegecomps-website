@@ -197,12 +197,12 @@ export default function LoanCalculatorPage() {
                   <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-blue-900">Monthly Payment</p>
-                        <p className="text-3xl font-bold text-blue-900 mt-1">
+                        <p className="text-sm font-medium text-white font-bold">Monthly Payment</p>
+                        <p className="text-3xl font-bold text-white font-bold mt-1">
                           ${calculation.monthlyPayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </p>
                       </div>
-                      <ClockIcon className="w-12 h-12 text-blue-600" />
+                      <ClockIcon className="w-12 h-12 text-orange-500" />
                     </div>
                   </div>
 
@@ -296,8 +296,8 @@ export default function LoanCalculatorPage() {
 
           {/* Educational Content */}
           <div className="mt-8 bg-orange-500/10 border border-orange-500 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-blue-900 mb-3">Understanding Student Loans</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-900">
+            <h3 className="text-lg font-semibold text-white font-bold mb-3">Understanding Student Loans</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-white font-bold">
               <div>
                 <h4 className="font-semibold mb-2">Federal Loan Rates (2024-25)</h4>
                 <ul className="space-y-1">

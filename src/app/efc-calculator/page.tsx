@@ -70,7 +70,7 @@ export default function EFCCalculatorPage() {
               <h2 className="text-2xl font-bold text-white font-bold mb-6">Your Financial Information</h2>
 
               {/* Student Status */}
-              <div className="mb-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="mb-8 p-4 bg-orange-500/10 rounded-lg border border-orange-500">
                 <label className="flex items-center cursor-pointer">
                   <input
                     type="checkbox"
@@ -96,7 +96,7 @@ export default function EFCCalculatorPage() {
                     type="number"
                     value={formData.studentIncome || ''}
                     onChange={(e) => setFormData({ ...formData, studentIncome: parseFloat(e.target.value) || 0 })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
                     placeholder="0"
                   />
                   <p className="mt-1 text-sm text-gray-400">Include wages, tips, and taxable scholarships</p>
@@ -110,7 +110,7 @@ export default function EFCCalculatorPage() {
                     type="number"
                     value={formData.studentAssets || ''}
                     onChange={(e) => setFormData({ ...formData, studentAssets: parseFloat(e.target.value) || 0 })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
                     placeholder="0"
                   />
                   <p className="mt-1 text-sm text-gray-400">Do not include retirement accounts</p>
@@ -130,7 +130,7 @@ export default function EFCCalculatorPage() {
                       <select
                         value={formData.numberOfParents}
                         onChange={(e) => setFormData({ ...formData, numberOfParents: parseInt(e.target.value) as 1 | 2 })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
                       >
                         <option value="1">Single Parent (1)</option>
                         <option value="2">Two Parents (2)</option>
@@ -145,7 +145,7 @@ export default function EFCCalculatorPage() {
                         type="number"
                         value={formData.parentAge || ''}
                         onChange={(e) => setFormData({ ...formData, parentAge: parseInt(e.target.value) || 50 })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
                         placeholder="50"
                       />
                     </div>
@@ -159,7 +159,7 @@ export default function EFCCalculatorPage() {
                       type="number"
                       value={formData.parentIncome || ''}
                       onChange={(e) => setFormData({ ...formData, parentIncome: parseFloat(e.target.value) || 0 })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
                       placeholder="0"
                     />
                     <p className="mt-1 text-sm text-gray-400">Include all taxable income (W-2, 1099, etc.)</p>
@@ -173,7 +173,7 @@ export default function EFCCalculatorPage() {
                       type="number"
                       value={formData.parentAssets || ''}
                       onChange={(e) => setFormData({ ...formData, parentAssets: parseFloat(e.target.value) || 0 })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
                       placeholder="0"
                     />
                     <p className="mt-1 text-sm text-gray-400">Exclude primary home and retirement accounts</p>
@@ -189,7 +189,7 @@ export default function EFCCalculatorPage() {
                         min="1"
                         value={formData.numberOfDependents || ''}
                         onChange={(e) => setFormData({ ...formData, numberOfDependents: parseInt(e.target.value) || 2 })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
                         placeholder="2"
                       />
                       <p className="mt-1 text-sm text-gray-400">Including student</p>
@@ -204,7 +204,7 @@ export default function EFCCalculatorPage() {
                         min="1"
                         value={formData.numberOfInCollege || ''}
                         onChange={(e) => setFormData({ ...formData, numberOfInCollege: parseInt(e.target.value) || 1 })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
                         placeholder="1"
                       />
                       <p className="mt-1 text-sm text-gray-400">Simultaneously enrolled</p>
@@ -219,7 +219,7 @@ export default function EFCCalculatorPage() {
                       type="text"
                       value={formData.stateOfResidence || ''}
                       onChange={(e) => setFormData({ ...formData, stateOfResidence: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
                       placeholder="CA, NY, TX, etc."
                       maxLength={2}
                     />
@@ -271,7 +271,7 @@ export default function EFCCalculatorPage() {
 
                   {showBreakdown && (
                     <div className="space-y-4 mb-6">
-                      <div className="p-4 bg-blue-50 rounded-lg">
+                      <div className="p-4 bg-orange-500/10 rounded-lg">
                         <div className="text-sm font-medium text-gray-300 mb-2">Parent Contribution</div>
                         <div className="text-2xl font-bold text-white font-bold">{formatCurrency(result.parentContribution)}</div>
                         <div className="mt-2 text-xs text-gray-300 space-y-1">
@@ -334,7 +334,7 @@ export default function EFCCalculatorPage() {
           <h2 className="text-2xl font-bold text-white font-bold mb-6">Understanding Your EFC</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-4 bg-blue-50 rounded-lg">
+            <div className="p-4 bg-orange-500/10 rounded-lg">
               <h3 className="font-semibold text-white font-bold mb-2">What is EFC?</h3>
               <p className="text-sm text-gray-300">
                 Your Expected Family Contribution (EFC) is a measure of your family's financial strength and is calculated according to a formula established by law.

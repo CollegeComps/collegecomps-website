@@ -155,23 +155,23 @@ export default function ComparisonManagerPage() {
             <p className="text-xl text-gray-300 mb-8">
               Comparison Manager with Folders & Tags is available for Premium subscribers
             </p>
-            <div className="bg-blue-50 rounded-lg p-6 mb-8">
+            <div className="bg-orange-500/10 rounded-lg p-6 mb-8">
               <h3 className="font-bold text-white font-bold mb-4">Organize like a pro:</h3>
               <ul className="text-left space-y-3 text-gray-300">
                 <li className="flex items-start gap-3">
-                  <FolderIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <FolderIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>Folders:</strong> Organize comparisons by type (reach, match, safety)</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <TagIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <TagIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>Tags:</strong> Label comparisons with custom tags for easy filtering</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <MagnifyingGlassIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <MagnifyingGlassIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>Search & Filter:</strong> Quickly find any comparison</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <PencilIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <PencilIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>Bulk Operations:</strong> Move or tag multiple comparisons at once</span>
                 </li>
               </ul>
@@ -222,14 +222,14 @@ export default function ComparisonManagerPage() {
                 placeholder="Search comparisons..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
             </div>
             {allTags.length > 0 && (
               <select
                 value={selectedTag || ''}
                 onChange={(e) => setSelectedTag(e.target.value || null)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               >
                 <option value="">All Tags</option>
                 {allTags.map((tag) => (
@@ -248,7 +248,7 @@ export default function ComparisonManagerPage() {
                 <h2 className="text-lg font-bold text-white font-bold">Folders</h2>
                 <button
                   onClick={() => setShowNewFolderModal(true)}
-                  className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                  className="p-1 text-orange-500 hover:bg-orange-500/10 rounded"
                 >
                   <PlusIcon className="w-5 h-5" />
                 </button>
@@ -295,7 +295,7 @@ export default function ComparisonManagerPage() {
                 <p className="text-gray-400 text-lg">No comparisons found</p>
                 <Link
                   href="/compare"
-                  className="inline-block mt-4 text-blue-600 hover:underline font-medium"
+                  className="inline-block mt-4 text-orange-500 hover:underline font-medium"
                 >
                   Create your first comparison →
                 </Link>
@@ -317,7 +317,7 @@ export default function ComparisonManagerPage() {
                       <div className="flex gap-2">
                         <Link
                           href={`/compare?comparison=${comp.id}`}
-                          className="p-2 text-blue-600 hover:bg-blue-50 rounded"
+                          className="p-2 text-orange-500 hover:bg-orange-500/10 rounded"
                         >
                           <PencilIcon className="w-5 h-5" />
                         </Link>
@@ -343,7 +343,7 @@ export default function ComparisonManagerPage() {
                     <select
                       value={comp.folder_id || ''}
                       onChange={(e) => moveToFolder(comp.id, e.target.value ? parseInt(e.target.value) : null)}
-                      className="text-sm px-3 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="text-sm px-3 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     >
                       <option value="">No Folder</option>
                       {folders.map((folder) => (
@@ -367,7 +367,7 @@ export default function ComparisonManagerPage() {
                 placeholder="Folder name..."
                 value={newFolderName}
                 onChange={(e) => setNewFolderName(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-300 mb-2">Folder Color</label>

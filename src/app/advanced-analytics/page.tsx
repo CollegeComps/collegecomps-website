@@ -82,23 +82,23 @@ export default function AdvancedAnalyticsPage() {
             <p className="text-xl text-gray-300 mb-8">
               Advanced Salary Analytics is available for Premium subscribers
             </p>
-            <div className="bg-blue-50 rounded-lg p-6 mb-8">
+            <div className="bg-orange-500/10 rounded-lg p-6 mb-8">
               <h3 className="font-bold text-white font-bold mb-4">Unlock powerful insights:</h3>
               <ul className="text-left space-y-3 text-gray-300">
                 <li className="flex items-start gap-3">
-                  <ChartBarIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <ChartBarIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>Percentile Analysis:</strong> See P25/P50/P75 salary ranges for your field</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <ArrowTrendingUpIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <ArrowTrendingUpIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>Career Trajectory:</strong> Project your 10-20 year earning potential</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <UserGroupIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <UserGroupIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>Peer Comparison:</strong> See how you compare to others in your cohort</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <MapPinIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <MapPinIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>Geographic Heatmaps:</strong> Visualize salary variations by location</span>
                 </li>
               </ul>
@@ -241,7 +241,7 @@ function PercentilesView({ data, preferences }: { data: SalaryData[]; preference
                   <td className="text-right py-3 px-4 text-white font-bold">
                     ${item.p25?.toLocaleString() || 'N/A'}
                   </td>
-                  <td className="text-right py-3 px-4 font-semibold text-blue-600">
+                  <td className="text-right py-3 px-4 font-semibold text-orange-500">
                     ${item.median?.toLocaleString() || 'N/A'}
                   </td>
                   <td className="text-right py-3 px-4 text-white font-bold">
@@ -265,8 +265,8 @@ function PercentilesView({ data, preferences }: { data: SalaryData[]; preference
 
       {filteredData.length > 0 && (
         <div className="mt-6 grid grid-cols-3 gap-4">
-          <div className="bg-blue-50 rounded-lg p-4">
-            <p className="text-xs text-blue-600 font-medium mb-1">Average 25th Percentile</p>
+          <div className="bg-orange-500/10 rounded-lg p-4">
+            <p className="text-xs text-orange-500 font-medium mb-1">Average 25th Percentile</p>
             <p className="text-2xl font-bold text-white font-bold">
               ${Math.round(filteredData.reduce((sum, d) => sum + (d.p25 || 0), 0) / filteredData.length).toLocaleString()}
             </p>
@@ -319,7 +319,7 @@ function TrajectoryView({ preferences }: { preferences: any }) {
           </div>
           <div>
             <p className="text-xs text-gray-300 mb-1">10-Year Projection</p>
-            <p className="text-xl font-bold text-blue-600">
+            <p className="text-xl font-bold text-orange-500">
               ${projections[10].salary.toLocaleString()}
             </p>
           </div>
@@ -354,7 +354,7 @@ function TrajectoryView({ preferences }: { preferences: any }) {
               return (
                 <tr key={year} className="border-b border-gray-100 hover:bg-gray-800">
                   <td className="py-3 px-4 text-white font-bold font-medium">{year} years</td>
-                  <td className="text-right py-3 px-4 text-xl font-bold text-blue-600">
+                  <td className="text-right py-3 px-4 text-xl font-bold text-orange-500">
                     ${projection.salary.toLocaleString()}
                   </td>
                   <td className="text-right py-3 px-4 text-green-600 font-semibold">
@@ -401,7 +401,7 @@ function PeerComparisonView({ data, preferences }: { data: SalaryData[]; prefere
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-gray-300">Your Salary</span>
-              <span className="font-bold text-blue-600">${userSalary.toLocaleString()}</span>
+              <span className="font-bold text-orange-500">${userSalary.toLocaleString()}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-gray-300">Peer Median</span>
@@ -423,7 +423,7 @@ function PeerComparisonView({ data, preferences }: { data: SalaryData[]; prefere
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-gray-300">Current Percentile</span>
-              <span className="font-bold text-blue-600">{percentile}th</span>
+              <span className="font-bold text-orange-500">{percentile}th</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-gray-300">Target (75th percentile)</span>
@@ -473,11 +473,11 @@ function GeographicView({ data }: { data: SalaryData[] }) {
             <div key={region.name}>
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <MapPinIcon className="w-5 h-5 text-blue-600" />
+                  <MapPinIcon className="w-5 h-5 text-orange-500" />
                   <span className="font-medium text-white font-bold">{region.name}</span>
                   <span className="text-xs text-gray-400">({region.count} grads)</span>
                 </div>
-                <span className="font-bold text-blue-600">
+                <span className="font-bold text-orange-500">
                   ${region.avgSalary.toLocaleString()}
                 </span>
               </div>
@@ -492,7 +492,7 @@ function GeographicView({ data }: { data: SalaryData[] }) {
         })}
       </div>
 
-      <div className="mt-8 bg-blue-50 rounded-lg p-6">
+      <div className="mt-8 bg-orange-500/10 rounded-lg p-6">
         <h3 className="font-bold text-white font-bold mb-3">Key Insights</h3>
         <ul className="space-y-2 text-gray-300">
           <li>• Highest salaries in tech hubs (SF, Seattle, NYC)</li>

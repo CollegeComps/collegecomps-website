@@ -134,7 +134,7 @@ export default function SubmitSalaryPage() {
       <div className="min-h-screen bg-black flex items-center justify-center p-4">
         <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-8 max-w-md text-center">
           <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
           </div>
@@ -247,7 +247,7 @@ export default function SubmitSalaryPage() {
           <p className="text-gray-300 mb-4">
             Your salary data has been submitted successfully. You're helping future students make better decisions!
           </p>
-          <p className="text-sm text-blue-600">Redirecting to insights...</p>
+          <p className="text-sm text-orange-500">Redirecting to insights...</p>
         </div>
       </div>
     );
@@ -264,7 +264,7 @@ export default function SubmitSalaryPage() {
           <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Help future students by sharing your post-graduation earnings. All data is anonymized and aggregated.
           </p>
-          <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm">
+          <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 text-orange-400 rounded-lg text-sm">
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
             </svg>
@@ -283,7 +283,7 @@ export default function SubmitSalaryPage() {
           {/* Education Section */}
           <div className="mb-8">
             <h2 className="text-xl font-bold text-white font-bold mb-4 flex items-center">
-              <span className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3 text-sm font-bold">1</span>
+              <span className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-orange-500 mr-3 text-sm font-bold">1</span>
               Education Background
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
@@ -297,7 +297,7 @@ export default function SubmitSalaryPage() {
                     required={formData.has_degree}
                     value={formData.institution_name}
                     onChange={(e) => setFormData({ ...formData, institution_name: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                     placeholder="e.g., Stanford University"
                   />
                   {showInstitutionDropdown && institutionSuggestions.length > 0 && (
@@ -310,7 +310,7 @@ export default function SubmitSalaryPage() {
                             setFormData({ ...formData, institution_name: institution });
                             setShowInstitutionDropdown(false);
                           }}
-                          className="w-full text-left px-4 py-2 hover:bg-blue-50 text-white font-bold text-sm"
+                          className="w-full text-left px-4 py-2 hover:bg-orange-500/10 text-white font-bold text-sm"
                         >
                           {institution}
                         </button>
@@ -338,7 +338,7 @@ export default function SubmitSalaryPage() {
                       graduation_year: hasDegree ? formData.graduation_year : new Date().getFullYear()
                     });
                   }}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                 >
                   <option value="">Select degree level</option>
                   {DEGREE_LEVELS.map(level => (
@@ -346,7 +346,7 @@ export default function SubmitSalaryPage() {
                   ))}
                 </select>
                 {formData.degree_level === 'none' && (
-                  <p className="mt-1 text-sm text-blue-600">
+                  <p className="mt-1 text-sm text-orange-500">
                     Great! You can still share your salary data even without a college degree.
                   </p>
                 )}
@@ -361,7 +361,7 @@ export default function SubmitSalaryPage() {
                   required
                   value={formData.major}
                   onChange={(e) => setFormData({ ...formData, major: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                   placeholder="e.g., Computer Science"
                 />
                 {showMajorDropdown && majorSuggestions.length > 0 && (
@@ -374,7 +374,7 @@ export default function SubmitSalaryPage() {
                           setFormData({ ...formData, major });
                           setShowMajorDropdown(false);
                         }}
-                        className="w-full text-left px-4 py-2 hover:bg-blue-50 text-white font-bold text-sm"
+                        className="w-full text-left px-4 py-2 hover:bg-orange-500/10 text-white font-bold text-sm"
                       >
                         {major}
                       </button>
@@ -396,13 +396,13 @@ export default function SubmitSalaryPage() {
                       max={new Date().getFullYear()}
                       value={formData.graduation_year}
                       onChange={(e) => setFormData({ ...formData, graduation_year: parseInt(e.target.value) })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                     />
                   </div>
 
                   {/* Additional Degrees Section */}
                   {additionalDegrees.map((degree, index) => (
-                    <div key={index} className="p-4 bg-blue-50 border border-blue-200 rounded-lg space-y-3">
+                    <div key={index} className="p-4 bg-orange-500/10 border border-orange-500 rounded-lg space-y-3">
                       <div className="flex justify-between items-center mb-2">
                         <h4 className="font-semibold text-white font-bold">Additional Degree {index + 1}</h4>
                         <button
@@ -423,7 +423,7 @@ export default function SubmitSalaryPage() {
                             updated[index].institution_name = e.target.value;
                             setAdditionalDegrees(updated);
                           }}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-white font-bold"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
                           placeholder="e.g., Stanford University"
                         />
                       </div>
@@ -436,7 +436,7 @@ export default function SubmitSalaryPage() {
                             updated[index].degree_level = e.target.value;
                             setAdditionalDegrees(updated);
                           }}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-white font-bold"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
                         >
                           <option value="">Select degree level</option>
                           {DEGREE_LEVELS.filter(l => l.value !== 'none').map(level => (
@@ -454,7 +454,7 @@ export default function SubmitSalaryPage() {
                             updated[index].major = e.target.value;
                             setAdditionalDegrees(updated);
                           }}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-white font-bold"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
                           placeholder="e.g., Computer Science"
                         />
                       </div>
@@ -470,7 +470,7 @@ export default function SubmitSalaryPage() {
                             updated[index].graduation_year = parseInt(e.target.value);
                             setAdditionalDegrees(updated);
                           }}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-white font-bold"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
                         />
                       </div>
                     </div>
@@ -484,7 +484,7 @@ export default function SubmitSalaryPage() {
                       major: '',
                       graduation_year: new Date().getFullYear()
                     }])}
-                    className="w-full py-2 px-4 border-2 border-dashed border-blue-400 text-blue-600 rounded-lg hover:bg-blue-50 font-medium transition-colors flex items-center justify-center gap-2"
+                    className="w-full py-2 px-4 border-2 border-dashed border-blue-400 text-orange-500 rounded-lg hover:bg-orange-500/10 font-medium transition-colors flex items-center justify-center gap-2"
                   >
                     <span className="text-xl">+</span> Add Another Degree
                   </button>
@@ -500,7 +500,7 @@ export default function SubmitSalaryPage() {
                   required
                   value={formData.years_experience}
                   onChange={(e) => setFormData({ ...formData, years_experience: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                 >
                   <option value="">Select years</option>
                   <option value="0">Less than 1 year</option>
@@ -542,7 +542,7 @@ export default function SubmitSalaryPage() {
                     max="10000000"
                     value={formData.current_salary}
                     onChange={(e) => setFormData({ ...formData, current_salary: e.target.value })}
-                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                     placeholder="75000"
                   />
                 </div>
@@ -562,7 +562,7 @@ export default function SubmitSalaryPage() {
                     max="20000000"
                     value={formData.total_compensation}
                     onChange={(e) => setFormData({ ...formData, total_compensation: e.target.value })}
-                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                     placeholder="90000"
                   />
                 </div>
@@ -584,7 +584,7 @@ export default function SubmitSalaryPage() {
                   type="text"
                   value={formData.job_title}
                   onChange={(e) => setFormData({ ...formData, job_title: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                   placeholder="e.g., Software Engineer"
                 />
               </div>
@@ -595,7 +595,7 @@ export default function SubmitSalaryPage() {
                   type="text"
                   value={formData.company_name}
                   onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                   placeholder="e.g., Google"
                 />
               </div>
@@ -606,7 +606,7 @@ export default function SubmitSalaryPage() {
                   type="text"
                   value={formData.industry}
                   onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                   placeholder="e.g., Technology, Finance, Healthcare"
                 />
               </div>
@@ -616,7 +616,7 @@ export default function SubmitSalaryPage() {
                 <select
                   value={formData.company_size}
                   onChange={(e) => setFormData({ ...formData, company_size: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                 >
                   <option value="">Select size</option>
                   {COMPANY_SIZES.map(size => (
@@ -631,7 +631,7 @@ export default function SubmitSalaryPage() {
                   type="text"
                   value={formData.location_city}
                   onChange={(e) => setFormData({ ...formData, location_city: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                   placeholder="e.g., San Francisco"
                 />
               </div>
@@ -643,7 +643,7 @@ export default function SubmitSalaryPage() {
                   maxLength={2}
                   value={formData.location_state}
                   onChange={(e) => setFormData({ ...formData, location_state: e.target.value.toUpperCase() })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                   placeholder="CA"
                 />
               </div>
@@ -658,7 +658,7 @@ export default function SubmitSalaryPage() {
                       onClick={() => setFormData({ ...formData, remote_status: option.value })}
                       className={`px-4 py-2 rounded-lg border-2 transition-colors ${
                         formData.remote_status === option.value
-                          ? 'border-blue-600 bg-blue-50 text-blue-700'
+                          ? 'border-blue-600 bg-orange-500/10 text-orange-400'
                           : 'border-gray-200 hover:border-gray-300 text-white font-bold'
                       }`}
                     >
@@ -689,7 +689,7 @@ export default function SubmitSalaryPage() {
                     max="1000000"
                     value={formData.student_debt_original}
                     onChange={(e) => setFormData({ ...formData, student_debt_original: e.target.value })}
-                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                     placeholder="0"
                   />
                 </div>
@@ -707,7 +707,7 @@ export default function SubmitSalaryPage() {
                     min="0"
                     value={formData.student_debt_remaining}
                     onChange={(e) => setFormData({ ...formData, student_debt_remaining: e.target.value })}
-                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                     placeholder="0"
                   />
                 </div>
@@ -717,9 +717,9 @@ export default function SubmitSalaryPage() {
           </div>
 
           {/* Privacy Notice */}
-          <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <div className="mb-6 p-4 bg-orange-500/10 rounded-lg border border-orange-500">
             <div className="flex items-start">
-              <svg className="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
               <div>

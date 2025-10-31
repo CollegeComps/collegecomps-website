@@ -240,28 +240,28 @@ export default function OnboardingPage() {
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <div className={`flex items-center ${step >= 1 ? 'text-blue-600' : 'text-gray-400'}`}>
+            <div className={`flex items-center ${step >= 1 ? 'text-orange-500' : 'text-gray-400'}`}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-orange-500 text-white' : 'bg-gray-300'}`}>
                 {step > 1 ? <CheckCircleIcon className="h-6 w-6" /> : '1'}
               </div>
               <span className="ml-2 font-medium hidden sm:inline">Major</span>
             </div>
             <div className={`flex-1 h-1 mx-2 ${step >= 2 ? 'bg-orange-500' : 'bg-gray-300'}`} />
-            <div className={`flex items-center ${step >= 2 ? 'text-blue-600' : 'text-gray-400'}`}>
+            <div className={`flex items-center ${step >= 2 ? 'text-orange-500' : 'text-gray-400'}`}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-orange-500 text-white' : 'bg-gray-300'}`}>
                 {step > 2 ? <CheckCircleIcon className="h-6 w-6" /> : '2'}
               </div>
               <span className="ml-2 font-medium hidden sm:inline">Schools</span>
             </div>
             <div className={`flex-1 h-1 mx-2 ${step >= 3 ? 'bg-orange-500' : 'bg-gray-300'}`} />
-            <div className={`flex items-center ${step >= 3 ? 'text-blue-600' : 'text-gray-400'}`}>
+            <div className={`flex items-center ${step >= 3 ? 'text-orange-500' : 'text-gray-400'}`}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-orange-500 text-white' : 'bg-gray-300'}`}>
                 {step > 3 ? <CheckCircleIcon className="h-6 w-6" /> : '3'}
               </div>
               <span className="ml-2 font-medium hidden sm:inline">Timeline</span>
             </div>
             <div className={`flex-1 h-1 mx-2 ${step >= 4 ? 'bg-orange-500' : 'bg-gray-300'}`} />
-            <div className={`flex items-center ${step >= 4 ? 'text-blue-600' : 'text-gray-400'}`}>
+            <div className={`flex items-center ${step >= 4 ? 'text-orange-500' : 'text-gray-400'}`}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 4 ? 'bg-orange-500 text-white' : 'bg-gray-300'}`}>
                 {step > 4 ? <CheckCircleIcon className="h-6 w-6" /> : '4'}
               </div>
@@ -277,7 +277,7 @@ export default function OnboardingPage() {
             <div className="space-y-6">
               <div className="text-center mb-8">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-                  <AcademicCapIcon className="h-8 w-8 text-blue-600" />
+                  <AcademicCapIcon className="h-8 w-8 text-orange-500" />
                 </div>
                 <h2 className="text-3xl font-bold text-white font-bold mb-2">What do you want to study?</h2>
                 <p className="text-gray-300">We'll personalize your experience based on your interests</p>
@@ -290,7 +290,7 @@ export default function OnboardingPage() {
                 <select
                   value={formData.degree_level}
                   onChange={(e) => setFormData(prev => ({ ...prev, degree_level: e.target.value }))}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                 >
                   <option value="bachelors">Bachelor's Degree</option>
                   <option value="masters">Master's Degree</option>
@@ -376,7 +376,7 @@ export default function OnboardingPage() {
                         <span className="text-sm font-medium">{school}</span>
                         <button
                           onClick={() => removeSchool(school)}
-                          className="text-blue-600 hover:text-blue-800"
+                          className="text-orange-500 hover:text-blue-800"
                         >
                           ×
                         </button>
@@ -406,7 +406,7 @@ export default function OnboardingPage() {
                 <select
                   value={formData.expected_graduation_year}
                   onChange={(e) => setFormData(prev => ({ ...prev, expected_graduation_year: parseInt(e.target.value) }))}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                 >
                   {Array.from({ length: 10 }, (_, i) => currentYear + i).map(year => (
                     <option key={year} value={year}>{year}</option>
@@ -414,8 +414,8 @@ export default function OnboardingPage() {
                 </select>
               </div>
 
-              <div className="bg-blue-50 rounded-lg p-4">
-                <h3 className="font-semibold text-blue-900 mb-2">What's Next?</h3>
+              <div className="bg-orange-500/10 rounded-lg p-4">
+                <h3 className="font-semibold text-white font-bold mb-2">What's Next?</h3>
                 <ul className="space-y-1 text-sm text-blue-800">
                   <li>• Personalized college recommendations</li>
                   <li>• ROI calculations for your major</li>
@@ -452,7 +452,7 @@ export default function OnboardingPage() {
                       max="4.0"
                       value={formData.gpa}
                       onChange={(e) => setFormData(prev => ({ ...prev, gpa: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 3.75"
                     />
                   </div>
@@ -467,7 +467,7 @@ export default function OnboardingPage() {
                       max="1600"
                       value={formData.sat_score}
                       onChange={(e) => setFormData(prev => ({ ...prev, sat_score: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 1450"
                     />
                   </div>
@@ -482,7 +482,7 @@ export default function OnboardingPage() {
                       max="36"
                       value={formData.act_score}
                       onChange={(e) => setFormData(prev => ({ ...prev, act_score: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 32"
                     />
                   </div>
@@ -495,7 +495,7 @@ export default function OnboardingPage() {
                       type="text"
                       value={formData.location_preference}
                       onChange={(e) => setFormData(prev => ({ ...prev, location_preference: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., Northeast, California..."
                     />
                   </div>
@@ -510,7 +510,7 @@ export default function OnboardingPage() {
                       maxLength={5}
                       value={formData.zip_code}
                       onChange={(e) => setFormData(prev => ({ ...prev, zip_code: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold placeholder-gray-600 font-medium"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold placeholder-gray-600 font-medium"
                       placeholder="e.g., 10001"
                     />
                     <p className="text-xs text-gray-400 mt-1">
@@ -536,7 +536,7 @@ export default function OnboardingPage() {
                       min="0"
                       value={formData.student_income}
                       onChange={(e) => setFormData(prev => ({ ...prev, student_income: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 5000"
                     />
                     <p className="text-xs text-gray-400 mt-1">Your personal income from work/jobs</p>
@@ -551,7 +551,7 @@ export default function OnboardingPage() {
                       min="0"
                       value={formData.parent_income}
                       onChange={(e) => setFormData(prev => ({ ...prev, parent_income: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 75000"
                     />
                     <p className="text-xs text-gray-400 mt-1">Combined household income</p>
@@ -566,7 +566,7 @@ export default function OnboardingPage() {
                       min="0"
                       value={formData.parent_assets}
                       onChange={(e) => setFormData(prev => ({ ...prev, parent_assets: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 50000"
                     />
                     <p className="text-xs text-gray-400 mt-1">Savings, investments (not home equity)</p>
@@ -579,7 +579,7 @@ export default function OnboardingPage() {
                     <select
                       value={formData.budget_range}
                       onChange={(e) => setFormData(prev => ({ ...prev, budget_range: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                     >
                       <option value="">Select budget range...</option>
                       <option value="0-20000">$0 - $20,000</option>

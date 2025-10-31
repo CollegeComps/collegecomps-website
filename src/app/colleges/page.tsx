@@ -505,67 +505,67 @@ export default function CollegesPage() {
 
         {/* Active Filters Chips (ENG-33) */}
         {(filters.state || filters.city || filters.zipCode || filters.proximityZip || filters.majorCategory || (filters.control && filters.control.length > 0) || filters.maxTuition || filters.minEarnings || filters.sortBy !== 'roi_high') && (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4 mb-6">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-semibold text-blue-900">Active Filters:</h3>
+              <h3 className="text-sm font-semibold text-white font-bold">Active Filters:</h3>
               <button
                 onClick={clearFilters}
-                className="text-sm text-blue-700 hover:text-blue-900 font-medium underline"
+                className="text-sm text-orange-400 hover:text-white font-bold font-medium underline"
               >
                 Clear All
               </button>
             </div>
             <div className="flex flex-wrap gap-2">
               {filters.state && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-orange-500 rounded-full text-sm font-medium text-white font-bold">
                   State: {US_STATES.find(s => s.code === filters.state)?.name}
                   <button
                     onClick={() => handleFilterChange('state', '')}
-                    className="hover:bg-blue-100 rounded-full p-0.5"
+                    className="hover:bg-orange-500/20 rounded-full p-0.5"
                   >
                     <XMarkIcon className="w-4 h-4" />
                   </button>
                 </span>
               )}
               {filters.city && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-orange-500 rounded-full text-sm font-medium text-white font-bold">
                   City: {filters.city}
                   <button
                     onClick={() => handleFilterChange('city', '')}
-                    className="hover:bg-blue-100 rounded-full p-0.5"
+                    className="hover:bg-orange-500/20 rounded-full p-0.5"
                   >
                     <XMarkIcon className="w-4 h-4" />
                   </button>
                 </span>
               )}
               {filters.zipCode && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-orange-500 rounded-full text-sm font-medium text-white font-bold">
                   ZIP: {filters.zipCode}
                   <button
                     onClick={() => handleFilterChange('zipCode', '')}
-                    className="hover:bg-blue-100 rounded-full p-0.5"
+                    className="hover:bg-orange-500/20 rounded-full p-0.5"
                   >
                     <XMarkIcon className="w-4 h-4" />
                   </button>
                 </span>
               )}
               {filters.proximityZip && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-orange-500 rounded-full text-sm font-medium text-white font-bold">
                   Within {filters.radiusMiles} mi of {filters.proximityZip}
                   <button
                     onClick={() => handleFilterChange('proximityZip', '')}
-                    className="hover:bg-blue-100 rounded-full p-0.5"
+                    className="hover:bg-orange-500/20 rounded-full p-0.5"
                   >
                     <XMarkIcon className="w-4 h-4" />
                   </button>
                 </span>
               )}
               {filters.majorCategory && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-orange-500 rounded-full text-sm font-medium text-white font-bold">
                   Major: {filters.majorCategory}
                   <button
                     onClick={() => handleFilterChange('majorCategory', '')}
-                    className="hover:bg-blue-100 rounded-full p-0.5"
+                    className="hover:bg-orange-500/20 rounded-full p-0.5"
                   >
                     <XMarkIcon className="w-4 h-4" />
                   </button>
@@ -574,14 +574,14 @@ export default function CollegesPage() {
               {filters.control && filters.control.length > 0 && filters.control.map((controlType) => {
                 const typeLabel = controlType === '1' ? 'Public' : controlType === '2' ? 'Private Non-profit' : 'Private For-profit';
                 return (
-                  <span key={controlType} className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                  <span key={controlType} className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-orange-500 rounded-full text-sm font-medium text-white font-bold">
                     Type: {typeLabel}
                     <button
                       onClick={() => {
                         const newControl = filters.control.filter(c => c !== controlType);
                         setFilters({ ...filters, control: newControl });
                       }}
-                      className="hover:bg-blue-100 rounded-full p-0.5"
+                      className="hover:bg-orange-500/20 rounded-full p-0.5"
                     >
                       <XMarkIcon className="w-4 h-4" />
                     </button>
@@ -589,18 +589,18 @@ export default function CollegesPage() {
                 );
               })}
               {filters.maxTuition && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-orange-500 rounded-full text-sm font-medium text-white font-bold">
                   Max Tuition: ${parseInt(filters.maxTuition).toLocaleString()}
                   <button
                     onClick={() => handleFilterChange('maxTuition', '')}
-                    className="hover:bg-blue-100 rounded-full p-0.5"
+                    className="hover:bg-orange-500/20 rounded-full p-0.5"
                   >
                     <XMarkIcon className="w-4 h-4" />
                   </button>
                 </span>
               )}
               {filters.sortBy !== 'roi_high' && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-blue-300 rounded-full text-sm font-medium text-blue-900">
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-orange-500 rounded-full text-sm font-medium text-white font-bold">
                   Sort: {filters.sortBy === 'roi_high' ? 'ROI (High-Low)' :
                           filters.sortBy === 'tuition_low' ? 'Tuition (Low-High)' : 
                           filters.sortBy === 'tuition_high' ? 'Tuition (High-Low)' :
@@ -609,7 +609,7 @@ export default function CollegesPage() {
                           filters.sortBy === 'name' ? 'Name (A-Z)' : filters.sortBy}
                   <button
                     onClick={() => handleFilterChange('sortBy', 'roi_high')}
-                    className="hover:bg-blue-100 rounded-full p-0.5"
+                    className="hover:bg-orange-500/20 rounded-full p-0.5"
                   >
                     <XMarkIcon className="w-4 h-4" />
                   </button>
@@ -676,7 +676,7 @@ export default function CollegesPage() {
             institutions.map((institution) => (
               <div 
                 key={institution.id} 
-                className="group bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6 hover:shadow-md hover:border-blue-300 transition-all cursor-pointer relative"
+                className="group bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6 hover:shadow-md hover:border-orange-500 transition-all cursor-pointer relative"
                 onClick={() => window.location.href = `/colleges/${institution.unitid}`}
               >
                 {/* Bookmark button */}
@@ -860,7 +860,7 @@ export default function CollegesPage() {
                         href={institution.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-orange-500 hover:text-blue-700 truncate"
+                        className="text-orange-500 hover:text-orange-400 truncate"
                         onClick={(e) => e.stopPropagation()}
                       >
                         Visit Website
@@ -872,7 +872,7 @@ export default function CollegesPage() {
                 <div className="mt-4 pt-4 border-t border-gray-100">
                   <div className="flex justify-between items-center">
                     <span className="text-xs text-gray-400">Unit ID: {institution.unitid}</span>
-                    <div className="flex items-center gap-1 text-orange-500 group-hover:text-blue-700 text-sm font-medium">
+                    <div className="flex items-center gap-1 text-orange-500 group-hover:text-orange-400 text-sm font-medium">
                       <span>View Details</span>
                       <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

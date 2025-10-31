@@ -143,7 +143,7 @@ export default function AdminTicketDetailPage() {
   const getTierBadge = (tier: string) => {
     const colors: Record<string, string> = {
       free: 'bg-gray-100 text-gray-300',
-      premium: 'bg-blue-100 text-blue-700',
+      premium: 'bg-blue-100 text-orange-400',
       professional: 'bg-purple-100 text-purple-700'
     };
     return colors[tier] || colors.free;
@@ -166,7 +166,7 @@ export default function AdminTicketDetailPage() {
         <div className="max-w-2xl mx-auto">
           <Link
             href="/admin/support"
-            className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4"
+            className="inline-flex items-center text-orange-500 hover:text-blue-800 mb-4"
           >
             <ArrowLeftIcon className="w-4 h-4 mr-2" />
             Back to Support Dashboard
@@ -185,7 +185,7 @@ export default function AdminTicketDetailPage() {
         {/* Back Link */}
         <Link
           href="/admin/support"
-          className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
+          className="inline-flex items-center text-orange-500 hover:text-blue-800 mb-6"
         >
           <ArrowLeftIcon className="w-4 h-4 mr-2" />
           Back to Support Dashboard
@@ -237,7 +237,7 @@ export default function AdminTicketDetailPage() {
               <select
                 value={ticket.status}
                 onChange={(e) => updateTicket({ status: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
               >
                 <option value="open">Open</option>
                 <option value="in_progress">In Progress</option>
@@ -252,7 +252,7 @@ export default function AdminTicketDetailPage() {
               <select
                 value={ticket.priority}
                 onChange={(e) => updateTicket({ priority: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
               >
                 <option value="low">Low</option>
                 <option value="normal">Normal</option>
@@ -290,7 +290,7 @@ export default function AdminTicketDetailPage() {
                   key={message.id}
                   className={`p-4 rounded-lg ${
                     message.is_admin_reply
-                      ? 'bg-blue-50 border-l-4 border-blue-500 ml-8'
+                      ? 'bg-orange-500/10 border-l-4 border-blue-500 ml-8'
                       : 'bg-gray-50 border-l-4 border-gray-300 mr-8'
                   }`}
                 >
@@ -325,7 +325,7 @@ export default function AdminTicketDetailPage() {
               onChange={(e) => setReplyText(e.target.value)}
               placeholder="Type your response here..."
               rows={4}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 resize-none"
               disabled={sending}
             />
             <div className="flex justify-end mt-3">

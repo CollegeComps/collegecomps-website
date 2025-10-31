@@ -48,19 +48,19 @@ export default function StudentLoanCalculatorPage() {
               <h3 className="text-lg font-semibold text-white font-bold mb-3">Tips to Save Money</h3>
               <ul className="space-y-3 text-sm text-gray-300">
                 <li className="flex gap-2">
-                  <span className="text-blue-600 font-bold">•</span>
+                  <span className="text-orange-500 font-bold">•</span>
                   <span><strong>Make extra payments:</strong> Apply extra money directly to the principal to reduce interest and pay off faster.</span>
                 </li>
                 <li className="flex gap-2">
-                  <span className="text-blue-600 font-bold">•</span>
+                  <span className="text-orange-500 font-bold">•</span>
                   <span><strong>Bi-weekly payments:</strong> Pay half your monthly amount every two weeks to make an extra payment per year.</span>
                 </li>
                 <li className="flex gap-2">
-                  <span className="text-blue-600 font-bold">•</span>
+                  <span className="text-orange-500 font-bold">•</span>
                   <span><strong>Refinance if rates drop:</strong> Lower interest rates can save thousands over the life of your loan.</span>
                 </li>
                 <li className="flex gap-2">
-                  <span className="text-blue-600 font-bold">•</span>
+                  <span className="text-orange-500 font-bold">•</span>
                   <span><strong>Auto-pay discount:</strong> Many lenders offer 0.25% rate reduction for automatic payments.</span>
                 </li>
               </ul>
@@ -68,7 +68,7 @@ export default function StudentLoanCalculatorPage() {
           </div>
 
           <div className="mt-8 bg-orange-500/10 border border-orange-500 rounded-lg p-6">
-            <h3 className="font-semibold text-blue-900 mb-2">📚 Important Notes</h3>
+            <h3 className="font-semibold text-white font-bold mb-2">📚 Important Notes</h3>
             <ul className="text-sm text-blue-800 space-y-1">
               <li>• This calculator provides estimates. Actual payments may vary based on your lender and loan terms.</li>
               <li>• Federal student loans may have additional repayment options including income-driven plans.</li>

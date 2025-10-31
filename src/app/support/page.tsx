@@ -147,13 +147,13 @@ export default function SupportPage() {
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <LifebuoyIcon className="w-10 h-10 text-blue-600" />
+                <LifebuoyIcon className="w-10 h-10 text-orange-500" />
                 <h1 className="text-4xl font-bold text-white font-bold">Support Center</h1>
               </div>
               <p className="text-lg text-gray-300">
                 Get help from our support team
                 {isProfessional && <span className="ml-2 text-purple-600 font-semibold">Priority Support Active</span>}
-                {isPremium && <span className="ml-2 text-blue-600 font-semibold">Premium Support Active</span>}
+                {isPremium && <span className="ml-2 text-orange-500 font-semibold">Premium Support Active</span>}
               </p>
             </div>
             <button
@@ -202,7 +202,7 @@ export default function SupportPage() {
                   type="text"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white font-bold font-medium placeholder-gray-500"
+                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-bold font-medium placeholder-gray-500"
                   placeholder="Brief description of your issue"
                   required
                 />
@@ -213,7 +213,7 @@ export default function SupportPage() {
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white font-bold font-medium bg-white"
+                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-bold font-medium bg-white"
                 >
                   {categories.map((cat) => (
                     <option key={cat.value} value={cat.value} className="text-white font-bold">
@@ -229,7 +229,7 @@ export default function SupportPage() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={6}
-                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white font-bold font-medium placeholder-gray-500"
+                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-bold font-medium placeholder-gray-500"
                   placeholder="Please provide as much detail as possible..."
                   required
                 />
@@ -320,7 +320,7 @@ export default function SupportPage() {
                 <div className="flex gap-4">
                   <Link
                     href="/pricing"
-                    className="inline-block bg-white text-blue-600 font-bold px-6 py-2 rounded-lg hover:bg-blue-50 transition-colors"
+                    className="inline-block bg-white text-orange-500 font-bold px-6 py-2 rounded-lg hover:bg-orange-500/10 transition-colors"
                   >
                     View Plans
                   </Link>

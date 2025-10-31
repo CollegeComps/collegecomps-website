@@ -155,7 +155,7 @@ export default function SavedComparisonsPage() {
                     )}
                     <div className="flex flex-wrap gap-2">
                       {comparison.colleges.slice(0, 5).map((college, idx) => (
-                        <span key={idx} className="px-3 py-1 bg-blue-50 text-orange-600 text-sm rounded-full">
+                        <span key={idx} className="px-3 py-1 bg-orange-500/10 text-orange-600 text-sm rounded-full">
                           {college}
                         </span>
                       ))}

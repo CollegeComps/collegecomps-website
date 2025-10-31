@@ -170,7 +170,7 @@ export default function AnalyticsPage() {
               <select
                 value={filters.state}
                 onChange={(e) => setFilters({ ...filters, state: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-white font-bold focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-white font-bold focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               >
                 <option value="all">All States</option>
                 {states.map(state => (
@@ -187,7 +187,7 @@ export default function AnalyticsPage() {
               <select
                 value={filters.controlType}
                 onChange={(e) => setFilters({ ...filters, controlType: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-white font-bold focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-white font-bold focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               >
                 <option value="all">All Types</option>
                 <option value="Public">Public</option>
@@ -294,9 +294,9 @@ export default function AnalyticsPage() {
               {/* Insights */}
               <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4">
-                  <h3 className="text-sm font-semibold text-blue-900 mb-1">Public Institutions</h3>
-                  <p className="text-2xl font-bold text-blue-700">{publicData.length}</p>
-                  <p className="text-xs text-blue-600 mt-1">
+                  <h3 className="text-sm font-semibold text-white font-bold mb-1">Public Institutions</h3>
+                  <p className="text-2xl font-bold text-orange-400">{publicData.length}</p>
+                  <p className="text-xs text-orange-500 mt-1">
                     Avg ROI: ${publicData.length > 0 ? ((publicData.reduce((sum, d) => sum + d.roi, 0) / publicData.length) / 1000000).toFixed(2) : 0}M
                   </p>
                 </div>

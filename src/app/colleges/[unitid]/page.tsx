@@ -201,7 +201,7 @@ export default function CollegeDetailPage() {
         <div className="mb-6">
           <button
             onClick={() => router.push('/colleges')}
-            className="flex items-center text-blue-600 hover:text-blue-700 mb-4"
+            className="flex items-center text-orange-500 hover:text-orange-400 mb-4"
           >
             <ArrowLeftIcon className="w-5 h-5 mr-2" />
             Back to College Explorer
@@ -313,7 +313,7 @@ export default function CollegeDetailPage() {
                 onClick={() => setActiveTab(tab.key as any)}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === tab.key
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-blue-500 text-orange-500'
                     : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
                 }`}
               >
@@ -433,7 +433,7 @@ export default function CollegeDetailPage() {
                             </span>
                           )}
                           {program.credential_name && (
-                            <span className="px-2 py-1 text-xs rounded bg-blue-200 text-blue-900">
+                            <span className="px-2 py-1 text-xs rounded bg-blue-200 text-white font-bold">
                               {program.credential_name}
                             </span>
                           )}

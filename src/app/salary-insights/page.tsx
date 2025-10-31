@@ -168,7 +168,7 @@ export default function SalaryInsightsPage() {
               <select
                 value={selectedMajor}
                 onChange={(e) => setSelectedMajor(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
               >
                 <option value="" className="text-gray-300">All Majors</option>
                 {majors.map((major) => (
@@ -185,7 +185,7 @@ export default function SalaryInsightsPage() {
               <select
                 value={selectedInstitution}
                 onChange={(e) => setSelectedInstitution(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
               >
                 <option value="" className="text-gray-300">All Schools</option>
                 {institutions.map((institution) => (
@@ -202,7 +202,7 @@ export default function SalaryInsightsPage() {
               <select
                 value={selectedDegree}
                 onChange={(e) => setSelectedDegree(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
               >
                 <option value="" className="text-gray-300">All Degrees</option>
                 <option value="bachelors">Bachelor's</option>
@@ -220,7 +220,7 @@ export default function SalaryInsightsPage() {
               <select
                 value={selectedYears}
                 onChange={(e) => setSelectedYears(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
               >
                 <option value="" className="text-gray-300">All Ranges</option>
                 <option value="0-2">0-2 years</option>
@@ -351,7 +351,7 @@ export default function SalaryInsightsPage() {
                   {/* Average Salary */}
                   <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4">
                     <div className="text-xs text-orange-500 font-medium mb-1">Average Salary</div>
-                    <div className="text-2xl font-bold text-blue-900">{formatCurrency(data.avg_salary)}</div>
+                    <div className="text-2xl font-bold text-white font-bold">{formatCurrency(data.avg_salary)}</div>
                   </div>
 
                   {/* Min Salary */}
@@ -390,9 +390,9 @@ export default function SalaryInsightsPage() {
                         <div className="text-xs text-gray-300 mb-1">25th Percentile</div>
                         <div className="text-lg font-bold text-white">{formatCurrency(data.p25_salary)}</div>
                       </div>
-                      <div className="text-center bg-blue-50 rounded-lg p-3">
+                      <div className="text-center bg-orange-500/10 rounded-lg p-3">
                         <div className="text-xs text-orange-500 mb-1">50th Percentile (Median)</div>
-                        <div className="text-lg font-bold text-blue-900">{formatCurrency(data.median_salary)}</div>
+                        <div className="text-lg font-bold text-white font-bold">{formatCurrency(data.median_salary)}</div>
                       </div>
                       <div className="text-center bg-green-50 rounded-lg p-3">
                         <div className="text-xs text-green-600 mb-1">75th Percentile</div>

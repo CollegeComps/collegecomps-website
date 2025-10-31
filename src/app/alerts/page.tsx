@@ -140,23 +140,23 @@ export default function AlertsPage() {
             <p className="text-xl text-gray-300 mb-8">
               Custom Alerts & Notifications is available for Premium subscribers
             </p>
-            <div className="bg-blue-50 rounded-lg p-6 mb-8">
+            <div className="bg-orange-500/10 rounded-lg p-6 mb-8">
               <h3 className="font-bold text-white font-bold mb-4">Stay informed with:</h3>
               <ul className="text-left space-y-3 text-gray-300">
                 <li className="flex items-start gap-3">
-                  <EnvelopeIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <EnvelopeIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>Email Alerts:</strong> Instant notifications for new salary data matching your profile</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <BellAlertIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <BellAlertIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>ROI Changes:</strong> Get notified when college costs or outcomes change</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <CheckCircleIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircleIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>Deadline Reminders:</strong> Never miss scholarship or financial aid deadlines</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <BriefcaseIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <BriefcaseIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                   <span><strong>Career Insights:</strong> Weekly trends and opportunities for your major</span>
                 </li>
               </ul>
@@ -217,7 +217,7 @@ export default function AlertsPage() {
         {/* Email Settings */}
         <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 mb-6">
           <div className="flex items-center gap-3 mb-4">
-            <EnvelopeIcon className="w-6 h-6 text-blue-600" />
+            <EnvelopeIcon className="w-6 h-6 text-orange-500" />
             <h2 className="text-2xl font-bold text-white font-bold">Email Preferences</h2>
           </div>
           <p className="text-gray-300 mb-6">
@@ -234,7 +234,7 @@ export default function AlertsPage() {
               >
                 <div className="flex items-start gap-3 flex-1">
                   <div className="mt-1">
-                    <IconComponent className="w-5 h-5 text-blue-600" />
+                    <IconComponent className="w-5 h-5 text-orange-500" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-white font-bold">{alert.type}</h3>
@@ -264,21 +264,21 @@ export default function AlertsPage() {
           <h2 className="text-2xl font-bold text-white font-bold mb-4">Notification Frequency</h2>
           <div className="space-y-3">
             <label className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-100">
-              <input type="radio" name="frequency" value="instant" defaultChecked className="w-4 h-4 text-blue-600" />
+              <input type="radio" name="frequency" value="instant" defaultChecked className="w-4 h-4 text-orange-500" />
               <div>
                 <p className="font-semibold text-white font-bold">Instant</p>
                 <p className="text-sm text-gray-300">Receive alerts as they happen</p>
               </div>
             </label>
             <label className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-100">
-              <input type="radio" name="frequency" value="daily" className="w-4 h-4 text-blue-600" />
+              <input type="radio" name="frequency" value="daily" className="w-4 h-4 text-orange-500" />
               <div>
                 <p className="font-semibold text-white font-bold">Daily Digest</p>
                 <p className="text-sm text-gray-300">One email per day with all updates</p>
               </div>
             </label>
             <label className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-100">
-              <input type="radio" name="frequency" value="weekly" className="w-4 h-4 text-blue-600" />
+              <input type="radio" name="frequency" value="weekly" className="w-4 h-4 text-orange-500" />
               <div>
                 <p className="font-semibold text-white font-bold">Weekly Summary</p>
                 <p className="text-sm text-gray-300">One email per week with highlights</p>

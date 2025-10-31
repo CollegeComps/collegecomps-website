@@ -344,9 +344,9 @@ export default function RecommendationsPage() {
               <div className="flex items-start gap-3">
                 <AcademicCapIcon className="w-6 h-6 text-orange-500 mt-0.5 flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold text-blue-900">Career Match: {career}</h3>
+                  <h3 className="font-semibold text-white font-bold">Career Match: {career}</h3>
                   {majors.length > 0 && (
-                    <p className="text-sm text-blue-700 mt-1">
+                    <p className="text-sm text-orange-400 mt-1">
                       Recommended majors: {majors.join(', ')}
                     </p>
                   )}
@@ -390,7 +390,7 @@ export default function RecommendationsPage() {
               <select
                 value={maxDistance}
                 onChange={(e) => setMaxDistance(parseInt(e.target.value))}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-white font-medium focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 rounded-lg px-3 py-2 text-white font-medium focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               >
                 <option value="25">Within 25 miles</option>
                 <option value="50">Within 50 miles</option>
@@ -416,7 +416,7 @@ export default function RecommendationsPage() {
                   }}
                   placeholder={userStats.zipCode || '10001'}
                   maxLength={5}
-                  className="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-600 text-sm font-medium"
+                  className="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white placeholder-gray-600 text-sm font-medium"
                 />
                 <button
                   onClick={() => handleZipCodeChange(zipCodeInput)}
@@ -459,7 +459,7 @@ export default function RecommendationsPage() {
                     Enter a zip code to search or update your{' '}
                     <button
                       onClick={() => router.push('/onboarding')}
-                      className="text-orange-500 hover:text-blue-700 font-semibold underline cursor-pointer hover:bg-blue-100 px-1 rounded transition-colors"
+                      className="text-orange-500 hover:text-orange-400 font-semibold underline cursor-pointer hover:bg-orange-500/20 px-1 rounded transition-colors"
                     >
                       profile settings
                     </button>
@@ -470,7 +470,7 @@ export default function RecommendationsPage() {
                       placeholder="Enter zip code (e.g., 10001)"
                       maxLength={5}
                       pattern="[0-9]{5}"
-                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-600 font-medium"
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white placeholder-gray-600 font-medium"
                       onKeyDown={async (e) => {
                         if (e.key === 'Enter' && e.currentTarget.value.length === 5) {
                           const zip = e.currentTarget.value;
@@ -571,7 +571,7 @@ export default function RecommendationsPage() {
             {recommendations.match.length > 0 && (
               <div>
                 <div className="flex items-center mb-4">
-                  <h2 className="text-2xl font-bold text-blue-700">
+                  <h2 className="text-2xl font-bold text-orange-400">
                     Match Schools
                   </h2>
                   <span className="ml-3 px-3 py-1 bg-orange-500/10 border border-orange-500 text-orange-600 rounded-full text-sm font-medium">
@@ -694,7 +694,7 @@ function RecommendationCard({ rec }: { rec: RecommendationResult }) {
       </div>
 
       <div className="mt-4 pt-4 border-t border-gray-100">
-        <button className="w-full flex items-center justify-center text-orange-500 hover:text-blue-700 font-medium text-sm">
+        <button className="w-full flex items-center justify-center text-orange-500 hover:text-orange-400 font-medium text-sm">
           View Details
           <ArrowRightIcon className="w-4 h-4 ml-2" />
         </button>
