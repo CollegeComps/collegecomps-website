@@ -66,7 +66,7 @@ export default function EFCCalculatorPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Input Form */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-md p-8">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Financial Information</h2>
 
               {/* Student Status */}
@@ -76,7 +76,7 @@ export default function EFCCalculatorPage() {
                     type="checkbox"
                     checked={formData.isStudentDependent}
                     onChange={(e) => setFormData({ ...formData, isStudentDependent: e.target.checked })}
-                    className="w-5 h-5 text-blue-600 rounded"
+                    className="w-5 h-5 text-orange-500 rounded"
                   />
                   <span className="ml-3 text-sm font-medium text-gray-900">
                     I am a dependent student (under 24, supported by parents)
@@ -250,7 +250,7 @@ export default function EFCCalculatorPage() {
           <div className="lg:col-span-1">
             <div className="sticky top-8">
               {result ? (
-                <div className="bg-white rounded-xl shadow-md p-6">
+                <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
                   <h2 className="text-xl font-bold text-gray-900 mb-4">Your EFC Results</h2>
                   
                   {/* Main EFC */}
@@ -304,20 +304,20 @@ export default function EFCCalculatorPage() {
                   <div className="mt-6 space-y-3">
                     <Link
                       href="/colleges"
-                      className="block w-full px-4 py-3 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700 transition-all"
+                      className="block w-full px-4 py-3 bg-orange-500 text-white text-center font-semibold rounded-lg hover:bg-orange-600 transition-all"
                     >
                       Find Affordable Colleges
                     </Link>
                     <Link
                       href="/scholarships"
-                      className="block w-full px-4 py-3 bg-white text-blue-600 text-center font-semibold rounded-lg border-2 border-blue-600 hover:bg-blue-50 transition-all"
+                      className="block w-full px-4 py-3 bg-white text-orange-500 text-center font-semibold rounded-lg border-2 border-orange-500 hover:bg-orange-500/10 transition-all"
                     >
                       Search Scholarships
                     </Link>
                   </div>
                 </div>
               ) : (
-                <div className="bg-white rounded-xl shadow-md p-8 text-center">
+                <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-8 text-center">
                   <div className="text-6xl mb-4">🧮</div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Ready to Calculate</h3>
                   <p className="text-gray-600 text-sm">
@@ -330,7 +330,7 @@ export default function EFCCalculatorPage() {
         </div>
 
         {/* Educational Content */}
-        <div className="mt-12 bg-white rounded-xl shadow-md p-8">
+        <div className="mt-12 bg-gray-900 border border-gray-800 rounded-xl shadow-md p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Understanding Your EFC</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
