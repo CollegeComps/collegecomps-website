@@ -95,7 +95,7 @@ export default function UserMenu({ isInSidebar = false, isExpanded = false }: Us
 
   const isPremium = session?.user?.subscriptionTier === 'premium';
 
-  // Sidebar version - simple logout button
+  // Sidebar version - simple logout button (only show if logged in)
   if (isInSidebar && session?.user) {
     return (
       <div className="p-3">
@@ -123,30 +123,36 @@ export default function UserMenu({ isInSidebar = false, isExpanded = false }: Us
     );
   }
 
-  // Sidebar version - auth buttons for non-logged in users
+  // Sidebar version - don't show anything for non-logged in users
   if (isInSidebar && !session?.user) {
+    return null;
+  }
+
+  // Top bar version - update styling for dark background
+  if (!session?.user) {
     return (
-      <div className="p-3">
-        <button
-          onClick={() => openAuthModal('signin')}
-          className={`
-            group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 w-full mb-2
-            text-gray-300 hover:bg-gray-800 hover:text-white
-            ${!isExpanded ? 'justify-center' : ''}
-          `}
-        >
-          {isExpanded ? (
-            <span className="font-medium text-sm whitespace-nowrap">Sign In</span>
-          ) : (
-            <span className="font-medium text-xs">In</span>
-          )}
-        </button>
+      <>
+        {/* Auth buttons with better visibility on dark background */}
+        <div className="hidden md:flex items-center gap-3">
+          <button
+            onClick={() => openAuthModal('signin')}
+            className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors cursor-pointer"
+          >
+            Sign In
+          </button>
+          <button
+            onClick={() => openAuthModal('signup')}
+            className="px-4 py-2 text-sm font-medium text-white bg-orange-600 rounded-lg hover:bg-orange-700 transition-colors cursor-pointer"
+          >
+            Get Started
+          </button>
+        </div>
         <AuthModal
           isOpen={showAuthModal}
           onClose={() => setShowAuthModal(false)}
           defaultTab={authTab}
         />
-      </div>
+      </>
     );
   }
 
@@ -156,10 +162,10 @@ export default function UserMenu({ isInSidebar = false, isExpanded = false }: Us
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 hover:bg-gray-50 rounded-lg p-2 transition-colors"
+        className="flex items-center gap-3 hover:bg-gray-800 rounded-lg p-2 transition-colors"
       >
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-semibold text-sm">
             {session.user.name?.[0]?.toUpperCase() || session.user.email?.[0]?.toUpperCase() || 'U'}
           </div>
           {isPremium && (
@@ -169,7 +175,7 @@ export default function UserMenu({ isInSidebar = false, isExpanded = false }: Us
           )}
         </div>
         <svg
-          className={`w-4 h-4 text-gray-600 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

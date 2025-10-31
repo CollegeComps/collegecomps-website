@@ -218,11 +218,6 @@ export default function Sidebar({ children }: SidebarProps) {
         {/* Footer - Fixed at bottom with logout */}
         <div className="flex-shrink-0 border-t border-gray-800 bg-gray-900">
           <UserMenu isInSidebar={true} isExpanded={isExpanded} />
-          <div className="p-3">
-            <div className="text-xs text-gray-500 text-center">
-              {isExpanded ? '© 2025 CollegeComps' : '©'}
-            </div>
-          </div>
         </div>
       </div>
 
