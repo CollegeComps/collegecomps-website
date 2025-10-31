@@ -235,7 +235,7 @@ export default function OnboardingPage() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-black flex items-center justify-center p-4">
       <div className="max-w-3xl w-full">
         {/* Progress Bar */}
         <div className="mb-8">
@@ -329,8 +329,8 @@ export default function OnboardingPage() {
           {step === 2 && (
             <div className="space-y-6">
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 rounded-full mb-4">
-                  <BuildingLibraryIcon className="h-8 w-8 text-indigo-600" />
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
+                  <BuildingLibraryIcon className="h-8 w-8 text-orange-500" />
                 </div>
                 <h2 className="text-3xl font-bold text-white font-bold mb-2">Which schools interest you?</h2>
                 <p className="text-gray-300">Add schools you're considering (optional - you can add or change these later)</p>
@@ -371,12 +371,12 @@ export default function OnboardingPage() {
                     {formData.target_schools.map((school) => (
                       <div
                         key={school}
-                        className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full"
+                        className="inline-flex items-center gap-2 bg-orange-500/20 border border-orange-500 text-orange-400 px-3 py-1 rounded-full"
                       >
                         <span className="text-sm font-medium">{school}</span>
                         <button
                           onClick={() => removeSchool(school)}
-                          className="text-orange-500 hover:text-blue-800"
+                          className="text-orange-300 hover:text-orange-500"
                         >
                           ×
                         </button>
@@ -392,8 +392,8 @@ export default function OnboardingPage() {
           {step === 3 && (
             <div className="space-y-6">
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
-                  <CalendarIcon className="h-8 w-8 text-purple-600" />
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
+                  <CalendarIcon className="h-8 w-8 text-orange-500" />
                 </div>
                 <h2 className="text-3xl font-bold text-white font-bold mb-2">When do you plan to graduate?</h2>
                 <p className="text-gray-300">This helps us show relevant ROI projections</p>
@@ -414,9 +414,9 @@ export default function OnboardingPage() {
                 </select>
               </div>
 
-              <div className="bg-orange-500/10 rounded-lg p-4">
+              <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4">
                 <h3 className="font-semibold text-white font-bold mb-2">What's Next?</h3>
-                <ul className="space-y-1 text-sm text-blue-800">
+                <ul className="space-y-1 text-sm text-orange-400">
                   <li>• Personalized college recommendations</li>
                   <li>• ROI calculations for your major</li>
                   <li>• Salary insights from alumni in your field</li>
@@ -430,8 +430,8 @@ export default function OnboardingPage() {
           {step === 4 && (
             <div className="space-y-6">
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
-                  <AcademicCapIcon className="h-8 w-8 text-green-600" />
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
+                  <AcademicCapIcon className="h-8 w-8 text-orange-500" />
                 </div>
                 <h2 className="text-3xl font-bold text-white font-bold mb-2">Tell us about your profile</h2>
                 <p className="text-gray-300">Help us provide better recommendations and accurate net price estimates (all optional)</p>
@@ -601,14 +601,14 @@ export default function OnboardingPage() {
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+          <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-800">
             <button
               onClick={() => setStep(s => Math.max(1, s - 1))}
               disabled={step === 1}
               className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-colors ${
                 step === 1
-                  ? 'text-gray-400 cursor-not-allowed'
-                  : 'text-gray-300 hover:bg-gray-100'
+                  ? 'text-gray-600 cursor-not-allowed'
+                  : 'text-gray-300 hover:bg-gray-800'
               }`}
             >
               <ChevronLeftIcon className="h-5 w-5" />
@@ -621,8 +621,8 @@ export default function OnboardingPage() {
                 disabled={!canProceed()}
                 className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-colors ${
                   canProceed()
-                    ? 'bg-orange-500 text-white hover:bg-blue-700'
-                    : 'bg-gray-300 text-gray-400 cursor-not-allowed'
+                    ? 'bg-orange-500 text-white hover:bg-orange-600'
+                    : 'bg-gray-800 text-gray-600 cursor-not-allowed'
                 }`}
               >
                 Next
@@ -634,8 +634,8 @@ export default function OnboardingPage() {
                 disabled={loading}
                 className={`flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-colors ${
                   !loading
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700'
-                    : 'bg-gray-300 text-gray-400 cursor-not-allowed'
+                    ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700'
+                    : 'bg-gray-800 text-gray-600 cursor-not-allowed'
                 }`}
               >
                 {loading ? 'Saving...' : 'Complete Setup'}
