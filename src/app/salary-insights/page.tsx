@@ -99,14 +99,14 @@ export default function SalaryInsightsPage() {
   const isPremium = session?.user?.subscriptionTier === 'premium';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-extrabold text-white mb-4">
             Real-World Salary Insights
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-white font-bold max-w-3xl mx-auto">
             Discover actual post-graduation salaries from alumni. Make informed decisions based on real data.
           </p>
 
@@ -114,14 +114,14 @@ export default function SalaryInsightsPage() {
           <div className="mt-6 flex justify-center gap-4">
             <Link
               href="/submit-salary"
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg"
+              className="inline-flex items-center px-6 py-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition-all shadow-lg"
             >
               Contribute Your Data
             </Link>
             {!isPremium && (
               <Link
                 href="/pricing"
-                className="inline-flex items-center px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg border-2 border-blue-600 hover:bg-blue-50 transition-all"
+                className="inline-flex items-center px-6 py-3 bg-gray-900 border-2 border-orange-500 text-orange-500 font-bold rounded-lg hover:bg-orange-500 hover:text-white transition-all"
               >
                 Upgrade for Full Insights
               </Link>
@@ -131,30 +131,30 @@ export default function SalaryInsightsPage() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
-            <div className="text-sm text-gray-600 mb-1">Total Data Points</div>
-            <div className="text-3xl font-bold text-gray-900">
+          <div className="bg-gray-900 border-l-4 border-orange-500 rounded-xl shadow-md p-6">
+            <div className="text-sm text-gray-400 font-medium mb-1">Total Data Points</div>
+            <div className="text-3xl font-extrabold text-white">
               {salaryData.reduce((sum, d) => sum + d.sample_size, 0).toLocaleString()}
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
-            <div className="text-sm text-gray-600 mb-1">Unique Majors</div>
-            <div className="text-3xl font-bold text-gray-900">{majors.length}</div>
+          <div className="bg-gray-900 border-l-4 border-green-500 rounded-xl shadow-md p-6">
+            <div className="text-sm text-gray-400 font-medium mb-1">Unique Majors</div>
+            <div className="text-3xl font-extrabold text-white">{majors.length}</div>
           </div>
-          <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
-            <div className="text-sm text-gray-600 mb-1">Institutions</div>
-            <div className="text-3xl font-bold text-gray-900">{institutions.length}</div>
+          <div className="bg-gray-900 border-l-4 border-orange-500 rounded-xl shadow-md p-6">
+            <div className="text-sm text-gray-400 font-medium mb-1">Institutions</div>
+            <div className="text-3xl font-extrabold text-white">{institutions.length}</div>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Filter Data</h2>
+            <h2 className="text-lg font-bold text-white">Filter Data</h2>
             {(selectedMajor || selectedInstitution || selectedDegree || selectedYears) && (
               <button
                 onClick={clearFilters}
-                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                className="text-sm text-orange-500 hover:text-orange-400 font-bold"
               >
                 Clear All
               </button>
@@ -164,13 +164,13 @@ export default function SalaryInsightsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Major Filter */}
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">Major</label>
+              <label className="block text-sm font-semibold text-white mb-2">Major</label>
               <select
                 value={selectedMajor}
                 onChange={(e) => setSelectedMajor(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
               >
-                <option value="" className="text-gray-600">All Majors</option>
+                <option value="" className="text-gray-300">All Majors</option>
                 {majors.map((major) => (
                   <option key={major} value={major}>
                     {major}
@@ -181,13 +181,13 @@ export default function SalaryInsightsPage() {
 
             {/* Institution Filter */}
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">Institution</label>
+              <label className="block text-sm font-semibold text-white mb-2">Institution</label>
               <select
                 value={selectedInstitution}
                 onChange={(e) => setSelectedInstitution(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
               >
-                <option value="" className="text-gray-600">All Schools</option>
+                <option value="" className="text-gray-300">All Schools</option>
                 {institutions.map((institution) => (
                   <option key={institution} value={institution}>
                     {institution}
@@ -198,13 +198,13 @@ export default function SalaryInsightsPage() {
 
             {/* Degree Level Filter */}
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">Degree Level</label>
+              <label className="block text-sm font-semibold text-white mb-2">Degree Level</label>
               <select
                 value={selectedDegree}
                 onChange={(e) => setSelectedDegree(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
               >
-                <option value="" className="text-gray-600">All Degrees</option>
+                <option value="" className="text-gray-300">All Degrees</option>
                 <option value="bachelors">Bachelor's</option>
                 <option value="masters">Master's</option>
                 <option value="doctorate">Doctorate</option>
@@ -216,13 +216,13 @@ export default function SalaryInsightsPage() {
 
             {/* Years Since Graduation Filter */}
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">Years Post-Grad</label>
+              <label className="block text-sm font-semibold text-white mb-2">Years Post-Grad</label>
               <select
                 value={selectedYears}
                 onChange={(e) => setSelectedYears(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
               >
-                <option value="" className="text-gray-600">All Ranges</option>
+                <option value="" className="text-gray-300">All Ranges</option>
                 <option value="0-2">0-2 years</option>
                 <option value="3-5">3-5 years</option>
                 <option value="6-10">6-10 years</option>
@@ -236,24 +236,24 @@ export default function SalaryInsightsPage() {
 
         {/* Results */}
         {loading ? (
-          <div className="bg-white rounded-xl shadow-md p-12 text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading salary data...</p>
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-12 text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
+            <p className="text-gray-300">Loading salary data...</p>
           </div>
         ) : error ? (
-          <div className="bg-white rounded-xl shadow-md p-12 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-12 text-center">
             
             <h3 className="text-xl font-semibold text-red-700 mb-2">
               {error.includes('Premium') ? 'Premium Access Required' : 'Unable to Load Data'}
             </h3>
-            <p className="text-gray-600 mb-6 max-w-lg mx-auto">
+            <p className="text-gray-300 mb-6 max-w-lg mx-auto">
               {error}
             </p>
             <div className="flex gap-4 justify-center">
               {error.includes('Premium') ? (
                 <Link
                   href="/pricing"
-                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg"
+                  className="inline-flex items-center px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-all shadow-lg"
                 >
                   View Premium Plans
                 </Link>
@@ -268,14 +268,14 @@ export default function SalaryInsightsPage() {
             </div>
           </div>
         ) : salaryData.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-md p-12 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-12 text-center">
             
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            <h3 className="text-xl font-semibold text-white mb-2">
               {selectedMajor || selectedInstitution || selectedDegree || selectedYears 
                 ? 'No Data Matches Your Filters' 
                 : 'Be Among the First Contributors!'}
             </h3>
-            <p className="text-gray-600 mb-2 max-w-2xl mx-auto">
+            <p className="text-gray-300 mb-2 max-w-2xl mx-auto">
               {selectedMajor || selectedInstitution || selectedDegree || selectedYears 
                 ? 'Try adjusting your filters or contribute data for this combination.' 
                 : 'Salary Insights is powered by anonymous data submitted by our community.'}
@@ -286,14 +286,14 @@ export default function SalaryInsightsPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
                 href="/submit-salary"
-                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg"
+                className="inline-flex items-center px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-all shadow-lg"
               >
                 Submit Your Salary Data
               </Link>
               {(selectedMajor || selectedInstitution || selectedDegree || selectedYears) && (
                 <button
                   onClick={clearFilters}
-                  className="inline-flex items-center px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg border-2 border-blue-600 hover:bg-blue-50 transition-all"
+                  className="inline-flex items-center px-6 py-3 bg-white text-orange-500 font-semibold rounded-lg border-2 border-orange-500 hover:bg-orange-500 hover:text-white transition-all"
                 >
                   🔄 Clear Filters
                 </button>
@@ -308,10 +308,10 @@ export default function SalaryInsightsPage() {
                 <div className="flex items-start gap-4">
                   
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    <h3 className="text-lg font-semibold text-white mb-2">
                       Unlock Full Salary Insights
                     </h3>
-                    <p className="text-gray-700 mb-4">
+                    <p className="text-gray-300 mb-4">
                       Upgrade to Premium to see detailed percentiles (25th, 50th, 75th), salary progression charts, and advanced filters.
                     </p>
                     <Link
@@ -329,13 +329,13 @@ export default function SalaryInsightsPage() {
             {salaryData.map((data, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow border-l-4 border-blue-500"
+                className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow border-l-4 border-blue-500"
               >
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-1">{data.major}</h3>
-                    <p className="text-gray-600">{data.institution_name}</p>
+                    <h3 className="text-xl font-bold text-white mb-1">{data.major}</h3>
+                    <p className="text-gray-300">{data.institution_name}</p>
                     <div className="flex items-center gap-3 mt-2 text-sm text-gray-500">
                       <span className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full font-medium">
                         {data.degree_level.charAt(0).toUpperCase() + data.degree_level.slice(1)}
@@ -350,14 +350,14 @@ export default function SalaryInsightsPage() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                   {/* Average Salary */}
                   <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4">
-                    <div className="text-xs text-blue-600 font-medium mb-1">Average Salary</div>
+                    <div className="text-xs text-orange-500 font-medium mb-1">Average Salary</div>
                     <div className="text-2xl font-bold text-blue-900">{formatCurrency(data.avg_salary)}</div>
                   </div>
 
                   {/* Min Salary */}
                   <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-4">
-                    <div className="text-xs text-gray-600 font-medium mb-1">Minimum</div>
-                    <div className="text-2xl font-bold text-gray-900">{formatCurrency(data.min_salary)}</div>
+                    <div className="text-xs text-gray-300 font-medium mb-1">Minimum</div>
+                    <div className="text-2xl font-bold text-white">{formatCurrency(data.min_salary)}</div>
                   </div>
 
                   {/* Max Salary */}
@@ -382,16 +382,16 @@ export default function SalaryInsightsPage() {
                       <span className="inline-flex items-center px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-bold rounded-full">
                         PREMIUM
                       </span>
-                      <span className="text-sm text-gray-600">Detailed Salary Distribution</span>
+                      <span className="text-sm text-gray-300">Detailed Salary Distribution</span>
                     </div>
 
                     <div className="grid grid-cols-3 gap-4">
                       <div className="text-center bg-gray-50 rounded-lg p-3">
-                        <div className="text-xs text-gray-600 mb-1">25th Percentile</div>
-                        <div className="text-lg font-bold text-gray-900">{formatCurrency(data.p25_salary)}</div>
+                        <div className="text-xs text-gray-300 mb-1">25th Percentile</div>
+                        <div className="text-lg font-bold text-white">{formatCurrency(data.p25_salary)}</div>
                       </div>
                       <div className="text-center bg-blue-50 rounded-lg p-3">
-                        <div className="text-xs text-blue-600 mb-1">50th Percentile (Median)</div>
+                        <div className="text-xs text-orange-500 mb-1">50th Percentile (Median)</div>
                         <div className="text-lg font-bold text-blue-900">{formatCurrency(data.median_salary)}</div>
                       </div>
                       <div className="text-center bg-green-50 rounded-lg p-3">
@@ -426,7 +426,7 @@ export default function SalaryInsightsPage() {
                       <div className="absolute inset-0 backdrop-blur-sm bg-gray-100/50 flex items-center justify-center">
                         <div>
                           <div className="text-4xl mb-2">🔒</div>
-                          <p className="text-gray-700 font-medium">Premium Feature Locked</p>
+                          <p className="text-gray-300 font-medium">Premium Feature Locked</p>
                           <Link
                             href="/pricing"
                             className="inline-block mt-3 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-all"
@@ -436,7 +436,7 @@ export default function SalaryInsightsPage() {
                         </div>
                       </div>
                       <div className="opacity-30 blur-sm">
-                        <div className="text-sm text-gray-600 mb-2">Salary Distribution</div>
+                        <div className="text-sm text-gray-300 mb-2">Salary Distribution</div>
                         <div className="grid grid-cols-3 gap-4">
                           <div>25th: $XX,XXX</div>
                           <div>Median: $XX,XXX</div>
@@ -452,14 +452,14 @@ export default function SalaryInsightsPage() {
         )}
 
         {/* Footer CTA */}
-        <div className="mt-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-8 text-center text-white">
+        <div className="mt-12 bg-orange-500 rounded-xl p-8 text-center text-white">
           <h2 className="text-2xl font-bold mb-2">Help Build the Most Comprehensive Salary Database</h2>
           <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
             Your anonymous salary data helps thousands of students make better college decisions. Share your story.
           </p>
           <Link
             href="/submit-salary"
-            className="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition-all shadow-lg text-lg"
+            className="inline-flex items-center px-8 py-4 bg-white text-orange-500 font-bold rounded-lg hover:bg-orange-500 hover:text-white transition-all shadow-lg text-lg"
           >
             Contribute Your Salary Data
           </Link>
