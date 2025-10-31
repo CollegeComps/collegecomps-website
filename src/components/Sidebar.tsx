@@ -162,7 +162,7 @@ export default function Sidebar({ children }: SidebarProps) {
         onMouseLeave={() => setIsExpanded(false)}
       >
         {/* Sidebar header */}
-        <div className="flex items-center justify-between h-16 px-4 border-b border-gray-900 flex-shrink-0">
+        <div className="flex items-center justify-center h-16 px-4 border-b border-gray-900 flex-shrink-0">
           <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity overflow-hidden">
             <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
               <AcademicCapIcon className="w-5 h-5 text-white" />
@@ -173,7 +173,7 @@ export default function Sidebar({ children }: SidebarProps) {
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-1.5 rounded-md text-gray-400 hover:text-gray-300 hover:bg-gray-800"
+            className="lg:hidden p-1.5 rounded-md text-gray-400 hover:text-gray-300 hover:bg-gray-800 absolute right-4"
           >
             <XMarkIcon className="w-5 h-5" />
           </button>
