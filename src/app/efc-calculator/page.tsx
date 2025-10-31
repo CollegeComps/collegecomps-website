@@ -250,7 +250,7 @@ export default function EFCCalculatorPage() {
           <div className="lg:col-span-1">
             <div className="sticky top-8">
               {result ? (
-                <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+                <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
                   <h2 className="text-xl font-bold text-white font-bold mb-4">Your EFC Results</h2>
                   
                   {/* Main EFC */}

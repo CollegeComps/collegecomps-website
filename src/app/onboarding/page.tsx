@@ -271,12 +271,12 @@ export default function OnboardingPage() {
         </div>
 
         {/* Main Card */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8">
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl p-10">
           {/* Step 1: Intended Major */}
           {step === 1 && (
             <div className="space-y-6">
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
                   <AcademicCapIcon className="h-8 w-8 text-orange-500" />
                 </div>
                 <h2 className="text-3xl font-bold text-white font-bold mb-2">What do you want to study?</h2>

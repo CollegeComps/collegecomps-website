@@ -213,7 +213,7 @@ export default function ComparisonManagerPage() {
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 mb-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8 mb-6">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
               <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -243,7 +243,7 @@ export default function ComparisonManagerPage() {
         <div className="grid md:grid-cols-4 gap-6">
           {/* Folders Sidebar */}
           <div className="md:col-span-1">
-            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-bold text-white font-bold">Folders</h2>
                 <button
@@ -290,7 +290,7 @@ export default function ComparisonManagerPage() {
           {/* Comparisons List */}
           <div className="md:col-span-3">
             {filteredComparisons.length === 0 ? (
-              <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-12 text-center">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-14 text-center">
                 <FolderOpenIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                 <p className="text-gray-400 text-lg">No comparisons found</p>
                 <Link
@@ -305,7 +305,7 @@ export default function ComparisonManagerPage() {
                 {filteredComparisons.map((comp) => (
                   <div
                     key={comp.id}
-                    className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow"
+                    className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8 hover:shadow-lg transition-shadow"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">

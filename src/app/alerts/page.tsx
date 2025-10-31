@@ -220,7 +220,7 @@ export default function AlertsPage() {
         )}
 
         {/* Email Settings */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 mb-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8 mb-6">
           <div className="flex items-center gap-3 mb-4">
             <EnvelopeIcon className="w-6 h-6 text-orange-500" />
             <h2 className="text-2xl font-bold text-white font-bold">Email Preferences</h2>
@@ -265,7 +265,7 @@ export default function AlertsPage() {
         </div>
 
         {/* Notification Frequency */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 mb-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8 mb-6">
           <h2 className="text-2xl font-bold text-white font-bold mb-4">Notification Frequency</h2>
           <div className="space-y-3">
             <label className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-700">

@@ -236,12 +236,12 @@ export default function SalaryInsightsPage() {
 
         {/* Results */}
         {loading ? (
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-12 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-14 text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
             <p className="text-gray-300">Loading salary data...</p>
           </div>
         ) : error ? (
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-12 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-14 text-center">
             
             <h3 className="text-xl font-semibold text-red-700 mb-2">
               {error.includes('Premium') ? 'Premium Access Required' : 'Unable to Load Data'}
@@ -268,7 +268,7 @@ export default function SalaryInsightsPage() {
             </div>
           </div>
         ) : salaryData.length === 0 ? (
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-12 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-14 text-center">
             
             <h3 className="text-xl font-semibold text-white mb-2">
               {selectedMajor || selectedInstitution || selectedDegree || selectedYears 

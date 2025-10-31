@@ -200,7 +200,7 @@ export default function ExportsPage() {
         <div className="grid md:grid-cols-3 gap-6">
           {/* Comparison Selector */}
           <div className="md:col-span-1">
-            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
               <h2 className="text-xl font-bold text-white font-bold mb-4">Select Comparison</h2>
               
               {comparisons.length === 0 ? (
@@ -241,7 +241,7 @@ export default function ExportsPage() {
           {/* Export Options */}
           <div className="md:col-span-2 space-y-6">
             {/* Export Formats */}
-            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
               <h2 className="text-xl font-bold text-white font-bold mb-4">Export Format</h2>
               <div className="grid grid-cols-3 gap-4">
                 <button
@@ -277,7 +277,7 @@ export default function ExportsPage() {
             </div>
 
             {/* Share Link */}
-            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
               <h2 className="text-xl font-bold text-white font-bold mb-4">Share Comparison</h2>
               <p className="text-gray-300 mb-4">
                 Create a shareable link that anyone can view (no account required)
@@ -293,7 +293,7 @@ export default function ExportsPage() {
             </div>
 
             {/* Custom Report Options */}
-            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
               <h2 className="text-xl font-bold text-white font-bold mb-4">Custom Report Options</h2>
               <div className="space-y-3">
                 <label className="flex items-center gap-3">

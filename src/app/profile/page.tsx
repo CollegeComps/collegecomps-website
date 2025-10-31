@@ -222,7 +222,7 @@ export default function ProfilePage() {
 
         <div className="grid gap-6">
           {/* Account Status Card */}
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
             <h2 className="text-xl font-bold text-white mb-4">Account Status</h2>
             <div className="space-y-3">
               <div className="flex items-center justify-between py-2">
@@ -255,7 +255,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Profile Information */}
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-white">Profile Information</h2>
               <Link
@@ -351,7 +351,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Bookmarked Colleges */}
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-white">Bookmarked Colleges</h2>
               <Link
@@ -460,7 +460,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Saved ROI Scenarios */}
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-white">Saved ROI Scenarios</h2>
               <Link
@@ -611,7 +611,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Change Password */}
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
             <h2 className="text-xl font-bold text-white mb-4">Change Password</h2>
             <form onSubmit={handlePasswordChange} className="space-y-4">
               <div>
@@ -667,7 +667,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Alert Settings */}
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-white">Alert Preferences</h2>
               <Link
@@ -681,7 +681,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Danger Zone */}
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 border-2 border-red-200">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8 border-2 border-red-200">
             <h2 className="text-xl font-bold text-red-600 mb-2">Danger Zone</h2>
             <p className="text-gray-300 mb-4">
               Once you delete your account, there is no going back. Please be certain.
