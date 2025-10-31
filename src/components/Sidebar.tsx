@@ -163,12 +163,12 @@ export default function Sidebar({ children }: SidebarProps) {
       >
         {/* Sidebar header */}
         <div className="flex items-center h-16 px-4 border-b border-gray-900 flex-shrink-0">
-          <Link href="/" className={`flex items-center space-x-2 hover:opacity-80 transition-opacity ${!isExpanded ? 'mx-auto' : ''}`}>
+          <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-all duration-500">
             <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
               <AcademicCapIcon className="w-5 h-5 text-white" />
             </div>
             {isExpanded && (
-              <h1 className="text-lg font-extrabold text-white whitespace-nowrap">CollegeComps</h1>
+              <h1 className="text-lg font-extrabold text-white whitespace-nowrap transition-opacity duration-500">CollegeComps</h1>
             )}
           </Link>
           <button

@@ -236,7 +236,7 @@ export default function LoanCalculatorPage() {
                   {/* Amortization Schedule Button */}
                   <button
                     onClick={() => setShowSchedule(!showSchedule)}
-                    className="w-full mt-6 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-white font-bold font-semibold rounded-lg transition-colors"
+                    className="w-full mt-6 px-4 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors shadow-lg"
                   >
                     {showSchedule ? 'Hide' : 'View'} Payment Schedule
                   </button>
@@ -256,7 +256,7 @@ export default function LoanCalculatorPage() {
               <h2 className="text-xl font-semibold text-white font-bold mb-4">Payment Schedule</h2>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
-                  <thead className="bg-gray-50 border-b-2 border-gray-200">
+                  <thead className="bg-gray-800 border-b-2 border-gray-700">
                     <tr>
                       <th className="px-4 py-3 text-left font-semibold text-white font-bold">Month</th>
                       <th className="px-4 py-3 text-right font-semibold text-white font-bold">Payment</th>
@@ -265,7 +265,7 @@ export default function LoanCalculatorPage() {
                       <th className="px-4 py-3 text-right font-semibold text-white font-bold">Balance</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-200">
+                  <tbody className="divide-y divide-gray-800">
                     {calculation.amortizationSchedule.filter((_, idx) => idx % 12 === 0 || idx === calculation.amortizationSchedule.length - 1).map((entry) => (
                       <tr key={entry.month} className="hover:bg-gray-800">
                         <td className="px-4 py-3 font-medium text-white font-bold">
