@@ -113,7 +113,7 @@ export default function AdminAnalyticsPage() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading your analytics...</p>
+          <p className="mt-4 text-gray-300">Loading your analytics...</p>
         </div>
       </div>
     );
@@ -123,7 +123,7 @@ export default function AdminAnalyticsPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-600">No analytics data available</p>
+          <p className="text-gray-300">No analytics data available</p>
         </div>
       </div>
     );
@@ -136,11 +136,11 @@ export default function AdminAnalyticsPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                <ChartBarIcon className="h-8 w-8 text-blue-600" />
+              <h1 className="text-3xl font-bold text-white font-bold flex items-center gap-3">
+                <ChartBarIcon className="h-8 w-8 text-orange-500" />
                 Admin Analytics Dashboard
               </h1>
-              <p className="mt-2 text-gray-600">
+              <p className="mt-2 text-gray-300">
                 Platform-wide user behavior and engagement metrics
               </p>
             </div>
@@ -154,23 +154,23 @@ export default function AdminAnalyticsPage() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total Actions</p>
-                <p className="text-3xl font-bold text-gray-900">{data.stats.total_events}</p>
+                <p className="text-sm text-gray-300">Total Actions</p>
+                <p className="text-3xl font-bold text-white font-bold">{data.stats.total_events}</p>
               </div>
               <div className="bg-blue-100 p-3 rounded-lg">
-                <FireIcon className="h-6 w-6 text-blue-600" />
+                <FireIcon className="h-6 w-6 text-orange-500" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Active Days</p>
-                <p className="text-3xl font-bold text-gray-900">{data.stats.active_days}</p>
+                <p className="text-sm text-gray-300">Active Days</p>
+                <p className="text-3xl font-bold text-white font-bold">{data.stats.active_days}</p>
               </div>
               <div className="bg-green-100 p-3 rounded-lg">
                 <CalendarIcon className="h-6 w-6 text-green-600" />
@@ -178,11 +178,11 @@ export default function AdminAnalyticsPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Saved Comparisons</p>
-                <p className="text-3xl font-bold text-gray-900">{data.savedComparisons}</p>
+                <p className="text-sm text-gray-300">Saved Comparisons</p>
+                <p className="text-3xl font-bold text-white font-bold">{data.savedComparisons}</p>
               </div>
               <div className="bg-purple-100 p-3 rounded-lg">
                 <ArrowsRightLeftIcon className="h-6 w-6 text-purple-600" />
@@ -195,11 +195,11 @@ export default function AdminAnalyticsPage() {
             )}
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Salary Submissions</p>
-                <p className="text-3xl font-bold text-gray-900">{data.salarySubmissions}</p>
+                <p className="text-sm text-gray-300">Salary Submissions</p>
+                <p className="text-3xl font-bold text-white font-bold">{data.salarySubmissions}</p>
               </div>
               <div className="bg-yellow-100 p-3 rounded-lg">
                 <CurrencyDollarIcon className="h-6 w-6 text-yellow-600" />
@@ -211,21 +211,21 @@ export default function AdminAnalyticsPage() {
         {/* Activity Breakdown */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Event Types */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Activity Breakdown</h2>
+          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
+            <h2 className="text-xl font-bold text-white font-bold mb-4">Activity Breakdown</h2>
             <div className="space-y-3">
               {data.eventBreakdown.length > 0 ? (
                 data.eventBreakdown.map((event) => (
-                  <div key={event.event_type} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div key={event.event_type} className="flex items-center justify-between p-3 bg-gray-800 border border-gray-700 rounded-lg">
                     <div className="flex items-center gap-3">
-                      <div className="text-blue-600">
+                      <div className="text-orange-500">
                         {getEventIcon(event.event_type)}
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900 capitalize">
+                        <p className="font-medium text-white font-bold capitalize">
                           {event.event_type.replace(/_/g, ' ')}
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-gray-400">
                           Last: {formatDateTime(event.last_occurrence)}
                         </p>
                       </div>
@@ -236,27 +236,27 @@ export default function AdminAnalyticsPage() {
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500 text-center py-4">No activity yet</p>
+                <p className="text-gray-400 text-center py-4">No activity yet</p>
               )}
             </div>
           </div>
 
           {/* Recent Activity */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Activity</h2>
+          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
+            <h2 className="text-xl font-bold text-white font-bold mb-4">Recent Activity</h2>
             <div className="space-y-2 max-h-80 overflow-y-auto">
               {data.recentEvents.length > 0 ? (
                 data.recentEvents.map((event, index) => (
-                  <div key={index} className="flex items-start gap-3 p-2 hover:bg-gray-50 rounded-lg">
+                  <div key={index} className="flex items-start gap-3 p-2 hover:bg-gray-800 border border-gray-700 rounded-lg">
                     <div className="text-gray-400 mt-1">
                       {getEventIcon(event.event_type)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 capitalize">
+                      <p className="text-sm font-medium text-white font-bold capitalize">
                         {event.event_type.replace(/_/g, ' ')}
                       </p>
                       {event.event_data && (
-                        <p className="text-xs text-gray-500 truncate">
+                        <p className="text-xs text-gray-400 truncate">
                           {JSON.stringify(event.event_data)}
                         </p>
                       )}
@@ -267,20 +267,20 @@ export default function AdminAnalyticsPage() {
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500 text-center py-4">No recent activity</p>
+                <p className="text-gray-400 text-center py-4">No recent activity</p>
               )}
             </div>
           </div>
         </div>
 
         {/* Activity Timeline */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">30-Day Activity Timeline</h2>
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
+          <h2 className="text-xl font-bold text-white font-bold mb-4">30-Day Activity Timeline</h2>
           {data.timeline.length > 0 ? (
             <div className="space-y-2">
               {data.timeline.map((day) => (
                 <div key={day.date} className="flex items-center gap-4">
-                  <div className="w-24 text-sm text-gray-600 flex items-center gap-2">
+                  <div className="w-24 text-sm text-gray-300 flex items-center gap-2">
                     <CalendarIcon className="h-4 w-4" />
                     {formatDate(day.date)}
                   </div>
@@ -295,23 +295,23 @@ export default function AdminAnalyticsPage() {
               ))}
             </div>
           ) : (
-            <p className="text-gray-500 text-center py-8">No activity in the last 30 days</p>
+            <p className="text-gray-400 text-center py-8">No activity in the last 30 days</p>
           )}
         </div>
 
         {/* Account Info */}
-        <div className="mt-8 bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Account Activity</h2>
+        <div className="mt-8 bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
+          <h2 className="text-xl font-bold text-white font-bold mb-4">Account Activity</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <p className="text-sm text-gray-600">First Activity</p>
-              <p className="text-lg font-semibold text-gray-900">
+              <p className="text-sm text-gray-300">First Activity</p>
+              <p className="text-lg font-semibold text-white font-bold">
                 {data.stats.first_activity ? formatDate(data.stats.first_activity) : 'N/A'}
               </p>
             </div>
             <div>
-              <p className="text-sm text-gray-600">Last Activity</p>
-              <p className="text-lg font-semibold text-gray-900">
+              <p className="text-sm text-gray-300">Last Activity</p>
+              <p className="text-lg font-semibold text-white font-bold">
                 {data.stats.last_activity ? formatDateTime(data.stats.last_activity) : 'N/A'}
               </p>
             </div>
@@ -327,7 +327,7 @@ export default function AdminAnalyticsPage() {
             </p>
             <Link
               href="/profile"
-              className="inline-block bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg hover:bg-blue-50 transition-colors"
+              className="inline-block bg-white text-orange-500 font-semibold px-6 py-3 rounded-lg hover:bg-orange-500/10 transition-colors"
             >
               Upgrade to Premium
             </Link>

@@ -167,21 +167,21 @@ export default function ScholarshipMatchingPage() {
     const hasMore = matches.length > 10;
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 py-12 px-4">
+      <div className="min-h-screen bg-black py-12 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-4">
-              <CheckCircleIcon className="h-10 w-10 text-green-600" />
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-green-500/10 border border-green-500 rounded-full mb-4">
+              <CheckCircleIcon className="h-10 w-10 text-green-500" />
             </div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl font-extrabold text-white mb-4">
               Great News, {formData.full_name.split(' ')[0]}!
             </h1>
-            <p className="text-xl text-gray-600">
-              We found <strong>{matches.length} scholarships</strong> you may be eligible for
+            <p className="text-xl text-white font-bold">
+              We found <strong className="text-orange-500">{matches.length} scholarships</strong> you may be eligible for
             </p>
             {!showAll && hasMore && (
-              <p className="text-sm text-gray-500 mt-2">
-                Showing top 10 matches • <button onClick={() => setShowAll(true)} className="text-purple-600 hover:text-purple-700 font-semibold">View all {matches.length} scholarships</button>
+              <p className="text-sm text-gray-400 font-medium mt-2">
+                Showing top 10 matches • <button onClick={() => setShowAll(true)} className="text-orange-500 hover:text-orange-400 font-bold">View all {matches.length} scholarships</button>
               </p>
             )}
           </div>
@@ -190,50 +190,50 @@ export default function ScholarshipMatchingPage() {
             {displayedMatches.map((match, index) => (
               <div
                 key={match.scholarship.id}
-                className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow"
+                className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6 hover:border-orange-500 transition-all"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-3xl font-bold text-purple-600">#{index + 1}</span>
+                      <span className="text-3xl font-extrabold text-orange-500">#{index + 1}</span>
                       <div>
-                        <h2 className="text-2xl font-bold text-gray-900">{match.scholarship.name}</h2>
-                        <p className="text-gray-600">{match.scholarship.provider}</p>
+                        <h2 className="text-2xl font-bold text-white">{match.scholarship.name}</h2>
+                        <p className="text-gray-400 font-medium">{match.scholarship.provider}</p>
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="bg-green-100 text-green-800 px-4 py-2 rounded-lg font-semibold">
+                    <div className="bg-green-500/10 border border-green-500 text-green-400 px-4 py-2 rounded-lg font-bold">
                       {match.match_score}% Match
                     </div>
                   </div>
                 </div>
 
-                <p className="text-gray-700 mb-4">{match.scholarship.description}</p>
+                <p className="text-gray-300 font-medium mb-4">{match.scholarship.description}</p>
 
                 <div className="grid md:grid-cols-3 gap-4 mb-4">
-                  <div className="flex items-center gap-2 text-gray-700">
-                    <CurrencyDollarIcon className="h-5 w-5 text-purple-600" />
-                    <span className="font-semibold">
+                  <div className="flex items-center gap-2 text-white">
+                    <CurrencyDollarIcon className="h-5 w-5 text-orange-500" />
+                    <span className="font-bold">
                       {formatCurrency(match.scholarship.amount_min)} - {formatCurrency(match.scholarship.amount_max)}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 text-gray-700">
-                    <AcademicCapIcon className="h-5 w-5 text-purple-600" />
-                    <span>GPA {match.scholarship.gpa_requirement}+ required</span>
+                  <div className="flex items-center gap-2 text-white">
+                    <AcademicCapIcon className="h-5 w-5 text-orange-500" />
+                    <span className="font-medium">GPA {match.scholarship.gpa_requirement}+ required</span>
                   </div>
-                  <div className="flex items-center gap-2 text-gray-700">
-                    <CalendarIcon className="h-5 w-5 text-purple-600" />
-                    <span>Due: {formatDate(match.scholarship.deadline)}</span>
+                  <div className="flex items-center gap-2 text-white">
+                    <CalendarIcon className="h-5 w-5 text-orange-500" />
+                    <span className="font-medium">Due: {formatDate(match.scholarship.deadline)}</span>
                   </div>
                 </div>
 
-                <div className="bg-purple-50 rounded-lg p-4 mb-4">
-                  <h3 className="font-semibold text-purple-900 mb-2">Why you match:</h3>
+                <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4 mb-4">
+                  <h3 className="font-bold text-orange-400 mb-2">Why you match:</h3>
                   <ul className="space-y-1">
                     {match.match_reasons.map((reason, idx) => (
-                      <li key={idx} className="text-sm text-purple-800 flex items-start gap-2">
-                        <CheckCircleIcon className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                      <li key={idx} className="text-sm text-gray-300 font-medium flex items-start gap-2">
+                        <CheckCircleIcon className="h-4 w-4 mt-0.5 flex-shrink-0 text-green-500" />
                         <span>{reason}</span>
                       </li>
                     ))}
@@ -244,7 +244,7 @@ export default function ScholarshipMatchingPage() {
                   href={match.scholarship.website_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+                  className="inline-flex items-center gap-2 bg-orange-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-orange-600 transition-colors"
                 >
                   Learn More & Apply
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -255,9 +255,9 @@ export default function ScholarshipMatchingPage() {
             ))}
           </div>
 
-          <div className="mt-12 bg-yellow-50 border border-yellow-200 rounded-xl p-6">
-            <h3 className="font-semibold text-yellow-900 mb-2">📌 Next Steps</h3>
-            <ul className="text-sm text-yellow-800 space-y-1">
+          <div className="mt-12 bg-yellow-500/10 border border-yellow-500 rounded-xl p-6">
+            <h3 className="font-bold text-yellow-400 mb-2">📌 Next Steps</h3>
+            <ul className="text-sm text-gray-300 font-medium space-y-1">
               <li>• Review each scholarship's specific requirements and deadlines</li>
               <li>• Gather required documents (transcripts, essays, letters of recommendation)</li>
               <li>• Apply early - many scholarships are first-come, first-served</li>
@@ -282,7 +282,7 @@ export default function ScholarshipMatchingPage() {
                   state: '',
                 });
               }}
-              className="text-purple-600 hover:text-purple-700 font-semibold"
+              className="text-orange-500 hover:text-orange-400 font-bold"
             >
               ← Search Again
             </button>
@@ -293,25 +293,25 @@ export default function ScholarshipMatchingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 py-12 px-4">
+    <div className="min-h-screen bg-black py-12 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
-            <AcademicCapIcon className="h-8 w-8 text-purple-600" />
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/10 border border-orange-500 rounded-full mb-4">
+            <AcademicCapIcon className="h-8 w-8 text-orange-500" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
             Find Scholarships You Qualify For
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-white font-bold max-w-2xl mx-auto">
             Answer a few quick questions and we'll match you with scholarships that fit your profile
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-8">
+        <form onSubmit={handleSubmit} className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-8">
           <div className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-bold text-white mb-2">
                   Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -319,13 +319,13 @@ export default function ScholarshipMatchingPage() {
                   required
                   value={formData.full_name}
                   onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-medium"
                   placeholder="John Doe"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-bold text-white mb-2">
                   Email <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -333,26 +333,26 @@ export default function ScholarshipMatchingPage() {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-medium"
                   placeholder="john@example.com"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-bold text-white mb-2">
                   Phone (optional)
                 </label>
                 <input
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-medium"
                   placeholder="(555) 123-4567"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-bold text-white mb-2">
                   High School GPA <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -363,13 +363,13 @@ export default function ScholarshipMatchingPage() {
                   required
                   value={formData.gpa}
                   onChange={(e) => setFormData({ ...formData, gpa: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-medium"
                   placeholder="3.75"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-bold text-white mb-2">
                   SAT Score (optional)
                 </label>
                 <input
@@ -378,14 +378,14 @@ export default function ScholarshipMatchingPage() {
                   max="1600"
                   value={formData.sat_score}
                   onChange={(e) => setFormData({ ...formData, sat_score: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-medium"
                   placeholder="1200"
                 />
-                <p className="text-xs text-gray-500 mt-1">Total score (400-1600)</p>
+                <p className="text-xs text-gray-400 font-medium mt-1">Total score (400-1600)</p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-bold text-white mb-2">
                   ACT Score (optional)
                 </label>
                 <input
@@ -394,14 +394,14 @@ export default function ScholarshipMatchingPage() {
                   max="36"
                   value={formData.act_score}
                   onChange={(e) => setFormData({ ...formData, act_score: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-medium"
                   placeholder="24"
                 />
-                <p className="text-xs text-gray-500 mt-1">Composite score (1-36)</p>
+                <p className="text-xs text-gray-400 font-medium mt-1">Composite score (1-36)</p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-bold text-white mb-2">
                   Desired Major <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -409,20 +409,20 @@ export default function ScholarshipMatchingPage() {
                   required
                   value={formData.desired_major}
                   onChange={(e) => setFormData({ ...formData, desired_major: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-medium"
                   placeholder="Computer Science"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-bold text-white mb-2">
                   State <span className="text-red-500">*</span>
                 </label>
                 <select
                   required
                   value={formData.state}
                   onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-medium"
                 >
                   <option value="">Select state...</option>
                   <option value="ANY">Any State (Nationwide Scholarships)</option>
@@ -436,8 +436,8 @@ export default function ScholarshipMatchingPage() {
               </div>
             </div>
 
-            <div className="bg-purple-50 rounded-lg p-4">
-              <p className="text-sm text-purple-800">
+            <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4">
+              <p className="text-sm text-gray-300 font-medium">
                 🔒 Your information is secure and will only be used to match you with relevant scholarships.
                 We'll never share your data without your permission.
               </p>
@@ -446,10 +446,10 @@ export default function ScholarshipMatchingPage() {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full py-4 rounded-lg font-semibold text-lg transition-colors ${
+              className={`w-full py-4 rounded-lg font-bold text-lg transition-colors ${
                 loading
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-purple-600 text-white hover:bg-purple-700'
+                  ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                  : 'bg-orange-500 text-white hover:bg-orange-600'
               }`}
             >
               {loading ? 'Finding Scholarships...' : 'Find My Scholarships'}
@@ -457,29 +457,29 @@ export default function ScholarshipMatchingPage() {
           </div>
         </form>
 
-        <div className="mt-12 bg-white rounded-xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Why Use Our Scholarship Matcher?</h2>
+        <div className="mt-12 bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-8">
+          <h2 className="text-2xl font-bold text-white mb-6">Why Use Our Scholarship Matcher?</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="text-center">
-              <div className="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <CurrencyDollarIcon className="h-6 w-6 text-purple-600" />
+              <div className="bg-orange-500/10 border border-orange-500 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-3">
+                <CurrencyDollarIcon className="h-6 w-6 text-orange-500" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Free Money</h3>
-              <p className="text-sm text-gray-600">Scholarships don't need to be repaid - it's free money for your education!</p>
+              <h3 className="font-bold text-white mb-2">Free Money</h3>
+              <p className="text-sm text-gray-300 font-medium">Scholarships don't need to be repaid - it's free money for your education!</p>
             </div>
             <div className="text-center">
-              <div className="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <MapPinIcon className="h-6 w-6 text-purple-600" />
+              <div className="bg-orange-500/10 border border-orange-500 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-3">
+                <MapPinIcon className="h-6 w-6 text-orange-500" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Personalized Matches</h3>
-              <p className="text-sm text-gray-600">We only show scholarships that match your profile and qualifications</p>
+              <h3 className="font-bold text-white mb-2">Personalized Matches</h3>
+              <p className="text-sm text-gray-300 font-medium">We only show scholarships that match your profile and qualifications</p>
             </div>
             <div className="text-center">
-              <div className="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <CalendarIcon className="h-6 w-6 text-purple-600" />
+              <div className="bg-orange-500/10 border border-orange-500 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-3">
+                <CalendarIcon className="h-6 w-6 text-orange-500" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Updated Deadlines</h3>
-              <p className="text-sm text-gray-600">Never miss an opportunity with our up-to-date deadline information</p>
+              <h3 className="font-bold text-white mb-2">Updated Deadlines</h3>
+              <p className="text-sm text-gray-300 font-medium">Never miss an opportunity with our up-to-date deadline information</p>
             </div>
           </div>
         </div>

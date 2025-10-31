@@ -85,22 +85,22 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
         <div className="text-center py-8">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-          <p className="mt-2 text-gray-600">Loading institutions...</p>
+          <p className="mt-2 text-gray-300">Loading institutions...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-6">
+    <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-2">
           Institutions Offering {degreeName}
         </h3>
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-300">
           Found {institutions.length} institution{institutions.length !== 1 ? 's' : ''} offering this program
           {filteredInstitutions.length !== institutions.length && (
             <span className="text-blue-600 font-medium">
@@ -111,10 +111,10 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
       </div>
 
       {/* Filters Section */}
-      <div className="space-y-4 mb-6 p-4 bg-gray-50 rounded-lg">
+      <div className="space-y-4 mb-6 p-4 bg-gray-800 rounded-lg">
         {/* State Filter */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-300 mb-2">
             Filter by State
           </label>
           <select
@@ -133,7 +133,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
 
         {/* Control Type Filter */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-300 mb-2">
             Filter by Institution Type
           </label>
           <div className="flex gap-2">
@@ -142,7 +142,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
               className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 controlFilter === 'all'
                   ? 'bg-blue-600 text-white'
-                  : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                  : 'bg-white border border-gray-300 text-gray-300 hover:bg-gray-800'
               }`}
             >
               All
@@ -152,7 +152,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
               className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 controlFilter === 'public'
                   ? 'bg-blue-600 text-white'
-                  : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                  : 'bg-white border border-gray-300 text-gray-300 hover:bg-gray-800'
               }`}
             >
               Public
@@ -162,7 +162,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
               className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 controlFilter === 'private'
                   ? 'bg-blue-600 text-white'
-                  : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                  : 'bg-white border border-gray-300 text-gray-300 hover:bg-gray-800'
               }`}
             >
               Private
@@ -174,7 +174,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
       {/* Institutions List */}
       <div className="space-y-3 max-h-96 overflow-y-auto" key={`${controlFilter}-${stateFilter}`}>
         {filteredInstitutions.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
+          <div className="text-center py-8 text-gray-400">
             <p className="mb-2">No institutions found with the selected filters</p>
             <button
               onClick={() => {
@@ -198,7 +198,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
                   <h4 className="font-semibold text-gray-900 truncate group-hover:text-blue-600 transition-colors">
                     {institution.name}
                   </h4>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-sm text-gray-300 mt-1">
                     {institution.city}, {institution.state}
                   </p>
                   <div className="flex items-center gap-3 mt-2 flex-wrap">
@@ -210,13 +210,13 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
                       {institution.control}
                     </span>
                     {institution.total_completions && (
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-400">
                         {institution.total_completions} annual graduates
                       </span>
                     )}
                   </div>
                   {institution.credential_name && (
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-400 mt-1">
                       Credential: {institution.credential_name}
                     </p>
                   )}
@@ -238,7 +238,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
 
       {filteredInstitutions.length > 0 && (
         <div className="mt-4 pt-4 border-t border-gray-200">
-          <p className="text-sm text-gray-600 text-center">
+          <p className="text-sm text-gray-300 text-center">
             <strong>Next Step:</strong> Click "Calculate ROI" on any institution to see detailed financial analysis for this program
           </p>
         </div>

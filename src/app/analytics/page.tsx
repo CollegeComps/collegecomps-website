@@ -114,13 +114,13 @@ export default function AnalyticsPage() {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="bg-white p-4 border border-gray-300 rounded-lg shadow-lg">
-          <p className="font-semibold text-gray-900">{data.name}</p>
-          <p className="text-sm text-gray-700">{data.state} • {data.control}</p>
-          <p className="text-sm mt-2 text-gray-900">
+        <div className="bg-gray-900 p-4 border border-gray-800 rounded-lg shadow-lg">
+          <p className="font-semibold text-white font-bold">{data.name}</p>
+          <p className="text-sm text-gray-300">{data.state} • {data.control}</p>
+          <p className="text-sm mt-2 text-white font-bold">
             <span className="font-semibold">Annual Cost:</span> ${data.cost.toLocaleString()}
           </p>
-          <p className="text-sm text-gray-900">
+          <p className="text-sm text-white font-bold">
             <span className="font-semibold">30-Year ROI:</span> ${data.roi.toLocaleString()}
           </p>
         </div>
@@ -148,29 +148,29 @@ export default function AnalyticsPage() {
   const privateForProfitData = filteredData.filter(d => d.control === 'Private For-Profit');
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">College ROI Analytics</h1>
-          <p className="mt-2 text-gray-600">
+          <h1 className="text-3xl font-bold text-white font-bold">College ROI Analytics</h1>
+          <p className="mt-2 text-gray-300">
             Visualize the relationship between college costs and return on investment across thousands of institutions
           </p>
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Filters</h2>
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6 mb-6">
+          <h2 className="text-lg font-semibold text-white font-bold mb-4">Filters</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* State Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-800 mb-2">
+              <label className="block text-sm font-medium text-white font-bold mb-2">
                 State
               </label>
               <select
                 value={filters.state}
                 onChange={(e) => setFilters({ ...filters, state: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-white font-bold focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               >
                 <option value="all">All States</option>
                 {states.map(state => (
@@ -181,13 +181,13 @@ export default function AnalyticsPage() {
 
             {/* Control Type Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-800 mb-2">
+              <label className="block text-sm font-medium text-white font-bold mb-2">
                 Institution Type
               </label>
               <select
                 value={filters.controlType}
                 onChange={(e) => setFilters({ ...filters, controlType: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-white font-bold focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               >
                 <option value="all">All Types</option>
                 <option value="Public">Public</option>
@@ -198,7 +198,7 @@ export default function AnalyticsPage() {
 
             {/* Min ROI Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-800 mb-2">
+              <label className="block text-sm font-medium text-white font-bold mb-2">
                 Minimum ROI: ${(filters.minROI / 1000).toFixed(0)}k
               </label>
               <input
@@ -214,7 +214,7 @@ export default function AnalyticsPage() {
 
             {/* Max Cost Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-800 mb-2">
+              <label className="block text-sm font-medium text-white font-bold mb-2">
                 Max Cost: ${(filters.maxCost / 1000).toFixed(0)}k
               </label>
               <input
@@ -229,20 +229,20 @@ export default function AnalyticsPage() {
             </div>
           </div>
 
-          <div className="mt-4 text-sm text-gray-700">
-            Showing <span className="font-semibold text-gray-900">{filteredData.length}</span> of <span className="font-semibold text-gray-900">{data.length}</span> institutions
+          <div className="mt-4 text-sm text-gray-300">
+            Showing <span className="font-semibold text-white font-bold">{filteredData.length}</span> of <span className="font-semibold text-white font-bold">{data.length}</span> institutions
           </div>
         </div>
 
         {/* Chart */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
           {loading ? (
             <div className="flex items-center justify-center h-96">
-              <div className="text-gray-700 font-medium">Loading chart data...</div>
+              <div className="text-gray-300 font-medium">Loading chart data...</div>
             </div>
           ) : (
             <>
-              <h2 className="text-lg font-semibold text-gray-900 mb-6">
+              <h2 className="text-lg font-semibold text-white font-bold mb-6">
                 30-Year ROI vs Annual Cost
               </h2>
               <ResponsiveContainer width="100%" height={500}>
@@ -293,10 +293,10 @@ export default function AnalyticsPage() {
 
               {/* Insights */}
               <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-blue-50 rounded-lg p-4">
-                  <h3 className="text-sm font-semibold text-blue-900 mb-1">Public Institutions</h3>
-                  <p className="text-2xl font-bold text-blue-700">{publicData.length}</p>
-                  <p className="text-xs text-blue-600 mt-1">
+                <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4">
+                  <h3 className="text-sm font-semibold text-white font-bold mb-1">Public Institutions</h3>
+                  <p className="text-2xl font-bold text-orange-400">{publicData.length}</p>
+                  <p className="text-xs text-orange-500 mt-1">
                     Avg ROI: ${publicData.length > 0 ? ((publicData.reduce((sum, d) => sum + d.roi, 0) / publicData.length) / 1000000).toFixed(2) : 0}M
                   </p>
                 </div>

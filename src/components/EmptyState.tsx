@@ -43,7 +43,7 @@ export function EmptyState({
       </h3>
 
       {/* Description */}
-      <p className="text-gray-600 mb-6 max-w-md mx-auto">
+      <p className="text-gray-300 mb-6 max-w-md mx-auto">
         {description}
       </p>
 

@@ -90,12 +90,12 @@ export default function SaveComparisonButton({ colleges, programData, onAuthRequ
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-gray-900">Save Comparison</h3>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-300"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -111,7 +111,7 @@ export default function SaveComparisonButton({ colleges, programData, onAuthRequ
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 mb-1">
                   Comparison Name *
                 </label>
                 <input
@@ -124,7 +124,7 @@ export default function SaveComparisonButton({ colleges, programData, onAuthRequ
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 mb-1">
                   Notes (Optional)
                 </label>
                 <textarea
@@ -146,7 +146,7 @@ export default function SaveComparisonButton({ colleges, programData, onAuthRequ
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowModal(false)}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-300 rounded-lg hover:bg-gray-800 transition-colors"
                 >
                   Cancel
                 </button>

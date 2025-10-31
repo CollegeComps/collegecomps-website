@@ -48,8 +48,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       }
 
       return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-          <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+        <div className="min-h-screen flex items-center justify-center bg-gray-800 px-4">
+          <div className="max-w-md w-full bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-8">
             <div className="text-center">
               {/* Error Icon */}
               <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
@@ -72,7 +72,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               <h3 className="text-xl font-bold text-gray-900 mb-2">
                 Oops! Something went wrong
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-300 mb-6">
                 We encountered an unexpected error. Don't worry, this has been logged and we'll look into it.
               </p>
 
@@ -102,7 +102,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               </div>
 
               {/* Help Text */}
-              <p className="mt-6 text-sm text-gray-500">
+              <p className="mt-6 text-sm text-gray-400">
                 If this problem persists, please{' '}
                 <a href="/support" className="text-blue-600 hover:underline">
                   contact support

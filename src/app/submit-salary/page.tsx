@@ -131,20 +131,20 @@ export default function SubmitSalaryPage() {
 
   if (status === 'unauthenticated') {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-8 max-w-md text-center">
           <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Sign In Required</h2>
-          <p className="text-gray-600 mb-6">
+          <h2 className="text-2xl font-bold text-white font-bold mb-2">Sign In Required</h2>
+          <p className="text-gray-300 mb-6">
             You need to be logged in to submit salary data. This helps us maintain data quality and prevent spam.
           </p>
           <Link
             href="/auth/signin?callbackUrl=/submit-salary"
-            className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            className="inline-block px-6 py-3 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors"
           >
             Sign In to Continue
           </Link>
@@ -236,35 +236,35 @@ export default function SubmitSalaryPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-8 max-w-md text-center">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Thank You!</h2>
-          <p className="text-gray-600 mb-4">
+          <h2 className="text-2xl font-bold text-white font-bold mb-2">Thank You!</h2>
+          <p className="text-gray-300 mb-4">
             Your salary data has been submitted successfully. You're helping future students make better decisions!
           </p>
-          <p className="text-sm text-blue-600">Redirecting to insights...</p>
+          <p className="text-sm text-orange-500">Redirecting to insights...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-black py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+          <h1 className="text-3xl md:text-4xl font-bold text-white font-bold mb-3">
             Share Your Salary Data
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Help future students by sharing your post-graduation earnings. All data is anonymized and aggregated.
           </p>
-          <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm">
+          <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 text-orange-400 rounded-lg text-sm">
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
             </svg>
@@ -273,7 +273,7 @@ export default function SubmitSalaryPage() {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
+        <form onSubmit={handleSubmit} className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6 md:p-8">
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
               <p className="text-sm text-red-600">{error}</p>
@@ -282,14 +282,14 @@ export default function SubmitSalaryPage() {
 
           {/* Education Section */}
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-              <span className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3 text-sm font-bold">1</span>
+            <h2 className="text-xl font-bold text-white font-bold mb-4 flex items-center">
+              <span className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-orange-500 mr-3 text-sm font-bold">1</span>
               Education Background
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
               {formData.degree_level !== 'none' && (
                 <div ref={institutionRef} className="relative">
-                  <label className="block text-sm font-semibold text-gray-900 mb-1">
+                  <label className="block text-sm font-semibold text-white font-bold mb-1">
                     College/University *
                   </label>
                   <input
@@ -297,11 +297,11 @@ export default function SubmitSalaryPage() {
                     required={formData.has_degree}
                     value={formData.institution_name}
                     onChange={(e) => setFormData({ ...formData, institution_name: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                     placeholder="e.g., Stanford University"
                   />
                   {showInstitutionDropdown && institutionSuggestions.length > 0 && (
-                    <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    <div className="absolute z-10 w-full mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                       {institutionSuggestions.map((institution, index) => (
                         <button
                           key={index}
@@ -310,7 +310,7 @@ export default function SubmitSalaryPage() {
                             setFormData({ ...formData, institution_name: institution });
                             setShowInstitutionDropdown(false);
                           }}
-                          className="w-full text-left px-4 py-2 hover:bg-blue-50 text-gray-900 text-sm"
+                          className="w-full text-left px-4 py-2 hover:bg-orange-500/10 text-white font-bold text-sm"
                         >
                           {institution}
                         </button>
@@ -321,7 +321,7 @@ export default function SubmitSalaryPage() {
               )}
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1">
+                <label className="block text-sm font-semibold text-white font-bold mb-1">
                   Degree Level *
                 </label>
                 <select
@@ -338,7 +338,7 @@ export default function SubmitSalaryPage() {
                       graduation_year: hasDegree ? formData.graduation_year : new Date().getFullYear()
                     });
                   }}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                 >
                   <option value="">Select degree level</option>
                   {DEGREE_LEVELS.map(level => (
@@ -346,14 +346,14 @@ export default function SubmitSalaryPage() {
                   ))}
                 </select>
                 {formData.degree_level === 'none' && (
-                  <p className="mt-1 text-sm text-blue-600">
+                  <p className="mt-1 text-sm text-orange-500">
                     Great! You can still share your salary data even without a college degree.
                   </p>
                 )}
               </div>
 
               <div ref={majorRef} className="relative">
-                <label className="block text-sm font-semibold text-gray-900 mb-1">
+                <label className="block text-sm font-semibold text-white font-bold mb-1">
                   Major/Field of Study *
                 </label>
                 <input
@@ -361,11 +361,11 @@ export default function SubmitSalaryPage() {
                   required
                   value={formData.major}
                   onChange={(e) => setFormData({ ...formData, major: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                   placeholder="e.g., Computer Science"
                 />
                 {showMajorDropdown && majorSuggestions.length > 0 && (
-                  <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                  <div className="absolute z-10 w-full mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                     {majorSuggestions.map((major, index) => (
                       <button
                         key={index}
@@ -374,7 +374,7 @@ export default function SubmitSalaryPage() {
                           setFormData({ ...formData, major });
                           setShowMajorDropdown(false);
                         }}
-                        className="w-full text-left px-4 py-2 hover:bg-blue-50 text-gray-900 text-sm"
+                        className="w-full text-left px-4 py-2 hover:bg-orange-500/10 text-white font-bold text-sm"
                       >
                         {major}
                       </button>
@@ -386,7 +386,7 @@ export default function SubmitSalaryPage() {
               {formData.degree_level !== 'none' && (
                 <>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-1">
+                    <label className="block text-sm font-semibold text-white font-bold mb-1">
                       Graduation Year *
                     </label>
                     <input
@@ -396,15 +396,15 @@ export default function SubmitSalaryPage() {
                       max={new Date().getFullYear()}
                       value={formData.graduation_year}
                       onChange={(e) => setFormData({ ...formData, graduation_year: parseInt(e.target.value) })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                     />
                   </div>
 
                   {/* Additional Degrees Section */}
                   {additionalDegrees.map((degree, index) => (
-                    <div key={index} className="p-4 bg-blue-50 border border-blue-200 rounded-lg space-y-3">
+                    <div key={index} className="p-4 bg-orange-500/10 border border-orange-500 rounded-lg space-y-3">
                       <div className="flex justify-between items-center mb-2">
-                        <h4 className="font-semibold text-gray-900">Additional Degree {index + 1}</h4>
+                        <h4 className="font-semibold text-white font-bold">Additional Degree {index + 1}</h4>
                         <button
                           type="button"
                           onClick={() => setAdditionalDegrees(additionalDegrees.filter((_, i) => i !== index))}
@@ -414,7 +414,7 @@ export default function SubmitSalaryPage() {
                         </button>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Institution</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-1">Institution</label>
                         <input
                           type="text"
                           value={degree.institution_name}
@@ -423,12 +423,12 @@ export default function SubmitSalaryPage() {
                             updated[index].institution_name = e.target.value;
                             setAdditionalDegrees(updated);
                           }}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
                           placeholder="e.g., Stanford University"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Degree Level</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-1">Degree Level</label>
                         <select
                           value={degree.degree_level}
                           onChange={(e) => {
@@ -436,7 +436,7 @@ export default function SubmitSalaryPage() {
                             updated[index].degree_level = e.target.value;
                             setAdditionalDegrees(updated);
                           }}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
                         >
                           <option value="">Select degree level</option>
                           {DEGREE_LEVELS.filter(l => l.value !== 'none').map(level => (
@@ -445,7 +445,7 @@ export default function SubmitSalaryPage() {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Major</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-1">Major</label>
                         <input
                           type="text"
                           value={degree.major}
@@ -454,12 +454,12 @@ export default function SubmitSalaryPage() {
                             updated[index].major = e.target.value;
                             setAdditionalDegrees(updated);
                           }}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
                           placeholder="e.g., Computer Science"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Graduation Year</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-1">Graduation Year</label>
                         <input
                           type="number"
                           min="1950"
@@ -470,7 +470,7 @@ export default function SubmitSalaryPage() {
                             updated[index].graduation_year = parseInt(e.target.value);
                             setAdditionalDegrees(updated);
                           }}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
                         />
                       </div>
                     </div>
@@ -484,7 +484,7 @@ export default function SubmitSalaryPage() {
                       major: '',
                       graduation_year: new Date().getFullYear()
                     }])}
-                    className="w-full py-2 px-4 border-2 border-dashed border-blue-400 text-blue-600 rounded-lg hover:bg-blue-50 font-medium transition-colors flex items-center justify-center gap-2"
+                    className="w-full py-2 px-4 border-2 border-dashed border-blue-400 text-orange-500 rounded-lg hover:bg-orange-500/10 font-medium transition-colors flex items-center justify-center gap-2"
                   >
                     <span className="text-xl">+</span> Add Another Degree
                   </button>
@@ -493,14 +493,14 @@ export default function SubmitSalaryPage() {
 
               {/* Total Years of Experience (for everyone, especially non-degree holders) */}
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1">
+                <label className="block text-sm font-semibold text-white font-bold mb-1">
                   Total Years of Experience in Field *
                 </label>
                 <select
                   required
                   value={formData.years_experience}
                   onChange={(e) => setFormData({ ...formData, years_experience: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                 >
                   <option value="">Select years</option>
                   <option value="0">Less than 1 year</option>
@@ -514,7 +514,7 @@ export default function SubmitSalaryPage() {
                   <option value="15">15 years</option>
                   <option value="20">20+ years</option>
                 </select>
-                <p className="mt-1 text-xs text-gray-500">
+                <p className="mt-1 text-xs text-gray-400">
                   Total time working in this field, including internships and self-taught work
                 </p>
               </div>
@@ -523,18 +523,18 @@ export default function SubmitSalaryPage() {
 
           {/* Compensation Section */}
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+            <h2 className="text-xl font-bold text-white font-bold mb-4 flex items-center">
               <span className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-600 mr-3 text-sm font-bold">2</span>
               Current Compensation
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1">
+                <label className="block text-sm font-semibold text-white font-bold mb-1">
                   Base Salary (Annual) *
-                  <span className="text-xs text-gray-500 ml-1">(before taxes)</span>
+                  <span className="text-xs text-gray-400 ml-1">(before taxes)</span>
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-2 text-gray-500">$</span>
+                  <span className="absolute left-4 top-2 text-gray-400">$</span>
                   <input
                     type="number"
                     required
@@ -542,81 +542,81 @@ export default function SubmitSalaryPage() {
                     max="10000000"
                     value={formData.current_salary}
                     onChange={(e) => setFormData({ ...formData, current_salary: e.target.value })}
-                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                     placeholder="75000"
                   />
                 </div>
-                <p className="mt-1 text-xs text-gray-500">Enter your annual base salary ($10k - $10M)</p>
+                <p className="mt-1 text-xs text-gray-400">Enter your annual base salary ($10k - $10M)</p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1">
+                <label className="block text-sm font-semibold text-white font-bold mb-1">
                   Total Compensation (Optional)
-                  <span className="text-xs text-gray-500 ml-1">(includes bonuses, stock)</span>
+                  <span className="text-xs text-gray-400 ml-1">(includes bonuses, stock)</span>
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-2 text-gray-500">$</span>
+                  <span className="absolute left-4 top-2 text-gray-400">$</span>
                   <input
                     type="number"
                     min="0"
                     max="20000000"
                     value={formData.total_compensation}
                     onChange={(e) => setFormData({ ...formData, total_compensation: e.target.value })}
-                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                     placeholder="90000"
                   />
                 </div>
-                <p className="mt-1 text-xs text-gray-500">Must be ≥ base salary if provided</p>
+                <p className="mt-1 text-xs text-gray-400">Must be ≥ base salary if provided</p>
               </div>
             </div>
           </div>
 
           {/* Job Details Section */}
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+            <h2 className="text-xl font-bold text-white font-bold mb-4 flex items-center">
               <span className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 mr-3 text-sm font-bold">3</span>
               Job Details (Optional but Helpful)
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1">Job Title</label>
+                <label className="block text-sm font-semibold text-white font-bold mb-1">Job Title</label>
                 <input
                   type="text"
                   value={formData.job_title}
                   onChange={(e) => setFormData({ ...formData, job_title: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                   placeholder="e.g., Software Engineer"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1">Company Name</label>
+                <label className="block text-sm font-semibold text-white font-bold mb-1">Company Name</label>
                 <input
                   type="text"
                   value={formData.company_name}
                   onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                   placeholder="e.g., Google"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1">Industry</label>
+                <label className="block text-sm font-semibold text-white font-bold mb-1">Industry</label>
                 <input
                   type="text"
                   value={formData.industry}
                   onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                   placeholder="e.g., Technology, Finance, Healthcare"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1">Company Size</label>
+                <label className="block text-sm font-semibold text-white font-bold mb-1">Company Size</label>
                 <select
                   value={formData.company_size}
                   onChange={(e) => setFormData({ ...formData, company_size: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                 >
                   <option value="">Select size</option>
                   {COMPANY_SIZES.map(size => (
@@ -626,30 +626,30 @@ export default function SubmitSalaryPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1">Location (City)</label>
+                <label className="block text-sm font-semibold text-white font-bold mb-1">Location (City)</label>
                 <input
                   type="text"
                   value={formData.location_city}
                   onChange={(e) => setFormData({ ...formData, location_city: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                   placeholder="e.g., San Francisco"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1">State</label>
+                <label className="block text-sm font-semibold text-white font-bold mb-1">State</label>
                 <input
                   type="text"
                   maxLength={2}
                   value={formData.location_state}
                   onChange={(e) => setFormData({ ...formData, location_state: e.target.value.toUpperCase() })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                   placeholder="CA"
                 />
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-semibold text-gray-900 mb-1">Work Location Type</label>
+                <label className="block text-sm font-semibold text-white font-bold mb-1">Work Location Type</label>
                 <div className="grid grid-cols-3 gap-3">
                   {REMOTE_OPTIONS.map(option => (
                     <button
@@ -658,8 +658,8 @@ export default function SubmitSalaryPage() {
                       onClick={() => setFormData({ ...formData, remote_status: option.value })}
                       className={`px-4 py-2 rounded-lg border-2 transition-colors ${
                         formData.remote_status === option.value
-                          ? 'border-blue-600 bg-blue-50 text-blue-700'
-                          : 'border-gray-200 hover:border-gray-300 text-gray-900'
+                          ? 'border-blue-600 bg-orange-500/10 text-orange-400'
+                          : 'border-gray-200 hover:border-gray-300 text-white font-bold'
                       }`}
                     >
                       {option.label}
@@ -672,59 +672,59 @@ export default function SubmitSalaryPage() {
 
           {/* Student Debt Section */}
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+            <h2 className="text-xl font-bold text-white font-bold mb-4 flex items-center">
               <span className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 mr-3 text-sm font-bold">4</span>
               Student Debt (Optional)
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1">
+                <label className="block text-sm font-semibold text-white font-bold mb-1">
                   Original Student Debt
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-2 text-gray-500">$</span>
+                  <span className="absolute left-4 top-2 text-gray-400">$</span>
                   <input
                     type="number"
                     min="0"
                     max="1000000"
                     value={formData.student_debt_original}
                     onChange={(e) => setFormData({ ...formData, student_debt_original: e.target.value })}
-                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                     placeholder="0"
                   />
                 </div>
-                <p className="mt-1 text-xs text-gray-500">Total debt when you graduated (max $1M)</p>
+                <p className="mt-1 text-xs text-gray-400">Total debt when you graduated (max $1M)</p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1">
+                <label className="block text-sm font-semibold text-white font-bold mb-1">
                   Remaining Student Debt
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-2 text-gray-500">$</span>
+                  <span className="absolute left-4 top-2 text-gray-400">$</span>
                   <input
                     type="number"
                     min="0"
                     value={formData.student_debt_remaining}
                     onChange={(e) => setFormData({ ...formData, student_debt_remaining: e.target.value })}
-                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
                     placeholder="0"
                   />
                 </div>
-                <p className="mt-1 text-xs text-gray-500">Current outstanding balance (≤ original debt)</p>
+                <p className="mt-1 text-xs text-gray-400">Current outstanding balance (≤ original debt)</p>
               </div>
             </div>
           </div>
 
           {/* Privacy Notice */}
-          <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <div className="mb-6 p-4 bg-orange-500/10 rounded-lg border border-orange-500">
             <div className="flex items-start">
-              <svg className="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-orange-500 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
               <div>
-                <p className="text-sm font-semibold text-gray-900 mb-1">Your Privacy is Protected</p>
-                <p className="text-xs text-gray-700">
+                <p className="text-sm font-semibold text-white font-bold mb-1">Your Privacy is Protected</p>
+                <p className="text-xs text-gray-300">
                   All submitted data is anonymized and aggregated. We never share personal information, company names, or any identifying details.
                 </p>
               </div>
@@ -736,14 +736,14 @@ export default function SubmitSalaryPage() {
             <button
               type="button"
               onClick={() => router.back()}
-              className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+              className="flex-1 px-6 py-3 border border-gray-300 text-gray-300 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-6 py-3 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Submitting...' : 'Submit Salary Data'}
             </button>
@@ -751,7 +751,7 @@ export default function SubmitSalaryPage() {
         </form>
 
         {/* Trust Indicators */}
-        <div className="mt-8 text-center text-sm text-gray-600">
+        <div className="mt-8 text-center text-sm text-gray-300">
           <div className="flex items-center justify-center gap-6">
             <div className="flex items-center gap-2">
               <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">

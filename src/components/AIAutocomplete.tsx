@@ -158,7 +158,7 @@ export default function AIAutocomplete({
             className={`absolute right-3 top-1/2 transform -translate-y-1/2 p-1.5 rounded-md transition-colors ${
               useAI 
                 ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white' 
-                : 'text-gray-400 hover:text-gray-600'
+                : 'text-gray-400 hover:text-gray-300'
             }`}
             title={useAI ? 'AI suggestions enabled' : 'Click for AI suggestions'}
           >
@@ -194,7 +194,7 @@ export default function AIAutocomplete({
             <button
               key={idx}
               onClick={() => handleSelect(suggestion)}
-              className="w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0"
+              className="w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors border-b border-gray-100 last:border-b-0"
             >
               <div className="flex items-start gap-3">
                 {useAI && suggestion.type && (
@@ -204,25 +204,25 @@ export default function AIAutocomplete({
                   <p className="font-medium text-gray-900 truncate">{suggestion.name}</p>
                   
                   {suggestion.reason && (
-                    <p className="text-sm text-gray-600 mt-1">{suggestion.reason}</p>
+                    <p className="text-sm text-gray-300 mt-1">{suggestion.reason}</p>
                   )}
                   
                   {suggestion.location && (
-                    <p className="text-xs text-gray-500 mt-1">📍 {suggestion.location}</p>
+                    <p className="text-xs text-gray-400 mt-1">📍 {suggestion.location}</p>
                   )}
                   
                   {suggestion.career_prospects && (
-                    <p className="text-xs text-gray-500 mt-1">💼 {suggestion.career_prospects}</p>
+                    <p className="text-xs text-gray-400 mt-1">💼 {suggestion.career_prospects}</p>
                   )}
 
                   {suggestion.tuition && (
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-400 mt-1">
                       ${suggestion.tuition.toLocaleString()}/year
                     </p>
                   )}
 
                   {suggestion.school_count && (
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-400 mt-1">
                       🏫 {suggestion.school_count} schools offer this
                     </p>
                   )}

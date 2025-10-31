@@ -37,7 +37,7 @@ export function DataSourcesFooter() {
           <h3 className="text-2xl font-bold text-gray-900 mb-2">
             Our Data Sources
           </h3>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-300 max-w-2xl mx-auto">
             We use only official government data and verified user submissions to ensure accuracy and reliability.
           </p>
         </div>
@@ -46,7 +46,7 @@ export function DataSourcesFooter() {
           {dataSources.map((source, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
+              className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
             >
               <div className="flex items-start mb-3">
                 <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -70,11 +70,11 @@ export function DataSourcesFooter() {
                 </div>
               </div>
 
-              <p className="text-sm text-gray-600 mb-3">
+              <p className="text-sm text-gray-300 mb-3">
                 {source.description}
               </p>
 
-              <div className="flex flex-col gap-2 text-xs text-gray-500">
+              <div className="flex flex-col gap-2 text-xs text-gray-400">
                 {source.lastUpdated && (
                   <div className="flex items-center">
                     <svg className="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -118,7 +118,7 @@ export function DataSourcesFooter() {
         </div>
 
         {/* Last Database Update */}
-        <div className="mt-6 text-center text-sm text-gray-500">
+        <div className="mt-6 text-center text-sm text-gray-400">
           <p>
             <a href="/about/methodology" className="text-blue-600 hover:text-blue-700 hover:underline">
               Learn about our methodology
@@ -153,7 +153,7 @@ export function DataSourcesBadge() {
 // Inline citation for specific data points
 export function DataCitation({ source, date }: { source: string; date?: string }) {
   return (
-    <span className="inline-flex items-center gap-1 text-xs text-gray-500 italic">
+    <span className="inline-flex items-center gap-1 text-xs text-gray-400 italic">
       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>

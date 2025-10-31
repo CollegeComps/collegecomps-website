@@ -128,13 +128,13 @@ export default function MyTimelinePage() {
       case 'financial_aid':
         return <BanknotesIcon className="h-5 w-5 text-green-600" />;
       case 'enrollment':
-        return <AcademicCapIcon className="h-5 w-5 text-blue-600" />;
+        return <AcademicCapIcon className="h-5 w-5 text-orange-500" />;
       case 'semester':
         return <CalendarIcon className="h-5 w-5 text-purple-600" />;
       case 'deadline':
         return <ClockIcon className="h-5 w-5 text-orange-600" />;
       default:
-        return <CalendarIcon className="h-5 w-5 text-gray-600" />;
+        return <CalendarIcon className="h-5 w-5 text-gray-300" />;
     }
   };
 
@@ -143,13 +143,13 @@ export default function MyTimelinePage() {
       case 'financial_aid':
         return 'bg-green-100 text-green-800 border-green-200';
       case 'enrollment':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
+        return 'bg-blue-100 text-blue-800 border-orange-500';
       case 'semester':
         return 'bg-purple-100 text-purple-800 border-purple-200';
       case 'deadline':
         return 'bg-orange-100 text-orange-800 border-orange-200';
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-gray-100 text-white font-bold border-gray-200';
     }
   };
 
@@ -162,7 +162,7 @@ export default function MyTimelinePage() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading your timeline...</p>
+          <p className="mt-4 text-gray-300">Loading your timeline...</p>
         </div>
       </div>
     );
@@ -175,11 +175,11 @@ export default function MyTimelinePage() {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                <CalendarIcon className="h-8 w-8 text-blue-600" />
+              <h1 className="text-3xl font-bold text-white font-bold flex items-center gap-3">
+                <CalendarIcon className="h-8 w-8 text-orange-500" />
                 My Timeline
               </h1>
-              <p className="mt-2 text-gray-600">
+              <p className="mt-2 text-gray-300">
                 Track your college journey, submissions, and important dates
               </p>
             </div>
@@ -197,13 +197,13 @@ export default function MyTimelinePage() {
           {/* Left Column: Salary Submissions */}
           <div className="lg:col-span-2 space-y-6">
             {/* Salary Submissions */}
-            <div className="bg-white rounded-lg shadow p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                  <CurrencyDollarIcon className="h-6 w-6 text-blue-600" />
+                <h2 className="text-xl font-bold text-white font-bold flex items-center gap-2">
+                  <CurrencyDollarIcon className="h-6 w-6 text-orange-500" />
                   Your Salary Submissions
                 </h2>
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-gray-400">
                   {salarySubmissions.length} submission{salarySubmissions.length !== 1 ? 's' : ''}
                 </span>
               </div>
@@ -211,23 +211,23 @@ export default function MyTimelinePage() {
               {salarySubmissions.length > 0 ? (
                 <div className="space-y-3">
                   {salarySubmissions.map((submission) => (
-                    <div key={submission.id} className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors">
+                    <div key={submission.id} className="border border-gray-200 rounded-lg p-4 hover:border-orange-500 transition-colors">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <h3 className="font-semibold text-gray-900">{submission.institution_name}</h3>
-                          <p className="text-sm text-gray-600">{submission.major}</p>
+                          <h3 className="font-semibold text-white font-bold">{submission.institution_name}</h3>
+                          <p className="text-sm text-gray-300">{submission.major}</p>
                           <div className="mt-2 flex items-center gap-4">
-                            <span className="text-lg font-bold text-blue-600">
+                            <span className="text-lg font-bold text-orange-500">
                               {formatCurrency(submission.current_salary)}
                             </span>
-                            <span className="text-sm text-gray-500">
+                            <span className="text-sm text-gray-400">
                               Class of {submission.graduation_year}
                             </span>
                           </div>
                         </div>
                         <div className="text-right">
                           <CheckCircleIcon className="h-5 w-5 text-green-600 inline" />
-                          <p className="text-xs text-gray-500 mt-1">
+                          <p className="text-xs text-gray-400 mt-1">
                             {formatDate(submission.created_at)}
                           </p>
                         </div>
@@ -238,7 +238,7 @@ export default function MyTimelinePage() {
               ) : (
                 <div className="text-center py-8">
                   <CurrencyDollarIcon className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-                  <p className="text-gray-600 mb-4">No salary submissions yet</p>
+                  <p className="text-gray-300 mb-4">No salary submissions yet</p>
                   <Link
                     href="/submit-salary"
                     className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -250,8 +250,8 @@ export default function MyTimelinePage() {
             </div>
 
             {/* Important Dates Calendar */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2 mb-4">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
+              <h2 className="text-xl font-bold text-white font-bold flex items-center gap-2 mb-4">
                 <CalendarIcon className="h-6 w-6 text-purple-600" />
                 Important Academic Dates
               </h2>
@@ -265,7 +265,7 @@ export default function MyTimelinePage() {
                       className={`border rounded-lg p-4 ${
                         isUpcoming(date.date)
                           ? getDateTypeColor(date.type)
-                          : 'bg-gray-50 text-gray-500 border-gray-200 opacity-60'
+                          : 'bg-gray-50 text-gray-400 border-gray-200 opacity-60'
                       }`}
                     >
                       <div className="flex items-start gap-3">
@@ -296,21 +296,21 @@ export default function MyTimelinePage() {
           {/* Right Column: Quick Actions & Stats */}
           <div className="space-y-6">
             {/* Quick Stats */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Quick Stats</h2>
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
+              <h2 className="text-lg font-bold text-white font-bold mb-4">Quick Stats</h2>
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                  <span className="text-sm text-gray-700">Salary Submissions</span>
-                  <span className="text-xl font-bold text-blue-600">{salarySubmissions.length}</span>
+                <div className="flex items-center justify-between p-3 bg-orange-500/10 rounded-lg">
+                  <span className="text-sm text-gray-300">Salary Submissions</span>
+                  <span className="text-xl font-bold text-orange-500">{salarySubmissions.length}</span>
                 </div>
                 <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-                  <span className="text-sm text-gray-700">Upcoming Deadlines</span>
+                  <span className="text-sm text-gray-300">Upcoming Deadlines</span>
                   <span className="text-xl font-bold text-green-600">
                     {importantDates.filter(d => isUpcoming(d.date) && d.type === 'deadline').length}
                   </span>
                 </div>
                 <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
-                  <span className="text-sm text-gray-700">Financial Aid Events</span>
+                  <span className="text-sm text-gray-300">Financial Aid Events</span>
                   <span className="text-xl font-bold text-purple-600">
                     {importantDates.filter(d => d.type === 'financial_aid').length}
                   </span>
@@ -319,8 +319,8 @@ export default function MyTimelinePage() {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Quick Actions</h2>
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
+              <h2 className="text-lg font-bold text-white font-bold mb-4">Quick Actions</h2>
               <div className="space-y-2">
                 <Link
                   href="/submit-salary"
@@ -355,7 +355,7 @@ export default function MyTimelinePage() {
                 </p>
                 <Link
                   href="/profile"
-                  className="block w-full bg-white text-blue-600 font-semibold px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors text-center"
+                  className="block w-full bg-white text-orange-500 font-semibold px-4 py-2 rounded-lg hover:bg-orange-500/10 transition-colors text-center"
                 >
                   Upgrade Now
                 </Link>

@@ -438,8 +438,8 @@ export default function ROICalculatorApp() {
   return (
     <div className="max-w-6xl mx-auto space-y-8">
       {/* Search Mode Toggle */}
-      <div className="bg-white rounded-lg shadow-sm border p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Choose Your Search Method</h3>
+      <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-6">
+        <h3 className="text-lg font-bold text-white mb-4">Choose Your Search Method</h3>
         <div className="grid grid-cols-2 gap-4">
           <button
             onClick={() => {
@@ -448,17 +448,17 @@ export default function ROICalculatorApp() {
             }}
             className={`p-4 rounded-lg border-2 transition-all ${
               searchMode === 'institution'
-                ? 'border-blue-600 bg-blue-50'
-                : 'border-gray-200 hover:border-gray-300'
+                ? 'border-orange-500 bg-orange-500/10'
+                : 'border-gray-700 hover:border-gray-600'
             }`}
           >
             <div className="flex items-center justify-center mb-2">
-              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
               </svg>
             </div>
-            <h4 className="font-semibold text-gray-900 mb-1">Search by Institution</h4>
-            <p className="text-sm text-gray-600">Find a college first, then explore their programs</p>
+            <h4 className="font-bold text-white mb-1">Search by Institution</h4>
+            <p className="text-sm text-gray-300 font-medium">Find a college first, then explore their programs</p>
           </button>
           
           <button
@@ -469,32 +469,32 @@ export default function ROICalculatorApp() {
             }}
             className={`p-4 rounded-lg border-2 transition-all ${
               searchMode === 'degree'
-                ? 'border-blue-600 bg-blue-50'
-                : 'border-gray-200 hover:border-gray-300'
+                ? 'border-orange-500 bg-orange-500/10'
+                : 'border-gray-700 hover:border-gray-600'
             }`}
           >
             <div className="flex items-center justify-center mb-2">
-              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </div>
-            <h4 className="font-semibold text-gray-900 mb-1">Search by Degree</h4>
-            <p className="text-sm text-gray-600">Choose your field of study, see all institutions offering it</p>
+            <h4 className="font-bold text-white mb-1">Search by Degree</h4>
+            <p className="text-sm text-gray-300 font-medium">Choose your field of study, see all institutions offering it</p>
           </button>
         </div>
       </div>
 
       {/* Progress Indicator */}
-      <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-6">
         <div className="flex items-center justify-between mb-4">
-          <span className="text-sm font-medium text-gray-600">Step 1</span>
-          <span className="text-sm font-medium text-gray-600">Step 2</span>
-          <span className="text-sm font-medium text-gray-600">Step 3</span>
-          <span className="text-sm font-medium text-gray-600">Results</span>
+          <span className="text-sm font-bold text-gray-300">Step 1</span>
+          <span className="text-sm font-bold text-gray-300">Step 2</span>
+          <span className="text-sm font-bold text-gray-300">Step 3</span>
+          <span className="text-sm font-bold text-gray-300">Results</span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-gray-700 rounded-full h-2">
           <div 
-            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+            className="bg-orange-500 h-2 rounded-full transition-all duration-300"
             style={{ 
               width: selectedInstitution ? (selectedProgram ? (roiResult ? '100%' : '75%') : '50%') : '25%' 
             }}
@@ -614,7 +614,7 @@ export default function ROICalculatorApp() {
           {selectedInstitution && (
             <button
               onClick={calculateROI}
-              className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors shadow-lg"
+              className="w-full bg-orange-500 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-orange-600 transition-colors shadow-lg"
             >
               Calculate ROI
             </button>
@@ -625,7 +625,7 @@ export default function ROICalculatorApp() {
             <div className="space-y-2">
               <button
                 onClick={() => setShowSaveModal(true)}
-                className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-lg flex items-center justify-center"
+                className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-bold hover:bg-green-700 transition-colors shadow-lg flex items-center justify-center"
               >
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
@@ -633,16 +633,16 @@ export default function ROICalculatorApp() {
                 Save Scenario
               </button>
               {saveSuccess && (
-                <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center text-green-800">
-                  <svg className="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                <div className="bg-green-500/10 border border-green-500 rounded-lg p-3 flex items-center text-green-400 font-medium">
+                  <svg className="w-5 h-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   Scenario saved successfully!
                 </div>
               )}
               {hasUnsavedChanges && !saveSuccess && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 flex items-center text-blue-800 text-sm">
-                  <svg className="w-5 h-5 mr-2 text-blue-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-3 flex items-center text-orange-400 font-medium text-sm">
+                  <svg className="w-5 h-5 mr-2 text-orange-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   Auto-save in 30 seconds...
@@ -653,9 +653,9 @@ export default function ROICalculatorApp() {
 
           {/* Sign in prompt if not authenticated */}
           {roiResult && !session?.user && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
-              <p className="text-blue-800 mb-2">
-                <a href="/auth/signin" className="font-semibold hover:underline">Sign in</a> to save and compare ROI scenarios
+            <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4 text-center">
+              <p className="text-white font-medium mb-2">
+                <a href="/auth/signin" className="font-bold hover:underline text-orange-500">Sign in</a> to save and compare ROI scenarios
               </p>
             </div>
           )}
@@ -697,7 +697,7 @@ export default function ROICalculatorApp() {
               {selectedInstitution && selectedDegree && (
                 <button
                   onClick={calculateROI}
-                  className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors shadow-lg"
+                  className="w-full bg-orange-500 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-orange-600 transition-colors shadow-lg"
                 >
                   Calculate ROI
                 </button>
@@ -708,7 +708,7 @@ export default function ROICalculatorApp() {
                 <div className="space-y-2">
                   <button
                     onClick={() => setShowSaveModal(true)}
-                    className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-lg flex items-center justify-center"
+                    className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-bold hover:bg-green-700 transition-colors shadow-lg flex items-center justify-center"
                   >
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
@@ -716,16 +716,16 @@ export default function ROICalculatorApp() {
                     Save Scenario
                   </button>
                   {saveSuccess && (
-                    <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center text-green-800">
-                      <svg className="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <div className="bg-green-500/10 border border-green-500 rounded-lg p-3 flex items-center text-green-400 font-medium">
+                      <svg className="w-5 h-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       Scenario saved successfully!
                     </div>
                   )}
                   {hasUnsavedChanges && !saveSuccess && (
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 flex items-center text-blue-800 text-sm">
-                      <svg className="w-5 h-5 mr-2 text-blue-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-3 flex items-center text-orange-400 font-medium text-sm">
+                      <svg className="w-5 h-5 mr-2 text-orange-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       Auto-save in 30 seconds...
@@ -735,9 +735,9 @@ export default function ROICalculatorApp() {
               )}
 
               {roiResult && !session?.user && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
-                  <p className="text-blue-800 mb-2">
-                    <a href="/auth/signin" className="font-semibold hover:underline">Sign in</a> to save and compare ROI scenarios
+                <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4 text-center">
+                  <p className="text-white font-medium mb-2">
+                    <a href="/auth/signin" className="font-bold hover:underline text-orange-500">Sign in</a> to save and compare ROI scenarios
                   </p>
                 </div>
               )}
@@ -748,39 +748,39 @@ export default function ROICalculatorApp() {
         {/* Right Column - Results */}
         <div className="space-y-6">
           {/* Baseline Salary Settings */}
-          <div className="bg-white rounded-lg shadow-sm border p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Baseline Salary Settings</h3>
+          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-6">
+            <h3 className="text-lg font-bold text-white mb-4">Baseline Salary Settings</h3>
             <div className="space-y-3">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-bold text-gray-300">
                 Education Level for Baseline Comparison
               </label>
               <div className="flex flex-col space-y-2">
-                <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                <label className="flex items-center p-3 border border-gray-700 rounded-lg cursor-pointer hover:border-gray-600 transition-colors">
                   <input
                     type="radio"
                     checked={hasHighSchoolDiploma}
                     onChange={() => setHasHighSchoolDiploma(true)}
-                    className="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500"
+                    className="mr-3 h-4 w-4 text-orange-500 focus:ring-orange-500"
                   />
                   <div className="flex-1">
-                    <span className="font-medium text-gray-900">With High School Diploma</span>
-                    <span className="ml-2 text-green-600 font-semibold">$42,000/year</span>
+                    <span className="font-medium text-white">With High School Diploma</span>
+                    <span className="ml-2 text-green-500 font-bold">$42,000/year</span>
                   </div>
                 </label>
-                <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                <label className="flex items-center p-3 border border-gray-700 rounded-lg cursor-pointer hover:border-gray-600 transition-colors">
                   <input
                     type="radio"
                     checked={!hasHighSchoolDiploma}
                     onChange={() => setHasHighSchoolDiploma(false)}
-                    className="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500"
+                    className="mr-3 h-4 w-4 text-orange-500 focus:ring-orange-500"
                   />
                   <div className="flex-1">
-                    <span className="font-medium text-gray-900">Without Diploma</span>
-                    <span className="ml-2 text-green-600 font-semibold">$33,000/year</span>
+                    <span className="font-medium text-white">Without Diploma</span>
+                    <span className="ml-2 text-green-500 font-bold">$33,000/year</span>
                   </div>
                 </label>
               </div>
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-gray-400 font-medium mt-2">
                 This baseline salary is used to calculate your ROI. Note: Without a diploma, both baseline and projected earnings are typically lower.
               </p>
             </div>
@@ -798,34 +798,34 @@ export default function ROICalculatorApp() {
 
               {/* Program Analysis Section */}
               {selectedProgram && (
-                <div className="bg-white rounded-lg shadow-sm border p-6 mt-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Program Analysis</h3>
+                <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-6 mt-6">
+                  <h3 className="text-xl font-bold text-white mb-4">Program Analysis</h3>
                   
                   <div className="space-y-4">
                     {/* Program Details */}
-                    <div className="bg-blue-50 rounded-lg p-4">
-                      <h4 className="font-semibold text-blue-900 mb-2">Program Details</h4>
+                    <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4">
+                      <h4 className="font-bold text-orange-400 mb-2">Program Details</h4>
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
-                          <span className="text-blue-700">Program Name:</span>
-                          <span className="font-semibold text-blue-900 text-right max-w-md">
+                          <span className="text-gray-300 font-medium">Program Name:</span>
+                          <span className="font-bold text-white text-right max-w-md">
                             {selectedProgram.cip_title || 'N/A'}
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-blue-700">CIP Code:</span>
-                          <span className="font-semibold text-blue-900">{selectedProgram.cipcode || 'N/A'}</span>
+                          <span className="text-gray-300 font-medium">CIP Code:</span>
+                          <span className="font-bold text-white">{selectedProgram.cipcode || 'N/A'}</span>
                         </div>
                         {selectedProgram.credential_name && (
                           <div className="flex justify-between">
-                            <span className="text-blue-700">Credential:</span>
-                            <span className="font-semibold text-blue-900">{selectedProgram.credential_name}</span>
+                            <span className="text-orange-500">Credential:</span>
+                            <span className="font-semibold text-white font-bold">{selectedProgram.credential_name}</span>
                           </div>
                         )}
                         {(selectedProgram.total_completions || selectedProgram.completions) && (
                           <div className="flex justify-between">
-                            <span className="text-blue-700">Annual Graduates:</span>
-                            <span className="font-semibold text-blue-900">
+                            <span className="text-orange-500">Annual Graduates:</span>
+                            <span className="font-semibold text-white font-bold">
                               {(selectedProgram.total_completions || selectedProgram.completions)?.toLocaleString()}
                             </span>
                           </div>
@@ -892,56 +892,56 @@ export default function ROICalculatorApp() {
                     )}
 
                     {/* Program ROI Insights */}
-                    <div className="border-t pt-4">
-                      <h4 className="font-semibold text-gray-900 mb-3">ROI Insights</h4>
+                    <div className="border-t border-gray-700 pt-4">
+                      <h4 className="font-bold text-white mb-3">ROI Insights</h4>
                       <div className="grid grid-cols-1 gap-3">
                         {earnings && earnings.projectedSalary > 0 && costs.tuition > 0 && (
-                          <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
-                            <span className="text-sm text-gray-700">Earnings to Annual Cost Ratio:</span>
+                          <div className="flex items-center justify-between p-3 bg-gray-800 border border-gray-700 rounded">
+                            <span className="text-sm text-gray-300 font-medium">Earnings to Annual Cost Ratio:</span>
                             <span className={`font-bold ${
                               (earnings.projectedSalary / costs.tuition) >= 2 
-                                ? 'text-green-600' 
+                                ? 'text-green-500' 
                                 : (earnings.projectedSalary / costs.tuition) >= 1
-                                ? 'text-yellow-600'
-                                : 'text-red-600'
+                                ? 'text-yellow-500'
+                                : 'text-red-500'
                             }`}>
                               {(earnings.projectedSalary / costs.tuition).toFixed(2)}x
                             </span>
                           </div>
                         )}
                         {roiResult && roiResult.paybackPeriod > 0 && (
-                          <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
-                            <span className="text-sm text-gray-700">Payback Period:</span>
+                          <div className="flex items-center justify-between p-3 bg-gray-800 border border-gray-700 rounded">
+                            <span className="text-sm text-gray-300 font-medium">Payback Period:</span>
                             <span className={`font-bold ${
                               roiResult.paybackPeriod <= 10 
-                                ? 'text-green-600' 
+                                ? 'text-green-500' 
                                 : roiResult.paybackPeriod <= 15
-                                ? 'text-yellow-600'
-                                : 'text-red-600'
+                                ? 'text-yellow-500'
+                                : 'text-red-500'
                             }`}>
                               {roiResult.paybackPeriod.toFixed(1)} years
                             </span>
                           </div>
                         )}
                         {roiResult && roiResult.roiPercentage !== null && roiResult.roiPercentage !== undefined && (
-                          <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
-                            <span className="text-sm text-gray-700">ROI Percentage:</span>
+                          <div className="flex items-center justify-between p-3 bg-gray-800 border border-gray-700 rounded">
+                            <span className="text-sm text-gray-300 font-medium">ROI Percentage:</span>
                             <span className={`font-bold ${
                               roiResult.roiPercentage > 100 
-                                ? 'text-green-600' 
+                                ? 'text-green-500' 
                                 : roiResult.roiPercentage > 0
-                                ? 'text-yellow-600'
-                                : 'text-red-600'
+                                ? 'text-yellow-500'
+                                : 'text-red-500'
                             }`}>
                               {roiResult.roiPercentage > 0 ? '+' : ''}{roiResult.roiPercentage.toFixed(0)}%
                             </span>
                           </div>
                         )}
                         {roiResult && roiResult.netROI && (
-                          <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
-                            <span className="text-sm text-gray-700">Net Financial Gain:</span>
+                          <div className="flex items-center justify-between p-3 bg-gray-800 border border-gray-700 rounded">
+                            <span className="text-sm text-gray-300 font-medium">Net Financial Gain:</span>
                             <span className={`font-bold ${
-                              roiResult.netROI > 0 ? 'text-green-600' : 'text-red-600'
+                              roiResult.netROI > 0 ? 'text-green-500' : 'text-red-500'
                             }`}>
                               ${roiResult.netROI.toLocaleString()}
                             </span>
@@ -951,9 +951,9 @@ export default function ROICalculatorApp() {
                     </div>
 
                     {/* Additional Insights */}
-                    <div className="bg-blue-50 rounded-lg p-4">
-                      <h4 className="font-semibold text-blue-900 mb-2">Key Considerations</h4>
-                      <ul className="space-y-2 text-sm text-blue-800">
+                    <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4">
+                      <h4 className="font-semibold text-white font-bold mb-2">Key Considerations</h4>
+                      <ul className="space-y-2 text-sm text-orange-400">
                         <li className="flex items-start">
                           <span className="mr-2">•</span>
                           <span>These earnings reflect institution-wide outcomes and may vary by specific program</span>
@@ -976,14 +976,14 @@ export default function ROICalculatorApp() {
 
           {/* Placeholder when no results */}
           {!roiResult && (
-            <div className="bg-white rounded-lg shadow-sm border p-8 text-center">
-              <div className="w-24 h-24 bg-gray-100 rounded-full mx-auto mb-6 flex items-center justify-center">
-                <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-8 text-center">
+              <div className="w-24 h-24 bg-gray-800 rounded-full mx-auto mb-6 flex items-center justify-center">
+                <svg className="w-12 h-12 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">ROI Results</h3>
-              <p className="text-gray-600 mb-4">
+              <h3 className="text-xl font-semibold text-white font-bold mb-2">ROI Results</h3>
+              <p className="text-gray-300 mb-4">
                 Select an institution and configure your costs to see detailed ROI calculations.
               </p>
             </div>
@@ -992,20 +992,20 @@ export default function ROICalculatorApp() {
       </div>
 
       {/* Information Panel */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-blue-900 mb-3">How ROI is Calculated</h3>
+      <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-6">
+        <h3 className="text-lg font-semibold text-white font-bold mb-3">How ROI is Calculated</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
           <div>
-            <h4 className="font-semibold text-blue-800 mb-1">Total Cost</h4>
-            <p className="text-blue-700">Tuition + Fees + Room & Board + Books + Other Expenses - Financial Aid</p>
+            <h4 className="font-semibold text-orange-400 mb-1">Total Cost</h4>
+            <p className="text-orange-500">Tuition + Fees + Room & Board + Books + Other Expenses - Financial Aid</p>
           </div>
           <div>
-            <h4 className="font-semibold text-blue-800 mb-1">Expected Earnings</h4>
-            <p className="text-blue-700">Lifetime earnings with degree minus baseline earnings without degree</p>
+            <h4 className="font-semibold text-orange-400 mb-1">Expected Earnings</h4>
+            <p className="text-orange-500">Lifetime earnings with degree minus baseline earnings without degree</p>
           </div>
           <div>
-            <h4 className="font-semibold text-blue-800 mb-1">ROI Percentage</h4>
-            <p className="text-blue-700">(Expected Earnings - Total Cost) / Total Cost × 100</p>
+            <h4 className="font-semibold text-orange-400 mb-1">ROI Percentage</h4>
+            <p className="text-orange-500">(Expected Earnings - Total Cost) / Total Cost × 100</p>
           </div>
         </div>
       </div>

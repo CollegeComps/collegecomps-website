@@ -98,19 +98,19 @@ export default function ComparePage() {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-black py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Compare Colleges</h1>
-          <p className="text-lg text-gray-600">
+          <h1 className="text-4xl font-extrabold text-white mb-2">Compare Colleges</h1>
+          <p className="text-lg text-gray-300 font-medium">
             Compare up to 4 colleges side-by-side to make the best decision
           </p>
         </div>
 
         {/* Search Box */}
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
-          <label className="block text-sm font-semibold text-gray-900 mb-2">
+        <div className="bg-gray-900 rounded-xl shadow-lg border border-gray-800 p-6 mb-8">
+          <label className="block text-sm font-bold text-white mb-2">
             Add College to Comparison
           </label>
           <div className="relative">
@@ -119,26 +119,26 @@ export default function ComparePage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by college name..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+              className="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white placeholder-gray-500"
             />
             {loading && (
               <div className="absolute right-3 top-3">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500"></div>
               </div>
             )}
           </div>
 
           {/* Search Results */}
           {searchResults.length > 0 && (
-            <div className="mt-3 max-h-64 overflow-y-auto border border-gray-200 rounded-lg">
+            <div className="mt-3 max-h-64 overflow-y-auto border border-gray-800 rounded-lg bg-black">
               {searchResults.map((college) => (
                 <button
                   key={college.id}
                   onClick={() => addCollege(college)}
-                  className="w-full text-left px-4 py-3 hover:bg-blue-50 border-b border-gray-100 last:border-b-0 transition-colors"
+                  className="w-full text-left px-4 py-3 hover:bg-gray-800 border-b border-gray-800 last:border-b-0 transition-colors"
                 >
-                  <div className="font-semibold text-gray-900">{college.name}</div>
-                  <div className="text-sm text-gray-600">
+                  <div className="font-bold text-white">{college.name}</div>
+                  <div className="text-sm text-gray-400 font-medium">
                     {college.city}, {college.state} • {college.control}
                   </div>
                 </button>
@@ -149,13 +149,13 @@ export default function ComparePage() {
 
         {/* Selected Colleges Count */}
         <div className="mb-4 flex items-center justify-between">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-300 font-medium">
             {selectedColleges.length} of 4 colleges selected
           </p>
           {selectedColleges.length > 0 && (
             <button
               onClick={() => setSelectedColleges([])}
-              className="text-sm text-red-600 hover:text-red-700 font-medium"
+              className="text-sm text-red-500 hover:text-red-400 font-semibold"
             >
               Clear All
             </button>
@@ -164,26 +164,26 @@ export default function ComparePage() {
 
         {/* Comparison Table */}
         {selectedColleges.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-md p-12 text-center">
+          <div className="bg-gray-900 rounded-xl shadow-lg border border-gray-800 p-12 text-center">
             
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Colleges Selected</h3>
-            <p className="text-gray-600 mb-6">
+            <h3 className="text-xl font-bold text-white mb-2">No Colleges Selected</h3>
+            <p className="text-gray-300 mb-6 font-medium">
               Start by searching and adding colleges to compare their costs, admissions, and outcomes
             </p>
           </div>
         ) : (
-          <div className="bg-white rounded-xl shadow-md overflow-hidden">
+          <div className="bg-gray-900 rounded-xl shadow-lg border border-gray-800 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-                    <th className="px-6 py-4 text-left text-sm font-semibold">Metric</th>
+                  <tr className="bg-gradient-to-r from-orange-600 to-orange-500 text-white">
+                    <th className="px-6 py-4 text-left text-sm font-bold">Metric</th>
                     {selectedColleges.map((college) => (
                       <th key={college.id} className="px-6 py-4 text-left min-w-[250px]">
                         <div className="flex items-start justify-between gap-2">
                           <div>
-                            <div className="font-bold text-base">{college.name}</div>
-                            <div className="text-xs text-blue-100 mt-1">
+                            <div className="font-extrabold text-base">{college.name}</div>
+                            <div className="text-xs text-white/80 mt-1 font-medium">
                               {college.city}, {college.state}
                             </div>
                           </div>
@@ -202,90 +202,90 @@ export default function ComparePage() {
                 </thead>
                 <tbody>
                   {/* Institution Type */}
-                  <tr className="border-b border-gray-200 bg-gray-50">
-                    <td className="px-6 py-3 text-sm font-semibold text-gray-900">Institution Type</td>
+                  <tr className="border-b border-gray-800 bg-black">
+                    <td className="px-6 py-3 text-sm font-bold text-white">Institution Type</td>
                     {selectedColleges.map((college) => (
-                      <td key={college.id} className="px-6 py-3 text-sm text-gray-700">
+                      <td key={college.id} className="px-6 py-3 text-sm text-gray-300 font-medium">
                         {college.control}
                       </td>
                     ))}
                   </tr>
 
                   {/* Tuition (In-State) */}
-                  <tr className="border-b border-gray-200">
-                    <td className="px-6 py-3 text-sm font-semibold text-gray-900">Tuition (In-State)</td>
+                  <tr className="border-b border-gray-800">
+                    <td className="px-6 py-3 text-sm font-bold text-white">Tuition (In-State)</td>
                     {selectedColleges.map((college) => (
-                      <td key={college.id} className="px-6 py-3 text-sm text-gray-700">
+                      <td key={college.id} className="px-6 py-3 text-sm text-gray-300 font-medium">
                         {formatCurrency(college.tuition_in_state)}
                       </td>
                     ))}
                   </tr>
 
                   {/* Tuition (Out-of-State) */}
-                  <tr className="border-b border-gray-200 bg-gray-50">
-                    <td className="px-6 py-3 text-sm font-semibold text-gray-900">Tuition (Out-of-State)</td>
+                  <tr className="border-b border-gray-800 bg-black">
+                    <td className="px-6 py-3 text-sm font-bold text-white">Tuition (Out-of-State)</td>
                     {selectedColleges.map((college) => (
-                      <td key={college.id} className="px-6 py-3 text-sm text-gray-700">
+                      <td key={college.id} className="px-6 py-3 text-sm text-gray-300 font-medium">
                         {formatCurrency(college.tuition_out_state)}
                       </td>
                     ))}
                   </tr>
 
                   {/* Average Net Price */}
-                  <tr className="border-b border-gray-200">
-                    <td className="px-6 py-3 text-sm font-semibold text-gray-900">Average Net Price</td>
+                  <tr className="border-b border-gray-800">
+                    <td className="px-6 py-3 text-sm font-bold text-white">Average Net Price</td>
                     {selectedColleges.map((college) => (
-                      <td key={college.id} className="px-6 py-3 text-sm text-gray-700">
+                      <td key={college.id} className="px-6 py-3 text-sm text-gray-300 font-medium">
                         {formatCurrency(college.avg_net_price)}
                       </td>
                     ))}
                   </tr>
 
                   {/* Admission Rate */}
-                  <tr className="border-b border-gray-200 bg-gray-50">
-                    <td className="px-6 py-3 text-sm font-semibold text-gray-900">Admission Rate</td>
+                  <tr className="border-b border-gray-800 bg-black">
+                    <td className="px-6 py-3 text-sm font-bold text-white">Admission Rate</td>
                     {selectedColleges.map((college) => (
-                      <td key={college.id} className="px-6 py-3 text-sm text-gray-700">
+                      <td key={college.id} className="px-6 py-3 text-sm text-gray-300 font-medium">
                         {formatPercent(college.admission_rate)}
                       </td>
                     ))}
                   </tr>
 
                   {/* SAT Average */}
-                  <tr className="border-b border-gray-200">
-                    <td className="px-6 py-3 text-sm font-semibold text-gray-900">Average SAT</td>
+                  <tr className="border-b border-gray-800">
+                    <td className="px-6 py-3 text-sm font-bold text-white">Average SAT</td>
                     {selectedColleges.map((college) => (
-                      <td key={college.id} className="px-6 py-3 text-sm text-gray-700">
+                      <td key={college.id} className="px-6 py-3 text-sm text-gray-300 font-medium">
                         {college.sat_avg || 'N/A'}
                       </td>
                     ))}
                   </tr>
 
                   {/* ACT Median */}
-                  <tr className="border-b border-gray-200 bg-gray-50">
-                    <td className="px-6 py-3 text-sm font-semibold text-gray-900">Median ACT</td>
+                  <tr className="border-b border-gray-800 bg-black">
+                    <td className="px-6 py-3 text-sm font-bold text-white">Median ACT</td>
                     {selectedColleges.map((college) => (
-                      <td key={college.id} className="px-6 py-3 text-sm text-gray-700">
+                      <td key={college.id} className="px-6 py-3 text-sm text-gray-300 font-medium">
                         {college.act_median || 'N/A'}
                       </td>
                     ))}
                   </tr>
 
                   {/* Median Earnings (6 years) */}
-                  <tr className="border-b border-gray-200">
-                    <td className="px-6 py-3 text-sm font-semibold text-gray-900">Earnings (6 years after)</td>
+                  <tr className="border-b border-gray-800">
+                    <td className="px-6 py-3 text-sm font-bold text-white">Earnings (6 years after)</td>
                     {selectedColleges.map((college) => (
-                      <td key={college.id} className="px-6 py-3 text-sm text-gray-700 font-semibold">
+                      <td key={college.id} className="px-6 py-3 text-sm text-orange-500 font-bold">
                         {formatCurrency(college.median_earnings_6yr)}
                       </td>
                     ))}
                   </tr>
 
                   {/* Median Earnings (10 years) */}
-                  <tr className="border-b border-gray-200 bg-gray-50">
-                    <td className="px-6 py-3 text-sm font-semibold text-gray-900">Earnings (10 years after)</td>
+                  <tr className="border-b border-gray-800 bg-black">
+                    <td className="px-6 py-3 text-sm font-bold text-white">Earnings (10 years after)</td>
                     {selectedColleges.map((college) => (
-                      <td key={college.id} className="px-6 py-3 text-sm text-gray-700 font-semibold">
+                      <td key={college.id} className="px-6 py-3 text-sm text-orange-500 font-bold">
                         {formatCurrency(college.median_earnings_10yr)}
                       </td>
                     ))}
@@ -326,7 +326,7 @@ export default function ComparePage() {
                   alert('Failed to save comparison');
                 }
               }}
-              className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+              className="px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold rounded-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-lg shadow-orange-500/20"
             >
               💾 Save This Comparison
             </button>

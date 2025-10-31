@@ -2,23 +2,21 @@
 > temp-roi@0.1.0 dev
 > next dev
 
-   ▲ Next.js 15.5.4
+ ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/francopapalardo-aleo/Desktop/repos/CollegeComps/package-lock.json as the root directory.
+ To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
+ Detected additional lockfiles: 
+   * /Users/francopapalardo-aleo/Desktop/repos/CollegeComps/collegecomps-website/package-lock.json
+
+   ▲ Next.js 15.5.6
    - Local:        http://localhost:3000
-   - Network:      http://10.0.0.11:3000
+   - Network:      http://10.0.0.9:3000
    - Environments: .env.local
    - Experiments (use with caution):
      · clientTraceMetadata
 
  ✓ Starting...
  ○ Compiling /instrumentation ...
- ✓ Compiled /instrumentation in 1101ms (1085 modules)
+ ✓ Compiled /instrumentation in 1002ms (1144 modules)
  ✓ Ready in 3s
- ○ Compiling /analytics ...
- ✓ Compiled /analytics in 3.9s (4532 modules)
- GET /analytics 200 in 4771ms
-(node:89089) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
-(Use `node --trace-deprecation ...` to show where the warning was created)
- ✓ Compiled in 231ms (622 modules)
- ✓ Compiled in 925ms (1693 modules)
- ✓ Compiled in 86ms (622 modules)
- ✓ Compiled in 157ms (622 modules)

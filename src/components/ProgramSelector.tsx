@@ -115,7 +115,7 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-6">
+    <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-4">Select Program</h2>
       
       <div className="relative">
@@ -163,7 +163,7 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
                           </span>
                         )}
                         {program.total_completions && (
-                          <span className="text-sm text-gray-600">
+                          <span className="text-sm text-gray-300">
                             {program.total_completions} graduates
                           </span>
                         )}
@@ -173,7 +173,7 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
                 </button>
               ))}
               {filteredPrograms.length === 0 && !loading && (
-                <div className="p-4 text-center text-gray-500">
+                <div className="p-4 text-center text-gray-400">
                   No programs found for this institution
                 </div>
               )}

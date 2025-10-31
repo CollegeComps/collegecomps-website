@@ -24,6 +24,7 @@ import {
   BanknotesIcon
 } from '@heroicons/react/24/outline';
 import UserMenu from './UserMenu';
+import TopAuthBar from './TopAuthBar';
 
 interface NavItem {
   name: string;
@@ -140,7 +141,7 @@ export default function Sidebar({ children }: SidebarProps) {
   });
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-800">
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
         <div 
@@ -152,7 +153,7 @@ export default function Sidebar({ children }: SidebarProps) {
       {/* Sidebar */}
       <div 
         className={`
-          fixed inset-y-0 left-0 z-50 bg-gray-900 shadow-lg transition-all duration-300 ease-in-out flex flex-col
+          fixed inset-y-0 left-0 z-50 bg-black shadow-lg transition-all duration-500 ease-in-out flex flex-col
           lg:relative lg:translate-x-0
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           ${isExpanded ? 'w-64' : 'w-20'}
@@ -161,18 +162,18 @@ export default function Sidebar({ children }: SidebarProps) {
         onMouseLeave={() => setIsExpanded(false)}
       >
         {/* Sidebar header */}
-        <div className="flex items-center justify-between h-16 px-4 border-b border-gray-800 flex-shrink-0">
-          <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity overflow-hidden">
+        <div className="flex items-center h-16 px-4 border-b border-gray-900 flex-shrink-0">
+          <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-all duration-500">
             <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
               <AcademicCapIcon className="w-5 h-5 text-white" />
             </div>
             {isExpanded && (
-              <h1 className="text-lg font-bold text-white whitespace-nowrap">CollegeComps</h1>
+              <h1 className="text-lg font-extrabold text-white whitespace-nowrap transition-opacity duration-500">CollegeComps</h1>
             )}
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-1.5 rounded-md text-gray-400 hover:text-gray-300 hover:bg-gray-800"
+            className="lg:hidden p-1.5 rounded-md text-gray-400 hover:text-gray-300 hover:bg-gray-800 absolute right-4"
           >
             <XMarkIcon className="w-5 h-5" />
           </button>
@@ -190,24 +191,24 @@ export default function Sidebar({ children }: SidebarProps) {
                   href={item.href}
                   onClick={() => setSidebarOpen(false)}
                   className={`
-                    group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200
+                    group flex items-center py-2.5 px-3 text-sm font-medium rounded-lg transition-all duration-500
                     ${isActive 
                       ? 'bg-orange-500/10 text-orange-500' 
                       : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                     }
-                    ${!isExpanded ? 'justify-center' : ''}
                   `}
                   title={!isExpanded ? item.name : ''}
                 >
-                  <IconComponent
-                    className={`
-                      h-5 w-5 flex-shrink-0 transition-colors duration-150
-                      ${isActive ? 'text-orange-500' : 'text-gray-400 group-hover:text-orange-500'}
-                      ${isExpanded ? 'mr-3' : ''}
-                    `}
-                  />
+                  <div className="w-5 h-5 flex-shrink-0 flex items-center justify-center">
+                    <IconComponent
+                      className={`
+                        h-5 w-5 transition-colors duration-150
+                        ${isActive ? 'text-orange-500' : 'text-gray-400 group-hover:text-orange-500'}
+                      `}
+                    />
+                  </div>
                   {isExpanded && (
-                    <span className="font-medium text-sm whitespace-nowrap overflow-hidden text-ellipsis">{item.name}</span>
+                    <span className="ml-3 font-semibold text-sm whitespace-nowrap overflow-hidden text-ellipsis transition-opacity duration-500">{item.name}</span>
                   )}
                 </Link>
               );
@@ -216,44 +217,18 @@ export default function Sidebar({ children }: SidebarProps) {
         </nav>
 
         {/* Footer - Fixed at bottom with logout */}
-        <div className="flex-shrink-0 border-t border-gray-800 bg-gray-900">
+        <div className="flex-shrink-0 border-t border-gray-900 bg-black">
           <UserMenu isInSidebar={true} isExpanded={isExpanded} />
-          <div className="p-3">
-            <div className="text-xs text-gray-500 text-center">
-              {isExpanded ? '© 2025 CollegeComps' : '©'}
-            </div>
-          </div>
         </div>
       </div>
 
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top bar - Always visible with user menu */}
-        <header className="bg-gray-900 shadow-sm border-b border-gray-800 sticky top-0 z-30">
-          <div className="flex items-center justify-between h-16 px-4 lg:px-6">
-            <div className="flex items-center">
-              <button
-                onClick={() => setSidebarOpen(true)}
-                className="p-2 rounded-md text-gray-400 hover:text-gray-300 hover:bg-gray-800 lg:hidden mr-2"
-              >
-                <Bars3Icon className="w-6 h-6" />
-              </button>
-              <div className="lg:hidden flex items-center space-x-2">
-                <AcademicCapIcon className="w-6 h-6 text-orange-500" />
-                <span className="text-lg font-semibold text-white">CollegeComps</span>
-              </div>
-            </div>
-            {/* User menu always on top right */}
-            <div className="flex items-center">
-              <UserMenu />
-            </div>
-          </div>
-        </header>
-
+        {/* Top auth bar - floating on page content */}
+        <TopAuthBar onMenuClick={() => setSidebarOpen(true)} />
+        
         {/* Page content */}
-        <main className="flex-1 overflow-y-auto bg-black">
-          {children}
-        </main>
+        <main className="flex-1 overflow-y-auto bg-black">{children}</main>
       </div>
     </div>
   );

@@ -94,7 +94,7 @@ export default function EditPreferencesPage() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading preferences...</p>
+          <p className="mt-4 text-gray-300">Loading preferences...</p>
         </div>
       </div>
     );
@@ -104,24 +104,24 @@ export default function EditPreferencesPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-            <PencilIcon className="h-8 w-8 text-blue-600" />
+          <h1 className="text-3xl font-bold text-white font-bold flex items-center gap-3">
+            <PencilIcon className="h-8 w-8 text-orange-500" />
             Edit Your Preferences
           </h1>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-gray-300">
             Update your academic goals and target schools
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 space-y-6">
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-white font-bold mb-2">
               Degree Level
             </label>
             <select
               value={formData.degree_level}
               onChange={(e) => setFormData(prev => ({ ...prev, degree_level: e.target.value }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
             >
               <option value="bachelors">Bachelor's Degree</option>
               <option value="masters">Master's Degree</option>
@@ -132,7 +132,7 @@ export default function EditPreferencesPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-white font-bold mb-2">
               Intended Major or Field of Study
             </label>
             <AIAutocomplete
@@ -148,7 +148,7 @@ export default function EditPreferencesPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-white font-bold mb-2">
               Target Schools
             </label>
             <AIAutocomplete
@@ -165,7 +165,7 @@ export default function EditPreferencesPage() {
 
             {formData.target_schools.length > 0 && (
               <div className="mt-3 space-y-2">
-                <p className="text-sm text-gray-600">Selected Schools ({formData.target_schools.length})</p>
+                <p className="text-sm text-gray-300">Selected Schools ({formData.target_schools.length})</p>
                 <div className="flex flex-wrap gap-2">
                   {formData.target_schools.map((school) => (
                     <div
@@ -175,7 +175,7 @@ export default function EditPreferencesPage() {
                       <span className="text-sm font-medium">{school}</span>
                       <button
                         onClick={() => removeSchool(school)}
-                        className="text-blue-600 hover:text-blue-800 font-bold"
+                        className="text-orange-500 hover:text-blue-800 font-bold"
                       >
                         ×
                       </button>
@@ -187,13 +187,13 @@ export default function EditPreferencesPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-white font-bold mb-2">
               Expected Graduation Year
             </label>
             <select
               value={formData.expected_graduation_year}
               onChange={(e) => setFormData(prev => ({ ...prev, expected_graduation_year: parseInt(e.target.value) }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
             >
               {Array.from({ length: 10 }, (_, i) => new Date().getFullYear() + i).map(year => (
                 <option key={year} value={year}>{year}</option>
@@ -204,7 +204,7 @@ export default function EditPreferencesPage() {
           <div className="flex gap-4 pt-6 border-t border-gray-200">
             <button
               onClick={() => router.back()}
-              className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex-1 px-6 py-3 border border-gray-300 text-gray-300 rounded-lg hover:bg-gray-800 transition-colors"
             >
               Cancel
             </button>
@@ -213,7 +213,7 @@ export default function EditPreferencesPage() {
               disabled={saving}
               className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-colors ${
                 saving
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  ? 'bg-gray-300 text-gray-400 cursor-not-allowed'
                   : 'bg-blue-600 text-white hover:bg-blue-700'
               }`}
             >

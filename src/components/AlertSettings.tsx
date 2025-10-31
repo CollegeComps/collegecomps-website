@@ -135,7 +135,7 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
             <h3 className="text-lg font-bold text-gray-900 mb-2">
               Alert Notifications - Premium Feature
             </h3>
-            <p className="text-gray-700 mb-4">
+            <p className="text-gray-300 mb-4">
               Get instant notifications about salary updates, ROI changes, scholarship deadlines, and more!
             </p>
             <a
@@ -179,7 +179,7 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
 
       {!compact && (
         <div className="mb-4">
-          <p className="text-gray-600">
+          <p className="text-gray-300">
             Notifications will be sent to: <strong>{session?.user?.email}</strong>
           </p>
         </div>
@@ -191,7 +191,7 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
           return (
           <div
             key={alert.id}
-            className={`flex items-start justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors ${
+            className={`flex items-start justify-between p-4 bg-gray-800 rounded-lg hover:bg-gray-100 transition-colors ${
               compact ? 'p-3' : 'p-4'
             }`}
           >
@@ -203,7 +203,7 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
                 <h3 className={`font-semibold text-gray-900 ${compact ? 'text-sm' : ''}`}>
                   {alert.type}
                 </h3>
-                <p className={`text-gray-600 mt-1 ${compact ? 'text-xs' : 'text-sm'}`}>
+                <p className={`text-gray-300 mt-1 ${compact ? 'text-xs' : 'text-sm'}`}>
                   {alert.description}
                 </p>
               </div>
