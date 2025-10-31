@@ -152,7 +152,7 @@ export default function Sidebar({ children }: SidebarProps) {
       {/* Sidebar */}
       <div 
         className={`
-          fixed inset-y-0 left-0 z-50 bg-white shadow-lg transition-all duration-300 ease-in-out flex flex-col
+          fixed inset-y-0 left-0 z-50 bg-gray-900 shadow-lg transition-all duration-300 ease-in-out flex flex-col
           lg:relative lg:translate-x-0
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           ${isExpanded ? 'w-64' : 'w-20'}
@@ -161,18 +161,18 @@ export default function Sidebar({ children }: SidebarProps) {
         onMouseLeave={() => setIsExpanded(false)}
       >
         {/* Sidebar header */}
-        <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 flex-shrink-0">
+        <div className="flex items-center justify-between h-16 px-4 border-b border-gray-800 flex-shrink-0">
           <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity overflow-hidden">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
               <AcademicCapIcon className="w-5 h-5 text-white" />
             </div>
             {isExpanded && (
-              <h1 className="text-lg font-bold text-gray-900 whitespace-nowrap">CollegeComps</h1>
+              <h1 className="text-lg font-bold text-white whitespace-nowrap">CollegeComps</h1>
             )}
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-1.5 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+            className="lg:hidden p-1.5 rounded-md text-gray-400 hover:text-gray-300 hover:bg-gray-800"
           >
             <XMarkIcon className="w-5 h-5" />
           </button>
@@ -192,8 +192,8 @@ export default function Sidebar({ children }: SidebarProps) {
                   className={`
                     group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200
                     ${isActive 
-                      ? 'bg-blue-50 text-blue-700' 
-                      : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                      ? 'bg-orange-500/10 text-orange-500' 
+                      : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                     }
                     ${!isExpanded ? 'justify-center' : ''}
                   `}
@@ -202,12 +202,12 @@ export default function Sidebar({ children }: SidebarProps) {
                   <IconComponent
                     className={`
                       h-5 w-5 flex-shrink-0 transition-colors duration-150
-                      ${isActive ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600'}
+                      ${isActive ? 'text-orange-500' : 'text-gray-400 group-hover:text-orange-500'}
                       ${isExpanded ? 'mr-3' : ''}
                     `}
                   />
                   {isExpanded && (
-                    <span className="font-medium text-sm">{item.name}</span>
+                    <span className="font-medium text-sm whitespace-nowrap overflow-hidden text-ellipsis">{item.name}</span>
                   )}
                 </Link>
               );
@@ -215,10 +215,13 @@ export default function Sidebar({ children }: SidebarProps) {
           </div>
         </nav>
 
-        {/* Footer - Fixed at bottom - removed user menu as it's now in top bar */}
-        <div className="flex-shrink-0 p-3 border-t border-gray-200 bg-white">
-          <div className="text-xs text-gray-400 text-center">
-            {isExpanded ? '© 2025 CollegeComps' : '©'}
+        {/* Footer - Fixed at bottom with logout */}
+        <div className="flex-shrink-0 border-t border-gray-800 bg-gray-900">
+          <UserMenu isInSidebar={true} isExpanded={isExpanded} />
+          <div className="p-3">
+            <div className="text-xs text-gray-500 text-center">
+              {isExpanded ? '© 2025 CollegeComps' : '©'}
+            </div>
           </div>
         </div>
       </div>
@@ -226,18 +229,18 @@ export default function Sidebar({ children }: SidebarProps) {
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top bar - Always visible with user menu */}
-        <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-30">
+        <header className="bg-gray-900 shadow-sm border-b border-gray-800 sticky top-0 z-30">
           <div className="flex items-center justify-between h-16 px-4 lg:px-6">
             <div className="flex items-center">
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="p-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 lg:hidden mr-2"
+                className="p-2 rounded-md text-gray-400 hover:text-gray-300 hover:bg-gray-800 lg:hidden mr-2"
               >
                 <Bars3Icon className="w-6 h-6" />
               </button>
               <div className="lg:hidden flex items-center space-x-2">
-                <AcademicCapIcon className="w-6 h-6 text-blue-600" />
-                <span className="text-lg font-semibold text-gray-900">CollegeComps</span>
+                <AcademicCapIcon className="w-6 h-6 text-orange-500" />
+                <span className="text-lg font-semibold text-white">CollegeComps</span>
               </div>
             </div>
             {/* User menu always on top right */}
@@ -248,7 +251,7 @@ export default function Sidebar({ children }: SidebarProps) {
         </header>
 
         {/* Page content */}
-        <main className="flex-1 overflow-y-auto bg-gray-50">
+        <main className="flex-1 overflow-y-auto bg-black">
           {children}
         </main>
       </div>
