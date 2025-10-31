@@ -282,16 +282,16 @@ export default function RecommendationsPage() {
     return (
       <div className="p-6">
         <div className="max-w-4xl mx-auto text-center">
-          <AcademicCapIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <AcademicCapIcon className="w-16 h-16 text-orange-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-extrabold text-white mb-2">
             Sign In Required
           </h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-white font-bold mb-6">
             Please sign in to view personalized college recommendations based on your profile.
           </p>
           <button
             onClick={() => router.push('/auth/signin?callbackUrl=/recommendations')}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors font-bold"
           >
             Sign In
           </button>
