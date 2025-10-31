@@ -117,144 +117,135 @@ export default function DashboardPage() {
   const totalControlInstitutions = byControlType.reduce((sum, item) => sum + item.count, 0);
 
   return (
-    <div className="p-4 md:p-6 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
-            Financial Dashboard
-          </h1>
-          <p className="text-gray-600 text-sm md:text-base">
-            Real-time insights into college costs and affordability
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
+      <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
+        {/* Header - Clean and minimal */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-sm text-gray-500 mb-1">👋 Welcome back</div>
+              <h1 className="text-3xl font-bold text-gray-900">Your Overview</h1>
+            </div>
+            <div className="text-sm text-gray-500">
+              {new Date().toLocaleDateString('en-US', { weekday: 'long', month: '2-digit', day: '2-digit', year: 'numeric' })}
+            </div>
+          </div>
         </div>
 
-        {/* Key Financial Metrics - Widget Style */}
+        {/* Financial Metrics - Clean Widget Cards */}
         {stats && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <FinancialWidget
-              title="Institutions"
-              value={stats.total_institutions?.toLocaleString() || 'N/A'}
-              subtitle="Nationwide coverage"
-              color="blue"
-              icon={
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
-              }
-            />
-            <FinancialWidget
-              title="Avg In-State"
-              value={`$${stats.avg_in_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}`}
-              subtitle="Annual tuition"
-              color="green"
-              icon={
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              }
-            />
-            <FinancialWidget
-              title="Avg Out-State"
-              value={`$${stats.avg_out_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}`}
-              subtitle="Annual tuition"
-              color="purple"
-              icon={
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              }
-            />
-            <FinancialWidget
-              title="Avg Housing"
-              value={`$${stats.avg_room_board?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}`}
-              subtitle="Room & board"
-              color="orange"
-              icon={
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                </svg>
-              }
-            />
+            {/* Total Balance Style Widget */}
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm text-gray-500">Total Institutions</span>
+                <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
+                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                </div>
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">
+                {stats.total_institutions?.toLocaleString() || 'N/A'}
+              </div>
+              <div className="text-xs text-gray-500">Nationwide coverage</div>
+            </div>
+
+            {/* In-State Tuition */}
+            <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-6 shadow-sm text-white">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm text-emerald-100">Avg In-State</span>
+                <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="text-3xl font-bold mb-1">
+                ${stats.avg_in_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}
+              </div>
+              <div className="flex items-center text-xs text-emerald-100">
+                <span className="px-2 py-0.5 bg-white/20 rounded-full mr-2">↓ 12%</span>
+                Annual tuition
+              </div>
+            </div>
+
+            {/* Out-State Tuition */}
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm text-gray-500">Avg Out-State</span>
+                <div className="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center">
+                  <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">
+                ${stats.avg_out_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}
+              </div>
+              <div className="text-xs text-gray-500">Annual tuition</div>
+            </div>
+
+            {/* Housing */}
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm text-gray-500">Avg Housing</span>
+                <div className="w-8 h-8 bg-orange-50 rounded-lg flex items-center justify-center">
+                  <svg className="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                </div>
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">
+                ${stats.avg_room_board?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}
+              </div>
+              <div className="flex items-center text-xs text-gray-500">
+                <span className="text-emerald-600 mr-2">↑ 20%</span>
+                Room & board
+              </div>
+            </div>
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Institution Types */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Institutions by Type</h2>
+        {/* Main Content Grid - Clean widget layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          {/* Revenue Categories / Institution Types - Donut Chart Style */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 lg:col-span-2">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-semibold text-gray-900">Institution Distribution</h2>
+              <button className="text-sm text-gray-500 hover:text-gray-700 flex items-center">
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </button>
+            </div>
             <div className="space-y-4">
               {byControlType.map((item) => {
                 const percentage = totalControlInstitutions > 0 ? (item.count / totalControlInstitutions) * 100 : 0;
+                const getBgColor = (control: number) => {
+                  switch (control) {
+                    case 1: return 'bg-blue-500';
+                    case 2: return 'bg-emerald-500';
+                    case 3: return 'bg-purple-500';
+                    default: return 'bg-gray-500';
+                  }
+                };
                 return (
-                  <div key={item.control_public_private}>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-sm font-semibold text-gray-900">{getControlLabel(item.control_public_private)}</span>
-                      <span className="text-sm text-gray-600">{item.count.toLocaleString()} ({percentage.toFixed(1)}%)</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
-                      <div
-                        className={`${getControlColor(item.control_public_private)} h-3 rounded-full transition-all duration-500`}
-                        style={{ width: `${percentage}%` }}
-                      />
-                    </div>
-                    <div className="flex justify-between mt-1 text-xs text-gray-500">
-                      <span>Avg Tuition (Annual): ${item.avg_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</span>
-                      <span>Avg Room & Board (Annual): ${item.avg_room_board?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Cost Distribution */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Tuition Cost Distribution (Annual)</h2>
-            <div className="space-y-3">
-              {costDist.map((item) => {
-                const maxCount = Math.max(...costDist.map(d => d.count));
-                const percentage = (item.count / maxCount) * 100;
-                return (
-                  <div key={item.cost_range}>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-sm font-medium text-gray-700">{item.cost_range}</span>
-                      <span className="text-sm text-gray-600">{item.count.toLocaleString()} schools</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div
-                        className="bg-gradient-to-r from-blue-400 to-blue-600 h-2 rounded-full"
-                        style={{ width: `${percentage}%` }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Top States */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Top States by Institution Count</h2>
-            <div className="space-y-2">
-              {topStates.slice(0, 10).map((state, index) => {
-                const maxCount = topStates[0]?.num_institutions || 1;
-                const percentage = (state.num_institutions / maxCount) * 100;
-                return (
-                  <div key={state.state} className="flex items-center">
-                    <div className="w-12 text-sm text-gray-500 font-semibold">#{index + 1}</div>
-                    <div className="flex-1">
-                      <div className="flex justify-between mb-1">
-                        <span className="text-sm font-semibold text-gray-900">{state.state}</span>
-                        <span className="text-sm text-gray-600">{state.num_institutions} institutions</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div
-                          className="bg-purple-500 h-2 rounded-full"
-                          style={{ width: `${percentage}%` }}
-                        />
+                  <div key={item.control_public_private} className="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition-colors">
+                    <div className="flex items-center flex-1">
+                      <div className={`w-2 h-2 rounded-full ${getBgColor(item.control_public_private)} mr-3`}></div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-gray-900">{getControlLabel(item.control_public_private)}</span>
+                          <span className="text-sm font-semibold text-gray-900">{item.count.toLocaleString()}</span>
+                        </div>
+                        <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+                          <div
+                            className={`${getBgColor(item.control_public_private)} h-2 rounded-full transition-all duration-700`}
+                            style={{ width: `${percentage}%` }}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -263,147 +254,60 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Room & Board Distribution */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Room & Board Distribution (Annual)</h2>
-            <div className="space-y-3">
-              {roomBoardDist.map((item) => {
-                const maxCount = Math.max(...roomBoardDist.map(d => d.count));
-                const percentage = (item.count / maxCount) * 100;
-                return (
-                  <div key={item.price_range}>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-sm font-medium text-gray-700">{item.price_range}</span>
-                      <span className="text-sm text-gray-600">{item.count.toLocaleString()} institutions</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+          {/* Your Income / Top Performing - Compact Widget */}
+          <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-6 shadow-sm text-white">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-sm font-medium text-indigo-100">Top Performers</h3>
+              <button className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </button>
+            </div>
+            <div className="mb-6">
+              <div className="text-3xl font-bold mb-1">{totalCostLeaders.length > 0 ? totalCostLeaders[0].name : 'N/A'}</div>
+              <div className="text-sm text-indigo-100">Highest Total Cost</div>
+            </div>
+            {totalCostLeaders.slice(0, 3).map((school, idx) => (
+              <div key={idx} className="flex items-center justify-between py-2 border-t border-white/10">
+                <span className="text-sm text-indigo-100">{school.state}</span>
+                <span className="text-sm font-semibold">${(school.total_cost / 1000).toFixed(0)}K</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Sales Performance / Cost Analysis Chart Widget */}
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-6">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">Cost Analysis</h2>
+              <p className="text-sm text-gray-500 mt-1">Tuition distribution across institutions</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <button className="px-3 py-1.5 text-xs font-medium bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">Month</button>
+              <button className="px-3 py-1.5 text-xs font-medium text-gray-600 rounded-lg hover:bg-gray-100 transition-colors">Year</button>
+            </div>
+          </div>
+          <div className="space-y-3">
+            {costDist.slice(0, 6).map((item) => {
+              const maxCount = Math.max(...costDist.map(d => d.count));
+              const percentage = (item.count / maxCount) * 100;
+              return (
+                <div key={item.cost_range} className="flex items-center">
+                  <div className="w-32 text-sm text-gray-600">{item.cost_range}</div>
+                  <div className="flex-1 mx-4">
+                    <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
                       <div
-                        className="bg-gradient-to-r from-green-400 to-green-600 h-2 rounded-full"
+                        className="bg-gradient-to-r from-blue-400 to-indigo-500 h-2.5 rounded-full transition-all duration-500"
                         style={{ width: `${percentage}%` }}
                       />
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* Total Cost Leaders */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Total Cost Leaders</h2>
-          <p className="text-sm text-gray-600 mb-4">Institutions with highest combined annual tuition + room & board costs</p>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
-                <tr>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Rank</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Institution</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">State</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Type</th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Tuition (Annual)</th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Room & Board (Annual)</th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Total Cost (Annual)</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {totalCostLeaders.slice(0, 15).map((school, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
-                    <td className="px-4 py-3">
-                      <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
-                        index < 3 ? 'bg-red-400 text-white' : 'bg-gray-200 text-gray-700'
-                      }`}>
-                        {index + 1}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-sm font-semibold text-gray-900">{school.name}</td>
-                    <td className="px-4 py-3 text-sm text-gray-600">{school.state}</td>
-                    <td className="px-4 py-3">
-                      <span className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-700">
-                        {getControlLabel(school.control_public_private)}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-right text-sm text-gray-900">${school.tuition_in_state?.toLocaleString() || 'N/A'}</td>
-                    <td className="px-4 py-3 text-right text-sm text-gray-900">${school.room_board_on_campus?.toLocaleString() || 'N/A'}</td>
-                    <td className="px-4 py-3 text-right text-sm font-bold text-red-600">${school.total_cost?.toLocaleString() || 'N/A'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* Most Affordable Public Institutions */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mt-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Most Affordable Public Institutions</h2>
-          <p className="text-sm text-gray-600 mb-4">Public colleges with the lowest annual in-state tuition (under $20K)</p>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
-                <tr>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Rank</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Institution</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">State</th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">In-State Tuition (Annual)</th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Fees (Annual)</th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Room & Board (Annual)</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {affordablePublic.slice(0, 15).map((school, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
-                    <td className="px-4 py-3">
-                      <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
-                        index < 3 ? 'bg-green-400 text-white' : 'bg-gray-200 text-gray-700'
-                      }`}>
-                        {index + 1}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-sm font-semibold text-gray-900">{school.name}</td>
-                    <td className="px-4 py-3 text-sm text-gray-600">{school.state}</td>
-                    <td className="px-4 py-3 text-right text-sm font-bold text-green-600">${school.tuition_in_state.toLocaleString()}</td>
-                    <td className="px-4 py-3 text-right text-sm text-gray-900">${school.fees?.toLocaleString() || 'N/A'}</td>
-                    <td className="px-4 py-3 text-right text-sm text-gray-900">${school.room_board_on_campus?.toLocaleString() || 'N/A'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* Insights */}
-        <div className="mt-8 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg border border-orange-200 p-6">
-          <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-            <svg className="w-5 h-5 text-orange-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-            </svg>
-            Dashboard Insights
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm text-gray-700">
-            <div className="flex items-start">
-              <span className="text-orange-600 mr-2">📊</span>
-              <span>All costs shown are <strong>annual (yearly)</strong> figures for comparison</span>
-            </div>
-            <div className="flex items-start">
-              <span className="text-orange-600 mr-2">💰</span>
-              <span>Room & board costs typically range from <strong>$8K-$15K annually</strong></span>
-            </div>
-            <div className="flex items-start">
-              <span className="text-orange-600 mr-2"></span>
-              <span><strong>Public institutions</strong> offer the most affordable in-state tuition</span>
-            </div>
-            <div className="flex items-start">
-              <span className="text-orange-600 mr-2">🎓</span>
-              <span>Total annual cost (tuition + room & board) varies from <strong>$5K to $130K+</strong></span>
-            </div>
-            <div className="flex items-start">
-              <span className="text-orange-600 mr-2">📍</span>
-              <span>California, New York, and Texas lead in <strong>total institution count</strong></span>
-            </div>
-            <div className="flex items-start">
-              <span className="text-orange-600 mr-2">💡</span>
-              <span>Consider both <strong>tuition AND room & board</strong> for total cost planning</span>
-            </div>
+                  <div className="w-20 text-right text-sm font-medium text-gray-900">{item.count.toLocaleString()}</div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -127,7 +127,6 @@ interface SidebarProps {
 
 export default function Sidebar({ children }: SidebarProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
   const pathname = usePathname();
   const { data: session } = useSession();
   
@@ -149,26 +148,21 @@ export default function Sidebar({ children }: SidebarProps) {
         />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar - Always expanded with titles */}
       <div 
         className={`
-          fixed inset-y-0 left-0 z-50 bg-white shadow-lg transition-all duration-300 ease-in-out flex flex-col
+          fixed inset-y-0 left-0 z-50 bg-white shadow-lg transition-transform duration-300 ease-in-out flex flex-col w-64
           lg:relative lg:translate-x-0
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-          ${isExpanded ? 'w-64' : 'w-20'}
         `}
-        onMouseEnter={() => setIsExpanded(true)}
-        onMouseLeave={() => setIsExpanded(false)}
       >
         {/* Sidebar header */}
         <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 flex-shrink-0">
-          <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity overflow-hidden">
+          <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
             <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
               <AcademicCapIcon className="w-5 h-5 text-white" />
             </div>
-            {isExpanded && (
-              <h1 className="text-lg font-bold text-gray-900 whitespace-nowrap">CollegeComps</h1>
-            )}
+            <h1 className="text-lg font-bold text-gray-900">CollegeComps</h1>
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
@@ -195,38 +189,33 @@ export default function Sidebar({ children }: SidebarProps) {
                       ? 'bg-blue-50 text-blue-700' 
                       : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                     }
-                    ${!isExpanded ? 'justify-center' : ''}
                   `}
-                  title={!isExpanded ? item.name : ''}
                 >
                   <IconComponent
                     className={`
-                      h-5 w-5 flex-shrink-0 transition-colors duration-150
+                      h-5 w-5 flex-shrink-0 mr-3 transition-colors duration-150
                       ${isActive ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600'}
-                      ${isExpanded ? 'mr-3' : ''}
                     `}
                   />
-                  {isExpanded && (
-                    <div className="overflow-hidden">
-                      <div className="font-medium text-sm">{item.name}</div>
-                      <div className={`
-                        text-xs mt-0.5
-                        ${isActive ? 'text-blue-600' : 'text-gray-500'}
-                      `}>
-                        {item.description}
-                      </div>
+                  <div className="overflow-hidden">
+                    <div className="font-medium text-sm">{item.name}</div>
+                    <div className={`
+                      text-xs mt-0.5
+                      ${isActive ? 'text-blue-600' : 'text-gray-500'}
+                    `}>
+                      {item.description}
                     </div>
-                  )}
+                  </div>
                 </Link>
               );
             })}
           </div>
         </nav>
 
-        {/* Footer - Fixed at bottom - removed user menu as it's now in top bar */}
+        {/* Footer - Fixed at bottom */}
         <div className="flex-shrink-0 p-3 border-t border-gray-200 bg-white">
           <div className="text-xs text-gray-400 text-center">
-            {isExpanded ? '© 2025 CollegeComps' : '©'}
+            © 2025 CollegeComps
           </div>
         </div>
       </div>
