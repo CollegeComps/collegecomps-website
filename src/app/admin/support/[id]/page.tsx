@@ -126,7 +126,7 @@ export default function AdminTicketDetailPage() {
       case 'high': return 'bg-red-100 text-red-800';
       case 'normal': return 'bg-yellow-100 text-yellow-800';
       case 'low': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      default: return 'bg-gray-100 text-white font-bold';
     }
   };
 
@@ -135,8 +135,8 @@ export default function AdminTicketDetailPage() {
       case 'open': return 'bg-blue-100 text-blue-800';
       case 'in_progress': return 'bg-purple-100 text-purple-800';
       case 'resolved': return 'bg-green-100 text-green-800';
-      case 'closed': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'closed': return 'bg-gray-100 text-white font-bold';
+      default: return 'bg-gray-100 text-white font-bold';
     }
   };
 
@@ -195,7 +195,7 @@ export default function AdminTicketDetailPage() {
         <div className="bg-white rounded-lg shadow mb-6 p-6">
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl font-bold text-white font-bold mb-2">
                 #{ticket.id} - {ticket.subject}
               </h1>
               <p className="text-gray-600">Category: {ticket.category}</p>
@@ -214,11 +214,11 @@ export default function AdminTicketDetailPage() {
           <div className="border-t pt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <p className="text-sm text-gray-600">User</p>
-              <p className="font-medium text-gray-900">{ticket.user_name || 'Unknown'}</p>
+              <p className="font-medium text-white font-bold">{ticket.user_name || 'Unknown'}</p>
             </div>
             <div>
               <p className="text-sm text-gray-600">Email</p>
-              <p className="font-medium text-gray-900">{ticket.user_email}</p>
+              <p className="font-medium text-white font-bold">{ticket.user_email}</p>
             </div>
             <div>
               <p className="text-sm text-gray-600">Subscription</p>
@@ -276,7 +276,7 @@ export default function AdminTicketDetailPage() {
 
         {/* Messages */}
         <div className="bg-white rounded-lg shadow mb-6 p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <h2 className="text-lg font-bold text-white font-bold mb-4 flex items-center gap-2">
             <ChatBubbleLeftRightIcon className="w-5 h-5" />
             Conversation
           </h2>
@@ -296,7 +296,7 @@ export default function AdminTicketDetailPage() {
                 >
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <p className="font-semibold text-gray-900">
+                      <p className="font-semibold text-white font-bold">
                         {message.author_name || message.author_email || 'Unknown'}
                         {message.is_admin_reply && (
                           <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">
@@ -309,7 +309,7 @@ export default function AdminTicketDetailPage() {
                       </p>
                     </div>
                   </div>
-                  <p className="text-gray-800 whitespace-pre-wrap">{message.message}</p>
+                  <p className="text-white font-bold whitespace-pre-wrap">{message.message}</p>
                 </div>
               ))
             )}

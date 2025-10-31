@@ -54,7 +54,7 @@ export default function EFCCalculatorPage() {
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-white font-bold mb-4">
             🧮 Expected Family Contribution (EFC) Calculator
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -67,7 +67,7 @@ export default function EFCCalculatorPage() {
           {/* Input Form */}
           <div className="lg:col-span-2">
             <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Financial Information</h2>
+              <h2 className="text-2xl font-bold text-white font-bold mb-6">Your Financial Information</h2>
 
               {/* Student Status */}
               <div className="mb-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
@@ -78,7 +78,7 @@ export default function EFCCalculatorPage() {
                     onChange={(e) => setFormData({ ...formData, isStudentDependent: e.target.checked })}
                     className="w-5 h-5 text-orange-500 rounded"
                   />
-                  <span className="ml-3 text-sm font-medium text-gray-900">
+                  <span className="ml-3 text-sm font-medium text-white font-bold">
                     I am a dependent student (under 24, supported by parents)
                   </span>
                 </label>
@@ -86,7 +86,7 @@ export default function EFCCalculatorPage() {
 
               {/* Student Information */}
               <div className="space-y-6 mb-8">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">📚 Student Information</h3>
+                <h3 className="text-lg font-semibold text-white font-bold border-b pb-2">📚 Student Information</h3>
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -120,7 +120,7 @@ export default function EFCCalculatorPage() {
               {/* Parent Information (only if dependent) */}
               {formData.isStudentDependent && (
                 <div className="space-y-6">
-                  <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">👨‍👩‍👧‍👦 Parent Information</h3>
+                  <h3 className="text-lg font-semibold text-white font-bold border-b pb-2">👨‍👩‍👧‍👦 Parent Information</h3>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -251,7 +251,7 @@ export default function EFCCalculatorPage() {
             <div className="sticky top-8">
               {result ? (
                 <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
-                  <h2 className="text-xl font-bold text-gray-900 mb-4">Your EFC Results</h2>
+                  <h2 className="text-xl font-bold text-white font-bold mb-4">Your EFC Results</h2>
                   
                   {/* Main EFC */}
                   <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg p-6 mb-6 text-white">
@@ -273,7 +273,7 @@ export default function EFCCalculatorPage() {
                     <div className="space-y-4 mb-6">
                       <div className="p-4 bg-blue-50 rounded-lg">
                         <div className="text-sm font-medium text-gray-700 mb-2">Parent Contribution</div>
-                        <div className="text-2xl font-bold text-gray-900">{formatCurrency(result.parentContribution)}</div>
+                        <div className="text-2xl font-bold text-white font-bold">{formatCurrency(result.parentContribution)}</div>
                         <div className="mt-2 text-xs text-gray-600 space-y-1">
                           <div>• Available Income: {formatCurrency(result.breakdown.parentAvailableIncome)}</div>
                           <div>• Asset Contribution: {formatCurrency(result.breakdown.parentAssetContribution)}</div>
@@ -282,7 +282,7 @@ export default function EFCCalculatorPage() {
 
                       <div className="p-4 bg-green-50 rounded-lg">
                         <div className="text-sm font-medium text-gray-700 mb-2">Student Contribution</div>
-                        <div className="text-2xl font-bold text-gray-900">{formatCurrency(result.studentContribution)}</div>
+                        <div className="text-2xl font-bold text-white font-bold">{formatCurrency(result.studentContribution)}</div>
                         <div className="mt-2 text-xs text-gray-600 space-y-1">
                           <div>• Available Income: {formatCurrency(result.breakdown.studentAvailableIncome)}</div>
                           <div>• Asset Contribution: {formatCurrency(result.breakdown.studentAssetContribution)}</div>
@@ -293,7 +293,7 @@ export default function EFCCalculatorPage() {
 
                   {/* What This Means */}
                   <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                    <h3 className="font-semibold text-gray-900 mb-2">What This Means</h3>
+                    <h3 className="font-semibold text-white font-bold mb-2">What This Means</h3>
                     <p className="text-sm text-gray-700 leading-relaxed">
                       This is the amount federal aid formulas expect your family to contribute annually toward college costs.
                       The difference between college costs and your EFC determines your financial need.
@@ -319,7 +319,7 @@ export default function EFCCalculatorPage() {
               ) : (
                 <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-8 text-center">
                   <div className="text-6xl mb-4">🧮</div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Ready to Calculate</h3>
+                  <h3 className="text-lg font-semibold text-white font-bold mb-2">Ready to Calculate</h3>
                   <p className="text-gray-600 text-sm">
                     Fill in your financial information and click "Calculate My EFC" to see your results
                   </p>
@@ -331,25 +331,25 @@ export default function EFCCalculatorPage() {
 
         {/* Educational Content */}
         <div className="mt-12 bg-gray-900 border border-gray-800 rounded-xl shadow-md p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Understanding Your EFC</h2>
+          <h2 className="text-2xl font-bold text-white font-bold mb-6">Understanding Your EFC</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-4 bg-blue-50 rounded-lg">
-              <h3 className="font-semibold text-gray-900 mb-2">What is EFC?</h3>
+              <h3 className="font-semibold text-white font-bold mb-2">What is EFC?</h3>
               <p className="text-sm text-gray-700">
                 Your Expected Family Contribution (EFC) is a measure of your family's financial strength and is calculated according to a formula established by law.
               </p>
             </div>
 
             <div className="p-4 bg-green-50 rounded-lg">
-              <h3 className="font-semibold text-gray-900 mb-2">How It's Used</h3>
+              <h3 className="font-semibold text-white font-bold mb-2">How It's Used</h3>
               <p className="text-sm text-gray-700">
                 Colleges subtract your EFC from their Cost of Attendance to determine your financial need. This determines your eligibility for need-based aid.
               </p>
             </div>
 
             <div className="p-4 bg-purple-50 rounded-lg">
-              <h3 className="font-semibold text-gray-900 mb-2">Important Notes</h3>
+              <h3 className="font-semibold text-white font-bold mb-2">Important Notes</h3>
               <p className="text-sm text-gray-700">
                 This is an estimate using Federal Methodology. Some colleges use their own formulas and may calculate a different family contribution.
               </p>
@@ -357,7 +357,7 @@ export default function EFCCalculatorPage() {
           </div>
 
           <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-            <h3 className="font-semibold text-gray-900 mb-2">🔒 Privacy Notice</h3>
+            <h3 className="font-semibold text-white font-bold mb-2">🔒 Privacy Notice</h3>
             <p className="text-sm text-gray-700">
               All calculations are performed in your browser. We do not store or transmit your financial information.
             </p>

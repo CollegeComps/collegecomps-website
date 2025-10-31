@@ -411,14 +411,14 @@ export default function CareerFinderPage() {
 
         {/* Next Steps */}
         <div className="bg-white rounded-xl shadow-lg p-8 max-w-4xl mx-auto">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">Next Steps on Your Journey</h3>
+          <h3 className="text-2xl font-bold text-white font-bold mb-6">Next Steps on Your Journey</h3>
           <div className="space-y-4">
             <div className="flex items-start gap-4">
               <div className="bg-indigo-100 w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
                 <span className="font-bold text-indigo-600">1</span>
               </div>
               <div>
-                <h4 className="font-semibold text-gray-900">Explore College Programs</h4>
+                <h4 className="font-semibold text-white font-bold">Explore College Programs</h4>
                 <p className="text-sm text-gray-600">Search for colleges offering your recommended majors</p>
               </div>
             </div>
@@ -427,7 +427,7 @@ export default function CareerFinderPage() {
                 <span className="font-bold text-indigo-600">2</span>
               </div>
               <div>
-                <h4 className="font-semibold text-gray-900">Calculate Your ROI</h4>
+                <h4 className="font-semibold text-white font-bold">Calculate Your ROI</h4>
                 <p className="text-sm text-gray-600">See the financial return on your education investment</p>
               </div>
             </div>
@@ -436,7 +436,7 @@ export default function CareerFinderPage() {
                 <span className="font-bold text-indigo-600">3</span>
               </div>
               <div>
-                <h4 className="font-semibold text-gray-900">Find Scholarships</h4>
+                <h4 className="font-semibold text-white font-bold">Find Scholarships</h4>
                 <p className="text-sm text-gray-600">Discover funding opportunities for your chosen field</p>
               </div>
             </div>

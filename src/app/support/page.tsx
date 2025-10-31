@@ -148,7 +148,7 @@ export default function SupportPage() {
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <LifebuoyIcon className="w-10 h-10 text-blue-600" />
-                <h1 className="text-4xl font-bold text-gray-900">Support Center</h1>
+                <h1 className="text-4xl font-bold text-white font-bold">Support Center</h1>
               </div>
               <p className="text-lg text-gray-600">
                 Get help from our support team
@@ -173,19 +173,19 @@ export default function SupportPage() {
               <span className="text-sm font-medium text-gray-600">Your Support Tier</span>
               {isProfessional && <SparklesIcon className="w-5 h-5 text-purple-600" />}
             </div>
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-2xl font-bold text-white font-bold">
               {isProfessional ? 'Priority' : isPremium ? 'Premium' : 'Standard'}
             </p>
           </div>
           <div className="bg-white rounded-lg p-4 border-2 border-gray-200">
             <span className="text-sm font-medium text-gray-600 block mb-2">Response Time</span>
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-2xl font-bold text-white font-bold">
               {isProfessional ? '4 hours' : isPremium ? '24 hours' : '48 hours'}
             </p>
           </div>
           <div className="bg-white rounded-lg p-4 border-2 border-gray-200">
             <span className="text-sm font-medium text-gray-600 block mb-2">Open Tickets</span>
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-2xl font-bold text-white font-bold">
               {tickets.filter(t => t.status !== 'closed' && t.status !== 'resolved').length}
             </p>
           </div>
@@ -194,29 +194,29 @@ export default function SupportPage() {
         {/* New Ticket Form */}
         {showNewTicket && (
           <div className="mb-6 bg-white rounded-xl shadow-lg p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Create Support Ticket</h2>
+            <h2 className="text-2xl font-bold text-white font-bold mb-4">Create Support Ticket</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">Subject</label>
+                <label className="block text-sm font-bold text-white font-bold mb-2">Subject</label>
                 <input
                   type="text"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium placeholder-gray-500"
+                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white font-bold font-medium placeholder-gray-500"
                   placeholder="Brief description of your issue"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">Category</label>
+                <label className="block text-sm font-bold text-white font-bold mb-2">Category</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium bg-white"
+                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white font-bold font-medium bg-white"
                 >
                   {categories.map((cat) => (
-                    <option key={cat.value} value={cat.value} className="text-gray-900">
+                    <option key={cat.value} value={cat.value} className="text-white font-bold">
                       {cat.label}
                     </option>
                   ))}
@@ -224,12 +224,12 @@ export default function SupportPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">Description</label>
+                <label className="block text-sm font-bold text-white font-bold mb-2">Description</label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={6}
-                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium placeholder-gray-500"
+                  className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white font-bold font-medium placeholder-gray-500"
                   placeholder="Please provide as much detail as possible..."
                   required
                 />
@@ -257,7 +257,7 @@ export default function SupportPage() {
 
         {/* Tickets List */}
         <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Tickets</h2>
+          <h2 className="text-2xl font-bold text-white font-bold mb-6">Your Tickets</h2>
           
           {tickets.length === 0 ? (
             <div className="text-center py-12">
@@ -277,7 +277,7 @@ export default function SupportPage() {
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         {getStatusIcon(ticket.status)}
-                        <h3 className="text-lg font-semibold text-gray-900">{ticket.subject}</h3>
+                        <h3 className="text-lg font-semibold text-white font-bold">{ticket.subject}</h3>
                         <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getPriorityBadge(ticket.priority)}`}>
                           {ticket.priority.toUpperCase()}
                         </span>

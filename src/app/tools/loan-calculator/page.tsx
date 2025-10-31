@@ -107,7 +107,7 @@ export default function LoanCalculatorPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Student Loan Calculator</h1>
+            <h1 className="text-3xl font-bold text-white font-bold">Student Loan Calculator</h1>
             <p className="mt-2 text-gray-600">
               Calculate your monthly payment, total cost, and payoff timeline for student loans
             </p>
@@ -118,13 +118,13 @@ export default function LoanCalculatorPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Input Section */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-6">Loan Details</h2>
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
+              <h2 className="text-xl font-semibold text-white font-bold mb-6">Loan Details</h2>
               
               <div className="space-y-6">
                 {/* Loan Amount */}
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-2">
+                  <label className="block text-sm font-bold text-white font-bold mb-2">
                     <CurrencyDollarIcon className="w-5 h-5 inline mr-2" />
                     Loan Amount
                   </label>
@@ -132,7 +132,7 @@ export default function LoanCalculatorPage() {
                     type="number"
                     value={loanAmount}
                     onChange={(e) => setLoanAmount(e.target.value)}
-                    className="w-full p-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-semibold text-lg"
+                    className="w-full p-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-bold font-semibold text-lg"
                     placeholder="30000"
                     min="0"
                     step="1000"
@@ -144,7 +144,7 @@ export default function LoanCalculatorPage() {
 
                 {/* Interest Rate */}
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-2">
+                  <label className="block text-sm font-bold text-white font-bold mb-2">
                     <ChartBarIcon className="w-5 h-5 inline mr-2" />
                     Interest Rate (%)
                   </label>
@@ -152,7 +152,7 @@ export default function LoanCalculatorPage() {
                     type="number"
                     value={interestRate}
                     onChange={(e) => setInterestRate(e.target.value)}
-                    className="w-full p-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-semibold text-lg"
+                    className="w-full p-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-bold font-semibold text-lg"
                     placeholder="6.5"
                     min="0"
                     max="20"
@@ -165,14 +165,14 @@ export default function LoanCalculatorPage() {
 
                 {/* Repayment Plan */}
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-2">
+                  <label className="block text-sm font-bold text-white font-bold mb-2">
                     <CalendarIcon className="w-5 h-5 inline mr-2" />
                     Repayment Plan
                   </label>
                   <select
                     value={repaymentPlan}
                     onChange={(e) => setRepaymentPlan(e.target.value)}
-                    className="w-full p-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-semibold text-lg bg-white"
+                    className="w-full p-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-bold font-semibold text-lg bg-white"
                   >
                     {REPAYMENT_PLANS.map(plan => (
                       <option key={plan.id} value={plan.id}>
@@ -188,13 +188,13 @@ export default function LoanCalculatorPage() {
             </div>
 
             {/* Results Section */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-6">Payment Summary</h2>
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
+              <h2 className="text-xl font-semibold text-white font-bold mb-6">Payment Summary</h2>
               
               {calculation ? (
                 <div className="space-y-6">
                   {/* Monthly Payment */}
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                  <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-6">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-blue-900">Monthly Payment</p>
@@ -209,7 +209,7 @@ export default function LoanCalculatorPage() {
                   {/* Total Payment */}
                   <div className="border-l-4 border-green-500 pl-4">
                     <p className="text-sm font-medium text-gray-700">Total Amount Paid</p>
-                    <p className="text-2xl font-bold text-gray-900 mt-1">
+                    <p className="text-2xl font-bold text-white font-bold mt-1">
                       ${calculation.totalPayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </p>
                   </div>
@@ -217,7 +217,7 @@ export default function LoanCalculatorPage() {
                   {/* Total Interest */}
                   <div className="border-l-4 border-orange-500 pl-4">
                     <p className="text-sm font-medium text-gray-700">Total Interest</p>
-                    <p className="text-2xl font-bold text-gray-900 mt-1">
+                    <p className="text-2xl font-bold text-white font-bold mt-1">
                       ${calculation.totalInterest.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </p>
                     <p className="text-sm text-gray-600 mt-1">
@@ -228,7 +228,7 @@ export default function LoanCalculatorPage() {
                   {/* Payoff Date */}
                   <div className="border-l-4 border-purple-500 pl-4">
                     <p className="text-sm font-medium text-gray-700">Payoff Date</p>
-                    <p className="text-2xl font-bold text-gray-900 mt-1">
+                    <p className="text-2xl font-bold text-white font-bold mt-1">
                       {calculation.payoffDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                     </p>
                   </div>
@@ -236,7 +236,7 @@ export default function LoanCalculatorPage() {
                   {/* Amortization Schedule Button */}
                   <button
                     onClick={() => setShowSchedule(!showSchedule)}
-                    className="w-full mt-6 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold rounded-lg transition-colors"
+                    className="w-full mt-6 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-white font-bold font-semibold rounded-lg transition-colors"
                   >
                     {showSchedule ? 'Hide' : 'View'} Payment Schedule
                   </button>
@@ -252,26 +252,26 @@ export default function LoanCalculatorPage() {
 
           {/* Amortization Schedule */}
           {showSchedule && calculation && (
-            <div className="mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Payment Schedule</h2>
+            <div className="mt-8 bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
+              <h2 className="text-xl font-semibold text-white font-bold mb-4">Payment Schedule</h2>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead className="bg-gray-50 border-b-2 border-gray-200">
                     <tr>
-                      <th className="px-4 py-3 text-left font-semibold text-gray-900">Month</th>
-                      <th className="px-4 py-3 text-right font-semibold text-gray-900">Payment</th>
-                      <th className="px-4 py-3 text-right font-semibold text-gray-900">Principal</th>
-                      <th className="px-4 py-3 text-right font-semibold text-gray-900">Interest</th>
-                      <th className="px-4 py-3 text-right font-semibold text-gray-900">Balance</th>
+                      <th className="px-4 py-3 text-left font-semibold text-white font-bold">Month</th>
+                      <th className="px-4 py-3 text-right font-semibold text-white font-bold">Payment</th>
+                      <th className="px-4 py-3 text-right font-semibold text-white font-bold">Principal</th>
+                      <th className="px-4 py-3 text-right font-semibold text-white font-bold">Interest</th>
+                      <th className="px-4 py-3 text-right font-semibold text-white font-bold">Balance</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
                     {calculation.amortizationSchedule.filter((_, idx) => idx % 12 === 0 || idx === calculation.amortizationSchedule.length - 1).map((entry) => (
                       <tr key={entry.month} className="hover:bg-gray-50">
-                        <td className="px-4 py-3 font-medium text-gray-900">
+                        <td className="px-4 py-3 font-medium text-white font-bold">
                           Year {Math.ceil(entry.month / 12)}
                         </td>
-                        <td className="px-4 py-3 text-right text-gray-900">
+                        <td className="px-4 py-3 text-right text-white font-bold">
                           ${entry.payment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </td>
                         <td className="px-4 py-3 text-right text-green-600 font-medium">
@@ -280,7 +280,7 @@ export default function LoanCalculatorPage() {
                         <td className="px-4 py-3 text-right text-orange-600 font-medium">
                           ${entry.interest.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </td>
-                        <td className="px-4 py-3 text-right font-semibold text-gray-900">
+                        <td className="px-4 py-3 text-right font-semibold text-white font-bold">
                           ${entry.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </td>
                       </tr>
@@ -295,7 +295,7 @@ export default function LoanCalculatorPage() {
           )}
 
           {/* Educational Content */}
-          <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <div className="mt-8 bg-orange-500/10 border border-orange-500 rounded-lg p-6">
             <h3 className="text-lg font-semibold text-blue-900 mb-3">Understanding Student Loans</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-900">
               <div>

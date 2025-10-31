@@ -106,7 +106,7 @@ export default function AdminSupportPage() {
       case 'high': return 'bg-red-100 text-red-800';
       case 'normal': return 'bg-yellow-100 text-yellow-800';
       case 'low': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      default: return 'bg-gray-100 text-white font-bold';
     }
   };
 
@@ -115,8 +115,8 @@ export default function AdminSupportPage() {
       case 'open': return 'bg-blue-100 text-blue-800';
       case 'in_progress': return 'bg-purple-100 text-purple-800';
       case 'resolved': return 'bg-green-100 text-green-800';
-      case 'closed': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'closed': return 'bg-gray-100 text-white font-bold';
+      default: return 'bg-gray-100 text-white font-bold';
     }
   };
 
@@ -156,7 +156,7 @@ export default function AdminSupportPage() {
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Support Dashboard</h1>
+          <h1 className="text-3xl font-bold text-white font-bold">Support Dashboard</h1>
           <p className="text-gray-600 mt-2">Manage and respond to user support tickets</p>
         </div>
 
@@ -167,7 +167,7 @@ export default function AdminSupportPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600">Total Tickets</p>
-                  <p className="text-2xl font-bold text-gray-900">{stats.total_tickets}</p>
+                  <p className="text-2xl font-bold text-white font-bold">{stats.total_tickets}</p>
                 </div>
                 <TicketIcon className="w-10 h-10 text-blue-600" />
               </div>
@@ -272,7 +272,7 @@ export default function AdminSupportPage() {
               {tickets.map((ticket) => (
                 <tr key={ticket.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
-                    <div className="text-sm font-medium text-gray-900">#{ticket.id} - {ticket.subject}</div>
+                    <div className="text-sm font-medium text-white font-bold">#{ticket.id} - {ticket.subject}</div>
                     <div className="text-sm text-gray-500">{ticket.category}</div>
                     {ticket.message_count > 0 && (
                       <div className="text-xs text-gray-400 mt-1">
@@ -281,7 +281,7 @@ export default function AdminSupportPage() {
                     )}
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-900">{ticket.user_name || 'Unknown'}</div>
+                    <div className="text-sm text-white font-bold">{ticket.user_name || 'Unknown'}</div>
                     <div className="text-sm text-gray-500">{ticket.user_email}</div>
                     <span className={`inline-flex mt-1 px-2 py-1 text-xs font-semibold rounded-full ${getTierBadge(ticket.subscription_tier)}`}>
                       {ticket.subscription_tier}

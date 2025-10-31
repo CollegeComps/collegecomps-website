@@ -129,7 +129,7 @@ export default function AIRecommendationsPage() {
         <div className="max-w-2xl mx-auto">
           <div className="bg-white rounded-xl shadow-lg p-8 text-center">
             <SparklesIcon className="w-16 h-16 text-purple-600 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">AI Recommendations</h1>
+            <h1 className="text-2xl font-bold text-white font-bold mb-4">AI Recommendations</h1>
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
               <p className="text-yellow-700">{error}</p>
             </div>
@@ -168,7 +168,7 @@ export default function AIRecommendationsPage() {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 mb-4">
             <SparklesIcon className="w-8 h-8 text-purple-600" />
-            <h1 className="text-4xl font-bold text-gray-900">AI-Powered Recommendations</h1>
+            <h1 className="text-4xl font-bold text-white font-bold">AI-Powered Recommendations</h1>
           </div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Based on your profile, we've analyzed {data.summary.totalAnalyzed} schools to find your perfect matches
@@ -177,42 +177,42 @@ export default function AIRecommendationsPage() {
 
         {/* Profile Summary */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Your Profile</h2>
+          <h2 className="text-lg font-semibold text-white font-bold mb-4">Your Profile</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {data.profile.gpa && (
               <div className="text-center p-3 bg-gray-50 rounded-lg">
                 <p className="text-sm text-gray-600">GPA</p>
-                <p className="text-xl font-bold text-gray-900">{data.profile.gpa}</p>
+                <p className="text-xl font-bold text-white font-bold">{data.profile.gpa}</p>
               </div>
             )}
             {data.profile.sat && (
               <div className="text-center p-3 bg-gray-50 rounded-lg">
                 <p className="text-sm text-gray-600">SAT</p>
-                <p className="text-xl font-bold text-gray-900">{data.profile.sat}</p>
+                <p className="text-xl font-bold text-white font-bold">{data.profile.sat}</p>
               </div>
             )}
             {data.profile.act && (
               <div className="text-center p-3 bg-gray-50 rounded-lg">
                 <p className="text-sm text-gray-600">ACT</p>
-                <p className="text-xl font-bold text-gray-900">{data.profile.act}</p>
+                <p className="text-xl font-bold text-white font-bold">{data.profile.act}</p>
               </div>
             )}
             {data.profile.budget && (
               <div className="text-center p-3 bg-gray-50 rounded-lg">
                 <p className="text-sm text-gray-600">Budget</p>
-                <p className="text-xl font-bold text-gray-900">{formatCurrency(data.profile.budget)}</p>
+                <p className="text-xl font-bold text-white font-bold">{formatCurrency(data.profile.budget)}</p>
               </div>
             )}
             {data.profile.location && (
               <div className="text-center p-3 bg-gray-50 rounded-lg">
                 <p className="text-sm text-gray-600">Location</p>
-                <p className="text-xl font-bold text-gray-900">{data.profile.location}</p>
+                <p className="text-xl font-bold text-white font-bold">{data.profile.location}</p>
               </div>
             )}
             {data.profile.interests && (
               <div className="text-center p-3 bg-gray-50 rounded-lg">
                 <p className="text-sm text-gray-600">Interest</p>
-                <p className="text-xl font-bold text-gray-900">{data.profile.interests}</p>
+                <p className="text-xl font-bold text-white font-bold">{data.profile.interests}</p>
               </div>
             )}
           </div>
@@ -246,7 +246,7 @@ export default function AIRecommendationsPage() {
                 className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
                   activeTab === 'all'
                     ? 'border-b-2 border-purple-600 text-purple-600'
-                    : 'text-gray-600 hover:text-gray-900'
+                    : 'text-gray-600 hover:text-white font-bold'
                 }`}
               >
                 All Recommendations ({data.recommendations.all.length})
@@ -256,7 +256,7 @@ export default function AIRecommendationsPage() {
                 className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
                   activeTab === 'safety'
                     ? 'border-b-2 border-green-600 text-green-600'
-                    : 'text-gray-600 hover:text-gray-900'
+                    : 'text-gray-600 hover:text-white font-bold'
                 }`}
               >
                 Safety ({data.recommendations.safety.length})
@@ -266,7 +266,7 @@ export default function AIRecommendationsPage() {
                 className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
                   activeTab === 'target'
                     ? 'border-b-2 border-yellow-600 text-yellow-600'
-                    : 'text-gray-600 hover:text-gray-900'
+                    : 'text-gray-600 hover:text-white font-bold'
                 }`}
               >
                 Target ({data.recommendations.target.length})
@@ -276,7 +276,7 @@ export default function AIRecommendationsPage() {
                 className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
                   activeTab === 'reach'
                     ? 'border-b-2 border-orange-600 text-orange-600'
-                    : 'text-gray-600 hover:text-gray-900'
+                    : 'text-gray-600 hover:text-white font-bold'
                 }`}
               >
                 Reach ({data.recommendations.reach.length})
@@ -294,7 +294,7 @@ export default function AIRecommendationsPage() {
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">{school.name}</h3>
+                      <h3 className="text-xl font-bold text-white font-bold mb-2">{school.name}</h3>
                       <div className="flex items-center gap-2 mb-3">
                         <span className={`px-3 py-1 rounded-full text-sm font-medium ${getAdmissionColor(school.admissionChance)}`}>
                           {school.admissionChance} Admission Chance
@@ -319,11 +319,11 @@ export default function AIRecommendationsPage() {
                   <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-gray-200">
                     <div>
                       <p className="text-sm text-gray-600 mb-1">Estimated Cost</p>
-                      <p className="text-lg font-semibold text-gray-900">{formatCurrency(school.estimatedCost)}</p>
+                      <p className="text-lg font-semibold text-white font-bold">{formatCurrency(school.estimatedCost)}</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-600 mb-1">Avg Salary</p>
-                      <p className="text-lg font-semibold text-gray-900">{formatCurrency(school.avgSalary)}</p>
+                      <p className="text-lg font-semibold text-white font-bold">{formatCurrency(school.avgSalary)}</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-600 mb-1">Estimated ROI</p>

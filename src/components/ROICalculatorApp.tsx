@@ -818,14 +818,14 @@ export default function ROICalculatorApp() {
                         </div>
                         {selectedProgram.credential_name && (
                           <div className="flex justify-between">
-                            <span className="text-blue-700">Credential:</span>
-                            <span className="font-semibold text-blue-900">{selectedProgram.credential_name}</span>
+                            <span className="text-orange-500">Credential:</span>
+                            <span className="font-semibold text-white font-bold">{selectedProgram.credential_name}</span>
                           </div>
                         )}
                         {(selectedProgram.total_completions || selectedProgram.completions) && (
                           <div className="flex justify-between">
-                            <span className="text-blue-700">Annual Graduates:</span>
-                            <span className="font-semibold text-blue-900">
+                            <span className="text-orange-500">Annual Graduates:</span>
+                            <span className="font-semibold text-white font-bold">
                               {(selectedProgram.total_completions || selectedProgram.completions)?.toLocaleString()}
                             </span>
                           </div>
@@ -951,9 +951,9 @@ export default function ROICalculatorApp() {
                     </div>
 
                     {/* Additional Insights */}
-                    <div className="bg-blue-50 rounded-lg p-4">
-                      <h4 className="font-semibold text-blue-900 mb-2">Key Considerations</h4>
-                      <ul className="space-y-2 text-sm text-blue-800">
+                    <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4">
+                      <h4 className="font-semibold text-white font-bold mb-2">Key Considerations</h4>
+                      <ul className="space-y-2 text-sm text-orange-400">
                         <li className="flex items-start">
                           <span className="mr-2">•</span>
                           <span>These earnings reflect institution-wide outcomes and may vary by specific program</span>
@@ -976,7 +976,7 @@ export default function ROICalculatorApp() {
 
           {/* Placeholder when no results */}
           {!roiResult && (
-            <div className="bg-white rounded-lg shadow-sm border p-8 text-center">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-8 text-center">
               <div className="w-24 h-24 bg-gray-100 rounded-full mx-auto mb-6 flex items-center justify-center">
                 <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -992,20 +992,20 @@ export default function ROICalculatorApp() {
       </div>
 
       {/* Information Panel */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-blue-900 mb-3">How ROI is Calculated</h3>
+      <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-6">
+        <h3 className="text-lg font-semibold text-white font-bold mb-3">How ROI is Calculated</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
           <div>
-            <h4 className="font-semibold text-blue-800 mb-1">Total Cost</h4>
-            <p className="text-blue-700">Tuition + Fees + Room & Board + Books + Other Expenses - Financial Aid</p>
+            <h4 className="font-semibold text-orange-400 mb-1">Total Cost</h4>
+            <p className="text-orange-500">Tuition + Fees + Room & Board + Books + Other Expenses - Financial Aid</p>
           </div>
           <div>
-            <h4 className="font-semibold text-blue-800 mb-1">Expected Earnings</h4>
-            <p className="text-blue-700">Lifetime earnings with degree minus baseline earnings without degree</p>
+            <h4 className="font-semibold text-orange-400 mb-1">Expected Earnings</h4>
+            <p className="text-orange-500">Lifetime earnings with degree minus baseline earnings without degree</p>
           </div>
           <div>
-            <h4 className="font-semibold text-blue-800 mb-1">ROI Percentage</h4>
-            <p className="text-blue-700">(Expected Earnings - Total Cost) / Total Cost × 100</p>
+            <h4 className="font-semibold text-orange-400 mb-1">ROI Percentage</h4>
+            <p className="text-orange-500">(Expected Earnings - Total Cost) / Total Cost × 100</p>
           </div>
         </div>
       </div>

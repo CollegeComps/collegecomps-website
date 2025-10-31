@@ -10,13 +10,13 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Privacy Policy</h1>
+        <h1 className="text-4xl font-bold text-white font-bold mb-4">Privacy Policy</h1>
         <p className="text-sm text-gray-600 mb-2">Last Updated: October 14, 2025</p>
         <p className="text-sm text-gray-600 mb-8">This Privacy Policy applies to users in the United States only.</p>
 
         <div className="prose prose-blue max-w-none">
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Introduction</h2>
+            <h2 className="text-2xl font-bold text-white font-bold mb-4">1. Introduction</h2>
             <p className="text-gray-700 leading-relaxed">
               Welcome to CollegeComps ("we," "our," or "us"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website collegecomps.com and use our services.
             </p>
@@ -26,9 +26,9 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Information We Collect</h2>
+            <h2 className="text-2xl font-bold text-white font-bold mb-4">2. Information We Collect</h2>
             
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">2.1 Personal Information</h3>
+            <h3 className="text-xl font-semibold text-white font-bold mt-6 mb-3">2.1 Personal Information</h3>
             <p className="text-gray-700 leading-relaxed mb-3">
               We collect information that you provide directly to us, including:
             </p>
@@ -39,14 +39,14 @@ export default function PrivacyPolicyPage() {
               <li><strong>User-Generated Content:</strong> Salary data submissions, saved ROI scenarios, bookmarked colleges</li>
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">2.2 Automatically Collected Information</h3>
+            <h3 className="text-xl font-semibold text-white font-bold mt-6 mb-3">2.2 Automatically Collected Information</h3>
             <ul className="list-disc pl-6 space-y-2 text-gray-700">
               <li><strong>Usage Data:</strong> Pages visited, features used, time spent on site</li>
               <li><strong>Device Information:</strong> Browser type, operating system, IP address</li>
               <li><strong>Cookies:</strong> Session cookies for authentication, analytics cookies for usage tracking</li>
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">2.3 Third-Party Data</h3>
+            <h3 className="text-xl font-semibold text-white font-bold mt-6 mb-3">2.3 Third-Party Data</h3>
             <p className="text-gray-700 leading-relaxed">
               We integrate publicly available data from:
             </p>
@@ -57,7 +57,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">3. How We Use Your Information</h2>
+            <h2 className="text-2xl font-bold text-white font-bold mb-4">3. How We Use Your Information</h2>
             <p className="text-gray-700 leading-relaxed mb-3">
               We use collected information for the following purposes:
             </p>
@@ -72,7 +72,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Data Sharing and Disclosure</h2>
+            <h2 className="text-2xl font-bold text-white font-bold mb-4">4. Data Sharing and Disclosure</h2>
             <p className="text-gray-700 leading-relaxed mb-3">
               We DO NOT sell your personal information. We may share your data in the following limited circumstances:
             </p>
@@ -85,7 +85,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Cookies and Tracking Technologies</h2>
+            <h2 className="text-2xl font-bold text-white font-bold mb-4">5. Cookies and Tracking Technologies</h2>
             <p className="text-gray-700 leading-relaxed mb-3">
               We use cookies and similar technologies to:
             </p>
@@ -100,7 +100,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Data Security</h2>
+            <h2 className="text-2xl font-bold text-white font-bold mb-4">6. Data Security</h2>
             <p className="text-gray-700 leading-relaxed">
               We implement industry-standard security measures including:
             </p>
@@ -116,9 +116,9 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Your Privacy Rights</h2>
+            <h2 className="text-2xl font-bold text-white font-bold mb-4">7. Your Privacy Rights</h2>
             
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">7.1 All Users</h3>
+            <h3 className="text-xl font-semibold text-white font-bold mt-6 mb-3">7.1 All Users</h3>
             <ul className="list-disc pl-6 space-y-2 text-gray-700">
               <li><strong>Access:</strong> Request a copy of your personal data</li>
               <li><strong>Correction:</strong> Update or correct your information</li>
@@ -126,7 +126,7 @@ export default function PrivacyPolicyPage() {
               <li><strong>Export:</strong> Download your data in a portable format</li>
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">7.2 CCPA Rights (California Residents)</h3>
+            <h3 className="text-xl font-semibold text-white font-bold mt-6 mb-3">7.2 CCPA Rights (California Residents)</h3>
             <ul className="list-disc pl-6 space-y-2 text-gray-700">
               <li>Right to know what personal information is collected</li>
               <li>Right to know if personal information is sold or disclosed</li>
@@ -143,7 +143,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Children's Privacy (COPPA Compliance)</h2>
+            <h2 className="text-2xl font-bold text-white font-bold mb-4">8. Children's Privacy (COPPA Compliance)</h2>
             <p className="text-gray-700 leading-relaxed">
               CollegeComps is not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us immediately at{' '}
               <a href="mailto:privacy@collegecomps.com" className="text-blue-600 hover:underline">
@@ -154,7 +154,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Data Retention</h2>
+            <h2 className="text-2xl font-bold text-white font-bold mb-4">9. Data Retention</h2>
             <p className="text-gray-700 leading-relaxed">
               We retain your personal information for as long as necessary to:
             </p>
@@ -169,7 +169,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">10. Changes to This Privacy Policy</h2>
+            <h2 className="text-2xl font-bold text-white font-bold mb-4">10. Changes to This Privacy Policy</h2>
             <p className="text-gray-700 leading-relaxed">
               We may update this Privacy Policy from time to time. We will notify you of any material changes by:
             </p>
@@ -184,7 +184,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">11. Contact Us</h2>
+            <h2 className="text-2xl font-bold text-white font-bold mb-4">11. Contact Us</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
               If you have questions or concerns about this Privacy Policy or our data practices, please contact us:
             </p>
@@ -196,7 +196,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">12. Third-Party Links</h2>
+            <h2 className="text-2xl font-bold text-white font-bold mb-4">12. Third-Party Links</h2>
             <p className="text-gray-700 leading-relaxed">
               Our website may contain links to third-party websites (e.g., college websites, government resources). We are not responsible for the privacy practices of these external sites. We encourage you to review their privacy policies before providing any personal information.
             </p>

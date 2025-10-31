@@ -134,14 +134,14 @@ export default function ExportsPage() {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full mb-6">
               <LockClosedIcon className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl font-bold text-white font-bold mb-4">
               Premium Feature
             </h1>
             <p className="text-xl text-gray-600 mb-8">
               Export & Reports is available for Premium subscribers
             </p>
             <div className="bg-blue-50 rounded-lg p-6 mb-8">
-              <h3 className="font-bold text-gray-900 mb-4">Unlock powerful export options:</h3>
+              <h3 className="font-bold text-white font-bold mb-4">Unlock powerful export options:</h3>
               <ul className="text-left space-y-3 text-gray-700">
                 <li className="flex items-start gap-3">
                   <DocumentTextIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
@@ -189,7 +189,7 @@ export default function ExportsPage() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+          <h1 className="text-4xl font-bold text-white font-bold mb-2">
             Export & Reports
           </h1>
           <p className="text-lg text-gray-600">
@@ -201,7 +201,7 @@ export default function ExportsPage() {
           {/* Comparison Selector */}
           <div className="md:col-span-1">
             <div className="bg-white rounded-xl shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Select Comparison</h2>
+              <h2 className="text-xl font-bold text-white font-bold mb-4">Select Comparison</h2>
               
               {comparisons.length === 0 ? (
                 <div className="text-center py-8">
@@ -222,7 +222,7 @@ export default function ExportsPage() {
                       className={`w-full text-left p-3 rounded-lg transition-colors ${
                         selectedComparison === comp.id
                           ? 'bg-blue-600 text-white'
-                          : 'bg-gray-50 text-gray-900 hover:bg-gray-100'
+                          : 'bg-gray-50 text-white font-bold hover:bg-gray-100'
                       }`}
                     >
                       <p className="font-semibold">{comp.name}</p>
@@ -242,7 +242,7 @@ export default function ExportsPage() {
           <div className="md:col-span-2 space-y-6">
             {/* Export Formats */}
             <div className="bg-white rounded-xl shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Export Format</h2>
+              <h2 className="text-xl font-bold text-white font-bold mb-4">Export Format</h2>
               <div className="grid grid-cols-3 gap-4">
                 <button
                   onClick={() => handleExport('pdf')}
@@ -250,7 +250,7 @@ export default function ExportsPage() {
                   className="flex flex-col items-center gap-3 p-6 bg-red-50 rounded-lg hover:bg-red-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <DocumentTextIcon className="w-12 h-12 text-red-600" />
-                  <span className="font-semibold text-gray-900">PDF</span>
+                  <span className="font-semibold text-white font-bold">PDF</span>
                   <span className="text-xs text-gray-600 text-center">Professional report with charts</span>
                 </button>
 
@@ -260,7 +260,7 @@ export default function ExportsPage() {
                   className="flex flex-col items-center gap-3 p-6 bg-green-50 rounded-lg hover:bg-green-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <TableCellsIcon className="w-12 h-12 text-green-600" />
-                  <span className="font-semibold text-gray-900">Excel</span>
+                  <span className="font-semibold text-white font-bold">Excel</span>
                   <span className="text-xs text-gray-600 text-center">Spreadsheet for analysis</span>
                 </button>
 
@@ -270,7 +270,7 @@ export default function ExportsPage() {
                   className="flex flex-col items-center gap-3 p-6 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <DocumentArrowDownIcon className="w-12 h-12 text-blue-600" />
-                  <span className="font-semibold text-gray-900">CSV</span>
+                  <span className="font-semibold text-white font-bold">CSV</span>
                   <span className="text-xs text-gray-600 text-center">Raw data file</span>
                 </button>
               </div>
@@ -278,7 +278,7 @@ export default function ExportsPage() {
 
             {/* Share Link */}
             <div className="bg-white rounded-xl shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Share Comparison</h2>
+              <h2 className="text-xl font-bold text-white font-bold mb-4">Share Comparison</h2>
               <p className="text-gray-600 mb-4">
                 Create a shareable link that anyone can view (no account required)
               </p>
@@ -294,7 +294,7 @@ export default function ExportsPage() {
 
             {/* Custom Report Options */}
             <div className="bg-white rounded-xl shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Custom Report Options</h2>
+              <h2 className="text-xl font-bold text-white font-bold mb-4">Custom Report Options</h2>
               <div className="space-y-3">
                 <label className="flex items-center gap-3">
                   <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />

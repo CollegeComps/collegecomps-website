@@ -494,7 +494,7 @@ export default function CollegesPage() {
               <div className="flex justify-end mt-4">
                 <button
                   onClick={clearFilters}
-                  className="px-4 py-2 text-gray-800 hover:text-white font-semibold border border-gray-700 hover:border-gray-600 rounded transition-colors"
+                  className="px-4 py-2 text-white font-bold hover:text-white font-semibold border border-gray-700 hover:border-gray-600 rounded transition-colors"
                 >
                   Clear All
                 </button>
@@ -752,7 +752,7 @@ export default function CollegesPage() {
 
                   {/* Financial Information - Enhanced visibility */}
                   <div className="bg-gray-50 rounded-lg p-3 mb-3">
-                    <h4 className="text-xs font-bold text-gray-800 uppercase tracking-wide mb-2">Cost Information</h4>
+                    <h4 className="text-xs font-bold text-white font-bold uppercase tracking-wide mb-2">Cost Information</h4>
                     {(institution.tuition_in_state || institution.tuition_out_state) ? (
                       <div className="space-y-1">
                         <div className="flex items-center justify-between">

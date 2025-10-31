@@ -213,7 +213,7 @@ export default function HistoricalTrendsPage() {
               <ChartBarIcon className="w-8 h-8 text-white" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-gray-900">Historical Trends & Predictions</h1>
+              <h1 className="text-4xl font-bold text-white font-bold">Historical Trends & Predictions</h1>
               <p className="text-gray-600 mt-1">Analyze past trends and future projections for college costs and salaries</p>
             </div>
           </div>
@@ -262,7 +262,7 @@ export default function HistoricalTrendsPage() {
 
         {/* Main Chart */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          <h2 className="text-2xl font-bold text-white font-bold mb-6">
             {selectedView === 'salary' && 'Average Starting Salary Trends'}
             {selectedView === 'cost' && 'Average College Cost Trends'}
             {selectedView === 'roi' && 'Return on Investment Trends'}
@@ -335,7 +335,7 @@ export default function HistoricalTrendsPage() {
 
         {/* Key Metrics Trends */}
         <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Key Metrics Year-over-Year</h2>
+          <h2 className="text-2xl font-bold text-white font-bold mb-6">Key Metrics Year-over-Year</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {categoryTrends.map((category, index) => (
               <div 
@@ -343,7 +343,7 @@ export default function HistoricalTrendsPage() {
                 className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className="font-semibold text-gray-900">{category.category}</h3>
+                  <h3 className="font-semibold text-white font-bold">{category.category}</h3>
                   {category.trend === 'up' && (
                     <ArrowTrendingUpIcon className="w-5 h-5 text-green-600" />
                   )}
@@ -365,7 +365,7 @@ export default function HistoricalTrendsPage() {
                   </div>
                   <div>
                     <p className="text-xs text-gray-500">Current Value</p>
-                    <p className="text-lg font-bold text-gray-900">
+                    <p className="text-lg font-bold text-white font-bold">
                       {category.category.includes('ROI') ? category.avgSalary.toLocaleString() : formatCurrency(category.avgSalary)}
                     </p>
                   </div>
@@ -377,7 +377,7 @@ export default function HistoricalTrendsPage() {
 
         {/* Top Programs by Average Salary */}
         <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Average Salary by Program</h2>
+          <h2 className="text-2xl font-bold text-white font-bold mb-6">Average Salary by Program</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {topPrograms.slice(0, 9).map((program, index) => (
               <div 
@@ -386,7 +386,7 @@ export default function HistoricalTrendsPage() {
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 mb-1">{program.name}</h3>
+                    <h3 className="font-semibold text-white font-bold mb-1">{program.name}</h3>
                     <p className="text-xs text-gray-500">CIP: {program.cipcode}</p>
                   </div>
                 </div>
@@ -400,7 +400,7 @@ export default function HistoricalTrendsPage() {
                   <div className="pt-3 border-t">
                     <div className="flex justify-between items-center">
                       <span className="text-xs text-gray-500">Offered by</span>
-                      <span className="text-sm font-semibold text-gray-900">{program.schoolCount.toLocaleString()} schools</span>
+                      <span className="text-sm font-semibold text-white font-bold">{program.schoolCount.toLocaleString()} schools</span>
                     </div>
                   </div>
                 </div>
@@ -414,7 +414,7 @@ export default function HistoricalTrendsPage() {
           <div className="flex items-start gap-3">
             <SparklesIcon className="w-6 h-6 text-purple-600 flex-shrink-0 mt-1" />
             <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">AI-Powered Insights</h3>
+              <h3 className="text-lg font-bold text-white font-bold mb-2">AI-Powered Insights</h3>
               <ul className="space-y-2 text-gray-700">
                 <li className="flex items-start gap-2">
                   <span className="text-purple-600 font-bold">•</span>

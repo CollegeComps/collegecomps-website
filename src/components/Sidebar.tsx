@@ -162,8 +162,8 @@ export default function Sidebar({ children }: SidebarProps) {
         onMouseLeave={() => setIsExpanded(false)}
       >
         {/* Sidebar header */}
-        <div className="flex items-center justify-center h-16 px-4 border-b border-gray-900 flex-shrink-0">
-          <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity overflow-hidden">
+        <div className="flex items-center h-16 px-4 border-b border-gray-900 flex-shrink-0">
+          <Link href="/" className={`flex items-center space-x-2 hover:opacity-80 transition-opacity ${!isExpanded ? 'mx-auto' : ''}`}>
             <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
               <AcademicCapIcon className="w-5 h-5 text-white" />
             </div>
@@ -191,12 +191,12 @@ export default function Sidebar({ children }: SidebarProps) {
                   href={item.href}
                   onClick={() => setSidebarOpen(false)}
                   className={`
-                    group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200
+                    group flex items-center py-2.5 text-sm font-medium rounded-lg transition-all duration-200
                     ${isActive 
                       ? 'bg-orange-500/10 text-orange-500' 
                       : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                     }
-                    ${!isExpanded ? 'justify-center' : ''}
+                    ${!isExpanded ? 'justify-center px-3' : 'px-3'}
                   `}
                   title={!isExpanded ? item.name : ''}
                 >

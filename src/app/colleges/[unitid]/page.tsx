@@ -154,7 +154,7 @@ export default function CollegeDetailPage() {
         <div className="max-w-6xl mx-auto text-center">
           <div className="py-12">
             <BuildingOffice2Icon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-xl font-medium text-gray-900 mb-2">
+            <h2 className="text-xl font-medium text-white font-bold mb-2">
               Institution not found
             </h2>
             <p className="text-gray-500 mb-6">
@@ -209,7 +209,7 @@ export default function CollegeDetailPage() {
           
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h1 className="text-3xl font-bold text-white font-bold mb-2">
                 {institution.name}
               </h1>
               <div className="flex items-center text-gray-600 text-lg mb-3">
@@ -261,7 +261,7 @@ export default function CollegeDetailPage() {
             <div className="flex items-center">
               <AcademicCapIcon className="w-8 h-8 text-purple-500 mr-3" />
               <div>
-                <p className="text-2xl font-bold text-gray-900">{stats.totalPrograms}</p>
+                <p className="text-2xl font-bold text-white font-bold">{stats.totalPrograms}</p>
                 <p className="text-sm text-gray-600">Programs</p>
               </div>
             </div>
@@ -271,7 +271,7 @@ export default function CollegeDetailPage() {
             <div className="flex items-center">
               <UsersIcon className="w-8 h-8 text-blue-500 mr-3" />
               <div>
-                <p className="text-2xl font-bold text-gray-900">{stats.totalGraduates.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-white font-bold">{stats.totalGraduates.toLocaleString()}</p>
                 <p className="text-sm text-gray-600">Total Graduates</p>
               </div>
             </div>
@@ -282,7 +282,7 @@ export default function CollegeDetailPage() {
               <div className="flex items-center">
                 <ChartBarIcon className="w-8 h-8 text-green-500 mr-3" />
                 <div>
-                  <p className="text-2xl font-bold text-gray-900">{formatCurrency(stats.avgEarnings)}</p>
+                  <p className="text-2xl font-bold text-white font-bold">{formatCurrency(stats.avgEarnings)}</p>
                   <p className="text-sm text-gray-600">Avg Earnings</p>
                 </div>
               </div>
@@ -293,7 +293,7 @@ export default function CollegeDetailPage() {
             <div className="flex items-center">
               <BuildingOffice2Icon className="w-8 h-8 text-orange-500 mr-3" />
               <div>
-                <p className="text-lg font-bold text-gray-900">{getControlTypeLabel(institution.control_public_private)}</p>
+                <p className="text-lg font-bold text-white font-bold">{getControlTypeLabel(institution.control_public_private)}</p>
                 <p className="text-sm text-gray-600">Institution Type</p>
               </div>
             </div>
@@ -331,7 +331,7 @@ export default function CollegeDetailPage() {
                 {/* Admissions Data */}
                 {(institution.acceptance_rate || institution.average_sat || institution.average_act) && (
                   <div className="bg-white rounded-lg shadow-sm border p-6">
-                    <h2 className="text-xl font-semibold text-gray-900 mb-4">Admissions</h2>
+                    <h2 className="text-xl font-semibold text-white font-bold mb-4">Admissions</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                       {institution.acceptance_rate && (
                         <div>
@@ -371,42 +371,42 @@ export default function CollegeDetailPage() {
                 />
                 
                 <div className="bg-white rounded-lg shadow-sm border p-6">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Institution Information</h2>
+                  <h2 className="text-xl font-semibold text-white font-bold mb-4">Institution Information</h2>
                   <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Type</dt>
-                      <dd className="text-lg text-gray-900">{getControlTypeLabel(institution.control_of_institution)}</dd>
+                      <dd className="text-lg text-white font-bold">{getControlTypeLabel(institution.control_of_institution)}</dd>
                     </div>
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Location</dt>
-                      <dd className="text-lg text-gray-900">{institution.city}, {institution.state}</dd>
+                      <dd className="text-lg text-white font-bold">{institution.city}, {institution.state}</dd>
                     </div>
                     {institution.zip_code && (
                       <div>
                         <dt className="text-sm font-medium text-gray-500">ZIP Code</dt>
-                        <dd className="text-lg text-gray-900">{institution.zip_code}</dd>
+                        <dd className="text-lg text-white font-bold">{institution.zip_code}</dd>
                       </div>
                     )}
                     {institution.athletic_conference && (
                       <div>
                         <dt className="text-sm font-medium text-gray-500">Athletic Conference</dt>
-                        <dd className="text-lg text-gray-900">{institution.athletic_conference}</dd>
+                        <dd className="text-lg text-white font-bold">{institution.athletic_conference}</dd>
                       </div>
                     )}
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Unit ID</dt>
-                      <dd className="text-lg text-gray-900">{institution.unitid}</dd>
+                      <dd className="text-lg text-white font-bold">{institution.unitid}</dd>
                     </div>
                   </dl>
                 </div>
 
                 {stats.topPrograms.length > 0 && (
                   <div className="bg-white rounded-lg shadow-sm border p-6">
-                    <h2 className="text-xl font-semibold text-gray-900 mb-4">Top Programs by Graduates</h2>
+                    <h2 className="text-xl font-semibold text-white font-bold mb-4">Top Programs by Graduates</h2>
                     <div className="space-y-3">
                       {stats.topPrograms.map((program) => (
                         <div key={program.name} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
-                          <span className="font-medium text-gray-900">{program.name}</span>
+                          <span className="font-medium text-white font-bold">{program.name}</span>
                           <span className="text-sm text-gray-600">{program.graduates} graduates</span>
                         </div>
                       ))}
@@ -418,17 +418,17 @@ export default function CollegeDetailPage() {
 
             {activeTab === 'programs' && (
               <div className="bg-white rounded-lg shadow-sm border p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                <h2 className="text-xl font-semibold text-white font-bold mb-4">
                   Academic Programs ({programs.length})
                 </h2>
                 <div className="space-y-3">
                   {programs.slice(0, 20).map((program, index) => (
                     <div key={`${program.cipcode}-${index}`} className="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
                       <div>
-                        <h3 className="font-medium text-gray-900">{program.cip_title || 'Unknown Program'}</h3>
+                        <h3 className="font-medium text-white font-bold">{program.cip_title || 'Unknown Program'}</h3>
                         <div className="flex items-center gap-4 mt-1">
                           {program.cipcode && (
-                            <span className="px-2 py-1 text-xs rounded bg-gray-200 text-gray-800">
+                            <span className="px-2 py-1 text-xs rounded bg-gray-200 text-white font-bold">
                               CIP: {program.cipcode}
                             </span>
                           )}
@@ -458,30 +458,30 @@ export default function CollegeDetailPage() {
             {activeTab === 'costs' && (
               <div className="space-y-6">
                 <div className="bg-white rounded-lg shadow-sm border p-6">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Tuition & Fees</h2>
+                  <h2 className="text-xl font-semibold text-white font-bold mb-4">Tuition & Fees</h2>
                   <div className="space-y-4">
                     {institution.tuition_in_state && (
                       <div className="flex justify-between">
                         <span className="text-gray-600">In-State Tuition</span>
-                        <span className="font-semibold text-gray-900">{formatCurrency(institution.tuition_in_state)}</span>
+                        <span className="font-semibold text-white font-bold">{formatCurrency(institution.tuition_in_state)}</span>
                       </div>
                     )}
                     {institution.tuition_out_state && (
                       <div className="flex justify-between">
                         <span className="text-gray-600">Out-of-State Tuition</span>
-                        <span className="font-semibold text-gray-900">{formatCurrency(institution.tuition_out_state)}</span>
+                        <span className="font-semibold text-white font-bold">{formatCurrency(institution.tuition_out_state)}</span>
                       </div>
                     )}
                     {institution.fees && (
                       <div className="flex justify-between">
                         <span className="text-gray-600">Fees</span>
-                        <span className="font-semibold text-gray-900">{formatCurrency(institution.fees)}</span>
+                        <span className="font-semibold text-white font-bold">{formatCurrency(institution.fees)}</span>
                       </div>
                     )}
                     {institution.room_board_on_campus && (
                       <div className="flex justify-between">
                         <span className="text-gray-600">Room & Board</span>
-                        <span className="font-semibold text-gray-900">{formatCurrency(institution.room_board_on_campus)}</span>
+                        <span className="font-semibold text-white font-bold">{formatCurrency(institution.room_board_on_campus)}</span>
                       </div>
                     )}
                   </div>
@@ -504,14 +504,14 @@ export default function CollegeDetailPage() {
           <div className="space-y-6">
             {(institution.earnings_6_years_after_entry || institution.mean_earnings_10_years) && (
               <div className="bg-white rounded-lg shadow-sm border p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Graduate Outcomes</h3>
+                <h3 className="text-lg font-semibold text-white font-bold mb-4">Graduate Outcomes</h3>
                 <div className="space-y-4">
                   {institution.earnings_6_years_after_entry && (
                     <div>
                       <p className="text-sm text-gray-600 mb-1">Average Earnings (6 years)</p>
                       <div className="flex items-center">
                         <CurrencyDollarIcon className="w-5 h-5 text-green-500 mr-2" />
-                        <p className="text-2xl font-bold text-gray-900">{formatCurrency(institution.earnings_6_years_after_entry)}</p>
+                        <p className="text-2xl font-bold text-white font-bold">{formatCurrency(institution.earnings_6_years_after_entry)}</p>
                       </div>
                     </div>
                   )}
@@ -520,7 +520,7 @@ export default function CollegeDetailPage() {
                       <p className="text-sm text-gray-600 mb-1">Average Earnings (10 years)</p>
                       <div className="flex items-center">
                         <CurrencyDollarIcon className="w-5 h-5 text-blue-500 mr-2" />
-                        <p className="text-2xl font-bold text-gray-900">{formatCurrency(institution.mean_earnings_10_years)}</p>
+                        <p className="text-2xl font-bold text-white font-bold">{formatCurrency(institution.mean_earnings_10_years)}</p>
                       </div>
                     </div>
                   )}
@@ -529,7 +529,7 @@ export default function CollegeDetailPage() {
             )}
 
             <div className="bg-white rounded-lg shadow-sm border p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Quick Actions</h3>
+              <h3 className="text-lg font-semibold text-white font-bold mb-3">Quick Actions</h3>
               <div className="space-y-3">
                 <button
                   onClick={() => router.push(`/roi-calculator?unitid=${institution.unitid}`)}

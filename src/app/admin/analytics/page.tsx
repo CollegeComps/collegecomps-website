@@ -136,7 +136,7 @@ export default function AdminAnalyticsPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+              <h1 className="text-3xl font-bold text-white font-bold flex items-center gap-3">
                 <ChartBarIcon className="h-8 w-8 text-blue-600" />
                 Admin Analytics Dashboard
               </h1>
@@ -158,7 +158,7 @@ export default function AdminAnalyticsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Total Actions</p>
-                <p className="text-3xl font-bold text-gray-900">{data.stats.total_events}</p>
+                <p className="text-3xl font-bold text-white font-bold">{data.stats.total_events}</p>
               </div>
               <div className="bg-blue-100 p-3 rounded-lg">
                 <FireIcon className="h-6 w-6 text-blue-600" />
@@ -170,7 +170,7 @@ export default function AdminAnalyticsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Active Days</p>
-                <p className="text-3xl font-bold text-gray-900">{data.stats.active_days}</p>
+                <p className="text-3xl font-bold text-white font-bold">{data.stats.active_days}</p>
               </div>
               <div className="bg-green-100 p-3 rounded-lg">
                 <CalendarIcon className="h-6 w-6 text-green-600" />
@@ -182,7 +182,7 @@ export default function AdminAnalyticsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Saved Comparisons</p>
-                <p className="text-3xl font-bold text-gray-900">{data.savedComparisons}</p>
+                <p className="text-3xl font-bold text-white font-bold">{data.savedComparisons}</p>
               </div>
               <div className="bg-purple-100 p-3 rounded-lg">
                 <ArrowsRightLeftIcon className="h-6 w-6 text-purple-600" />
@@ -199,7 +199,7 @@ export default function AdminAnalyticsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Salary Submissions</p>
-                <p className="text-3xl font-bold text-gray-900">{data.salarySubmissions}</p>
+                <p className="text-3xl font-bold text-white font-bold">{data.salarySubmissions}</p>
               </div>
               <div className="bg-yellow-100 p-3 rounded-lg">
                 <CurrencyDollarIcon className="h-6 w-6 text-yellow-600" />
@@ -212,7 +212,7 @@ export default function AdminAnalyticsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Event Types */}
           <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Activity Breakdown</h2>
+            <h2 className="text-xl font-bold text-white font-bold mb-4">Activity Breakdown</h2>
             <div className="space-y-3">
               {data.eventBreakdown.length > 0 ? (
                 data.eventBreakdown.map((event) => (
@@ -222,7 +222,7 @@ export default function AdminAnalyticsPage() {
                         {getEventIcon(event.event_type)}
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900 capitalize">
+                        <p className="font-medium text-white font-bold capitalize">
                           {event.event_type.replace(/_/g, ' ')}
                         </p>
                         <p className="text-xs text-gray-500">
@@ -243,7 +243,7 @@ export default function AdminAnalyticsPage() {
 
           {/* Recent Activity */}
           <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Activity</h2>
+            <h2 className="text-xl font-bold text-white font-bold mb-4">Recent Activity</h2>
             <div className="space-y-2 max-h-80 overflow-y-auto">
               {data.recentEvents.length > 0 ? (
                 data.recentEvents.map((event, index) => (
@@ -252,7 +252,7 @@ export default function AdminAnalyticsPage() {
                       {getEventIcon(event.event_type)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 capitalize">
+                      <p className="text-sm font-medium text-white font-bold capitalize">
                         {event.event_type.replace(/_/g, ' ')}
                       </p>
                       {event.event_data && (
@@ -275,7 +275,7 @@ export default function AdminAnalyticsPage() {
 
         {/* Activity Timeline */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">30-Day Activity Timeline</h2>
+          <h2 className="text-xl font-bold text-white font-bold mb-4">30-Day Activity Timeline</h2>
           {data.timeline.length > 0 ? (
             <div className="space-y-2">
               {data.timeline.map((day) => (
@@ -301,17 +301,17 @@ export default function AdminAnalyticsPage() {
 
         {/* Account Info */}
         <div className="mt-8 bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Account Activity</h2>
+          <h2 className="text-xl font-bold text-white font-bold mb-4">Account Activity</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <p className="text-sm text-gray-600">First Activity</p>
-              <p className="text-lg font-semibold text-gray-900">
+              <p className="text-lg font-semibold text-white font-bold">
                 {data.stats.first_activity ? formatDate(data.stats.first_activity) : 'N/A'}
               </p>
             </div>
             <div>
               <p className="text-sm text-gray-600">Last Activity</p>
-              <p className="text-lg font-semibold text-gray-900">
+              <p className="text-lg font-semibold text-white font-bold">
                 {data.stats.last_activity ? formatDateTime(data.stats.last_activity) : 'N/A'}
               </p>
             </div>

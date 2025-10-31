@@ -20,7 +20,7 @@ function UnsubscribeContent() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl font-bold text-white font-bold mb-2">
                 Successfully Unsubscribed
               </h1>
               <p className="text-gray-600">
@@ -57,7 +57,7 @@ function UnsubscribeContent() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl font-bold text-white font-bold mb-2">
                 Unsubscribe Failed
               </h1>
               <p className="text-gray-600 mb-4">
@@ -77,7 +77,7 @@ function UnsubscribeContent() {
         ) : (
           <>
             <div className="text-center mb-6">
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl font-bold text-white font-bold mb-2">
                 Manage Email Preferences
               </h1>
               <p className="text-gray-600">

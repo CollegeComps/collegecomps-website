@@ -149,14 +149,14 @@ export default function ComparisonManagerPage() {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full mb-6">
               <LockClosedIcon className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl font-bold text-white font-bold mb-4">
               Premium Feature
             </h1>
             <p className="text-xl text-gray-600 mb-8">
               Comparison Manager with Folders & Tags is available for Premium subscribers
             </p>
             <div className="bg-blue-50 rounded-lg p-6 mb-8">
-              <h3 className="font-bold text-gray-900 mb-4">Organize like a pro:</h3>
+              <h3 className="font-bold text-white font-bold mb-4">Organize like a pro:</h3>
               <ul className="text-left space-y-3 text-gray-700">
                 <li className="flex items-start gap-3">
                   <FolderIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
@@ -204,7 +204,7 @@ export default function ComparisonManagerPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+          <h1 className="text-4xl font-bold text-white font-bold mb-2">
             Comparison Manager
           </h1>
           <p className="text-lg text-gray-600">
@@ -245,7 +245,7 @@ export default function ComparisonManagerPage() {
           <div className="md:col-span-1">
             <div className="bg-white rounded-xl shadow-md p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-gray-900">Folders</h2>
+                <h2 className="text-lg font-bold text-white font-bold">Folders</h2>
                 <button
                   onClick={() => setShowNewFolderModal(true)}
                   className="p-1 text-blue-600 hover:bg-blue-50 rounded"
@@ -309,7 +309,7 @@ export default function ComparisonManagerPage() {
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
-                        <h3 className="text-xl font-bold text-gray-900 mb-1">{comp.name}</h3>
+                        <h3 className="text-xl font-bold text-white font-bold mb-1">{comp.name}</h3>
                         <p className="text-sm text-gray-500">
                           {comp.colleges?.length || 0} colleges • {new Date(comp.created_at).toLocaleDateString()}
                         </p>
@@ -361,7 +361,7 @@ export default function ComparisonManagerPage() {
         {showNewFolderModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Create New Folder</h3>
+              <h3 className="text-xl font-bold text-white font-bold mb-4">Create New Folder</h3>
               <input
                 type="text"
                 placeholder="Folder name..."

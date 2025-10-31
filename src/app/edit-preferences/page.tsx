@@ -104,7 +104,7 @@ export default function EditPreferencesPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+          <h1 className="text-3xl font-bold text-white font-bold flex items-center gap-3">
             <PencilIcon className="h-8 w-8 text-blue-600" />
             Edit Your Preferences
           </h1>
@@ -115,13 +115,13 @@ export default function EditPreferencesPage() {
 
         <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-white font-bold mb-2">
               Degree Level
             </label>
             <select
               value={formData.degree_level}
               onChange={(e) => setFormData(prev => ({ ...prev, degree_level: e.target.value }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
             >
               <option value="bachelors">Bachelor's Degree</option>
               <option value="masters">Master's Degree</option>
@@ -132,7 +132,7 @@ export default function EditPreferencesPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-white font-bold mb-2">
               Intended Major or Field of Study
             </label>
             <AIAutocomplete
@@ -148,7 +148,7 @@ export default function EditPreferencesPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-white font-bold mb-2">
               Target Schools
             </label>
             <AIAutocomplete
@@ -187,13 +187,13 @@ export default function EditPreferencesPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-white font-bold mb-2">
               Expected Graduation Year
             </label>
             <select
               value={formData.expected_graduation_year}
               onChange={(e) => setFormData(prev => ({ ...prev, expected_graduation_year: parseInt(e.target.value) }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
             >
               {Array.from({ length: 10 }, (_, i) => new Date().getFullYear() + i).map(year => (
                 <option key={year} value={year}>{year}</option>

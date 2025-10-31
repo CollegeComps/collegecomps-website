@@ -121,7 +121,7 @@ export default function TicketDetailPage() {
       case 'high': return 'bg-red-100 text-red-800';
       case 'normal': return 'bg-yellow-100 text-yellow-800';
       case 'low': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      default: return 'bg-gray-100 text-white font-bold';
     }
   };
 
@@ -130,8 +130,8 @@ export default function TicketDetailPage() {
       case 'open': return 'bg-orange-500/10 border border-orange-500 text-orange-600';
       case 'in_progress': return 'bg-orange-500/10 border border-orange-500 text-orange-600';
       case 'resolved': return 'bg-green-100 text-green-800';
-      case 'closed': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'closed': return 'bg-gray-100 text-white font-bold';
+      default: return 'bg-gray-100 text-white font-bold';
     }
   };
 
@@ -228,7 +228,7 @@ export default function TicketDetailPage() {
           <div className="border-t mt-4 pt-4">
             <p className="text-sm font-semibold text-gray-300 font-medium mb-2">Original Request:</p>
             <div className="bg-black rounded-lg p-4">
-              <p className="text-gray-800 whitespace-pre-wrap">{ticket.description || 'No description provided'}</p>
+              <p className="text-white font-bold whitespace-pre-wrap">{ticket.description || 'No description provided'}</p>
             </div>
           </div>
         </div>
@@ -271,7 +271,7 @@ export default function TicketDetailPage() {
                       </p>
                     </div>
                   </div>
-                  <p className="text-gray-800 whitespace-pre-wrap">{message.message}</p>
+                  <p className="text-white font-bold whitespace-pre-wrap">{message.message}</p>
                 </div>
               ))
             )}

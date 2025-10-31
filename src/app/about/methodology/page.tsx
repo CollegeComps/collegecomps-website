@@ -18,7 +18,7 @@ export default function MethodologyPage() {
       <div className="max-w-5xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-white font-bold mb-4">
             Our Methodology
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -32,7 +32,7 @@ export default function MethodologyPage() {
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
               <ShieldCheckIcon className="w-6 h-6 text-blue-600" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Trusted Data</h3>
+            <h3 className="text-lg font-semibold text-white font-bold mb-2">Trusted Data</h3>
             <p className="text-sm text-gray-600">
               We use official government data from IPEDS and College Scorecard
             </p>
@@ -42,7 +42,7 @@ export default function MethodologyPage() {
             <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
               <ClockIcon className="w-6 h-6 text-green-600" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Regular Updates</h3>
+            <h3 className="text-lg font-semibold text-white font-bold mb-2">Regular Updates</h3>
             <p className="text-sm text-gray-600">
               Data is updated annually when new federal data is released
             </p>
@@ -52,7 +52,7 @@ export default function MethodologyPage() {
             <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
               <ChartBarIcon className="w-6 h-6 text-purple-600" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Clear Calculations</h3>
+            <h3 className="text-lg font-semibold text-white font-bold mb-2">Clear Calculations</h3>
             <p className="text-sm text-gray-600">
               All formulas are transparent and based on standard financial analysis
             </p>
@@ -63,12 +63,12 @@ export default function MethodologyPage() {
         <section className="bg-white rounded-xl shadow-sm border p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <GlobeAltIcon className="w-8 h-8 text-blue-600" />
-            <h2 className="text-2xl font-bold text-gray-900">Data Sources</h2>
+            <h2 className="text-2xl font-bold text-white font-bold">Data Sources</h2>
           </div>
 
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-white font-bold mb-2">
                 1. Integrated Postsecondary Education Data System (IPEDS)
               </h3>
               <p className="text-gray-700 mb-2">
@@ -91,7 +91,7 @@ export default function MethodologyPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-white font-bold mb-2">
                 2. College Scorecard
               </h3>
               <p className="text-gray-700 mb-2">
@@ -113,7 +113,7 @@ export default function MethodologyPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-white font-bold mb-2">
                 3. Program-Level Data
               </h3>
               <p className="text-gray-700 mb-2">
@@ -135,14 +135,14 @@ export default function MethodologyPage() {
         <section className="bg-white rounded-xl shadow-sm border p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <DocumentTextIcon className="w-8 h-8 text-green-600" />
-            <h2 className="text-2xl font-bold text-gray-900">ROI Calculations</h2>
+            <h2 className="text-2xl font-bold text-white font-bold">ROI Calculations</h2>
           </div>
 
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Institution-Level ROI</h3>
+              <h3 className="text-lg font-semibold text-white font-bold mb-3">Institution-Level ROI</h3>
               <div className="bg-gray-50 rounded-lg p-4 mb-3">
-                <p className="font-mono text-sm text-gray-800">
+                <p className="font-mono text-sm text-white font-bold">
                   ROI = (Median Earnings × 30 Years) - Total Cost
                 </p>
               </div>
@@ -161,9 +161,9 @@ export default function MethodologyPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Program-Level ROI</h3>
+              <h3 className="text-lg font-semibold text-white font-bold mb-3">Program-Level ROI</h3>
               <div className="bg-gray-50 rounded-lg p-4 mb-3">
-                <p className="font-mono text-sm text-gray-800">
+                <p className="font-mono text-sm text-white font-bold">
                   ROI = (Program Earnings × 30 Years) - Program Cost
                 </p>
               </div>
@@ -174,7 +174,7 @@ export default function MethodologyPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Cost Components</h3>
+              <h3 className="text-lg font-semibold text-white font-bold mb-3">Cost Components</h3>
               <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
                 <li><strong>Tuition:</strong> In-state or out-of-state rates from IPEDS</li>
                 <li><strong>Fees:</strong> Required institutional fees</li>
@@ -189,26 +189,26 @@ export default function MethodologyPage() {
         <section className="bg-white rounded-xl shadow-sm border p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <AcademicCapIcon className="w-8 h-8 text-purple-600" />
-            <h2 className="text-2xl font-bold text-gray-900">Data Quality & Coverage</h2>
+            <h2 className="text-2xl font-bold text-white font-bold">Data Quality & Coverage</h2>
           </div>
 
           <div className="space-y-4">
             <div className="grid md:grid-cols-2 gap-4">
               <div className="border-l-4 border-blue-500 pl-4">
                 <p className="text-sm font-medium text-gray-500 mb-1">Total Institutions</p>
-                <p className="text-2xl font-bold text-gray-900">6,163</p>
+                <p className="text-2xl font-bold text-white font-bold">6,163</p>
               </div>
               <div className="border-l-4 border-green-500 pl-4">
                 <p className="text-sm font-medium text-gray-500 mb-1">With ROI Data</p>
-                <p className="text-2xl font-bold text-gray-900">3,209 (52.1%)</p>
+                <p className="text-2xl font-bold text-white font-bold">3,209 (52.1%)</p>
               </div>
               <div className="border-l-4 border-purple-500 pl-4">
                 <p className="text-sm font-medium text-gray-500 mb-1">With Enrollment Data</p>
-                <p className="text-2xl font-bold text-gray-900">5,645 (91.6%)</p>
+                <p className="text-2xl font-bold text-white font-bold">5,645 (91.6%)</p>
               </div>
               <div className="border-l-4 border-orange-500 pl-4">
                 <p className="text-sm font-medium text-gray-500 mb-1">With Location Data</p>
-                <p className="text-2xl font-bold text-gray-900">6,163 (100%)</p>
+                <p className="text-2xl font-bold text-white font-bold">6,163 (100%)</p>
               </div>
             </div>
 
@@ -226,26 +226,26 @@ export default function MethodologyPage() {
 
         {/* Update Schedule */}
         <section className="bg-white rounded-xl shadow-sm border p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Update Schedule</h2>
+          <h2 className="text-2xl font-bold text-white font-bold mb-4">Update Schedule</h2>
           <div className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
               <div>
-                <p className="font-semibold text-gray-900">IPEDS Data</p>
+                <p className="font-semibold text-white font-bold">IPEDS Data</p>
                 <p className="text-sm text-gray-600">Updated annually, typically in December</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <div className="w-2 h-2 bg-green-600 rounded-full mt-2"></div>
               <div>
-                <p className="font-semibold text-gray-900">College Scorecard Data</p>
+                <p className="font-semibold text-white font-bold">College Scorecard Data</p>
                 <p className="text-sm text-gray-600">Updated annually, typically in September</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <div className="w-2 h-2 bg-purple-600 rounded-full mt-2"></div>
               <div>
-                <p className="font-semibold text-gray-900">ROI Calculations</p>
+                <p className="font-semibold text-white font-bold">ROI Calculations</p>
                 <p className="text-sm text-gray-600">Recalculated immediately when new data is available</p>
               </div>
             </div>

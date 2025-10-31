@@ -109,7 +109,7 @@ export default function AcademicProfilePage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <div className="bg-white rounded-lg shadow-xl p-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Academic Profile</h1>
+          <h1 className="text-3xl font-bold text-white font-bold mb-2">Academic Profile</h1>
           <p className="text-gray-600 mb-8">
             Complete your academic profile to get personalized college recommendations based on your qualifications and preferences.
           </p>

@@ -76,14 +76,14 @@ export default function AdvancedAnalyticsPage() {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full mb-6">
               <LockClosedIcon className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl font-bold text-white font-bold mb-4">
               Premium Feature
             </h1>
             <p className="text-xl text-gray-600 mb-8">
               Advanced Salary Analytics is available for Premium subscribers
             </p>
             <div className="bg-blue-50 rounded-lg p-6 mb-8">
-              <h3 className="font-bold text-gray-900 mb-4">Unlock powerful insights:</h3>
+              <h3 className="font-bold text-white font-bold mb-4">Unlock powerful insights:</h3>
               <ul className="text-left space-y-3 text-gray-700">
                 <li className="flex items-start gap-3">
                   <ChartBarIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
@@ -131,7 +131,7 @@ export default function AdvancedAnalyticsPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Advanced Salary Analytics</h1>
+          <h1 className="text-4xl font-bold text-white font-bold mb-2">Advanced Salary Analytics</h1>
           <p className="text-lg text-gray-600">
             Deep insights into earning potential and career trajectories
           </p>
@@ -213,7 +213,7 @@ function PercentilesView({ data, preferences }: { data: SalaryData[]; preference
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Salary Percentile Breakdown</h2>
+      <h2 className="text-2xl font-bold text-white font-bold mb-6">Salary Percentile Breakdown</h2>
       {preferences?.intended_major && (
         <p className="text-gray-600 mb-4">
           Showing data for: <strong>{preferences.intended_major}</strong>
@@ -236,15 +236,15 @@ function PercentilesView({ data, preferences }: { data: SalaryData[]; preference
             {filteredData.length > 0 ? (
               filteredData.map((item, idx) => (
                 <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50">
-                  <td className="py-3 px-4 text-gray-900">{item.institution}</td>
+                  <td className="py-3 px-4 text-white font-bold">{item.institution}</td>
                   <td className="py-3 px-4 text-gray-600 text-sm">{item.major}</td>
-                  <td className="text-right py-3 px-4 text-gray-900">
+                  <td className="text-right py-3 px-4 text-white font-bold">
                     ${item.p25?.toLocaleString() || 'N/A'}
                   </td>
                   <td className="text-right py-3 px-4 font-semibold text-blue-600">
                     ${item.median?.toLocaleString() || 'N/A'}
                   </td>
-                  <td className="text-right py-3 px-4 text-gray-900">
+                  <td className="text-right py-3 px-4 text-white font-bold">
                     ${item.p75?.toLocaleString() || 'N/A'}
                   </td>
                   <td className="text-right py-3 px-4 text-gray-600 text-sm">
@@ -267,19 +267,19 @@ function PercentilesView({ data, preferences }: { data: SalaryData[]; preference
         <div className="mt-6 grid grid-cols-3 gap-4">
           <div className="bg-blue-50 rounded-lg p-4">
             <p className="text-xs text-blue-600 font-medium mb-1">Average 25th Percentile</p>
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-2xl font-bold text-white font-bold">
               ${Math.round(filteredData.reduce((sum, d) => sum + (d.p25 || 0), 0) / filteredData.length).toLocaleString()}
             </p>
           </div>
           <div className="bg-green-50 rounded-lg p-4">
             <p className="text-xs text-green-600 font-medium mb-1">Average Median</p>
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-2xl font-bold text-white font-bold">
               ${Math.round(filteredData.reduce((sum, d) => sum + (d.median || 0), 0) / filteredData.length).toLocaleString()}
             </p>
           </div>
           <div className="bg-purple-50 rounded-lg p-4">
             <p className="text-xs text-purple-600 font-medium mb-1">Average 75th Percentile</p>
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-2xl font-bold text-white font-bold">
               ${Math.round(filteredData.reduce((sum, d) => sum + (d.p75 || 0), 0) / filteredData.length).toLocaleString()}
             </p>
           </div>
@@ -302,7 +302,7 @@ function TrajectoryView({ preferences }: { preferences: any }) {
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Career Trajectory Projection</h2>
+      <h2 className="text-2xl font-bold text-white font-bold mb-6">Career Trajectory Projection</h2>
       {preferences?.intended_major && (
         <p className="text-gray-600 mb-6">
           Projected earnings for: <strong>{preferences.intended_major}</strong>
@@ -313,7 +313,7 @@ function TrajectoryView({ preferences }: { preferences: any }) {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
             <p className="text-xs text-gray-600 mb-1">Starting Salary</p>
-            <p className="text-xl font-bold text-gray-900">
+            <p className="text-xl font-bold text-white font-bold">
               ${startingSalary.toLocaleString()}
             </p>
           </div>
@@ -353,7 +353,7 @@ function TrajectoryView({ preferences }: { preferences: any }) {
               const growth = ((projection.salary - startingSalary) / startingSalary) * 100;
               return (
                 <tr key={year} className="border-b border-gray-100 hover:bg-gray-50">
-                  <td className="py-3 px-4 text-gray-900 font-medium">{year} years</td>
+                  <td className="py-3 px-4 text-white font-bold font-medium">{year} years</td>
                   <td className="text-right py-3 px-4 text-xl font-bold text-blue-600">
                     ${projection.salary.toLocaleString()}
                   </td>
@@ -383,7 +383,7 @@ function PeerComparisonView({ data, preferences }: { data: SalaryData[]; prefere
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Peer Comparison</h2>
+      <h2 className="text-2xl font-bold text-white font-bold mb-6">Peer Comparison</h2>
 
       <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl p-8 text-white mb-6">
         <div className="text-center">
@@ -397,7 +397,7 @@ function PeerComparisonView({ data, preferences }: { data: SalaryData[]; prefere
 
       <div className="grid md:grid-cols-2 gap-6">
         <div className="bg-gray-50 rounded-lg p-6">
-          <h3 className="font-bold text-gray-900 mb-4">How You Compare</h3>
+          <h3 className="font-bold text-white font-bold mb-4">How You Compare</h3>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-gray-600">Your Salary</span>
@@ -405,7 +405,7 @@ function PeerComparisonView({ data, preferences }: { data: SalaryData[]; prefere
             </div>
             <div className="flex items-center justify-between">
               <span className="text-gray-600">Peer Median</span>
-              <span className="font-semibold text-gray-900">
+              <span className="font-semibold text-white font-bold">
                 ${Math.round(sortedSalaries[Math.floor(sortedSalaries.length / 2)]).toLocaleString()}
               </span>
             </div>
@@ -419,7 +419,7 @@ function PeerComparisonView({ data, preferences }: { data: SalaryData[]; prefere
         </div>
 
         <div className="bg-gray-50 rounded-lg p-6">
-          <h3 className="font-bold text-gray-900 mb-4">Next Milestone</h3>
+          <h3 className="font-bold text-white font-bold mb-4">Next Milestone</h3>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-gray-600">Current Percentile</span>
@@ -427,7 +427,7 @@ function PeerComparisonView({ data, preferences }: { data: SalaryData[]; prefere
             </div>
             <div className="flex items-center justify-between">
               <span className="text-gray-600">Target (75th percentile)</span>
-              <span className="font-semibold text-gray-900">
+              <span className="font-semibold text-white font-bold">
                 ${Math.round(sortedSalaries[Math.floor(sortedSalaries.length * 0.75)]).toLocaleString()}
               </span>
             </div>
@@ -461,7 +461,7 @@ function GeographicView({ data }: { data: SalaryData[] }) {
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Geographic Salary Distribution</h2>
+      <h2 className="text-2xl font-bold text-white font-bold mb-6">Geographic Salary Distribution</h2>
       <p className="text-gray-600 mb-6">
         Average salaries by metro area for your field
       </p>
@@ -474,7 +474,7 @@ function GeographicView({ data }: { data: SalaryData[] }) {
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <MapPinIcon className="w-5 h-5 text-blue-600" />
-                  <span className="font-medium text-gray-900">{region.name}</span>
+                  <span className="font-medium text-white font-bold">{region.name}</span>
                   <span className="text-xs text-gray-500">({region.count} grads)</span>
                 </div>
                 <span className="font-bold text-blue-600">
@@ -493,7 +493,7 @@ function GeographicView({ data }: { data: SalaryData[] }) {
       </div>
 
       <div className="mt-8 bg-blue-50 rounded-lg p-6">
-        <h3 className="font-bold text-gray-900 mb-3">Key Insights</h3>
+        <h3 className="font-bold text-white font-bold mb-3">Key Insights</h3>
         <ul className="space-y-2 text-gray-700">
           <li>• Highest salaries in tech hubs (SF, Seattle, NYC)</li>
           <li>• Cost of living should be factored into comparisons</li>

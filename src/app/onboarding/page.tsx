@@ -279,18 +279,18 @@ export default function OnboardingPage() {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
                   <AcademicCapIcon className="h-8 w-8 text-blue-600" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">What do you want to study?</h2>
+                <h2 className="text-3xl font-bold text-white font-bold mb-2">What do you want to study?</h2>
                 <p className="text-gray-600">We'll personalize your experience based on your interests</p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-white font-bold mb-2">
                   Degree Level
                 </label>
                 <select
                   value={formData.degree_level}
                   onChange={(e) => setFormData(prev => ({ ...prev, degree_level: e.target.value }))}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
                 >
                   <option value="bachelors">Bachelor's Degree</option>
                   <option value="masters">Master's Degree</option>
@@ -301,7 +301,7 @@ export default function OnboardingPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-white font-bold mb-2">
                   Intended Major or Field of Study
                 </label>
                 <AIAutocomplete
@@ -332,12 +332,12 @@ export default function OnboardingPage() {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 rounded-full mb-4">
                   <BuildingLibraryIcon className="h-8 w-8 text-indigo-600" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">Which schools interest you?</h2>
+                <h2 className="text-3xl font-bold text-white font-bold mb-2">Which schools interest you?</h2>
                 <p className="text-gray-600">Add schools you're considering (optional - you can add or change these later)</p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-white font-bold mb-2">
                   Search and Add Schools (Optional)
                 </label>
                 <AIAutocomplete
@@ -364,7 +364,7 @@ export default function OnboardingPage() {
               {/* Selected Schools */}
               {formData.target_schools.length > 0 && (
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-900">
+                  <label className="block text-sm font-semibold text-white font-bold">
                     Your Target Schools ({formData.target_schools.length})
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -395,18 +395,18 @@ export default function OnboardingPage() {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
                   <CalendarIcon className="h-8 w-8 text-purple-600" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">When do you plan to graduate?</h2>
+                <h2 className="text-3xl font-bold text-white font-bold mb-2">When do you plan to graduate?</h2>
                 <p className="text-gray-600">This helps us show relevant ROI projections</p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-white font-bold mb-2">
                   Expected Graduation Year
                 </label>
                 <select
                   value={formData.expected_graduation_year}
                   onChange={(e) => setFormData(prev => ({ ...prev, expected_graduation_year: parseInt(e.target.value) }))}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
                 >
                   {Array.from({ length: 10 }, (_, i) => currentYear + i).map(year => (
                     <option key={year} value={year}>{year}</option>
@@ -433,16 +433,16 @@ export default function OnboardingPage() {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
                   <AcademicCapIcon className="h-8 w-8 text-green-600" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">Tell us about your profile</h2>
+                <h2 className="text-3xl font-bold text-white font-bold mb-2">Tell us about your profile</h2>
                 <p className="text-gray-600">Help us provide better recommendations and accurate net price estimates (all optional)</p>
               </div>
 
               {/* Academic Info Section */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Academic Information</h3>
+                <h3 className="text-lg font-semibold text-white font-bold mb-3">Academic Information</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       GPA (if available)
                     </label>
                     <input
@@ -452,13 +452,13 @@ export default function OnboardingPage() {
                       max="4.0"
                       value={formData.gpa}
                       onChange={(e) => setFormData(prev => ({ ...prev, gpa: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 3.75"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       SAT Score (if taken)
                     </label>
                     <input
@@ -467,13 +467,13 @@ export default function OnboardingPage() {
                       max="1600"
                       value={formData.sat_score}
                       onChange={(e) => setFormData(prev => ({ ...prev, sat_score: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 1450"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       ACT Score (if taken)
                     </label>
                     <input
@@ -482,26 +482,26 @@ export default function OnboardingPage() {
                       max="36"
                       value={formData.act_score}
                       onChange={(e) => setFormData(prev => ({ ...prev, act_score: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 32"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       Location Preference
                     </label>
                     <input
                       type="text"
                       value={formData.location_preference}
                       onChange={(e) => setFormData(prev => ({ ...prev, location_preference: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., Northeast, California..."
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       Zip Code
                     </label>
                     <input
@@ -510,7 +510,7 @@ export default function OnboardingPage() {
                       maxLength={5}
                       value={formData.zip_code}
                       onChange={(e) => setFormData(prev => ({ ...prev, zip_code: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-600 font-medium"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold placeholder-gray-600 font-medium"
                       placeholder="e.g., 10001"
                     />
                     <p className="text-xs text-gray-500 mt-1">
@@ -522,13 +522,13 @@ export default function OnboardingPage() {
 
               {/* Financial Info Section - ENG-27 */}
               <div className="border-t border-gray-200 pt-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Financial Information</h3>
+                <h3 className="text-lg font-semibold text-white font-bold mb-3">Financial Information</h3>
                 <p className="text-sm text-gray-600 mb-4">
                   This information helps us estimate your net price and financial aid eligibility at different schools.
                 </p>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       Annual Student Income
                     </label>
                     <input
@@ -536,14 +536,14 @@ export default function OnboardingPage() {
                       min="0"
                       value={formData.student_income}
                       onChange={(e) => setFormData(prev => ({ ...prev, student_income: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 5000"
                     />
                     <p className="text-xs text-gray-500 mt-1">Your personal income from work/jobs</p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       Annual Parent/Guardian Income
                     </label>
                     <input
@@ -551,14 +551,14 @@ export default function OnboardingPage() {
                       min="0"
                       value={formData.parent_income}
                       onChange={(e) => setFormData(prev => ({ ...prev, parent_income: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 75000"
                     />
                     <p className="text-xs text-gray-500 mt-1">Combined household income</p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       Parent/Guardian Assets
                     </label>
                     <input
@@ -566,20 +566,20 @@ export default function OnboardingPage() {
                       min="0"
                       value={formData.parent_assets}
                       onChange={(e) => setFormData(prev => ({ ...prev, parent_assets: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 50000"
                     />
                     <p className="text-xs text-gray-500 mt-1">Savings, investments (not home equity)</p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2">
                       Estimated Budget (Annual)
                     </label>
                     <select
                       value={formData.budget_range}
                       onChange={(e) => setFormData(prev => ({ ...prev, budget_range: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
                     >
                       <option value="">Select budget range...</option>
                       <option value="0-20000">$0 - $20,000</option>

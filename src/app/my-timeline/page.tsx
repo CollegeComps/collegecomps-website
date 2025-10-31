@@ -149,7 +149,7 @@ export default function MyTimelinePage() {
       case 'deadline':
         return 'bg-orange-100 text-orange-800 border-orange-200';
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-gray-100 text-white font-bold border-gray-200';
     }
   };
 
@@ -175,7 +175,7 @@ export default function MyTimelinePage() {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+              <h1 className="text-3xl font-bold text-white font-bold flex items-center gap-3">
                 <CalendarIcon className="h-8 w-8 text-blue-600" />
                 My Timeline
               </h1>
@@ -199,7 +199,7 @@ export default function MyTimelinePage() {
             {/* Salary Submissions */}
             <div className="bg-white rounded-lg shadow p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                <h2 className="text-xl font-bold text-white font-bold flex items-center gap-2">
                   <CurrencyDollarIcon className="h-6 w-6 text-blue-600" />
                   Your Salary Submissions
                 </h2>
@@ -214,7 +214,7 @@ export default function MyTimelinePage() {
                     <div key={submission.id} className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <h3 className="font-semibold text-gray-900">{submission.institution_name}</h3>
+                          <h3 className="font-semibold text-white font-bold">{submission.institution_name}</h3>
                           <p className="text-sm text-gray-600">{submission.major}</p>
                           <div className="mt-2 flex items-center gap-4">
                             <span className="text-lg font-bold text-blue-600">
@@ -251,7 +251,7 @@ export default function MyTimelinePage() {
 
             {/* Important Dates Calendar */}
             <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2 mb-4">
+              <h2 className="text-xl font-bold text-white font-bold flex items-center gap-2 mb-4">
                 <CalendarIcon className="h-6 w-6 text-purple-600" />
                 Important Academic Dates
               </h2>
@@ -297,7 +297,7 @@ export default function MyTimelinePage() {
           <div className="space-y-6">
             {/* Quick Stats */}
             <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Quick Stats</h2>
+              <h2 className="text-lg font-bold text-white font-bold mb-4">Quick Stats</h2>
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                   <span className="text-sm text-gray-700">Salary Submissions</span>
@@ -320,7 +320,7 @@ export default function MyTimelinePage() {
 
             {/* Quick Actions */}
             <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Quick Actions</h2>
+              <h2 className="text-lg font-bold text-white font-bold mb-4">Quick Actions</h2>
               <div className="space-y-2">
                 <Link
                   href="/submit-salary"
