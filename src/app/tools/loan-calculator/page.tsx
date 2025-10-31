@@ -118,7 +118,7 @@ export default function LoanCalculatorPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Input Section */}
-            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] p-6">
               <h2 className="text-xl font-semibold text-white font-bold mb-6">Loan Details</h2>
               
               <div className="space-y-6">
@@ -188,7 +188,7 @@ export default function LoanCalculatorPage() {
             </div>
 
             {/* Results Section */}
-            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] p-6">
               <h2 className="text-xl font-semibold text-white font-bold mb-6">Payment Summary</h2>
               
               {calculation ? (
@@ -252,7 +252,7 @@ export default function LoanCalculatorPage() {
 
           {/* Amortization Schedule */}
           {showSchedule && calculation && (
-            <div className="mt-8 bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
+            <div className="mt-8 bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] p-6">
               <h2 className="text-xl font-semibold text-white font-bold mb-4">Payment Schedule</h2>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
