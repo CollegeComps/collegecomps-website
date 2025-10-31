@@ -145,19 +145,19 @@ export default function ComparisonManagerPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 text-center">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full mb-6">
               <LockClosedIcon className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-4xl font-bold text-white font-bold mb-4">
               Premium Feature
             </h1>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="text-xl text-gray-300 mb-8">
               Comparison Manager with Folders & Tags is available for Premium subscribers
             </p>
             <div className="bg-blue-50 rounded-lg p-6 mb-8">
               <h3 className="font-bold text-white font-bold mb-4">Organize like a pro:</h3>
-              <ul className="text-left space-y-3 text-gray-700">
+              <ul className="text-left space-y-3 text-gray-300">
                 <li className="flex items-start gap-3">
                   <FolderIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
                   <span><strong>Folders:</strong> Organize comparisons by type (reach, match, safety)</span>
@@ -193,7 +193,7 @@ export default function ComparisonManagerPage() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading comparisons...</p>
+          <p className="text-gray-300">Loading comparisons...</p>
         </div>
       </div>
     );
@@ -207,13 +207,13 @@ export default function ComparisonManagerPage() {
           <h1 className="text-4xl font-bold text-white font-bold mb-2">
             Comparison Manager
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-300">
             Organize your comparisons with folders and tags
           </p>
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 mb-6">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
               <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -243,7 +243,7 @@ export default function ComparisonManagerPage() {
         <div className="grid md:grid-cols-4 gap-6">
           {/* Folders Sidebar */}
           <div className="md:col-span-1">
-            <div className="bg-white rounded-xl shadow-md p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-bold text-white font-bold">Folders</h2>
                 <button
@@ -260,7 +260,7 @@ export default function ComparisonManagerPage() {
                   className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
                     selectedFolder === null
                       ? 'bg-blue-600 text-white'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      : 'text-gray-300 hover:bg-gray-100'
                   }`}
                 >
                   <FolderOpenIcon className="w-5 h-5" />
@@ -275,7 +275,7 @@ export default function ComparisonManagerPage() {
                     className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
                       selectedFolder === folder.id
                         ? 'bg-blue-600 text-white'
-                        : 'text-gray-700 hover:bg-gray-100'
+                        : 'text-gray-300 hover:bg-gray-100'
                     }`}
                   >
                     <FolderIcon className="w-5 h-5" style={{ color: selectedFolder === folder.id ? 'white' : folder.color }} />
@@ -290,9 +290,9 @@ export default function ComparisonManagerPage() {
           {/* Comparisons List */}
           <div className="md:col-span-3">
             {filteredComparisons.length === 0 ? (
-              <div className="bg-white rounded-xl shadow-md p-12 text-center">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-12 text-center">
                 <FolderOpenIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500 text-lg">No comparisons found</p>
+                <p className="text-gray-400 text-lg">No comparisons found</p>
                 <Link
                   href="/compare"
                   className="inline-block mt-4 text-blue-600 hover:underline font-medium"
@@ -305,12 +305,12 @@ export default function ComparisonManagerPage() {
                 {filteredComparisons.map((comp) => (
                   <div
                     key={comp.id}
-                    className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow"
+                    className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
                         <h3 className="text-xl font-bold text-white font-bold mb-1">{comp.name}</h3>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-gray-400">
                           {comp.colleges?.length || 0} colleges • {new Date(comp.created_at).toLocaleDateString()}
                         </p>
                       </div>
@@ -360,7 +360,7 @@ export default function ComparisonManagerPage() {
         {/* New Folder Modal */}
         {showNewFolderModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 max-w-md w-full mx-4">
               <h3 className="text-xl font-bold text-white font-bold mb-4">Create New Folder</h3>
               <input
                 type="text"
@@ -370,7 +370,7 @@ export default function ComparisonManagerPage() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Folder Color</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Folder Color</label>
                 <input
                   type="color"
                   value={newFolderColor}
@@ -381,7 +381,7 @@ export default function ComparisonManagerPage() {
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowNewFolderModal(false)}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-800"
                 >
                   Cancel
                 </button>

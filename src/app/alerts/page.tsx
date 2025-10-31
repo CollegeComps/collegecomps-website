@@ -130,19 +130,19 @@ export default function AlertsPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 text-center">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full mb-6">
               <LockClosedIcon className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-4xl font-bold text-white font-bold mb-4">
               Premium Feature
             </h1>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="text-xl text-gray-300 mb-8">
               Custom Alerts & Notifications is available for Premium subscribers
             </p>
             <div className="bg-blue-50 rounded-lg p-6 mb-8">
               <h3 className="font-bold text-white font-bold mb-4">Stay informed with:</h3>
-              <ul className="text-left space-y-3 text-gray-700">
+              <ul className="text-left space-y-3 text-gray-300">
                 <li className="flex items-start gap-3">
                   <EnvelopeIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
                   <span><strong>Email Alerts:</strong> Instant notifications for new salary data matching your profile</span>
@@ -178,7 +178,7 @@ export default function AlertsPage() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading preferences...</p>
+          <p className="text-gray-300">Loading preferences...</p>
         </div>
       </div>
     );
@@ -192,7 +192,7 @@ export default function AlertsPage() {
           <h1 className="text-4xl font-bold text-white font-bold mb-2">
             Alerts & Notifications
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-300">
             Customize how and when you receive important updates
           </p>
         </div>
@@ -215,12 +215,12 @@ export default function AlertsPage() {
         )}
 
         {/* Email Settings */}
-        <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 mb-6">
           <div className="flex items-center gap-3 mb-4">
             <EnvelopeIcon className="w-6 h-6 text-blue-600" />
             <h2 className="text-2xl font-bold text-white font-bold">Email Preferences</h2>
           </div>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-300 mb-6">
             Notifications will be sent to: <strong>{session?.user?.email}</strong>
           </p>
 
@@ -230,7 +230,7 @@ export default function AlertsPage() {
               return (
               <div
                 key={alert.id}
-                className="flex items-start justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                className="flex items-start justify-between p-4 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 <div className="flex items-start gap-3 flex-1">
                   <div className="mt-1">
@@ -238,7 +238,7 @@ export default function AlertsPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-white font-bold">{alert.type}</h3>
-                    <p className="text-sm text-gray-600 mt-1">{alert.description}</p>
+                    <p className="text-sm text-gray-300 mt-1">{alert.description}</p>
                   </div>
                 </div>
                 <button
@@ -260,28 +260,28 @@ export default function AlertsPage() {
         </div>
 
         {/* Notification Frequency */}
-        <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 mb-6">
           <h2 className="text-2xl font-bold text-white font-bold mb-4">Notification Frequency</h2>
           <div className="space-y-3">
-            <label className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+            <label className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-100">
               <input type="radio" name="frequency" value="instant" defaultChecked className="w-4 h-4 text-blue-600" />
               <div>
                 <p className="font-semibold text-white font-bold">Instant</p>
-                <p className="text-sm text-gray-600">Receive alerts as they happen</p>
+                <p className="text-sm text-gray-300">Receive alerts as they happen</p>
               </div>
             </label>
-            <label className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+            <label className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-100">
               <input type="radio" name="frequency" value="daily" className="w-4 h-4 text-blue-600" />
               <div>
                 <p className="font-semibold text-white font-bold">Daily Digest</p>
-                <p className="text-sm text-gray-600">One email per day with all updates</p>
+                <p className="text-sm text-gray-300">One email per day with all updates</p>
               </div>
             </label>
-            <label className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+            <label className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-100">
               <input type="radio" name="frequency" value="weekly" className="w-4 h-4 text-blue-600" />
               <div>
                 <p className="font-semibold text-white font-bold">Weekly Summary</p>
-                <p className="text-sm text-gray-600">One email per week with highlights</p>
+                <p className="text-sm text-gray-300">One email per week with highlights</p>
               </div>
             </label>
           </div>

@@ -271,7 +271,7 @@ export default function OnboardingPage() {
         </div>
 
         {/* Main Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8">
           {/* Step 1: Intended Major */}
           {step === 1 && (
             <div className="space-y-6">
@@ -280,7 +280,7 @@ export default function OnboardingPage() {
                   <AcademicCapIcon className="h-8 w-8 text-blue-600" />
                 </div>
                 <h2 className="text-3xl font-bold text-white font-bold mb-2">What do you want to study?</h2>
-                <p className="text-gray-600">We'll personalize your experience based on your interests</p>
+                <p className="text-gray-300">We'll personalize your experience based on your interests</p>
               </div>
 
               <div>
@@ -319,7 +319,7 @@ export default function OnboardingPage() {
                 />
               </div>
 
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-400">
                 Don't worry, you can change this later in your profile
               </p>
             </div>
@@ -333,7 +333,7 @@ export default function OnboardingPage() {
                   <BuildingLibraryIcon className="h-8 w-8 text-indigo-600" />
                 </div>
                 <h2 className="text-3xl font-bold text-white font-bold mb-2">Which schools interest you?</h2>
-                <p className="text-gray-600">Add schools you're considering (optional - you can add or change these later)</p>
+                <p className="text-gray-300">Add schools you're considering (optional - you can add or change these later)</p>
               </div>
 
               <div>
@@ -356,7 +356,7 @@ export default function OnboardingPage() {
                     location_preference: formData.location_preference
                   }}
                 />
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs text-gray-400 mt-2">
                   Skip this step if you're still exploring options - you can add schools anytime from your profile
                 </p>
               </div>
@@ -396,7 +396,7 @@ export default function OnboardingPage() {
                   <CalendarIcon className="h-8 w-8 text-purple-600" />
                 </div>
                 <h2 className="text-3xl font-bold text-white font-bold mb-2">When do you plan to graduate?</h2>
-                <p className="text-gray-600">This helps us show relevant ROI projections</p>
+                <p className="text-gray-300">This helps us show relevant ROI projections</p>
               </div>
 
               <div>
@@ -434,7 +434,7 @@ export default function OnboardingPage() {
                   <AcademicCapIcon className="h-8 w-8 text-green-600" />
                 </div>
                 <h2 className="text-3xl font-bold text-white font-bold mb-2">Tell us about your profile</h2>
-                <p className="text-gray-600">Help us provide better recommendations and accurate net price estimates (all optional)</p>
+                <p className="text-gray-300">Help us provide better recommendations and accurate net price estimates (all optional)</p>
               </div>
 
               {/* Academic Info Section */}
@@ -513,7 +513,7 @@ export default function OnboardingPage() {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold placeholder-gray-600 font-medium"
                       placeholder="e.g., 10001"
                     />
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-400 mt-1">
                       Used to find nearby colleges in recommendations
                     </p>
                   </div>
@@ -523,7 +523,7 @@ export default function OnboardingPage() {
               {/* Financial Info Section - ENG-27 */}
               <div className="border-t border-gray-200 pt-6">
                 <h3 className="text-lg font-semibold text-white font-bold mb-3">Financial Information</h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-sm text-gray-300 mb-4">
                   This information helps us estimate your net price and financial aid eligibility at different schools.
                 </p>
                 <div className="grid md:grid-cols-2 gap-4">
@@ -539,7 +539,7 @@ export default function OnboardingPage() {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 5000"
                     />
-                    <p className="text-xs text-gray-500 mt-1">Your personal income from work/jobs</p>
+                    <p className="text-xs text-gray-400 mt-1">Your personal income from work/jobs</p>
                   </div>
 
                   <div>
@@ -554,7 +554,7 @@ export default function OnboardingPage() {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 75000"
                     />
-                    <p className="text-xs text-gray-500 mt-1">Combined household income</p>
+                    <p className="text-xs text-gray-400 mt-1">Combined household income</p>
                   </div>
 
                   <div>
@@ -569,7 +569,7 @@ export default function OnboardingPage() {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white font-bold"
                       placeholder="e.g., 50000"
                     />
-                    <p className="text-xs text-gray-500 mt-1">Savings, investments (not home equity)</p>
+                    <p className="text-xs text-gray-400 mt-1">Savings, investments (not home equity)</p>
                   </div>
 
                   <div>
@@ -587,7 +587,7 @@ export default function OnboardingPage() {
                       <option value="40000-60000">$40,000 - $60,000</option>
                       <option value="60000+">$60,000+</option>
                     </select>
-                    <p className="text-xs text-gray-500 mt-1">What you can afford per year</p>
+                    <p className="text-xs text-gray-400 mt-1">What you can afford per year</p>
                   </div>
                 </div>
               </div>
@@ -608,7 +608,7 @@ export default function OnboardingPage() {
               className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-colors ${
                 step === 1
                   ? 'text-gray-400 cursor-not-allowed'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  : 'text-gray-300 hover:bg-gray-100'
               }`}
             >
               <ChevronLeftIcon className="h-5 w-5" />
@@ -622,7 +622,7 @@ export default function OnboardingPage() {
                 className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-colors ${
                   canProceed()
                     ? 'bg-orange-500 text-white hover:bg-blue-700'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-gray-300 text-gray-400 cursor-not-allowed'
                 }`}
               >
                 Next
@@ -635,7 +635,7 @@ export default function OnboardingPage() {
                 className={`flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-colors ${
                   !loading
                     ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-gray-300 text-gray-400 cursor-not-allowed'
                 }`}
               >
                 {loading ? 'Saving...' : 'Complete Setup'}
@@ -648,7 +648,7 @@ export default function OnboardingPage() {
           <div className="text-center mt-4">
             <button
               onClick={handleSkip}
-              className="text-sm text-gray-500 hover:text-gray-700"
+              className="text-sm text-gray-400 hover:text-gray-300"
             >
               Skip for now
             </button>

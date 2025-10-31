@@ -6,7 +6,7 @@ export default function ProgramsPage() {
           <h1 className="text-3xl font-bold text-white font-bold mb-2">
             Program Analysis
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-300 text-lg">
             Analyze career outcomes and earnings potential across different academic programs and fields of study.
           </p>
         </div>
@@ -20,7 +20,7 @@ export default function ProgramsPage() {
           <h3 className="text-xl font-semibold text-white font-bold mb-2">
             Coming Soon
           </h3>
-          <p className="text-gray-600">
+          <p className="text-gray-300">
             Program analysis features are being developed. This will include detailed career outcome data, 
             earnings projections by field of study, and comparative analysis tools.
           </p>

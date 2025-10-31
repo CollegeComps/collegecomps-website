@@ -51,16 +51,16 @@ export default function CostAnalyzer({
   return (
     <div className="space-y-6">
       {/* Cost Configuration */}
-      <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-4">Education Costs</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Tuition (Annual)
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
               <input
                 type="number"
                 value={costs.tuition}
@@ -76,7 +76,7 @@ export default function CostAnalyzer({
                   className={`px-3 py-1 text-xs rounded ${
                     costs.residency === 'in-state' 
                       ? 'bg-blue-100 text-blue-800' 
-                      : 'bg-gray-100 text-gray-600'
+                      : 'bg-gray-100 text-gray-300'
                   }`}
                 >
                   In-State
@@ -86,7 +86,7 @@ export default function CostAnalyzer({
                   className={`px-3 py-1 text-xs rounded ${
                     costs.residency === 'out-of-state' 
                       ? 'bg-blue-100 text-blue-800' 
-                      : 'bg-gray-100 text-gray-600'
+                      : 'bg-gray-100 text-gray-300'
                   }`}
                 >
                   Out-of-State
@@ -96,11 +96,11 @@ export default function CostAnalyzer({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Fees (Annual)
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
               <input
                 type="number"
                 value={costs.fees}
@@ -112,11 +112,11 @@ export default function CostAnalyzer({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Room & Board (Annual)
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
               <input
                 type="number"
                 value={costs.roomBoard}
@@ -128,11 +128,11 @@ export default function CostAnalyzer({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Books & Supplies (Annual)
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
               <input
                 type="number"
                 value={costs.books}
@@ -144,11 +144,11 @@ export default function CostAnalyzer({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Other Expenses (Annual)
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
               <input
                 type="number"
                 value={costs.otherExpenses}
@@ -160,7 +160,7 @@ export default function CostAnalyzer({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Program Length (Years)
             </label>
             <select
@@ -204,16 +204,16 @@ export default function CostAnalyzer({
       </div>
 
       {/* Financial Aid */}
-      <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-4">Financial Aid (Annual)</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Grants & Need-Based Aid
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
               <input
                 type="number"
                 value={financialAid.grants}
@@ -225,11 +225,11 @@ export default function CostAnalyzer({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Merit Scholarships
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
               <input
                 type="number"
                 value={financialAid.scholarships}
@@ -241,11 +241,11 @@ export default function CostAnalyzer({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Work-Study
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
               <input
                 type="number"
                 value={financialAid.workStudy}
@@ -257,11 +257,11 @@ export default function CostAnalyzer({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Student Loans
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
               <input
                 type="number"
                 value={financialAid.loans}
@@ -275,16 +275,16 @@ export default function CostAnalyzer({
       </div>
 
       {/* Earnings Projections */}
-      <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-4">Earnings Projections</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Starting Salary (Without Degree)
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
               <input
                 type="number"
                 value={earnings.baselineSalary}
@@ -296,11 +296,11 @@ export default function CostAnalyzer({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Expected Starting Salary (With Degree)
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
               <input
                 type="number"
                 value={earnings.projectedSalary}
@@ -310,14 +310,14 @@ export default function CostAnalyzer({
               />
             </div>
             {institution.earnings_6_years && (
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-400 mt-1">
                 Median for {institution.name}: {formatCurrency(institution.earnings_6_years)}
               </p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Career Length (Years)
             </label>
             <select
@@ -334,7 +334,7 @@ export default function CostAnalyzer({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Annual Salary Growth Rate (%)
             </label>
             <div className="relative">
@@ -346,7 +346,7 @@ export default function CostAnalyzer({
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                 placeholder="3.0"
               />
-              <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">%</span>
+              <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">%</span>
             </div>
           </div>
         </div>

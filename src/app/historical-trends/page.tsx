@@ -196,7 +196,7 @@ export default function HistoricalTrendsPage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <ArrowPathIcon className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-4" />
-          <p className="text-gray-600">Loading trend data...</p>
+          <p className="text-gray-300">Loading trend data...</p>
         </div>
       </div>
     );
@@ -214,7 +214,7 @@ export default function HistoricalTrendsPage() {
             </div>
             <div>
               <h1 className="text-4xl font-bold text-white font-bold">Historical Trends & Predictions</h1>
-              <p className="text-gray-600 mt-1">Analyze past trends and future projections for college costs and salaries</p>
+              <p className="text-gray-300 mt-1">Analyze past trends and future projections for college costs and salaries</p>
             </div>
           </div>
           
@@ -225,14 +225,14 @@ export default function HistoricalTrendsPage() {
         </div>
 
         {/* View Selector */}
-        <div className="mb-6 bg-white rounded-xl shadow-lg p-4">
+        <div className="mb-6 bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-4">
           <div className="flex gap-3">
             <button
               onClick={() => setSelectedView('salary')}
               className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
                 selectedView === 'salary'
                   ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  : 'bg-gray-100 text-gray-300 hover:bg-gray-200'
               }`}
             >
               Salary Trends
@@ -242,7 +242,7 @@ export default function HistoricalTrendsPage() {
               className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
                 selectedView === 'cost'
                   ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  : 'bg-gray-100 text-gray-300 hover:bg-gray-200'
               }`}
             >
               Cost Trends
@@ -252,7 +252,7 @@ export default function HistoricalTrendsPage() {
               className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
                 selectedView === 'roi'
                   ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  : 'bg-gray-100 text-gray-300 hover:bg-gray-200'
               }`}
             >
               ROI Analysis
@@ -261,7 +261,7 @@ export default function HistoricalTrendsPage() {
         </div>
 
         {/* Main Chart */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6 mb-8">
           <h2 className="text-2xl font-bold text-white font-bold mb-6">
             {selectedView === 'salary' && 'Average Starting Salary Trends'}
             {selectedView === 'cost' && 'Average College Cost Trends'}
@@ -324,17 +324,17 @@ export default function HistoricalTrendsPage() {
           <div className="mt-4 flex items-center gap-4 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-blue-500 rounded"></div>
-              <span className="text-gray-600">Historical Data</span>
+              <span className="text-gray-300">Historical Data</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-purple-500 rounded"></div>
-              <span className="text-gray-600">AI Predictions</span>
+              <span className="text-gray-300">AI Predictions</span>
             </div>
           </div>
         </div>
 
         {/* Key Metrics Trends */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6">
           <h2 className="text-2xl font-bold text-white font-bold mb-6">Key Metrics Year-over-Year</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {categoryTrends.map((category, index) => (
@@ -356,15 +356,15 @@ export default function HistoricalTrendsPage() {
                 </div>
                 <div className="space-y-2">
                   <div>
-                    <p className="text-xs text-gray-500">Change vs Previous Year</p>
+                    <p className="text-xs text-gray-400">Change vs Previous Year</p>
                     <p className={`text-lg font-bold ${
-                      category.growth > 0 ? 'text-green-600' : category.growth < 0 ? 'text-red-600' : 'text-gray-600'
+                      category.growth > 0 ? 'text-green-600' : category.growth < 0 ? 'text-red-600' : 'text-gray-300'
                     }`}>
                       {category.growth > 0 ? '+' : ''}{category.growth}%
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500">Current Value</p>
+                    <p className="text-xs text-gray-400">Current Value</p>
                     <p className="text-lg font-bold text-white font-bold">
                       {category.category.includes('ROI') ? category.avgSalary.toLocaleString() : formatCurrency(category.avgSalary)}
                     </p>
@@ -376,7 +376,7 @@ export default function HistoricalTrendsPage() {
         </div>
 
         {/* Top Programs by Average Salary */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6">
           <h2 className="text-2xl font-bold text-white font-bold mb-6">Average Salary by Program</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {topPrograms.slice(0, 9).map((program, index) => (
@@ -387,19 +387,19 @@ export default function HistoricalTrendsPage() {
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
                     <h3 className="font-semibold text-white font-bold mb-1">{program.name}</h3>
-                    <p className="text-xs text-gray-500">CIP: {program.cipcode}</p>
+                    <p className="text-xs text-gray-400">CIP: {program.cipcode}</p>
                   </div>
                 </div>
                 <div className="space-y-3">
                   <div>
-                    <p className="text-xs text-gray-500">Average Starting Salary</p>
+                    <p className="text-xs text-gray-400">Average Starting Salary</p>
                     <p className="text-2xl font-bold text-green-600">
                       {formatCurrency(program.avgSalary)}
                     </p>
                   </div>
                   <div className="pt-3 border-t">
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-gray-500">Offered by</span>
+                      <span className="text-xs text-gray-400">Offered by</span>
                       <span className="text-sm font-semibold text-white font-bold">{program.schoolCount.toLocaleString()} schools</span>
                     </div>
                   </div>
@@ -415,7 +415,7 @@ export default function HistoricalTrendsPage() {
             <SparklesIcon className="w-6 h-6 text-purple-600 flex-shrink-0 mt-1" />
             <div>
               <h3 className="text-lg font-bold text-white font-bold mb-2">AI-Powered Insights</h3>
-              <ul className="space-y-2 text-gray-700">
+              <ul className="space-y-2 text-gray-300">
                 <li className="flex items-start gap-2">
                   <span className="text-purple-600 font-bold">•</span>
                   <span>Technology and healthcare sectors show strongest growth projections through 2028</span>

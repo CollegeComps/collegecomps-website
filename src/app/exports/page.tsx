@@ -130,19 +130,19 @@ export default function ExportsPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 text-center">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full mb-6">
               <LockClosedIcon className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-4xl font-bold text-white font-bold mb-4">
               Premium Feature
             </h1>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="text-xl text-gray-300 mb-8">
               Export & Reports is available for Premium subscribers
             </p>
             <div className="bg-blue-50 rounded-lg p-6 mb-8">
               <h3 className="font-bold text-white font-bold mb-4">Unlock powerful export options:</h3>
-              <ul className="text-left space-y-3 text-gray-700">
+              <ul className="text-left space-y-3 text-gray-300">
                 <li className="flex items-start gap-3">
                   <DocumentTextIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
                   <span><strong>PDF Export:</strong> Professional reports with charts and analysis</span>
@@ -178,7 +178,7 @@ export default function ExportsPage() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading comparisons...</p>
+          <p className="text-gray-300">Loading comparisons...</p>
         </div>
       </div>
     );
@@ -192,7 +192,7 @@ export default function ExportsPage() {
           <h1 className="text-4xl font-bold text-white font-bold mb-2">
             Export & Reports
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-300">
             Download your comparisons and create shareable links
           </p>
         </div>
@@ -200,12 +200,12 @@ export default function ExportsPage() {
         <div className="grid md:grid-cols-3 gap-6">
           {/* Comparison Selector */}
           <div className="md:col-span-1">
-            <div className="bg-white rounded-xl shadow-md p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
               <h2 className="text-xl font-bold text-white font-bold mb-4">Select Comparison</h2>
               
               {comparisons.length === 0 ? (
                 <div className="text-center py-8">
-                  <p className="text-gray-500 mb-4">No saved comparisons yet</p>
+                  <p className="text-gray-400 mb-4">No saved comparisons yet</p>
                   <Link
                     href="/compare"
                     className="text-blue-600 hover:underline font-medium"
@@ -227,7 +227,7 @@ export default function ExportsPage() {
                     >
                       <p className="font-semibold">{comp.name}</p>
                       <p className={`text-xs mt-1 ${
-                        selectedComparison === comp.id ? 'text-blue-100' : 'text-gray-500'
+                        selectedComparison === comp.id ? 'text-blue-100' : 'text-gray-400'
                       }`}>
                         {comp.colleges?.length || 0} colleges • {new Date(comp.created_at).toLocaleDateString()}
                       </p>
@@ -241,7 +241,7 @@ export default function ExportsPage() {
           {/* Export Options */}
           <div className="md:col-span-2 space-y-6">
             {/* Export Formats */}
-            <div className="bg-white rounded-xl shadow-md p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
               <h2 className="text-xl font-bold text-white font-bold mb-4">Export Format</h2>
               <div className="grid grid-cols-3 gap-4">
                 <button
@@ -251,7 +251,7 @@ export default function ExportsPage() {
                 >
                   <DocumentTextIcon className="w-12 h-12 text-red-600" />
                   <span className="font-semibold text-white font-bold">PDF</span>
-                  <span className="text-xs text-gray-600 text-center">Professional report with charts</span>
+                  <span className="text-xs text-gray-300 text-center">Professional report with charts</span>
                 </button>
 
                 <button
@@ -261,7 +261,7 @@ export default function ExportsPage() {
                 >
                   <TableCellsIcon className="w-12 h-12 text-green-600" />
                   <span className="font-semibold text-white font-bold">Excel</span>
-                  <span className="text-xs text-gray-600 text-center">Spreadsheet for analysis</span>
+                  <span className="text-xs text-gray-300 text-center">Spreadsheet for analysis</span>
                 </button>
 
                 <button
@@ -271,15 +271,15 @@ export default function ExportsPage() {
                 >
                   <DocumentArrowDownIcon className="w-12 h-12 text-blue-600" />
                   <span className="font-semibold text-white font-bold">CSV</span>
-                  <span className="text-xs text-gray-600 text-center">Raw data file</span>
+                  <span className="text-xs text-gray-300 text-center">Raw data file</span>
                 </button>
               </div>
             </div>
 
             {/* Share Link */}
-            <div className="bg-white rounded-xl shadow-md p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
               <h2 className="text-xl font-bold text-white font-bold mb-4">Share Comparison</h2>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-300 mb-4">
                 Create a shareable link that anyone can view (no account required)
               </p>
               <button
@@ -293,28 +293,28 @@ export default function ExportsPage() {
             </div>
 
             {/* Custom Report Options */}
-            <div className="bg-white rounded-xl shadow-md p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
               <h2 className="text-xl font-bold text-white font-bold mb-4">Custom Report Options</h2>
               <div className="space-y-3">
                 <label className="flex items-center gap-3">
                   <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />
-                  <span className="text-gray-700">Include ROI analysis</span>
+                  <span className="text-gray-300">Include ROI analysis</span>
                 </label>
                 <label className="flex items-center gap-3">
                   <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />
-                  <span className="text-gray-700">Include salary data</span>
+                  <span className="text-gray-300">Include salary data</span>
                 </label>
                 <label className="flex items-center gap-3">
                   <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />
-                  <span className="text-gray-700">Include cost breakdown</span>
+                  <span className="text-gray-300">Include cost breakdown</span>
                 </label>
                 <label className="flex items-center gap-3">
                   <input type="checkbox" className="w-4 h-4 text-blue-600 rounded" />
-                  <span className="text-gray-700">Include personal notes</span>
+                  <span className="text-gray-300">Include personal notes</span>
                 </label>
                 <label className="flex items-center gap-3">
                   <input type="checkbox" className="w-4 h-4 text-blue-600 rounded" />
-                  <span className="text-gray-700">Include financial aid estimates</span>
+                  <span className="text-gray-300">Include financial aid estimates</span>
                 </label>
               </div>
             </div>

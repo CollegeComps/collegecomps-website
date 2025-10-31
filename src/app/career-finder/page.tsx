@@ -410,7 +410,7 @@ export default function CareerFinderPage() {
         </div>
 
         {/* Next Steps */}
-        <div className="bg-white rounded-xl shadow-lg p-8 max-w-4xl mx-auto">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-8 max-w-4xl mx-auto">
           <h3 className="text-2xl font-bold text-white font-bold mb-6">Next Steps on Your Journey</h3>
           <div className="space-y-4">
             <div className="flex items-start gap-4">
@@ -419,7 +419,7 @@ export default function CareerFinderPage() {
               </div>
               <div>
                 <h4 className="font-semibold text-white font-bold">Explore College Programs</h4>
-                <p className="text-sm text-gray-600">Search for colleges offering your recommended majors</p>
+                <p className="text-sm text-gray-300">Search for colleges offering your recommended majors</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -428,7 +428,7 @@ export default function CareerFinderPage() {
               </div>
               <div>
                 <h4 className="font-semibold text-white font-bold">Calculate Your ROI</h4>
-                <p className="text-sm text-gray-600">See the financial return on your education investment</p>
+                <p className="text-sm text-gray-300">See the financial return on your education investment</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -437,7 +437,7 @@ export default function CareerFinderPage() {
               </div>
               <div>
                 <h4 className="font-semibold text-white font-bold">Find Scholarships</h4>
-                <p className="text-sm text-gray-600">Discover funding opportunities for your chosen field</p>
+                <p className="text-sm text-gray-300">Discover funding opportunities for your chosen field</p>
               </div>
             </div>
           </div>

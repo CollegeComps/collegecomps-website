@@ -122,7 +122,7 @@ export default function AdminSupportPage() {
 
   const getTierBadge = (tier: string) => {
     const colors: Record<string, string> = {
-      free: 'bg-gray-100 text-gray-700',
+      free: 'bg-gray-100 text-gray-300',
       premium: 'bg-blue-100 text-blue-700',
       professional: 'bg-purple-100 text-purple-700'
     };
@@ -134,7 +134,7 @@ export default function AdminSupportPage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading tickets...</p>
+          <p className="mt-4 text-gray-300">Loading tickets...</p>
         </div>
       </div>
     );
@@ -142,7 +142,7 @@ export default function AdminSupportPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12 px-4">
+      <div className="min-h-screen bg-black py-12 px-4">
         <div className="max-w-2xl mx-auto">
           <div className="bg-red-50 border border-red-200 rounded-lg p-6">
             <p className="text-red-800">{error}</p>
@@ -153,47 +153,47 @@ export default function AdminSupportPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white font-bold">Support Dashboard</h1>
-          <p className="text-gray-600 mt-2">Manage and respond to user support tickets</p>
+          <p className="text-gray-300 mt-2">Manage and respond to user support tickets</p>
         </div>
 
         {/* Statistics */}
         {stats && (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <div className="bg-white rounded-lg shadow p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Total Tickets</p>
+                  <p className="text-sm text-gray-300">Total Tickets</p>
                   <p className="text-2xl font-bold text-white font-bold">{stats.total_tickets}</p>
                 </div>
                 <TicketIcon className="w-10 h-10 text-blue-600" />
               </div>
             </div>
-            <div className="bg-white rounded-lg shadow p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Open</p>
+                  <p className="text-sm text-gray-300">Open</p>
                   <p className="text-2xl font-bold text-blue-600">{stats.open_tickets}</p>
                 </div>
                 <ClockIcon className="w-10 h-10 text-blue-600" />
               </div>
             </div>
-            <div className="bg-white rounded-lg shadow p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">In Progress</p>
+                  <p className="text-sm text-gray-300">In Progress</p>
                   <p className="text-2xl font-bold text-purple-600">{stats.in_progress_tickets}</p>
                 </div>
                 <ChatBubbleLeftRightIcon className="w-10 h-10 text-purple-600" />
               </div>
             </div>
-            <div className="bg-white rounded-lg shadow p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">High Priority</p>
+                  <p className="text-sm text-gray-300">High Priority</p>
                   <p className="text-2xl font-bold text-red-600">{stats.high_priority}</p>
                 </div>
                 <ExclamationCircleIcon className="w-10 h-10 text-red-600" />
@@ -203,7 +203,7 @@ export default function AdminSupportPage() {
         )}
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow mb-6 p-4">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow mb-6 p-4">
           <div className="flex items-center gap-4 flex-wrap">
             <FunnelIcon className="w-5 h-5 text-gray-400" />
             <select
@@ -244,36 +244,36 @@ export default function AdminSupportPage() {
         </div>
 
         {/* Tickets List */}
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow overflow-hidden">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                   Ticket
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                   User
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                   Priority
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                   Created
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {tickets.map((ticket) => (
-                <tr key={ticket.id} className="hover:bg-gray-50">
+                <tr key={ticket.id} className="hover:bg-gray-800">
                   <td className="px-6 py-4">
                     <div className="text-sm font-medium text-white font-bold">#{ticket.id} - {ticket.subject}</div>
-                    <div className="text-sm text-gray-500">{ticket.category}</div>
+                    <div className="text-sm text-gray-400">{ticket.category}</div>
                     {ticket.message_count > 0 && (
                       <div className="text-xs text-gray-400 mt-1">
                         {ticket.message_count} message{ticket.message_count !== 1 ? 's' : ''}
@@ -282,7 +282,7 @@ export default function AdminSupportPage() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm text-white font-bold">{ticket.user_name || 'Unknown'}</div>
-                    <div className="text-sm text-gray-500">{ticket.user_email}</div>
+                    <div className="text-sm text-gray-400">{ticket.user_email}</div>
                     <span className={`inline-flex mt-1 px-2 py-1 text-xs font-semibold rounded-full ${getTierBadge(ticket.subscription_tier)}`}>
                       {ticket.subscription_tier}
                     </span>
@@ -304,7 +304,7 @@ export default function AdminSupportPage() {
                       <option value="closed">Closed</option>
                     </select>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
+                  <td className="px-6 py-4 text-sm text-gray-400">
                     {new Date(ticket.created_at).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4">
@@ -322,7 +322,7 @@ export default function AdminSupportPage() {
           {tickets.length === 0 && (
             <div className="text-center py-12">
               <TicketIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-500">No tickets found</p>
+              <p className="text-gray-400">No tickets found</p>
             </div>
           )}
         </div>

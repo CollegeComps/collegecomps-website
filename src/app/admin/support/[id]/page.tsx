@@ -142,7 +142,7 @@ export default function AdminTicketDetailPage() {
 
   const getTierBadge = (tier: string) => {
     const colors: Record<string, string> = {
-      free: 'bg-gray-100 text-gray-700',
+      free: 'bg-gray-100 text-gray-300',
       premium: 'bg-blue-100 text-blue-700',
       professional: 'bg-purple-100 text-purple-700'
     };
@@ -154,7 +154,7 @@ export default function AdminTicketDetailPage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading ticket...</p>
+          <p className="mt-4 text-gray-300">Loading ticket...</p>
         </div>
       </div>
     );
@@ -162,7 +162,7 @@ export default function AdminTicketDetailPage() {
 
   if (error || !ticket) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12 px-4">
+      <div className="min-h-screen bg-black py-12 px-4">
         <div className="max-w-2xl mx-auto">
           <Link
             href="/admin/support"
@@ -180,7 +180,7 @@ export default function AdminTicketDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
         {/* Back Link */}
         <Link
@@ -192,13 +192,13 @@ export default function AdminTicketDetailPage() {
         </Link>
 
         {/* Ticket Header */}
-        <div className="bg-white rounded-lg shadow mb-6 p-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow mb-6 p-6">
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-4">
             <div>
               <h1 className="text-2xl font-bold text-white font-bold mb-2">
                 #{ticket.id} - {ticket.subject}
               </h1>
-              <p className="text-gray-600">Category: {ticket.category}</p>
+              <p className="text-gray-300">Category: {ticket.category}</p>
             </div>
             <div className="flex flex-wrap gap-2">
               <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getPriorityColor(ticket.priority)}`}>
@@ -213,15 +213,15 @@ export default function AdminTicketDetailPage() {
           {/* User Info */}
           <div className="border-t pt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <p className="text-sm text-gray-600">User</p>
+              <p className="text-sm text-gray-300">User</p>
               <p className="font-medium text-white font-bold">{ticket.user_name || 'Unknown'}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-600">Email</p>
+              <p className="text-sm text-gray-300">Email</p>
               <p className="font-medium text-white font-bold">{ticket.user_email}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-600">Subscription</p>
+              <p className="text-sm text-gray-300">Subscription</p>
               <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getTierBadge(ticket.subscription_tier)}`}>
                 {ticket.subscription_tier}
               </span>
@@ -231,7 +231,7 @@ export default function AdminTicketDetailPage() {
           {/* Update Controls */}
           <div className="border-t mt-4 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Status
               </label>
               <select
@@ -246,7 +246,7 @@ export default function AdminTicketDetailPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Priority
               </label>
               <select
@@ -262,7 +262,7 @@ export default function AdminTicketDetailPage() {
           </div>
 
           {/* Timestamps */}
-          <div className="border-t mt-4 pt-4 flex items-center gap-6 text-sm text-gray-600">
+          <div className="border-t mt-4 pt-4 flex items-center gap-6 text-sm text-gray-300">
             <div className="flex items-center gap-2">
               <ClockIcon className="w-4 h-4" />
               <span>Created: {new Date(ticket.created_at).toLocaleString()}</span>
@@ -275,7 +275,7 @@ export default function AdminTicketDetailPage() {
         </div>
 
         {/* Messages */}
-        <div className="bg-white rounded-lg shadow mb-6 p-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow mb-6 p-6">
           <h2 className="text-lg font-bold text-white font-bold mb-4 flex items-center gap-2">
             <ChatBubbleLeftRightIcon className="w-5 h-5" />
             Conversation
@@ -283,7 +283,7 @@ export default function AdminTicketDetailPage() {
 
           <div className="space-y-4 mb-6">
             {messages.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">No messages yet</p>
+              <p className="text-gray-400 text-center py-8">No messages yet</p>
             ) : (
               messages.map((message) => (
                 <div
@@ -304,7 +304,7 @@ export default function AdminTicketDetailPage() {
                           </span>
                         )}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-400">
                         {new Date(message.created_at).toLocaleString()}
                       </p>
                     </div>
@@ -317,7 +317,7 @@ export default function AdminTicketDetailPage() {
 
           {/* Reply Form */}
           <form onSubmit={handleSendReply} className="border-t pt-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Reply to User
             </label>
             <textarea

@@ -141,7 +141,7 @@ export default function Sidebar({ children }: SidebarProps) {
   });
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-800">
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
         <div 

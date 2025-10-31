@@ -9,7 +9,7 @@ export default function ROICalculatorPage() {
           <h1 className="text-3xl font-bold text-white font-bold mb-2">
             ROI Calculator
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-300 text-lg">
             Calculate the return on investment for different college programs and institutions using real financial data.
           </p>
         </div>

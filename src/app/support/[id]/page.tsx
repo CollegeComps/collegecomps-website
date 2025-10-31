@@ -244,7 +244,7 @@ export default function TicketDetailPage() {
             {messages.length === 0 ? (
               <div className="text-center py-8">
                 <ChatBubbleLeftRightIcon className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                <p className="text-gray-500">No messages yet. Our support team will respond soon!</p>
+                <p className="text-gray-400">No messages yet. Our support team will respond soon!</p>
               </div>
             ) : (
               messages.map((message) => (
@@ -266,7 +266,7 @@ export default function TicketDetailPage() {
                           </span>
                         )}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-400">
                         {new Date(message.created_at).toLocaleString()}
                       </p>
                     </div>

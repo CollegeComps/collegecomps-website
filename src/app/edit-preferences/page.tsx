@@ -94,7 +94,7 @@ export default function EditPreferencesPage() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading preferences...</p>
+          <p className="mt-4 text-gray-300">Loading preferences...</p>
         </div>
       </div>
     );
@@ -108,12 +108,12 @@ export default function EditPreferencesPage() {
             <PencilIcon className="h-8 w-8 text-blue-600" />
             Edit Your Preferences
           </h1>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-gray-300">
             Update your academic goals and target schools
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 space-y-6">
           <div>
             <label className="block text-sm font-semibold text-white font-bold mb-2">
               Degree Level
@@ -165,7 +165,7 @@ export default function EditPreferencesPage() {
 
             {formData.target_schools.length > 0 && (
               <div className="mt-3 space-y-2">
-                <p className="text-sm text-gray-600">Selected Schools ({formData.target_schools.length})</p>
+                <p className="text-sm text-gray-300">Selected Schools ({formData.target_schools.length})</p>
                 <div className="flex flex-wrap gap-2">
                   {formData.target_schools.map((school) => (
                     <div
@@ -204,7 +204,7 @@ export default function EditPreferencesPage() {
           <div className="flex gap-4 pt-6 border-t border-gray-200">
             <button
               onClick={() => router.back()}
-              className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex-1 px-6 py-3 border border-gray-300 text-gray-300 rounded-lg hover:bg-gray-800 transition-colors"
             >
               Cancel
             </button>
@@ -213,7 +213,7 @@ export default function EditPreferencesPage() {
               disabled={saving}
               className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-colors ${
                 saving
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  ? 'bg-gray-300 text-gray-400 cursor-not-allowed'
                   : 'bg-blue-600 text-white hover:bg-blue-700'
               }`}
             >

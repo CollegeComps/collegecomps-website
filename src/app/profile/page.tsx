@@ -204,7 +204,7 @@ export default function ProfilePage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">Account Settings</h1>
-          <p className="text-lg text-gray-600">Manage your profile and account preferences</p>
+          <p className="text-lg text-gray-300">Manage your profile and account preferences</p>
         </div>
 
         {/* Message Banner */}
@@ -226,20 +226,20 @@ export default function ProfilePage() {
             <h2 className="text-xl font-bold text-white mb-4">Account Status</h2>
             <div className="space-y-3">
               <div className="flex items-center justify-between py-2">
-                <span className="text-gray-700 font-medium">Subscription</span>
+                <span className="text-gray-300 font-medium">Subscription</span>
                 {isPremium ? (
                   <span className="px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-sm font-bold rounded-full">
                     Premium
                   </span>
                 ) : (
-                  <span className="px-3 py-1 bg-gray-200 text-gray-700 text-sm font-semibold rounded-full">
+                  <span className="px-3 py-1 bg-gray-200 text-gray-300 text-sm font-semibold rounded-full">
                     Free
                   </span>
                 )}
               </div>
               <div className="flex items-center justify-between py-2">
-                <span className="text-gray-700 font-medium">Account Email</span>
-                <span className="text-gray-600">{session.user.email}</span>
+                <span className="text-gray-300 font-medium">Account Email</span>
+                <span className="text-gray-300">{session.user.email}</span>
               </div>
               {!isPremium && (
                 <div className="pt-3 border-t border-gray-200">
@@ -293,7 +293,7 @@ export default function ProfilePage() {
                   disabled
                   title="Email cannot be changed"
                 />
-                <p className="mt-1 text-xs text-gray-500">Email address cannot be changed</p>
+                <p className="mt-1 text-xs text-gray-400">Email address cannot be changed</p>
               </div>
 
               {/* Academic Preferences Display */}
@@ -305,25 +305,25 @@ export default function ProfilePage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {preferences.degree_level && (
                       <div>
-                        <p className="text-xs text-gray-500 font-medium">Degree Level</p>
+                        <p className="text-xs text-gray-400 font-medium">Degree Level</p>
                         <p className="text-sm text-white mt-1">{preferences.degree_level}</p>
                       </div>
                     )}
                     {preferences.intended_major && (
                       <div>
-                        <p className="text-xs text-gray-500 font-medium">Intended Major</p>
+                        <p className="text-xs text-gray-400 font-medium">Intended Major</p>
                         <p className="text-sm text-white mt-1">{preferences.intended_major}</p>
                       </div>
                     )}
                     {preferences.expected_graduation_year && (
                       <div>
-                        <p className="text-xs text-gray-500 font-medium">Expected Graduation</p>
+                        <p className="text-xs text-gray-400 font-medium">Expected Graduation</p>
                         <p className="text-sm text-white mt-1">{preferences.expected_graduation_year}</p>
                       </div>
                     )}
                     {preferences.target_schools && preferences.target_schools.length > 0 && (
                       <div className="md:col-span-2">
-                        <p className="text-xs text-gray-500 font-medium mb-2">Target Schools</p>
+                        <p className="text-xs text-gray-400 font-medium mb-2">Target Schools</p>
                         <div className="flex flex-wrap gap-2">
                           {preferences.target_schools.map((school: string, idx: number) => (
                             <span 
@@ -365,7 +365,7 @@ export default function ProfilePage() {
             {bookmarksLoading ? (
               <div className="text-center py-8">
                 <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                <p className="mt-2 text-gray-600">Loading bookmarks...</p>
+                <p className="mt-2 text-gray-300">Loading bookmarks...</p>
               </div>
             ) : bookmarkedColleges.length === 0 ? (
               <div className="text-center py-12 border-2 border-dashed border-gray-200 rounded-lg">
@@ -383,7 +383,7 @@ export default function ProfilePage() {
                   />
                 </svg>
                 <h3 className="mt-2 text-sm font-medium text-white">No bookmarked colleges</h3>
-                <p className="mt-1 text-sm text-gray-500">
+                <p className="mt-1 text-sm text-gray-400">
                   Start bookmarking colleges from the College Explorer to save them here
                 </p>
                 <div className="mt-6">
@@ -400,7 +400,7 @@ export default function ProfilePage() {
                 {bookmarkedColleges.map((bookmark) => (
                   <div
                     key={bookmark.id}
-                    className="flex items-start justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex items-start justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-800 transition-colors"
                   >
                     <div className="flex-1 min-w-0">
                       <h3 className="text-sm font-semibold text-white truncate">
@@ -411,11 +411,11 @@ export default function ProfilePage() {
                           {bookmark.institution_name}
                         </a>
                       </h3>
-                      <p className="text-sm text-gray-600 mt-1">
+                      <p className="text-sm text-gray-300 mt-1">
                         {bookmark.city}, {bookmark.state}
                       </p>
                       {bookmark.control && (
-                        <p className="text-xs text-gray-500 mt-1">{bookmark.control}</p>
+                        <p className="text-xs text-gray-400 mt-1">{bookmark.control}</p>
                       )}
                       <p className="text-xs text-gray-400 mt-1">
                         Bookmarked {new Date(bookmark.bookmarked_at).toLocaleDateString()}
@@ -474,7 +474,7 @@ export default function ProfilePage() {
             {scenariosLoading ? (
               <div className="text-center py-8">
                 <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                <p className="mt-2 text-gray-600">Loading scenarios...</p>
+                <p className="mt-2 text-gray-300">Loading scenarios...</p>
               </div>
             ) : roiScenarios.length === 0 ? (
               <div className="text-center py-12 border-2 border-dashed border-gray-200 rounded-lg">
@@ -492,7 +492,7 @@ export default function ProfilePage() {
                   />
                 </svg>
                 <h3 className="mt-2 text-sm font-medium text-white">No saved scenarios</h3>
-                <p className="mt-1 text-sm text-gray-500">
+                <p className="mt-1 text-sm text-gray-400">
                   Calculate ROI for different programs and save scenarios to compare them
                 </p>
                 <div className="mt-6">
@@ -509,7 +509,7 @@ export default function ProfilePage() {
                 {roiScenarios.map((scenario) => (
                   <div
                     key={scenario.id}
-                    className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="p-4 border border-gray-200 rounded-lg hover:bg-gray-800 transition-colors"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1 min-w-0">
@@ -521,11 +521,11 @@ export default function ProfilePage() {
                             </span>
                           )}
                         </h3>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-sm text-gray-300 mt-1">
                           {scenario.institution_name}
                         </p>
                         {scenario.program_name && (
-                          <p className="text-xs text-gray-500 mt-1">{scenario.program_name}</p>
+                          <p className="text-xs text-gray-400 mt-1">{scenario.program_name}</p>
                         )}
                       </div>
                       <div className="ml-4 flex gap-2">
@@ -555,13 +555,13 @@ export default function ProfilePage() {
                     {/* ROI Metrics */}
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3 pt-3 border-t border-gray-200">
                       <div>
-                        <p className="text-xs text-gray-500">Total Cost</p>
+                        <p className="text-xs text-gray-400">Total Cost</p>
                         <p className="text-sm font-semibold text-white">
                           ${scenario.total_cost?.toLocaleString() || 'N/A'}
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500">Net ROI</p>
+                        <p className="text-xs text-gray-400">Net ROI</p>
                         <p className={`text-sm font-semibold ${
                           scenario.net_roi > 0 ? 'text-green-600' : 'text-red-600'
                         }`}>
@@ -569,7 +569,7 @@ export default function ProfilePage() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500">ROI %</p>
+                        <p className="text-xs text-gray-400">ROI %</p>
                         <p className={`text-sm font-semibold ${
                           scenario.roi_percentage > 0 ? 'text-green-600' : 'text-red-600'
                         }`}>
@@ -577,7 +577,7 @@ export default function ProfilePage() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500">Payback</p>
+                        <p className="text-xs text-gray-400">Payback</p>
                         <p className="text-sm font-semibold text-white">
                           {scenario.payback_period ? `${scenario.payback_period.toFixed(1)} yrs` : 'Never'}
                         </p>
@@ -683,7 +683,7 @@ export default function ProfilePage() {
           {/* Danger Zone */}
           <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 border-2 border-red-200">
             <h2 className="text-xl font-bold text-red-600 mb-2">Danger Zone</h2>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-300 mb-4">
               Once you delete your account, there is no going back. Please be certain.
             </p>
             <button

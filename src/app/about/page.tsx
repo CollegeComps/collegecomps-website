@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-black">
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,7 +37,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <h2 className="text-3xl font-bold text-white font-bold mb-4">Our Mission</h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-gray-300">
               We believe that choosing a college and program should be based on data, not guesswork. 
               Our mission is to provide transparent, comprehensive analysis that helps students maximize 
               their return on investment while finding the right fit for their educational goals.
@@ -51,7 +51,7 @@ export default function AboutPage() {
                 <ChartBarIcon className="w-8 h-8 text-blue-600" />
               </div>
               <h3 className="text-xl font-semibold text-white font-bold mb-2">Data-Driven</h3>
-              <p className="text-gray-600">
+              <p className="text-gray-300">
                 We aggregate data from trusted government sources like IPEDS and College Scorecard 
                 to provide accurate, up-to-date information.
               </p>
@@ -62,7 +62,7 @@ export default function AboutPage() {
                 <ShieldCheckIcon className="w-8 h-8 text-green-600" />
               </div>
               <h3 className="text-xl font-semibold text-white font-bold mb-2">Transparent</h3>
-              <p className="text-gray-600">
+              <p className="text-gray-300">
                 No hidden agendas or paid placements. Our rankings and recommendations are based 
                 solely on data and user-defined preferences.
               </p>
@@ -73,7 +73,7 @@ export default function AboutPage() {
                 <UserGroupIcon className="w-8 h-8 text-purple-600" />
               </div>
               <h3 className="text-xl font-semibold text-white font-bold mb-2">Student-Focused</h3>
-              <p className="text-gray-600">
+              <p className="text-gray-300">
                 Built for students, by people who understand the importance of making 
                 the right educational investment.
               </p>
@@ -87,7 +87,7 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white font-bold mb-6 text-center">Our Story</h2>
           
-          <div className="prose prose-lg max-w-none text-gray-700 text-center">
+          <div className="prose prose-lg max-w-none text-gray-300 text-center">
             <p className="mb-4">
               CollegeComps was born from a simple realization: choosing a college shouldn't be 
               a guessing game. With rising tuition costs and an increasingly complex higher education 
@@ -130,7 +130,7 @@ export default function AboutPage() {
                 <AcademicCapIcon className="w-8 h-8 text-blue-600 mr-4 flex-shrink-0" />
                 <div>
                   <h3 className="text-xl font-semibold text-white font-bold mb-2">ROI Calculator</h3>
-                  <p className="text-gray-700">
+                  <p className="text-gray-300">
                     Calculate the return on investment for any college program. Compare tuition costs, 
                     projected earnings, and lifetime value to make financially sound decisions.
                   </p>
@@ -143,7 +143,7 @@ export default function AboutPage() {
                 <ChartBarIcon className="w-8 h-8 text-green-600 mr-4 flex-shrink-0" />
                 <div>
                   <h3 className="text-xl font-semibold text-white font-bold mb-2">College Explorer</h3>
-                  <p className="text-gray-700">
+                  <p className="text-gray-300">
                     Browse and filter 6,000+ institutions with detailed information about costs, 
                     outcomes, demographics, and academic programs.
                   </p>
@@ -156,7 +156,7 @@ export default function AboutPage() {
                 <LightBulbIcon className="w-8 h-8 text-purple-600 mr-4 flex-shrink-0" />
                 <div>
                   <h3 className="text-xl font-semibold text-white font-bold mb-2">Comparison Tools</h3>
-                  <p className="text-gray-700">
+                  <p className="text-gray-300">
                     Side-by-side comparisons of colleges with comprehensive metrics including costs, 
                     graduation rates, salary outcomes, and student demographics.
                   </p>
@@ -169,7 +169,7 @@ export default function AboutPage() {
                 <HeartIcon className="w-8 h-8 text-orange-600 mr-4 flex-shrink-0" />
                 <div>
                   <h3 className="text-xl font-semibold text-white font-bold mb-2">Personalized Insights</h3>
-                  <p className="text-gray-700">
+                  <p className="text-gray-300">
                     Save your favorite colleges, track comparisons, and receive personalized 
                     recommendations based on your preferences and goals.
                   </p>
@@ -185,36 +185,36 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white font-bold mb-6 text-center">Our Data Sources</h2>
           
-          <p className="text-lg text-gray-600 text-center mb-8">
+          <p className="text-lg text-gray-300 text-center mb-8">
             We aggregate data from authoritative government sources to ensure accuracy and reliability:
           </p>
 
           <div className="space-y-4">
-            <div className="bg-white rounded-lg p-6 border border-gray-200">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 border border-gray-200">
               <h3 className="text-lg font-semibold text-white font-bold mb-2">
                 IPEDS (Integrated Postsecondary Education Data System)
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-300">
                 Comprehensive data on college enrollment, finances, graduation rates, and institutional 
                 characteristics collected by the National Center for Education Statistics.
               </p>
             </div>
 
-            <div className="bg-white rounded-lg p-6 border border-gray-200">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 border border-gray-200">
               <h3 className="text-lg font-semibold text-white font-bold mb-2">
                 College Scorecard
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-300">
                 U.S. Department of Education data including average costs, graduation rates, loan 
                 default rates, and post-graduation earnings.
               </p>
             </div>
 
-            <div className="bg-white rounded-lg p-6 border border-gray-200">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 border border-gray-200">
               <h3 className="text-lg font-semibold text-white font-bold mb-2">
                 User-Contributed Data
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-300">
                 Verified salary submissions from real graduates to provide current, real-world 
                 earnings data across various programs and institutions.
               </p>
@@ -235,7 +235,7 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/roi-calculator"
-              className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-50 transition-colors shadow-lg"
+              className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-colors shadow-lg"
             >
               Calculate ROI
             </Link>
@@ -253,7 +253,7 @@ export default function AboutPage() {
       <div className="py-12 bg-white">
         <div className="max-w-3xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-white font-bold mb-4">Get in Touch</h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-300 mb-6">
             Have questions, feedback, or suggestions? We'd love to hear from you.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center text-sm">

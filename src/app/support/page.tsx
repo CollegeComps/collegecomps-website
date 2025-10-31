@@ -123,7 +123,7 @@ export default function SupportPage() {
       urgent: 'bg-red-100 text-red-800',
       high: 'bg-orange-100 text-orange-800',
       normal: 'bg-blue-100 text-blue-800',
-      low: 'bg-gray-100 text-gray-600',
+      low: 'bg-gray-100 text-gray-300',
     };
     return colors[priority as keyof typeof colors] || colors.normal;
   };
@@ -133,7 +133,7 @@ export default function SupportPage() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading support tickets...</p>
+          <p className="text-gray-300">Loading support tickets...</p>
         </div>
       </div>
     );
@@ -150,7 +150,7 @@ export default function SupportPage() {
                 <LifebuoyIcon className="w-10 h-10 text-blue-600" />
                 <h1 className="text-4xl font-bold text-white font-bold">Support Center</h1>
               </div>
-              <p className="text-lg text-gray-600">
+              <p className="text-lg text-gray-300">
                 Get help from our support team
                 {isProfessional && <span className="ml-2 text-purple-600 font-semibold">Priority Support Active</span>}
                 {isPremium && <span className="ml-2 text-blue-600 font-semibold">Premium Support Active</span>}
@@ -168,23 +168,23 @@ export default function SupportPage() {
 
         {/* Support Tier Info */}
         <div className="mb-6 grid md:grid-cols-3 gap-4">
-          <div className="bg-white rounded-lg p-4 border-2 border-gray-200">
+          <div className="bg-gray-900 border border-gray-800 rounded-lg p-4 border-2 border-gray-200">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-600">Your Support Tier</span>
+              <span className="text-sm font-medium text-gray-300">Your Support Tier</span>
               {isProfessional && <SparklesIcon className="w-5 h-5 text-purple-600" />}
             </div>
             <p className="text-2xl font-bold text-white font-bold">
               {isProfessional ? 'Priority' : isPremium ? 'Premium' : 'Standard'}
             </p>
           </div>
-          <div className="bg-white rounded-lg p-4 border-2 border-gray-200">
-            <span className="text-sm font-medium text-gray-600 block mb-2">Response Time</span>
+          <div className="bg-gray-900 border border-gray-800 rounded-lg p-4 border-2 border-gray-200">
+            <span className="text-sm font-medium text-gray-300 block mb-2">Response Time</span>
             <p className="text-2xl font-bold text-white font-bold">
               {isProfessional ? '4 hours' : isPremium ? '24 hours' : '48 hours'}
             </p>
           </div>
-          <div className="bg-white rounded-lg p-4 border-2 border-gray-200">
-            <span className="text-sm font-medium text-gray-600 block mb-2">Open Tickets</span>
+          <div className="bg-gray-900 border border-gray-800 rounded-lg p-4 border-2 border-gray-200">
+            <span className="text-sm font-medium text-gray-300 block mb-2">Open Tickets</span>
             <p className="text-2xl font-bold text-white font-bold">
               {tickets.filter(t => t.status !== 'closed' && t.status !== 'resolved').length}
             </p>
@@ -193,7 +193,7 @@ export default function SupportPage() {
 
         {/* New Ticket Form */}
         {showNewTicket && (
-          <div className="mb-6 bg-white rounded-xl shadow-lg p-6">
+          <div className="mb-6 bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6">
             <h2 className="text-2xl font-bold text-white font-bold mb-4">Create Support Ticket</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -246,7 +246,7 @@ export default function SupportPage() {
                 <button
                   type="button"
                   onClick={() => setShowNewTicket(false)}
-                  className="px-6 bg-gray-200 text-gray-700 font-semibold py-3 rounded-lg hover:bg-gray-300 transition-colors"
+                  className="px-6 bg-gray-200 text-gray-300 font-semibold py-3 rounded-lg hover:bg-gray-300 transition-colors"
                 >
                   Cancel
                 </button>
@@ -256,14 +256,14 @@ export default function SupportPage() {
         )}
 
         {/* Tickets List */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6">
           <h2 className="text-2xl font-bold text-white font-bold mb-6">Your Tickets</h2>
           
           {tickets.length === 0 ? (
             <div className="text-center py-12">
               <LifebuoyIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-600 text-lg mb-2">No support tickets yet</p>
-              <p className="text-gray-500">Click "New Ticket" to get started</p>
+              <p className="text-gray-300 text-lg mb-2">No support tickets yet</p>
+              <p className="text-gray-400">Click "New Ticket" to get started</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -282,8 +282,8 @@ export default function SupportPage() {
                           {ticket.priority.toUpperCase()}
                         </span>
                       </div>
-                      <p className="text-gray-600 text-sm line-clamp-2 mb-2">{ticket.description}</p>
-                      <div className="flex items-center gap-4 text-sm text-gray-500">
+                      <p className="text-gray-300 text-sm line-clamp-2 mb-2">{ticket.description}</p>
+                      <div className="flex items-center gap-4 text-sm text-gray-400">
                         <span>Category: {categories.find(c => c.value === ticket.category)?.label || ticket.category}</span>
                         <span>•</span>
                         <span>{new Date(ticket.created_at).toLocaleDateString()}</span>
@@ -296,7 +296,7 @@ export default function SupportPage() {
                         ticket.status === 'open' ? 'bg-blue-100 text-blue-800' :
                         ticket.status === 'in_progress' ? 'bg-purple-100 text-purple-800' :
                         ticket.status === 'resolved' ? 'bg-green-100 text-green-800' :
-                        'bg-gray-100 text-gray-600'
+                        'bg-gray-100 text-gray-300'
                       }`}>
                         {ticket.status.replace('_', ' ').toUpperCase()}
                       </span>

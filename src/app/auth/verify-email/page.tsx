@@ -45,7 +45,7 @@ function VerifyEmailContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
+      <div className="max-w-md w-full bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8">
         {status === 'verifying' && (
           <>
             <div className="text-center">
@@ -57,7 +57,7 @@ function VerifyEmailContent() {
               <h1 className="text-2xl font-bold text-white font-bold mb-2">
                 Verifying Your Email
               </h1>
-              <p className="text-gray-600">
+              <p className="text-gray-300">
                 Please wait while we verify your email address...
               </p>
             </div>
@@ -75,10 +75,10 @@ function VerifyEmailContent() {
               <h1 className="text-2xl font-bold text-white font-bold mb-2">
                 Email Verified! 🎉
               </h1>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-300 mb-4">
                 Your email has been successfully verified. You can now sign in and start using CollegeComps.
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-400">
                 Redirecting you to sign in...
               </p>
             </div>
@@ -103,7 +103,7 @@ function VerifyEmailContent() {
               <h1 className="text-2xl font-bold text-white font-bold mb-2">
                 Already Verified
               </h1>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-300 mb-4">
                 This email address has already been verified. You can sign in to your account.
               </p>
             </div>
@@ -128,7 +128,7 @@ function VerifyEmailContent() {
               <h1 className="text-2xl font-bold text-white font-bold mb-2">
                 Verification Failed
               </h1>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-300 mb-4">
                 {message}
               </p>
             </div>
@@ -142,7 +142,7 @@ function VerifyEmailContent() {
               </Link>
               <Link
                 href="/"
-                className="block w-full text-center py-3 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                className="block w-full text-center py-3 px-4 border border-gray-300 text-gray-300 rounded-lg hover:bg-gray-800 transition-colors"
               >
                 Return to Homepage
               </Link>
@@ -158,7 +158,7 @@ export default function VerifyEmailPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-gray-600">Loading...</div>
+        <div className="text-gray-300">Loading...</div>
       </div>
     }>
       <VerifyEmailContent />

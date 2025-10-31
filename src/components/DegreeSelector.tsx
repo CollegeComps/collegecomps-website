@@ -71,7 +71,7 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-6">
+    <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
         <svg className="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -91,7 +91,7 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
         {selectedDegree && (
           <button
             onClick={handleClear}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -101,7 +101,7 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
       </div>
 
       {loading && (
-        <div className="mt-2 text-sm text-gray-600">Searching degrees...</div>
+        <div className="mt-2 text-sm text-gray-300">Searching degrees...</div>
       )}
 
       {showDropdown && degrees.length > 0 && (
@@ -113,7 +113,7 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
               className="w-full text-left px-4 py-3 hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0"
             >
               <div className="font-semibold text-gray-900">{degree.cip_title}</div>
-              <div className="text-sm text-gray-600 mt-1">
+              <div className="text-sm text-gray-300 mt-1">
                 CIP Code: {degree.cipcode}
                 {degree.total_completions && (
                   <span className="ml-3">
@@ -127,7 +127,7 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
       )}
 
       {searchQuery.length >= 2 && !loading && degrees.length === 0 && (
-        <div className="mt-2 text-sm text-gray-600">
+        <div className="mt-2 text-sm text-gray-300">
           No degrees found. Try a different search term.
         </div>
       )}
@@ -150,9 +150,9 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
         </div>
       )}
 
-      <div className="mt-4 bg-gray-50 rounded-lg p-4">
+      <div className="mt-4 bg-gray-800 rounded-lg p-4">
         <h4 className="text-sm font-semibold text-gray-900 mb-2">Search Tips</h4>
-        <ul className="text-xs text-gray-600 space-y-1">
+        <ul className="text-xs text-gray-300 space-y-1">
           <li>• Enter at least 2 characters to start searching</li>
           <li>• Search by field of study (e.g., "Engineering", "Healthcare")</li>
           <li>• Results show degree programs available across all institutions</li>

@@ -98,7 +98,7 @@ export default function AIRecommendationsPage() {
       case 'High': return 'text-green-600 bg-green-100';
       case 'Moderate': return 'text-yellow-600 bg-yellow-100';
       case 'Reach': return 'text-orange-600 bg-orange-100';
-      default: return 'text-gray-600 bg-gray-100';
+      default: return 'text-gray-300 bg-gray-100';
     }
   };
 
@@ -113,11 +113,11 @@ export default function AIRecommendationsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
           <SparklesIcon className="w-16 h-16 text-purple-600 animate-pulse mx-auto mb-4" />
-          <p className="text-xl text-gray-600">Analyzing your profile...</p>
-          <p className="text-gray-500 mt-2">Finding your perfect matches</p>
+          <p className="text-xl text-gray-300">Analyzing your profile...</p>
+          <p className="text-gray-400 mt-2">Finding your perfect matches</p>
         </div>
       </div>
     );
@@ -125,9 +125,9 @@ export default function AIRecommendationsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12 px-4">
+      <div className="min-h-screen bg-black py-12 px-4">
         <div className="max-w-2xl mx-auto">
-          <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-8 text-center">
             <SparklesIcon className="w-16 h-16 text-purple-600 mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-white font-bold mb-4">AI Recommendations</h1>
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
@@ -162,7 +162,7 @@ export default function AIRecommendationsPage() {
   const currentRecommendations = data.recommendations[activeTab];
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-black py-12 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -170,48 +170,48 @@ export default function AIRecommendationsPage() {
             <SparklesIcon className="w-8 h-8 text-purple-600" />
             <h1 className="text-4xl font-bold text-white font-bold">AI-Powered Recommendations</h1>
           </div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Based on your profile, we've analyzed {data.summary.totalAnalyzed} schools to find your perfect matches
           </p>
         </div>
 
         {/* Profile Summary */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6 mb-8">
           <h2 className="text-lg font-semibold text-white font-bold mb-4">Your Profile</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {data.profile.gpa && (
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-600">GPA</p>
+              <div className="text-center p-3 bg-gray-800 border border-gray-700 rounded-lg">
+                <p className="text-sm text-gray-300">GPA</p>
                 <p className="text-xl font-bold text-white font-bold">{data.profile.gpa}</p>
               </div>
             )}
             {data.profile.sat && (
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-600">SAT</p>
+              <div className="text-center p-3 bg-gray-800 border border-gray-700 rounded-lg">
+                <p className="text-sm text-gray-300">SAT</p>
                 <p className="text-xl font-bold text-white font-bold">{data.profile.sat}</p>
               </div>
             )}
             {data.profile.act && (
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-600">ACT</p>
+              <div className="text-center p-3 bg-gray-800 border border-gray-700 rounded-lg">
+                <p className="text-sm text-gray-300">ACT</p>
                 <p className="text-xl font-bold text-white font-bold">{data.profile.act}</p>
               </div>
             )}
             {data.profile.budget && (
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-600">Budget</p>
+              <div className="text-center p-3 bg-gray-800 border border-gray-700 rounded-lg">
+                <p className="text-sm text-gray-300">Budget</p>
                 <p className="text-xl font-bold text-white font-bold">{formatCurrency(data.profile.budget)}</p>
               </div>
             )}
             {data.profile.location && (
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-600">Location</p>
+              <div className="text-center p-3 bg-gray-800 border border-gray-700 rounded-lg">
+                <p className="text-sm text-gray-300">Location</p>
                 <p className="text-xl font-bold text-white font-bold">{data.profile.location}</p>
               </div>
             )}
             {data.profile.interests && (
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-600">Interest</p>
+              <div className="text-center p-3 bg-gray-800 border border-gray-700 rounded-lg">
+                <p className="text-sm text-gray-300">Interest</p>
                 <p className="text-xl font-bold text-white font-bold">{data.profile.interests}</p>
               </div>
             )}
@@ -238,7 +238,7 @@ export default function AIRecommendationsPage() {
         </div>
 
         {/* Tabs */}
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg overflow-hidden">
           <div className="border-b border-gray-200">
             <div className="flex">
               <button
@@ -246,7 +246,7 @@ export default function AIRecommendationsPage() {
                 className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
                   activeTab === 'all'
                     ? 'border-b-2 border-purple-600 text-purple-600'
-                    : 'text-gray-600 hover:text-white font-bold'
+                    : 'text-gray-300 hover:text-white font-bold'
                 }`}
               >
                 All Recommendations ({data.recommendations.all.length})
@@ -256,7 +256,7 @@ export default function AIRecommendationsPage() {
                 className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
                   activeTab === 'safety'
                     ? 'border-b-2 border-green-600 text-green-600'
-                    : 'text-gray-600 hover:text-white font-bold'
+                    : 'text-gray-300 hover:text-white font-bold'
                 }`}
               >
                 Safety ({data.recommendations.safety.length})
@@ -266,7 +266,7 @@ export default function AIRecommendationsPage() {
                 className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
                   activeTab === 'target'
                     ? 'border-b-2 border-yellow-600 text-yellow-600'
-                    : 'text-gray-600 hover:text-white font-bold'
+                    : 'text-gray-300 hover:text-white font-bold'
                 }`}
               >
                 Target ({data.recommendations.target.length})
@@ -276,7 +276,7 @@ export default function AIRecommendationsPage() {
                 className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
                   activeTab === 'reach'
                     ? 'border-b-2 border-orange-600 text-orange-600'
-                    : 'text-gray-600 hover:text-white font-bold'
+                    : 'text-gray-300 hover:text-white font-bold'
                 }`}
               >
                 Reach ({data.recommendations.reach.length})
@@ -318,15 +318,15 @@ export default function AIRecommendationsPage() {
 
                   <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-gray-200">
                     <div>
-                      <p className="text-sm text-gray-600 mb-1">Estimated Cost</p>
+                      <p className="text-sm text-gray-300 mb-1">Estimated Cost</p>
                       <p className="text-lg font-semibold text-white font-bold">{formatCurrency(school.estimatedCost)}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600 mb-1">Avg Salary</p>
+                      <p className="text-sm text-gray-300 mb-1">Avg Salary</p>
                       <p className="text-lg font-semibold text-white font-bold">{formatCurrency(school.avgSalary)}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600 mb-1">Estimated ROI</p>
+                      <p className="text-sm text-gray-300 mb-1">Estimated ROI</p>
                       <p className="text-lg font-semibold text-green-600">{formatCurrency(school.roi)}</p>
                     </div>
                   </div>
@@ -340,7 +340,7 @@ export default function AIRecommendationsPage() {
                     </Link>
                     <Link
                       href={`/roi-calculator?college=${school.id}`}
-                      className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors text-center"
+                      className="flex-1 px-4 py-2 bg-gray-100 text-gray-300 font-medium rounded-lg hover:bg-gray-200 transition-colors text-center"
                     >
                       Calculate ROI
                     </Link>
@@ -351,7 +351,7 @@ export default function AIRecommendationsPage() {
 
             {currentRecommendations.length === 0 && (
               <div className="text-center py-12">
-                <p className="text-gray-500">No schools in this category</p>
+                <p className="text-gray-400">No schools in this category</p>
               </div>
             )}
           </div>

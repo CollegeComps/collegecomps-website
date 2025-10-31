@@ -131,7 +131,7 @@ export default function SubmitSalaryPage() {
 
   if (status === 'unauthenticated') {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
         <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-8 max-w-md text-center">
           <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,7 +139,7 @@ export default function SubmitSalaryPage() {
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-white font-bold mb-2">Sign In Required</h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-300 mb-6">
             You need to be logged in to submit salary data. This helps us maintain data quality and prevent spam.
           </p>
           <Link
@@ -236,7 +236,7 @@ export default function SubmitSalaryPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
         <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-8 max-w-md text-center">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -244,7 +244,7 @@ export default function SubmitSalaryPage() {
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-white font-bold mb-2">Thank You!</h2>
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-300 mb-4">
             Your salary data has been submitted successfully. You're helping future students make better decisions!
           </p>
           <p className="text-sm text-blue-600">Redirecting to insights...</p>
@@ -254,14 +254,14 @@ export default function SubmitSalaryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-black py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-white font-bold mb-3">
             Share Your Salary Data
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Help future students by sharing your post-graduation earnings. All data is anonymized and aggregated.
           </p>
           <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm">
@@ -414,7 +414,7 @@ export default function SubmitSalaryPage() {
                         </button>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Institution</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-1">Institution</label>
                         <input
                           type="text"
                           value={degree.institution_name}
@@ -428,7 +428,7 @@ export default function SubmitSalaryPage() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Degree Level</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-1">Degree Level</label>
                         <select
                           value={degree.degree_level}
                           onChange={(e) => {
@@ -445,7 +445,7 @@ export default function SubmitSalaryPage() {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Major</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-1">Major</label>
                         <input
                           type="text"
                           value={degree.major}
@@ -459,7 +459,7 @@ export default function SubmitSalaryPage() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Graduation Year</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-1">Graduation Year</label>
                         <input
                           type="number"
                           min="1950"
@@ -514,7 +514,7 @@ export default function SubmitSalaryPage() {
                   <option value="15">15 years</option>
                   <option value="20">20+ years</option>
                 </select>
-                <p className="mt-1 text-xs text-gray-500">
+                <p className="mt-1 text-xs text-gray-400">
                   Total time working in this field, including internships and self-taught work
                 </p>
               </div>
@@ -531,10 +531,10 @@ export default function SubmitSalaryPage() {
               <div>
                 <label className="block text-sm font-semibold text-white font-bold mb-1">
                   Base Salary (Annual) *
-                  <span className="text-xs text-gray-500 ml-1">(before taxes)</span>
+                  <span className="text-xs text-gray-400 ml-1">(before taxes)</span>
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-2 text-gray-500">$</span>
+                  <span className="absolute left-4 top-2 text-gray-400">$</span>
                   <input
                     type="number"
                     required
@@ -546,16 +546,16 @@ export default function SubmitSalaryPage() {
                     placeholder="75000"
                   />
                 </div>
-                <p className="mt-1 text-xs text-gray-500">Enter your annual base salary ($10k - $10M)</p>
+                <p className="mt-1 text-xs text-gray-400">Enter your annual base salary ($10k - $10M)</p>
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-white font-bold mb-1">
                   Total Compensation (Optional)
-                  <span className="text-xs text-gray-500 ml-1">(includes bonuses, stock)</span>
+                  <span className="text-xs text-gray-400 ml-1">(includes bonuses, stock)</span>
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-2 text-gray-500">$</span>
+                  <span className="absolute left-4 top-2 text-gray-400">$</span>
                   <input
                     type="number"
                     min="0"
@@ -566,7 +566,7 @@ export default function SubmitSalaryPage() {
                     placeholder="90000"
                   />
                 </div>
-                <p className="mt-1 text-xs text-gray-500">Must be ≥ base salary if provided</p>
+                <p className="mt-1 text-xs text-gray-400">Must be ≥ base salary if provided</p>
               </div>
             </div>
           </div>
@@ -682,7 +682,7 @@ export default function SubmitSalaryPage() {
                   Original Student Debt
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-2 text-gray-500">$</span>
+                  <span className="absolute left-4 top-2 text-gray-400">$</span>
                   <input
                     type="number"
                     min="0"
@@ -693,7 +693,7 @@ export default function SubmitSalaryPage() {
                     placeholder="0"
                   />
                 </div>
-                <p className="mt-1 text-xs text-gray-500">Total debt when you graduated (max $1M)</p>
+                <p className="mt-1 text-xs text-gray-400">Total debt when you graduated (max $1M)</p>
               </div>
 
               <div>
@@ -701,7 +701,7 @@ export default function SubmitSalaryPage() {
                   Remaining Student Debt
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-2 text-gray-500">$</span>
+                  <span className="absolute left-4 top-2 text-gray-400">$</span>
                   <input
                     type="number"
                     min="0"
@@ -711,7 +711,7 @@ export default function SubmitSalaryPage() {
                     placeholder="0"
                   />
                 </div>
-                <p className="mt-1 text-xs text-gray-500">Current outstanding balance (≤ original debt)</p>
+                <p className="mt-1 text-xs text-gray-400">Current outstanding balance (≤ original debt)</p>
               </div>
             </div>
           </div>
@@ -724,7 +724,7 @@ export default function SubmitSalaryPage() {
               </svg>
               <div>
                 <p className="text-sm font-semibold text-white font-bold mb-1">Your Privacy is Protected</p>
-                <p className="text-xs text-gray-700">
+                <p className="text-xs text-gray-300">
                   All submitted data is anonymized and aggregated. We never share personal information, company names, or any identifying details.
                 </p>
               </div>
@@ -736,7 +736,7 @@ export default function SubmitSalaryPage() {
             <button
               type="button"
               onClick={() => router.back()}
-              className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+              className="flex-1 px-6 py-3 border border-gray-300 text-gray-300 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
             >
               Cancel
             </button>
@@ -751,7 +751,7 @@ export default function SubmitSalaryPage() {
         </form>
 
         {/* Trust Indicators */}
-        <div className="mt-8 text-center text-sm text-gray-600">
+        <div className="mt-8 text-center text-sm text-gray-300">
           <div className="flex items-center justify-center gap-6">
             <div className="flex items-center gap-2">
               <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">

@@ -34,14 +34,14 @@ export function CollegeLocationMap({
   const fullAddress = [address, city, state, zip_code].filter(Boolean).join(', ');
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-6">
+    <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
       <div className="flex items-center mb-4">
         <MapPinIcon className="w-6 h-6 text-blue-600 mr-2" />
         <h2 className="text-xl font-semibold text-gray-900">Location</h2>
       </div>
       
       {fullAddress && (
-        <p className="text-gray-700 mb-4">{fullAddress}</p>
+        <p className="text-gray-300 mb-4">{fullAddress}</p>
       )}
       
       <div className="relative w-full" style={{ paddingBottom: '56.25%' }}> {/* 16:9 aspect ratio */}

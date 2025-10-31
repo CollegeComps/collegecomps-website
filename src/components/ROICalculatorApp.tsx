@@ -983,7 +983,7 @@ export default function ROICalculatorApp() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">ROI Results</h3>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-300 mb-4">
                 Select an institution and configure your costs to see detailed ROI calculations.
               </p>
             </div>

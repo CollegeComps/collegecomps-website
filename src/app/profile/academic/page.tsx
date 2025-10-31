@@ -99,7 +99,7 @@ export default function AcademicProfilePage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <p className="mt-4 text-gray-300">Loading...</p>
         </div>
       </div>
     );
@@ -108,9 +108,9 @@ export default function AcademicProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
-        <div className="bg-white rounded-lg shadow-xl p-8">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-xl p-8">
           <h1 className="text-3xl font-bold text-white font-bold mb-2">Academic Profile</h1>
-          <p className="text-gray-600 mb-8">
+          <p className="text-gray-300 mb-8">
             Complete your academic profile to get personalized college recommendations based on your qualifications and preferences.
           </p>
 
@@ -129,7 +129,7 @@ export default function AcademicProfilePage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   GPA (0.0 - 4.0) <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -145,8 +145,8 @@ export default function AcademicProfilePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  SAT Score (400 - 1600) <span className="text-gray-500 text-xs">(Optional)</span>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  SAT Score (400 - 1600) <span className="text-gray-400 text-xs">(Optional)</span>
                 </label>
                 <input
                   type="number"
@@ -160,8 +160,8 @@ export default function AcademicProfilePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  ACT Score (1 - 36) <span className="text-gray-500 text-xs">(Optional)</span>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  ACT Score (1 - 36) <span className="text-gray-400 text-xs">(Optional)</span>
                 </label>
                 <input
                   type="number"
@@ -175,7 +175,7 @@ export default function AcademicProfilePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Annual Budget ($) <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -190,8 +190,8 @@ export default function AcademicProfilePage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Location Preference <span className="text-gray-500 text-xs">(Optional)</span>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Location Preference <span className="text-gray-400 text-xs">(Optional)</span>
               </label>
               <input
                 type="text"
@@ -203,8 +203,8 @@ export default function AcademicProfilePage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Program/Major Interest <span className="text-gray-500 text-xs">(Optional)</span>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Program/Major Interest <span className="text-gray-400 text-xs">(Optional)</span>
               </label>
               <input
                 type="text"
@@ -216,8 +216,8 @@ export default function AcademicProfilePage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Career Goals <span className="text-gray-500 text-xs">(Optional)</span>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Career Goals <span className="text-gray-400 text-xs">(Optional)</span>
               </label>
               <textarea
                 value={formData.career_goals}
@@ -239,7 +239,7 @@ export default function AcademicProfilePage() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-6 py-3 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                className="px-6 py-3 border border-gray-300 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
               >
                 Cancel
               </button>

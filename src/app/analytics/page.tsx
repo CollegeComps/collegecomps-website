@@ -116,7 +116,7 @@ export default function AnalyticsPage() {
       return (
         <div className="bg-gray-900 p-4 border border-gray-800 rounded-lg shadow-lg">
           <p className="font-semibold text-white font-bold">{data.name}</p>
-          <p className="text-sm text-gray-700">{data.state} • {data.control}</p>
+          <p className="text-sm text-gray-300">{data.state} • {data.control}</p>
           <p className="text-sm mt-2 text-white font-bold">
             <span className="font-semibold">Annual Cost:</span> ${data.cost.toLocaleString()}
           </p>
@@ -148,12 +148,12 @@ export default function AnalyticsPage() {
   const privateForProfitData = filteredData.filter(d => d.control === 'Private For-Profit');
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white font-bold">College ROI Analytics</h1>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-gray-300">
             Visualize the relationship between college costs and return on investment across thousands of institutions
           </p>
         </div>
@@ -229,7 +229,7 @@ export default function AnalyticsPage() {
             </div>
           </div>
 
-          <div className="mt-4 text-sm text-gray-700">
+          <div className="mt-4 text-sm text-gray-300">
             Showing <span className="font-semibold text-white font-bold">{filteredData.length}</span> of <span className="font-semibold text-white font-bold">{data.length}</span> institutions
           </div>
         </div>
@@ -238,7 +238,7 @@ export default function AnalyticsPage() {
         <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
           {loading ? (
             <div className="flex items-center justify-center h-96">
-              <div className="text-gray-700 font-medium">Loading chart data...</div>
+              <div className="text-gray-300 font-medium">Loading chart data...</div>
             </div>
           ) : (
             <>

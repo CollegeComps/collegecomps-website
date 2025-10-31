@@ -280,7 +280,7 @@ export default function SalaryInsightsPage() {
                 ? 'Try adjusting your filters or contribute data for this combination.' 
                 : 'Salary Insights is powered by anonymous data submitted by our community.'}
             </p>
-            <p className="text-sm text-gray-500 mb-6 max-w-xl mx-auto">
+            <p className="text-sm text-gray-400 mb-6 max-w-xl mx-auto">
               We require at least 3 verified submissions before displaying any salary data to protect privacy and ensure accuracy.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -336,7 +336,7 @@ export default function SalaryInsightsPage() {
                   <div>
                     <h3 className="text-xl font-bold text-white mb-1">{data.major}</h3>
                     <p className="text-gray-300">{data.institution_name}</p>
-                    <div className="flex items-center gap-3 mt-2 text-sm text-gray-500">
+                    <div className="flex items-center gap-3 mt-2 text-sm text-gray-400">
                       <span className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full font-medium">
                         {data.degree_level.charAt(0).toUpperCase() + data.degree_level.slice(1)}
                       </span>
@@ -386,7 +386,7 @@ export default function SalaryInsightsPage() {
                     </div>
 
                     <div className="grid grid-cols-3 gap-4">
-                      <div className="text-center bg-gray-50 rounded-lg p-3">
+                      <div className="text-center bg-gray-800 border border-gray-700 rounded-lg p-3">
                         <div className="text-xs text-gray-300 mb-1">25th Percentile</div>
                         <div className="text-lg font-bold text-white">{formatCurrency(data.p25_salary)}</div>
                       </div>
@@ -411,7 +411,7 @@ export default function SalaryInsightsPage() {
                           }}
                         />
                       </div>
-                      <div className="flex justify-between mt-1 text-xs text-gray-500">
+                      <div className="flex justify-between mt-1 text-xs text-gray-400">
                         <span>{formatCurrency(data.min_salary)}</span>
                         <span>{formatCurrency(data.max_salary)}</span>
                       </div>
@@ -422,7 +422,7 @@ export default function SalaryInsightsPage() {
                 {/* Locked Premium Content */}
                 {!isPremium && (
                   <div className="mt-6 pt-6 border-t border-gray-200">
-                    <div className="bg-gray-50 rounded-lg p-6 text-center relative overflow-hidden">
+                    <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 text-center relative overflow-hidden">
                       <div className="absolute inset-0 backdrop-blur-sm bg-gray-100/50 flex items-center justify-center">
                         <div>
                           <div className="text-4xl mb-2">🔒</div>

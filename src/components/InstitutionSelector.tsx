@@ -81,13 +81,13 @@ export default function InstitutionSelector({ selectedInstitution, onSelect }: I
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border border-gray-200 p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
         Step 1: Select Institution
       </h3>
       
       <div className="relative">
-        <label htmlFor="institution-search" className="block text-sm font-medium text-gray-700 mb-2">
+        <label htmlFor="institution-search" className="block text-sm font-medium text-gray-300 mb-2">
           Search for a college or university
         </label>
         
@@ -115,13 +115,13 @@ export default function InstitutionSelector({ selectedInstitution, onSelect }: I
             {institutions.map((institution) => (
               <div
                 key={institution.unitid}
-                className="p-4 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                className="p-4 hover:bg-gray-800 cursor-pointer border-b border-gray-100 last:border-b-0"
                 onClick={() => handleSelectInstitution(institution)}
               >
                 <div className="font-medium text-gray-900 mb-1">
                   {institution.name}
                 </div>
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-gray-300">
                   {institution.city}, {institution.state}
                   {institution.control_public_private && (
                     <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
@@ -142,13 +142,13 @@ export default function InstitutionSelector({ selectedInstitution, onSelect }: I
         )}
 
         {searchTerm.length > 0 && searchTerm.length < 2 && (
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-sm text-gray-400 mt-2">
             Type at least 2 characters to search
           </p>
         )}
 
         {searchTerm.length >= 2 && !loading && institutions.length === 0 && (
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-sm text-gray-400 mt-2">
             No institutions found. Try a different search term.
           </p>
         )}

@@ -162,7 +162,7 @@ export default function SubscriptionPage() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading subscription details...</p>
+          <p className="text-gray-300">Loading subscription details...</p>
         </div>
       </div>
     );
@@ -174,7 +174,7 @@ export default function SubscriptionPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-white font-bold mb-2">My Subscription</h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-300">
             Manage your plan and view feature access
           </p>
         </div>
@@ -188,7 +188,7 @@ export default function SubscriptionPage() {
                   <h2 className="text-2xl font-bold text-white font-bold mb-2">
                     {isPremium ? 'Premium Plan' : 'Free Plan'}
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-gray-300">
                     {isPremium 
                       ? 'You have access to all premium features'
                       : 'Upgrade to unlock advanced features'
@@ -206,19 +206,19 @@ export default function SubscriptionPage() {
                 <div className="border-t border-gray-200 pt-6">
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     <div>
-                      <p className="text-sm text-gray-600">Billing Cycle</p>
+                      <p className="text-sm text-gray-300">Billing Cycle</p>
                       <p className="text-lg font-semibold text-white font-bold">Monthly</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600">Next Billing Date</p>
+                      <p className="text-sm text-gray-300">Next Billing Date</p>
                       <p className="text-lg font-semibold text-white font-bold">Oct 30, 2025</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600">Amount</p>
+                      <p className="text-sm text-gray-300">Amount</p>
                       <p className="text-lg font-semibold text-white font-bold">$6.99/month</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600">Payment Method</p>
+                      <p className="text-sm text-gray-300">Payment Method</p>
                       <p className="text-lg font-semibold text-white font-bold">•••• 4242</p>
                     </div>
                   </div>
@@ -262,7 +262,7 @@ export default function SubscriptionPage() {
                       <CheckCircleIcon className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                       <div className="flex-1">
                         <p className="font-medium text-white font-bold">{feature.name}</p>
-                        <p className="text-sm text-gray-600">{feature.description}</p>
+                        <p className="text-sm text-gray-300">{feature.description}</p>
                         {feature.link && (
                           <Link
                             href={feature.link}
@@ -292,7 +292,7 @@ export default function SubscriptionPage() {
                         <p className={`font-medium ${feature.available ? 'text-white font-bold' : 'text-gray-400'}`}>
                           {feature.name}
                         </p>
-                        <p className={`text-sm ${feature.available ? 'text-gray-600' : 'text-gray-400'}`}>
+                        <p className={`text-sm ${feature.available ? 'text-gray-300' : 'text-gray-400'}`}>
                           {feature.description}
                         </p>
                         {feature.available && feature.link && (
@@ -319,7 +319,7 @@ export default function SubscriptionPage() {
               <div className="space-y-4">
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-gray-600">Saved Comparisons</span>
+                    <span className="text-sm text-gray-300">Saved Comparisons</span>
                     <span className="font-semibold text-white font-bold">
                       {usageStats.saved_comparisons} / {isPremium ? '∞' : '1'}
                     </span>
@@ -340,21 +340,21 @@ export default function SubscriptionPage() {
                   <>
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-gray-600">Exports</span>
+                        <span className="text-sm text-gray-300">Exports</span>
                         <span className="font-semibold text-white font-bold">{usageStats.exports_this_month}</span>
                       </div>
                     </div>
 
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-gray-600">Active Alerts</span>
+                        <span className="text-sm text-gray-300">Active Alerts</span>
                         <span className="font-semibold text-white font-bold">{usageStats.alerts_configured}</span>
                       </div>
                     </div>
 
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-gray-600">Folders Created</span>
+                        <span className="text-sm text-gray-300">Folders Created</span>
                         <span className="font-semibold text-white font-bold">{usageStats.folders_created}</span>
                       </div>
                     </div>
@@ -369,14 +369,14 @@ export default function SubscriptionPage() {
               <div className="space-y-3">
                 <Link
                   href="/pricing"
-                  className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                  className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
                 >
                   <ArrowPathIcon className="w-5 h-5 text-orange-500" />
                   <div>
                     <p className="font-medium text-white font-bold">
                       {isPremium ? 'Change Plan' : 'View Plans'}
                     </p>
-                    <p className="text-xs text-gray-600">
+                    <p className="text-xs text-gray-300">
                       {isPremium ? 'Switch to annual billing' : 'See all features'}
                     </p>
                   </div>
@@ -386,23 +386,23 @@ export default function SubscriptionPage() {
                   <>
                     <button
                       onClick={handleManageSubscription}
-                      className="w-full flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left"
+                      className="w-full flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-left"
                     >
                       <CreditCardIcon className="w-5 h-5 text-orange-500" />
                       <div>
                         <p className="font-medium text-white font-bold">Update Payment</p>
-                        <p className="text-xs text-gray-600">Change card or billing info</p>
+                        <p className="text-xs text-gray-300">Change card or billing info</p>
                       </div>
                     </button>
 
                     <Link
                       href="/alerts"
-                      className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
                     >
                       <BellAlertIcon className="w-5 h-5 text-orange-500" />
                       <div>
                         <p className="font-medium text-white font-bold">Manage Alerts</p>
-                        <p className="text-xs text-gray-600">Configure notifications</p>
+                        <p className="text-xs text-gray-300">Configure notifications</p>
                       </div>
                     </Link>
                   </>

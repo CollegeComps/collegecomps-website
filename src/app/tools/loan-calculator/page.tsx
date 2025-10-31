@@ -103,12 +103,12 @@ export default function LoanCalculatorPage() {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-white font-bold">Student Loan Calculator</h1>
-            <p className="mt-2 text-gray-600">
+            <p className="mt-2 text-gray-300">
               Calculate your monthly payment, total cost, and payoff timeline for student loans
             </p>
             <div className="mt-4">
@@ -137,7 +137,7 @@ export default function LoanCalculatorPage() {
                     min="0"
                     step="1000"
                   />
-                  <p className="mt-1 text-sm text-gray-600">
+                  <p className="mt-1 text-sm text-gray-300">
                     Total amount you need to borrow
                   </p>
                 </div>
@@ -158,7 +158,7 @@ export default function LoanCalculatorPage() {
                     max="20"
                     step="0.1"
                   />
-                  <p className="mt-1 text-sm text-gray-600">
+                  <p className="mt-1 text-sm text-gray-300">
                     Annual interest rate (Federal loans: 5.5-8%)
                   </p>
                 </div>
@@ -180,7 +180,7 @@ export default function LoanCalculatorPage() {
                       </option>
                     ))}
                   </select>
-                  <p className="mt-1 text-sm text-gray-600">
+                  <p className="mt-1 text-sm text-gray-300">
                     Choose your repayment term
                   </p>
                 </div>
@@ -208,7 +208,7 @@ export default function LoanCalculatorPage() {
 
                   {/* Total Payment */}
                   <div className="border-l-4 border-green-500 pl-4">
-                    <p className="text-sm font-medium text-gray-700">Total Amount Paid</p>
+                    <p className="text-sm font-medium text-gray-300">Total Amount Paid</p>
                     <p className="text-2xl font-bold text-white font-bold mt-1">
                       ${calculation.totalPayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </p>
@@ -216,18 +216,18 @@ export default function LoanCalculatorPage() {
 
                   {/* Total Interest */}
                   <div className="border-l-4 border-orange-500 pl-4">
-                    <p className="text-sm font-medium text-gray-700">Total Interest</p>
+                    <p className="text-sm font-medium text-gray-300">Total Interest</p>
                     <p className="text-2xl font-bold text-white font-bold mt-1">
                       ${calculation.totalInterest.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </p>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="text-sm text-gray-300 mt-1">
                       {((calculation.totalInterest / parseFloat(loanAmount)) * 100).toFixed(1)}% of loan amount
                     </p>
                   </div>
 
                   {/* Payoff Date */}
                   <div className="border-l-4 border-purple-500 pl-4">
-                    <p className="text-sm font-medium text-gray-700">Payoff Date</p>
+                    <p className="text-sm font-medium text-gray-300">Payoff Date</p>
                     <p className="text-2xl font-bold text-white font-bold mt-1">
                       {calculation.payoffDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                     </p>
@@ -242,7 +242,7 @@ export default function LoanCalculatorPage() {
                   </button>
                 </div>
               ) : (
-                <div className="text-center py-12 text-gray-500">
+                <div className="text-center py-12 text-gray-400">
                   <ChartBarIcon className="w-16 h-16 mx-auto mb-4 text-gray-400" />
                   <p>Enter loan details to see calculations</p>
                 </div>
@@ -267,7 +267,7 @@ export default function LoanCalculatorPage() {
                   </thead>
                   <tbody className="divide-y divide-gray-200">
                     {calculation.amortizationSchedule.filter((_, idx) => idx % 12 === 0 || idx === calculation.amortizationSchedule.length - 1).map((entry) => (
-                      <tr key={entry.month} className="hover:bg-gray-50">
+                      <tr key={entry.month} className="hover:bg-gray-800">
                         <td className="px-4 py-3 font-medium text-white font-bold">
                           Year {Math.ceil(entry.month / 12)}
                         </td>
@@ -288,7 +288,7 @@ export default function LoanCalculatorPage() {
                   </tbody>
                 </table>
               </div>
-              <p className="mt-4 text-sm text-gray-600">
+              <p className="mt-4 text-sm text-gray-300">
                 *Showing yearly snapshots. Full monthly schedule calculated in the background.
               </p>
             </div>

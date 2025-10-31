@@ -628,7 +628,7 @@ export default function CollegesPage() {
               </span>
               {' '}found
               {!hasMore && (
-                <span className="text-gray-500"> (all results)</span>
+                <span className="text-gray-400"> (all results)</span>
               )}
             </div>
             <div className="text-sm font-medium text-gray-300">
@@ -668,7 +668,7 @@ export default function CollegesPage() {
               <h3 className="text-xl font-medium text-white mb-2">
                 No institutions found
               </h3>
-              <p className="text-gray-500">
+              <p className="text-gray-400">
                 Try adjusting your search criteria or filters
               </p>
             </div>
@@ -751,7 +751,7 @@ export default function CollegesPage() {
                 </div>
 
                   {/* Financial Information - Enhanced visibility */}
-                  <div className="bg-gray-50 rounded-lg p-3 mb-3">
+                  <div className="bg-gray-800 border border-gray-700 rounded-lg p-3 mb-3">
                     <h4 className="text-xs font-bold text-white font-bold uppercase tracking-wide mb-2">Cost Information</h4>
                     {(institution.tuition_in_state || institution.tuition_out_state) ? (
                       <div className="space-y-1">
@@ -871,7 +871,7 @@ export default function CollegesPage() {
 
                 <div className="mt-4 pt-4 border-t border-gray-100">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-gray-500">Unit ID: {institution.unitid}</span>
+                    <span className="text-xs text-gray-400">Unit ID: {institution.unitid}</span>
                     <div className="flex items-center gap-1 text-orange-500 group-hover:text-blue-700 text-sm font-medium">
                       <span>View Details</span>
                       <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -900,7 +900,7 @@ export default function CollegesPage() {
 
         {/* Results Count */}
         {!loading && institutions.length > 0 && (
-          <div className="text-center mt-4 text-sm text-gray-500">
+          <div className="text-center mt-4 text-sm text-gray-400">
             Showing {institutions.length} institutions
             {!hasMore && ' (all results)'}
           </div>

@@ -15,7 +15,7 @@ export default function StudentLoanCalculatorPage() {
           <h1 className="text-4xl md:text-5xl font-bold text-white font-bold mb-4">
             Student Loan Calculator
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Plan your student loan repayment strategy. Calculate monthly payments, total interest, and compare different repayment plans to make informed financial decisions.
           </p>
         </div>
@@ -31,13 +31,13 @@ export default function StudentLoanCalculatorPage() {
               <div className="space-y-4">
                 <div>
                   <h4 className="font-semibold text-white font-bold mb-1">Standard Repayment</h4>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-300">
                     Fixed monthly payments over 10 years. You'll pay the same amount each month, making budgeting easier. This plan typically results in the lowest total interest paid.
                   </p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-white font-bold mb-1">Graduated Repayment</h4>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-300">
                     Payments start lower and increase every 2 years over 10 years. Good if you expect your income to grow. You'll pay more interest overall compared to standard repayment.
                   </p>
                 </div>
@@ -46,7 +46,7 @@ export default function StudentLoanCalculatorPage() {
 
             <div>
               <h3 className="text-lg font-semibold text-white font-bold mb-3">Tips to Save Money</h3>
-              <ul className="space-y-3 text-sm text-gray-600">
+              <ul className="space-y-3 text-sm text-gray-300">
                 <li className="flex gap-2">
                   <span className="text-blue-600 font-bold">•</span>
                   <span><strong>Make extra payments:</strong> Apply extra money directly to the principal to reduce interest and pay off faster.</span>

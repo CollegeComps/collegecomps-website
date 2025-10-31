@@ -309,7 +309,7 @@ export default function RecommendationsPage() {
           <h2 className="text-2xl font-bold text-white mb-2">
             Complete Your Profile
           </h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-300 mb-6">
             To get personalized college recommendations, please complete the onboarding with your academic stats and location.
           </p>
           <button
@@ -334,7 +334,7 @@ export default function RecommendationsPage() {
           <h1 className="text-3xl font-bold text-white mb-2">
             College Recommendations
           </h1>
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-300 mb-4">
             Based on your stats and location, here are colleges within {maxDistance} miles
           </p>
 
@@ -356,27 +356,27 @@ export default function RecommendationsPage() {
           )}
 
           {/* User Stats Summary */}
-          <div className="bg-gray-50 rounded-lg p-4 mb-4">\n            <div className="flex flex-wrap gap-4">\n              {userStats.gpa && (
+          <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-4">\n            <div className="flex flex-wrap gap-4">\n              {userStats.gpa && (
                 <div className="flex items-center">
-                  <span className="text-sm font-medium text-gray-600 mr-2">GPA:</span>
+                  <span className="text-sm font-medium text-gray-300 mr-2">GPA:</span>
                   <span className="text-sm font-bold text-white">{userStats.gpa.toFixed(2)}</span>
                 </div>
               )}
               {userStats.sat && (
                 <div className="flex items-center">
-                  <span className="text-sm font-medium text-gray-600 mr-2">SAT:</span>
+                  <span className="text-sm font-medium text-gray-300 mr-2">SAT:</span>
                   <span className="text-sm font-bold text-white">{userStats.sat}</span>
                 </div>
               )}
               {userStats.act && (
                 <div className="flex items-center">
-                  <span className="text-sm font-medium text-gray-600 mr-2">ACT:</span>
+                  <span className="text-sm font-medium text-gray-300 mr-2">ACT:</span>
                   <span className="text-sm font-bold text-white">{userStats.act}</span>
                 </div>
               )}
               {userStats.zipCode && (
                 <div className="flex items-center">
-                  <MapPinIcon className="w-4 h-4 text-gray-500 mr-1" />
+                  <MapPinIcon className="w-4 h-4 text-gray-400 mr-1" />
                   <span className="text-sm text-white">{userStats.zipCode}</span>
                 </div>
               )}
@@ -428,10 +428,10 @@ export default function RecommendationsPage() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+            <div className="flex items-center gap-2 text-sm text-gray-300">
               <span>{totalRecommendations} schools found</span>
               {userStats.zipCode && (
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-gray-400">
                   from {userStats.zipCode}
                 </span>
               )}
@@ -451,11 +451,11 @@ export default function RecommendationsPage() {
             <h3 className="text-lg font-medium text-white mb-2">No schools found</h3>
             {!userStats.latitude || !userStats.longitude ? (
               <div className="space-y-4 max-w-md mx-auto">
-                <p className="text-gray-600">
+                <p className="text-gray-300">
                   We need your location to find nearby colleges.
                 </p>
                 <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4">
-                  <p className="text-sm text-gray-700 mb-3">
+                  <p className="text-sm text-gray-300 mb-3">
                     Enter a zip code to search or update your{' '}
                     <button
                       onClick={() => router.push('/onboarding')}
@@ -538,7 +538,7 @@ export default function RecommendationsPage() {
                 </div>
               </div>
             ) : (
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-300 mb-4">
                 Try increasing the distance radius to find more colleges.
               </p>
             )}
@@ -556,7 +556,7 @@ export default function RecommendationsPage() {
                     {recommendations.safety.length}
                   </span>
                 </div>
-                <p className="text-gray-600 mb-4">
+                <p className="text-gray-300 mb-4">
                   {getCategoryDescription('safety')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -578,7 +578,7 @@ export default function RecommendationsPage() {
                     {recommendations.match.length}
                   </span>
                 </div>
-                <p className="text-gray-600 mb-4">
+                <p className="text-gray-300 mb-4">
                   {getCategoryDescription('match')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -600,7 +600,7 @@ export default function RecommendationsPage() {
                     {recommendations.reach.length}
                   </span>
                 </div>
-                <p className="text-gray-600 mb-4">
+                <p className="text-gray-300 mb-4">
                   {getCategoryDescription('reach')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -652,7 +652,7 @@ function RecommendationCard({ rec }: { rec: RecommendationResult }) {
             {institution.name}
           </h3>
         </div>
-        <div className="flex items-center text-sm text-gray-600 mb-2">
+        <div className="flex items-center text-sm text-gray-300 mb-2">
           <MapPinIcon className="w-4 h-4 mr-1" />
           {institution.city}, {institution.state}
           {distance && <span className="ml-2">• {distance.toFixed(1)} mi</span>}
@@ -665,7 +665,7 @@ function RecommendationCard({ rec }: { rec: RecommendationResult }) {
       <div className="space-y-2 text-sm">
         {institution.acceptance_rate && (
           <div className="flex justify-between">
-            <span className="text-gray-600">Acceptance Rate:</span>
+            <span className="text-gray-300">Acceptance Rate:</span>
             <span className="font-medium text-white">
               {(institution.acceptance_rate * 100).toFixed(1)}%
             </span>
@@ -673,19 +673,19 @@ function RecommendationCard({ rec }: { rec: RecommendationResult }) {
         )}
         {institution.average_sat && (
           <div className="flex justify-between">
-            <span className="text-gray-600">Avg SAT:</span>
+            <span className="text-gray-300">Avg SAT:</span>
             <span className="font-medium text-white">{institution.average_sat}</span>
           </div>
         )}
         {institution.average_act && (
           <div className="flex justify-between">
-            <span className="text-gray-600">Avg ACT:</span>
+            <span className="text-gray-300">Avg ACT:</span>
             <span className="font-medium text-white">{institution.average_act}</span>
           </div>
         )}
         {institution.tuition_in_state && (
           <div className="flex justify-between">
-            <span className="text-gray-600">Tuition:</span>
+            <span className="text-gray-300">Tuition:</span>
             <span className="font-medium text-white">
               {formatCurrency(institution.tuition_in_state)}
             </span>
