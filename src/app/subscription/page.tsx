@@ -182,7 +182,7 @@ export default function SubscriptionPage() {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Current Plan Card */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 mb-6">
               <div className="flex items-start justify-between mb-6">
                 <div>
                   <h2 className="text-2xl font-bold text-white font-bold mb-2">
@@ -226,7 +226,7 @@ export default function SubscriptionPage() {
                   <div className="flex gap-3">
                     <button
                       onClick={handleManageSubscription}
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors"
                     >
                       <CreditCardIcon className="w-5 h-5" />
                       Manage Billing
@@ -254,7 +254,7 @@ export default function SubscriptionPage() {
             {/* Features Grid */}
             <div className="grid md:grid-cols-2 gap-6">
               {/* Free Features */}
-              <div className="bg-white rounded-xl shadow-md p-6">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
                 <h3 className="text-xl font-bold text-white font-bold mb-4">Free Features</h3>
                 <div className="space-y-3">
                   {freeFeatures.map((feature, idx) => (
@@ -266,7 +266,7 @@ export default function SubscriptionPage() {
                         {feature.link && (
                           <Link
                             href={feature.link}
-                            className="text-sm text-blue-600 hover:underline mt-1 inline-block"
+                            className="text-sm text-orange-500 hover:underline mt-1 inline-block"
                           >
                             Go to feature →
                           </Link>
@@ -278,7 +278,7 @@ export default function SubscriptionPage() {
               </div>
 
               {/* Premium Features */}
-              <div className="bg-white rounded-xl shadow-md p-6">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
                 <h3 className="text-xl font-bold text-white font-bold mb-4">Premium Features</h3>
                 <div className="space-y-3">
                   {premiumFeatures.map((feature, idx) => (
@@ -298,7 +298,7 @@ export default function SubscriptionPage() {
                         {feature.available && feature.link && (
                           <Link
                             href={feature.link}
-                            className="text-sm text-blue-600 hover:underline mt-1 inline-block"
+                            className="text-sm text-orange-500 hover:underline mt-1 inline-block"
                           >
                             Go to feature →
                           </Link>
@@ -314,7 +314,7 @@ export default function SubscriptionPage() {
           {/* Usage Stats Sidebar */}
           <div className="space-y-6">
             {/* Usage Overview */}
-            <div className="bg-white rounded-xl shadow-md p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
               <h3 className="text-xl font-bold text-white font-bold mb-4">Usage This Month</h3>
               <div className="space-y-4">
                 <div>
@@ -326,7 +326,7 @@ export default function SubscriptionPage() {
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
-                      className="bg-blue-600 h-2 rounded-full"
+                      className="bg-orange-500 h-2 rounded-full"
                       style={{ 
                         width: isPremium 
                           ? '30%' 
@@ -364,14 +364,14 @@ export default function SubscriptionPage() {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white rounded-xl shadow-md p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
               <h3 className="text-xl font-bold text-white font-bold mb-4">Quick Actions</h3>
               <div className="space-y-3">
                 <Link
                   href="/pricing"
                   className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                 >
-                  <ArrowPathIcon className="w-5 h-5 text-blue-600" />
+                  <ArrowPathIcon className="w-5 h-5 text-orange-500" />
                   <div>
                     <p className="font-medium text-white font-bold">
                       {isPremium ? 'Change Plan' : 'View Plans'}
@@ -388,7 +388,7 @@ export default function SubscriptionPage() {
                       onClick={handleManageSubscription}
                       className="w-full flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left"
                     >
-                      <CreditCardIcon className="w-5 h-5 text-blue-600" />
+                      <CreditCardIcon className="w-5 h-5 text-orange-500" />
                       <div>
                         <p className="font-medium text-white font-bold">Update Payment</p>
                         <p className="text-xs text-gray-600">Change card or billing info</p>
@@ -399,7 +399,7 @@ export default function SubscriptionPage() {
                       href="/alerts"
                       className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                     >
-                      <BellAlertIcon className="w-5 h-5 text-blue-600" />
+                      <BellAlertIcon className="w-5 h-5 text-orange-500" />
                       <div>
                         <p className="font-medium text-white font-bold">Manage Alerts</p>
                         <p className="text-xs text-gray-600">Configure notifications</p>
@@ -418,7 +418,7 @@ export default function SubscriptionPage() {
               </p>
               <a
                 href="mailto:support@collegeroi.com"
-                className="inline-block bg-white text-blue-600 font-semibold px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors"
+                className="inline-block bg-orange-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-orange-500/10 transition-colors"
               >
                 Contact Support
               </a>

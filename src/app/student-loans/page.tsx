@@ -22,7 +22,7 @@ export default function StudentLoanCalculatorPage() {
 
         <StudentLoanCalculator />
 
-        <div className="mt-12 bg-white rounded-xl shadow-lg p-8">
+        <div className="mt-12 bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-8">
           <h2 className="text-2xl font-bold text-white font-bold mb-6">Understanding Your Student Loans</h2>
           
           <div className="grid md:grid-cols-2 gap-8">
@@ -67,7 +67,7 @@ export default function StudentLoanCalculatorPage() {
             </div>
           </div>
 
-          <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <div className="mt-8 bg-orange-500/10 border border-orange-500 rounded-lg p-6">
             <h3 className="font-semibold text-blue-900 mb-2">📚 Important Notes</h3>
             <ul className="text-sm text-blue-800 space-y-1">
               <li>• This calculator provides estimates. Actual payments may vary based on your lender and loan terms.</li>

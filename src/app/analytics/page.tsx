@@ -114,7 +114,7 @@ export default function AnalyticsPage() {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="bg-white p-4 border border-gray-300 rounded-lg shadow-lg">
+        <div className="bg-gray-900 p-4 border border-gray-800 rounded-lg shadow-lg">
           <p className="font-semibold text-white font-bold">{data.name}</p>
           <p className="text-sm text-gray-700">{data.state} • {data.control}</p>
           <p className="text-sm mt-2 text-white font-bold">
@@ -159,7 +159,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6 mb-6">
           <h2 className="text-lg font-semibold text-white font-bold mb-4">Filters</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* State Filter */}
@@ -235,7 +235,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Chart */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
           {loading ? (
             <div className="flex items-center justify-center h-96">
               <div className="text-gray-700 font-medium">Loading chart data...</div>
@@ -293,7 +293,7 @@ export default function AnalyticsPage() {
 
               {/* Insights */}
               <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-blue-50 rounded-lg p-4">
+                <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4">
                   <h3 className="text-sm font-semibold text-blue-900 mb-1">Public Institutions</h3>
                   <p className="text-2xl font-bold text-blue-700">{publicData.length}</p>
                   <p className="text-xs text-blue-600 mt-1">
