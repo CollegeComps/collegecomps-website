@@ -356,7 +356,9 @@ export default function RecommendationsPage() {
           )}
 
           {/* User Stats Summary */}
-          <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-4">\n            <div className="flex flex-wrap gap-4">\n              {userStats.gpa && (
+          <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-4">
+            <div className="flex flex-wrap gap-4">
+              {userStats.gpa && (
                 <div className="flex items-center">
                   <span className="text-sm font-medium text-gray-300 mr-2">GPA:</span>
                   <span className="text-sm font-bold text-white">{userStats.gpa.toFixed(2)}</span>

@@ -118,29 +118,29 @@ export default function TicketDetailPage() {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'bg-red-100 text-red-800';
-      case 'normal': return 'bg-yellow-100 text-yellow-800';
-      case 'low': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-white font-bold';
+      case 'high': return 'bg-red-900/20 border border-red-500 text-red-400';
+      case 'normal': return 'bg-yellow-900/20 border border-yellow-500 text-yellow-400';
+      case 'low': return 'bg-green-900/20 border border-green-500 text-green-400';
+      default: return 'bg-gray-800 border border-gray-700 text-white font-bold';
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'open': return 'bg-orange-500/10 border border-orange-500 text-orange-600';
-      case 'in_progress': return 'bg-orange-500/10 border border-orange-500 text-orange-600';
-      case 'resolved': return 'bg-green-100 text-green-800';
-      case 'closed': return 'bg-gray-100 text-white font-bold';
-      default: return 'bg-gray-100 text-white font-bold';
+      case 'open': return 'bg-orange-500/10 border border-orange-500 text-orange-400';
+      case 'in_progress': return 'bg-orange-500/10 border border-orange-500 text-orange-400';
+      case 'resolved': return 'bg-green-900/20 border border-green-500 text-green-400';
+      case 'closed': return 'bg-gray-800 border border-gray-700 text-gray-300';
+      default: return 'bg-gray-800 border border-gray-700 text-white font-bold';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'resolved':
-        return <CheckCircleIcon className="w-5 h-5 text-green-600" />;
+        return <CheckCircleIcon className="w-5 h-5 text-green-500" />;
       case 'in_progress':
-        return <ClockIcon className="w-5 h-5 text-purple-600" />;
+        return <ClockIcon className="w-5 h-5 text-orange-500" />;
       case 'open':
         return <ExclamationCircleIcon className="w-5 h-5 text-orange-500" />;
       default:
@@ -152,7 +152,7 @@ export default function TicketDetailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto"></div>
           <p className="mt-4 text-gray-300">Loading ticket...</p>
         </div>
       </div>
@@ -170,8 +170,8 @@ export default function TicketDetailPage() {
             <ArrowLeftIcon className="w-4 h-4 mr-2" />
             Back to My Tickets
           </Link>
-          <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-            <p className="text-red-800">{error || 'Ticket not found'}</p>
+          <div className="bg-red-900/20 border border-red-500 rounded-lg p-6">
+            <p className="text-red-400 font-bold">{error || 'Ticket not found'}</p>
           </div>
         </div>
       </div>
@@ -213,21 +213,21 @@ export default function TicketDetailPage() {
           </div>
 
           {/* Ticket Info */}
-          <div className="border-t pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="border-t border-gray-800 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <p className="text-sm text-gray-300">Category</p>
+              <p className="text-sm text-gray-400">Category</p>
               <p className="font-medium text-white capitalize">{formatCategory(ticket.category)}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-300">Created</p>
+              <p className="text-sm text-gray-400">Created</p>
               <p className="font-medium text-white">{new Date(ticket.created_at).toLocaleString()}</p>
             </div>
           </div>
 
           {/* Original Description */}
-          <div className="border-t mt-4 pt-4">
-            <p className="text-sm font-semibold text-gray-300 font-medium mb-2">Original Request:</p>
-            <div className="bg-black rounded-lg p-4">
+          <div className="border-t border-gray-800 mt-4 pt-4">
+            <p className="text-sm font-semibold text-gray-400 mb-2">Original Request:</p>
+            <div className="bg-black border border-gray-800 rounded-lg p-4">
               <p className="text-white font-bold whitespace-pre-wrap">{ticket.description || 'No description provided'}</p>
             </div>
           </div>
@@ -252,8 +252,8 @@ export default function TicketDetailPage() {
                   key={message.id}
                   className={`p-4 rounded-lg ${
                     message.is_admin_reply
-                      ? 'bg-orange-500/10 border-l-4 border-blue-500'
-                      : 'bg-black border-l-4 border-gray-300'
+                      ? 'bg-orange-500/10 border-l-4 border-orange-500'
+                      : 'bg-black border border-gray-800 border-l-4 border-gray-600'
                   }`}
                 >
                   <div className="flex items-start justify-between mb-2">
@@ -261,7 +261,7 @@ export default function TicketDetailPage() {
                       <p className="font-semibold text-white">
                         {message.is_admin_reply ? 'Support Team' : 'You'}
                         {message.is_admin_reply && (
-                          <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">
+                          <span className="ml-2 text-xs bg-orange-500 text-white px-2 py-0.5 rounded-full font-bold">
                             SUPPORT
                           </span>
                         )}
@@ -279,8 +279,8 @@ export default function TicketDetailPage() {
 
           {/* Reply Form - Only show if ticket is not closed */}
           {ticket.status !== 'closed' && ticket.status !== 'resolved' && (
-            <form onSubmit={handleSendReply} className="border-t pt-4">
-              <label className="block text-sm font-medium text-gray-300 font-medium mb-2">
+            <form onSubmit={handleSendReply} className="border-t border-gray-800 pt-4">
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
                 Add a Message
               </label>
               <textarea
@@ -288,14 +288,14 @@ export default function TicketDetailPage() {
                 onChange={(e) => setReplyText(e.target.value)}
                 placeholder="Type your message here..."
                 rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 resize-none"
+                className="w-full px-3 py-2 border border-gray-700 bg-gray-900 text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                 disabled={sending}
               />
               <div className="flex justify-end mt-3">
                 <button
                   type="submit"
                   disabled={sending || !replyText.trim()}
-                  className="inline-flex items-center gap-2 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="inline-flex items-center gap-2 px-6 py-2 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <PaperAirplaneIcon className="w-4 h-4" />
                   {sending ? 'Sending...' : 'Send Message'}
@@ -305,13 +305,13 @@ export default function TicketDetailPage() {
           )}
 
           {(ticket.status === 'closed' || ticket.status === 'resolved') && (
-            <div className="border-t pt-4">
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-                <CheckCircleIcon className="w-8 h-8 text-green-600 mx-auto mb-2" />
-                <p className="text-green-800 font-semibold">
+            <div className="border-t border-gray-800 pt-4">
+              <div className="bg-green-900/20 border border-green-500 rounded-lg p-4 text-center">
+                <CheckCircleIcon className="w-8 h-8 text-green-500 mx-auto mb-2" />
+                <p className="text-green-400 font-semibold">
                   This ticket has been {formatStatus(ticket.status)}
                 </p>
-                <p className="text-green-700 text-sm mt-1">
+                <p className="text-green-500 text-sm mt-1">
                   If you need further assistance, please create a new ticket.
                 </p>
               </div>

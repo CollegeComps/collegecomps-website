@@ -172,7 +172,7 @@ export default function LoanCalculatorPage() {
                   <select
                     value={repaymentPlan}
                     onChange={(e) => setRepaymentPlan(e.target.value)}
-                    className="w-full p-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-bold font-semibold text-lg bg-white"
+                    className="w-full p-3 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-bold bg-gray-900"
                   >
                     {REPAYMENT_PLANS.map(plan => (
                       <option key={plan.id} value={plan.id}>

@@ -293,7 +293,7 @@ export default function SalaryInsightsPage() {
               {(selectedMajor || selectedInstitution || selectedDegree || selectedYears) && (
                 <button
                   onClick={clearFilters}
-                  className="inline-flex items-center px-6 py-3 bg-white text-orange-500 font-semibold rounded-lg border-2 border-orange-500 hover:bg-orange-500 hover:text-white transition-all"
+                  className="inline-flex items-center px-6 py-3 bg-gray-900 text-orange-500 font-semibold rounded-lg border-2 border-orange-500 hover:bg-orange-500 hover:text-white transition-all"
                 >
                   🔄 Clear Filters
                 </button>
@@ -459,7 +459,7 @@ export default function SalaryInsightsPage() {
           </p>
           <Link
             href="/submit-salary"
-            className="inline-flex items-center px-8 py-4 bg-white text-orange-500 font-bold rounded-lg hover:bg-orange-500 hover:text-white transition-all shadow-lg text-lg"
+            className="inline-flex items-center px-8 py-4 bg-gray-900 text-orange-500 font-bold rounded-lg hover:bg-orange-500 hover:text-white transition-all shadow-lg text-lg border-2 border-orange-500"
           >
             Contribute Your Salary Data
           </Link>

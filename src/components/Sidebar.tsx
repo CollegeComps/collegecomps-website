@@ -153,7 +153,7 @@ export default function Sidebar({ children }: SidebarProps) {
       {/* Sidebar */}
       <div 
         className={`
-          fixed inset-y-0 left-0 z-50 bg-black shadow-lg transition-all duration-300 ease-in-out flex flex-col
+          fixed inset-y-0 left-0 z-50 bg-black shadow-lg transition-all duration-500 ease-in-out flex flex-col
           lg:relative lg:translate-x-0
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           ${isExpanded ? 'w-64' : 'w-20'}
@@ -191,24 +191,24 @@ export default function Sidebar({ children }: SidebarProps) {
                   href={item.href}
                   onClick={() => setSidebarOpen(false)}
                   className={`
-                    group flex items-center py-2.5 text-sm font-medium rounded-lg transition-all duration-200
+                    group flex items-center py-2.5 px-3 text-sm font-medium rounded-lg transition-all duration-500
                     ${isActive 
                       ? 'bg-orange-500/10 text-orange-500' 
                       : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                     }
-                    ${!isExpanded ? 'justify-center px-3' : 'px-3'}
                   `}
                   title={!isExpanded ? item.name : ''}
                 >
-                  <IconComponent
-                    className={`
-                      h-5 w-5 flex-shrink-0 transition-colors duration-150
-                      ${isActive ? 'text-orange-500' : 'text-gray-400 group-hover:text-orange-500'}
-                      ${isExpanded ? 'mr-3' : ''}
-                    `}
-                  />
+                  <div className="w-5 h-5 flex-shrink-0 flex items-center justify-center">
+                    <IconComponent
+                      className={`
+                        h-5 w-5 transition-colors duration-150
+                        ${isActive ? 'text-orange-500' : 'text-gray-400 group-hover:text-orange-500'}
+                      `}
+                    />
+                  </div>
                   {isExpanded && (
-                    <span className="font-semibold text-sm whitespace-nowrap overflow-hidden text-ellipsis">{item.name}</span>
+                    <span className="ml-3 font-semibold text-sm whitespace-nowrap overflow-hidden text-ellipsis transition-opacity duration-500">{item.name}</span>
                   )}
                 </Link>
               );
