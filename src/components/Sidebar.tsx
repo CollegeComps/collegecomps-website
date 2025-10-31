@@ -207,15 +207,7 @@ export default function Sidebar({ children }: SidebarProps) {
                     `}
                   />
                   {isExpanded && (
-                    <div className="overflow-hidden">
-                      <div className="font-medium text-sm">{item.name}</div>
-                      <div className={`
-                        text-xs mt-0.5
-                        ${isActive ? 'text-blue-600' : 'text-gray-500'}
-                      `}>
-                        {item.description}
-                      </div>
-                    </div>
+                    <span className="font-medium text-sm">{item.name}</span>
                   )}
                 </Link>
               );

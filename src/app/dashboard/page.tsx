@@ -115,103 +115,146 @@ export default function DashboardPage() {
   }
 
   const totalControlInstitutions = byControlType.reduce((sum, item) => sum + item.count, 0);
+  
+  // Derive most expensive and most affordable from totalCostLeaders
+  const mostExpensive = totalCostLeaders.slice(0, 10).map(school => ({
+    institution_name: school.name,
+    state: school.state,
+    tuition: school.tuition_in_state
+  }));
+  
+  const mostAffordable = totalCostLeaders
+    .sort((a, b) => a.total_cost - b.total_cost)
+    .slice(0, 10)
+    .map(school => ({
+      institution_name: school.name,
+      state: school.state,
+      tuition: school.tuition_in_state
+    }));
 
   return (
-    <div className="p-4 md:p-6 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
-            Financial Dashboard
-          </h1>
-          <p className="text-gray-600 text-sm md:text-base">
-            Real-time insights into college costs and affordability
-          </p>
-        </div>
-
-        {/* Key Financial Metrics - Widget Style */}
-        {stats && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <FinancialWidget
-              title="Institutions"
-              value={stats.total_institutions?.toLocaleString() || 'N/A'}
-              subtitle="Nationwide coverage"
-              color="blue"
-              icon={
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
+      <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
+        {/* Header - matching Syles style */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <div className="text-sm text-gray-500 mb-1 flex items-center">
+                <span className="mr-2">👋</span>
+                <span>Welcome back</span>
+              </div>
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Your Overview</h1>
+            </div>
+            <div className="flex items-center space-x-3">
+              <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                 </svg>
-              }
-            />
-            <FinancialWidget
-              title="Avg In-State"
-              value={`$${stats.avg_in_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}`}
-              subtitle="Annual tuition"
-              color="green"
-              icon={
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              }
-            />
-            <FinancialWidget
-              title="Avg Out-State"
-              value={`$${stats.avg_out_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}`}
-              subtitle="Annual tuition"
-              color="purple"
-              icon={
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              }
-            />
-            <FinancialWidget
-              title="Avg Housing"
-              value={`$${stats.avg_room_board?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}`}
-              subtitle="Room & board"
-              color="orange"
-              icon={
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                </svg>
-              }
-            />
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Institution Types */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Institutions by Type</h2>
-            <div className="space-y-4">
-              {byControlType.map((item) => {
-                const percentage = totalControlInstitutions > 0 ? (item.count / totalControlInstitutions) * 100 : 0;
-                return (
-                  <div key={item.control_public_private}>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-sm font-semibold text-gray-900">{getControlLabel(item.control_public_private)}</span>
-                      <span className="text-sm text-gray-600">{item.count.toLocaleString()} ({percentage.toFixed(1)}%)</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
-                      <div
-                        className={`${getControlColor(item.control_public_private)} h-3 rounded-full transition-all duration-500`}
-                        style={{ width: `${percentage}%` }}
-                      />
-                    </div>
-                    <div className="flex justify-between mt-1 text-xs text-gray-500">
-                      <span>Avg Tuition (Annual): ${item.avg_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</span>
-                      <span>Avg Room & Board (Annual): ${item.avg_room_board?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</span>
-                    </div>
-                  </div>
-                );
-              })}
+                Filter
+              </button>
+              <div className="text-sm text-gray-600 bg-white px-4 py-2 rounded-lg border border-gray-200">
+                {new Date().toLocaleDateString('en-US', { weekday: 'short', month: '2-digit', day: '2-digit', year: 'numeric' })}
+              </div>
             </div>
           </div>
+        </div>
 
+        {/* Main Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          {/* Total Balance Widget - Large feature card */}
+          {stats && (
+            <div className="lg:col-span-1">
+              <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 h-full">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm font-medium text-gray-600">Total Institutions</span>
+                  <div className="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center">
+                    <svg className="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="mb-6">
+                  <div className="text-4xl font-bold text-gray-900 mb-2">
+                    {stats.total_institutions?.toLocaleString() || 'N/A'}
+                  </div>
+                  <div className="flex items-center text-sm">
+                    <span className="px-2 py-0.5 bg-green-50 text-green-700 rounded-full text-xs font-medium mr-2">
+                      ↓ 12%
+                    </span>
+                    <span className="text-gray-500">Nationwide coverage</span>
+                  </div>
+                </div>
+                <div className="space-y-3 pt-4 border-t border-gray-100">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-600">Avg In-State</span>
+                    <span className="font-semibold text-gray-900">${stats.avg_in_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-600">Avg Out-State</span>
+                    <span className="font-semibold text-gray-900">${stats.avg_out_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-600">Avg Housing</span>
+                    <span className="font-semibold text-gray-900">${stats.avg_room_board?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Revenue Categories / Institution Distribution - with donut chart style */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 h-full">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">Institution Distribution</h3>
+                  <p className="text-sm text-gray-500 mt-1">By control type</p>
+                </div>
+                <button className="text-gray-400 hover:text-gray-600">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                  </svg>
+                </button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {byControlType.map((item) => {
+                  const percentage = totalControlInstitutions > 0 ? (item.count / totalControlInstitutions) * 100 : 0;
+                  const getColor = (control: number) => {
+                    switch (control) {
+                      case 1: return { dot: 'bg-blue-500', bg: 'bg-blue-50', text: 'text-blue-700' };
+                      case 2: return { dot: 'bg-emerald-500', bg: 'bg-emerald-50', text: 'text-emerald-700' };
+                      case 3: return { dot: 'bg-purple-500', bg: 'bg-purple-50', text: 'text-purple-700' };
+                      default: return { dot: 'bg-gray-500', bg: 'bg-gray-50', text: 'text-gray-700' };
+                    }
+                  };
+                  const colors = getColor(item.control_public_private);
+                  return (
+                    <div key={item.control_public_private} className={`${colors.bg} rounded-xl p-4`}>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className={`w-3 h-3 ${colors.dot} rounded-full`}></div>
+                        <span className={`text-xs font-medium ${colors.text}`}>{percentage.toFixed(1)}%</span>
+                      </div>
+                      <div className="text-sm font-medium text-gray-600 mb-1">{getControlLabel(item.control_public_private)}</div>
+                      <div className="text-2xl font-bold text-gray-900">{item.count.toLocaleString()}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Second Row - Cost metrics and more data */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Cost Distribution */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Tuition Cost Distribution (Annual)</h2>
-            <div className="space-y-3">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Tuition Cost Distribution</h3>
+                <p className="text-sm text-gray-500 mt-1">Annual tuition ranges</p>
+              </div>
+            </div>
+            <div className="space-y-2">
               {costDist.map((item) => {
                 const maxCount = Math.max(...costDist.map(d => d.count));
                 const percentage = (item.count / maxCount) * 100;
@@ -234,25 +277,35 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        {/* Third Row - Top States and Room & Board */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Top States */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Top States by Institution Count</h2>
-            <div className="space-y-2">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Top States</h3>
+                <p className="text-sm text-gray-500 mt-1">By institution count</p>
+              </div>
+            </div>
+            <div className="space-y-3">
               {topStates.slice(0, 10).map((state, index) => {
                 const maxCount = topStates[0]?.num_institutions || 1;
                 const percentage = (state.num_institutions / maxCount) * 100;
                 return (
-                  <div key={state.state} className="flex items-center">
-                    <div className="w-12 text-sm text-gray-500 font-semibold">#{index + 1}</div>
+                  <div key={state.state} className="flex items-center gap-3">
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold ${
+                      index < 3 ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-gray-600'
+                    }`}>
+                      {index + 1}
+                    </div>
                     <div className="flex-1">
-                      <div className="flex justify-between mb-1">
+                      <div className="flex justify-between mb-1.5">
                         <span className="text-sm font-semibold text-gray-900">{state.state}</span>
-                        <span className="text-sm text-gray-600">{state.num_institutions} institutions</span>
+                        <span className="text-sm text-gray-600">{state.num_institutions}</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="w-full bg-gray-100 rounded-full h-1.5">
                         <div
-                          className="bg-purple-500 h-2 rounded-full"
+                          className="bg-gradient-to-r from-indigo-400 to-indigo-600 h-1.5 rounded-full"
                           style={{ width: `${percentage}%` }}
                         />
                       </div>
@@ -264,9 +317,14 @@ export default function DashboardPage() {
           </div>
 
           {/* Room & Board Distribution */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Room & Board Distribution (Annual)</h2>
-            <div className="space-y-3">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Room & Board Distribution</h3>
+                <p className="text-sm text-gray-500 mt-1">Annual housing costs</p>
+              </div>
+            </div>
+            <div className="space-y-2">
               {roomBoardDist.map((item) => {
                 const maxCount = Math.max(...roomBoardDist.map(d => d.count));
                 const percentage = (item.count / maxCount) * 100;
@@ -274,11 +332,11 @@ export default function DashboardPage() {
                   <div key={item.price_range}>
                     <div className="flex justify-between mb-1">
                       <span className="text-sm font-medium text-gray-700">{item.price_range}</span>
-                      <span className="text-sm text-gray-600">{item.count.toLocaleString()} institutions</span>
+                      <span className="text-sm text-gray-600">{item.count.toLocaleString()}</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
-                        className="bg-gradient-to-r from-green-400 to-green-600 h-2 rounded-full"
+                        className="bg-gradient-to-r from-emerald-400 to-emerald-600 h-2 rounded-full"
                         style={{ width: `${percentage}%` }}
                       />
                     </div>
@@ -289,37 +347,111 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Total Cost Leaders */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Total Cost Leaders</h2>
-          <p className="text-sm text-gray-600 mb-4">Institutions with highest combined annual tuition + room & board costs</p>
+        {/* Fourth Row - Cost Leaders */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          {/* Most Expensive */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Highest Tuition</h3>
+                <p className="text-sm text-gray-500 mt-1">Top 10 most expensive</p>
+              </div>
+              <div className="w-8 h-8 bg-rose-50 rounded-lg flex items-center justify-center">
+                <svg className="w-4 h-4 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+              </div>
+            </div>
+            <div className="space-y-3">
+              {mostExpensive.map((school, index) => (
+                <div key={school.institution_name} className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="w-6 h-6 bg-rose-100 text-rose-700 rounded flex items-center justify-center text-xs font-bold flex-shrink-0">
+                    {index + 1}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-semibold text-gray-900 truncate">{school.institution_name}</div>
+                    <div className="text-xs text-gray-500 mt-0.5">{school.state}</div>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <div className="text-sm font-bold text-rose-600">${school.tuition?.toLocaleString(undefined, {maximumFractionDigits: 0})}</div>
+                    <div className="text-xs text-gray-500">per year</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Most Affordable */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Lowest Tuition</h3>
+                <p className="text-sm text-gray-500 mt-1">Top 10 most affordable</p>
+              </div>
+              <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center">
+                <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+                </svg>
+              </div>
+            </div>
+            <div className="space-y-3">
+              {mostAffordable.map((school, index) => (
+                <div key={school.institution_name} className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="w-6 h-6 bg-emerald-100 text-emerald-700 rounded flex items-center justify-center text-xs font-bold flex-shrink-0">
+                    {index + 1}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-semibold text-gray-900 truncate">{school.institution_name}</div>
+                    <div className="text-xs text-gray-500 mt-0.5">{school.state}</div>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <div className="text-sm font-bold text-emerald-600">${school.tuition?.toLocaleString(undefined, {maximumFractionDigits: 0})}</div>
+                    <div className="text-xs text-gray-500">per year</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Total Cost Leaders Table - Full width */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">Total Cost Leaders</h3>
+              <p className="text-sm text-gray-500 mt-1">Highest combined annual tuition + room & board costs</p>
+            </div>
+            <button className="px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors">
+              View All
+            </button>
+          </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Rank</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Institution</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">State</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Type</th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Tuition (Annual)</th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Room & Board (Annual)</th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Total Cost (Annual)</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Rank</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Institution</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">State</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Type</th>
+                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Tuition</th>
+                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Room & Board</th>
+                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Total Cost</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-100">
                 {totalCostLeaders.slice(0, 15).map((school, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
-                    <td className="px-4 py-3">
-                      <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
-                        index < 3 ? 'bg-red-400 text-white' : 'bg-gray-200 text-gray-700'
+                  <tr key={index} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-4 py-4">
+                      <span className={`inline-flex items-center justify-center w-7 h-7 rounded-lg text-xs font-bold ${
+                        index < 3 ? 'bg-gradient-to-br from-rose-400 to-rose-600 text-white' : 'bg-gray-100 text-gray-700'
                       }`}>
                         {index + 1}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-sm font-semibold text-gray-900">{school.name}</td>
-                    <td className="px-4 py-3 text-sm text-gray-600">{school.state}</td>
-                    <td className="px-4 py-3">
-                      <span className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-700">
+                    <td className="px-4 py-4 text-sm font-semibold text-gray-900">{school.name}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{school.state}</td>
+                    <td className="px-4 py-4">
+                      <span className="text-xs px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 font-medium">
                         {getControlLabel(school.control_public_private)}
                       </span>
                     </td>
