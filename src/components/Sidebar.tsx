@@ -127,6 +127,7 @@ interface SidebarProps {
 
 export default function Sidebar({ children }: SidebarProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const pathname = usePathname();
   const { data: session } = useSession();
   
@@ -149,18 +150,25 @@ export default function Sidebar({ children }: SidebarProps) {
       )}
 
       {/* Sidebar */}
-      <div className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out flex flex-col
-        lg:relative lg:translate-x-0
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
+      <div 
+        className={`
+          fixed inset-y-0 left-0 z-50 bg-white shadow-lg transition-all duration-300 ease-in-out flex flex-col
+          lg:relative lg:translate-x-0
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+          ${isExpanded ? 'w-64' : 'w-20'}
+        `}
+        onMouseEnter={() => setIsExpanded(true)}
+        onMouseLeave={() => setIsExpanded(false)}
+      >
         {/* Sidebar header */}
-        <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200 flex-shrink-0">
-          <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+        <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 flex-shrink-0">
+          <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity overflow-hidden">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
               <AcademicCapIcon className="w-5 h-5 text-white" />
             </div>
-            <h1 className="text-xl font-bold text-gray-900">CollegeComps</h1>
+            {isExpanded && (
+              <h1 className="text-lg font-bold text-gray-900 whitespace-nowrap">CollegeComps</h1>
+            )}
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
@@ -171,7 +179,7 @@ export default function Sidebar({ children }: SidebarProps) {
         </div>
 
         {/* Navigation - Scrollable */}
-        <nav className="flex-1 overflow-y-auto px-3 py-4">
+        <nav className="flex-1 overflow-y-auto px-2 py-4">
           <div className="space-y-1">
             {visibleNavigation.map((item) => {
               const isActive = pathname === item.href;
@@ -182,57 +190,65 @@ export default function Sidebar({ children }: SidebarProps) {
                   href={item.href}
                   onClick={() => setSidebarOpen(false)}
                   className={`
-                    group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors duration-150
+                    group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200
                     ${isActive 
-                      ? 'bg-blue-50 text-blue-700 border-r-4 border-blue-700' 
+                      ? 'bg-blue-50 text-blue-700' 
                       : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                     }
+                    ${!isExpanded ? 'justify-center' : ''}
                   `}
+                  title={!isExpanded ? item.name : ''}
                 >
                   <IconComponent
                     className={`
-                      mr-3 h-5 w-5 flex-shrink-0 transition-colors duration-150
+                      h-5 w-5 flex-shrink-0 transition-colors duration-150
                       ${isActive ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600'}
+                      ${isExpanded ? 'mr-3' : ''}
                     `}
                   />
-                  <div>
-                    <div className="font-medium">{item.name}</div>
-                    <div className={`
-                      text-xs mt-0.5
-                      ${isActive ? 'text-blue-600' : 'text-gray-500'}
-                    `}>
-                      {item.description}
+                  {isExpanded && (
+                    <div className="overflow-hidden">
+                      <div className="font-medium text-sm">{item.name}</div>
+                      <div className={`
+                        text-xs mt-0.5
+                        ${isActive ? 'text-blue-600' : 'text-gray-500'}
+                      `}>
+                        {item.description}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </Link>
               );
             })}
           </div>
         </nav>
 
-        {/* Footer - Fixed at bottom */}
-        <div className="flex-shrink-0 p-4 border-t border-gray-200 bg-white">
-          <div className="mb-3">
-            <UserMenu />
+        {/* Footer - Fixed at bottom - removed user menu as it's now in top bar */}
+        <div className="flex-shrink-0 p-3 border-t border-gray-200 bg-white">
+          <div className="text-xs text-gray-400 text-center">
+            {isExpanded ? '© 2025 CollegeComps' : '©'}
           </div>
         </div>
       </div>
 
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top bar */}
-        <header className="bg-white shadow-sm border-b border-gray-200 lg:hidden">
-          <div className="flex items-center justify-between h-16 px-4">
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="p-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 lg:hidden"
-            >
-              <Bars3Icon className="w-6 h-6" />
-            </button>
-            <div className="flex items-center space-x-2">
-              <AcademicCapIcon className="w-6 h-6 text-blue-600" />
-              <span className="text-lg font-semibold text-gray-900">CollegeComps</span>
+        {/* Top bar - Always visible with user menu */}
+        <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-30">
+          <div className="flex items-center justify-between h-16 px-4 lg:px-6">
+            <div className="flex items-center">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="p-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 lg:hidden mr-2"
+              >
+                <Bars3Icon className="w-6 h-6" />
+              </button>
+              <div className="lg:hidden flex items-center space-x-2">
+                <AcademicCapIcon className="w-6 h-6 text-blue-600" />
+                <span className="text-lg font-semibold text-gray-900">CollegeComps</span>
+              </div>
             </div>
+            {/* User menu always on top right */}
             <div className="flex items-center">
               <UserMenu />
             </div>
