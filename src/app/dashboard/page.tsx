@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import FinancialWidget from '@/components/FinancialWidget';
 
 interface DashboardStats {
   total_institutions: number;
@@ -116,37 +117,65 @@ export default function DashboardPage() {
   const totalControlInstitutions = byControlType.reduce((sum, item) => sum + item.count, 0);
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-4 md:p-6 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Data Dashboard
+        <div className="mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
+            Financial Dashboard
           </h1>
-          <p className="text-gray-600 text-lg">
-            Comprehensive insights and analytics from college data nationwide.
+          <p className="text-gray-600 text-sm md:text-base">
+            Real-time insights into college costs and affordability
           </p>
         </div>
 
-        {/* Key Metrics */}
+        {/* Key Financial Metrics - Widget Style */}
         {stats && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <div className="text-sm text-gray-600 mb-1">Total Institutions</div>
-              <div className="text-3xl font-bold text-gray-900">{stats.total_institutions?.toLocaleString() || 'N/A'}</div>
-            </div>
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <div className="text-sm text-gray-600 mb-1">Avg In-State Tuition (Annual)</div>
-              <div className="text-3xl font-bold text-blue-600">${stats.avg_in_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</div>
-            </div>
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <div className="text-sm text-gray-600 mb-1">Avg Out-State Tuition (Annual)</div>
-              <div className="text-3xl font-bold text-purple-600">${stats.avg_out_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</div>
-            </div>
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <div className="text-sm text-gray-600 mb-1">Avg Room & Board (Annual)</div>
-              <div className="text-3xl font-bold text-green-600">${stats.avg_room_board?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</div>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <FinancialWidget
+              title="Institutions"
+              value={stats.total_institutions?.toLocaleString() || 'N/A'}
+              subtitle="Nationwide coverage"
+              color="blue"
+              icon={
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              }
+            />
+            <FinancialWidget
+              title="Avg In-State"
+              value={`$${stats.avg_in_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}`}
+              subtitle="Annual tuition"
+              color="green"
+              icon={
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              }
+            />
+            <FinancialWidget
+              title="Avg Out-State"
+              value={`$${stats.avg_out_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}`}
+              subtitle="Annual tuition"
+              color="purple"
+              icon={
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              }
+            />
+            <FinancialWidget
+              title="Avg Housing"
+              value={`$${stats.avg_room_board?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}`}
+              subtitle="Room & board"
+              color="orange"
+              icon={
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+              }
+            />
           </div>
         )}
 
