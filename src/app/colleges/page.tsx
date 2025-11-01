@@ -301,7 +301,7 @@ export default function CollegesPage() {
         <div className="mb-8">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">
+              <h1 className="text-3xl font-bold tracking-tight text-white mb-2">
                 College Explorer
               </h1>
               <p className="text-gray-300 text-lg">

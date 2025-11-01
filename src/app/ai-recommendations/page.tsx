@@ -168,7 +168,7 @@ export default function AIRecommendationsPage() {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 mb-4">
             <SparklesIcon className="w-8 h-8 text-purple-600" />
-            <h1 className="text-4xl font-bold text-white font-bold">AI-Powered Recommendations</h1>
+            <h1 className="text-4xl font-bold tracking-tight text-white font-bold">AI-Powered Recommendations</h1>
           </div>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Based on your profile, we've analyzed {data.summary.totalAnalyzed} schools to find your perfect matches
@@ -222,17 +222,17 @@ export default function AIRecommendationsPage() {
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           <div className="bg-green-50 rounded-xl p-6 border-2 border-green-200">
             <h3 className="text-lg font-semibold text-green-900 mb-2">Safety Schools</h3>
-            <p className="text-3xl font-bold text-green-600">{data.summary.safetySchools}</p>
+            <p className="text-3xl font-bold tracking-tight text-green-600">{data.summary.safetySchools}</p>
             <p className="text-sm text-green-700 mt-2">High admission chance</p>
           </div>
           <div className="bg-yellow-50 rounded-xl p-6 border-2 border-yellow-200">
             <h3 className="text-lg font-semibold text-yellow-900 mb-2">Target Schools</h3>
-            <p className="text-3xl font-bold text-yellow-600">{data.summary.targetSchools}</p>
+            <p className="text-3xl font-bold tracking-tight text-yellow-600">{data.summary.targetSchools}</p>
             <p className="text-sm text-yellow-700 mt-2">Good fit schools</p>
           </div>
           <div className="bg-orange-50 rounded-xl p-6 border-2 border-orange-200">
             <h3 className="text-lg font-semibold text-orange-900 mb-2">Reach Schools</h3>
-            <p className="text-3xl font-bold text-orange-600">{data.summary.reachSchools}</p>
+            <p className="text-3xl font-bold tracking-tight text-orange-600">{data.summary.reachSchools}</p>
             <p className="text-sm text-orange-700 mt-2">Stretch goals</p>
           </div>
         </div>

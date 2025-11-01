@@ -258,7 +258,7 @@ export default function SubmitSalaryPage() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-white font-bold mb-3">
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white font-bold mb-3">
             Share Your Salary Data
           </h1>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto">

@@ -148,7 +148,7 @@ export default function SupportPage() {
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <LifebuoyIcon className="w-10 h-10 text-orange-500" />
-                <h1 className="text-4xl font-bold text-white font-bold">Support Center</h1>
+                <h1 className="text-4xl font-bold tracking-tight text-white font-bold">Support Center</h1>
               </div>
               <p className="text-lg text-gray-300">
                 Get help from our support team

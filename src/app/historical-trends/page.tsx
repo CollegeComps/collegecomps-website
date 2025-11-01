@@ -213,7 +213,7 @@ export default function HistoricalTrendsPage() {
               <ChartBarIcon className="w-8 h-8 text-white" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-white font-bold">Historical Trends & Predictions</h1>
+              <h1 className="text-4xl font-bold tracking-tight text-white font-bold">Historical Trends & Predictions</h1>
               <p className="text-gray-300 mt-1">Analyze past trends and future projections for college costs and salaries</p>
             </div>
           </div>

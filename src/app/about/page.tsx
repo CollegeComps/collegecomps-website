@@ -36,7 +36,7 @@ export default function AboutPage() {
       <div className="py-16 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-bold text-white font-bold mb-4">Our Mission</h2>
+            <h2 className="text-3xl font-bold tracking-tight text-white font-bold mb-4">Our Mission</h2>
             <p className="text-xl text-gray-300">
               We believe that choosing a college and program should be based on data, not guesswork. 
               Our mission is to provide transparent, comprehensive analysis that helps students maximize 
@@ -85,7 +85,7 @@ export default function AboutPage() {
       {/* Story Section */}
       <div className="py-16 bg-black">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-white font-bold mb-6 text-center">Our Story</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-white font-bold mb-6 text-center">Our Story</h2>
           
           <div className="prose prose-lg max-w-none text-gray-300 text-center">
             <p className="mb-4">
@@ -122,7 +122,7 @@ export default function AboutPage() {
       {/* What We Offer Section */}
       <div className="py-16 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-white font-bold mb-12 text-center">What We Offer</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-white font-bold mb-12 text-center">What We Offer</h2>
           
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-6 border border-orange-500">
@@ -183,7 +183,7 @@ export default function AboutPage() {
       {/* Data Sources Section */}
       <div className="py-16 bg-black">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-white font-bold mb-6 text-center">Our Data Sources</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-white font-bold mb-6 text-center">Our Data Sources</h2>
           
           <p className="text-lg text-gray-300 text-center mb-8">
             We aggregate data from authoritative government sources to ensure accuracy and reliability:
@@ -226,7 +226,7 @@ export default function AboutPage() {
       {/* CTA Section */}
       <div className="py-16 bg-gradient-to-r from-blue-600 to-indigo-600">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-white mb-4">
+          <h2 className="text-3xl font-bold tracking-tight text-white mb-4">
             Ready to Make Informed Decisions?
           </h2>
           <p className="text-xl text-orange-100 mb-8">

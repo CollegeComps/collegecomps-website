@@ -188,7 +188,7 @@ export default function PriorityDataPage() {
               <BoltIcon className="w-8 h-8 text-white" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-white font-bold">Priority Data Access</h1>
+              <h1 className="text-4xl font-bold tracking-tight text-white font-bold">Priority Data Access</h1>
               <p className="text-gray-300 mt-1">Get early access to new data releases before they go public</p>
             </div>
           </div>

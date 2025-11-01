@@ -143,7 +143,7 @@ export default function DashboardPage() {
                 <span className="mr-2">👋</span>
                 <span>Welcome back</span>
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-white">Your Overview</h1>
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white">Your Overview</h1>
             </div>
             <div className="flex items-center space-x-3">
               <button className="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-900 border border-gray-800 rounded-lg hover:bg-gray-800 transition-colors">
@@ -174,7 +174,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
                 <div className="mb-6">
-                  <div className="text-4xl font-bold text-white mb-2">
+                  <div className="text-4xl font-bold tracking-tight text-white mb-2">
                     {stats.total_institutions?.toLocaleString() || 'N/A'}
                   </div>
                   <div className="flex items-center text-sm">

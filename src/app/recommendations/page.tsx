@@ -331,7 +331,7 @@ export default function RecommendationsPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold tracking-tight text-white mb-2">
             College Recommendations
           </h1>
           <p className="text-gray-300 mb-4">

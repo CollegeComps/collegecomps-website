@@ -156,7 +156,7 @@ export default function AdminSupportPage() {
     <div className="min-h-screen bg-black py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white font-bold">Support Dashboard</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-white font-bold">Support Dashboard</h1>
           <p className="text-gray-300 mt-2">Manage and respond to user support tickets</p>
         </div>
 

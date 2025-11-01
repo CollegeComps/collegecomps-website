@@ -173,7 +173,7 @@ export default function SubscriptionPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white font-bold mb-2">My Subscription</h1>
+          <h1 className="text-4xl font-bold tracking-tight text-white font-bold mb-2">My Subscription</h1>
           <p className="text-lg text-gray-300">
             Manage your plan and view feature access
           </p>

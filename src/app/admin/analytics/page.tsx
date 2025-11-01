@@ -136,7 +136,7 @@ export default function AdminAnalyticsPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white font-bold flex items-center gap-3">
+              <h1 className="text-3xl font-bold tracking-tight text-white font-bold flex items-center gap-3">
                 <ChartBarIcon className="h-8 w-8 text-orange-500" />
                 Admin Analytics Dashboard
               </h1>
@@ -158,7 +158,7 @@ export default function AdminAnalyticsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-300">Total Actions</p>
-                <p className="text-3xl font-bold text-white font-bold">{data.stats.total_events}</p>
+                <p className="text-3xl font-bold tracking-tight text-white font-bold">{data.stats.total_events}</p>
               </div>
               <div className="bg-blue-100 p-3 rounded-lg">
                 <FireIcon className="h-6 w-6 text-orange-500" />
@@ -170,7 +170,7 @@ export default function AdminAnalyticsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-300">Active Days</p>
-                <p className="text-3xl font-bold text-white font-bold">{data.stats.active_days}</p>
+                <p className="text-3xl font-bold tracking-tight text-white font-bold">{data.stats.active_days}</p>
               </div>
               <div className="bg-green-100 p-3 rounded-lg">
                 <CalendarIcon className="h-6 w-6 text-green-600" />
@@ -182,7 +182,7 @@ export default function AdminAnalyticsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-300">Saved Comparisons</p>
-                <p className="text-3xl font-bold text-white font-bold">{data.savedComparisons}</p>
+                <p className="text-3xl font-bold tracking-tight text-white font-bold">{data.savedComparisons}</p>
               </div>
               <div className="bg-purple-100 p-3 rounded-lg">
                 <ArrowsRightLeftIcon className="h-6 w-6 text-purple-600" />
@@ -199,7 +199,7 @@ export default function AdminAnalyticsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-300">Salary Submissions</p>
-                <p className="text-3xl font-bold text-white font-bold">{data.salarySubmissions}</p>
+                <p className="text-3xl font-bold tracking-tight text-white font-bold">{data.salarySubmissions}</p>
               </div>
               <div className="bg-yellow-100 p-3 rounded-lg">
                 <CurrencyDollarIcon className="h-6 w-6 text-yellow-600" />

@@ -209,7 +209,7 @@ export default function CollegeDetailPage() {
           
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-white font-bold mb-2">
+              <h1 className="text-3xl font-bold tracking-tight text-white font-bold mb-2">
                 {institution.name}
               </h1>
               <div className="flex items-center text-gray-300 text-lg mb-3">
@@ -490,7 +490,7 @@ export default function CollegeDetailPage() {
                 {institution.net_price && (
                   <div className="bg-green-50 rounded-lg border border-green-200 p-6">
                     <h3 className="text-lg font-semibold text-green-900 mb-2">Average Net Price</h3>
-                    <p className="text-3xl font-bold text-green-700">{formatCurrency(institution.net_price)}</p>
+                    <p className="text-3xl font-bold tracking-tight text-green-700">{formatCurrency(institution.net_price)}</p>
                     <p className="text-sm text-green-600 mt-2">
                       This is the average amount students pay after financial aid
                     </p>

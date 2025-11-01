@@ -76,7 +76,7 @@ export default function AdvancedAnalyticsPage() {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full mb-6">
               <LockClosedIcon className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-4xl font-bold text-white font-bold mb-4">
+            <h1 className="text-4xl font-bold tracking-tight text-white font-bold mb-4">
               Premium Feature
             </h1>
             <p className="text-xl text-gray-300 mb-8">
@@ -131,7 +131,7 @@ export default function AdvancedAnalyticsPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white font-bold mb-2">Advanced Salary Analytics</h1>
+          <h1 className="text-4xl font-bold tracking-tight text-white font-bold mb-2">Advanced Salary Analytics</h1>
           <p className="text-lg text-gray-300">
             Deep insights into earning potential and career trajectories
           </p>

@@ -6,7 +6,7 @@ export default function ROICalculatorPage() {
     <div className="p-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white font-bold mb-2">
+          <h1 className="text-3xl font-bold tracking-tight text-white font-bold mb-2">
             ROI Calculator
           </h1>
           <p className="text-gray-300 text-lg">

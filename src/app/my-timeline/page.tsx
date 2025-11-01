@@ -175,7 +175,7 @@ export default function MyTimelinePage() {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white font-bold flex items-center gap-3">
+              <h1 className="text-3xl font-bold tracking-tight text-white font-bold flex items-center gap-3">
                 <CalendarIcon className="h-8 w-8 text-orange-500" />
                 My Timeline
               </h1>

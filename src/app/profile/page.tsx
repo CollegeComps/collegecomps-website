@@ -203,7 +203,7 @@ export default function ProfilePage() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Account Settings</h1>
+          <h1 className="text-4xl font-bold tracking-tight text-white mb-2">Account Settings</h1>
           <p className="text-lg text-gray-300">Manage your profile and account preferences</p>
         </div>
 
