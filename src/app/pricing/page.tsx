@@ -72,20 +72,27 @@ export default function PricingPage() {
           </div>
         </div>
 
-        {/* Pricing Cards */}
+        {/* Pricing Cards - Enhanced design */}
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {/* Free Plan */}
-          <div className="bg-gray-900 border-2 border-gray-800 rounded-2xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-8 hover:shadow-[0_0_15px_rgba(249,115,22,0.1)] hover:border-gray-700 transition-all flex flex-col">
-            <div className="text-center mb-6">
-              <div className="inline-flex items-center gap-1 mb-2">
-                <span className="text-2xl">🔍</span>
-                <h3 className="text-2xl font-bold text-white">Free</h3>
+          {/* Free Plan - Enhanced */}
+          <div className="relative bg-gray-900 border-2 border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden group">
+            {/* Subtle gradient overlay */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-500/5 to-transparent rounded-full blur-2xl"></div>
+            
+            <div className="relative z-10">
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center gap-2 mb-3">
+                  <div className="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center">
+                    <span className="text-2xl">🔍</span>
+                  </div>
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2">Free</h3>
+                <div className="text-5xl font-extrabold text-white mb-2">
+                  $0
+                  <span className="text-lg text-gray-400 font-normal">/forever</span>
+                </div>
+                <p className="text-gray-300 font-medium">Start your journey</p>
               </div>
-              <div className="text-4xl font-extrabold text-white mb-2">
-                $0
-                <span className="text-lg text-gray-400 font-normal">/forever</span>
-              </div>
-              <p className="text-gray-300 font-medium">Start your journey</p>
             </div>
             
             <ul className="space-y-3 mb-8 flex-grow">
@@ -136,24 +143,32 @@ export default function PricingPage() {
             </button>
           </div>
 
-          {/* Premium Plan */}
-          <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.15)] border-2 border-orange-500 p-8 relative transform md:scale-105 hover:shadow-orange-500/20 transition-all flex flex-col">
-            <div className="absolute top-0 right-0 bg-gradient-to-r from-orange-600 to-orange-500 text-white px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm font-bold shadow-[0_0_12px_rgba(249,115,22,0.08)]">
-              POPULAR
+          {/* Premium Plan - Enhanced */}
+          <div className="relative bg-gradient-to-br from-gray-900 via-gray-900 to-orange-950/30 rounded-2xl shadow-[0_0_25px_rgba(249,115,22,0.2)] border-2 border-orange-500/50 p-8 transform md:scale-105 hover:-translate-y-2 transition-all duration-300 flex flex-col overflow-hidden">
+            {/* Animated gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-transparent to-orange-600/5"></div>
+            <div className="absolute top-0 left-0 w-40 h-40 bg-gradient-to-br from-orange-500/10 to-transparent rounded-full blur-3xl"></div>
+            
+            <div className="absolute top-0 right-0 bg-gradient-to-r from-orange-600 to-orange-500 text-white px-5 py-1.5 rounded-bl-xl rounded-tr-xl text-sm font-bold shadow-lg">
+              ⭐ POPULAR
             </div>
             
-            <div className="text-center mb-6 pt-4">
-              <div className="inline-flex items-center gap-1 mb-2">
-                <span className="text-2xl">🚀</span>
-                <h3 className="text-2xl font-bold text-white">Premium</h3>
+            <div className="relative z-10">
+              <div className="text-center mb-6 pt-4">
+                <div className="inline-flex items-center gap-2 mb-3">
+                  <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <span className="text-3xl">🚀</span>
+                  </div>
+                </div>
+                <h3 className="text-3xl font-bold text-white mb-2">Premium</h3>
+                <div className="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600 mb-2">
+                  ${billingCycle === 'monthly' ? '6.99' : '4.99'}
+                  <span className="text-xl text-gray-400 font-normal">/month</span>
+                </div>
+                <p className="text-gray-300 font-medium">
+                  {billingCycle === 'annual' ? 'Billed annually at $59.99' : 'or $59.99/year (save $24)'}
+                </p>
               </div>
-              <div className="text-4xl font-extrabold text-white mb-2">
-                ${billingCycle === 'monthly' ? '6.99' : '4.99'}
-                <span className="text-lg text-gray-400 font-normal">/month</span>
-              </div>
-              <p className="text-gray-300 font-medium">
-                {billingCycle === 'annual' ? 'Billed annually at $59.99' : 'or $59.99/year (save $24)'}
-              </p>
             </div>
             
             <ul className="space-y-3 mb-8 flex-grow">
