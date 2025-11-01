@@ -329,7 +329,7 @@ export default function SalaryInsightsPage() {
             {salaryData.map((data, index) => (
               <div
                 key={index}
-                className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow border-l-4 border-blue-500"
+                className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow border-l-4 border-orange-500"
               >
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
@@ -337,7 +337,7 @@ export default function SalaryInsightsPage() {
                     <h3 className="text-xl font-bold text-white mb-1">{data.major}</h3>
                     <p className="text-gray-300">{data.institution_name}</p>
                     <div className="flex items-center gap-3 mt-2 text-sm text-gray-400">
-                      <span className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full font-medium">
+                      <span className="inline-flex items-center px-3 py-1 bg-orange-500/20 text-orange-400 border border-orange-500/50 rounded-full font-medium">
                         {data.degree_level.charAt(0).toUpperCase() + data.degree_level.slice(1)}
                       </span>
                       <span>📅 {data.years_since_graduation} years post-grad</span>
@@ -454,7 +454,7 @@ export default function SalaryInsightsPage() {
         {/* Footer CTA */}
         <div className="mt-12 bg-orange-500 rounded-xl p-8 text-center text-white">
           <h2 className="text-2xl font-bold mb-2">Help Build the Most Comprehensive Salary Database</h2>
-          <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+          <p className="text-orange-100 mb-6 max-w-2xl mx-auto">
             Your anonymous salary data helps thousands of students make better college decisions. Share your story.
           </p>
           <Link
@@ -463,7 +463,7 @@ export default function SalaryInsightsPage() {
           >
             Contribute Your Salary Data
           </Link>
-          <p className="text-sm text-blue-200 mt-4">100% anonymous • Takes 2 minutes • Helps future students</p>
+          <p className="text-sm text-orange-200 mt-4">100% anonymous • Takes 2 minutes • Helps future students</p>
         </div>
       </div>
     </div>

@@ -82,7 +82,7 @@ export default function TicketDetailPage() {
       }
 
       setTicket(data.ticket);
-      setMessages(data.messages);
+      setMessages(Array.isArray(data.messages) ? data.messages : []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load ticket');
     } finally {

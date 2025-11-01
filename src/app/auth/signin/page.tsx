@@ -99,7 +99,7 @@ export default function SignInPage() {
           </h2>
           <p className="mt-2 text-center text-sm text-gray-300">
             Or{' '}
-            <Link href="/auth/signup" className="font-medium text-orange-500 hover:text-blue-500">
+            <Link href="/auth/signup" className="font-medium text-orange-500 hover:text-orange-600">
               create a new account
             </Link>
           </p>
@@ -151,7 +151,7 @@ export default function SignInPage() {
             <div className="text-sm">
               <Link
                 href="/auth/forgot-password"
-                className="font-medium text-orange-500 hover:text-blue-500"
+                className="font-medium text-orange-500 hover:text-orange-600"
               >
                 Forgot your password?
               </Link>

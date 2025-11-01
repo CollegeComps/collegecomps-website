@@ -127,7 +127,7 @@ export default function AIRecommendationsPage() {
     return (
       <div className="min-h-screen bg-black py-12 px-4">
         <div className="max-w-2xl mx-auto">
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-8 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-8 text-center">
             <SparklesIcon className="w-16 h-16 text-purple-600 mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-white font-bold mb-4">AI Recommendations</h1>
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
@@ -176,7 +176,7 @@ export default function AIRecommendationsPage() {
         </div>
 
         {/* Profile Summary */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6 mb-8">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-6 mb-8">
           <h2 className="text-lg font-semibold text-white font-bold mb-4">Your Profile</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {data.profile.gpa && (
@@ -238,7 +238,7 @@ export default function AIRecommendationsPage() {
         </div>
 
         {/* Tabs */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg overflow-hidden">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] overflow-hidden">
           <div className="border-b border-gray-200">
             <div className="flex">
               <button

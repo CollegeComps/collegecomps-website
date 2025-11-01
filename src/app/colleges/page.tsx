@@ -824,7 +824,7 @@ export default function CollegesPage() {
 
                     {(institution as any).mean_earnings_10_years && (
                       <div className="flex items-center">
-                        <CurrencyDollarIcon className="w-4 h-4 mr-2 text-blue-500" />
+                        <CurrencyDollarIcon className="w-4 h-4 mr-2 text-orange-500" />
                         <span className="text-white">
                           Avg Earnings (10 yrs): ${(institution as any).mean_earnings_10_years.toLocaleString()}/year
                         </span>
@@ -842,7 +842,7 @@ export default function CollegesPage() {
 
                     {(institution.average_sat || institution.average_act) && (
                       <div className="flex items-center">
-                        <AcademicCapIcon className="w-4 h-4 mr-2 text-indigo-500" />
+                        <AcademicCapIcon className="w-4 h-4 mr-2 text-orange-500" />
                         <span className="text-white">
                           {institution.average_sat && `Avg SAT: ${institution.average_sat}`}
                           {institution.average_sat && institution.average_act && ' | '}

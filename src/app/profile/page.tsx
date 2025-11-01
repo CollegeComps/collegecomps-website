@@ -364,7 +364,7 @@ export default function ProfilePage() {
             
             {bookmarksLoading ? (
               <div className="text-center py-8">
-                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
                 <p className="mt-2 text-gray-300">Loading bookmarks...</p>
               </div>
             ) : bookmarkedColleges.length === 0 ? (
@@ -424,7 +424,7 @@ export default function ProfilePage() {
                     <div className="flex gap-2 ml-4">
                       <a
                         href={`/colleges/${bookmark.unitid}`}
-                        className="px-3 py-1 text-xs font-medium text-orange-500 hover:text-orange-600 border border-blue-600 hover:border-blue-700 rounded transition-colors"
+                        className="px-3 py-1 text-xs font-medium text-orange-500 hover:text-orange-600 border border-orange-600 hover:border-blue-700 rounded transition-colors"
                         onClick={(e) => e.stopPropagation()}
                       >
                         View
@@ -473,7 +473,7 @@ export default function ProfilePage() {
             
             {scenariosLoading ? (
               <div className="text-center py-8">
-                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
                 <p className="mt-2 text-gray-300">Loading scenarios...</p>
               </div>
             ) : roiScenarios.length === 0 ? (
@@ -531,7 +531,7 @@ export default function ProfilePage() {
                       <div className="ml-4 flex gap-2">
                         <a
                           href={`/roi-calculator?loadScenario=${scenario.id}`}
-                          className="px-3 py-1 text-xs font-medium text-orange-500 hover:text-orange-600 border border-blue-600 hover:border-blue-700 rounded transition-colors inline-flex items-center gap-1"
+                          className="px-3 py-1 text-xs font-medium text-orange-500 hover:text-orange-600 border border-orange-600 hover:border-blue-700 rounded transition-colors inline-flex items-center gap-1"
                           title="Load this scenario in the ROI calculator"
                         >
                           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

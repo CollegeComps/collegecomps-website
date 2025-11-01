@@ -69,7 +69,7 @@ export default function StudentLoanCalculatorPage() {
 
           <div className="mt-8 bg-orange-500/10 border border-orange-500 rounded-lg p-6">
             <h3 className="font-semibold text-white font-bold mb-2">📚 Important Notes</h3>
-            <ul className="text-sm text-blue-800 space-y-1">
+            <ul className="text-sm text-orange-400 space-y-1">
               <li>• This calculator provides estimates. Actual payments may vary based on your lender and loan terms.</li>
               <li>• Federal student loans may have additional repayment options including income-driven plans.</li>
               <li>• Consider talking to a financial advisor for personalized loan repayment strategies.</li>

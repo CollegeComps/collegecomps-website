@@ -14,7 +14,7 @@ export const metadata = {
 
 export default function MethodologyPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-black">
       <div className="max-w-5xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12">
@@ -29,7 +29,7 @@ export default function MethodologyPage() {
         {/* Overview Cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-16">
           <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-sm border p-6">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+            <div className="w-12 h-12 bg-orange-500/20 border border-orange-500 rounded-lg flex items-center justify-center mb-4">
               <ShieldCheckIcon className="w-6 h-6 text-orange-500" />
             </div>
             <h3 className="text-lg font-semibold text-white font-bold mb-2">Trusted Data</h3>
@@ -39,8 +39,8 @@ export default function MethodologyPage() {
           </div>
 
           <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-sm border p-6">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-              <ClockIcon className="w-6 h-6 text-green-600" />
+            <div className="w-12 h-12 bg-orange-500/20 border border-orange-500 rounded-lg flex items-center justify-center mb-4">
+              <ClockIcon className="w-6 h-6 text-orange-500" />
             </div>
             <h3 className="text-lg font-semibold text-white font-bold mb-2">Regular Updates</h3>
             <p className="text-sm text-gray-300">
@@ -49,8 +49,8 @@ export default function MethodologyPage() {
           </div>
 
           <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-sm border p-6">
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-              <ChartBarIcon className="w-6 h-6 text-purple-600" />
+            <div className="w-12 h-12 bg-orange-500/20 border border-orange-500 rounded-lg flex items-center justify-center mb-4">
+              <ChartBarIcon className="w-6 h-6 text-orange-500" />
             </div>
             <h3 className="text-lg font-semibold text-white font-bold mb-2">Clear Calculations</h3>
             <p className="text-sm text-gray-300">
@@ -134,7 +134,7 @@ export default function MethodologyPage() {
         {/* ROI Calculation Section */}
         <section className="bg-gray-900 border border-gray-800 rounded-xl shadow-sm border p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
-            <DocumentTextIcon className="w-8 h-8 text-green-600" />
+            <DocumentTextIcon className="w-8 h-8 text-orange-500" />
             <h2 className="text-2xl font-bold text-white font-bold">ROI Calculations</h2>
           </div>
 
@@ -188,13 +188,13 @@ export default function MethodologyPage() {
         {/* Data Quality Section */}
         <section className="bg-gray-900 border border-gray-800 rounded-xl shadow-sm border p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
-            <AcademicCapIcon className="w-8 h-8 text-purple-600" />
+            <AcademicCapIcon className="w-8 h-8 text-orange-500" />
             <h2 className="text-2xl font-bold text-white font-bold">Data Quality & Coverage</h2>
           </div>
 
           <div className="space-y-4">
             <div className="grid md:grid-cols-2 gap-4">
-              <div className="border-l-4 border-blue-500 pl-4">
+              <div className="border-l-4 border-orange-500 pl-4">
                 <p className="text-sm font-medium text-gray-400 mb-1">Total Institutions</p>
                 <p className="text-2xl font-bold text-white font-bold">6,163</p>
               </div>

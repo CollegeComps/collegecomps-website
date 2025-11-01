@@ -18,13 +18,13 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-black">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white py-20">
+      <div className="bg-gradient-to-br from-orange-600 to-orange-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Making College Decisions Clear
             </h1>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl text-orange-100 max-w-3xl mx-auto">
               CollegeComps empowers students and families to make informed education decisions 
               through comprehensive, data-driven college and program analysis.
             </p>
@@ -33,7 +33,7 @@ export default function AboutPage() {
       </div>
 
       {/* Mission Section */}
-      <div className="py-16 bg-white">
+      <div className="py-16 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <h2 className="text-3xl font-bold text-white font-bold mb-4">Our Mission</h2>
@@ -47,7 +47,7 @@ export default function AboutPage() {
           {/* Values Grid */}
           <div className="grid md:grid-cols-3 gap-8 mt-12">
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
                 <ChartBarIcon className="w-8 h-8 text-orange-500" />
               </div>
               <h3 className="text-xl font-semibold text-white font-bold mb-2">Data-Driven</h3>
@@ -58,8 +58,8 @@ export default function AboutPage() {
             </div>
 
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
-                <ShieldCheckIcon className="w-8 h-8 text-green-600" />
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
+                <ShieldCheckIcon className="w-8 h-8 text-orange-500" />
               </div>
               <h3 className="text-xl font-semibold text-white font-bold mb-2">Transparent</h3>
               <p className="text-gray-300">
@@ -69,8 +69,8 @@ export default function AboutPage() {
             </div>
 
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
-                <UserGroupIcon className="w-8 h-8 text-purple-600" />
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
+                <UserGroupIcon className="w-8 h-8 text-orange-500" />
               </div>
               <h3 className="text-xl font-semibold text-white font-bold mb-2">Student-Focused</h3>
               <p className="text-gray-300">
@@ -83,7 +83,7 @@ export default function AboutPage() {
       </div>
 
       {/* Story Section */}
-      <div className="py-16 bg-gray-50">
+      <div className="py-16 bg-black">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white font-bold mb-6 text-center">Our Story</h2>
           
@@ -120,7 +120,7 @@ export default function AboutPage() {
       </div>
 
       {/* What We Offer Section */}
-      <div className="py-16 bg-white">
+      <div className="py-16 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white font-bold mb-12 text-center">What We Offer</h2>
           
@@ -140,7 +140,7 @@ export default function AboutPage() {
 
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-6 border border-green-200">
               <div className="flex items-start">
-                <ChartBarIcon className="w-8 h-8 text-green-600 mr-4 flex-shrink-0" />
+                <ChartBarIcon className="w-8 h-8 text-orange-500 mr-4 flex-shrink-0" />
                 <div>
                   <h3 className="text-xl font-semibold text-white font-bold mb-2">College Explorer</h3>
                   <p className="text-gray-300">
@@ -153,7 +153,7 @@ export default function AboutPage() {
 
             <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-6 border border-purple-200">
               <div className="flex items-start">
-                <LightBulbIcon className="w-8 h-8 text-purple-600 mr-4 flex-shrink-0" />
+                <LightBulbIcon className="w-8 h-8 text-orange-500 mr-4 flex-shrink-0" />
                 <div>
                   <h3 className="text-xl font-semibold text-white font-bold mb-2">Comparison Tools</h3>
                   <p className="text-gray-300">
@@ -181,7 +181,7 @@ export default function AboutPage() {
       </div>
 
       {/* Data Sources Section */}
-      <div className="py-16 bg-gray-50">
+      <div className="py-16 bg-black">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white font-bold mb-6 text-center">Our Data Sources</h2>
           
@@ -229,19 +229,19 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold text-white mb-4">
             Ready to Make Informed Decisions?
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
+          <p className="text-xl text-orange-100 mb-8">
             Start exploring colleges and calculating ROI today. It's free to get started.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/roi-calculator"
-              className="bg-white text-orange-500 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-colors shadow-lg"
+              className="bg-black text-orange-500 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-colors shadow-lg"
             >
               Calculate ROI
             </Link>
             <Link
               href="/colleges"
-              className="bg-transparent text-white px-8 py-4 rounded-lg font-semibold text-lg border-2 border-white hover:bg-white hover:text-orange-500 transition-colors"
+              className="bg-transparent text-white px-8 py-4 rounded-lg font-semibold text-lg border-2 border-white hover:bg-black hover:text-orange-500 transition-colors"
             >
               Explore Colleges
             </Link>
@@ -250,7 +250,7 @@ export default function AboutPage() {
       </div>
 
       {/* Contact Section */}
-      <div className="py-12 bg-white">
+      <div className="py-12 bg-black">
         <div className="max-w-3xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-white font-bold mb-4">Get in Touch</h2>
           <p className="text-gray-300 mb-6">

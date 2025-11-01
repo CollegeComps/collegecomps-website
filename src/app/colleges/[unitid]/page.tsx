@@ -313,7 +313,7 @@ export default function CollegeDetailPage() {
                 onClick={() => setActiveTab(tab.key as any)}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === tab.key
-                    ? 'border-blue-500 text-orange-500'
+                    ? 'border-orange-500 text-orange-500'
                     : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
                 }`}
               >

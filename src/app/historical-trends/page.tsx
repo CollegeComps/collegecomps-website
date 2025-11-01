@@ -225,7 +225,7 @@ export default function HistoricalTrendsPage() {
         </div>
 
         {/* View Selector */}
-        <div className="mb-6 bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-4">
+        <div className="mb-6 bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-4">
           <div className="flex gap-3">
             <button
               onClick={() => setSelectedView('salary')}
@@ -261,7 +261,7 @@ export default function HistoricalTrendsPage() {
         </div>
 
         {/* Main Chart */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6 mb-8">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-6 mb-8">
           <h2 className="text-2xl font-bold text-white font-bold mb-6">
             {selectedView === 'salary' && 'Average Starting Salary Trends'}
             {selectedView === 'cost' && 'Average College Cost Trends'}
@@ -334,7 +334,7 @@ export default function HistoricalTrendsPage() {
         </div>
 
         {/* Key Metrics Trends */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-6">
           <h2 className="text-2xl font-bold text-white font-bold mb-6">Key Metrics Year-over-Year</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {categoryTrends.map((category, index) => (
@@ -376,7 +376,7 @@ export default function HistoricalTrendsPage() {
         </div>
 
         {/* Top Programs by Average Salary */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-6">
           <h2 className="text-2xl font-bold text-white font-bold mb-6">Average Salary by Program</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {topPrograms.slice(0, 9).map((program, index) => (
