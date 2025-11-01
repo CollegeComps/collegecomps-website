@@ -676,14 +676,14 @@ export default function CollegesPage() {
             institutions.map((institution) => (
               <div 
                 key={institution.id} 
-                className="group bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.1)] p-6 hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] hover:border-orange-500/40 hover:-translate-y-1 transition-all duration-300 cursor-pointer relative overflow-hidden"
+                className="group bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.1)] p-6 hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] hover:border-orange-500/40 hover:-translate-y-1 transition-all duration-300 cursor-pointer relative overflow-hidden flex flex-col h-full"
                 onClick={() => window.location.href = `/colleges/${institution.unitid}`}
               >
                 {/* Background glow effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 
                 {/* Content */}
-                <div className="relative z-10">
+                <div className="relative z-10 flex flex-col flex-1">
                   {/* Bookmark button */}
                   <button
                     onClick={(e) => toggleBookmark(e, institution)}
@@ -874,7 +874,8 @@ export default function CollegesPage() {
                   )}
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-gray-800">
+                {/* Action footer - pushed to bottom */}
+                <div className="mt-auto pt-4 border-t border-gray-800">
                   <div className="flex justify-between items-center">
                     <span className="text-xs text-gray-500">Unit ID: {institution.unitid}</span>
                     <div className="flex items-center gap-1 text-orange-500 group-hover:text-orange-400 text-sm font-medium">
