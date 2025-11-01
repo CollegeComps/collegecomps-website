@@ -174,7 +174,7 @@ export default function Home() {
             {/* Stats - Enhanced cards with better spacing */}
             <div className="flex flex-wrap justify-center gap-8 mb-12 px-4">
               {loading ? (
-                <div className="flex space-x-8">
+                <div className="flex space-x-6">
                   {[1, 2, 3].map((i) => (
                     <div key={i} className="text-center bg-gray-900/50 rounded-2xl p-8 border border-gray-800 min-w-[180px]">
                       <div className="h-12 w-24 bg-gray-800 rounded animate-pulse mb-3 mx-auto"></div>
