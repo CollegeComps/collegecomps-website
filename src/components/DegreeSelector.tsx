@@ -71,9 +71,9 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
   };
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-        <svg className="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
+      <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+        <svg className="w-5 h-5 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
         </svg>
         Select Degree Program
@@ -86,7 +86,7 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => degrees.length > 0 && setShowDropdown(true)}
           placeholder="Search by degree name (e.g., Computer Science, Nursing, Business)"
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500 text-gray-900"
+          className="w-full px-4 py-3 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 placeholder-gray-400 text-white"
         />
         {selectedDegree && (
           <button
@@ -101,19 +101,19 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
       </div>
 
       {loading && (
-        <div className="mt-2 text-sm text-gray-300">Searching degrees...</div>
+        <div className="mt-2 text-sm text-gray-400">Searching degrees...</div>
       )}
 
       {showDropdown && degrees.length > 0 && (
-        <div className="mt-2 max-h-96 overflow-y-auto border border-gray-200 rounded-lg bg-white shadow-lg">
+        <div className="mt-2 max-h-96 overflow-y-auto border border-gray-700 rounded-lg bg-gray-800 shadow-lg">
           {degrees.map((degree) => (
             <button
               key={degree.cipcode}
               onClick={() => handleSelectDegree(degree)}
-              className="w-full text-left px-4 py-3 hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0"
+              className="w-full text-left px-4 py-3 hover:bg-gray-700 transition-colors border-b border-gray-700 last:border-b-0"
             >
-              <div className="font-semibold text-gray-900">{degree.cip_title}</div>
-              <div className="text-sm text-gray-300 mt-1">
+              <div className="font-semibold text-white">{degree.cip_title}</div>
+              <div className="text-sm text-gray-400 mt-1">
                 CIP Code: {degree.cipcode}
                 {degree.total_completions && (
                   <span className="ml-3">
@@ -127,22 +127,22 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
       )}
 
       {searchQuery.length >= 2 && !loading && degrees.length === 0 && (
-        <div className="mt-2 text-sm text-gray-300">
+        <div className="mt-2 text-sm text-gray-400">
           No degrees found. Try a different search term.
         </div>
       )}
 
       {selectedDegree && (
-        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+        <div className="mt-4 p-4 bg-orange-500/10 rounded-lg border border-orange-500/30">
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <h4 className="font-semibold text-blue-900">Selected Degree</h4>
-              <p className="text-sm text-blue-800 mt-1">{selectedDegree.cip_title}</p>
-              <p className="text-xs text-blue-600 mt-1">CIP Code: {selectedDegree.cipcode}</p>
+              <h4 className="font-semibold text-orange-400">Selected Degree</h4>
+              <p className="text-sm text-gray-300 mt-1">{selectedDegree.cip_title}</p>
+              <p className="text-xs text-gray-400 mt-1">CIP Code: {selectedDegree.cipcode}</p>
             </div>
             <button
               onClick={handleClear}
-              className="ml-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
+              className="ml-2 text-orange-500 hover:text-orange-400 text-sm font-medium"
             >
               Change
             </button>
