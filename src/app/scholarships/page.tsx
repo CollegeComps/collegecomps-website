@@ -190,7 +190,7 @@ export default function ScholarshipMatchingPage() {
             {displayedMatches.map((match, index) => (
               <div
                 key={match.scholarship.id}
-                className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6 hover:border-orange-500 transition-all"
+                className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-6 hover:border-orange-500 transition-all"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
@@ -307,7 +307,7 @@ export default function ScholarshipMatchingPage() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-8">
+        <form onSubmit={handleSubmit} className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-8">
           <div className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
               <div>
@@ -457,7 +457,7 @@ export default function ScholarshipMatchingPage() {
           </div>
         </form>
 
-        <div className="mt-12 bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-8">
+        <div className="mt-12 bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-8">
           <h2 className="text-2xl font-bold text-white mb-6">Why Use Our Scholarship Matcher?</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="text-center">

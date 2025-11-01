@@ -54,7 +54,7 @@ export default function EFCCalculatorPage() {
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-white font-bold mb-4">
+          <h1 className="text-4xl font-bold tracking-tight text-white font-bold mb-4">
             🧮 Expected Family Contribution (EFC) Calculator
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -66,7 +66,7 @@ export default function EFCCalculatorPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Input Form */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-8">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-8">
               <h2 className="text-2xl font-bold text-white font-bold mb-6">Your Financial Information</h2>
 
               {/* Student Status */}
@@ -232,7 +232,7 @@ export default function EFCCalculatorPage() {
               <div className="flex gap-4 mt-8">
                 <button
                   onClick={handleCalculate}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg"
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-[0_0_12px_rgba(249,115,22,0.08)]"
                 >
                   Calculate My EFC
                 </button>
@@ -250,7 +250,7 @@ export default function EFCCalculatorPage() {
           <div className="lg:col-span-1">
             <div className="sticky top-8">
               {result ? (
-                <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+                <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8">
                   <h2 className="text-xl font-bold text-white font-bold mb-4">Your EFC Results</h2>
                   
                   {/* Main EFC */}
@@ -317,7 +317,7 @@ export default function EFCCalculatorPage() {
                   </div>
                 </div>
               ) : (
-                <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-8 text-center">
+                <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-8 text-center">
                   <div className="text-6xl mb-4">🧮</div>
                   <h3 className="text-lg font-semibold text-white font-bold mb-2">Ready to Calculate</h3>
                   <p className="text-gray-300 text-sm">
@@ -330,7 +330,7 @@ export default function EFCCalculatorPage() {
         </div>
 
         {/* Educational Content */}
-        <div className="mt-12 bg-gray-900 border border-gray-800 rounded-xl shadow-md p-8">
+        <div className="mt-12 bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-8">
           <h2 className="text-2xl font-bold text-white font-bold mb-6">Understanding Your EFC</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

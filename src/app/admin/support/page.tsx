@@ -156,7 +156,7 @@ export default function AdminSupportPage() {
     <div className="min-h-screen bg-black py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white font-bold">Support Dashboard</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-white font-bold">Support Dashboard</h1>
           <p className="text-gray-300 mt-2">Manage and respond to user support tickets</p>
         </div>
 
@@ -270,7 +270,7 @@ export default function AdminSupportPage() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {tickets.map((ticket) => (
-                <tr key={ticket.id} className="hover:bg-gray-800">
+                <tr key={ticket.id} className="hover:bg-gray-800/80 transition-all duration-200">
                   <td className="px-6 py-4">
                     <div className="text-sm font-medium text-white font-bold">#{ticket.id} - {ticket.subject}</div>
                     <div className="text-sm text-gray-400">{ticket.category}</div>

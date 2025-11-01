@@ -10,7 +10,7 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-black py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_10px_rgba(249,115,22,0.08)] p-8">
-        <h1 className="text-4xl font-bold text-white font-bold mb-4">Privacy Policy</h1>
+        <h1 className="text-4xl font-bold tracking-tight text-white font-bold mb-4">Privacy Policy</h1>
         <p className="text-sm text-gray-300 mb-2">Last Updated: October 14, 2025</p>
         <p className="text-sm text-gray-300 mb-8">This Privacy Policy applies to users in the United States only.</p>
 

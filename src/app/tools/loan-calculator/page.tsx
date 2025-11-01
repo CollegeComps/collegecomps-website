@@ -107,7 +107,7 @@ export default function LoanCalculatorPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-white font-bold">Student Loan Calculator</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-white font-bold">Student Loan Calculator</h1>
             <p className="mt-2 text-gray-300">
               Calculate your monthly payment, total cost, and payoff timeline for student loans
             </p>
@@ -198,7 +198,7 @@ export default function LoanCalculatorPage() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-white font-bold">Monthly Payment</p>
-                        <p className="text-3xl font-bold text-white font-bold mt-1">
+                        <p className="text-3xl font-bold tracking-tight text-white font-bold mt-1">
                           ${calculation.monthlyPayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </p>
                       </div>
@@ -267,7 +267,7 @@ export default function LoanCalculatorPage() {
                   </thead>
                   <tbody className="divide-y divide-gray-800">
                     {calculation.amortizationSchedule.filter((_, idx) => idx % 12 === 0 || idx === calculation.amortizationSchedule.length - 1).map((entry) => (
-                      <tr key={entry.month} className="hover:bg-gray-800">
+                      <tr key={entry.month} className="hover:bg-gray-800/80 transition-all duration-200">
                         <td className="px-4 py-3 font-medium text-white font-bold">
                           Year {Math.ceil(entry.month / 12)}
                         </td>

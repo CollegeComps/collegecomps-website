@@ -45,12 +45,12 @@ export default function PricingPage() {
           </p>
 
           {/* Billing Toggle */}
-          <div className="inline-flex items-center bg-gray-900 border border-gray-800 rounded-full p-1 shadow-lg">
+          <div className="inline-flex items-center bg-gray-900 border border-gray-800 rounded-full p-1 shadow-[0_0_12px_rgba(249,115,22,0.08)]">
             <button
               onClick={() => setBillingCycle('monthly')}
               className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${
                 billingCycle === 'monthly'
-                  ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-lg shadow-orange-500/30'
+                  ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/30'
                   : 'text-gray-400 hover:text-gray-200'
               }`}
             >
@@ -60,7 +60,7 @@ export default function PricingPage() {
               onClick={() => setBillingCycle('annual')}
               className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${
                 billingCycle === 'annual'
-                  ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-lg shadow-orange-500/30'
+                  ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/30'
                   : 'text-gray-400 hover:text-gray-200'
               }`}
             >
@@ -75,7 +75,7 @@ export default function PricingPage() {
         {/* Pricing Cards */}
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Free Plan */}
-          <div className="bg-gray-900 border-2 border-gray-800 rounded-2xl shadow-lg p-8 hover:shadow-xl hover:border-gray-700 transition-all flex flex-col">
+          <div className="bg-gray-900 border-2 border-gray-800 rounded-2xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-8 hover:shadow-[0_0_15px_rgba(249,115,22,0.1)] hover:border-gray-700 transition-all flex flex-col">
             <div className="text-center mb-6">
               <div className="inline-flex items-center gap-1 mb-2">
                 <span className="text-2xl">🔍</span>
@@ -130,7 +130,7 @@ export default function PricingPage() {
             
             <button
               onClick={() => !session ? router.push('/auth/signin') : router.push('/roi-calculator')}
-              className="w-full py-3 px-6 rounded-lg font-bold transition-all bg-gray-800 text-white hover:bg-gray-700 shadow-md"
+              className="w-full py-3 px-6 rounded-lg font-bold transition-all bg-gray-800 text-white hover:bg-gray-700 shadow-[0_0_10px_rgba(249,115,22,0.08)]"
             >
               {currentTier === 'free' ? '✓ Current Plan' : 'Get Started Free'}
             </button>
@@ -138,7 +138,7 @@ export default function PricingPage() {
 
           {/* Premium Plan */}
           <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.15)] border-2 border-orange-500 p-8 relative transform md:scale-105 hover:shadow-orange-500/20 transition-all flex flex-col">
-            <div className="absolute top-0 right-0 bg-gradient-to-r from-orange-600 to-orange-500 text-white px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm font-bold shadow-lg">
+            <div className="absolute top-0 right-0 bg-gradient-to-r from-orange-600 to-orange-500 text-white px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm font-bold shadow-[0_0_12px_rgba(249,115,22,0.08)]">
               POPULAR
             </div>
             
@@ -213,7 +213,7 @@ export default function PricingPage() {
               className={`w-full py-3 px-6 rounded-lg font-bold transition-all ${
                 currentTier === 'premium' || loading
                   ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-orange-600 to-orange-500 text-white hover:from-orange-700 hover:to-orange-600 shadow-lg shadow-orange-500/30 transform hover:-translate-y-0.5'
+                  : 'bg-gradient-to-r from-orange-600 to-orange-500 text-white hover:from-orange-700 hover:to-orange-600 shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/30 transform hover:-translate-y-0.5'
               }`}
             >
               {loading ? 'Loading...' : currentTier === 'premium' ? 'Current Plan' : 'Upgrade to Premium'}
@@ -227,7 +227,7 @@ export default function PricingPage() {
             Frequently Asked Questions
           </h2>
           <div className="space-y-6">
-            <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-[0_0_12px_rgba(249,115,22,0.08)]">
               <h3 className="text-lg font-bold text-white mb-2">
                 Can I cancel anytime?
               </h3>
@@ -235,7 +235,7 @@ export default function PricingPage() {
                 Yes! You can cancel your subscription at any time. You'll continue to have access until the end of your billing period.
               </p>
             </div>
-            <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-[0_0_12px_rgba(249,115,22,0.08)]">
               <h3 className="text-lg font-bold text-white mb-2">
                 What payment methods do you accept?
               </h3>
@@ -243,7 +243,7 @@ export default function PricingPage() {
                 We accept all major credit cards (Visa, MasterCard, American Express) through our secure payment processor, Stripe.
               </p>
             </div>
-            <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-[0_0_12px_rgba(249,115,22,0.08)]">
               <h3 className="text-lg font-bold text-white mb-2">
                 Is there a student discount?
               </h3>

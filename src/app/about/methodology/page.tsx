@@ -28,7 +28,7 @@ export default function MethodologyPage() {
 
         {/* Overview Cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-16">
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-sm border p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
             <div className="w-12 h-12 bg-orange-500/20 border border-orange-500 rounded-lg flex items-center justify-center mb-4">
               <ShieldCheckIcon className="w-6 h-6 text-orange-500" />
             </div>
@@ -38,7 +38,7 @@ export default function MethodologyPage() {
             </p>
           </div>
 
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-sm border p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
             <div className="w-12 h-12 bg-orange-500/20 border border-orange-500 rounded-lg flex items-center justify-center mb-4">
               <ClockIcon className="w-6 h-6 text-orange-500" />
             </div>
@@ -48,7 +48,7 @@ export default function MethodologyPage() {
             </p>
           </div>
 
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-sm border p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
             <div className="w-12 h-12 bg-orange-500/20 border border-orange-500 rounded-lg flex items-center justify-center mb-4">
               <ChartBarIcon className="w-6 h-6 text-orange-500" />
             </div>
@@ -60,7 +60,7 @@ export default function MethodologyPage() {
         </div>
 
         {/* Data Sources Section */}
-        <section className="bg-gray-900 border border-gray-800 rounded-xl shadow-sm border p-8 mb-8">
+        <section className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <GlobeAltIcon className="w-8 h-8 text-orange-500" />
             <h2 className="text-2xl font-bold text-white font-bold">Data Sources</h2>
@@ -132,7 +132,7 @@ export default function MethodologyPage() {
         </section>
 
         {/* ROI Calculation Section */}
-        <section className="bg-gray-900 border border-gray-800 rounded-xl shadow-sm border p-8 mb-8">
+        <section className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <DocumentTextIcon className="w-8 h-8 text-orange-500" />
             <h2 className="text-2xl font-bold text-white font-bold">ROI Calculations</h2>
@@ -186,7 +186,7 @@ export default function MethodologyPage() {
         </section>
 
         {/* Data Quality Section */}
-        <section className="bg-gray-900 border border-gray-800 rounded-xl shadow-sm border p-8 mb-8">
+        <section className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <AcademicCapIcon className="w-8 h-8 text-orange-500" />
             <h2 className="text-2xl font-bold text-white font-bold">Data Quality & Coverage</h2>
@@ -225,7 +225,7 @@ export default function MethodologyPage() {
         </section>
 
         {/* Update Schedule */}
-        <section className="bg-gray-900 border border-gray-800 rounded-xl shadow-sm border p-8">
+        <section className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-8">
           <h2 className="text-2xl font-bold text-white font-bold mb-4">Update Schedule</h2>
           <div className="space-y-3">
             <div className="flex items-start gap-3">

@@ -104,7 +104,7 @@ export default function EditPreferencesPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white font-bold flex items-center gap-3">
+          <h1 className="text-3xl font-bold tracking-tight text-white font-bold flex items-center gap-3">
             <PencilIcon className="h-8 w-8 text-orange-500" />
             Edit Your Preferences
           </h1>

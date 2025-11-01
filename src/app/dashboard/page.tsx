@@ -143,7 +143,7 @@ export default function DashboardPage() {
                 <span className="mr-2">👋</span>
                 <span>Welcome back</span>
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-white">Your Overview</h1>
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white">Your Overview</h1>
             </div>
             <div className="flex items-center space-x-3">
               <button className="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-900 border border-gray-800 rounded-lg hover:bg-gray-800 transition-colors">
@@ -164,7 +164,7 @@ export default function DashboardPage() {
           {/* Total Balance Widget - Large feature card */}
           {stats && (
             <div className="lg:col-span-1">
-              <div className="bg-gray-900 rounded-2xl p-6 shadow-lg border border-gray-800 h-full">
+              <div className="bg-gray-900 rounded-2xl p-6 shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 h-full">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-sm font-medium text-gray-400">Total Institutions</span>
                   <div className="w-8 h-8 bg-orange-500/10 rounded-lg flex items-center justify-center">
@@ -174,7 +174,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
                 <div className="mb-6">
-                  <div className="text-4xl font-bold text-white mb-2">
+                  <div className="text-4xl font-bold tracking-tight text-white mb-2">
                     {stats.total_institutions?.toLocaleString() || 'N/A'}
                   </div>
                   <div className="flex items-center text-sm">
@@ -204,7 +204,7 @@ export default function DashboardPage() {
 
           {/* Revenue Categories / Institution Distribution - with donut chart style */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-900 rounded-2xl p-6 shadow-lg border border-gray-800 h-full">
+            <div className="bg-gray-900 rounded-2xl p-6 shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 h-full">
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h3 className="text-lg font-semibold text-white">Institution Distribution</h3>
@@ -247,7 +247,7 @@ export default function DashboardPage() {
         {/* Second Row - Cost metrics and more data */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Cost Distribution */}
-          <div className="bg-gray-900 rounded-2xl shadow-lg border border-gray-800 p-6">
+          <div className="bg-gray-900 rounded-2xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="text-lg font-semibold text-white">Tuition Cost Distribution</h3>
@@ -280,7 +280,7 @@ export default function DashboardPage() {
         {/* Third Row - Top States and Room & Board */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Top States */}
-          <div className="bg-gray-900 rounded-2xl shadow-lg border border-gray-800 p-6">
+          <div className="bg-gray-900 rounded-2xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="text-lg font-semibold text-white">Top States</h3>
@@ -317,7 +317,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Room & Board Distribution */}
-          <div className="bg-gray-900 rounded-2xl shadow-lg border border-gray-800 p-6">
+          <div className="bg-gray-900 rounded-2xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="text-lg font-semibold text-white">Room & Board Distribution</h3>
@@ -350,7 +350,7 @@ export default function DashboardPage() {
         {/* Fourth Row - Cost Leaders */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Most Expensive */}
-          <div className="bg-gray-900 rounded-2xl shadow-lg border border-gray-800 p-6">
+          <div className="bg-gray-900 rounded-2xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="text-lg font-semibold text-white">Highest Tuition</h3>
@@ -382,7 +382,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Most Affordable */}
-          <div className="bg-gray-900 rounded-2xl shadow-lg border border-gray-800 p-6">
+          <div className="bg-gray-900 rounded-2xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="text-lg font-semibold text-white">Lowest Tuition</h3>
@@ -415,7 +415,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Total Cost Leaders Table - Full width */}
-        <div className="bg-gray-900 rounded-2xl shadow-lg border border-gray-800 p-6 mb-6">
+        <div className="bg-gray-900 rounded-2xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6 mb-6">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h3 className="text-lg font-semibold text-white">Total Cost Leaders</h3>
@@ -427,7 +427,7 @@ export default function DashboardPage() {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-800 border-b border-gray-700">
+              <thead className="bg-gray-800 border-b border-gray-700 sticky top-0 z-10">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Rank</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Institution</th>
@@ -466,12 +466,12 @@ export default function DashboardPage() {
         </div>
 
         {/* Most Affordable Public Institutions */}
-        <div className="bg-gray-900 rounded-lg shadow-lg border border-gray-800 p-6 mt-8">
+        <div className="bg-gray-900 rounded-lg shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6 mt-8">
           <h2 className="text-xl font-bold text-white mb-4">Most Affordable Public Institutions</h2>
           <p className="text-sm text-gray-400 mb-4">Public colleges with the lowest annual in-state tuition (under $20K)</p>
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-800 border-b border-gray-700">
+              <thead className="bg-gray-800 border-b border-gray-700 sticky top-0 z-10">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Rank</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Institution</th>
@@ -483,7 +483,7 @@ export default function DashboardPage() {
               </thead>
               <tbody className="divide-y divide-gray-800">
                 {affordablePublic.slice(0, 15).map((school, index) => (
-                  <tr key={index} className="hover:bg-gray-800">
+                  <tr key={index} className="hover:bg-gray-800/80 transition-all duration-200">
                     <td className="px-4 py-3">
                       <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
                         index < 3 ? 'bg-green-500 text-white' : 'bg-gray-800 text-gray-400'

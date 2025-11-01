@@ -279,7 +279,7 @@ export default function OnboardingPage() {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
                   <AcademicCapIcon className="h-8 w-8 text-orange-500" />
                 </div>
-                <h2 className="text-3xl font-bold text-white font-bold mb-2">What do you want to study?</h2>
+                <h2 className="text-3xl font-bold tracking-tight text-white font-bold mb-2">What do you want to study?</h2>
                 <p className="text-gray-300">We'll personalize your experience based on your interests</p>
               </div>
 
@@ -332,7 +332,7 @@ export default function OnboardingPage() {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
                   <BuildingLibraryIcon className="h-8 w-8 text-orange-500" />
                 </div>
-                <h2 className="text-3xl font-bold text-white font-bold mb-2">Which schools interest you?</h2>
+                <h2 className="text-3xl font-bold tracking-tight text-white font-bold mb-2">Which schools interest you?</h2>
                 <p className="text-gray-300">Add schools you're considering (optional - you can add or change these later)</p>
               </div>
 
@@ -395,7 +395,7 @@ export default function OnboardingPage() {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
                   <CalendarIcon className="h-8 w-8 text-orange-500" />
                 </div>
-                <h2 className="text-3xl font-bold text-white font-bold mb-2">When do you plan to graduate?</h2>
+                <h2 className="text-3xl font-bold tracking-tight text-white font-bold mb-2">When do you plan to graduate?</h2>
                 <p className="text-gray-300">This helps us show relevant ROI projections</p>
               </div>
 
@@ -433,7 +433,7 @@ export default function OnboardingPage() {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
                   <AcademicCapIcon className="h-8 w-8 text-orange-500" />
                 </div>
-                <h2 className="text-3xl font-bold text-white font-bold mb-2">Tell us about your profile</h2>
+                <h2 className="text-3xl font-bold tracking-tight text-white font-bold mb-2">Tell us about your profile</h2>
                 <p className="text-gray-300">Help us provide better recommendations and accurate net price estimates (all optional)</p>
               </div>
 
