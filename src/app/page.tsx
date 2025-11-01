@@ -7,6 +7,7 @@ import { DataSourcesFooter } from '@/components/DataSources';
 import { OrganizationSchema, WebApplicationSchema } from '@/components/StructuredData';
 import RotatingTestimonials from '@/components/RotatingTestimonials';
 import SocialShare from '@/components/SocialShare';
+import AnimatedCounter from '@/components/AnimatedCounter';
 import {
   CalculatorIcon,
   BuildingOffice2Icon,
@@ -170,40 +171,51 @@ export default function Home() {
               and career outcome insights to help you choose the right educational path.
             </p>
             
-            {/* Stats - Enhanced cards */}
-            <div className="flex flex-wrap justify-center gap-6 mb-12">
+            {/* Stats - Enhanced cards with better spacing */}
+            <div className="flex flex-wrap justify-center gap-8 mb-12 px-4">
               {loading ? (
-                <div className="flex space-x-6">
+                <div className="flex space-x-8">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="text-center bg-gray-900/50 rounded-xl p-6 border border-gray-800">
-                      <div className="h-10 w-20 bg-gray-800 rounded animate-pulse mb-2"></div>
-                      <div className="h-4 w-24 bg-gray-800 rounded animate-pulse"></div>
+                    <div key={i} className="text-center bg-gray-900/50 rounded-2xl p-8 border border-gray-800 min-w-[180px]">
+                      <div className="h-12 w-24 bg-gray-800 rounded animate-pulse mb-3 mx-auto"></div>
+                      <div className="h-4 w-28 bg-gray-800 rounded animate-pulse mx-auto"></div>
                     </div>
                   ))}
                 </div>
               ) : (
                 stats && (
                   <>
-                    <div className="text-center bg-gradient-to-br from-gray-900 to-gray-900/80 border border-orange-500/20 rounded-2xl p-6 min-w-[160px] shadow-[0_0_20px_rgba(249,115,22,0.1)] hover:-translate-y-1 transition-all duration-300">
-                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg">
-                        <BuildingOffice2Icon className="w-6 h-6 text-white" />
+                    <div className="group text-center bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-2xl p-8 min-w-[180px] shadow-[0_0_30px_rgba(249,115,22,0.15)] hover:shadow-[0_0_40px_rgba(249,115,22,0.25)] hover:-translate-y-2 transition-all duration-500 ease-out">
+                      <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <BuildingOffice2Icon className="w-7 h-7 text-white" />
                       </div>
-                      <div className="text-4xl font-extrabold text-white mb-1">{formatStatNumber(stats.totalInstitutions)}</div>
-                      <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide">Institutions</div>
+                      <AnimatedCounter 
+                        end={stats.totalInstitutions} 
+                        formatter={formatStatNumber}
+                        duration={2000}
+                      />
+                      <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide mt-2">Institutions</div>
                     </div>
-                    <div className="text-center bg-gradient-to-br from-gray-900 to-gray-900/80 border border-orange-500/20 rounded-2xl p-6 min-w-[160px] shadow-[0_0_20px_rgba(249,115,22,0.1)] hover:-translate-y-1 transition-all duration-300">
-                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg">
-                        <AcademicCapIcon className="w-6 h-6 text-white" />
+                    <div className="group text-center bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-2xl p-8 min-w-[180px] shadow-[0_0_30px_rgba(249,115,22,0.15)] hover:shadow-[0_0_40px_rgba(249,115,22,0.25)] hover:-translate-y-2 transition-all duration-500 ease-out">
+                      <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <AcademicCapIcon className="w-7 h-7 text-white" />
                       </div>
-                      <div className="text-4xl font-extrabold text-white mb-1">{formatStatNumber(stats.totalPrograms)}</div>
-                      <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide">Programs</div>
+                      <AnimatedCounter 
+                        end={stats.totalPrograms} 
+                        formatter={formatStatNumber}
+                        duration={2000}
+                      />
+                      <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide mt-2">Programs</div>
                     </div>
-                    <div className="text-center bg-gradient-to-br from-gray-900 to-gray-900/80 border border-orange-500/20 rounded-2xl p-6 min-w-[160px] shadow-[0_0_20px_rgba(249,115,22,0.1)] hover:-translate-y-1 transition-all duration-300">
-                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg">
-                        <MapPinIcon className="w-6 h-6 text-white" />
+                    <div className="group text-center bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-2xl p-8 min-w-[180px] shadow-[0_0_30px_rgba(249,115,22,0.15)] hover:shadow-[0_0_40px_rgba(249,115,22,0.25)] hover:-translate-y-2 transition-all duration-500 ease-out">
+                      <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <MapPinIcon className="w-7 h-7 text-white" />
                       </div>
-                      <div className="text-4xl font-extrabold text-white mb-1">{stats.statesCovered}</div>
-                      <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide">States + DC</div>
+                      <AnimatedCounter 
+                        end={stats.statesCovered} 
+                        duration={2000}
+                      />
+                      <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide mt-2">States + DC</div>
                     </div>
                   </>
                 )
