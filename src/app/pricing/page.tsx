@@ -137,7 +137,7 @@ export default function PricingPage() {
           </div>
 
           {/* Premium Plan */}
-          <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl shadow-2xl border-2 border-orange-500 p-8 relative transform md:scale-105 hover:shadow-orange-500/20 transition-all flex flex-col">
+          <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.15)] border-2 border-orange-500 p-8 relative transform md:scale-105 hover:shadow-orange-500/20 transition-all flex flex-col">
             <div className="absolute top-0 right-0 bg-gradient-to-r from-orange-600 to-orange-500 text-white px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm font-bold shadow-lg">
               POPULAR
             </div>
@@ -264,7 +264,7 @@ export default function PricingPage() {
               <span>Secure payments</span>
             </div>
             <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-5 h-5 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
               </svg>
               <span>Cancel anytime</span>

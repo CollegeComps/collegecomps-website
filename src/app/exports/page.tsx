@@ -177,7 +177,7 @@ export default function ExportsPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-600 mx-auto mb-4"></div>
           <p className="text-gray-300">Loading comparisons...</p>
         </div>
       </div>
@@ -227,7 +227,7 @@ export default function ExportsPage() {
                     >
                       <p className="font-semibold">{comp.name}</p>
                       <p className={`text-xs mt-1 ${
-                        selectedComparison === comp.id ? 'text-blue-100' : 'text-gray-400'
+                        selectedComparison === comp.id ? 'text-orange-100' : 'text-gray-400'
                       }`}>
                         {comp.colleges?.length || 0} colleges • {new Date(comp.created_at).toLocaleDateString()}
                       </p>

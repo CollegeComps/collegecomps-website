@@ -57,7 +57,7 @@ export default function SavedComparisonsPage() {
   if (status === 'loading' || loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
       </div>
     );
   }
@@ -89,7 +89,7 @@ export default function SavedComparisonsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-bold mb-1">Unlock Unlimited Saved Comparisons</h3>
-                <p className="text-blue-100">
+                <p className="text-orange-100">
                   Save as many comparisons as you want with Premium, plus get export features and more.
                 </p>
               </div>
@@ -105,7 +105,7 @@ export default function SavedComparisonsPage() {
 
         {/* Comparisons List */}
         {comparisons.length === 0 ? (
-          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-12 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] p-12 text-center">
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
@@ -128,7 +128,7 @@ export default function SavedComparisonsPage() {
         ) : (
           <div className="grid gap-6">
             {comparisons.map((comparison) => (
-              <div key={comparison.id} className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+              <div key={comparison.id} className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] hover:shadow-[0_0_15px_rgba(249,115,22,0.12)] hover:border-orange-500/50 hover:scale-[1.01] p-6 transition-all duration-300">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-white mb-2">

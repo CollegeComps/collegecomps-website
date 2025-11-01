@@ -93,7 +93,7 @@ export default function EditPreferencesPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
           <p className="mt-4 text-gray-300">Loading preferences...</p>
         </div>
       </div>
@@ -113,7 +113,7 @@ export default function EditPreferencesPage() {
           </p>
         </div>
 
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 space-y-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 space-y-6">
           <div>
             <label className="block text-sm font-semibold text-white font-bold mb-2">
               Degree Level

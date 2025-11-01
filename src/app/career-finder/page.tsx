@@ -369,9 +369,9 @@ export default function CareerFinderPage() {
                     <p className="text-xs text-green-500 font-bold mb-1">AVG SALARY</p>
                     <p className="text-lg font-extrabold text-green-400">{career.salary}</p>
                   </div>
-                  <div className="bg-orange-500/100/10 border border-blue-500/30 p-3 rounded-lg">
-                    <p className="text-xs text-blue-500 font-bold mb-1">JOB GROWTH</p>
-                    <p className="text-lg font-extrabold text-blue-400">{career.growth}</p>
+                  <div className="bg-orange-500/100/10 border border-orange-500/30 p-3 rounded-lg">
+                    <p className="text-xs text-orange-500 font-bold mb-1">JOB GROWTH</p>
+                    <p className="text-lg font-extrabold text-orange-400">{career.growth}</p>
                   </div>
                 </div>
 
@@ -415,7 +415,7 @@ export default function CareerFinderPage() {
           <div className="space-y-4">
             <div className="flex items-start gap-4">
               <div className="bg-indigo-100 w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="font-bold text-indigo-600">1</span>
+                <span className="font-bold text-orange-600">1</span>
               </div>
               <div>
                 <h4 className="font-semibold text-white font-bold">Explore College Programs</h4>
@@ -424,7 +424,7 @@ export default function CareerFinderPage() {
             </div>
             <div className="flex items-start gap-4">
               <div className="bg-indigo-100 w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="font-bold text-indigo-600">2</span>
+                <span className="font-bold text-orange-600">2</span>
               </div>
               <div>
                 <h4 className="font-semibold text-white font-bold">Calculate Your ROI</h4>
@@ -433,7 +433,7 @@ export default function CareerFinderPage() {
             </div>
             <div className="flex items-start gap-4">
               <div className="bg-indigo-100 w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="font-bold text-indigo-600">3</span>
+                <span className="font-bold text-orange-600">3</span>
               </div>
               <div>
                 <h4 className="font-semibold text-white font-bold">Find Scholarships</h4>
@@ -451,7 +451,7 @@ export default function CareerFinderPage() {
               setAnswers({});
               setEmail('');
             }}
-            className="text-indigo-600 hover:text-indigo-700 font-semibold"
+            className="text-orange-600 hover:text-orange-700 font-semibold"
           >
             ← Take Assessment Again
           </button>

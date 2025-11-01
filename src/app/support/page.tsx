@@ -293,7 +293,7 @@ export default function SupportPage() {
                     </div>
                     <div className="ml-4">
                       <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${
-                        ticket.status === 'open' ? 'bg-blue-100 text-blue-800' :
+                        ticket.status === 'open' ? 'bg-orange-500/20 text-orange-400 border border-orange-500/50' :
                         ticket.status === 'in_progress' ? 'bg-purple-100 text-purple-800' :
                         ticket.status === 'resolved' ? 'bg-green-100 text-green-800' :
                         'bg-gray-100 text-gray-300'
@@ -314,7 +314,7 @@ export default function SupportPage() {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-xl font-bold mb-2">Get Faster Support</h3>
-                <p className="text-blue-100 mb-4">
+                <p className="text-orange-100 mb-4">
                   Upgrade to Premium for priority 24-hour response time
                 </p>
                 <div className="flex gap-4">

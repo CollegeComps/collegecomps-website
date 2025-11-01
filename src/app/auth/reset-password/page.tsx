@@ -155,7 +155,7 @@ function ResetPasswordForm() {
           <div className="text-center">
             <Link
               href="/auth/signin"
-              className="font-medium text-orange-500 hover:text-blue-500"
+              className="font-medium text-orange-500 hover:text-orange-600"
             >
               Back to sign in
             </Link>

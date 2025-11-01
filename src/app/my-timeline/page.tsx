@@ -143,7 +143,7 @@ export default function MyTimelinePage() {
       case 'financial_aid':
         return 'bg-green-100 text-green-800 border-green-200';
       case 'enrollment':
-        return 'bg-blue-100 text-blue-800 border-orange-500';
+        return 'bg-orange-500/20 text-orange-400 border border-orange-500/50 border-orange-500';
       case 'semester':
         return 'bg-purple-100 text-purple-800 border-purple-200';
       case 'deadline':
@@ -161,7 +161,7 @@ export default function MyTimelinePage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
           <p className="mt-4 text-gray-300">Loading your timeline...</p>
         </div>
       </div>
@@ -348,9 +348,9 @@ export default function MyTimelinePage() {
 
             {/* Subscription Status */}
             {session?.user?.subscriptionTier === 'free' && (
-              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg shadow-lg p-6 text-white">
+              <div className="bg-gradient-to-r from-orange-600 to-orange-700 rounded-lg shadow-[0_0_20px_rgba(249,115,22,0.2)] p-6 text-white">
                 <h3 className="text-lg font-bold mb-2">Upgrade to Premium</h3>
-                <p className="text-sm text-blue-100 mb-4">
+                <p className="text-sm text-orange-100 mb-4">
                   Get unlimited comparisons, advanced insights, and personalized recommendations
                 </p>
                 <Link
