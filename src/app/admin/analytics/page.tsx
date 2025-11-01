@@ -112,7 +112,7 @@ export default function AdminAnalyticsPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
           <p className="mt-4 text-gray-300">Loading your analytics...</p>
         </div>
       </div>
@@ -287,7 +287,7 @@ export default function AdminAnalyticsPage() {
                   <div className="flex-1">
                     <div className="bg-blue-200 h-8 rounded" style={{ width: `${Math.min((day.event_count / Math.max(...data.timeline.map(t => t.event_count))) * 100, 100)}%` }}>
                       <div className="flex items-center justify-start h-full px-3">
-                        <span className="text-sm font-semibold text-blue-800">{day.event_count} events</span>
+                        <span className="text-sm font-semibold text-orange-400">{day.event_count} events</span>
                       </div>
                     </div>
                   </div>

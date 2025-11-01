@@ -57,7 +57,7 @@ export default function SavedComparisonsPage() {
   if (status === 'loading' || loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
       </div>
     );
   }
@@ -89,7 +89,7 @@ export default function SavedComparisonsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-bold mb-1">Unlock Unlimited Saved Comparisons</h3>
-                <p className="text-blue-100">
+                <p className="text-orange-100">
                   Save as many comparisons as you want with Premium, plus get export features and more.
                 </p>
               </div>

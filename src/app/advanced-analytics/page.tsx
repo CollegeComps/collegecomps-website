@@ -119,7 +119,7 @@ export default function AdvancedAnalyticsPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-600 mx-auto mb-4"></div>
           <p className="text-gray-300">Loading analytics...</p>
         </div>
       </div>
@@ -387,9 +387,9 @@ function PeerComparisonView({ data, preferences }: { data: SalaryData[]; prefere
 
       <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl p-8 text-white mb-6">
         <div className="text-center">
-          <p className="text-blue-100 mb-2">Your Percentile Ranking</p>
+          <p className="text-orange-100 mb-2">Your Percentile Ranking</p>
           <p className="text-6xl font-bold mb-2">{percentile}th</p>
-          <p className="text-blue-100">
+          <p className="text-orange-100">
             You earn more than {percentile}% of graduates in your field
           </p>
         </div>

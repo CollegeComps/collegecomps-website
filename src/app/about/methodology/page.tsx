@@ -194,7 +194,7 @@ export default function MethodologyPage() {
 
           <div className="space-y-4">
             <div className="grid md:grid-cols-2 gap-4">
-              <div className="border-l-4 border-blue-500 pl-4">
+              <div className="border-l-4 border-orange-500 pl-4">
                 <p className="text-sm font-medium text-gray-400 mb-1">Total Institutions</p>
                 <p className="text-2xl font-bold text-white font-bold">6,163</p>
               </div>
