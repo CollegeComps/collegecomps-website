@@ -92,9 +92,9 @@ export default function SignInPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+      <div className="max-w-md w-full space-y-8 bg-gray-900 rounded-2xl p-8 border border-gray-800 shadow-[0_0_20px_rgba(249,115,22,0.15)]">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-white font-bold">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-300">
@@ -106,15 +106,15 @@ export default function SignInPage() {
         </div>
 
         {error && (
-          <div className="rounded-md bg-red-50 p-4">
-            <div className="text-sm text-red-800">{error}</div>
+          <div className="rounded-lg bg-red-900/50 border border-red-500/50 p-4">
+            <div className="text-sm text-red-300">{error}</div>
           </div>
         )}
 
         <form className="mt-8 space-y-6" onSubmit={handleCredentialsSignIn}>
-          <div className="rounded-md shadow-[0_0_8px_rgba(249,115,22,0.06)] -space-y-px">
+          <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="sr-only">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
                 Email address
               </label>
               <input
@@ -125,12 +125,12 @@ export default function SignInPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-white font-bold rounded-t-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                className="appearance-none relative block w-full px-4 py-3 bg-gray-800 border border-gray-700 placeholder-gray-400 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                placeholder="you@example.com"
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
                 Password
               </label>
               <input
@@ -141,8 +141,8 @@ export default function SignInPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-white font-bold rounded-b-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
+                className="appearance-none relative block w-full px-4 py-3 bg-gray-800 border border-gray-700 placeholder-gray-400 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                placeholder="••••••••"
               />
             </div>
           </div>
@@ -162,7 +162,7 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-lg text-white bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 shadow-[0_0_20px_rgba(249,115,22,0.2)] active:scale-95 transition-all"
             >
               {loading ? 'Signing in...' : 'Sign in'}
             </button>
@@ -172,10 +172,10 @@ export default function SignInPage() {
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
+              <div className="w-full border-t border-gray-700" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-50 text-gray-400">Or continue with</span>
+              <span className="px-2 bg-gray-900 text-gray-400">Or continue with</span>
             </div>
           </div>
 
@@ -191,7 +191,7 @@ export default function SignInPage() {
             {availableProviders.google && (
               <button
                 onClick={() => handleOAuthSignIn('google')}
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-[0_0_8px_rgba(249,115,22,0.06)] bg-white text-sm font-medium text-gray-400 hover:bg-gray-800"
+                className="w-full inline-flex justify-center py-3 px-4 bg-gray-800 border border-gray-700 rounded-lg shadow-[0_0_10px_rgba(249,115,22,0.08)] text-sm font-medium text-white hover:border-orange-500/50 transition-all"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path
@@ -218,7 +218,7 @@ export default function SignInPage() {
             {availableProviders.github && (
               <button
                 onClick={() => handleOAuthSignIn('github')}
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-[0_0_8px_rgba(249,115,22,0.06)] bg-white text-sm font-medium text-gray-400 hover:bg-gray-800"
+                className="w-full inline-flex justify-center py-3 px-4 bg-gray-800 border border-gray-700 rounded-lg shadow-[0_0_10px_rgba(249,115,22,0.08)] text-sm font-medium text-white hover:border-orange-500/50 transition-all"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path
@@ -234,7 +234,7 @@ export default function SignInPage() {
             {availableProviders.linkedin && (
               <button
                 onClick={() => handleOAuthSignIn('linkedin')}
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-[0_0_8px_rgba(249,115,22,0.06)] bg-white text-sm font-medium text-gray-400 hover:bg-gray-800"
+                className="w-full inline-flex justify-center py-3 px-4 bg-gray-800 border border-gray-700 rounded-lg shadow-[0_0_10px_rgba(249,115,22,0.08)] text-sm font-medium text-white hover:border-orange-500/50 transition-all"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
@@ -246,7 +246,7 @@ export default function SignInPage() {
             {availableProviders.facebook && (
               <button
                 onClick={() => handleOAuthSignIn('facebook')}
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-[0_0_8px_rgba(249,115,22,0.06)] bg-white text-sm font-medium text-gray-400 hover:bg-gray-800"
+                className="w-full inline-flex justify-center py-3 px-4 bg-gray-800 border border-gray-700 rounded-lg shadow-[0_0_10px_rgba(249,115,22,0.08)] text-sm font-medium text-white hover:border-orange-500/50 transition-all"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
@@ -258,7 +258,7 @@ export default function SignInPage() {
             {availableProviders.twitter && (
               <button
                 onClick={() => handleOAuthSignIn('twitter')}
-                className={`w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-[0_0_8px_rgba(249,115,22,0.06)] bg-white text-sm font-medium text-gray-400 hover:bg-gray-800 ${
+                className={`w-full inline-flex justify-center py-3 px-4 bg-gray-800 border border-gray-700 rounded-lg shadow-[0_0_10px_rgba(249,115,22,0.08)] text-sm font-medium text-white hover:border-orange-500/50 transition-all ${
                   Object.values(availableProviders).filter(Boolean).length === 2 ? 'col-span-2' : ''
                 }`}
               >
