@@ -135,11 +135,11 @@ export default function AlertsPage() {
     return (
       <div className="min-h-screen bg-black py-8 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 text-center">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-600 to-orange-700 rounded-full mb-6">
               <LockClosedIcon className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-4xl font-bold text-white font-bold mb-4">
+            <h1 className="text-4xl font-bold tracking-tight text-white font-bold mb-4">
               Premium Feature
             </h1>
             <p className="text-xl text-gray-300 mb-8">
@@ -168,7 +168,7 @@ export default function AlertsPage() {
             </div>
             <Link
               href="/pricing"
-              className="inline-block bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-lg transition-all transform hover:-translate-y-1"
+              className="inline-block bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-[0_0_12px_rgba(249,115,22,0.08)] transition-all transform hover:-translate-y-1"
             >
               Upgrade to Premium
             </Link>
@@ -194,7 +194,7 @@ export default function AlertsPage() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white font-bold mb-2">
+          <h1 className="text-4xl font-bold tracking-tight text-white font-bold mb-2">
             Alerts & Notifications
           </h1>
           <p className="text-lg text-gray-300">
@@ -220,7 +220,7 @@ export default function AlertsPage() {
         )}
 
         {/* Email Settings */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8 mb-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 mb-6">
           <div className="flex items-center gap-3 mb-4">
             <EnvelopeIcon className="w-6 h-6 text-orange-500" />
             <h2 className="text-2xl font-bold text-white font-bold">Email Preferences</h2>
@@ -265,7 +265,7 @@ export default function AlertsPage() {
         </div>
 
         {/* Notification Frequency */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8 mb-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 mb-6">
           <h2 className="text-2xl font-bold text-white font-bold mb-4">Notification Frequency</h2>
           <div className="space-y-3">
             <label className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-700">
@@ -296,7 +296,7 @@ export default function AlertsPage() {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-4 rounded-lg hover:shadow-lg transition-all transform hover:-translate-y-1 disabled:opacity-50 disabled:transform-none"
+          className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-4 rounded-lg hover:shadow-[0_0_12px_rgba(249,115,22,0.08)] transition-all transform hover:-translate-y-1 disabled:opacity-50 disabled:transform-none"
         >
           {saving ? 'Saving...' : 'Save Preferences'}
         </button>

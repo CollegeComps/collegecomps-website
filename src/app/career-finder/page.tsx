@@ -159,7 +159,7 @@ export default function CareerFinderPage() {
             </p>
           </div>
 
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 md:p-12 mb-8">
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 md:p-12 mb-8">
             <h2 className="text-2xl font-bold text-white mb-6">What You'll Discover:</h2>
             
             <div className="grid md:grid-cols-2 gap-6 mb-8">
@@ -212,7 +212,7 @@ export default function CareerFinderPage() {
 
             <button
               onClick={() => setStep('quiz')}
-              className="w-full bg-gradient-to-r from-orange-600 to-orange-500 text-white py-4 rounded-lg font-bold text-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-lg shadow-orange-500/20"
+              className="w-full bg-gradient-to-r from-orange-600 to-orange-500 text-white py-4 rounded-lg font-bold text-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/20"
             >
               Start Assessment
             </button>
@@ -244,15 +244,15 @@ export default function CareerFinderPage() {
             </div>
             <div className="w-full bg-gray-800 rounded-full h-2">
               <div 
-                className="bg-gradient-to-r from-orange-600 to-orange-500 h-2 rounded-full transition-all duration-300 shadow-lg shadow-orange-500/30"
+                className="bg-gradient-to-r from-orange-600 to-orange-500 h-2 rounded-full transition-all duration-300 shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/30"
                 style={{ width: `${progress}%` }}
               />
             </div>
           </div>
 
           {/* Question */}
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 md:p-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-8 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 md:p-12">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white mb-8 text-center">
               {QUESTIONS[currentQuestion].text}
             </h2>
 
@@ -307,14 +307,14 @@ export default function CareerFinderPage() {
         </div>
 
         {/* Personality Type Description */}
-        <div className="bg-gradient-to-r from-orange-600 to-orange-500 rounded-xl shadow-lg shadow-orange-500/20 p-8 mb-8 max-w-3xl mx-auto text-white border border-orange-500/30">
+        <div className="bg-gradient-to-r from-orange-600 to-orange-500 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/20 p-8 mb-8 max-w-3xl mx-auto text-white border border-orange-500/30">
           <div className="text-sm font-bold uppercase tracking-wide mb-2 opacity-90">{personalityInfo.category}</div>
           <h2 className="text-3xl font-extrabold mb-3">{personalityInfo.title}</h2>
           <p className="text-lg leading-relaxed opacity-95 font-medium">{personalityInfo.description}</p>
         </div>
 
         {/* Email Capture */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6 mb-8 max-w-2xl mx-auto">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-6 mb-8 max-w-2xl mx-auto">
           <h3 className="font-bold text-white mb-3">Get Your Full Results via Email</h3>
           <div className="flex gap-3">
             <input
@@ -326,7 +326,7 @@ export default function CareerFinderPage() {
             />
             <button 
               onClick={() => alert('Results sent!')}
-              className="bg-gradient-to-r from-orange-600 to-orange-500 text-white px-6 py-2 rounded-lg hover:from-orange-700 hover:to-orange-600 transition-all font-bold shadow-lg shadow-orange-500/20"
+              className="bg-gradient-to-r from-orange-600 to-orange-500 text-white px-6 py-2 rounded-lg hover:from-orange-700 hover:to-orange-600 transition-all font-bold shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/20"
             >
               Send Results
             </button>
@@ -353,7 +353,7 @@ export default function CareerFinderPage() {
             {(showAllCareers ? careers : careers.slice(0, 6)).map((career, index) => {
               const IconComponent = career.icon;
               return (
-              <div key={index} className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-8 hover:shadow-xl hover:shadow-orange-500/10 hover:border-orange-500/50 transition-all">
+              <div key={index} className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-8 hover:shadow-[0_0_15px_rgba(249,115,22,0.1)] hover:shadow-orange-500/10 hover:border-orange-500/50 transition-all">
                 <div className="flex items-start gap-4 mb-4">
                   <div className="bg-orange-500/20 border border-orange-500 w-14 h-14 rounded-lg flex items-center justify-center flex-shrink-0">
                     <IconComponent className="w-7 h-7 text-orange-500" />
@@ -388,7 +388,7 @@ export default function CareerFinderPage() {
 
                 <button 
                   onClick={() => router.push(`/recommendations?career=${encodeURIComponent(career.name)}&majors=${encodeURIComponent(career.majors.join(','))}`)}
-                  className="w-full bg-gradient-to-r from-orange-600 to-orange-500 text-white py-3 rounded-lg font-bold hover:from-orange-700 hover:to-orange-600 transition-all shadow-lg shadow-orange-500/20"
+                  className="w-full bg-gradient-to-r from-orange-600 to-orange-500 text-white py-3 rounded-lg font-bold hover:from-orange-700 hover:to-orange-600 transition-all shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/20"
                 >
                   Explore Programs
                 </button>
@@ -410,7 +410,7 @@ export default function CareerFinderPage() {
         </div>
 
         {/* Next Steps */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-8 max-w-4xl mx-auto">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-8 max-w-4xl mx-auto">
           <h3 className="text-2xl font-bold text-white font-bold mb-6">Next Steps on Your Journey</h3>
           <div className="space-y-4">
             <div className="flex items-start gap-4">

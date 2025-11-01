@@ -148,7 +148,7 @@ export default function SupportPage() {
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <LifebuoyIcon className="w-10 h-10 text-orange-500" />
-                <h1 className="text-4xl font-bold text-white font-bold">Support Center</h1>
+                <h1 className="text-4xl font-bold tracking-tight text-white font-bold">Support Center</h1>
               </div>
               <p className="text-lg text-gray-300">
                 Get help from our support team
@@ -158,7 +158,7 @@ export default function SupportPage() {
             </div>
             <button
               onClick={() => setShowNewTicket(!showNewTicket)}
-              className="flex items-center gap-2 px-6 py-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition-all shadow-lg"
+              className="flex items-center gap-2 px-6 py-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition-all shadow-[0_0_12px_rgba(249,115,22,0.08)]"
             >
               <PlusIcon className="w-5 h-5" />
               New Ticket
@@ -193,7 +193,7 @@ export default function SupportPage() {
 
         {/* New Ticket Form */}
         {showNewTicket && (
-          <div className="mb-6 bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6">
+          <div className="mb-6 bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-6">
             <h2 className="text-2xl font-bold text-white mb-4">Create Support Ticket</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -239,7 +239,7 @@ export default function SupportPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="flex-1 bg-orange-500 text-white font-bold py-3 rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg"
+                  className="flex-1 bg-orange-500 text-white font-bold py-3 rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-[0_0_12px_rgba(249,115,22,0.08)]"
                 >
                   {submitting ? 'Submitting...' : 'Submit Ticket'}
                 </button>
@@ -256,7 +256,7 @@ export default function SupportPage() {
         )}
 
         {/* Tickets List */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-6">
           <h2 className="text-2xl font-bold text-white font-bold mb-6">Your Tickets</h2>
           
           {tickets.length === 0 ? (
@@ -270,7 +270,7 @@ export default function SupportPage() {
               {tickets.map((ticket) => (
                 <div
                   key={ticket.id}
-                  className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+                  className="border border-gray-200 rounded-lg p-4 hover:shadow-[0_0_10px_rgba(249,115,22,0.08)] transition-shadow cursor-pointer"
                   onClick={() => router.push(`/support/${ticket.id}`)}
                 >
                   <div className="flex items-start justify-between">

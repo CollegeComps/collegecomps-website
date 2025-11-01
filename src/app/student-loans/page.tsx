@@ -22,7 +22,7 @@ export default function StudentLoanCalculatorPage() {
 
         <StudentLoanCalculator />
 
-        <div className="mt-12 bg-gray-900 border border-gray-800 rounded-xl shadow-lg p-8">
+        <div className="mt-12 bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-8">
           <h2 className="text-2xl font-bold text-white font-bold mb-6">Understanding Your Student Loans</h2>
           
           <div className="grid md:grid-cols-2 gap-8">

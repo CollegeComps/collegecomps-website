@@ -114,7 +114,7 @@ export default function SalaryInsightsPage() {
           <div className="mt-6 flex justify-center gap-4">
             <Link
               href="/submit-salary"
-              className="inline-flex items-center px-6 py-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition-all shadow-lg"
+              className="inline-flex items-center px-6 py-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition-all shadow-[0_0_12px_rgba(249,115,22,0.08)]"
             >
               Contribute Your Data
             </Link>
@@ -131,24 +131,24 @@ export default function SalaryInsightsPage() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-gray-900 border-l-4 border-orange-500 rounded-xl shadow-md p-6">
+          <div className="bg-gray-900 border-l-4 border-orange-500 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-6">
             <div className="text-sm text-gray-400 font-medium mb-1">Total Data Points</div>
             <div className="text-3xl font-extrabold text-white">
               {salaryData.reduce((sum, d) => sum + d.sample_size, 0).toLocaleString()}
             </div>
           </div>
-          <div className="bg-gray-900 border-l-4 border-green-500 rounded-xl shadow-md p-6">
+          <div className="bg-gray-900 border-l-4 border-green-500 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-6">
             <div className="text-sm text-gray-400 font-medium mb-1">Unique Majors</div>
             <div className="text-3xl font-extrabold text-white">{majors.length}</div>
           </div>
-          <div className="bg-gray-900 border-l-4 border-orange-500 rounded-xl shadow-md p-6">
+          <div className="bg-gray-900 border-l-4 border-orange-500 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-6">
             <div className="text-sm text-gray-400 font-medium mb-1">Institutions</div>
             <div className="text-3xl font-extrabold text-white">{institutions.length}</div>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 mb-8">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-white">Filter Data</h2>
             {(selectedMajor || selectedInstitution || selectedDegree || selectedYears) && (
@@ -236,12 +236,12 @@ export default function SalaryInsightsPage() {
 
         {/* Results */}
         {loading ? (
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-14 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-14 text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
             <p className="text-gray-300">Loading salary data...</p>
           </div>
         ) : error ? (
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-14 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-14 text-center">
             
             <h3 className="text-xl font-semibold text-red-700 mb-2">
               {error.includes('Premium') ? 'Premium Access Required' : 'Unable to Load Data'}
@@ -253,7 +253,7 @@ export default function SalaryInsightsPage() {
               {error.includes('Premium') ? (
                 <Link
                   href="/pricing"
-                  className="inline-flex items-center px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-all shadow-lg"
+                  className="inline-flex items-center px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-all shadow-[0_0_12px_rgba(249,115,22,0.08)]"
                 >
                   View Premium Plans
                 </Link>
@@ -268,7 +268,7 @@ export default function SalaryInsightsPage() {
             </div>
           </div>
         ) : salaryData.length === 0 ? (
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-14 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-14 text-center">
             
             <h3 className="text-xl font-semibold text-white mb-2">
               {selectedMajor || selectedInstitution || selectedDegree || selectedYears 
@@ -286,7 +286,7 @@ export default function SalaryInsightsPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
                 href="/submit-salary"
-                className="inline-flex items-center px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-all shadow-lg"
+                className="inline-flex items-center px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-all shadow-[0_0_12px_rgba(249,115,22,0.08)]"
               >
                 Submit Your Salary Data
               </Link>
@@ -316,7 +316,7 @@ export default function SalaryInsightsPage() {
                     </p>
                     <Link
                       href="/pricing"
-                      className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all shadow-md"
+                      className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all shadow-[0_0_10px_rgba(249,115,22,0.08)]"
                     >
                       Upgrade to Premium →
                     </Link>
@@ -329,7 +329,7 @@ export default function SalaryInsightsPage() {
             {salaryData.map((data, index) => (
               <div
                 key={index}
-                className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow border-l-4 border-orange-500"
+                className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-6 hover:shadow-[0_0_12px_rgba(249,115,22,0.08)] transition-shadow border-l-4 border-orange-500"
               >
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
@@ -459,7 +459,7 @@ export default function SalaryInsightsPage() {
           </p>
           <Link
             href="/submit-salary"
-            className="inline-flex items-center px-8 py-4 bg-gray-900 text-orange-500 font-bold rounded-lg hover:bg-orange-500 hover:text-white transition-all shadow-lg text-lg border-2 border-orange-500"
+            className="inline-flex items-center px-8 py-4 bg-gray-900 text-orange-500 font-bold rounded-lg hover:bg-orange-500 hover:text-white transition-all shadow-[0_0_12px_rgba(249,115,22,0.08)] text-lg border-2 border-orange-500"
           >
             Contribute Your Salary Data
           </Link>

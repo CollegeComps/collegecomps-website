@@ -130,11 +130,11 @@ export default function ExportsPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 text-center">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full mb-6">
               <LockClosedIcon className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-4xl font-bold text-white font-bold mb-4">
+            <h1 className="text-4xl font-bold tracking-tight text-white font-bold mb-4">
               Premium Feature
             </h1>
             <p className="text-xl text-gray-300 mb-8">
@@ -163,7 +163,7 @@ export default function ExportsPage() {
             </div>
             <Link
               href="/pricing"
-              className="inline-block bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-lg transition-all transform hover:-translate-y-1"
+              className="inline-block bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-[0_0_12px_rgba(249,115,22,0.08)] transition-all transform hover:-translate-y-1"
             >
               Upgrade to Premium
             </Link>
@@ -189,7 +189,7 @@ export default function ExportsPage() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white font-bold mb-2">
+          <h1 className="text-4xl font-bold tracking-tight text-white font-bold mb-2">
             Export & Reports
           </h1>
           <p className="text-lg text-gray-300">
@@ -200,7 +200,7 @@ export default function ExportsPage() {
         <div className="grid md:grid-cols-3 gap-6">
           {/* Comparison Selector */}
           <div className="md:col-span-1">
-            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8">
               <h2 className="text-xl font-bold text-white font-bold mb-4">Select Comparison</h2>
               
               {comparisons.length === 0 ? (
@@ -241,7 +241,7 @@ export default function ExportsPage() {
           {/* Export Options */}
           <div className="md:col-span-2 space-y-6">
             {/* Export Formats */}
-            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8">
               <h2 className="text-xl font-bold text-white font-bold mb-4">Export Format</h2>
               <div className="grid grid-cols-3 gap-4">
                 <button
@@ -277,7 +277,7 @@ export default function ExportsPage() {
             </div>
 
             {/* Share Link */}
-            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8">
               <h2 className="text-xl font-bold text-white font-bold mb-4">Share Comparison</h2>
               <p className="text-gray-300 mb-4">
                 Create a shareable link that anyone can view (no account required)
@@ -285,7 +285,7 @@ export default function ExportsPage() {
               <button
                 onClick={handleShare}
                 disabled={!selectedComparison}
-                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold py-3 rounded-lg hover:shadow-lg transition-all transform hover:-translate-y-1 disabled:opacity-50 disabled:transform-none"
+                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold py-3 rounded-lg hover:shadow-[0_0_12px_rgba(249,115,22,0.08)] transition-all transform hover:-translate-y-1 disabled:opacity-50 disabled:transform-none"
               >
                 <ShareIcon className="w-5 h-5" />
                 Generate Share Link
@@ -293,7 +293,7 @@ export default function ExportsPage() {
             </div>
 
             {/* Custom Report Options */}
-            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8">
               <h2 className="text-xl font-bold text-white font-bold mb-4">Custom Report Options</h2>
               <div className="space-y-3">
                 <label className="flex items-center gap-3">

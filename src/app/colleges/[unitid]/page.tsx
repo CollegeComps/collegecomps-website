@@ -121,7 +121,7 @@ export default function CollegeDetailPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2 space-y-6">
                 {Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
+                  <div key={i} className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
                     <div className="h-6 bg-gray-200 rounded mb-4 w-1/2"></div>
                     <div className="space-y-2">
                       <div className="h-4 bg-gray-200 rounded"></div>
@@ -132,7 +132,7 @@ export default function CollegeDetailPage() {
               </div>
               <div className="space-y-6">
                 {Array.from({ length: 2 }).map((_, i) => (
-                  <div key={i} className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
+                  <div key={i} className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
                     <div className="h-6 bg-gray-200 rounded mb-4 w-1/2"></div>
                     <div className="space-y-2">
                       <div className="h-4 bg-gray-200 rounded"></div>
@@ -209,7 +209,7 @@ export default function CollegeDetailPage() {
           
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-white font-bold mb-2">
+              <h1 className="text-3xl font-bold tracking-tight text-white font-bold mb-2">
                 {institution.name}
               </h1>
               <div className="flex items-center text-gray-300 text-lg mb-3">
@@ -257,7 +257,7 @@ export default function CollegeDetailPage() {
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
             <div className="flex items-center">
               <AcademicCapIcon className="w-8 h-8 text-purple-500 mr-3" />
               <div>
@@ -267,7 +267,7 @@ export default function CollegeDetailPage() {
             </div>
           </div>
           
-          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
             <div className="flex items-center">
               <UsersIcon className="w-8 h-8 text-blue-500 mr-3" />
               <div>
@@ -278,7 +278,7 @@ export default function CollegeDetailPage() {
           </div>
           
           {stats.avgEarnings > 0 && (
-            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
               <div className="flex items-center">
                 <ChartBarIcon className="w-8 h-8 text-green-500 mr-3" />
                 <div>
@@ -289,7 +289,7 @@ export default function CollegeDetailPage() {
             </div>
           )}
           
-          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
+          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
             <div className="flex items-center">
               <BuildingOffice2Icon className="w-8 h-8 text-orange-500 mr-3" />
               <div>
@@ -330,7 +330,7 @@ export default function CollegeDetailPage() {
               <div className="space-y-6">
                 {/* Admissions Data */}
                 {(institution.acceptance_rate || institution.average_sat || institution.average_act) && (
-                  <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
+                  <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
                     <h2 className="text-xl font-semibold text-white font-bold mb-4">Admissions</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                       {institution.acceptance_rate && (
@@ -370,7 +370,7 @@ export default function CollegeDetailPage() {
                   total_enrollment={institution.total_enrollment}
                 />
                 
-                <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
+                <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
                   <h2 className="text-xl font-semibold text-white font-bold mb-4">Institution Information</h2>
                   <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -401,7 +401,7 @@ export default function CollegeDetailPage() {
                 </div>
 
                 {stats.topPrograms.length > 0 && (
-                  <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
+                  <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
                     <h2 className="text-xl font-semibold text-white font-bold mb-4">Top Programs by Graduates</h2>
                     <div className="space-y-3">
                       {stats.topPrograms.map((program) => (
@@ -417,7 +417,7 @@ export default function CollegeDetailPage() {
             )}
 
             {activeTab === 'programs' && (
-              <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
+              <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
                 <h2 className="text-xl font-semibold text-white font-bold mb-4">
                   Academic Programs ({programs.length})
                 </h2>
@@ -457,7 +457,7 @@ export default function CollegeDetailPage() {
 
             {activeTab === 'costs' && (
               <div className="space-y-6">
-                <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
+                <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
                   <h2 className="text-xl font-semibold text-white font-bold mb-4">Tuition & Fees</h2>
                   <div className="space-y-4">
                     {institution.tuition_in_state && (
@@ -490,7 +490,7 @@ export default function CollegeDetailPage() {
                 {institution.net_price && (
                   <div className="bg-green-50 rounded-lg border border-green-200 p-6">
                     <h3 className="text-lg font-semibold text-green-900 mb-2">Average Net Price</h3>
-                    <p className="text-3xl font-bold text-green-700">{formatCurrency(institution.net_price)}</p>
+                    <p className="text-3xl font-bold tracking-tight text-green-700">{formatCurrency(institution.net_price)}</p>
                     <p className="text-sm text-green-600 mt-2">
                       This is the average amount students pay after financial aid
                     </p>
@@ -503,7 +503,7 @@ export default function CollegeDetailPage() {
           {/* Sidebar */}
           <div className="space-y-6">
             {(institution.earnings_6_years_after_entry || institution.mean_earnings_10_years) && (
-              <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
+              <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
                 <h3 className="text-lg font-semibold text-white font-bold mb-4">Graduate Outcomes</h3>
                 <div className="space-y-4">
                   {institution.earnings_6_years_after_entry && (
@@ -528,7 +528,7 @@ export default function CollegeDetailPage() {
               </div>
             )}
 
-            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
               <h3 className="text-lg font-semibold text-white font-bold mb-3">Quick Actions</h3>
               <div className="space-y-3">
                 <button
