@@ -127,46 +127,65 @@ export default function Home() {
       <OrganizationSchema />
       <WebApplicationSchema />
       
-      {/* Hero Section */}
-      <div className="bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      {/* Hero Section - Enhanced with gradients */}
+      <div className="relative bg-black overflow-hidden">
+        {/* Gradient overlay background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-black to-orange-950/20"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-orange-500/10 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-orange-600/10 to-transparent rounded-full blur-3xl"></div>
+        
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
           <div className="text-center">
-            <h1 className="text-4xl sm:text-6xl font-extrabold text-white mb-6">
+            <div className="inline-flex items-center px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-full mb-6">
+              <SparklesIcon className="w-4 h-4 text-orange-500 mr-2" />
+              <span className="text-sm font-semibold text-orange-400">Data-Driven College Selection</span>
+            </div>
+            
+            <h1 className="text-5xl sm:text-7xl font-extrabold text-white mb-8 tracking-tight">
               Make Smarter{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600">
                 Education Decisions
               </span>
             </h1>
-            <p className="text-xl sm:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed font-medium">
+            <p className="text-xl sm:text-2xl text-gray-300 mb-10 max-w-4xl mx-auto leading-relaxed">
               Comprehensive college data analysis platform with ROI calculators, program comparisons, 
               and career outcome insights to help you choose the right educational path.
             </p>
             
-            {/* Stats */}
-            <div className="flex flex-wrap justify-center gap-8 mb-12">
+            {/* Stats - Enhanced cards */}
+            <div className="flex flex-wrap justify-center gap-6 mb-12">
               {loading ? (
-                <div className="flex space-x-8">
+                <div className="flex space-x-6">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="text-center">
-                      <div className="h-8 w-16 bg-gray-800 rounded animate-pulse mb-2"></div>
-                      <div className="h-4 w-20 bg-gray-800 rounded animate-pulse"></div>
+                    <div key={i} className="text-center bg-gray-900/50 rounded-xl p-6 border border-gray-800">
+                      <div className="h-10 w-20 bg-gray-800 rounded animate-pulse mb-2"></div>
+                      <div className="h-4 w-24 bg-gray-800 rounded animate-pulse"></div>
                     </div>
                   ))}
                 </div>
               ) : (
                 stats && (
                   <>
-                    <div className="text-center">
-                      <div className="text-3xl font-extrabold text-orange-500">{stats.totalInstitutions.toLocaleString()}</div>
-                      <div className="text-sm text-gray-400 font-semibold">Institutions</div>
+                    <div className="text-center bg-gradient-to-br from-gray-900 to-gray-900/80 border border-orange-500/20 rounded-2xl p-6 min-w-[160px] shadow-[0_0_20px_rgba(249,115,22,0.1)] hover:-translate-y-1 transition-all duration-300">
+                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg">
+                        <BuildingOffice2Icon className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="text-4xl font-extrabold text-white mb-1">{stats.totalInstitutions.toLocaleString()}</div>
+                      <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide">Institutions</div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-3xl font-extrabold text-orange-500">{stats.totalPrograms.toLocaleString()}</div>
-                      <div className="text-sm text-gray-400 font-semibold">Programs</div>
+                    <div className="text-center bg-gradient-to-br from-gray-900 to-gray-900/80 border border-orange-500/20 rounded-2xl p-6 min-w-[160px] shadow-[0_0_20px_rgba(249,115,22,0.1)] hover:-translate-y-1 transition-all duration-300">
+                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg">
+                        <AcademicCapIcon className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="text-4xl font-extrabold text-white mb-1">{stats.totalPrograms.toLocaleString()}</div>
+                      <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide">Programs</div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-3xl font-extrabold text-orange-500">{stats.statesCovered} States</div>
-                      <div className="text-sm text-gray-400 font-semibold">Coverage</div>
+                    <div className="text-center bg-gradient-to-br from-gray-900 to-gray-900/80 border border-orange-500/20 rounded-2xl p-6 min-w-[160px] shadow-[0_0_20px_rgba(249,115,22,0.1)] hover:-translate-y-1 transition-all duration-300">
+                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg">
+                        <MapPinIcon className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="text-4xl font-extrabold text-white mb-1">{stats.statesCovered}</div>
+                      <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide">States</div>
                     </div>
                   </>
                 )
@@ -176,16 +195,16 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/roi-calculator"
-                className="bg-gradient-to-r from-orange-600 to-orange-500 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/20 inline-flex items-center justify-center"
+                className="bg-gradient-to-r from-orange-600 to-orange-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-[0_0_20px_rgba(249,115,22,0.2)] active:scale-95 inline-flex items-center justify-center group"
               >
                 Start Calculating ROI
-                <ArrowRightIcon className="ml-2 w-5 h-5" />
+                <ArrowRightIcon className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="/pricing"
-                className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-yellow-500 hover:to-orange-600 transition-all shadow-[0_0_12px_rgba(249,115,22,0.08)] inline-flex items-center justify-center"
+                className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-yellow-600 hover:to-orange-600 transition-all shadow-[0_0_20px_rgba(249,115,22,0.15)] active:scale-95 inline-flex items-center justify-center group"
               >
-                <SparklesIcon className="mr-2 w-5 h-5" />
+                <SparklesIcon className="mr-2 w-5 h-5 group-hover:rotate-12 transition-transform" />
                 View Plans & Pricing
               </Link>
             </div>
