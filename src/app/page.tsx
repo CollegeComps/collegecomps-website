@@ -30,6 +30,24 @@ interface DatabaseStats {
   statesCovered: number;
 }
 
+// Format large numbers with K/M suffix and + sign
+function formatStatNumber(num: number): string {
+  if (num >= 1000000) {
+    // Round down to nearest 100K for millions
+    const millions = Math.floor(num / 100000) / 10;
+    return `${millions.toFixed(1)}M+`;
+  } else if (num >= 10000) {
+    // Round down to nearest 1K for ten thousands
+    const thousands = Math.floor(num / 1000);
+    return `${thousands}K+`;
+  } else if (num >= 1000) {
+    // Round down to nearest 100 for thousands
+    const rounded = Math.floor(num / 100) * 100;
+    return `${(rounded / 1000).toFixed(1)}K+`;
+  }
+  return num.toString();
+}
+
 const features = [
   {
     title: 'ROI Calculator',
@@ -170,14 +188,14 @@ export default function Home() {
                       <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg">
                         <BuildingOffice2Icon className="w-6 h-6 text-white" />
                       </div>
-                      <div className="text-4xl font-extrabold text-white mb-1">{stats.totalInstitutions.toLocaleString()}</div>
+                      <div className="text-4xl font-extrabold text-white mb-1">{formatStatNumber(stats.totalInstitutions)}</div>
                       <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide">Institutions</div>
                     </div>
                     <div className="text-center bg-gradient-to-br from-gray-900 to-gray-900/80 border border-orange-500/20 rounded-2xl p-6 min-w-[160px] shadow-[0_0_20px_rgba(249,115,22,0.1)] hover:-translate-y-1 transition-all duration-300">
                       <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg">
                         <AcademicCapIcon className="w-6 h-6 text-white" />
                       </div>
-                      <div className="text-4xl font-extrabold text-white mb-1">{stats.totalPrograms.toLocaleString()}</div>
+                      <div className="text-4xl font-extrabold text-white mb-1">{formatStatNumber(stats.totalPrograms)}</div>
                       <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide">Programs</div>
                     </div>
                     <div className="text-center bg-gradient-to-br from-gray-900 to-gray-900/80 border border-orange-500/20 rounded-2xl p-6 min-w-[160px] shadow-[0_0_20px_rgba(249,115,22,0.1)] hover:-translate-y-1 transition-all duration-300">
@@ -185,7 +203,7 @@ export default function Home() {
                         <MapPinIcon className="w-6 h-6 text-white" />
                       </div>
                       <div className="text-4xl font-extrabold text-white mb-1">{stats.statesCovered}</div>
-                      <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide">States</div>
+                      <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide">States + DC</div>
                     </div>
                   </>
                 )
