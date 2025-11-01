@@ -427,7 +427,7 @@ export default function DashboardPage() {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-800 border-b border-gray-700">
+              <thead className="bg-gray-800 border-b border-gray-700 sticky top-0 z-10">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Rank</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Institution</th>
@@ -471,7 +471,7 @@ export default function DashboardPage() {
           <p className="text-sm text-gray-400 mb-4">Public colleges with the lowest annual in-state tuition (under $20K)</p>
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-800 border-b border-gray-700">
+              <thead className="bg-gray-800 border-b border-gray-700 sticky top-0 z-10">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Rank</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Institution</th>
@@ -483,7 +483,7 @@ export default function DashboardPage() {
               </thead>
               <tbody className="divide-y divide-gray-800">
                 {affordablePublic.slice(0, 15).map((school, index) => (
-                  <tr key={index} className="hover:bg-gray-800">
+                  <tr key={index} className="hover:bg-gray-800/80 transition-all duration-200">
                     <td className="px-4 py-3">
                       <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
                         index < 3 ? 'bg-green-500 text-white' : 'bg-gray-800 text-gray-400'

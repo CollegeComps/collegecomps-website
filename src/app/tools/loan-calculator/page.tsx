@@ -267,7 +267,7 @@ export default function LoanCalculatorPage() {
                   </thead>
                   <tbody className="divide-y divide-gray-800">
                     {calculation.amortizationSchedule.filter((_, idx) => idx % 12 === 0 || idx === calculation.amortizationSchedule.length - 1).map((entry) => (
-                      <tr key={entry.month} className="hover:bg-gray-800">
+                      <tr key={entry.month} className="hover:bg-gray-800/80 transition-all duration-200">
                         <td className="px-4 py-3 font-medium text-white font-bold">
                           Year {Math.ceil(entry.month / 12)}
                         </td>

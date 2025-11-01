@@ -360,7 +360,7 @@ export default function ComparisonManagerPage() {
         {/* New Folder Modal */}
         {showNewFolderModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 max-w-md w-full mx-4">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 hover:-translate-y-1 transition-all duration-300 max-w-md w-full mx-4">
               <h3 className="text-xl font-bold text-white font-bold mb-4">Create New Folder</h3>
               <input
                 type="text"

@@ -270,7 +270,7 @@ export default function AdminSupportPage() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {tickets.map((ticket) => (
-                <tr key={ticket.id} className="hover:bg-gray-800">
+                <tr key={ticket.id} className="hover:bg-gray-800/80 transition-all duration-200">
                   <td className="px-6 py-4">
                     <div className="text-sm font-medium text-white font-bold">#{ticket.id} - {ticket.subject}</div>
                     <div className="text-sm text-gray-400">{ticket.category}</div>
