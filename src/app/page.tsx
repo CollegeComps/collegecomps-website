@@ -32,12 +32,13 @@ interface DatabaseStats {
 }
 
 // Format large numbers with better display
-// For institutions: show full number with + (e.g., "6,163+")
+// For institutions: round to nearest thousand (e.g., "6000+")
 // For programs: use M suffix (e.g., "8.9M+")
 function formatStatNumber(num: number, type?: 'institutions' | 'programs' | 'states'): string {
   if (type === 'institutions') {
-    // Show full number with commas and + sign for institutions
-    return `${num.toLocaleString()}+`;
+    // Round to nearest thousand and add + sign
+    const rounded = Math.round(num / 1000) * 1000;
+    return `${rounded.toLocaleString()}+`;
   } else if (type === 'programs') {
     // Use M suffix for millions (programs)
     if (num >= 1000000) {

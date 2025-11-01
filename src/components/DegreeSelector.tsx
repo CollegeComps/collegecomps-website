@@ -150,9 +150,9 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
         </div>
       )}
 
-      <div className="mt-4 bg-gray-800 rounded-lg p-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-2">Search Tips</h4>
-        <ul className="text-xs text-gray-300 space-y-1">
+      <div className="mt-4 bg-gray-800 rounded-lg p-4 border border-gray-700">
+        <h4 className="text-sm font-semibold text-white mb-2">Search Tips</h4>
+        <ul className="text-xs text-gray-400 space-y-1">
           <li>• Enter at least 2 characters to start searching</li>
           <li>• Search by field of study (e.g., "Engineering", "Healthcare")</li>
           <li>• Results show degree programs available across all institutions</li>
