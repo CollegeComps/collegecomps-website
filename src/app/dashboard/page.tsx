@@ -161,56 +161,82 @@ export default function DashboardPage() {
 
         {/* Main Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-          {/* Total Balance Widget - Large feature card */}
+          {/* Total Balance Widget - Large feature card with gradient */}
           {stats && (
             <div className="lg:col-span-1">
-              <div className="bg-gray-900 rounded-2xl p-6 shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 h-full">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm font-medium text-gray-400">Total Institutions</span>
-                  <div className="w-8 h-8 bg-orange-500/10 rounded-lg flex items-center justify-center">
-                    <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                    </svg>
+              <div className="relative bg-gradient-to-br from-gray-900 via-gray-900 to-orange-900/20 rounded-2xl p-6 shadow-[0_0_20px_rgba(249,115,22,0.15)] border border-orange-500/20 h-full overflow-hidden">
+                {/* Gradient overlay accent */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-500/10 to-transparent rounded-full blur-2xl"></div>
+                
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm font-semibold text-gray-300 uppercase tracking-wide">Total Institutions</span>
+                    <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.3)]">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="mb-6">
+                    <div className="text-5xl font-bold tracking-tight text-white mb-3 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                      {stats.total_institutions?.toLocaleString() || 'N/A'}
+                    </div>
+                    <div className="flex items-center text-sm">
+                      <span className="px-2.5 py-1 bg-green-500/20 text-green-400 rounded-lg text-xs font-semibold mr-2 border border-green-500/30">
+                        ↑ 100%
+                      </span>
+                      <span className="text-gray-300 font-medium">Nationwide coverage</span>
+                    </div>
                   </div>
                 </div>
-                <div className="mb-6">
-                  <div className="text-4xl font-bold tracking-tight text-white mb-2">
-                    {stats.total_institutions?.toLocaleString() || 'N/A'}
+                <div className="space-y-3 pt-4 border-t border-gray-700/50">
+                  <div className="flex items-center justify-between group hover:bg-gray-800/30 rounded-lg p-2 -mx-2 transition-all">
+                    <div className="flex items-center">
+                      <div className="w-8 h-8 bg-orange-500/10 rounded-lg flex items-center justify-center mr-3">
+                        <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                        </svg>
+                      </div>
+                      <span className="text-sm text-gray-300 font-medium">Avg In-State</span>
+                    </div>
+                    <span className="font-bold text-white text-sm">${stats.avg_in_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</span>
                   </div>
-                  <div className="flex items-center text-sm">
-                    <span className="px-2 py-0.5 bg-green-500/10 text-green-400 rounded-full text-xs font-medium mr-2">
-                      ↓ 12%
-                    </span>
-                    <span className="text-gray-400">Nationwide coverage</span>
+                  <div className="flex items-center justify-between group hover:bg-gray-800/30 rounded-lg p-2 -mx-2 transition-all">
+                    <div className="flex items-center">
+                      <div className="w-8 h-8 bg-orange-500/10 rounded-lg flex items-center justify-center mr-3">
+                        <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+                        </svg>
+                      </div>
+                      <span className="text-sm text-gray-300 font-medium">Avg Out-State</span>
+                    </div>
+                    <span className="font-bold text-white text-sm">${stats.avg_out_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</span>
                   </div>
-                </div>
-                <div className="space-y-3 pt-4 border-t border-gray-800">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-400">Avg In-State</span>
-                    <span className="font-semibold text-white">${stats.avg_in_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-400">Avg Out-State</span>
-                    <span className="font-semibold text-white">${stats.avg_out_state_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-400">Avg Housing</span>
-                    <span className="font-semibold text-white">${stats.avg_room_board?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</span>
+                  <div className="flex items-center justify-between group hover:bg-gray-800/30 rounded-lg p-2 -mx-2 transition-all">
+                    <div className="flex items-center">
+                      <div className="w-8 h-8 bg-orange-500/10 rounded-lg flex items-center justify-center mr-3">
+                        <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                      </div>
+                      <span className="text-sm text-gray-300 font-medium">Avg Housing</span>
+                    </div>
+                    <span className="font-bold text-white text-sm">${stats.avg_room_board?.toLocaleString(undefined, {maximumFractionDigits: 0}) || 'N/A'}</span>
                   </div>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Revenue Categories / Institution Distribution - with donut chart style */}
+          {/* Revenue Categories / Institution Distribution - with enhanced cards */}
           <div className="lg:col-span-2">
             <div className="bg-gray-900 rounded-2xl p-6 shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 h-full">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">Institution Distribution</h3>
+                  <h3 className="text-xl font-bold text-white">Institution Distribution</h3>
                   <p className="text-sm text-gray-400 mt-1">By control type</p>
                 </div>
-                <button className="text-gray-400 hover:text-gray-400">
+                <button className="text-gray-400 hover:text-orange-500 transition-colors">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
                   </svg>
@@ -221,21 +247,52 @@ export default function DashboardPage() {
                   const percentage = totalControlInstitutions > 0 ? (item.count / totalControlInstitutions) * 100 : 0;
                   const getColor = (control: number) => {
                     switch (control) {
-                      case 1: return { dot: 'bg-orange-500', bg: 'bg-orange-500/10', text: 'text-orange-400' };
-                      case 2: return { dot: 'bg-orange-600', bg: 'bg-orange-600/10', text: 'text-orange-500' };
-                      case 3: return { dot: 'bg-orange-400', bg: 'bg-orange-400/10', text: 'text-orange-300' };
-                      default: return { dot: 'bg-gray-500', bg: 'bg-gray-800', text: 'text-gray-400' };
+                      case 1: return { 
+                        dot: 'bg-orange-500', 
+                        bg: 'bg-gradient-to-br from-orange-500/10 to-orange-600/5', 
+                        text: 'text-orange-400',
+                        border: 'border-orange-500/20',
+                        glow: 'shadow-[0_0_15px_rgba(249,115,22,0.1)]'
+                      };
+                      case 2: return { 
+                        dot: 'bg-orange-600', 
+                        bg: 'bg-gradient-to-br from-orange-600/10 to-orange-700/5', 
+                        text: 'text-orange-500',
+                        border: 'border-orange-600/20',
+                        glow: 'shadow-[0_0_15px_rgba(234,88,12,0.1)]'
+                      };
+                      case 3: return { 
+                        dot: 'bg-orange-400', 
+                        bg: 'bg-gradient-to-br from-orange-400/10 to-orange-500/5', 
+                        text: 'text-orange-300',
+                        border: 'border-orange-400/20',
+                        glow: 'shadow-[0_0_15px_rgba(251,146,60,0.1)]'
+                      };
+                      default: return { 
+                        dot: 'bg-gray-500', 
+                        bg: 'bg-gray-800/50', 
+                        text: 'text-gray-400',
+                        border: 'border-gray-700',
+                        glow: ''
+                      };
                     }
                   };
                   const colors = getColor(item.control_public_private);
                   return (
-                    <div key={item.control_public_private} className={`${colors.bg} rounded-xl p-4`}>
-                      <div className="flex items-center justify-between mb-2">
-                        <div className={`w-3 h-3 ${colors.dot} rounded-full`}></div>
-                        <span className={`text-xs font-medium ${colors.text}`}>{percentage.toFixed(1)}%</span>
+                    <div key={item.control_public_private} className={`${colors.bg} rounded-xl p-5 border ${colors.border} ${colors.glow} hover:-translate-y-1 transition-all duration-300`}>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className={`w-10 h-10 ${colors.dot} rounded-xl flex items-center justify-center shadow-lg`}>
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                          </svg>
+                        </div>
+                        <span className={`text-sm font-bold ${colors.text} px-3 py-1 rounded-lg bg-black/20`}>{percentage.toFixed(1)}%</span>
                       </div>
-                      <div className="text-sm font-medium text-gray-400 mb-1">{getControlLabel(item.control_public_private)}</div>
-                      <div className="text-2xl font-bold text-white">{item.count.toLocaleString()}</div>
+                      <div className="text-sm font-semibold text-gray-400 mb-2">{getControlLabel(item.control_public_private)}</div>
+                      <div className="text-3xl font-bold text-white">{item.count.toLocaleString()}</div>
+                      <div className="mt-3 pt-3 border-t border-gray-700/50">
+                        <div className="text-xs text-gray-400">Avg tuition: <span className="text-gray-300 font-semibold">${item.avg_tuition?.toLocaleString(undefined, {maximumFractionDigits: 0})}</span></div>
+                      </div>
                     </div>
                   );
                 })}

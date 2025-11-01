@@ -128,11 +128,11 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
 
   if (!isPremium) {
     return (
-      <div className="bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-300 rounded-xl p-6">
+      <div className="bg-gradient-to-br from-gray-900 to-gray-800 border-2 border-orange-500/30 rounded-xl p-6">
         <div className="flex items-start gap-4">
-          <BellAlertIcon className="w-8 h-8 text-yellow-600 flex-shrink-0" />
+          <BellAlertIcon className="w-8 h-8 text-orange-500 flex-shrink-0" />
           <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">
+            <h3 className="text-lg font-bold text-white mb-2">
               Alert Notifications - Premium Feature
             </h3>
             <p className="text-gray-300 mb-4">
@@ -140,7 +140,7 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
             </p>
             <a
               href="/pricing"
-              className="inline-block px-6 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold rounded-lg hover:shadow-lg transition-all"
+              className="inline-block px-6 py-2 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold rounded-lg hover:shadow-lg transition-all"
             >
               Upgrade to Premium
             </a>
@@ -153,7 +153,7 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
       </div>
     );
   }
@@ -163,8 +163,8 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
       {message && (
         <div className={`p-4 rounded-lg ${
           message.type === 'success' 
-            ? 'bg-green-50 text-green-800 border border-green-200' 
-            : 'bg-red-50 text-red-800 border border-red-200'
+            ? 'bg-green-900/50 text-green-300 border border-green-500/50' 
+            : 'bg-red-900/50 text-red-300 border border-red-500/50'
         }`}>
           <div className="flex items-center gap-2">
             {message.type === 'success' ? (
@@ -180,7 +180,7 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
       {!compact && (
         <div className="mb-4">
           <p className="text-gray-300">
-            Notifications will be sent to: <strong>{session?.user?.email}</strong>
+            Notifications will be sent to: <strong className="text-white">{session?.user?.email}</strong>
           </p>
         </div>
       )}
@@ -191,19 +191,19 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
           return (
           <div
             key={alert.id}
-            className={`flex items-start justify-between p-4 bg-gray-800 rounded-lg hover:bg-gray-100 transition-colors ${
+            className={`flex items-start justify-between p-4 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 hover:border-orange-500/30 transition-all ${
               compact ? 'p-3' : 'p-4'
             }`}
           >
             <div className="flex items-start gap-3 flex-1">
               <div className="mt-1">
-                <IconComponent className={`text-blue-600 ${compact ? 'w-4 h-4' : 'w-5 h-5'}`} />
+                <IconComponent className={`text-orange-500 ${compact ? 'w-4 h-4' : 'w-5 h-5'}`} />
               </div>
               <div>
-                <h3 className={`font-semibold text-gray-900 ${compact ? 'text-sm' : ''}`}>
+                <h3 className={`font-semibold text-white ${compact ? 'text-sm' : ''}`}>
                   {alert.type}
                 </h3>
-                <p className={`text-gray-300 mt-1 ${compact ? 'text-xs' : 'text-sm'}`}>
+                <p className={`text-gray-400 mt-1 ${compact ? 'text-xs' : 'text-sm'}`}>
                   {alert.description}
                 </p>
               </div>
@@ -211,7 +211,7 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
             <button
               onClick={() => toggleAlert(alert.id)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                alert.enabled ? 'bg-blue-600' : 'bg-gray-300'
+                alert.enabled ? 'bg-orange-500' : 'bg-gray-700'
               }`}
               aria-label={`Toggle ${alert.type}`}
             >
@@ -229,7 +229,7 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
       <button
         onClick={handleSave}
         disabled={saving}
-        className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold py-3 rounded-lg hover:from-orange-700 hover:to-orange-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(249,115,22,0.2)]"
       >
         {saving ? 'Saving...' : 'Save Alert Preferences'}
       </button>
