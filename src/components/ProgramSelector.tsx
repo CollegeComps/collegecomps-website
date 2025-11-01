@@ -115,8 +115,8 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
   };
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
-      <h2 className="text-xl font-semibold text-gray-900 mb-4">Select Program</h2>
+    <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
+      <h2 className="text-xl font-semibold text-white mb-4">Step 2: Select Program</h2>
       
       <div className="relative">
         <input
@@ -126,7 +126,7 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
           onChange={(e) => handleInputChange(e.target.value)}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white placeholder-gray-500"
+          className="w-full p-3 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white placeholder-gray-400"
         />
         
         {loading && (
@@ -141,29 +141,29 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
               className="fixed inset-0 z-10"
               onClick={() => setIsOpen(false)}
             ></div>
-            <div className="absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-80 overflow-y-auto">
+            <div className="absolute z-20 w-full mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-lg max-h-80 overflow-y-auto">
               {filteredPrograms.map((program, index) => (
                 <button
                   key={`${program.cipcode}-${index}`}
                   onClick={() => handleSelect(program)}
-                  className="w-full p-4 text-left hover:bg-blue-50 border-b border-gray-100 last:border-b-0"
+                  className="w-full p-4 text-left hover:bg-gray-700 border-b border-gray-700 last:border-b-0"
                 >
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">{program.cip_title || 'Unknown Program'}</h3>
+                      <h3 className="font-semibold text-white">{program.cip_title || 'Unknown Program'}</h3>
                       <div className="flex items-center gap-4 mt-1">
                         {program.cipcode && (
-                          <span className="px-2 py-1 text-xs rounded bg-gray-200 text-gray-800">
+                          <span className="px-2 py-1 text-xs rounded bg-gray-700 text-gray-300">
                             CIP: {program.cipcode}
                           </span>
                         )}
                         {program.credential_name && (
-                          <span className="px-2 py-1 text-xs rounded bg-blue-200 text-blue-900">
+                          <span className="px-2 py-1 text-xs rounded bg-orange-500/20 text-orange-400">
                             {program.credential_name}
                           </span>
                         )}
                         {program.total_completions && (
-                          <span className="text-sm text-gray-300">
+                          <span className="text-sm text-gray-400">
                             {program.total_completions} graduates
                           </span>
                         )}

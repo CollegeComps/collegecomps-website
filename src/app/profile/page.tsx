@@ -203,51 +203,73 @@ export default function ProfilePage() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold tracking-tight text-white mb-2">Account Settings</h1>
-          <p className="text-lg text-gray-300">Manage your profile and account preferences</p>
+          <div className="inline-flex items-center px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-full mb-4">
+            <svg className="w-4 h-4 text-orange-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+            </svg>
+            <span className="text-sm font-semibold text-orange-400">Your Profile</span>
+          </div>
+          <h1 className="text-5xl font-extrabold text-white mb-3">Account Settings</h1>
+          <p className="text-xl text-gray-300">Manage your profile and account preferences</p>
         </div>
 
         {/* Message Banner */}
         {message && (
           <div
-            className={`mb-6 p-4 rounded-lg ${
+            className={`mb-6 p-5 rounded-xl border-2 ${
               message.type === 'success'
-                ? 'bg-green-900/20 border border-green-500 text-green-400'
-                : 'bg-red-900/20 border border-red-500 text-red-400'
-            }`}
+                ? 'bg-green-900/30 border-green-500/50 text-green-300'
+                : 'bg-red-900/30 border-red-500/50 text-red-300'
+            } shadow-lg font-medium`}
           >
-            {message.text}
+            <div className="flex items-center gap-3">
+              {message.type === 'success' ? (
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+              )}
+              <span>{message.text}</span>
+            </div>
           </div>
         )}
 
         <div className="grid gap-6">
           {/* Account Status Card */}
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8">
-            <h2 className="text-xl font-bold text-white mb-4">Account Status</h2>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between py-2">
-                <span className="text-gray-300 font-medium">Subscription</span>
+          <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-2xl shadow-[0_0_30px_rgba(249,115,22,0.15)] p-8 hover:shadow-[0_0_40px_rgba(249,115,22,0.2)] transition-all duration-300">
+            <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+              <svg className="w-6 h-6 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+              </svg>
+              Account Status
+            </h2>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between py-3 px-4 bg-gray-800/50 rounded-xl border border-gray-700">
+                <span className="text-gray-300 font-semibold">Subscription</span>
                 {isPremium ? (
-                  <span className="px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-sm font-bold rounded-full">
-                    Premium
+                  <span className="px-4 py-1.5 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-sm font-bold rounded-full shadow-lg">
+                    ⭐ Premium
                   </span>
                 ) : (
-                  <span className="px-3 py-1 bg-gray-200 text-gray-300 text-sm font-semibold rounded-full">
+                  <span className="px-4 py-1.5 bg-gray-700 border border-gray-600 text-gray-300 text-sm font-semibold rounded-full">
                     Free
                   </span>
                 )}
               </div>
-              <div className="flex items-center justify-between py-2">
-                <span className="text-gray-300 font-medium">Account Email</span>
-                <span className="text-gray-300">{session.user.email}</span>
+              <div className="flex items-center justify-between py-3 px-4 bg-gray-800/50 rounded-xl border border-gray-700">
+                <span className="text-gray-300 font-semibold">Account Email</span>
+                <span className="text-white font-medium">{session.user.email}</span>
               </div>
               {!isPremium && (
-                <div className="pt-3 border-t border-gray-200">
+                <div className="pt-4 border-t border-gray-700">
                   <a
                     href="/pricing"
-                    className="block w-full text-center px-4 py-2 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors"
+                    className="block w-full text-center px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold rounded-xl hover:from-orange-500 hover:to-orange-400 transition-all shadow-lg hover:shadow-orange-500/50"
                   >
-                    Upgrade to Premium
+                    ✨ Upgrade to Premium
                   </a>
                 </div>
               )}
@@ -255,19 +277,27 @@ export default function ProfilePage() {
           </div>
 
           {/* Profile Information */}
-          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-white">Profile Information</h2>
+          <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-2xl shadow-[0_0_30px_rgba(249,115,22,0.15)] p-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                <svg className="w-6 h-6 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                </svg>
+                Profile Information
+              </h2>
               <Link
                 href="/edit-preferences"
-                className="text-orange-500 hover:text-orange-600 font-semibold text-sm"
+                className="text-orange-500 hover:text-orange-400 font-bold text-sm flex items-center gap-1 transition-colors"
               >
-                Edit Preferences →
+                Edit Preferences
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </Link>
             </div>
-            <form onSubmit={handleProfileUpdate} className="space-y-4">
+            <form onSubmit={handleProfileUpdate} className="space-y-5">
               <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-white mb-2">
+                <label htmlFor="name" className="block text-sm font-bold text-white mb-2">
                   Full Name
                 </label>
                 <input
@@ -275,13 +305,13 @@ export default function ProfilePage() {
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
+                  className="w-full px-4 py-3 border-2 border-gray-700 bg-gray-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white placeholder-gray-500 transition-all"
                   placeholder="Your full name"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-white mb-2">
+                <label htmlFor="email" className="block text-sm font-bold text-white mb-2">
                   Email Address
                 </label>
                 <input
@@ -289,11 +319,16 @@ export default function ProfilePage() {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-400 bg-gray-800"
+                  className="w-full px-4 py-3 border-2 border-gray-700 rounded-xl text-gray-500 bg-gray-800/50 cursor-not-allowed"
                   disabled
                   title="Email cannot be changed"
                 />
-                <p className="mt-1 text-xs text-gray-400">Email address cannot be changed</p>
+                <p className="mt-2 text-xs text-gray-400 flex items-center gap-1">
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                  </svg>
+                  Email address cannot be changed
+                </p>
               </div>
 
               {/* Academic Preferences Display */}

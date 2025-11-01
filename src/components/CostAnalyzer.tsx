@@ -51,8 +51,8 @@ export default function CostAnalyzer({
   return (
     <div className="space-y-6">
       {/* Cost Configuration */}
-      <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Education Costs</h2>
+      <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
+        <h2 className="text-xl font-semibold text-white mb-4">Education Costs</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -65,7 +65,7 @@ export default function CostAnalyzer({
                 type="number"
                 value={costs.tuition}
                 onChange={(e) => updateCosts('tuition', Number(e.target.value))}
-                className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                className="w-full pl-8 pr-4 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white placeholder-gray-500"
                 placeholder="0"
               />
             </div>
@@ -75,8 +75,8 @@ export default function CostAnalyzer({
                   onClick={() => updateCosts('residency', 'in-state')}
                   className={`px-3 py-1 text-xs rounded ${
                     costs.residency === 'in-state' 
-                      ? 'bg-blue-100 text-blue-800' 
-                      : 'bg-gray-100 text-gray-300'
+                      ? 'bg-orange-500 text-white' 
+                      : 'bg-gray-700 text-gray-300'
                   }`}
                 >
                   In-State
@@ -85,8 +85,8 @@ export default function CostAnalyzer({
                   onClick={() => updateCosts('residency', 'out-of-state')}
                   className={`px-3 py-1 text-xs rounded ${
                     costs.residency === 'out-of-state' 
-                      ? 'bg-blue-100 text-blue-800' 
-                      : 'bg-gray-100 text-gray-300'
+                      ? 'bg-orange-500 text-white' 
+                      : 'bg-gray-700 text-gray-300'
                   }`}
                 >
                   Out-of-State
@@ -105,7 +105,7 @@ export default function CostAnalyzer({
                 type="number"
                 value={costs.fees}
                 onChange={(e) => updateCosts('fees', Number(e.target.value))}
-                className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                className="w-full pl-8 pr-4 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white placeholder-gray-500"
                 placeholder="0"
               />
             </div>
@@ -121,7 +121,7 @@ export default function CostAnalyzer({
                 type="number"
                 value={costs.roomBoard}
                 onChange={(e) => updateCosts('roomBoard', Number(e.target.value))}
-                className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                className="w-full pl-8 pr-4 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white placeholder-gray-500"
                 placeholder="0"
               />
             </div>
@@ -137,7 +137,7 @@ export default function CostAnalyzer({
                 type="number"
                 value={costs.books}
                 onChange={(e) => updateCosts('books', Number(e.target.value))}
-                className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                className="w-full pl-8 pr-4 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white placeholder-gray-500"
                 placeholder="1200"
               />
             </div>
@@ -153,7 +153,7 @@ export default function CostAnalyzer({
                 type="number"
                 value={costs.otherExpenses}
                 onChange={(e) => updateCosts('otherExpenses', Number(e.target.value))}
-                className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                className="w-full pl-8 pr-4 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white placeholder-gray-500"
                 placeholder="2000"
               />
             </div>
@@ -166,7 +166,7 @@ export default function CostAnalyzer({
             <select
               value={costs.programLength}
               onChange={(e) => updateCosts('programLength', Number(e.target.value))}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+              className="w-full px-4 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white"
             >
               <option value={0.5}>6 months</option>
               <option value={1}>1 year</option>
@@ -180,22 +180,22 @@ export default function CostAnalyzer({
         </div>
 
         {/* Cost Summary */}
-        <div className="mt-6 p-4 bg-gray-100 rounded-lg border">
-          <h3 className="font-semibold text-gray-900 mb-3">Cost Summary</h3>
+        <div className="mt-6 p-4 bg-gray-800 rounded-lg border border-gray-700">
+          <h3 className="font-semibold text-white mb-3">Cost Summary</h3>
           <div className="space-y-2 text-sm">
-            <div className="flex justify-between text-gray-800">
+            <div className="flex justify-between text-gray-300">
               <span>Annual Cost:</span>
-              <span className="font-semibold text-gray-900">{formatCurrency(annualCost)}</span>
+              <span className="font-semibold text-white">{formatCurrency(annualCost)}</span>
             </div>
-            <div className="flex justify-between text-gray-800">
+            <div className="flex justify-between text-gray-300">
               <span>Total Program Cost:</span>
-              <span className="font-semibold text-gray-900">{formatCurrency(totalCost)}</span>
+              <span className="font-semibold text-white">{formatCurrency(totalCost)}</span>
             </div>
-            <div className="flex justify-between text-green-700">
+            <div className="flex justify-between text-green-400">
               <span>Total Financial Aid:</span>
-              <span className="font-semibold text-green-800">-{formatCurrency(totalAid)}</span>
+              <span className="font-semibold text-green-300">-{formatCurrency(totalAid)}</span>
             </div>
-            <div className="flex justify-between border-t border-gray-300 pt-2 text-lg font-bold text-gray-900">
+            <div className="flex justify-between border-t border-gray-700 pt-2 text-lg font-bold text-white">
               <span>Net Cost:</span>
               <span>{formatCurrency(netCost)}</span>
             </div>
@@ -204,8 +204,8 @@ export default function CostAnalyzer({
       </div>
 
       {/* Financial Aid */}
-      <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Financial Aid (Annual)</h2>
+      <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
+        <h2 className="text-xl font-semibold text-white mb-4">Financial Aid (Annual)</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -218,7 +218,7 @@ export default function CostAnalyzer({
                 type="number"
                 value={financialAid.grants}
                 onChange={(e) => updateFinancialAid('grants', Number(e.target.value))}
-                className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                className="w-full pl-8 pr-4 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white placeholder-gray-500"
                 placeholder="0"
               />
             </div>
@@ -234,7 +234,7 @@ export default function CostAnalyzer({
                 type="number"
                 value={financialAid.scholarships}
                 onChange={(e) => updateFinancialAid('scholarships', Number(e.target.value))}
-                className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                className="w-full pl-8 pr-4 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white placeholder-gray-500"
                 placeholder="0"
               />
             </div>
@@ -250,7 +250,7 @@ export default function CostAnalyzer({
                 type="number"
                 value={financialAid.workStudy}
                 onChange={(e) => updateFinancialAid('workStudy', Number(e.target.value))}
-                className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                className="w-full pl-8 pr-4 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white placeholder-gray-500"
                 placeholder="0"
               />
             </div>
@@ -266,7 +266,7 @@ export default function CostAnalyzer({
                 type="number"
                 value={financialAid.loans}
                 onChange={(e) => updateFinancialAid('loans', Number(e.target.value))}
-                className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                className="w-full pl-8 pr-4 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white placeholder-gray-500"
                 placeholder="0"
               />
             </div>
@@ -275,8 +275,8 @@ export default function CostAnalyzer({
       </div>
 
       {/* Earnings Projections */}
-      <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Earnings Projections</h2>
+      <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
+        <h2 className="text-xl font-semibold text-white mb-4">Earnings Projections</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -289,7 +289,7 @@ export default function CostAnalyzer({
                 type="number"
                 value={earnings.baselineSalary}
                 onChange={(e) => updateEarnings('baselineSalary', Number(e.target.value))}
-                className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                className="w-full pl-8 pr-4 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white placeholder-gray-500"
                 placeholder="35000"
               />
             </div>
@@ -305,7 +305,7 @@ export default function CostAnalyzer({
                 type="number"
                 value={earnings.projectedSalary}
                 onChange={(e) => updateEarnings('projectedSalary', Number(e.target.value))}
-                className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                className="w-full pl-8 pr-4 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white placeholder-gray-500"
                 placeholder="50000"
               />
             </div>
@@ -323,7 +323,7 @@ export default function CostAnalyzer({
             <select
               value={earnings.careerLength}
               onChange={(e) => updateEarnings('careerLength', Number(e.target.value))}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+              className="w-full px-4 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white"
             >
               <option value={20}>20 years</option>
               <option value={25}>25 years</option>
@@ -343,7 +343,7 @@ export default function CostAnalyzer({
                 step="0.1"
                 value={earnings.salaryGrowthRate}
                 onChange={(e) => updateEarnings('salaryGrowthRate', Number(e.target.value))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                className="w-full px-4 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white"
                 placeholder="3.0"
               />
               <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">%</span>

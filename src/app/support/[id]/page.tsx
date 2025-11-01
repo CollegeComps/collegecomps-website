@@ -81,9 +81,12 @@ export default function TicketDetailPage() {
         throw new Error(data.error || 'Failed to fetch ticket');
       }
 
+      console.log('Fetched ticket data:', data); // Debug log
       setTicket(data.ticket);
       setMessages(Array.isArray(data.messages) ? data.messages : []);
+      console.log('Messages set to:', data.messages); // Debug log
     } catch (err) {
+      console.error('Error fetching ticket:', err);
       setError(err instanceof Error ? err.message : 'Failed to load ticket');
     } finally {
       setLoading(false);
@@ -96,17 +99,23 @@ export default function TicketDetailPage() {
 
     setSending(true);
     try {
+      console.log('Sending message:', replyText); // Debug log
       const response = await fetch(`/api/support/tickets/${ticketId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: replyText })
       });
 
+      const result = await response.json();
+      console.log('Send message result:', result); // Debug log
+
       if (!response.ok) {
-        throw new Error('Failed to send message');
+        throw new Error(result.error || 'Failed to send message');
       }
 
       setReplyText('');
+      // Wait a bit before refreshing to ensure database write is complete
+      await new Promise(resolve => setTimeout(resolve, 500));
       await fetchTicketDetails(); // Refresh to show new message
     } catch (err) {
       console.error('Error sending message:', err);
@@ -184,66 +193,82 @@ export default function TicketDetailPage() {
         {/* Back Link */}
         <Link
           href="/support"
-          className="inline-flex items-center text-orange-500 hover:text-orange-600 mb-6"
+          className="inline-flex items-center text-orange-500 hover:text-orange-400 mb-6 transition-colors"
         >
           <ArrowLeftIcon className="w-4 h-4 mr-2" />
           Back to My Tickets
         </Link>
 
         {/* Ticket Header */}
-        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow mb-6 p-6">
+        <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.1)] mb-6 p-6">
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-4">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
                 {getStatusIcon(ticket.status)}
                 <h1 className="text-2xl font-bold text-white">
-                  {ticket.subject || 'No Subject'}
+                  {ticket?.subject || 'No Subject'}
                 </h1>
               </div>
-              <p className="text-gray-300">Ticket #{ticket.id}</p>
+              <p className="text-gray-300">Ticket #{ticket?.id || 'N/A'}</p>
             </div>
             <div className="flex flex-wrap gap-2">
-              <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getPriorityColor(ticket.priority || 'normal')}`}>
-                {ticket.priority || 'normal'} priority
+              <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getPriorityColor(ticket?.priority || 'normal')}`}>
+                {ticket?.priority || 'normal'} priority
               </span>
-              <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getStatusColor(ticket.status || 'open')}`}>
-                {formatStatus(ticket.status)}
+              <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getStatusColor(ticket?.status || 'open')}`}>
+                {formatStatus(ticket?.status)}
               </span>
             </div>
           </div>
 
           {/* Ticket Info */}
-          <div className="border-t border-gray-800 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="border-t border-gray-700/50 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <p className="text-sm text-gray-400">Category</p>
-              <p className="font-medium text-white capitalize">{formatCategory(ticket.category)}</p>
+              <p className="font-medium text-white capitalize">{formatCategory(ticket?.category)}</p>
             </div>
             <div>
               <p className="text-sm text-gray-400">Created</p>
-              <p className="font-medium text-white">{new Date(ticket.created_at).toLocaleString()}</p>
+              <p className="font-medium text-white">
+                {ticket?.created_at ? new Date(ticket.created_at).toLocaleString('en-US', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                }) : 'Date unavailable'}
+              </p>
             </div>
           </div>
 
           {/* Original Description */}
-          <div className="border-t border-gray-800 mt-4 pt-4">
+          <div className="border-t border-gray-700/50 mt-4 pt-4">
             <p className="text-sm font-semibold text-gray-400 mb-2">Original Request:</p>
-            <div className="bg-black border border-gray-800 rounded-lg p-4">
-              <p className="text-white font-bold whitespace-pre-wrap">{ticket.description || 'No description provided'}</p>
+            <div className="bg-black/50 border border-gray-700/50 rounded-lg p-4">
+              <p className="text-gray-200 whitespace-pre-wrap">{ticket?.description || 'No description provided'}</p>
             </div>
           </div>
         </div>
 
         {/* Messages */}
-        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow mb-6 p-6">
+        <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.1)] mb-6 p-6">
           <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-            <ChatBubbleLeftRightIcon className="w-5 h-5" />
+            <ChatBubbleLeftRightIcon className="w-5 h-5 text-orange-500" />
             Conversation
+            <span className="text-xs text-gray-500 ml-2">({messages?.length || 0} messages)</span>
           </h2>
 
-          <div className="space-y-4 mb-6">
-            {messages.length === 0 ? (
+          {/* Debug info - Remove after testing */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mb-4 p-2 bg-gray-800 border border-gray-700 rounded text-xs text-gray-400">
+              Debug: Messages array length: {messages?.length || 0}
+            </div>
+          )}
+
+          <div className="space-y-4 mb-6 max-h-[600px] overflow-y-auto pr-2">
+            {!messages || messages.length === 0 ? (
               <div className="text-center py-8">
-                <ChatBubbleLeftRightIcon className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                <ChatBubbleLeftRightIcon className="w-12 h-12 text-gray-600 mx-auto mb-3" />
                 <p className="text-gray-400">No messages yet. Our support team will respond soon!</p>
               </div>
             ) : (
@@ -253,13 +278,13 @@ export default function TicketDetailPage() {
                   className={`p-4 rounded-lg ${
                     message.is_admin_reply
                       ? 'bg-orange-500/10 border-l-4 border-orange-500'
-                      : 'bg-black border border-gray-800 border-l-4 border-gray-600'
+                      : 'bg-black/50 border border-gray-700/50 border-l-4 border-gray-600'
                   }`}
                 >
                   <div className="flex items-start justify-between mb-2">
                     <div>
                       <p className="font-semibold text-white">
-                        {message.is_admin_reply ? 'Support Team' : 'You'}
+                        {message.is_admin_reply ? 'Support Team' : (message.author_name || 'You')}
                         {message.is_admin_reply && (
                           <span className="ml-2 text-xs bg-orange-500 text-white px-2 py-0.5 rounded-full font-bold">
                             SUPPORT
@@ -267,19 +292,25 @@ export default function TicketDetailPage() {
                         )}
                       </p>
                       <p className="text-xs text-gray-400">
-                        {new Date(message.created_at).toLocaleString()}
+                        {message.created_at ? new Date(message.created_at).toLocaleString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        }) : 'Date unavailable'}
                       </p>
                     </div>
                   </div>
-                  <p className="text-white font-bold whitespace-pre-wrap">{message.message}</p>
+                  <p className="text-gray-200 whitespace-pre-wrap">{message.message || 'No message content'}</p>
                 </div>
               ))
             )}
           </div>
 
           {/* Reply Form - Only show if ticket is not closed */}
-          {ticket.status !== 'closed' && ticket.status !== 'resolved' && (
-            <form onSubmit={handleSendReply} className="border-t border-gray-800 pt-4">
+          {ticket?.status !== 'closed' && ticket?.status !== 'resolved' && (
+            <form onSubmit={handleSendReply} className="border-t border-gray-700/50 pt-4">
               <label className="block text-sm font-semibold text-gray-300 mb-2">
                 Add a Message
               </label>
@@ -288,7 +319,7 @@ export default function TicketDetailPage() {
                 onChange={(e) => setReplyText(e.target.value)}
                 placeholder="Type your message here..."
                 rows={4}
-                className="w-full px-3 py-2 border border-gray-700 bg-gray-900 text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                className="w-full px-3 py-2 border border-gray-700 bg-black/50 text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                 disabled={sending}
               />
               <div className="flex justify-end mt-3">
@@ -304,12 +335,12 @@ export default function TicketDetailPage() {
             </form>
           )}
 
-          {(ticket.status === 'closed' || ticket.status === 'resolved') && (
-            <div className="border-t border-gray-800 pt-4">
+          {(ticket?.status === 'closed' || ticket?.status === 'resolved') && (
+            <div className="border-t border-gray-700/50 pt-4">
               <div className="bg-green-900/20 border border-green-500 rounded-lg p-4 text-center">
                 <CheckCircleIcon className="w-8 h-8 text-green-500 mx-auto mb-2" />
                 <p className="text-green-400 font-semibold">
-                  This ticket has been {formatStatus(ticket.status)}
+                  This ticket has been {formatStatus(ticket?.status)}
                 </p>
                 <p className="text-green-500 text-sm mt-1">
                   If you need further assistance, please create a new ticket.

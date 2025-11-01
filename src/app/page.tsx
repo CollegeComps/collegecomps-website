@@ -31,21 +31,22 @@ interface DatabaseStats {
   statesCovered: number;
 }
 
-// Format large numbers with K/M suffix and + sign
-function formatStatNumber(num: number): string {
-  if (num >= 1000000) {
-    // Round down to nearest 100K for millions
-    const millions = Math.floor(num / 100000) / 10;
-    return `${millions.toFixed(1)}M+`;
-  } else if (num >= 10000) {
-    // Round down to nearest 1K for ten thousands
-    const thousands = Math.floor(num / 1000);
-    return `${thousands}K+`;
-  } else if (num >= 1000) {
-    // Round down to nearest 100 for thousands
-    const rounded = Math.floor(num / 100) * 100;
-    return `${(rounded / 1000).toFixed(1)}K+`;
+// Format large numbers with better display
+// For institutions: round to nearest thousand (e.g., "6000+")
+// For programs: use M suffix (e.g., "8.9M+")
+function formatStatNumber(num: number, type?: 'institutions' | 'programs' | 'states'): string {
+  if (type === 'institutions') {
+    // Round to nearest thousand and add + sign
+    const rounded = Math.round(num / 1000) * 1000;
+    return `${rounded.toLocaleString()}+`;
+  } else if (type === 'programs') {
+    // Use M suffix for millions (programs)
+    if (num >= 1000000) {
+      const millions = Math.floor(num / 100000) / 10;
+      return `${millions.toFixed(1)}M+`;
+    }
   }
+  // For states, just return the number as-is
   return num.toString();
 }
 
@@ -155,11 +156,6 @@ export default function Home() {
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
           <div className="text-center">
-            <div className="inline-flex items-center px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-full mb-6">
-              <SparklesIcon className="w-4 h-4 text-orange-500 mr-2" />
-              <span className="text-sm font-semibold text-orange-400">Data-Driven College Selection</span>
-            </div>
-            
             <h1 className="text-5xl sm:text-7xl font-extrabold text-white mb-8 tracking-tight">
               Make Smarter{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600">
@@ -171,12 +167,12 @@ export default function Home() {
               and career outcome insights to help you choose the right educational path.
             </p>
             
-            {/* Stats - Enhanced cards with better spacing */}
-            <div className="flex flex-wrap justify-center gap-8 mb-12 px-4">
+            {/* Stats - Less blocky, more flowing design */}
+            <div className="flex flex-wrap justify-center gap-6 mb-12 px-4">
               {loading ? (
                 <div className="flex space-x-6">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="text-center bg-gray-900/50 rounded-2xl p-8 border border-gray-800 min-w-[180px]">
+                    <div key={i} className="text-center bg-gray-900/50 rounded-3xl p-8 border border-gray-800 w-[200px]">
                       <div className="h-12 w-24 bg-gray-800 rounded animate-pulse mb-3 mx-auto"></div>
                       <div className="h-4 w-28 bg-gray-800 rounded animate-pulse mx-auto"></div>
                     </div>
@@ -185,37 +181,38 @@ export default function Home() {
               ) : (
                 stats && (
                   <>
-                    <div className="group text-center bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-2xl p-8 min-w-[180px] shadow-[0_0_30px_rgba(249,115,22,0.15)] hover:shadow-[0_0_40px_rgba(249,115,22,0.25)] hover:-translate-y-2 transition-all duration-500 ease-out">
-                      <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <BuildingOffice2Icon className="w-7 h-7 text-white" />
+                    <div className="group text-center bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-3xl p-6 w-[200px] shadow-[0_0_30px_rgba(249,115,22,0.15)] hover:shadow-[0_0_40px_rgba(249,115,22,0.25)] hover:-translate-y-2 transition-all duration-500 ease-out">
+                      <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <BuildingOffice2Icon className="w-8 h-8 text-white" />
                       </div>
                       <AnimatedCounter 
                         end={stats.totalInstitutions} 
-                        formatter={formatStatNumber}
+                        formatter={(num) => formatStatNumber(num, 'institutions')}
                         duration={2000}
                       />
-                      <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide mt-2">Institutions</div>
+                      <div className="text-xs text-gray-400 font-semibold uppercase tracking-wider mt-3">Institutions</div>
                     </div>
-                    <div className="group text-center bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-2xl p-8 min-w-[180px] shadow-[0_0_30px_rgba(249,115,22,0.15)] hover:shadow-[0_0_40px_rgba(249,115,22,0.25)] hover:-translate-y-2 transition-all duration-500 ease-out">
-                      <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <AcademicCapIcon className="w-7 h-7 text-white" />
+                    <div className="group text-center bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-3xl p-6 w-[200px] shadow-[0_0_30px_rgba(249,115,22,0.15)] hover:shadow-[0_0_40px_rgba(249,115,22,0.25)] hover:-translate-y-2 transition-all duration-500 ease-out">
+                      <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <AcademicCapIcon className="w-8 h-8 text-white" />
                       </div>
                       <AnimatedCounter 
                         end={stats.totalPrograms} 
-                        formatter={formatStatNumber}
+                        formatter={(num) => formatStatNumber(num, 'programs')}
                         duration={2000}
                       />
-                      <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide mt-2">Programs</div>
+                      <div className="text-xs text-gray-400 font-semibold uppercase tracking-wider mt-3">Programs</div>
                     </div>
-                    <div className="group text-center bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-2xl p-8 min-w-[180px] shadow-[0_0_30px_rgba(249,115,22,0.15)] hover:shadow-[0_0_40px_rgba(249,115,22,0.25)] hover:-translate-y-2 transition-all duration-500 ease-out">
-                      <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <MapPinIcon className="w-7 h-7 text-white" />
+                    <div className="group text-center bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-3xl p-6 w-[200px] shadow-[0_0_30px_rgba(249,115,22,0.15)] hover:shadow-[0_0_40px_rgba(249,115,22,0.25)] hover:-translate-y-2 transition-all duration-500 ease-out">
+                      <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <MapPinIcon className="w-8 h-8 text-white" />
                       </div>
                       <AnimatedCounter 
                         end={stats.statesCovered} 
+                        formatter={(num) => formatStatNumber(num, 'states')}
                         duration={2000}
                       />
-                      <div className="text-sm text-gray-400 font-semibold uppercase tracking-wide mt-2">States + DC</div>
+                      <div className="text-xs text-gray-400 font-semibold uppercase tracking-wider mt-3">States + DC</div>
                     </div>
                   </>
                 )

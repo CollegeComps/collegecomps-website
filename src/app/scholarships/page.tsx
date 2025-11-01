@@ -438,7 +438,7 @@ export default function ScholarshipMatchingPage() {
 
             <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4">
               <p className="text-sm text-gray-300 font-medium">
-                🔒 Your information is secure and will only be used to match you with relevant scholarships.
+                Your information is secure and will only be used to match you with relevant scholarships.
                 We'll never share your data without your permission.
               </p>
             </div>

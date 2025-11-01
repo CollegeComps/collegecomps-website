@@ -95,7 +95,7 @@ export default function InstitutionSelector({ selectedInstitution, onSelect }: I
           <input
             id="institution-search"
             type="text"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg text-gray-900 bg-white placeholder-gray-500"
+            className="w-full px-4 py-3 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-lg text-white placeholder-gray-400"
             placeholder={selectedInstitution ? "Click to change institution..." : "Type to search for institutions..."}
             value={searchTerm}
             onChange={(e) => handleInputChange(e.target.value)}
@@ -111,20 +111,20 @@ export default function InstitutionSelector({ selectedInstitution, onSelect }: I
         </div>
 
         {showDropdown && institutions.length > 0 && (
-          <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+          <div className="absolute z-10 w-full mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
             {institutions.map((institution) => (
               <div
                 key={institution.unitid}
-                className="p-4 hover:bg-gray-800 cursor-pointer border-b border-gray-100 last:border-b-0"
+                className="p-4 hover:bg-gray-700 cursor-pointer border-b border-gray-700 last:border-b-0"
                 onClick={() => handleSelectInstitution(institution)}
               >
-                <div className="font-medium text-gray-900 mb-1">
+                <div className="font-medium text-white mb-1">
                   {institution.name}
                 </div>
                 <div className="text-sm text-gray-300">
                   {institution.city}, {institution.state}
                   {institution.control_public_private && (
-                    <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
+                    <span className="ml-2 px-2 py-1 bg-orange-500/20 text-orange-400 text-xs rounded">
                       {getControlTypeLabel(institution.control_public_private)}
                     </span>
                   )}
