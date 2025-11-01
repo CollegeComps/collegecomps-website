@@ -81,9 +81,12 @@ export default function TicketDetailPage() {
         throw new Error(data.error || 'Failed to fetch ticket');
       }
 
+      console.log('Fetched ticket data:', data); // Debug log
       setTicket(data.ticket);
       setMessages(Array.isArray(data.messages) ? data.messages : []);
+      console.log('Messages set to:', data.messages); // Debug log
     } catch (err) {
+      console.error('Error fetching ticket:', err);
       setError(err instanceof Error ? err.message : 'Failed to load ticket');
     } finally {
       setLoading(false);
@@ -96,17 +99,23 @@ export default function TicketDetailPage() {
 
     setSending(true);
     try {
+      console.log('Sending message:', replyText); // Debug log
       const response = await fetch(`/api/support/tickets/${ticketId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: replyText })
       });
 
+      const result = await response.json();
+      console.log('Send message result:', result); // Debug log
+
       if (!response.ok) {
-        throw new Error('Failed to send message');
+        throw new Error(result.error || 'Failed to send message');
       }
 
       setReplyText('');
+      // Wait a bit before refreshing to ensure database write is complete
+      await new Promise(resolve => setTimeout(resolve, 500));
       await fetchTicketDetails(); // Refresh to show new message
     } catch (err) {
       console.error('Error sending message:', err);
@@ -246,7 +255,15 @@ export default function TicketDetailPage() {
           <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
             <ChatBubbleLeftRightIcon className="w-5 h-5 text-orange-500" />
             Conversation
+            <span className="text-xs text-gray-500 ml-2">({messages?.length || 0} messages)</span>
           </h2>
+
+          {/* Debug info - Remove after testing */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mb-4 p-2 bg-gray-800 border border-gray-700 rounded text-xs text-gray-400">
+              Debug: Messages array length: {messages?.length || 0}
+            </div>
+          )}
 
           <div className="space-y-4 mb-6 max-h-[600px] overflow-y-auto pr-2">
             {!messages || messages.length === 0 ? (
