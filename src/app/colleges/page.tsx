@@ -676,33 +676,38 @@ export default function CollegesPage() {
             institutions.map((institution) => (
               <div 
                 key={institution.id} 
-                className="group bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] p-6 hover:shadow-[0_0_10px_rgba(249,115,22,0.08)] hover:border-orange-500 transition-all cursor-pointer relative"
+                className="group bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.1)] p-6 hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] hover:border-orange-500/40 hover:-translate-y-1 transition-all duration-300 cursor-pointer relative overflow-hidden flex flex-col h-full"
                 onClick={() => window.location.href = `/colleges/${institution.unitid}`}
               >
-                {/* Bookmark button */}
-                <button
-                  onClick={(e) => toggleBookmark(e, institution)}
-                  disabled={bookmarkLoading.has(institution.unitid)}
-                  className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors disabled:opacity-50"
-                  title={bookmarkedUnitids.has(institution.unitid) ? 'Remove bookmark' : 'Bookmark college'}
-                >
-                  {bookmarkedUnitids.has(institution.unitid) ? (
-                    <BookmarkSolidIcon className="w-6 h-6 text-yellow-500" />
-                  ) : (
-                    <BookmarkOutlineIcon className="w-6 h-6 text-gray-400 hover:text-yellow-500" />
-                  )}
-                </button>
-
-                <h3 className="text-lg font-semibold text-white mb-2 line-clamp-2 pr-10">
-                  {institution.name}
-                </h3>
+                {/* Background glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 
-                <div className="flex items-center text-gray-300 mb-3">
-                  <MapPinIcon className="w-4 h-4 mr-1" />
-                  <span className="text-sm">
-                    {institution.city}, {institution.state}
-                  </span>
-                </div>
+                {/* Content */}
+                <div className="relative z-10 flex flex-col flex-1">
+                  {/* Bookmark button */}
+                  <button
+                    onClick={(e) => toggleBookmark(e, institution)}
+                    disabled={bookmarkLoading.has(institution.unitid)}
+                    className="absolute top-0 right-0 p-2 hover:bg-gray-800/50 rounded-lg transition-all disabled:opacity-50 hover:scale-110"
+                    title={bookmarkedUnitids.has(institution.unitid) ? 'Remove bookmark' : 'Bookmark college'}
+                  >
+                    {bookmarkedUnitids.has(institution.unitid) ? (
+                      <BookmarkSolidIcon className="w-6 h-6 text-orange-500" />
+                    ) : (
+                      <BookmarkOutlineIcon className="w-6 h-6 text-gray-400 hover:text-orange-400" />
+                    )}
+                  </button>
+
+                  <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 pr-10 group-hover:text-orange-400 transition-colors">
+                    {institution.name}
+                  </h3>
+                  
+                  <div className="flex items-center text-gray-300 mb-4 text-sm">
+                    <MapPinIcon className="w-4 h-4 mr-1" />
+                    <span className="text-sm">
+                      {institution.city}, {institution.state}
+                    </span>
+                  </div>
 
                 {/* School Category Badges (ENG-31) + ROI Badge (ENG-99, ENG-103) */}
                 <div className="flex flex-wrap gap-2 mb-3">
@@ -869,9 +874,10 @@ export default function CollegesPage() {
                   )}
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-gray-100">
+                {/* Action footer - pushed to bottom */}
+                <div className="mt-auto pt-4 border-t border-gray-800">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-gray-400">Unit ID: {institution.unitid}</span>
+                    <span className="text-xs text-gray-500">Unit ID: {institution.unitid}</span>
                     <div className="flex items-center gap-1 text-orange-500 group-hover:text-orange-400 text-sm font-medium">
                       <span>View Details</span>
                       <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -879,6 +885,7 @@ export default function CollegesPage() {
                       </svg>
                     </div>
                   </div>
+                </div>
                 </div>
               </div>
             ))

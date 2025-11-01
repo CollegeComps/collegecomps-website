@@ -95,15 +95,15 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
   }
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
+    <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
       <div className="mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+        <h3 className="text-lg font-semibold text-white mb-2">
           Institutions Offering {degreeName}
         </h3>
         <p className="text-sm text-gray-300">
           Found {institutions.length} institution{institutions.length !== 1 ? 's' : ''} offering this program
           {filteredInstitutions.length !== institutions.length && (
-            <span className="text-blue-600 font-medium">
+            <span className="text-orange-400 font-medium">
               {' '}• Showing {filteredInstitutions.length} after filters
             </span>
           )}
@@ -111,7 +111,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
       </div>
 
       {/* Filters Section */}
-      <div className="space-y-4 mb-6 p-4 bg-gray-800 rounded-lg">
+      <div className="space-y-4 mb-6 p-4 bg-gray-800 rounded-lg border border-gray-700">
         {/* State Filter */}
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -120,7 +120,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
           <select
             value={stateFilter}
             onChange={(e) => setStateFilter(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-600"
+            className="w-full px-3 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white"
           >
             <option value="all">All States ({institutions.length} institutions)</option>
             {availableStates.map(state => (
@@ -141,8 +141,8 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
               onClick={() => setControlFilter('all')}
               className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 controlFilter === 'all'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white border border-gray-300 text-gray-300 hover:bg-gray-800'
+                  ? 'bg-orange-500 text-white'
+                  : 'bg-gray-700 border border-gray-600 text-gray-300 hover:bg-gray-600'
               }`}
             >
               All
@@ -151,8 +151,8 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
               onClick={() => setControlFilter('public')}
               className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 controlFilter === 'public'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white border border-gray-300 text-gray-300 hover:bg-gray-800'
+                  ? 'bg-orange-500 text-white'
+                  : 'bg-gray-700 border border-gray-600 text-gray-300 hover:bg-gray-600'
               }`}
             >
               Public
@@ -161,8 +161,8 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
               onClick={() => setControlFilter('private')}
               className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 controlFilter === 'private'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white border border-gray-300 text-gray-300 hover:bg-gray-800'
+                  ? 'bg-orange-500 text-white'
+                  : 'bg-gray-700 border border-gray-600 text-gray-300 hover:bg-gray-600'
               }`}
             >
               Private
@@ -181,7 +181,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
                 setControlFilter('all');
                 setStateFilter('all');
               }}
-              className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+              className="text-orange-500 hover:text-orange-400 text-sm font-medium"
             >
               Clear all filters
             </button>
@@ -190,33 +190,33 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
           filteredInstitutions.map((institution) => (
             <div
               key={institution.unitid}
-              className="p-4 border border-gray-200 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer group"
+              className="p-4 border border-gray-700 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors cursor-pointer group"
               onClick={() => onSelectInstitution(institution)}
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-semibold text-gray-900 truncate group-hover:text-blue-600 transition-colors">
+                  <h4 className="font-semibold text-white truncate group-hover:text-orange-400 transition-colors">
                     {institution.name}
                   </h4>
-                  <p className="text-sm text-gray-300 mt-1">
+                  <p className="text-sm text-gray-400 mt-1">
                     {institution.city}, {institution.state}
                   </p>
                   <div className="flex items-center gap-3 mt-2 flex-wrap">
                     <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
                       institution.control === 'Public' 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-purple-100 text-purple-800'
+                        ? 'bg-green-500/20 text-green-400' 
+                        : 'bg-purple-500/20 text-purple-400'
                     }`}>
                       {institution.control}
                     </span>
                     {institution.total_completions && (
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-gray-500">
                         {institution.total_completions} annual graduates
                       </span>
                     )}
                   </div>
                   {institution.credential_name && (
-                    <p className="text-xs text-gray-400 mt-1">
+                    <p className="text-xs text-gray-500 mt-1">
                       Credential: {institution.credential_name}
                     </p>
                   )}
