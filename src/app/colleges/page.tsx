@@ -313,7 +313,7 @@ export default function CollegesPage() {
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6 mb-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] p-6 mb-6">
           {/* Search Bar */}
           <div className="flex flex-col sm:flex-row gap-4 mb-4">
             <div className="flex-1 relative">
@@ -650,7 +650,7 @@ export default function CollegesPage() {
           {loading ? (
             // Loading skeletons
             Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
+              <div key={i} className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] p-6">
                 <div className="animate-pulse">
                   <div className="h-6 bg-gray-200 rounded mb-3"></div>
                   <div className="h-4 bg-gray-200 rounded mb-2 w-3/4"></div>
@@ -676,7 +676,7 @@ export default function CollegesPage() {
             institutions.map((institution) => (
               <div 
                 key={institution.id} 
-                className="group bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6 hover:shadow-md hover:border-orange-500 transition-all cursor-pointer relative"
+                className="group bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] p-6 hover:shadow-[0_0_10px_rgba(249,115,22,0.08)] hover:border-orange-500 transition-all cursor-pointer relative"
                 onClick={() => window.location.href = `/colleges/${institution.unitid}`}
               >
                 {/* Bookmark button */}
@@ -709,7 +709,7 @@ export default function CollegesPage() {
                   {/* ROI Badge */}
                   {((institution as any).institution_avg_roi || (institution as any).implied_roi) && (
                     <span 
-                      className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-sm"
+                      className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-[0_0_8px_rgba(249,115,22,0.06)]"
                       title="30-Year Return on Investment - Net present value of earnings minus costs"
                     >
                       <CurrencyDollarIcon className="w-3.5 h-3.5 mr-1" />

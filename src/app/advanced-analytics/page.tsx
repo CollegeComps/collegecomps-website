@@ -72,7 +72,7 @@ export default function AdvancedAnalyticsPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl p-8 text-center">
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 text-center">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full mb-6">
               <LockClosedIcon className="w-10 h-10 text-white" />
             </div>
@@ -105,7 +105,7 @@ export default function AdvancedAnalyticsPage() {
             </div>
             <Link
               href="/pricing"
-              className="inline-block bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-lg transition-all transform hover:-translate-y-1"
+              className="inline-block bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-[0_0_12px_rgba(249,115,22,0.08)] transition-all transform hover:-translate-y-1"
             >
               Upgrade to Premium
             </Link>
@@ -138,7 +138,7 @@ export default function AdvancedAnalyticsPage() {
         </div>
 
         {/* View Selector */}
-        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-2 mb-6 inline-flex gap-2">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] p-2 mb-6 inline-flex gap-2">
           <button
             onClick={() => setSelectedView('percentiles')}
             className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-all ${
@@ -212,7 +212,7 @@ function PercentilesView({ data, preferences }: { data: SalaryData[]; preference
     : data.slice(0, 10);
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+    <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-6">
       <h2 className="text-2xl font-bold text-white font-bold mb-6">Salary Percentile Breakdown</h2>
       {preferences?.intended_major && (
         <p className="text-gray-300 mb-4">
@@ -301,7 +301,7 @@ function TrajectoryView({ preferences }: { preferences: any }) {
   }));
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+    <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-6">
       <h2 className="text-2xl font-bold text-white font-bold mb-6">Career Trajectory Projection</h2>
       {preferences?.intended_major && (
         <p className="text-gray-300 mb-6">
@@ -382,7 +382,7 @@ function PeerComparisonView({ data, preferences }: { data: SalaryData[]; prefere
   const percentile = Math.round((sortedSalaries.filter((s) => s < userSalary).length / sortedSalaries.length) * 100);
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+    <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-6">
       <h2 className="text-2xl font-bold text-white font-bold mb-6">Peer Comparison</h2>
 
       <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl p-8 text-white mb-6">
@@ -460,7 +460,7 @@ function GeographicView({ data }: { data: SalaryData[] }) {
   const maxSalary = Math.max(...regions.map((r) => r.avgSalary));
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-md p-6">
+    <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-6">
       <h2 className="text-2xl font-bold text-white font-bold mb-6">Geographic Salary Distribution</h2>
       <p className="text-gray-300 mb-6">
         Average salaries by metro area for your field

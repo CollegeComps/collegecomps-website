@@ -182,7 +182,7 @@ export default function SubscriptionPage() {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Current Plan Card */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8 mb-6">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 mb-6">
               <div className="flex items-start justify-between mb-6">
                 <div>
                   <h2 className="text-2xl font-bold text-white font-bold mb-2">
@@ -244,7 +244,7 @@ export default function SubscriptionPage() {
               {!isPremium && (
                 <button
                   onClick={handleUpgrade}
-                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-4 rounded-lg hover:shadow-lg transition-all transform hover:-translate-y-1"
+                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-4 rounded-lg hover:shadow-[0_0_12px_rgba(249,115,22,0.08)] transition-all transform hover:-translate-y-1"
                 >
                   Upgrade to Premium - $6.99/month
                 </button>
@@ -254,7 +254,7 @@ export default function SubscriptionPage() {
             {/* Features Grid */}
             <div className="grid md:grid-cols-2 gap-6">
               {/* Free Features */}
-              <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8">
                 <h3 className="text-xl font-bold text-white font-bold mb-4">Free Features</h3>
                 <div className="space-y-3">
                   {freeFeatures.map((feature, idx) => (
@@ -278,7 +278,7 @@ export default function SubscriptionPage() {
               </div>
 
               {/* Premium Features */}
-              <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8">
                 <h3 className="text-xl font-bold text-white font-bold mb-4">Premium Features</h3>
                 <div className="space-y-3">
                   {premiumFeatures.map((feature, idx) => (
@@ -314,7 +314,7 @@ export default function SubscriptionPage() {
           {/* Usage Stats Sidebar */}
           <div className="space-y-6">
             {/* Usage Overview */}
-            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8">
               <h3 className="text-xl font-bold text-white font-bold mb-4">Usage This Month</h3>
               <div className="space-y-4">
                 <div>
@@ -364,7 +364,7 @@ export default function SubscriptionPage() {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-xl p-8">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8">
               <h3 className="text-xl font-bold text-white font-bold mb-4">Quick Actions</h3>
               <div className="space-y-3">
                 <Link
@@ -411,7 +411,7 @@ export default function SubscriptionPage() {
             </div>
 
             {/* Support */}
-            <div className="bg-gradient-to-br from-orange-600 to-orange-700 rounded-xl shadow-xl p-8 text-white">
+            <div className="bg-gradient-to-br from-orange-600 to-orange-700 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 text-white">
               <h3 className="text-xl font-bold mb-2">Need Help?</h3>
               <p className="text-orange-100 mb-4 text-sm">
                 Our support team is here to help with any questions about your subscription.

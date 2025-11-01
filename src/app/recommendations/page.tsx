@@ -262,7 +262,7 @@ export default function RecommendationsPage() {
             <div className="h-6 bg-gray-200 rounded w-1/2 mb-8"></div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
+                <div key={i} className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] p-6">
                   <div className="h-6 bg-gray-200 rounded mb-4"></div>
                   <div className="space-y-2">
                     <div className="h-4 bg-gray-200 rounded"></div>
@@ -646,7 +646,7 @@ function RecommendationCard({ rec }: { rec: RecommendationResult }) {
   return (
     <div
       onClick={() => router.push(`/colleges/${institution.unitid}`)}
-      className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer"
+      className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border-gray-200 p-6 hover:shadow-[0_0_10px_rgba(249,115,22,0.08)] transition-shadow cursor-pointer"
     >
       <div className="mb-3">
         <div className="flex items-start justify-between mb-2">

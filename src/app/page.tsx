@@ -176,14 +176,14 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/roi-calculator"
-                className="bg-gradient-to-r from-orange-600 to-orange-500 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-lg shadow-orange-500/20 inline-flex items-center justify-center"
+                className="bg-gradient-to-r from-orange-600 to-orange-500 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/20 inline-flex items-center justify-center"
               >
                 Start Calculating ROI
                 <ArrowRightIcon className="ml-2 w-5 h-5" />
               </Link>
               <Link
                 href="/pricing"
-                className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-yellow-500 hover:to-orange-600 transition-all shadow-lg inline-flex items-center justify-center"
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-yellow-500 hover:to-orange-600 transition-all shadow-[0_0_12px_rgba(249,115,22,0.08)] inline-flex items-center justify-center"
               >
                 <SparklesIcon className="mr-2 w-5 h-5" />
                 View Plans & Pricing
@@ -267,7 +267,7 @@ export default function Home() {
               <div className="text-center">
                 <Link
                   href="/roi-calculator"
-                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold rounded-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-lg shadow-orange-500/20"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold rounded-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/20"
                 >
                   Calculate Your ROI
                   <ArrowRightIcon className="ml-2 w-4 h-4" />
@@ -314,7 +314,7 @@ export default function Home() {
               <Link
                 key={index}
                 href={feature.href}
-                className="group bg-gray-900 rounded-xl shadow-lg border border-gray-800 p-6 hover:shadow-xl hover:shadow-orange-500/10 hover:border-orange-500/50 transition-all duration-300 hover:-translate-y-1"
+                className="group bg-gray-900 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6 hover:shadow-[0_0_15px_rgba(249,115,22,0.1)] hover:shadow-orange-500/10 hover:border-orange-500/50 transition-all duration-300 hover:-translate-y-1"
               >
                 <div className="flex items-start mb-4">
                   <div className={`w-12 h-12 ${feature.color} rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
@@ -362,7 +362,7 @@ export default function Home() {
               const IconComponent = highlight.icon;
               return (
               <div key={index} className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-orange-500/20">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/20">
                   <IconComponent className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3">
@@ -392,7 +392,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Explore Plan (Free) */}
-            <div className="bg-gray-900 rounded-2xl shadow-lg border-2 border-gray-800 p-8 hover:shadow-xl hover:border-gray-700 transition-all flex flex-col">
+            <div className="bg-gray-900 rounded-2xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border-2 border-gray-800 p-8 hover:shadow-[0_0_15px_rgba(249,115,22,0.1)] hover:border-gray-700 transition-all flex flex-col">
               <div className="text-center mb-6">
                 <div className="inline-flex items-center gap-1 mb-2">
                   <span className="text-2xl">🔍</span>
@@ -438,15 +438,15 @@ export default function Home() {
               </ul>
               <Link
                 href="/roi-calculator"
-                className="block w-full text-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors shadow-md"
+                className="block w-full text-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors shadow-[0_0_10px_rgba(249,115,22,0.08)]"
               >
                 {currentTier === 'free' && session ? '✓ Current Plan' : 'Get Started'}
               </Link>
             </div>
 
             {/* Premium Plan */}
-            <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.15)] border-2 border-orange-500 p-8 relative hover:shadow-orange-500/20 hover:shadow-xl transition-all flex flex-col">
-              <div className="absolute top-0 right-0 bg-gradient-to-r from-orange-600 to-orange-500 text-white px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm font-bold shadow-lg">
+            <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.15)] border-2 border-orange-500 p-8 relative hover:shadow-orange-500/20 hover:shadow-[0_0_15px_rgba(249,115,22,0.1)] transition-all flex flex-col">
+              <div className="absolute top-0 right-0 bg-gradient-to-r from-orange-600 to-orange-500 text-white px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm font-bold shadow-[0_0_12px_rgba(249,115,22,0.08)]">
                 POPULAR
               </div>
               <div className="text-center mb-6">
@@ -495,7 +495,7 @@ export default function Home() {
               </ul>
               <Link
                 href="/pricing"
-                className="block w-full text-center px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold rounded-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-lg shadow-orange-500/30"
+                className="block w-full text-center px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold rounded-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/30"
               >
                 {currentTier === 'premium' ? 'Current Plan' : 'Start Free Trial'}
               </Link>
@@ -527,13 +527,13 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/roi-calculator"
-              className="bg-white text-orange-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors shadow-xl shadow-black/30"
+              className="bg-white text-orange-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors shadow-[0_0_15px_rgba(249,115,22,0.1)] shadow-black/30"
             >
               Calculate ROI Now
             </Link>
             <Link
               href="/colleges"
-              className="bg-transparent text-white px-8 py-4 rounded-lg font-bold text-lg border-2 border-white hover:bg-white hover:text-orange-600 transition-colors shadow-lg"
+              className="bg-transparent text-white px-8 py-4 rounded-lg font-bold text-lg border-2 border-white hover:bg-white hover:text-orange-600 transition-colors shadow-[0_0_12px_rgba(249,115,22,0.08)]"
             >
               Browse Colleges
             </Link>

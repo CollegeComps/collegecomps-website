@@ -231,7 +231,7 @@ export default function HistoricalTrendsPage() {
               onClick={() => setSelectedView('salary')}
               className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
                 selectedView === 'salary'
-                  ? 'bg-blue-600 text-white shadow-md'
+                  ? 'bg-blue-600 text-white shadow-[0_0_10px_rgba(249,115,22,0.08)]'
                   : 'bg-gray-100 text-gray-300 hover:bg-gray-200'
               }`}
             >
@@ -241,7 +241,7 @@ export default function HistoricalTrendsPage() {
               onClick={() => setSelectedView('cost')}
               className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
                 selectedView === 'cost'
-                  ? 'bg-blue-600 text-white shadow-md'
+                  ? 'bg-blue-600 text-white shadow-[0_0_10px_rgba(249,115,22,0.08)]'
                   : 'bg-gray-100 text-gray-300 hover:bg-gray-200'
               }`}
             >
@@ -251,7 +251,7 @@ export default function HistoricalTrendsPage() {
               onClick={() => setSelectedView('roi')}
               className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
                 selectedView === 'roi'
-                  ? 'bg-blue-600 text-white shadow-md'
+                  ? 'bg-blue-600 text-white shadow-[0_0_10px_rgba(249,115,22,0.08)]'
                   : 'bg-gray-100 text-gray-300 hover:bg-gray-200'
               }`}
             >
@@ -340,7 +340,7 @@ export default function HistoricalTrendsPage() {
             {categoryTrends.map((category, index) => (
               <div 
                 key={index}
-                className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                className="border border-gray-200 rounded-lg p-4 hover:shadow-[0_0_10px_rgba(249,115,22,0.08)] transition-shadow"
               >
                 <div className="flex items-start justify-between mb-3">
                   <h3 className="font-semibold text-white font-bold">{category.category}</h3>
@@ -382,7 +382,7 @@ export default function HistoricalTrendsPage() {
             {topPrograms.slice(0, 9).map((program, index) => (
               <div 
                 key={program.cipcode}
-                className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                className="border border-gray-200 rounded-lg p-4 hover:shadow-[0_0_10px_rgba(249,115,22,0.08)] transition-shadow"
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">

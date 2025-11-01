@@ -107,7 +107,7 @@ function ResetPasswordForm() {
         )}
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm space-y-3">
+          <div className="rounded-md shadow-[0_0_8px_rgba(249,115,22,0.06)] space-y-3">
             <div>
               <label htmlFor="password" className="sr-only">
                 New password

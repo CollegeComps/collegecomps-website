@@ -235,7 +235,7 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/roi-calculator"
-              className="bg-black text-orange-500 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-colors shadow-lg"
+              className="bg-black text-orange-500 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-colors shadow-[0_0_12px_rgba(249,115,22,0.08)]"
             >
               Calculate ROI
             </Link>

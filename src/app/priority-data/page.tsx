@@ -206,7 +206,7 @@ export default function PriorityDataPage() {
               onClick={() => setSelectedCategory('all')}
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
                 selectedCategory === 'all'
-                  ? 'bg-yellow-600 text-white shadow-md'
+                  ? 'bg-yellow-600 text-white shadow-[0_0_10px_rgba(249,115,22,0.08)]'
                   : 'bg-gray-100 text-gray-300 hover:bg-gray-200'
               }`}
             >
@@ -216,7 +216,7 @@ export default function PriorityDataPage() {
               onClick={() => setSelectedCategory('salary')}
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
                 selectedCategory === 'salary'
-                  ? 'bg-green-600 text-white shadow-md'
+                  ? 'bg-green-600 text-white shadow-[0_0_10px_rgba(249,115,22,0.08)]'
                   : 'bg-gray-100 text-gray-300 hover:bg-gray-200'
               }`}
             >
@@ -226,7 +226,7 @@ export default function PriorityDataPage() {
               onClick={() => setSelectedCategory('college')}
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
                 selectedCategory === 'college'
-                  ? 'bg-blue-600 text-white shadow-md'
+                  ? 'bg-blue-600 text-white shadow-[0_0_10px_rgba(249,115,22,0.08)]'
                   : 'bg-gray-100 text-gray-300 hover:bg-gray-200'
               }`}
             >
@@ -236,7 +236,7 @@ export default function PriorityDataPage() {
               onClick={() => setSelectedCategory('trend')}
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
                 selectedCategory === 'trend'
-                  ? 'bg-purple-600 text-white shadow-md'
+                  ? 'bg-purple-600 text-white shadow-[0_0_10px_rgba(249,115,22,0.08)]'
                   : 'bg-gray-100 text-gray-300 hover:bg-gray-200'
               }`}
             >
@@ -246,7 +246,7 @@ export default function PriorityDataPage() {
               onClick={() => setSelectedCategory('insight')}
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
                 selectedCategory === 'insight'
-                  ? 'bg-orange-600 text-white shadow-md'
+                  ? 'bg-orange-600 text-white shadow-[0_0_10px_rgba(249,115,22,0.08)]'
                   : 'bg-gray-100 text-gray-300 hover:bg-gray-200'
               }`}
             >

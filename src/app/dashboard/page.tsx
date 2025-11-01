@@ -164,7 +164,7 @@ export default function DashboardPage() {
           {/* Total Balance Widget - Large feature card */}
           {stats && (
             <div className="lg:col-span-1">
-              <div className="bg-gray-900 rounded-2xl p-6 shadow-lg border border-gray-800 h-full">
+              <div className="bg-gray-900 rounded-2xl p-6 shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 h-full">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-sm font-medium text-gray-400">Total Institutions</span>
                   <div className="w-8 h-8 bg-orange-500/10 rounded-lg flex items-center justify-center">
@@ -204,7 +204,7 @@ export default function DashboardPage() {
 
           {/* Revenue Categories / Institution Distribution - with donut chart style */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-900 rounded-2xl p-6 shadow-lg border border-gray-800 h-full">
+            <div className="bg-gray-900 rounded-2xl p-6 shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 h-full">
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h3 className="text-lg font-semibold text-white">Institution Distribution</h3>
@@ -247,7 +247,7 @@ export default function DashboardPage() {
         {/* Second Row - Cost metrics and more data */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Cost Distribution */}
-          <div className="bg-gray-900 rounded-2xl shadow-lg border border-gray-800 p-6">
+          <div className="bg-gray-900 rounded-2xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="text-lg font-semibold text-white">Tuition Cost Distribution</h3>
@@ -280,7 +280,7 @@ export default function DashboardPage() {
         {/* Third Row - Top States and Room & Board */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Top States */}
-          <div className="bg-gray-900 rounded-2xl shadow-lg border border-gray-800 p-6">
+          <div className="bg-gray-900 rounded-2xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="text-lg font-semibold text-white">Top States</h3>
@@ -317,7 +317,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Room & Board Distribution */}
-          <div className="bg-gray-900 rounded-2xl shadow-lg border border-gray-800 p-6">
+          <div className="bg-gray-900 rounded-2xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="text-lg font-semibold text-white">Room & Board Distribution</h3>
@@ -350,7 +350,7 @@ export default function DashboardPage() {
         {/* Fourth Row - Cost Leaders */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Most Expensive */}
-          <div className="bg-gray-900 rounded-2xl shadow-lg border border-gray-800 p-6">
+          <div className="bg-gray-900 rounded-2xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="text-lg font-semibold text-white">Highest Tuition</h3>
@@ -382,7 +382,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Most Affordable */}
-          <div className="bg-gray-900 rounded-2xl shadow-lg border border-gray-800 p-6">
+          <div className="bg-gray-900 rounded-2xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="text-lg font-semibold text-white">Lowest Tuition</h3>
@@ -415,7 +415,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Total Cost Leaders Table - Full width */}
-        <div className="bg-gray-900 rounded-2xl shadow-lg border border-gray-800 p-6 mb-6">
+        <div className="bg-gray-900 rounded-2xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6 mb-6">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h3 className="text-lg font-semibold text-white">Total Cost Leaders</h3>
@@ -466,7 +466,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Most Affordable Public Institutions */}
-        <div className="bg-gray-900 rounded-lg shadow-lg border border-gray-800 p-6 mt-8">
+        <div className="bg-gray-900 rounded-lg shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6 mt-8">
           <h2 className="text-xl font-bold text-white mb-4">Most Affordable Public Institutions</h2>
           <p className="text-sm text-gray-400 mb-4">Public colleges with the lowest annual in-state tuition (under $20K)</p>
           <div className="overflow-x-auto">

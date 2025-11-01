@@ -132,7 +132,7 @@ export default function SubmitSalaryPage() {
   if (status === 'unauthenticated') {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center p-4">
-        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-8 max-w-md text-center">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_12px_rgba(249,115,22,0.08)] p-8 max-w-md text-center">
           <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -237,7 +237,7 @@ export default function SubmitSalaryPage() {
   if (success) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center p-4">
-        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-8 max-w-md text-center">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_12px_rgba(249,115,22,0.08)] p-8 max-w-md text-center">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -273,7 +273,7 @@ export default function SubmitSalaryPage() {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6 md:p-8">
+        <form onSubmit={handleSubmit} className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] p-6 md:p-8">
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
               <p className="text-sm text-red-600">{error}</p>
@@ -301,7 +301,7 @@ export default function SubmitSalaryPage() {
                     placeholder="e.g., Stanford University"
                   />
                   {showInstitutionDropdown && institutionSuggestions.length > 0 && (
-                    <div className="absolute z-10 w-full mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    <div className="absolute z-10 w-full mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-[0_0_12px_rgba(249,115,22,0.08)] max-h-60 overflow-y-auto">
                       {institutionSuggestions.map((institution, index) => (
                         <button
                           key={index}
@@ -365,7 +365,7 @@ export default function SubmitSalaryPage() {
                   placeholder="e.g., Computer Science"
                 />
                 {showMajorDropdown && majorSuggestions.length > 0 && (
-                  <div className="absolute z-10 w-full mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                  <div className="absolute z-10 w-full mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-[0_0_12px_rgba(249,115,22,0.08)] max-h-60 overflow-y-auto">
                     {majorSuggestions.map((major, index) => (
                       <button
                         key={index}

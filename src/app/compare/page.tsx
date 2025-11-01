@@ -109,7 +109,7 @@ export default function ComparePage() {
         </div>
 
         {/* Search Box */}
-        <div className="bg-gray-900 rounded-xl shadow-lg border border-gray-800 p-6 mb-8">
+        <div className="bg-gray-900 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-6 mb-8">
           <label className="block text-sm font-bold text-white mb-2">
             Add College to Comparison
           </label>
@@ -164,7 +164,7 @@ export default function ComparePage() {
 
         {/* Comparison Table */}
         {selectedColleges.length === 0 ? (
-          <div className="bg-gray-900 rounded-xl shadow-lg border border-gray-800 p-12 text-center">
+          <div className="bg-gray-900 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 p-12 text-center">
             
             <h3 className="text-xl font-bold text-white mb-2">No Colleges Selected</h3>
             <p className="text-gray-300 mb-6 font-medium">
@@ -172,7 +172,7 @@ export default function ComparePage() {
             </p>
           </div>
         ) : (
-          <div className="bg-gray-900 rounded-xl shadow-lg border border-gray-800 overflow-hidden">
+          <div className="bg-gray-900 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] border border-gray-800 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -326,7 +326,7 @@ export default function ComparePage() {
                   alert('Failed to save comparison');
                 }
               }}
-              className="px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold rounded-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-lg shadow-orange-500/20"
+              className="px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold rounded-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/20"
             >
               💾 Save This Comparison
             </button>

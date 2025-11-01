@@ -290,7 +290,7 @@ export default function AIRecommendationsPage() {
               {currentRecommendations.map((school) => (
                 <div
                   key={school.id}
-                  className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
+                  className="border border-gray-200 rounded-lg p-6 hover:shadow-[0_0_10px_rgba(249,115,22,0.08)] transition-shadow"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
