@@ -443,7 +443,7 @@ export default function OnboardingPage() {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-white font-bold mb-2">
-                      GPA (if available)
+                      GPA - 4.0 Scale (if available)
                     </label>
                     <input
                       type="number"
@@ -453,7 +453,7 @@ export default function OnboardingPage() {
                       value={formData.gpa}
                       onChange={(e) => setFormData(prev => ({ ...prev, gpa: e.target.value }))}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
-                      placeholder="e.g., 3.75"
+                      placeholder="e.g., 3.75 (A = 4.0)"
                     />
                   </div>
 
