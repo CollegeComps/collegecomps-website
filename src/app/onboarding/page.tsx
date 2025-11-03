@@ -9,7 +9,8 @@ import {
   CalendarIcon,
   CheckCircleIcon,
   ChevronRightIcon,
-  ChevronLeftIcon
+  ChevronLeftIcon,
+  QuestionMarkCircleIcon
 } from '@heroicons/react/24/outline';
 import AIAutocomplete from '@/components/AIAutocomplete';
 
@@ -442,8 +443,23 @@ export default function OnboardingPage() {
                 <h3 className="text-lg font-semibold text-white font-bold mb-3">Academic Information</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold text-white font-bold mb-2">
+                    <label className="block text-sm font-semibold text-white font-bold mb-2 flex items-center gap-2">
                       GPA - 4.0 Scale (if available)
+                      <div className="group relative">
+                        <QuestionMarkCircleIcon className="h-5 w-5 text-orange-500 cursor-help" />
+                        <div className="invisible group-hover:visible absolute z-50 left-0 top-6 w-64 p-4 bg-gray-900 border border-orange-500/30 rounded-lg shadow-xl">
+                          <p className="text-xs font-semibold text-orange-500 mb-2">4.0 Scale Conversion:</p>
+                          <div className="text-xs text-gray-300 space-y-1">
+                            <div className="flex justify-between"><span>A / A+</span><span className="text-white">= 4.0</span></div>
+                            <div className="flex justify-between"><span>A-</span><span className="text-white">= 3.7</span></div>
+                            <div className="flex justify-between"><span>B+</span><span className="text-white">= 3.3</span></div>
+                            <div className="flex justify-between"><span>B</span><span className="text-white">= 3.0</span></div>
+                            <div className="flex justify-between"><span>B-</span><span className="text-white">= 2.7</span></div>
+                            <div className="flex justify-between"><span>C+</span><span className="text-white">= 2.3</span></div>
+                            <div className="flex justify-between"><span>C</span><span className="text-white">= 2.0</span></div>
+                          </div>
+                        </div>
+                      </div>
                     </label>
                     <input
                       type="number"
