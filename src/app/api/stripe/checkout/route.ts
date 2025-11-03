@@ -26,11 +26,24 @@ export async function POST(req: NextRequest) {
     const priceId = STRIPE_PRODUCTS.premium[billingCycle as 'monthly' | 'annual'];
     
     if (!priceId) {
+      console.error('Stripe Price ID missing:', {
+        billingCycle,
+        monthlyPriceId: STRIPE_PRODUCTS.premium.monthly,
+        annualPriceId: STRIPE_PRODUCTS.premium.annual,
+        requestedPriceId: priceId
+      });
       return NextResponse.json(
-        { error: 'Price ID not configured for this subscription' },
+        { error: `Price ID not configured for ${billingCycle} subscription. Please contact support.` },
         { status: 500 }
       );
     }
+    
+    console.log('Creating Stripe checkout session:', {
+      tier,
+      billingCycle,
+      priceId: priceId.substring(0, 12) + '...', // Log partial ID for security
+      userEmail: session.user.email
+    });
 
     // Create Stripe checkout session
     const checkoutSession = await stripe.checkout.sessions.create({
