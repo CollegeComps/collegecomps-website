@@ -22,10 +22,12 @@ export default function PricingPage() {
     if (tier === 'premium') {
       try {
         setLoading(true);
+        console.log('Starting checkout for:', tier, billingCycle);
         await createCheckoutSession('premium', billingCycle);
       } catch (error) {
         console.error('Checkout error:', error);
-        alert('Failed to start checkout. Please try again.');
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+        alert(`Failed to start checkout: ${errorMessage}\n\nPlease try again or contact support if the issue persists.`);
       } finally {
         setLoading(false);
       }
