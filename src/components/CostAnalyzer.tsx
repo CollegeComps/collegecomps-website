@@ -88,16 +88,8 @@ export default function CostAnalyzer({
           
           {/* Cost of Attendance Categories Explanation */}
           <div className="border-t border-gray-700 pt-4">
-            <p className="font-medium text-orange-400 mb-2 flex items-center gap-2">
+            <p className="font-medium text-orange-400 mb-2">
               Cost of Attendance Categories
-              <a 
-                href="https://www.collegeraptor.com/find-colleges/articles/affordability-college-cost/what-is-included-in-cost-of-attendance/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-blue-400 hover:text-blue-300 text-xs"
-              >
-                (Learn More ↗)
-              </a>
             </p>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mt-2">
               <div className="bg-gray-800/30 p-3 rounded">
