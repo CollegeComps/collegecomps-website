@@ -50,14 +50,49 @@ export default function CostAnalyzer({
 
   return (
     <div className="space-y-6">
+      {/* Methodology & Assumptions Panel */}
+      <div className="bg-gradient-to-br from-orange-500/10 to-gray-900 border border-orange-500/30 rounded-lg p-6">
+        <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          ROI Calculation Methodology
+        </h3>
+        <div className="grid md:grid-cols-2 gap-4 text-sm">
+          <div>
+            <p className="font-medium text-orange-400 mb-2">Standard Assumptions:</p>
+            <ul className="space-y-1 text-gray-300">
+              <li>• Career length: {earnings.careerLength} years (customizable)</li>
+              <li>• Salary growth: {earnings.salaryGrowthRate}% annually</li>
+              <li>• Discount rate: 3% (present value)</li>
+              <li>• Student loan interest: 6.5% federal avg</li>
+            </ul>
+          </div>
+          <div>
+            <p className="font-medium text-orange-400 mb-2">Data Sources:</p>
+            <ul className="space-y-1 text-gray-300">
+              <li>• Tuition/Fees: IPEDS (official)*</li>
+              <li>• Room & Board: IPEDS (official)*</li>
+              <li>• Books: College Board avg estimate†</li>
+              <li>• Other Expenses: User estimate†</li>
+              <li>• Earnings: College Scorecard*</li>
+            </ul>
+          </div>
+        </div>
+        <p className="text-xs text-gray-400 mt-3">
+          *Official database • †Estimated values (can be customized)
+        </p>
+      </div>
+
       {/* Cost Configuration */}
       <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
         <h2 className="text-xl font-semibold text-white mb-4">Education Costs</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
               Tuition (Annual)
+              <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/30">IPEDS</span>
             </label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
@@ -96,8 +131,9 @@ export default function CostAnalyzer({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
               Fees (Annual)
+              <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/30">IPEDS</span>
             </label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
@@ -112,8 +148,9 @@ export default function CostAnalyzer({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
               Room & Board (Annual)
+              <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/30">IPEDS</span>
             </label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
@@ -128,8 +165,9 @@ export default function CostAnalyzer({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
               Books & Supplies (Annual)
+              <span className="text-xs bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded border border-orange-500/30">Estimated</span>
             </label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
@@ -144,8 +182,9 @@ export default function CostAnalyzer({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
               Other Expenses (Annual)
+              <span className="text-xs bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded border border-orange-500/30">Estimated</span>
             </label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
@@ -270,6 +309,38 @@ export default function CostAnalyzer({
                 placeholder="0"
               />
             </div>
+          </div>
+        </div>
+
+        {/* Loan Assumptions */}
+        <div className="mt-6 p-4 bg-gray-800 rounded-lg border border-gray-700">
+          <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
+            <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Student Loan Assumptions
+          </h3>
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between text-gray-300">
+              <span>Assumed Borrowing Amount:</span>
+              <span className="font-semibold text-white">{formatCurrency(Math.max(0, netCost))}</span>
+            </div>
+            <div className="flex justify-between text-gray-300">
+              <span>Federal Student Loan Interest Rate:</span>
+              <span className="font-semibold text-white">6.53%</span>
+            </div>
+            <div className="flex justify-between text-gray-300">
+              <span>Estimated Monthly Payment (10-year):</span>
+              <span className="font-semibold text-white">
+                {formatCurrency((Math.max(0, netCost) * 0.01132))}
+              </span>
+            </div>
+            <p className="text-xs text-gray-400 mt-3 flex items-start gap-1">
+              <svg className="w-3 h-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+              <span>Based on 2024-25 federal Direct Unsubsidized Loan rates for undergraduates. Actual rates and payment amounts may vary based on loan type, creditworthiness, and repayment plan selected.</span>
+            </p>
           </div>
         </div>
       </div>
