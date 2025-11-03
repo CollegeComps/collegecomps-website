@@ -13,6 +13,7 @@ import {
   QuestionMarkCircleIcon
 } from '@heroicons/react/24/outline';
 import AIAutocomplete from '@/components/AIAutocomplete';
+import './animations.css';
 
 export default function OnboardingPage() {
   const { data: session, status } = useSession();
