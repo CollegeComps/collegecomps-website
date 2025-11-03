@@ -58,24 +58,42 @@ export default function CostAnalyzer({
           </svg>
           ROI Calculation Methodology
         </h3>
-        <div className="grid md:grid-cols-2 gap-4 text-sm">
+        <div className="space-y-4 text-sm">
           <div>
-            <p className="font-medium text-orange-400 mb-2">Standard Assumptions:</p>
-            <ul className="space-y-1 text-gray-300">
-              <li>• Career length: {earnings.careerLength} years (customizable)</li>
-              <li>• Salary growth: {earnings.salaryGrowthRate}% annually</li>
-              <li>• Discount rate: 3% (present value)</li>
-              <li>• Student loan interest: 6.5% federal avg</li>
-            </ul>
+            <p className="font-medium text-orange-400 mb-2">ROI Formula:</p>
+            <div className="bg-gray-800/50 p-3 rounded border border-gray-700 font-mono text-xs text-gray-300">
+              ROI = (Total Degree-Based Earnings - Total Cost of Degree) / Total Cost of Degree × 100%
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <p className="font-medium text-orange-400 mb-2">Total Degree-Based Earnings:</p>
+              <ul className="space-y-1 text-gray-300">
+                <li>• 40-year career projection</li>
+                <li>• Earnings begin after graduation (Year 5)</li>
+                <li>• Compared to baseline (no-degree earnings)</li>
+                <li>• Salary growth: {earnings.salaryGrowthRate}% annually</li>
+              </ul>
+            </div>
+            <div>
+              <p className="font-medium text-orange-400 mb-2">Total Cost of Degree:</p>
+              <ul className="space-y-1 text-gray-300">
+                <li>• Tuition + Fees + Room & Board</li>
+                <li>• Books & Supplies + Other Expenses</li>
+                <li>• Minus: Grants & Scholarships</li>
+                <li>• (Loans not subtracted - must be repaid)</li>
+              </ul>
+            </div>
           </div>
           <div>
             <p className="font-medium text-orange-400 mb-2">Data Sources:</p>
-            <ul className="space-y-1 text-gray-300">
+            <ul className="space-y-1 text-gray-300 grid grid-cols-2 gap-x-4">
               <li>• Tuition/Fees: IPEDS (official)*</li>
               <li>• Room & Board: IPEDS (official)*</li>
               <li>• Books: College Board avg estimate†</li>
               <li>• Other Expenses: User estimate†</li>
               <li>• Earnings: College Scorecard*</li>
+              <li>• Baseline: BLS/User input†</li>
             </ul>
           </div>
         </div>
