@@ -433,8 +433,8 @@ export default function OnboardingPage() {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500/20 border border-orange-500 rounded-full mb-4">
                   <AcademicCapIcon className="h-8 w-8 text-orange-500" />
                 </div>
-                <h2 className="text-3xl font-bold tracking-tight text-white font-bold mb-2">Tell us about your profile</h2>
-                <p className="text-gray-300">Help us provide better recommendations and accurate net price estimates (all optional)</p>
+                <h2 className="text-3xl font-bold tracking-tight text-white font-bold mb-2">Complete Your Profile</h2>
+                <p className="text-gray-300">Personalize your college search and get accurate net price estimates (all optional)</p>
               </div>
 
               {/* Academic Info Section */}
