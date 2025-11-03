@@ -85,10 +85,50 @@ export default function CostAnalyzer({
               </ul>
             </div>
           </div>
+          
+          {/* Cost of Attendance Categories Explanation */}
+          <div className="border-t border-gray-700 pt-4">
+            <p className="font-medium text-orange-400 mb-2 flex items-center gap-2">
+              Cost of Attendance Categories
+              <a 
+                href="https://www.collegeraptor.com/find-colleges/articles/affordability-college-cost/what-is-included-in-cost-of-attendance/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 text-xs"
+              >
+                (Learn More ↗)
+              </a>
+            </p>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mt-2">
+              <div className="bg-gray-800/30 p-3 rounded">
+                <p className="text-white font-semibold text-xs mb-1">1. Tuition & Fees</p>
+                <p className="text-gray-400 text-xs">Cost of instruction and mandatory campus fees</p>
+              </div>
+              <div className="bg-gray-800/30 p-3 rounded">
+                <p className="text-white font-semibold text-xs mb-1">2. Room & Board</p>
+                <p className="text-gray-400 text-xs">Housing and meal plan costs (on/off campus)</p>
+              </div>
+              <div className="bg-gray-800/30 p-3 rounded">
+                <p className="text-white font-semibold text-xs mb-1">3. Books & Supplies</p>
+                <p className="text-gray-400 text-xs">Textbooks, course materials, equipment</p>
+              </div>
+              <div className="bg-gray-800/30 p-3 rounded">
+                <p className="text-white font-semibold text-xs mb-1">4. Transportation</p>
+                <p className="text-gray-400 text-xs">Travel to/from school, parking, gas</p>
+              </div>
+              <div className="bg-gray-800/30 p-3 rounded">
+                <p className="text-white font-semibold text-xs mb-1">5. Personal Expenses</p>
+                <p className="text-gray-400 text-xs">Entertainment, phone, clothes, miscellaneous</p>
+              </div>
+            </div>
+            <p className="text-xs text-gray-400 mt-2">
+              Note: Transportation and Personal Expenses are included in "Other Expenses" field below
+            </p>
+          </div>
+
           <div>
             <p className="font-medium text-orange-400 mb-2">Data Sources:</p>
-            <ul className="space-y-1 text-gray-300 grid grid-cols-2 gap-x-4">
-              <li>• Tuition/Fees: IPEDS (official)*</li>
+            <ul className="space-y-1 text-gray-300 grid grid-cols-2 gap-x-4">\n              <li>• Tuition/Fees: IPEDS (official)*</li>
               <li>• Room & Board: IPEDS (official)*</li>
               <li>• Books: College Board avg estimate†</li>
               <li>• Other Expenses: User estimate†</li>
