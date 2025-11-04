@@ -28,7 +28,9 @@ export async function GET(req: NextRequest) {
     // Parse JSON fields
     const parsedComparisons = comparisons.map((comp: any) => ({
       ...comp,
-      colleges: JSON.parse(comp.colleges || '[]'),
+      institutions: JSON.parse(comp.institutions || '[]'),
+      // Provide backwards compatibility alias
+      colleges: JSON.parse(comp.institutions || '[]'),
       program_data: comp.program_data ? JSON.parse(comp.program_data) : null,
       tags: JSON.parse(comp.tags || '[]'),
       folder_id: comp.folder_id || null
@@ -60,7 +62,10 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { name, colleges, program_data, notes } = await req.json()
+    const { name, colleges, institutions, program_data, notes } = await req.json()
+    
+    // Use institutions if provided, fallback to colleges for backwards compatibility
+    const institutionsList = institutions || colleges;
 
     // Check limit for free users
     if (session.user.subscriptionTier === 'free') {
@@ -76,12 +81,12 @@ export async function POST(req: NextRequest) {
     }
 
     const result = await userDb.prepare(`
-      INSERT INTO saved_comparisons (user_id, name, colleges, program_data, notes)
+      INSERT INTO saved_comparisons (user_id, name, institutions, program_data, notes)
       VALUES (?, ?, ?, ?, ?)
     `).run(
       parseInt(session.user.id),
       name,
-      JSON.stringify(colleges),
+      JSON.stringify(institutionsList),
       program_data ? JSON.stringify(program_data) : null,
       notes || null
     )
