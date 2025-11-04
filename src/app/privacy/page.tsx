@@ -110,8 +110,8 @@ export default function PrivacyPolicyPage() {
               <li>Regular security audits and updates</li>
               <li>Access controls and authentication</li>
             </ul>
-            <p className="text-gray-300 leading-relaxed mt-3 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded">
-              <strong>Note:</strong> No method of transmission over the Internet is 100% secure. While we strive to protect your data, we cannot guarantee absolute security.
+            <p className="leading-relaxed mt-3 p-4 bg-yellow-900/20 border-l-4 border-yellow-500 rounded text-yellow-100">
+              <strong className="text-yellow-200">Note:</strong> No method of transmission over the Internet is 100% secure. While we strive to protect your data, we cannot guarantee absolute security.
             </p>
           </section>
 
