@@ -4,7 +4,7 @@ import GoogleProvider from "next-auth/providers/google"
 import GitHubProvider from "next-auth/providers/github"
 import LinkedInProvider from "next-auth/providers/linkedin"
 import FacebookProvider from "next-auth/providers/facebook"
-import TwitterProvider from "next-auth/providers/twitter"
+// TwitterProvider removed - OAuth 2.0 beta warnings
 import bcrypt from 'bcryptjs'
 import { getUsersDb } from '@/lib/db-helper'
 
@@ -119,14 +119,8 @@ export const authOptions: NextAuthOptions = {
           clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
         })]
       : []),
-    // Twitter OAuth (if configured)
-    ...(process.env.TWITTER_CLIENT_ID && process.env.TWITTER_CLIENT_SECRET
-      ? [TwitterProvider({
-          clientId: process.env.TWITTER_CLIENT_ID,
-          clientSecret: process.env.TWITTER_CLIENT_SECRET,
-          version: "2.0", // Twitter OAuth 2.0
-        })]
-      : []),
+    // Twitter OAuth removed - was causing beta warnings
+    // Can be re-enabled when stable or when migrating to Auth.js v5
   ],
   
   callbacks: {
