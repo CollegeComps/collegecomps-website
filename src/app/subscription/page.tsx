@@ -33,7 +33,7 @@ interface UsageStats {
 }
 
 export default function SubscriptionPage() {
-  const { data: session, update } = useSession();
+  const { data: session, status, update } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
@@ -49,7 +49,13 @@ export default function SubscriptionPage() {
   const isPremium = session?.user?.subscriptionTier === 'premium';
 
   useEffect(() => {
-    if (!session) {
+    // Don't redirect while session is still loading
+    if (status === 'loading') {
+      return;
+    }
+
+    // Only redirect if definitely unauthenticated
+    if (status === 'unauthenticated' || !session) {
       router.push('/login?callbackUrl=/subscription');
       return;
     }
@@ -78,7 +84,7 @@ export default function SubscriptionPage() {
     }
 
     fetchUsageStats();
-  }, [session, searchParams]);
+  }, [session, status, searchParams, router, update]);
 
   const fetchUsageStats = async () => {
     try {
@@ -183,7 +189,8 @@ export default function SubscriptionPage() {
     }
   };
 
-  if (loading) {
+  // Show loading while session is loading OR while fetching usage stats
+  if (status === 'loading' || loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
