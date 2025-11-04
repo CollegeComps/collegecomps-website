@@ -34,8 +34,8 @@ export default function TermsOfServicePage() {
               <li>College explorer with comprehensive institution data</li>
               <li>Historical trends and predictions (Premium feature)</li>
             </ul>
-            <p className="text-gray-300 leading-relaxed mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded">
-              <strong>Important:</strong> CollegeComps is an educational tool. All calculations, data, and insights are provided for informational purposes only and should not be considered financial, legal, or educational advice.
+            <p className="leading-relaxed mt-4 p-4 bg-yellow-900/20 border-l-4 border-yellow-500 rounded text-yellow-100">
+              <strong className="text-yellow-200">Important:</strong> CollegeComps is an educational tool. All calculations, data, and insights are provided for informational purposes only and should not be considered financial, legal, or educational advice.
             </p>
           </section>
 
