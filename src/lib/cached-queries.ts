@@ -13,7 +13,7 @@ export const getAllInstitutions = cache(async () => {
   if (!db) {
     throw new Error('College database unavailable');
   }
-  const result = await db.execute(`
+  const result = await db.prepare(`
     SELECT 
       unitid,
       name,
@@ -27,8 +27,8 @@ export const getAllInstitutions = cache(async () => {
     FROM institutions 
     WHERE name IS NOT NULL
     ORDER BY name
-  `);
-  return result.rows;
+  `).all();
+  return result;
 });
 
 // Cache single institution (rarely changes)
@@ -37,15 +37,12 @@ export const getInstitutionByUnitid = cache(async (unitid: number) => {
   if (!db) {
     throw new Error('College database unavailable');
   }
-  const result = await db.execute({
-    sql: `
-      SELECT * FROM institutions 
-      WHERE unitid = ?
-      LIMIT 1
-    `,
-    args: [unitid]
-  });
-  return result.rows[0] || null;
+  const result = await db.prepare(`
+    SELECT * FROM institutions 
+    WHERE unitid = ?
+    LIMIT 1
+  `).get(unitid);
+  return result || null;
 });
 
 // Cache financial data for institution (updates yearly)
@@ -54,16 +51,13 @@ export const getFinancialData = cache(async (unitid: number) => {
   if (!db) {
     throw new Error('College database unavailable');
   }
-  const result = await db.execute({
-    sql: `
-      SELECT * FROM financial_data 
-      WHERE unitid = ? 
-      ORDER BY year DESC 
-      LIMIT 5
-    `,
-    args: [unitid]
-  });
-  return result.rows;
+  const result = await db.prepare(`
+    SELECT * FROM financial_data 
+    WHERE unitid = ? 
+    ORDER BY year DESC 
+    LIMIT 5
+  `).all(unitid);
+  return result;
 });
 
 // Cache top institutions by ROI (updates when ROI recalculated)
@@ -72,7 +66,7 @@ export const getTopInstitutionsByROI = cache(async (limit: number = 100) => {
   if (!db) {
     throw new Error('College database unavailable');
   }
-  const result = await db.execute(`
+  const result = await db.prepare(`
     SELECT 
       unitid,
       name,
@@ -84,8 +78,8 @@ export const getTopInstitutionsByROI = cache(async (limit: number = 100) => {
     WHERE institution_avg_roi IS NOT NULL
     ORDER BY institution_avg_roi DESC
     LIMIT ${limit}
-  `);
-  return result.rows;
+  `).all();
+  return result;
 });
 
 // Cache earnings outcomes (rarely changes)
@@ -94,15 +88,12 @@ export const getEarningsOutcomes = cache(async (unitid: number) => {
   if (!db) {
     throw new Error('College database unavailable');
   }
-  const result = await db.execute({
-    sql: `
-      SELECT * FROM earnings_outcomes 
-      WHERE unitid = ?
-      ORDER BY years_after_graduation
-    `,
-    args: [unitid]
-  });
-  return result.rows;
+  const result = await db.prepare(`
+    SELECT * FROM earnings_outcomes 
+    WHERE unitid = ?
+    ORDER BY years_after_graduation
+  `).all(unitid);
+  return result;
 });
 
 // Cache state statistics (rarely changes)
@@ -111,19 +102,16 @@ export const getStateStatistics = cache(async (state: string) => {
   if (!db) {
     throw new Error('College database unavailable');
   }
-  const result = await db.execute({
-    sql: `
-      SELECT 
-        COUNT(*) as total_institutions,
-        AVG(institution_avg_roi) as avg_roi,
-        AVG(median_earnings_10yr) as avg_earnings,
-        AVG(acceptance_rate) as avg_acceptance_rate
-      FROM institutions 
-      WHERE state = ? AND institution_avg_roi IS NOT NULL
-    `,
-    args: [state]
-  });
-  return result.rows[0];
+  const result = await db.prepare(`
+    SELECT 
+      COUNT(*) as total_institutions,
+      AVG(institution_avg_roi) as avg_roi,
+      AVG(median_earnings_10yr) as avg_earnings,
+      AVG(acceptance_rate) as avg_acceptance_rate
+    FROM institutions 
+    WHERE state = ? AND institution_avg_roi IS NOT NULL
+  `).get(state);
+  return result;
 });
 
 // Paginated institutions (for large lists)
@@ -163,21 +151,19 @@ export const getInstitutionsPaginated = cache(async (
   sql += ` ORDER BY ${sortBy} LIMIT ? OFFSET ?`;
   args.push(limit, offset);
   
-  const result = await db.execute({ sql, args });
+  const result = await db.prepare(sql).all(...args);
   
   // Get total count for pagination
   const countSql = state 
     ? `SELECT COUNT(*) as total FROM institutions WHERE name IS NOT NULL AND state = ?`
     : `SELECT COUNT(*) as total FROM institutions WHERE name IS NOT NULL`;
   
-  const countResult = await db.execute({
-    sql: countSql,
-    args: state ? [state] : []
-  });
+  const countArgs = state ? [state] : [];
+  const countResult = await db.prepare(countSql).get(...countArgs);
   
   return {
-    data: result.rows,
-    total: (countResult.rows[0] as any).total,
-    hasMore: offset + limit < (countResult.rows[0] as any).total
+    data: result,
+    total: (countResult as any).total,
+    hasMore: offset + limit < (countResult as any).total
   };
 });
