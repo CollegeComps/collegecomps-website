@@ -336,7 +336,7 @@ export default function CollegeDetailPage() {
                       {institution.acceptance_rate && (
                         <div>
                           <dt className="text-sm font-medium text-gray-400 mb-1">Acceptance Rate</dt>
-                          <dd className="text-2xl font-bold text-purple-700">
+                          <dd className="text-2xl font-bold text-purple-400">
                             {(institution.acceptance_rate * 100).toFixed(1)}%
                           </dd>
                         </div>
@@ -344,7 +344,7 @@ export default function CollegeDetailPage() {
                       {institution.average_sat && (
                         <div>
                           <dt className="text-sm font-medium text-gray-400 mb-1">Average SAT</dt>
-                          <dd className="text-2xl font-bold text-indigo-700">
+                          <dd className="text-2xl font-bold text-indigo-400">
                             {institution.average_sat}
                           </dd>
                         </div>
@@ -352,7 +352,7 @@ export default function CollegeDetailPage() {
                       {institution.average_act && (
                         <div>
                           <dt className="text-sm font-medium text-gray-400 mb-1">Average ACT</dt>
-                          <dd className="text-2xl font-bold text-indigo-700">
+                          <dd className="text-2xl font-bold text-indigo-400">
                             {institution.average_act}
                           </dd>
                         </div>
@@ -423,17 +423,17 @@ export default function CollegeDetailPage() {
                 </h2>
                 <div className="space-y-3">
                   {programs.slice(0, 20).map((program, index) => (
-                    <div key={`${program.cipcode}-${index}`} className="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
+                    <div key={`${program.cipcode}-${index}`} className="flex justify-between items-center py-3 border-b border-gray-800 last:border-b-0">
                       <div>
                         <h3 className="font-medium text-white font-bold">{program.cip_title || 'Unknown Program'}</h3>
                         <div className="flex items-center gap-4 mt-1">
                           {program.cipcode && (
-                            <span className="px-2 py-1 text-xs rounded bg-gray-200 text-white font-bold">
+                            <span className="px-2 py-1 text-xs rounded bg-gray-700 text-gray-300">
                               CIP: {program.cipcode}
                             </span>
                           )}
                           {program.credential_name && (
-                            <span className="px-2 py-1 text-xs rounded bg-blue-200 text-white font-bold">
+                            <span className="px-2 py-1 text-xs rounded bg-orange-500/20 text-orange-400">
                               {program.credential_name}
                             </span>
                           )}
@@ -488,10 +488,10 @@ export default function CollegeDetailPage() {
                 </div>
 
                 {institution.net_price && (
-                  <div className="bg-green-50 rounded-lg border border-green-200 p-6">
-                    <h3 className="text-lg font-semibold text-green-900 mb-2">Average Net Price</h3>
-                    <p className="text-3xl font-bold tracking-tight text-green-700">{formatCurrency(institution.net_price)}</p>
-                    <p className="text-sm text-green-600 mt-2">
+                  <div className="bg-green-900/20 rounded-lg border border-green-800 p-6">
+                    <h3 className="text-lg font-semibold text-green-400 mb-2">Average Net Price</h3>
+                    <p className="text-3xl font-bold tracking-tight text-green-300">{formatCurrency(institution.net_price)}</p>
+                    <p className="text-sm text-green-400/80 mt-2">
                       This is the average amount students pay after financial aid
                     </p>
                   </div>
@@ -542,7 +542,7 @@ export default function CollegeDetailPage() {
                     href={institution.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full bg-gray-100 text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-200 text-center transition-colors"
+                    className="block w-full bg-gray-800 text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-700 text-center transition-colors border border-gray-700"
                   >
                     Visit Website
                   </a>

@@ -183,9 +183,9 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
       </div>
 
       {selectedProgram && (
-        <div className="mt-4 p-4 bg-green-50 rounded-lg">
-          <h3 className="font-semibold text-green-900 mb-2">Selected Program</h3>
-          <div className="text-sm text-green-800 space-y-1">
+        <div className="mt-4 p-4 bg-green-900/20 rounded-lg border border-green-800">
+          <h3 className="font-semibold text-green-400 mb-2">Selected Program</h3>
+          <div className="text-sm text-green-300 space-y-1">
             <div><strong>Program:</strong> {selectedProgram.cip_title || 'Unknown Program'}</div>
             {selectedProgram.cipcode && (
               <div><strong>CIP Code:</strong> {selectedProgram.cipcode}</div>
