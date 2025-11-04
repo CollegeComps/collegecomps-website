@@ -33,7 +33,7 @@ interface UsageStats {
 }
 
 export default function SubscriptionPage() {
-  const { data: session, update } = useSession();
+  const { data: session, status, update } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
@@ -49,7 +49,13 @@ export default function SubscriptionPage() {
   const isPremium = session?.user?.subscriptionTier === 'premium';
 
   useEffect(() => {
-    if (!session) {
+    // Don't redirect while session is still loading
+    if (status === 'loading') {
+      return;
+    }
+
+    // Only redirect if definitely unauthenticated
+    if (status === 'unauthenticated' || !session) {
       router.push('/login?callbackUrl=/subscription');
       return;
     }
@@ -60,13 +66,30 @@ export default function SubscriptionPage() {
     
     if (success === 'true') {
       setShowSuccessMessage(true);
-      // Refresh session to get updated subscription tier
-      update();
-      // Clear URL parameter after 5 seconds
+      
+      // Refresh session multiple times to ensure webhook has processed
+      // Webhook may take a few seconds to process and update the database
+      const refreshSession = async () => {
+        console.log('Refreshing session to get updated subscription tier...');
+        await update();
+        
+        // Retry after 2 seconds if still not premium
+        setTimeout(async () => {
+          const currentSession = await update();
+          if (currentSession?.user?.subscriptionTier !== 'premium') {
+            console.log('Still not premium, retrying in 2 seconds...');
+            setTimeout(() => update(), 2000);
+          }
+        }, 2000);
+      };
+      
+      refreshSession();
+      
+      // Clear URL parameter after 8 seconds (give time for retries)
       setTimeout(() => {
         setShowSuccessMessage(false);
         router.replace('/subscription');
-      }, 5000);
+      }, 8000);
     }
     
     if (canceled === 'true') {
@@ -78,7 +101,7 @@ export default function SubscriptionPage() {
     }
 
     fetchUsageStats();
-  }, [session, searchParams]);
+  }, [session, status, searchParams, router, update]);
 
   const fetchUsageStats = async () => {
     try {
@@ -183,7 +206,8 @@ export default function SubscriptionPage() {
     }
   };
 
-  if (loading) {
+  // Show loading while session is loading OR while fetching usage stats
+  if (status === 'loading' || loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
