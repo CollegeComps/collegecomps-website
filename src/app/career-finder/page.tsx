@@ -55,6 +55,8 @@ export default function CareerFinderPage() {
   const [careers, setCareers] = useState<CareerMatch[]>([]);
   const [email, setEmail] = useState('');
   const [showAllCareers, setShowAllCareers] = useState(false);
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
 
   // Helper to get user-specific storage key
   const getStorageKey = () => {
@@ -141,6 +143,64 @@ export default function CareerFinderPage() {
       careerNames: matchedCareers.map(c => c.name), // Store only names, not full objects
       answers: finalAnswers
     }));
+  };
+
+  const handleSendEmail = async () => {
+    if (!email) {
+      alert('Please enter your email address');
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert('Please enter a valid email address');
+      return;
+    }
+
+    setIsSendingEmail(true);
+
+    try {
+      // Format careers for email
+      const formattedCareers = careers.map(career => ({
+        title: career.name,
+        description: career.description || '',
+        salary: career.salary || '',
+      }));
+
+      // Get personality info
+      const personalityInfo = PERSONALITY_DESCRIPTIONS[personalityType] || PERSONALITY_DESCRIPTIONS['ISTJ'];
+
+      const response = await fetch('/api/career-finder/send-results', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          personalityType: `${personalityType} - ${personalityInfo.title}`,
+          careers: formattedCareers,
+          colleges: [], // No colleges data available on this page
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setEmailSent(true);
+        setTimeout(() => {
+          setEmailSent(false);
+          setEmail('');
+        }, 5000);
+      } else {
+        alert(`Failed to send email: ${data.error || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      alert('An error occurred while sending the email. Please try again.');
+    } finally {
+      setIsSendingEmail(false);
+    }
   };
 
   if (step === 'intro') {
@@ -316,21 +376,29 @@ export default function CareerFinderPage() {
         {/* Email Capture */}
         <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-6 mb-8 max-w-2xl mx-auto">
           <h3 className="font-bold text-white mb-3">Get Your Full Results via Email</h3>
-          <div className="flex gap-3">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              className="flex-1 px-4 py-2 bg-black border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white placeholder-gray-500"
-            />
-            <button 
-              onClick={() => alert('Results sent!')}
-              className="bg-gradient-to-r from-orange-600 to-orange-500 text-white px-6 py-2 rounded-lg hover:from-orange-700 hover:to-orange-600 transition-all font-bold shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/20"
-            >
-              Send Results
-            </button>
-          </div>
+          {emailSent ? (
+            <div className="bg-green-900/20 border border-green-800 rounded-lg p-4">
+              <p className="text-green-400 font-semibold">✅ Results sent successfully! Check your inbox.</p>
+            </div>
+          ) : (
+            <div className="flex gap-3">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="flex-1 px-4 py-2 bg-black border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white placeholder-gray-500"
+                disabled={isSendingEmail}
+              />
+              <button 
+                onClick={handleSendEmail}
+                disabled={isSendingEmail}
+                className="bg-gradient-to-r from-orange-600 to-orange-500 text-white px-6 py-2 rounded-lg hover:from-orange-700 hover:to-orange-600 transition-all font-bold shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSendingEmail ? 'Sending...' : 'Send Results'}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Career Matches */}
