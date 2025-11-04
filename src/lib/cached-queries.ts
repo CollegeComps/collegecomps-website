@@ -10,6 +10,9 @@ import { getCollegeDb } from '@/lib/db-helper';
 // Cache institution list (rarely changes)
 export const getAllInstitutions = cache(async () => {
   const db = getCollegeDb();
+  if (!db) {
+    throw new Error('College database unavailable');
+  }
   const result = await db.execute(`
     SELECT 
       unitid,
@@ -31,6 +34,9 @@ export const getAllInstitutions = cache(async () => {
 // Cache single institution (rarely changes)
 export const getInstitutionByUnitid = cache(async (unitid: number) => {
   const db = getCollegeDb();
+  if (!db) {
+    throw new Error('College database unavailable');
+  }
   const result = await db.execute({
     sql: `
       SELECT * FROM institutions 
@@ -45,6 +51,9 @@ export const getInstitutionByUnitid = cache(async (unitid: number) => {
 // Cache financial data for institution (updates yearly)
 export const getFinancialData = cache(async (unitid: number) => {
   const db = getCollegeDb();
+  if (!db) {
+    throw new Error('College database unavailable');
+  }
   const result = await db.execute({
     sql: `
       SELECT * FROM financial_data 
@@ -60,6 +69,9 @@ export const getFinancialData = cache(async (unitid: number) => {
 // Cache top institutions by ROI (updates when ROI recalculated)
 export const getTopInstitutionsByROI = cache(async (limit: number = 100) => {
   const db = getCollegeDb();
+  if (!db) {
+    throw new Error('College database unavailable');
+  }
   const result = await db.execute(`
     SELECT 
       unitid,
@@ -79,6 +91,9 @@ export const getTopInstitutionsByROI = cache(async (limit: number = 100) => {
 // Cache earnings outcomes (rarely changes)
 export const getEarningsOutcomes = cache(async (unitid: number) => {
   const db = getCollegeDb();
+  if (!db) {
+    throw new Error('College database unavailable');
+  }
   const result = await db.execute({
     sql: `
       SELECT * FROM earnings_outcomes 
@@ -93,6 +108,9 @@ export const getEarningsOutcomes = cache(async (unitid: number) => {
 // Cache state statistics (rarely changes)
 export const getStateStatistics = cache(async (state: string) => {
   const db = getCollegeDb();
+  if (!db) {
+    throw new Error('College database unavailable');
+  }
   const result = await db.execute({
     sql: `
       SELECT 
@@ -116,6 +134,9 @@ export const getInstitutionsPaginated = cache(async (
   sortBy: string = 'name'
 ) => {
   const db = getCollegeDb();
+  if (!db) {
+    throw new Error('College database unavailable');
+  }
   
   let sql = `
     SELECT 
