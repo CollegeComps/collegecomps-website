@@ -52,6 +52,7 @@ export async function POST(req: NextRequest) {
         break;
       }
 
+      case 'customer.subscription.created':
       case 'customer.subscription.updated': {
         const subscription = event.data.object as Stripe.Subscription;
         const customerId = subscription.customer as string;
@@ -62,14 +63,14 @@ export async function POST(req: NextRequest) {
         ).get(customerId) as { id: number } | undefined;
 
         if (user) {
-          const isActive = subscription.status === 'active';
+          const isActive = subscription.status === 'active' || subscription.status === 'trialing';
           const newTier = isActive ? 'premium' : 'free';
 
           await db.prepare(
             'UPDATE users SET subscription_tier = ? WHERE id = ?'
           ).run(newTier, user.id);
 
-          console.log(`User ${user.id} subscription updated to ${newTier}`);
+          console.log(`User ${user.id} subscription ${event.type === 'customer.subscription.created' ? 'created' : 'updated'} - tier: ${newTier}, status: ${subscription.status}`);
         }
         break;
       }
