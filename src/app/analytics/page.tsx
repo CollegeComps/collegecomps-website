@@ -46,6 +46,7 @@ export default function AnalyticsPage() {
     try {
       setLoading(true);
       // Fetch all institutions with ROI and cost data (no limit)
+      // ROI data comes from institution_avg_roi column, calculated with 40-year career formula (ENG-298)
       const response = await fetch('/api/institutions?sortBy=roi_high&limit=10000');
       const result = await response.json();
       
@@ -57,7 +58,7 @@ export default function AnalyticsPage() {
         .map((inst: any) => ({
           name: inst.name,
           cost: (inst.tuition_in_state || inst.tuition_out_state || 0) + (inst.fees || 0) + (inst.room_board_on_campus || 0),
-          roi: inst.institution_avg_roi,
+          roi: inst.institution_avg_roi, // 40-year ROI from database (recalculated in ENG-298)
           control: inst.control_of_institution === 1 ? 'Public' : inst.control_of_institution === 2 ? 'Private Nonprofit' : 'Private For-Profit',
           state: inst.state,
           unitid: inst.unitid
@@ -154,7 +155,7 @@ export default function AnalyticsPage() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight text-white font-bold">College ROI Analytics</h1>
           <p className="mt-2 text-gray-300">
-            Visualize the relationship between college costs and return on investment across thousands of institutions
+            Visualize the relationship between college costs and 40-year return on investment across thousands of institutions
           </p>
         </div>
 
@@ -243,7 +244,7 @@ export default function AnalyticsPage() {
           ) : (
             <>
               <h2 className="text-lg font-semibold text-white font-bold mb-6">
-                30-Year ROI vs Annual Cost
+                40-Year ROI vs Annual Cost
               </h2>
               <ResponsiveContainer width="100%" height={500}>
                 <ScatterChart margin={{ top: 20, right: 20, bottom: 60, left: 70 }}>
@@ -259,7 +260,7 @@ export default function AnalyticsPage() {
                     type="number" 
                     dataKey="roi" 
                     name="ROI"
-                    label={{ value: '30-Year ROI ($)', angle: -90, position: 'insideLeft', offset: 20 }}
+                    label={{ value: '40-Year ROI ($)', angle: -90, position: 'insideLeft', offset: 20 }}
                     tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
                     domain={['auto', 'auto']}
                   />
