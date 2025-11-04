@@ -252,29 +252,43 @@ export async function POST(req: NextRequest) {
     }
 
     // Check submission limits (prevent spam)
-    const userStats = await db.prepare('SELECT * FROM user_submission_stats WHERE user_id = ?')
-      .get(parseInt(session.user.id)) as any
+    let userStats: any = null;
+    try {
+      userStats = await db.prepare('SELECT * FROM user_submission_stats WHERE user_id = ?')
+        .get(parseInt(session.user.id));
+    } catch (err) {
+      console.error('Error fetching user stats:', err);
+      // Continue without stats check if query fails
+    }
 
-    if (userStats && userStats.reputation_score < 50) {
+    // Only block if reputation is critically low (spam prevention)
+    if (userStats && userStats.reputation_score !== null && userStats.reputation_score < 20) {
       return NextResponse.json(
         { error: 'Account flagged for suspicious activity. Please contact support.' },
         { status: 403 }
       )
     }
 
-    // Check daily limit for free users
+    // Relaxed submission limits for all users (free and premium can submit)
+    // Premium users: unlimited submissions
+    // Free users: 5 submissions per day (to prevent spam while allowing contribution)
     if (session.user.subscriptionTier === 'free') {
-      const todaySubmissions = await db.prepare(`
-        SELECT COUNT(*) as count 
-        FROM salary_submissions 
-        WHERE user_id = ? AND DATE(created_at) = DATE('now')
-      `).get(parseInt(session.user.id)) as { count: number }
+      try {
+        const todaySubmissions = await db.prepare(`
+          SELECT COUNT(*) as count 
+          FROM salary_submissions 
+          WHERE user_id = ? AND DATE(created_at) = DATE('now')
+        `).get(parseInt(session.user.id)) as { count: number } | undefined;
 
-      if (todaySubmissions.count >= 3) {
-        return NextResponse.json(
-          { error: 'Free users limited to 3 submissions per day. Upgrade to Premium for unlimited.' },
-          { status: 403 }
-        )
+        if (todaySubmissions && todaySubmissions.count >= 5) {
+          return NextResponse.json(
+            { error: 'Daily submission limit reached (5 per day). Upgrade to Premium for unlimited submissions or try again tomorrow.' },
+            { status: 429 } // 429 Too Many Requests is more appropriate than 403
+          )
+        }
+      } catch (err) {
+        console.error('Error checking daily submissions:', err);
+        // Allow submission if check fails (fail open for better UX)
       }
     }
 
@@ -288,52 +302,66 @@ export async function POST(req: NextRequest) {
     if (total_compensation && total_compensation < current_salary) qualityScore -= 20 // Suspicious
     if (has_degree && !institution_name) qualityScore -= 15
 
-    // Insert submission
-    const result = await db.prepare(`
-      INSERT INTO salary_submissions (
-        user_id, institution_name, degree_level, major, graduation_year,
-        current_salary, years_since_graduation, total_compensation,
-        job_title, company_name, industry, company_size,
-        location_city, location_state, remote_status,
-        student_debt_remaining, student_debt_original,
-        is_public, data_quality_score, is_approved, moderation_status,
-        has_degree, years_experience, additional_degrees
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).run(
-      parseInt(session.user.id),
-      institution_name || null,
-      degree_level || null,
-      major || null,
-      graduation_year || null,
-      current_salary,
-      years_since_graduation || null,
-      total_compensation || null,
-      job_title || null,
-      company_name || null,
-      industry || null,
-      company_size || null,
-      location_city || null,
-      location_state || null,
-      remote_status || null,
-      student_debt_remaining || null,
-      student_debt_original || null,
-      is_public !== false ? 1 : 0,
-      qualityScore,
-      qualityScore >= 70 ? 1 : 0, // Auto-approve if quality score is high
-      qualityScore >= 70 ? 'approved' : 'pending',
-      has_degree ? 1 : 0,
-      years_experience || null,
-      additional_degrees || null
-    )
+    // Insert submission with error handling
+    let result;
+    try {
+      result = await db.prepare(`
+        INSERT INTO salary_submissions (
+          user_id, institution_name, degree_level, major, graduation_year,
+          current_salary, years_since_graduation, total_compensation,
+          job_title, company_name, industry, company_size,
+          location_city, location_state, remote_status,
+          student_debt_remaining, student_debt_original,
+          is_public, data_quality_score, is_approved, moderation_status,
+          has_degree, years_experience, additional_degrees
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).run(
+        parseInt(session.user.id),
+        institution_name || null,
+        degree_level || null,
+        major || null,
+        graduation_year || null,
+        current_salary,
+        years_since_graduation || null,
+        total_compensation || null,
+        job_title || null,
+        company_name || null,
+        industry || null,
+        company_size || null,
+        location_city || null,
+        location_state || null,
+        remote_status || null,
+        student_debt_remaining || null,
+        student_debt_original || null,
+        is_public !== false ? 1 : 0,
+        qualityScore,
+        qualityScore >= 70 ? 1 : 0, // Auto-approve if quality score is high
+        qualityScore >= 70 ? 'approved' : 'pending',
+        has_degree ? 1 : 0,
+        years_experience || null,
+        additional_degrees || null
+      )
+    } catch (insertError: any) {
+      console.error('Error inserting salary submission:', insertError);
+      return NextResponse.json(
+        { error: 'Failed to save salary data. Please try again or contact support if the issue persists.' },
+        { status: 500 }
+      )
+    }
 
     // Update user submission stats
-    await db.prepare(`
-      INSERT INTO user_submission_stats (user_id, total_submissions, verified_submissions, last_submission_date)
-      VALUES (?, 1, 0, datetime('now'))
-      ON CONFLICT(user_id) DO UPDATE SET
-        total_submissions = total_submissions + 1,
-        last_submission_date = datetime('now')
-    `).run(parseInt(session.user.id))
+    try {
+      await db.prepare(`
+        INSERT INTO user_submission_stats (user_id, total_submissions, verified_submissions, last_submission_date)
+        VALUES (?, 1, 0, datetime('now'))
+        ON CONFLICT(user_id) DO UPDATE SET
+          total_submissions = total_submissions + 1,
+          last_submission_date = datetime('now')
+      `).run(parseInt(session.user.id))
+    } catch (statsError) {
+      console.error('Error updating user stats (non-critical):', statsError);
+      // Don't fail the request if stats update fails
+    }
 
     return NextResponse.json({
       success: true,
