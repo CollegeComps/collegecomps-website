@@ -30,26 +30,38 @@ export async function GET(req: NextRequest) {
     // Get exports this month (from shared_comparisons table as proxy)
     const exportsResult = db.prepare(`
       SELECT COUNT(*) as count
-      FROM shared_comparisons
-      WHERE user_id = ? 
-        AND created_at >= date('now', 'start of month')
+      FROM shared_comparisons sc
+      INNER JOIN saved_comparisons scomp ON sc.comparison_id = scomp.id
+      WHERE scomp.user_id = ? 
+        AND sc.created_at >= date('now', 'start of month')
     `).get(userId) as { count: number } | undefined;
 
     // Get configured alerts count
     const alertsResult = db.prepare(`
-      SELECT preferences
+      SELECT price_changes, new_salary_data, admission_updates, 
+             deadline_reminders, email_notifications, sms_notifications
       FROM alert_preferences
       WHERE user_id = ?
-    `).get(userId) as { preferences: string } | undefined;
+    `).get(userId) as {
+      price_changes: number;
+      new_salary_data: number;
+      admission_updates: number;
+      deadline_reminders: number;
+      email_notifications: number;
+      sms_notifications: number;
+    } | undefined;
 
     let alertsConfigured = 0;
     if (alertsResult) {
-      try {
-        const prefs = JSON.parse(alertsResult.preferences);
-        alertsConfigured = prefs.filter((p: any) => p.enabled).length;
-      } catch (e) {
-        // Invalid JSON, ignore
-      }
+      // Count how many alert types are enabled (value = 1)
+      alertsConfigured = [
+        alertsResult.price_changes,
+        alertsResult.new_salary_data,
+        alertsResult.admission_updates,
+        alertsResult.deadline_reminders,
+        alertsResult.email_notifications,
+        alertsResult.sms_notifications,
+      ].filter(val => val === 1).length;
     }
 
     // Get folders count
