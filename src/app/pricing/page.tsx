@@ -14,18 +14,21 @@ export default function PricingPage() {
   const currentTier = session?.user?.subscriptionTier || 'free';
 
   const handleUpgrade = async (tier: string) => {
+    console.log('[handleUpgrade] Called with tier:', tier, 'session:', !!session, 'currentTier:', currentTier);
+    
     if (!session) {
+      console.log('[handleUpgrade] No session, redirecting to signin');
       router.push('/auth/signin?callbackUrl=/pricing');
       return;
     }
     
     if (tier === 'premium') {
       try {
+        console.log('[handleUpgrade] Starting premium upgrade, billingCycle:', billingCycle);
         setLoading(true);
-        console.log('Starting checkout for:', tier, billingCycle);
         await createCheckoutSession('premium', billingCycle);
       } catch (error) {
-        console.error('Checkout error:', error);
+        console.error('[handleUpgrade] Checkout error:', error);
         const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
         alert(`Failed to start checkout: ${errorMessage}\n\nPlease try again or contact support if the issue persists.`);
       } finally {
@@ -224,17 +227,26 @@ export default function PricingPage() {
               </li>
             </ul>
             
-            <button
-              onClick={() => handleUpgrade('premium')}
-              disabled={currentTier === 'premium' || loading}
-              className={`w-full py-3 px-6 rounded-lg font-bold transition-all ${
-                currentTier === 'premium' || loading
-                  ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-orange-600 to-orange-500 text-white hover:from-orange-700 hover:to-orange-600 shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/30 transform hover:-translate-y-0.5'
-              }`}
-            >
-              {loading ? 'Loading...' : currentTier === 'premium' ? 'Current Plan' : 'Upgrade to Premium'}
-            </button>
+            {/* Button wrapper with z-index to prevent overlay blocking */}
+            <div className="relative z-20">
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log('[Stripe Button] Click detected, tier:', currentTier, 'loading:', loading);
+                  handleUpgrade('premium');
+                }}
+                disabled={currentTier === 'premium' || loading}
+                className={`w-full py-3 px-6 rounded-lg font-bold transition-all ${
+                  currentTier === 'premium' || loading
+                    ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-orange-600 to-orange-500 text-white hover:from-orange-700 hover:to-orange-600 shadow-[0_0_12px_rgba(249,115,22,0.08)] shadow-orange-500/30 transform hover:-translate-y-0.5 cursor-pointer'
+                }`}
+                style={{ pointerEvents: 'auto' }}
+              >
+                {loading ? 'Loading...' : currentTier === 'premium' ? 'Current Plan' : 'Upgrade to Premium'}
+              </button>
+            </div>
           </div>
         </div>
 
