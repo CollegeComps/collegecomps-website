@@ -40,14 +40,27 @@ export async function POST(req: NextRequest) {
         const session = event.data.object as Stripe.Checkout.Session;
         const userId = session.metadata?.userId;
         const tier = session.metadata?.tier || 'premium';
+        const customerId = session.customer as string;
 
         if (userId) {
-          // Update user subscription tier
+          console.log(`Processing checkout completion for user ${userId}:`, {
+            tier,
+            customerId,
+            subscriptionId: session.subscription,
+            paymentStatus: session.payment_status
+          });
+
+          // Update user subscription tier and customer ID
           await db.prepare(
             'UPDATE users SET subscription_tier = ?, stripe_customer_id = ? WHERE id = ?'
-          ).run(tier, session.customer as string, parseInt(userId));
+          ).run(tier, customerId, parseInt(userId));
 
-          console.log(`User ${userId} subscribed to ${tier}`);
+          console.log(`✓ User ${userId} subscribed to ${tier} tier with customer ID ${customerId}`);
+        } else {
+          console.error('checkout.session.completed webhook missing userId in metadata:', {
+            sessionId: session.id,
+            metadata: session.metadata
+          });
         }
         break;
       }
@@ -59,18 +72,28 @@ export async function POST(req: NextRequest) {
 
         // Get user by stripe customer ID
         const user = await db.prepare(
-          'SELECT id FROM users WHERE stripe_customer_id = ?'
-        ).get(customerId) as { id: number } | undefined;
+          'SELECT id, email, subscription_tier FROM users WHERE stripe_customer_id = ?'
+        ).get(customerId) as { id: number; email: string; subscription_tier: string } | undefined;
 
         if (user) {
           const isActive = subscription.status === 'active' || subscription.status === 'trialing';
           const newTier = isActive ? 'premium' : 'free';
 
+          console.log(`Processing subscription ${event.type === 'customer.subscription.created' ? 'creation' : 'update'} for user ${user.id}:`, {
+            email: user.email,
+            currentTier: user.subscription_tier,
+            newTier,
+            subscriptionStatus: subscription.status,
+            isActive
+          });
+
           await db.prepare(
             'UPDATE users SET subscription_tier = ? WHERE id = ?'
           ).run(newTier, user.id);
 
-          console.log(`User ${user.id} subscription ${event.type === 'customer.subscription.created' ? 'created' : 'updated'} - tier: ${newTier}, status: ${subscription.status}`);
+          console.log(`✓ User ${user.id} (${user.email}) subscription updated - tier: ${newTier}, status: ${subscription.status}`);
+        } else {
+          console.error(`customer.subscription.${event.type === 'customer.subscription.created' ? 'created' : 'updated'} - User not found for customer ID:`, customerId);
         }
         break;
       }
@@ -81,15 +104,23 @@ export async function POST(req: NextRequest) {
 
         // Get user by stripe customer ID
         const user = await db.prepare(
-          'SELECT id FROM users WHERE stripe_customer_id = ?'
-        ).get(customerId) as { id: number } | undefined;
+          'SELECT id, email, subscription_tier FROM users WHERE stripe_customer_id = ?'
+        ).get(customerId) as { id: number; email: string; subscription_tier: string } | undefined;
 
         if (user) {
+          console.log(`Processing subscription deletion for user ${user.id}:`, {
+            email: user.email,
+            currentTier: user.subscription_tier,
+            subscriptionStatus: subscription.status
+          });
+
           await db.prepare(
             'UPDATE users SET subscription_tier = ? WHERE id = ?'
           ).run('free', user.id);
 
-          console.log(`User ${user.id} subscription canceled`);
+          console.log(`✓ User ${user.id} (${user.email}) subscription canceled - downgraded to free tier`);
+        } else {
+          console.error('customer.subscription.deleted - User not found for customer ID:', customerId);
         }
         break;
       }
