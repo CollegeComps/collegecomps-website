@@ -312,9 +312,11 @@ export default function CareerFinderPage() {
 
           {/* Question */}
           <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 md:p-12">
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white mb-8 text-center">
-              {QUESTIONS[currentQuestion].text}
-            </h2>
+            <div className="min-h-[120px] flex items-center justify-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white text-center">
+                {QUESTIONS[currentQuestion].text}
+              </h2>
+            </div>
 
             <div className="space-y-3">
               {[
