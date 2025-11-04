@@ -55,8 +55,8 @@ export default function SubscriptionPage() {
     }
 
     // Check for success/cancel parameters
-    const success = searchParams.get('success');
-    const canceled = searchParams.get('canceled');
+    const success = searchParams?.get('success');
+    const canceled = searchParams?.get('canceled');
     
     if (success === 'true') {
       setShowSuccessMessage(true);
