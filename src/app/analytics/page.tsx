@@ -260,7 +260,7 @@ export default function AnalyticsPage() {
                     type="number" 
                     dataKey="roi" 
                     name="ROI"
-                    label={{ value: '40-Year ROI ($)', angle: -90, position: 'insideLeft', offset: 10, style: { textAnchor: 'middle' } }}
+                    label={{ value: '40-Year ROI ($)', angle: -90, position: 'insideLeft', offset: 20, style: { textAnchor: 'middle', fill: '#9CA3AF' } }}
                     tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
                     domain={['auto', 'auto']}
                   />
