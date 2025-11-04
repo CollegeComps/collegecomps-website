@@ -1,7 +1,7 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
@@ -33,9 +33,12 @@ interface UsageStats {
 }
 
 export default function SubscriptionPage() {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showCancelMessage, setShowCancelMessage] = useState(false);
   const [usageStats, setUsageStats] = useState<UsageStats>({
     saved_comparisons: 0,
     exports_this_month: 0,
@@ -51,8 +54,31 @@ export default function SubscriptionPage() {
       return;
     }
 
+    // Check for success/cancel parameters
+    const success = searchParams.get('success');
+    const canceled = searchParams.get('canceled');
+    
+    if (success === 'true') {
+      setShowSuccessMessage(true);
+      // Refresh session to get updated subscription tier
+      update();
+      // Clear URL parameter after 5 seconds
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+        router.replace('/subscription');
+      }, 5000);
+    }
+    
+    if (canceled === 'true') {
+      setShowCancelMessage(true);
+      setTimeout(() => {
+        setShowCancelMessage(false);
+        router.replace('/subscription');
+      }, 5000);
+    }
+
     fetchUsageStats();
-  }, [session]);
+  }, [session, searchParams]);
 
   const fetchUsageStats = async () => {
     try {
@@ -171,6 +197,32 @@ export default function SubscriptionPage() {
   return (
     <div className="min-h-screen bg-black py-8 px-4">
       <div className="max-w-7xl mx-auto">
+        {/* Success Message */}
+        {showSuccessMessage && (
+          <div className="mb-6 p-4 bg-green-900/20 border border-green-500 rounded-lg flex items-center gap-3">
+            <CheckCircleIcon className="h-6 w-6 text-green-400" />
+            <div>
+              <h3 className="font-semibold text-green-400">Subscription Successful!</h3>
+              <p className="text-sm text-green-300">
+                Welcome to Premium! Your subscription is now active. Enjoy all premium features.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Cancel Message */}
+        {showCancelMessage && (
+          <div className="mb-6 p-4 bg-yellow-900/20 border border-yellow-500 rounded-lg flex items-center gap-3">
+            <XCircleIcon className="h-6 w-6 text-yellow-400" />
+            <div>
+              <h3 className="font-semibold text-yellow-400">Checkout Canceled</h3>
+              <p className="text-sm text-yellow-300">
+                No worries! You can upgrade to Premium anytime.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold tracking-tight text-white font-bold mb-2">My Subscription</h1>
