@@ -176,7 +176,7 @@ export const authOptions: NextAuthOptions = {
       }
     },
     
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger }) {
       // On initial signin
       if (user) {
         console.log('[Auth] JWT callback - initial signin for:', user.email);
@@ -204,6 +204,26 @@ export const authOptions: NextAuthOptions = {
             } catch (error) {
               console.error('[Auth] Error fetching user data for JWT:', error);
             }
+          }
+        }
+      }
+      
+      // On session update (when update() is called), refresh subscription tier from database
+      if (trigger === 'update' && token.email) {
+        console.log('[Auth] JWT callback - session update triggered, refreshing subscription data for:', token.email);
+        const db = getUsersDb();
+        if (db) {
+          try {
+            const dbUser = await db.prepare('SELECT subscription_tier FROM users WHERE email = ?')
+              .get(token.email as string) as { subscription_tier: string } | undefined;
+            
+            if (dbUser) {
+              const oldTier = token.subscriptionTier;
+              token.subscriptionTier = dbUser.subscription_tier;
+              console.log(`[Auth] Subscription tier updated: ${oldTier} -> ${dbUser.subscription_tier}`);
+            }
+          } catch (error) {
+            console.error('[Auth] Error refreshing subscription data:', error);
           }
         }
       }
