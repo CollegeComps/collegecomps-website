@@ -16,7 +16,8 @@ export function hasMinimumTier(
   if (!session?.user) return false;
 
   const user = session.user as any;
-  const userTier = user.subscription_tier || 'free';
+  // Check both camelCase (NextAuth session) and snake_case (database) formats
+  const userTier = user.subscriptionTier || user.subscription_tier || 'free';
 
   // Admin users have access to all features
   if (user.role === 'admin' || user.email?.endsWith('@collegecomps.com')) {
@@ -99,7 +100,9 @@ export function requireAdmin(session: Session | null) {
  */
 export function getUserTier(session: Session | null): SubscriptionTier {
   if (!session?.user) return 'free';
-  return ((session.user as any).subscription_tier as SubscriptionTier) || 'free';
+  const user = session.user as any;
+  // Check both camelCase (NextAuth session) and snake_case (database) formats
+  return (user.subscriptionTier || user.subscription_tier || 'free') as SubscriptionTier;
 }
 
 /**
