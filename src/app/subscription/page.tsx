@@ -199,10 +199,14 @@ export default function SubscriptionPage() {
     router.push('/pricing');
   };
 
-  const handleCancelSubscription = () => {
-    // TODO: Integrate with Stripe cancellation
-    if (confirm('Are you sure you want to cancel your Premium subscription? You\'ll lose access to all premium features at the end of your billing period.')) {
-      alert('Stripe cancellation flow coming soon!');
+  const handleCancelSubscription = async () => {
+    // Open Stripe Customer Portal where users can manage and cancel their subscription
+    // The portal has built-in cancellation flow with confirmation
+    try {
+      await createCustomerPortalSession();
+    } catch (error) {
+      console.error('Portal error:', error);
+      alert('Failed to open billing portal. Please try again or contact support.');
     }
   };
 
