@@ -39,7 +39,7 @@ export async function GET(
       WHERE t.id = ?
     `;
 
-    const ticket = db.prepare(ticketQuery).get(ticketId);
+    const ticket = await db.prepare(ticketQuery).get(ticketId);
 
     if (!ticket) {
       return NextResponse.json({ error: 'Ticket not found' }, { status: 404 });
@@ -57,7 +57,7 @@ export async function GET(
       ORDER BY m.created_at ASC
     `;
 
-    const messages = db.prepare(messagesQuery).all(ticketId);
+    const messages = await db.prepare(messagesQuery).all(ticketId);
 
     return NextResponse.json({
       ticket,
@@ -104,20 +104,20 @@ export async function POST(
     }
 
     // Get admin user ID
-    const adminUser: any = db.prepare('SELECT id FROM users WHERE email = ?').get(session.user.email);
+    const adminUser: any = await db.prepare('SELECT id FROM users WHERE email = ?').get(session.user.email);
 
     if (!adminUser) {
       return NextResponse.json({ error: 'Admin user not found' }, { status: 404 });
     }
 
     // Insert the admin's reply
-    const insertResult: any = db.prepare(`
+    const insertResult: any = await db.prepare(`
       INSERT INTO support_messages (ticket_id, user_id, message, is_admin_reply, created_at)
       VALUES (?, ?, ?, 1, datetime('now'))
     `).run(ticketId, adminUser.id, message.trim());
 
     // Update ticket's updated_at timestamp
-    db.prepare(`
+    await db.prepare(`
       UPDATE support_tickets 
       SET updated_at = datetime('now')
       WHERE id = ?
@@ -185,7 +185,7 @@ export async function PATCH(
     queryParams.push(ticketId);
 
     const query = `UPDATE support_tickets SET ${updates.join(', ')} WHERE id = ?`;
-    db.prepare(query).run(...queryParams);
+    await db.prepare(query).run(...queryParams);
 
     return NextResponse.json({ success: true });
   } catch (error) {

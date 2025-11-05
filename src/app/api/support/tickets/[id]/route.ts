@@ -38,7 +38,7 @@ export async function GET(
     console.log('[Ticket Details API] Executing query:', ticketQuery);
     console.log('[Ticket Details API] Query params:', [ticketId, userId]);
 
-    const ticket = db.prepare(ticketQuery).get(ticketId, userId);
+    const ticket = await db.prepare(ticketQuery).get(ticketId, userId);
 
     console.log('[Ticket Details API] Query result:', ticket);
 
@@ -59,7 +59,7 @@ export async function GET(
       ORDER BY m.created_at ASC
     `;
 
-    const messages = db.prepare(messagesQuery).all(ticketId);
+    const messages = await db.prepare(messagesQuery).all(ticketId);
 
     return NextResponse.json({
       ticket,
@@ -103,7 +103,7 @@ export async function POST(
     const userId = Number(session.user.id);
 
     // Verify this ticket belongs to the user
-    const ticket: any = db.prepare('SELECT id, user_id FROM support_tickets WHERE id = ? AND user_id = ?')
+    const ticket: any = await db.prepare('SELECT id, user_id FROM support_tickets WHERE id = ? AND user_id = ?')
       .get(ticketId, userId);
 
     if (!ticket) {
@@ -111,13 +111,13 @@ export async function POST(
     }
 
     // Insert the user's message
-    const insertResult: any = db.prepare(`
+    const insertResult: any = await db.prepare(`
       INSERT INTO support_messages (ticket_id, user_id, message, is_admin_reply, created_at)
       VALUES (?, ?, ?, 0, datetime('now'))
     `).run(ticketId, userId, message.trim());
 
     // Update ticket's updated_at and last_activity_at
-    db.prepare(`
+    await db.prepare(`
       UPDATE support_tickets 
       SET updated_at = datetime('now'),
           last_activity_at = datetime('now')
@@ -168,7 +168,7 @@ export async function PATCH(
     const userId = Number(session.user.id);
 
     // Verify this ticket belongs to the user
-    const ticket: any = db.prepare('SELECT id, user_id FROM support_tickets WHERE id = ? AND user_id = ?')
+    const ticket: any = await db.prepare('SELECT id, user_id FROM support_tickets WHERE id = ? AND user_id = ?')
       .get(ticketId, userId);
 
     if (!ticket) {
@@ -176,7 +176,7 @@ export async function PATCH(
     }
 
     // Update the ticket status
-    db.prepare(`
+    await db.prepare(`
       UPDATE support_tickets 
       SET status = ?,
           updated_at = datetime('now'),
