@@ -21,6 +21,9 @@ export async function GET(
 
     const { id } = await params;
     const ticketId = id;
+    
+    // Convert session.user.id to number for INTEGER comparison in database
+    const userId = Number(session.user.id);
 
     // Get ticket details - IMPORTANT: Only return tickets belonging to this user
     const ticketQuery = `
@@ -30,7 +33,7 @@ export async function GET(
       WHERE t.id = ? AND t.user_id = ?
     `;
 
-    const ticket = db.prepare(ticketQuery).get(ticketId, session.user.id);
+    const ticket = db.prepare(ticketQuery).get(ticketId, userId);
 
     if (!ticket) {
       return NextResponse.json({ error: 'Ticket not found or access denied' }, { status: 404 });
@@ -88,9 +91,12 @@ export async function POST(
       return NextResponse.json({ error: 'Message is required' }, { status: 400 });
     }
 
+    // Convert session.user.id to number for INTEGER comparison in database
+    const userId = Number(session.user.id);
+
     // Verify this ticket belongs to the user
     const ticket: any = db.prepare('SELECT id, user_id FROM support_tickets WHERE id = ? AND user_id = ?')
-      .get(ticketId, session.user.id);
+      .get(ticketId, userId);
 
     if (!ticket) {
       return NextResponse.json({ error: 'Ticket not found or access denied' }, { status: 404 });
@@ -100,7 +106,7 @@ export async function POST(
     const insertResult: any = db.prepare(`
       INSERT INTO support_messages (ticket_id, user_id, message, is_admin_reply, created_at)
       VALUES (?, ?, ?, 0, datetime('now'))
-    `).run(ticketId, session.user.id, message.trim());
+    `).run(ticketId, userId, message.trim());
 
     // Update ticket's updated_at and last_activity_at
     db.prepare(`
@@ -150,9 +156,12 @@ export async function PATCH(
       return NextResponse.json({ error: 'Invalid status. Users can only set status to: open or closed' }, { status: 400 });
     }
 
+    // Convert session.user.id to number for INTEGER comparison in database
+    const userId = Number(session.user.id);
+
     // Verify this ticket belongs to the user
     const ticket: any = db.prepare('SELECT id, user_id FROM support_tickets WHERE id = ? AND user_id = ?')
-      .get(ticketId, session.user.id);
+      .get(ticketId, userId);
 
     if (!ticket) {
       return NextResponse.json({ error: 'Ticket not found or access denied' }, { status: 404 });

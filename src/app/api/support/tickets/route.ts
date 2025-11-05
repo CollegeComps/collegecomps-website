@@ -60,6 +60,9 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // Convert session.user.id to number for INTEGER comparison in database
+    const userId = Number(session.user.id);
+
     const tickets = await db.prepare(`
       SELECT * FROM support_tickets
       WHERE user_id = ?
@@ -72,7 +75,7 @@ export async function GET(req: NextRequest) {
           WHEN 'closed' THEN 5
         END,
         created_at DESC
-    `).all(session.user.id);
+    `).all(userId);
 
     return NextResponse.json({ tickets });
   } catch (error) {
@@ -112,13 +115,16 @@ export async function POST(req: NextRequest) {
     const tier = session.user.subscriptionTier || 'free';
     const priority = tier === 'professional' ? 'high' : tier === 'premium' ? 'normal' : 'low';
 
+    // Convert session.user.id to number for INTEGER comparison in database
+    const userId = Number(session.user.id);
+
     const result = await db.prepare(`
       INSERT INTO support_tickets (
         user_id, user_email, user_name, subscription_tier,
         subject, category, description, priority
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
-      session.user.id,
+      userId,
       session.user.email,
       session.user.name || 'User',
       tier,
@@ -141,7 +147,7 @@ export async function POST(req: NextRequest) {
         subject,
         category,
         priority,
-        session.user.id!
+        String(userId)
       );
     } catch (emailError) {
       console.error('Failed to send support ticket email:', emailError);
