@@ -337,9 +337,11 @@ export default function SalaryInsightsPage() {
                     <h3 className="text-xl font-bold text-white mb-1">{data.major}</h3>
                     <p className="text-gray-300">{data.institution_name}</p>
                     <div className="flex items-center gap-3 mt-2 text-sm text-gray-400">
-                      <span className="inline-flex items-center px-3 py-1 bg-orange-500/20 text-orange-400 border border-orange-500/50 rounded-full font-medium">
-                        {data.degree_level.charAt(0).toUpperCase() + data.degree_level.slice(1)}
-                      </span>
+                      {data.degree_level && (
+                        <span className="inline-flex items-center px-3 py-1 bg-orange-500/20 text-orange-400 border border-orange-500/50 rounded-full font-medium">
+                          {data.degree_level.charAt(0).toUpperCase() + data.degree_level.slice(1)}
+                        </span>
+                      )}
                       <span>📅 {data.years_since_graduation} years post-grad</span>
                       <span>👥 {data.sample_size} data points</span>
                     </div>

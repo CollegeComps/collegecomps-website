@@ -20,7 +20,7 @@ export async function GET(
     }
 
     const { id } = await params;
-    const ticketId = id;
+    const ticketId = Number(id);
     
     // Convert session.user.id to number for INTEGER comparison in database
     const userId = Number(session.user.id);
@@ -84,7 +84,7 @@ export async function POST(
     }
 
     const { id } = await params;
-    const ticketId = id;
+    const ticketId = Number(id);
     const { message } = await request.json();
 
     if (!message || !message.trim()) {
@@ -147,7 +147,7 @@ export async function PATCH(
     }
 
     const { id } = await params;
-    const ticketId = id;
+    const ticketId = Number(id);
     const { status } = await request.json();
 
     // Validate status
