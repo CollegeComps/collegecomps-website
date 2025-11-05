@@ -329,7 +329,7 @@ export default function AnalyticsPage() {
                 40-Year ROI vs Annual Cost
               </h2>
               <ResponsiveContainer width="100%" height={500}>
-                <ScatterChart margin={{ top: 20, right: 20, bottom: 60, left: 80 }}>
+                <ScatterChart margin={{ top: 20, right: 20, bottom: 60, left: 100 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis 
                     type="number" 
@@ -342,7 +342,7 @@ export default function AnalyticsPage() {
                     type="number" 
                     dataKey="roi" 
                     name="ROI"
-                    label={{ value: '40-Year ROI ($)', angle: -90, position: 'insideLeft', offset: 20, style: { textAnchor: 'middle', fill: '#9CA3AF' } }}
+                    label={{ value: '40-Year ROI ($)', angle: -90, position: 'insideLeft', offset: -10, style: { textAnchor: 'middle', fill: '#9CA3AF' } }}
                     tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
                     domain={['auto', 'auto']}
                   />
