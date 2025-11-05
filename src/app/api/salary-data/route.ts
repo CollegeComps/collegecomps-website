@@ -1,6 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { auth } from '@/lib/auth'
+import { auth } from '@/auth'
 import { getUsersDb } from '@/lib/db-helper'
+
+// Map frontend degree level values to database enum values
+function normalizeDegreeLevel(degreeLevel: string | null | undefined): string | null {
+  if (!degreeLevel) return null;
+  
+  const mapping: Record<string, string> = {
+    'bachelors': 'Bachelor',
+    'masters': 'Master',
+    'phd': 'Doctorate',
+    'doctorate': 'Doctorate',
+    'professional': 'Professional',
+    'associate': 'Associate',
+    'associates': 'Associate',
+    'none': '', // Empty string will be converted to null
+    // Also handle if frontend already sends correct values
+    'Bachelor': 'Bachelor',
+    'Master': 'Master',
+    'Doctorate': 'Doctorate',
+    'Professional': 'Professional',
+    'Associate': 'Associate'
+  };
+  
+  const normalized = mapping[degreeLevel.toLowerCase()] || mapping[degreeLevel];
+  return normalized && normalized !== '' ? normalized : null;
+}
 import { requireTier } from '@/lib/auth-helpers'
 
 
@@ -104,7 +129,7 @@ export async function POST(req: NextRequest) {
     // Validation
     const {
       institution_name,
-      degree_level,
+      degree_level: rawDegreeLevel,
       major,
       graduation_year,
       current_salary,
@@ -123,6 +148,9 @@ export async function POST(req: NextRequest) {
       years_experience, // Total years of work experience
       additional_degrees // JSON string of additional degrees array
     } = data
+
+    // Normalize degree level to match database CHECK constraint
+    const degree_level = normalizeDegreeLevel(rawDegreeLevel);
 
     // Calculate years_since_graduation from graduation_year
     const currentYear = new Date().getFullYear();
