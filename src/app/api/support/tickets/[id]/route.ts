@@ -122,3 +122,60 @@ export async function POST(
     );
   }
 }
+
+// PATCH - Update ticket status (user can only update their own tickets)
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const db = getUsersDb();
+  if (!db) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+
+  try {
+    const session = await auth();
+
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { id } = await params;
+    const ticketId = id;
+    const { status } = await request.json();
+
+    // Validate status
+    const validStatuses = ['open', 'closed'];
+    if (!status || !validStatuses.includes(status)) {
+      return NextResponse.json({ error: 'Invalid status. Users can only set status to: open or closed' }, { status: 400 });
+    }
+
+    // Verify this ticket belongs to the user
+    const ticket: any = db.prepare('SELECT id, user_id FROM support_tickets WHERE id = ? AND user_id = ?')
+      .get(ticketId, session.user.id);
+
+    if (!ticket) {
+      return NextResponse.json({ error: 'Ticket not found or access denied' }, { status: 404 });
+    }
+
+    // Update the ticket status
+    db.prepare(`
+      UPDATE support_tickets 
+      SET status = ?,
+          updated_at = datetime('now'),
+          resolved_at = CASE WHEN ? = 'closed' THEN datetime('now') ELSE resolved_at END
+      WHERE id = ?
+    `).run(status, status, ticketId);
+
+    return NextResponse.json({
+      success: true,
+      message: `Ticket ${status === 'closed' ? 'closed' : 'reopened'} successfully`
+    });
+  } catch (error) {
+    console.error('Error updating ticket:', error);
+    return NextResponse.json(
+      { error: 'Failed to update ticket' },
+      { status: 500 }
+    );
+  }
+}
