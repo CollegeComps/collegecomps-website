@@ -25,6 +25,8 @@ export async function GET(
     // Convert session.user.id to number for INTEGER comparison in database
     const userId = Number(session.user.id);
 
+    console.log('[Ticket Details API] Fetching ticket:', { ticketId, userId, ticketIdType: typeof ticketId, userIdType: typeof userId });
+
     // Get ticket details - IMPORTANT: Only return tickets belonging to this user
     const ticketQuery = `
       SELECT 
@@ -33,9 +35,15 @@ export async function GET(
       WHERE t.id = ? AND t.user_id = ?
     `;
 
+    console.log('[Ticket Details API] Executing query:', ticketQuery);
+    console.log('[Ticket Details API] Query params:', [ticketId, userId]);
+
     const ticket = db.prepare(ticketQuery).get(ticketId, userId);
 
+    console.log('[Ticket Details API] Query result:', ticket);
+
     if (!ticket) {
+      console.log('[Ticket Details API] No ticket found or access denied');
       return NextResponse.json({ error: 'Ticket not found or access denied' }, { status: 404 });
     }
 
