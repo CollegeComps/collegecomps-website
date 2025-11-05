@@ -126,7 +126,7 @@ export async function POST(
 
     return NextResponse.json({
       success: true,
-      messageId: insertResult.lastInsertRowid
+      messageId: Number(insertResult.lastInsertRowid)
     });
   } catch (error) {
     console.error('Error posting message:', error);
