@@ -72,26 +72,47 @@ export async function POST(req: NextRequest) {
 
         // Get user by stripe customer ID
         const user = await db.prepare(
-          'SELECT id, email, subscription_tier FROM users WHERE stripe_customer_id = ?'
-        ).get(customerId) as { id: number; email: string; subscription_tier: string } | undefined;
+          'SELECT id, email, subscription_tier, subscription_status FROM users WHERE stripe_customer_id = ?'
+        ).get(customerId) as { id: number; email: string; subscription_tier: string; subscription_status: string } | undefined;
 
         if (user) {
           const isActive = subscription.status === 'active' || subscription.status === 'trialing';
+          
+          // Determine tier and status
+          // If subscription is canceled but still in current period, keep premium until period ends
+          const isCanceled = subscription.cancel_at_period_end;
           const newTier = isActive ? 'premium' : 'free';
+          const newStatus = isCanceled ? 'canceled' : subscription.status;
+          
+          // Use type assertion since Stripe types may not include all runtime properties
+          const currentPeriodEnd = (subscription as any).current_period_end;
+          const expiresAt = isCanceled && currentPeriodEnd
+            ? new Date(currentPeriodEnd * 1000).toISOString()
+            : null;
 
           console.log(`Processing subscription ${event.type === 'customer.subscription.created' ? 'creation' : 'update'} for user ${user.id}:`, {
             email: user.email,
             currentTier: user.subscription_tier,
+            currentStatus: user.subscription_status,
             newTier,
+            newStatus,
+            expiresAt,
             subscriptionStatus: subscription.status,
-            isActive
+            cancelAtPeriodEnd: subscription.cancel_at_period_end,
+            currentPeriodEnd: currentPeriodEnd
           });
 
-          await db.prepare(
-            'UPDATE users SET subscription_tier = ? WHERE id = ?'
-          ).run(newTier, user.id);
+          if (expiresAt) {
+            await db.prepare(
+              'UPDATE users SET subscription_tier = ?, subscription_status = ?, subscription_expires_at = ? WHERE id = ?'
+            ).run(newTier, newStatus, expiresAt, user.id);
+          } else {
+            await db.prepare(
+              'UPDATE users SET subscription_tier = ?, subscription_status = ?, subscription_expires_at = NULL WHERE id = ?'
+            ).run(newTier, newStatus, user.id);
+          }
 
-          console.log(`✓ User ${user.id} (${user.email}) subscription updated - tier: ${newTier}, status: ${subscription.status}`);
+          console.log(`✓ User ${user.id} (${user.email}) subscription updated - tier: ${newTier}, status: ${newStatus}, expires: ${expiresAt || 'N/A'}`);
         } else {
           console.error(`customer.subscription.${event.type === 'customer.subscription.created' ? 'created' : 'updated'} - User not found for customer ID:`, customerId);
         }
@@ -115,8 +136,8 @@ export async function POST(req: NextRequest) {
           });
 
           await db.prepare(
-            'UPDATE users SET subscription_tier = ? WHERE id = ?'
-          ).run('free', user.id);
+            'UPDATE users SET subscription_tier = ?, subscription_status = ?, subscription_expires_at = NULL WHERE id = ?'
+          ).run('free', 'expired', user.id);
 
           console.log(`✓ User ${user.id} (${user.email}) subscription canceled - downgraded to free tier`);
         } else {
