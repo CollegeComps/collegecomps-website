@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { auth } from '@/auth'
+import { auth } from '@/lib/auth'
 import { getUsersDb } from '@/lib/db-helper'
 
 // Map frontend degree level values to database enum values
