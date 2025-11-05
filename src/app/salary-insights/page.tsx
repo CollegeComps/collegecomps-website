@@ -302,29 +302,6 @@ export default function SalaryInsightsPage() {
           </div>
         ) : (
           <div className="space-y-6">
-            {/* Premium Upsell Banner */}
-            {!isPremium && (
-              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-yellow-300 rounded-xl p-6">
-                <div className="flex items-start gap-4">
-                  
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-white mb-2">
-                      Unlock Full Salary Insights
-                    </h3>
-                    <p className="text-gray-300 mb-4">
-                      Upgrade to Premium to see detailed percentiles (25th, 50th, 75th), salary progression charts, and advanced filters.
-                    </p>
-                    <Link
-                      href="/pricing"
-                      className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all shadow-[0_0_10px_rgba(249,115,22,0.08)]"
-                    >
-                      Upgrade to Premium →
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            )}
-
             {/* Salary Cards */}
             {salaryData.map((data, index) => (
               <div
@@ -351,27 +328,27 @@ export default function SalaryInsightsPage() {
                 {/* Salary Stats Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                   {/* Average Salary */}
-                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4">
-                    <div className="text-xs text-orange-500 font-medium mb-1">Average Salary</div>
-                    <div className="text-2xl font-bold text-white font-bold">{formatCurrency(data.avg_salary)}</div>
+                  <div className="bg-gradient-to-br from-orange-500/20 to-orange-600/20 border border-orange-500/30 rounded-lg p-4">
+                    <div className="text-xs text-orange-400 font-semibold mb-1">Average Salary</div>
+                    <div className="text-2xl font-bold text-white">{formatCurrency(data.avg_salary)}</div>
                   </div>
 
                   {/* Min Salary */}
-                  <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-4">
-                    <div className="text-xs text-gray-300 font-medium mb-1">Minimum</div>
+                  <div className="bg-gradient-to-br from-gray-700/50 to-gray-800/50 border border-gray-600/30 rounded-lg p-4">
+                    <div className="text-xs text-gray-300 font-semibold mb-1">Minimum</div>
                     <div className="text-2xl font-bold text-white">{formatCurrency(data.min_salary)}</div>
                   </div>
 
                   {/* Max Salary */}
-                  <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4">
-                    <div className="text-xs text-green-600 font-medium mb-1">Maximum</div>
-                    <div className="text-2xl font-bold text-green-900">{formatCurrency(data.max_salary)}</div>
+                  <div className="bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30 rounded-lg p-4">
+                    <div className="text-xs text-green-400 font-semibold mb-1">Maximum</div>
+                    <div className="text-2xl font-bold text-white">{formatCurrency(data.max_salary)}</div>
                   </div>
 
                   {/* Total Compensation */}
-                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4">
-                    <div className="text-xs text-purple-600 font-medium mb-1">Avg Total Comp</div>
-                    <div className="text-2xl font-bold text-purple-900">
+                  <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 rounded-lg p-4">
+                    <div className="text-xs text-purple-400 font-semibold mb-1">Avg Total Comp</div>
+                    <div className="text-2xl font-bold text-white">
                       {formatCurrency(data.avg_total_comp || data.avg_salary)}
                     </div>
                   </div>
@@ -379,34 +356,34 @@ export default function SalaryInsightsPage() {
 
                 {/* Premium Percentiles */}
                 {isPremium && data.p25_salary && data.median_salary && data.p75_salary && (
-                  <div className="mt-6 pt-6 border-t border-gray-200">
+                  <div className="mt-6 pt-6 border-t border-gray-700">
                     <div className="flex items-center gap-2 mb-4">
-                      <span className="inline-flex items-center px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-bold rounded-full">
+                      <span className="inline-flex items-center px-3 py-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-xs font-bold rounded-full">
                         PREMIUM
                       </span>
-                      <span className="text-sm text-gray-300">Detailed Salary Distribution</span>
+                      <span className="text-sm text-gray-300 font-semibold">Detailed Salary Distribution</span>
                     </div>
 
                     <div className="grid grid-cols-3 gap-4">
                       <div className="text-center bg-gray-800 border border-gray-700 rounded-lg p-3">
-                        <div className="text-xs text-gray-300 mb-1">25th Percentile</div>
+                        <div className="text-xs text-gray-400 font-semibold mb-1">25th Percentile</div>
                         <div className="text-lg font-bold text-white">{formatCurrency(data.p25_salary)}</div>
                       </div>
-                      <div className="text-center bg-orange-500/10 rounded-lg p-3">
-                        <div className="text-xs text-orange-500 mb-1">50th Percentile (Median)</div>
-                        <div className="text-lg font-bold text-white font-bold">{formatCurrency(data.median_salary)}</div>
+                      <div className="text-center bg-orange-500/20 border border-orange-500/30 rounded-lg p-3">
+                        <div className="text-xs text-orange-400 font-semibold mb-1">50th Percentile (Median)</div>
+                        <div className="text-lg font-bold text-white">{formatCurrency(data.median_salary)}</div>
                       </div>
-                      <div className="text-center bg-green-50 rounded-lg p-3">
-                        <div className="text-xs text-green-600 mb-1">75th Percentile</div>
-                        <div className="text-lg font-bold text-green-900">{formatCurrency(data.p75_salary)}</div>
+                      <div className="text-center bg-green-500/20 border border-green-500/30 rounded-lg p-3">
+                        <div className="text-xs text-green-400 font-semibold mb-1">75th Percentile</div>
+                        <div className="text-lg font-bold text-white">{formatCurrency(data.p75_salary)}</div>
                       </div>
                     </div>
 
                     {/* Visual Range Bar */}
                     <div className="mt-4">
-                      <div className="h-3 bg-gray-200 rounded-full overflow-hidden relative">
+                      <div className="h-3 bg-gray-800 border border-gray-700 rounded-full overflow-hidden relative">
                         <div
-                          className="h-full bg-gradient-to-r from-blue-300 via-blue-500 to-green-500"
+                          className="h-full bg-gradient-to-r from-orange-400 via-orange-500 to-green-500"
                           style={{
                             marginLeft: `${((data.p25_salary - data.min_salary) / (data.max_salary - data.min_salary)) * 100}%`,
                             width: `${((data.p75_salary - data.p25_salary) / (data.max_salary - data.min_salary)) * 100}%`,
@@ -423,26 +400,35 @@ export default function SalaryInsightsPage() {
 
                 {/* Locked Premium Content */}
                 {!isPremium && (
-                  <div className="mt-6 pt-6 border-t border-gray-200">
+                  <div className="mt-6 pt-6 border-t border-gray-700">
                     <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 text-center relative overflow-hidden">
-                      <div className="absolute inset-0 backdrop-blur-sm bg-gray-100/50 flex items-center justify-center">
+                      <div className="absolute inset-0 backdrop-blur-sm bg-gray-900/70 flex items-center justify-center">
                         <div>
-                          <div className="text-4xl mb-2">🔒</div>
-                          <p className="text-gray-300 font-medium">Premium Feature Locked</p>
+                          <p className="text-gray-300 font-semibold text-lg mb-2">Premium Feature</p>
+                          <p className="text-gray-400 text-sm mb-4">Unlock detailed salary percentiles</p>
                           <Link
                             href="/pricing"
-                            className="inline-block mt-3 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-all"
+                            className="inline-block px-6 py-3 bg-orange-500 text-white text-sm font-semibold rounded-lg hover:bg-orange-600 transition-all shadow-[0_0_12px_rgba(249,115,22,0.3)]"
                           >
-                            Unlock Full Details
+                            Upgrade to Premium
                           </Link>
                         </div>
                       </div>
-                      <div className="opacity-30 blur-sm">
-                        <div className="text-sm text-gray-300 mb-2">Salary Distribution</div>
-                        <div className="grid grid-cols-3 gap-4">
-                          <div>25th: $XX,XXX</div>
-                          <div>Median: $XX,XXX</div>
-                          <div>75th: $XX,XXX</div>
+                      <div className="opacity-20 blur-sm">
+                        <div className="text-sm text-gray-400 mb-3 font-semibold">Salary Distribution</div>
+                        <div className="grid grid-cols-3 gap-4 text-gray-500">
+                          <div>
+                            <div className="text-xs mb-1">25th</div>
+                            <div className="font-bold">$XX,XXX</div>
+                          </div>
+                          <div>
+                            <div className="text-xs mb-1">Median</div>
+                            <div className="font-bold">$XX,XXX</div>
+                          </div>
+                          <div>
+                            <div className="text-xs mb-1">75th</div>
+                            <div className="font-bold">$XX,XXX</div>
+                          </div>
                         </div>
                       </div>
                     </div>
