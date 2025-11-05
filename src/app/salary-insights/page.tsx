@@ -27,12 +27,18 @@ export default function SalaryInsightsPage() {
   const [salaryData, setSalaryData] = useState<SalaryData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [summary, setSummary] = useState({ totalDataPoints: 0, uniqueMajors: 0, uniqueInstitutions: 0 });
+  const [apiIsPremium, setApiIsPremium] = useState(false);
 
   // Filters
   const [selectedMajor, setSelectedMajor] = useState('');
   const [selectedInstitution, setSelectedInstitution] = useState('');
   const [selectedDegree, setSelectedDegree] = useState('');
   const [selectedYears, setSelectedYears] = useState('');
+  
+  // Sorting
+  const [sortBy, setSortBy] = useState('years');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   // Filter options
   const [majors, setMajors] = useState<string[]>([]);
@@ -40,7 +46,7 @@ export default function SalaryInsightsPage() {
 
   useEffect(() => {
     fetchSalaryData();
-  }, [selectedMajor, selectedInstitution, selectedDegree, selectedYears]);
+  }, [selectedMajor, selectedInstitution, selectedDegree, selectedYears, sortBy, sortOrder]);
 
   const fetchSalaryData = async () => {
     try {
@@ -51,25 +57,34 @@ export default function SalaryInsightsPage() {
       if (selectedInstitution) params.append('institution', selectedInstitution);
       if (selectedDegree) params.append('degreeLevel', selectedDegree);
       if (selectedYears) params.append('yearsRange', selectedYears);
+      if (sortBy) params.append('sortBy', sortBy);
+      if (sortOrder) params.append('sortOrder', sortOrder);
 
       const response = await fetch(`/api/salary-data?${params.toString()}`);
       if (!response.ok) {
         // Distinguish between different error types
-        if (response.status === 401 || response.status === 403) {
-          throw new Error('Premium subscription required to access salary insights');
+        if (response.status === 401) {
+          throw new Error('Please sign in to view salary insights');
         }
         throw new Error(`Unable to load salary data (${response.status})`);
       }
 
       const result = await response.json();
       setSalaryData(result.data || []);
-
-      // Extract unique majors and institutions for filters
-      if (result.data && result.data.length > 0) {
-        const uniqueMajors = Array.from(new Set(result.data.map((d: SalaryData) => d.major))).sort();
-        const uniqueInstitutions = Array.from(new Set(result.data.map((d: SalaryData) => d.institution_name))).sort();
-        setMajors(uniqueMajors as string[]);
-        setInstitutions(uniqueInstitutions as string[]);
+      setApiIsPremium(result.isPremium || false);
+      
+      // Set summary stats (for free users, API returns this; for premium, calculate from data)
+      if (result.summary) {
+        setSummary(result.summary);
+      } else if (result.data && result.data.length > 0) {
+        const totalDataPoints = result.data.reduce((sum: number, d: SalaryData) => sum + d.sample_size, 0);
+        const uniqueMajors = Array.from(new Set(result.data.map((d: SalaryData) => d.major))).length;
+        const uniqueInstitutions = Array.from(new Set(result.data.map((d: SalaryData) => d.institution_name))).length;
+        setSummary({ totalDataPoints, uniqueMajors, uniqueInstitutions });
+        
+        // Extract unique majors and institutions for filters
+        setMajors(Array.from(new Set(result.data.map((d: SalaryData) => d.major))).sort() as string[]);
+        setInstitutions(Array.from(new Set(result.data.map((d: SalaryData) => d.institution_name))).sort() as string[]);
       }
     } catch (err) {
       console.error('Salary data fetch error:', err);
@@ -134,16 +149,16 @@ export default function SalaryInsightsPage() {
           <div className="bg-gray-900 border-l-4 border-orange-500 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-6">
             <div className="text-sm text-gray-400 font-medium mb-1">Total Data Points</div>
             <div className="text-3xl font-extrabold text-white">
-              {salaryData.reduce((sum, d) => sum + d.sample_size, 0).toLocaleString()}
+              {summary.totalDataPoints.toLocaleString()}
             </div>
           </div>
           <div className="bg-gray-900 border-l-4 border-green-500 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-6">
             <div className="text-sm text-gray-400 font-medium mb-1">Unique Majors</div>
-            <div className="text-3xl font-extrabold text-white">{majors.length}</div>
+            <div className="text-3xl font-extrabold text-white">{summary.uniqueMajors}</div>
           </div>
           <div className="bg-gray-900 border-l-4 border-orange-500 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-6">
             <div className="text-sm text-gray-400 font-medium mb-1">Institutions</div>
-            <div className="text-3xl font-extrabold text-white">{institutions.length}</div>
+            <div className="text-3xl font-extrabold text-white">{summary.uniqueInstitutions}</div>
           </div>
         </div>
 
@@ -234,6 +249,40 @@ export default function SalaryInsightsPage() {
           </div>
         </div>
 
+        {/* Sorting Controls - Premium Only */}
+        {isPremium && !loading && !error && salaryData.length > 0 && (
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_10px_rgba(249,115,22,0.08)] p-6 mb-8">
+            <h2 className="text-lg font-bold text-white mb-4">Sort Results</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-white mb-2">Sort By</label>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                >
+                  <option value="years">Years Post-Grad</option>
+                  <option value="avg_salary">Average Salary</option>
+                  <option value="min_salary">Minimum Salary</option>
+                  <option value="max_salary">Maximum Salary</option>
+                  <option value="total_comp">Total Compensation</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-white mb-2">Order</label>
+                <select
+                  value={sortOrder}
+                  onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
+                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                >
+                  <option value="asc">Lowest to Highest</option>
+                  <option value="desc">Highest to Lowest</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Results */}
         {loading ? (
           <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-14 text-center">
@@ -265,6 +314,57 @@ export default function SalaryInsightsPage() {
                   🔄 Try Again
                 </button>
               )}
+            </div>
+          </div>
+        ) : salaryData.length === 0 && !apiIsPremium ? (
+          // Free users - show premium upgrade prompt
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 border-2 border-orange-500/30 rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.15)] p-12 text-center">
+            <div className="max-w-2xl mx-auto">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-orange-500/20 rounded-full mb-6">
+                <svg className="w-10 h-10 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <h3 className="text-3xl font-bold text-white mb-4">
+                Unlock Detailed Salary Insights
+              </h3>
+              <p className="text-lg text-gray-300 mb-6">
+                We have {summary.totalDataPoints.toLocaleString()} real salary data points from {summary.uniqueMajors} majors across {summary.uniqueInstitutions} institutions.
+              </p>
+              <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-6 mb-6">
+                <h4 className="text-white font-semibold mb-3">Premium members get access to:</h4>
+                <ul className="text-left text-gray-300 space-y-2">
+                  <li className="flex items-start gap-2">
+                    <span className="text-orange-500 mt-1">✓</span>
+                    <span>Detailed salary breakdowns by major, school, and experience level</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-orange-500 mt-1">✓</span>
+                    <span>Min, max, average, and median salary data</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-orange-500 mt-1">✓</span>
+                    <span>Salary distribution percentiles (25th, 50th, 75th)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-orange-500 mt-1">✓</span>
+                    <span>Advanced filtering and sorting options</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-orange-500 mt-1">✓</span>
+                    <span>Total compensation including bonuses and equity</span>
+                  </li>
+                </ul>
+              </div>
+              <Link
+                href="/pricing"
+                className="inline-flex items-center px-8 py-4 bg-orange-500 text-white text-lg font-bold rounded-lg hover:bg-orange-600 transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)]"
+              >
+                Upgrade to Premium →
+              </Link>
+              <p className="text-sm text-gray-400 mt-4">
+                Starting at $9.99/month • Cancel anytime
+              </p>
             </div>
           </div>
         ) : salaryData.length === 0 ? (
