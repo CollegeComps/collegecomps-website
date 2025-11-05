@@ -31,10 +31,14 @@ import { requireTier } from '@/lib/auth-helpers'
 
 // GET - Fetch salary submissions (for analytics/display) - PREMIUM FEATURE
 export async function GET(req: NextRequest) {
-  // Verify authentication and premium subscription
+  // Verify authentication
   const session = await auth();
-  const tierError = requireTier(session, 'premium');
-  if (tierError) return tierError;
+  
+  if (!session?.user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const isPremium = session.user.subscriptionTier === 'premium' || session.user.subscriptionTier === 'professional';
 
   const db = getUsersDb();
   if (!db) {
@@ -47,6 +51,8 @@ export async function GET(req: NextRequest) {
     const institution = searchParams.get('institution')
     const yearsRange = searchParams.get('yearsRange') // e.g., "5" or "5-10"
     const degreeLevel = searchParams.get('degreeLevel')
+    const sortBy = searchParams.get('sortBy') || 'years' // Default sort by years
+    const sortOrder = searchParams.get('sortOrder') || 'asc' // Default ascending
 
     let query = `
       SELECT 
@@ -81,23 +87,66 @@ export async function GET(req: NextRequest) {
     }
 
     if (yearsRange) {
-      const [min, max] = yearsRange.split('-').map(Number)
-      if (max) {
-        query += ` AND years_since_graduation BETWEEN ? AND ?`
-        params.push(min, max)
+      if (yearsRange === '20+') {
+        query += ` AND years_since_graduation >= 20`
       } else {
-        query += ` AND years_since_graduation = ?`
-        params.push(min)
+        const [min, max] = yearsRange.split('-').map(Number)
+        if (max) {
+          query += ` AND years_since_graduation BETWEEN ? AND ?`
+          params.push(min, max)
+        } else {
+          query += ` AND years_since_graduation = ?`
+          params.push(min)
+        }
       }
     }
 
     query += ` GROUP BY major, institution_name, degree_level, years_since_graduation`
     query += ` HAVING sample_size >= 3` // Privacy: require at least 3 submissions
-    query += ` ORDER BY years_since_graduation ASC`
+    
+    // Add sorting
+    let orderByClause = '';
+    switch(sortBy) {
+      case 'avg_salary':
+        orderByClause = `avg_salary ${sortOrder.toUpperCase()}`;
+        break;
+      case 'min_salary':
+        orderByClause = `min_salary ${sortOrder.toUpperCase()}`;
+        break;
+      case 'max_salary':
+        orderByClause = `max_salary ${sortOrder.toUpperCase()}`;
+        break;
+      case 'total_comp':
+        orderByClause = `avg_total_comp ${sortOrder.toUpperCase()}`;
+        break;
+      case 'years':
+      default:
+        orderByClause = `years_since_graduation ${sortOrder.toUpperCase()}`;
+        break;
+    }
+    query += ` ORDER BY ${orderByClause}`;
 
     const results = await db.prepare(query).all(...params)
 
-    return NextResponse.json({ data: results, success: true })
+    // For free users, return summary stats only (no detailed data)
+    if (!isPremium) {
+      const totalDataPoints = results.reduce((sum: number, r: any) => sum + r.sample_size, 0);
+      const uniqueMajors = [...new Set(results.map((r: any) => r.major))].length;
+      const uniqueInstitutions = [...new Set(results.map((r: any) => r.institution_name))].length;
+      
+      return NextResponse.json({ 
+        data: [], // No detailed salary cards for free users
+        summary: {
+          totalDataPoints,
+          uniqueMajors,
+          uniqueInstitutions
+        },
+        isPremium: false,
+        success: true 
+      });
+    }
+
+    return NextResponse.json({ data: results, isPremium: true, success: true })
   } catch (error) {
     console.error('Error fetching salary data:', error)
     return NextResponse.json(
