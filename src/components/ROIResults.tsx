@@ -71,35 +71,35 @@ export default function ROIResults({ result, institution, program, costs, earnin
       <div className={`rounded-lg shadow-lg border-2 p-6 ${
         isPositiveROI ? 'bg-green-500/10 border-green-500' : 'bg-red-500/10 border-red-500'
       }`}>
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
           <h2 className="text-2xl font-extrabold text-white">ROI Analysis</h2>
-          <div className={`px-4 py-2 rounded-full text-sm font-bold ${
+          <div className={`px-4 py-2 rounded-full text-sm font-bold text-center ${
             isPositiveROI ? 'bg-green-500/20 border border-green-500 text-green-400' : 'bg-red-500/20 border border-red-500 text-red-400'
           }`}>
             {isPositiveROI ? 'Positive ROI' : 'Negative ROI'}
           </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center">
-            <div className="text-3xl font-extrabold text-orange-500">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="text-center p-4 bg-gray-800/50 rounded-lg">
+            <div className="text-3xl sm:text-2xl md:text-3xl font-extrabold text-orange-500 break-words">
               {ROICalculator.formatCurrency(result.netROI)}
             </div>
-            <div className="text-sm text-gray-300 font-semibold">Net Return</div>
+            <div className="text-sm text-gray-300 font-semibold mt-2">Net Return</div>
           </div>
           
-          <div className="text-center">
-            <div className="text-3xl font-extrabold text-orange-500">
+          <div className="text-center p-4 bg-gray-800/50 rounded-lg">
+            <div className="text-3xl sm:text-2xl md:text-3xl font-extrabold text-orange-500 break-words">
               {ROICalculator.formatPercentage(result.roiPercentage)}
             </div>
-            <div className="text-sm text-gray-300 font-semibold">ROI Percentage</div>
+            <div className="text-sm text-gray-300 font-semibold mt-2">ROI Percentage</div>
           </div>
           
-          <div className="text-center">
-            <div className="text-3xl font-extrabold text-orange-500">
+          <div className="text-center p-4 bg-gray-800/50 rounded-lg">
+            <div className="text-3xl sm:text-2xl md:text-3xl font-extrabold text-orange-500 break-words">
               {result.paybackPeriod === Infinity ? 'Never' : `${result.paybackPeriod.toFixed(1)} yrs`}
             </div>
-            <div className="text-sm text-gray-300 font-semibold">Payback Period</div>
+            <div className="text-sm text-gray-300 font-semibold mt-2">Payback Period</div>
           </div>
         </div>
       </div>
