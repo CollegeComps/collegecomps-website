@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
             'UPDATE users SET subscription_tier = ?, stripe_customer_id = ? WHERE id = ?'
           ).run(tier, customerId, parseInt(userId));
 
-          console.log(`✓ User ${userId} subscribed to ${tier} tier with customer ID ${customerId}`);
+          console.log(`[OK] User ${userId} subscribed to ${tier} tier with customer ID ${customerId}`);
         } else {
           console.error('checkout.session.completed webhook missing userId in metadata:', {
             sessionId: session.id,
@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
             ).run(newTier, newStatus, user.id);
           }
 
-          console.log(`✓ User ${user.id} (${user.email}) subscription updated - tier: ${newTier}, status: ${newStatus}, expires: ${expiresAt || 'N/A'}`);
+          console.log(`[OK] User ${user.id} (${user.email}) subscription updated - tier: ${newTier}, status: ${newStatus}, expires: ${expiresAt || 'N/A'}`);
         } else {
           console.error(`customer.subscription.${event.type === 'customer.subscription.created' ? 'created' : 'updated'} - User not found for customer ID:`, customerId);
         }
@@ -139,7 +139,7 @@ export async function POST(req: NextRequest) {
             'UPDATE users SET subscription_tier = ?, subscription_status = ?, subscription_expires_at = NULL WHERE id = ?'
           ).run('free', 'expired', user.id);
 
-          console.log(`✓ User ${user.id} (${user.email}) subscription canceled - downgraded to free tier`);
+          console.log(`[OK] User ${user.id} (${user.email}) subscription canceled - downgraded to free tier`);
         } else {
           console.error('customer.subscription.deleted - User not found for customer ID:', customerId);
         }

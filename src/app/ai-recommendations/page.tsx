@@ -309,7 +309,7 @@ export default function AIRecommendationsPage() {
                             key={idx}
                             className="px-2 py-1 bg-orange-500/10 text-orange-400 text-xs rounded-full"
                           >
-                            ✓ {reason}
+                            [OK] {reason}
                           </span>
                         ))}
                       </div>

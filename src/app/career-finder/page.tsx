@@ -380,7 +380,7 @@ export default function CareerFinderPage() {
           <h3 className="font-bold text-white mb-3">Get Your Full Results via Email</h3>
           {emailSent ? (
             <div className="bg-green-900/20 border border-green-800 rounded-lg p-4">
-              <p className="text-green-400 font-semibold">✅ Results sent successfully! Check your inbox.</p>
+              <p className="text-green-400 font-semibold">[SUCCESS] Results sent successfully! Check your inbox.</p>
             </div>
           ) : (
             <div className="flex gap-3">

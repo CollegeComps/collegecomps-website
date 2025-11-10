@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
       results.logs = logs;
       return NextResponse.json(results);
     }
-    logs.push('✅ Credentials check passed');
+    logs.push('[SUCCESS] Credentials check passed');
     results.steps.credentialsCheck = { passed: true };
 
     // Step 3: Get database
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
       results.logs = logs;
       return NextResponse.json(results);
     }
-    logs.push(`✅ Database connection obtained: ${db.constructor.name}`);
+    logs.push(`[SUCCESS] Database connection obtained: ${db.constructor.name}`);
     results.steps.databaseConnection = { 
       passed: true, 
       dbType: db.constructor.name 
@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
       results.logs = logs;
       return NextResponse.json(results);
     }
-    logs.push('✅ User has password hash');
+    logs.push('[SUCCESS] User has password hash');
     results.steps.passwordHashCheck = { passed: true };
 
     // Step 5: Compare password
@@ -142,7 +142,7 @@ export async function POST(request: NextRequest) {
       results.logs = logs;
       return NextResponse.json(results);
     }
-    logs.push('✅ Password is valid');
+    logs.push('[SUCCESS] Password is valid');
 
     // Step 6: Build user object (same as authorize does)
     logs.push('Step 6: Building user object for return...');

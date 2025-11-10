@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log('✅ Career Finder email sent:', { to: email, emailId: data?.id });
+    console.log('[SUCCESS] Career Finder email sent:', { to: email, emailId: data?.id });
     
     return NextResponse.json({ 
       success: true, 

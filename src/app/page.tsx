@@ -486,7 +486,7 @@ export default function Home() {
                 href="/roi-calculator"
                 className="block w-full text-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors shadow-[0_0_10px_rgba(249,115,22,0.08)]"
               >
-                {currentTier === 'free' && session ? '✓ Current Plan' : 'Get Started'}
+                {currentTier === 'free' && session ? '[OK] Current Plan' : 'Get Started'}
               </Link>
             </div>
 
