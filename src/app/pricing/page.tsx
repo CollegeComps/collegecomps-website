@@ -144,7 +144,7 @@ export default function PricingPage() {
               onClick={() => !session ? router.push('/auth/signin') : router.push('/roi-calculator')}
               className="w-full py-3 px-6 rounded-lg font-bold transition-all bg-gray-800 text-white hover:bg-gray-700 shadow-[0_0_10px_rgba(249,115,22,0.08)]"
             >
-              {currentTier === 'free' ? '✓ Current Plan' : 'Get Started Free'}
+              {currentTier === 'free' ? '[OK] Current Plan' : 'Get Started Free'}
             </button>
           </div>
 

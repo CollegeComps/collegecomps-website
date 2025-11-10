@@ -134,7 +134,7 @@ export default function AIAutocomplete({
 
   const getSuggestionIcon = (suggestion: AISuggestion) => {
     if (suggestion.type === 'reach') return '🎯';
-    if (suggestion.type === 'match') return '✅';
+    if (suggestion.type === 'match') return '[SUCCESS]';
     if (suggestion.type === 'safety') return '';
     return '📚';
   };

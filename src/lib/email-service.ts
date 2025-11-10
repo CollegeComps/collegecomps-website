@@ -63,7 +63,7 @@ async function sendEmail({ to, subject, html, userId, replyTo }: SendEmailOption
       throw new Error(`Failed to send email: ${error.message}`);
     }
 
-    console.log('✅ Email sent successfully:', { to, subject, emailId: data?.id });
+    console.log('[SUCCESS] Email sent successfully:', { to, subject, emailId: data?.id });
     return data;
   } catch (error) {
     console.error('❌ Error sending email:', error);
