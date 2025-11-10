@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- White background circle -->
+  <circle cx="100" cy="100" r="95" fill="white"/>
+  
+  <!-- Graduation cap (dark gray) -->
+  <g transform="translate(100, 100)">
+    <!-- Cap top -->
+    <path d="M -50 -20 L 0 -35 L 50 -20 L 50 -10 L 0 -25 L -50 -10 Z" fill="#4A4A4A"/>
+    
+    <!-- Cap base -->
+    <rect x="-25" y="-10" width="50" height="30" rx="5" fill="#4A4A4A"/>
+    
+    <!-- Tassel circle -->
+    <circle cx="-40" cy="5" r="5" fill="#4A4A4A"/>
+  </g>
+  
+  <!-- Orange upward arrow -->
+  <g transform="translate(100, 60)">
+    <!-- Arrow shaft -->
+    <path d="M 20 20 L 25 0 L 30 20 L 28 20 L 27.5 60 L 22.5 60 L 22 20 Z" fill="#F97316" stroke="#F97316" stroke-width="2"/>
+    
+    <!-- Arrow head -->
+    <path d="M 15 10 L 25 -5 L 35 10 Z" fill="#F97316"/>
+  </g>
+</svg>
