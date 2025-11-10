@@ -22,7 +22,8 @@ import {
   BoltIcon,
   LightBulbIcon,
   GiftIcon,
-  BanknotesIcon
+  BanknotesIcon,
+  NewspaperIcon
 } from '@heroicons/react/24/outline';
 import UserMenu from './UserMenu';
 import TopAuthBar from './TopAuthBar';
@@ -90,6 +91,13 @@ const navigation: NavItem[] = [
     href: '/analytics',
     icon: ChartBarIcon,
     description: 'Interactive ROI vs Cost analysis',
+    requiresAuth: false
+  },
+  {
+    name: 'Articles',
+    href: '/articles',
+    icon: NewspaperIcon,
+    description: 'Expert insights and guides',
     requiresAuth: false
   },
   {
