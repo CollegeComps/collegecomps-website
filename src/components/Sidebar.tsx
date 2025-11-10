@@ -173,8 +173,15 @@ export default function Sidebar({ children }: SidebarProps) {
         {/* Sidebar header */}
         <div className="flex items-center h-16 px-4 border-b border-gray-900 flex-shrink-0">
           <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-all duration-500">
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Image src="/logo.svg" alt="CollegeComps Logo" width={40} height={40} className="w-10 h-10" />
+            <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Image 
+                src="/logo.svg" 
+                alt="CollegeComps Logo" 
+                width={48} 
+                height={48} 
+                className="w-12 h-12" 
+                priority
+              />
             </div>
             {isExpanded && (
               <h1 className="text-lg font-extrabold text-white whitespace-nowrap transition-opacity duration-500">CollegeComps</h1>

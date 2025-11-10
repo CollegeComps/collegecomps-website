@@ -439,7 +439,7 @@ export default function CostAnalyzer({
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              Career Length (Years)
+              ROI Time Horizon (Years)
             </label>
             <select
               value={earnings.careerLength}
@@ -452,6 +452,9 @@ export default function CostAnalyzer({
               <option value={35}>35 years</option>
               <option value={40}>40 years</option>
             </select>
+            <p className="text-xs text-gray-400 mt-1">
+              Total time period including education years (e.g., 40 years = 4 years of college + 36 years of career)
+            </p>
           </div>
 
           <div>

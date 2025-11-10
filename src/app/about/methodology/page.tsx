@@ -151,7 +151,7 @@ export default function MethodologyPage() {
               </p>
               <ul className="list-disc list-inside text-gray-300 space-y-1 ml-4">
                 <li><strong>Median Earnings:</strong> 10-year post-entry median earnings from College Scorecard</li>
-                <li><strong>30 Years:</strong> Standard career length for ROI calculations</li>
+                <li><strong>40-Year Time Horizon:</strong> Standard ROI time horizon including 4 years of education plus 36 years of career</li>
                 <li><strong>Total Cost:</strong> Average annual cost (tuition + fees + room & board) × 4 years</li>
               </ul>
               <p className="text-sm text-gray-300 mt-2">

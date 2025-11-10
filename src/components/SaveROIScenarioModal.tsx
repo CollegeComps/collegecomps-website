@@ -201,7 +201,7 @@ export default function SaveROIScenarioModal({
                 <span>Baseline Salary:</span>
                 <span className="font-semibold">${earnings.baselineSalary.toLocaleString()}/year</span>
                 
-                <span>Career Length:</span>
+                <span>ROI Time Horizon:</span>
                 <span className="font-semibold">{earnings.careerLength} years</span>
                 
                 <span>Salary Growth:</span>
