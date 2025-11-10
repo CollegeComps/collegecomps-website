@@ -838,7 +838,7 @@ export default function CollegesPage() {
 
                     {institution.acceptance_rate && (
                       <div className="flex items-center">
-                        <AcademicCapIcon className="w-4 h-4 mr-2 text-purple-500" />
+                        <AcademicCapIcon className="w-4 h-4 mr-2 text-blue-500" />
                         <span className="text-white">
                           Acceptance Rate: {(institution.acceptance_rate * 100).toFixed(1)}%
                         </span>

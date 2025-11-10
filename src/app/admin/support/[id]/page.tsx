@@ -133,7 +133,7 @@ export default function AdminTicketDetailPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'open': return 'bg-blue-100 text-blue-800';
-      case 'in_progress': return 'bg-purple-100 text-purple-800';
+      case 'in_progress': return 'bg-blue-100 text-blue-800';
       case 'resolved': return 'bg-green-100 text-green-800';
       case 'closed': return 'bg-gray-100 text-white font-bold';
       default: return 'bg-gray-100 text-white font-bold';
@@ -144,7 +144,7 @@ export default function AdminTicketDetailPage() {
     const colors: Record<string, string> = {
       free: 'bg-gray-100 text-gray-300',
       premium: 'bg-blue-100 text-orange-400',
-      professional: 'bg-purple-100 text-purple-700'
+      professional: 'bg-blue-100 text-blue-700'
     };
     return colors[tier] || colors.free;
   };

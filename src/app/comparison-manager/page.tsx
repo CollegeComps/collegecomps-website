@@ -332,7 +332,7 @@ export default function ComparisonManagerPage() {
                       {comp.tags?.map((tag, idx) => (
                         <span
                           key={idx}
-                          className="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full"
+                          className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full"
                         >
                           {tag}
                         </span>

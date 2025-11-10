@@ -152,7 +152,7 @@ export default function SupportPage() {
               </div>
               <p className="text-lg text-gray-300">
                 Get help from our support team
-                {isProfessional && <span className="ml-2 text-purple-600 font-semibold">Priority Support Active</span>}
+                {isProfessional && <span className="ml-2 text-blue-600 font-semibold">Priority Support Active</span>}
                 {isPremium && <span className="ml-2 text-orange-500 font-semibold">Premium Support Active</span>}
               </p>
             </div>
@@ -294,7 +294,7 @@ export default function SupportPage() {
                     <div className="ml-4">
                       <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${
                         ticket.status === 'open' ? 'bg-orange-500/20 text-orange-400 border border-orange-500/50' :
-                        ticket.status === 'in_progress' ? 'bg-purple-100 text-purple-800' :
+                        ticket.status === 'in_progress' ? 'bg-blue-100 text-blue-800' :
                         ticket.status === 'resolved' ? 'bg-green-100 text-green-800' :
                         'bg-gray-100 text-gray-300'
                       }`}>

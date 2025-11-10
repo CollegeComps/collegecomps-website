@@ -184,8 +184,8 @@ export default function AdminAnalyticsPage() {
                 <p className="text-sm text-gray-300">Saved Comparisons</p>
                 <p className="text-3xl font-bold tracking-tight text-white font-bold">{data.savedComparisons}</p>
               </div>
-              <div className="bg-purple-100 p-3 rounded-lg">
-                <ArrowsRightLeftIcon className="h-6 w-6 text-purple-600" />
+              <div className="bg-blue-100 p-3 rounded-lg">
+                <ArrowsRightLeftIcon className="h-6 w-6 text-blue-600" />
               </div>
             </div>
             {data.subscriptionTier === 'free' && data.savedComparisons >= 3 && (

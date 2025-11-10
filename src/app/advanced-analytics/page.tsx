@@ -277,8 +277,8 @@ function PercentilesView({ data, preferences }: { data: SalaryData[]; preference
               ${Math.round(filteredData.reduce((sum, d) => sum + (d.median || 0), 0) / filteredData.length).toLocaleString()}
             </p>
           </div>
-          <div className="bg-purple-50 rounded-lg p-4">
-            <p className="text-xs text-purple-600 font-medium mb-1">Average 75th Percentile</p>
+          <div className="bg-blue-50 rounded-lg p-4">
+            <p className="text-xs text-blue-600 font-medium mb-1">Average 75th Percentile</p>
             <p className="text-2xl font-bold text-white font-bold">
               ${Math.round(filteredData.reduce((sum, d) => sum + (d.p75 || 0), 0) / filteredData.length).toLocaleString()}
             </p>
@@ -309,7 +309,7 @@ function TrajectoryView({ preferences }: { preferences: any }) {
         </p>
       )}
 
-      <div className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6">
+      <div className="mb-6 bg-gradient-to-r from-blue-50 to-blue-50 rounded-lg p-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
             <p className="text-xs text-gray-300 mb-1">Starting Salary</p>
@@ -325,7 +325,7 @@ function TrajectoryView({ preferences }: { preferences: any }) {
           </div>
           <div>
             <p className="text-xs text-gray-300 mb-1">20-Year Projection</p>
-            <p className="text-xl font-bold text-purple-600">
+            <p className="text-xl font-bold text-blue-600">
               ${projections[20].salary.toLocaleString()}
             </p>
           </div>
@@ -433,7 +433,7 @@ function PeerComparisonView({ data, preferences }: { data: SalaryData[]; prefere
             </div>
             <div className="flex items-center justify-between">
               <span className="text-gray-300">Gap to Close</span>
-              <span className="font-semibold text-purple-600">
+              <span className="font-semibold text-blue-600">
                 ${(Math.round(sortedSalaries[Math.floor(sortedSalaries.length * 0.75)]) - userSalary).toLocaleString()}
               </span>
             </div>

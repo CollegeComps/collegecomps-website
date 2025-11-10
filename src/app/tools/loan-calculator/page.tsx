@@ -226,7 +226,7 @@ export default function LoanCalculatorPage() {
                   </div>
 
                   {/* Payoff Date */}
-                  <div className="border-l-4 border-purple-500 pl-4">
+                  <div className="border-l-4 border-blue-500 pl-4">
                     <p className="text-sm font-medium text-gray-300">Payoff Date</p>
                     <p className="text-2xl font-bold text-white font-bold mt-1">
                       {calculation.payoffDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}

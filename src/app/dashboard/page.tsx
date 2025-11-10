@@ -61,7 +61,7 @@ const getControlColor = (control: number): string => {
   switch (control) {
     case 1: return 'bg-orange-500/100';
     case 2: return 'bg-green-500';
-    case 3: return 'bg-purple-500';
+    case 3: return 'bg-blue-500';
     default: return 'bg-gray-500';
   }
 };

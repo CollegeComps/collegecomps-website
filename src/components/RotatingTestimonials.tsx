@@ -21,7 +21,7 @@ const testimonials = [
     initials: 'ER',
     name: 'Emily Rodriguez',
     role: 'Parent',
-    color: 'bg-purple-100 text-purple-600',
+    color: 'bg-blue-100 text-blue-600',
     text: 'As a parent, I needed transparent data to help my daughter choose wisely. This tool provided clarity on costs and career outcomes.'
   },
   {

@@ -42,9 +42,9 @@ export default function ModernStatCard({
       shadow: 'shadow-[0_0_30px_rgba(59,130,246,0.15)] hover:shadow-[0_0_40px_rgba(59,130,246,0.25)]'
     },
     purple: {
-      bg: 'from-purple-500 to-purple-600',
-      text: 'text-purple-500',
-      border: 'border-purple-500/20',
+      bg: 'from-blue-500 to-blue-600',
+      text: 'text-blue-500',
+      border: 'border-blue-500/20',
       shadow: 'shadow-[0_0_30px_rgba(168,85,247,0.15)] hover:shadow-[0_0_40px_rgba(168,85,247,0.25)]'
     }
   };
