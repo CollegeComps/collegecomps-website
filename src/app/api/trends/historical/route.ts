@@ -77,7 +77,7 @@ export async function GET(req: NextRequest) {
     let topGrowingFields: any[];
     
     if (isCacheValid) {
-      console.log('✅ [TRENDS] Using cached data - skipping DB queries');
+      console.log('[SUCCESS] [TRENDS] Using cached data - skipping DB queries');
       actualData = cachedData!.financial;
       topGrowingFields = cachedData!.programs;
     } else {
@@ -94,7 +94,7 @@ export async function GET(req: NextRequest) {
         ORDER BY year DESC
         LIMIT 1
       `).get() as any;
-      console.log(`✅ [TRENDS] Query 1 complete in ${Date.now() - queryStart}ms`);
+      console.log(`[SUCCESS] [TRENDS] Query 1 complete in ${Date.now() - queryStart}ms`);
       
       // Query top programs from materialized table (fast!)
       console.log('[TRENDS] Query 2: Top programs...');  
@@ -110,7 +110,7 @@ export async function GET(req: NextRequest) {
         ORDER BY total_completions DESC
         LIMIT 9
       `).all() as any[];
-      console.log(`✅ [TRENDS] Query 2 complete in ${Date.now() - queryStart}ms`);
+      console.log(`[SUCCESS] [TRENDS] Query 2 complete in ${Date.now() - queryStart}ms`);
       
       // Update cache
       cachedData = {
@@ -129,7 +129,7 @@ export async function GET(req: NextRequest) {
         userSalaryResult = await usersDb.prepare(`
           SELECT * FROM v_salary_submissions_summary
         `).get() as any;
-        console.log(`✅ [TRENDS] Query 3 complete in ${Date.now() - queryStart}ms`);
+        console.log(`[SUCCESS] [TRENDS] Query 3 complete in ${Date.now() - queryStart}ms`);
       } catch (err) {
         console.warn(`[TRENDS] Query 3 failed:`, err);
       }

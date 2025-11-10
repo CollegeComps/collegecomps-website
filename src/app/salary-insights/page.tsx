@@ -335,23 +335,23 @@ export default function SalaryInsightsPage() {
                 <h4 className="text-white font-semibold mb-3">Premium members get access to:</h4>
                 <ul className="text-left text-gray-300 space-y-2">
                   <li className="flex items-start gap-2">
-                    <span className="text-orange-500 mt-1">✓</span>
+                    <span className="text-orange-500 mt-1">[OK]</span>
                     <span>Detailed salary breakdowns by major, school, and experience level</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-orange-500 mt-1">✓</span>
+                    <span className="text-orange-500 mt-1">[OK]</span>
                     <span>Min, max, average, and median salary data</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-orange-500 mt-1">✓</span>
+                    <span className="text-orange-500 mt-1">[OK]</span>
                     <span>Salary distribution percentiles (25th, 50th, 75th)</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-orange-500 mt-1">✓</span>
+                    <span className="text-orange-500 mt-1">[OK]</span>
                     <span>Advanced filtering and sorting options</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-orange-500 mt-1">✓</span>
+                    <span className="text-orange-500 mt-1">[OK]</span>
                     <span>Total compensation including bonuses and equity</span>
                   </li>
                 </ul>
