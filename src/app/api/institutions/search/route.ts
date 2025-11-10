@@ -15,16 +15,20 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    // Normalize query by removing spaces around ampersands
+    // This allows "A&M" to match "A & M" and vice versa
+    const normalizedQuery = query.replace(/\s*&\s*/g, '%');
+    
     const institutions = await db
       .prepare(
         `SELECT DISTINCT
           name
         FROM institutions
-        WHERE name LIKE ?
+        WHERE REPLACE(REPLACE(name, ' & ', '&'), '&', '%') LIKE ?
         ORDER BY name
         LIMIT 15`
       )
-      .all(`%${query}%`) as { name: string }[];
+      .all(`%${normalizedQuery}%`) as { name: string }[];
 
     return NextResponse.json({ institutions: institutions.map(i => i.name) });
   } catch (error) {
