@@ -30,20 +30,50 @@ export default function ROIResults({ result, institution, program, costs, earnin
   const isPositiveROI = result.netROI > 0;
   const isReasonablePayback = result.paybackPeriod <= 10 && result.paybackPeriod !== Infinity;
 
-  // Generate payback timeline data
-  const generatePaybackTimeline = () => {
-    const years = Math.min(Math.ceil(result.paybackPeriod) + 5, 30);
+  // Generate earnings trajectory data
+  const generateEarningsTrajectory = () => {
+    const programLength = costs.programLength;
+    const maxYears = 40; // Show 40-year time horizon
     const timeline = [];
     
-    for (let year = 0; year <= years; year++) {
-      const withoutDegree = earnings.baselineSalary * year * (1 + earnings.salaryGrowthRate / 100);
-      const withDegree = earnings.projectedSalary * year * (1 + earnings.salaryGrowthRate / 100) - result.totalCost;
+    let cumulativeWithDegree = 0;
+    let cumulativeWithoutDegree = 0;
+    let currentSalaryWithDegree = earnings.projectedSalary;
+    let currentSalaryWithoutDegree = earnings.baselineSalary;
+    let crossoverYear = null;
+    
+    for (let year = 0; year <= maxYears; year++) {
+      // During college years (investment period)
+      if (year < programLength) {
+        // With degree: paying costs (negative accumulation)
+        const annualCost = costs.tuition + costs.fees + costs.roomBoard + costs.books + costs.otherExpenses;
+        cumulativeWithDegree -= annualCost;
+        
+        // Without degree: earning baseline salary
+        cumulativeWithoutDegree += currentSalaryWithoutDegree;
+        currentSalaryWithoutDegree *= (1 + earnings.salaryGrowthRate / 100);
+      } 
+      // Post-graduation (earning years)
+      else {
+        // With degree: earning projected salary
+        cumulativeWithDegree += currentSalaryWithDegree;
+        currentSalaryWithDegree *= (1 + earnings.salaryGrowthRate / 100);
+        
+        // Without degree: continuing to earn baseline
+        cumulativeWithoutDegree += currentSalaryWithoutDegree;
+        currentSalaryWithoutDegree *= (1 + earnings.salaryGrowthRate / 100);
+      }
+      
+      // Find crossover point
+      if (crossoverYear === null && cumulativeWithDegree >= cumulativeWithoutDegree && year >= programLength) {
+        crossoverYear = year;
+      }
       
       timeline.push({
         year,
-        withDegree: Math.round(withDegree),
-        withoutDegree: Math.round(withoutDegree),
-        breakEven: year === Math.ceil(result.paybackPeriod)
+        withDegree: Math.round(cumulativeWithDegree),
+        withoutDegree: Math.round(cumulativeWithoutDegree),
+        breakEven: year === crossoverYear
       });
     }
     
@@ -62,7 +92,7 @@ export default function ROIResults({ result, institution, program, costs, earnin
     ].filter(item => item.value > 0);
   };
 
-  const timelineData = generatePaybackTimeline();
+  const timelineData = generateEarningsTrajectory();
   const costBreakdownData = generateCostBreakdown();
 
   return (
@@ -134,18 +164,18 @@ export default function ROIResults({ result, institution, program, costs, earnin
         </div>
       </div>
 
-      {/* Payback Timeline Visualization */}
+      {/* Earnings Trajectory Visualization */}
       <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-6">
-        <h3 className="text-xl font-bold text-white mb-4">Payback Timeline</h3>
+        <h3 className="text-xl font-bold text-white mb-4">Earnings Trajectory</h3>
         <p className="text-sm text-gray-300 font-medium mb-4">
-          Cumulative earnings comparison showing when the degree investment pays off
+          Cumulative earnings over time: with degree vs. without degree. Shows the full investment period (years 0-{costs.programLength - 1}) and subsequent earnings.
         </p>
         <ResponsiveContainer width="100%" height={300}>
           <AreaChart data={timelineData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
             <XAxis 
               dataKey="year" 
-              label={{ value: 'Years After Graduation', position: 'insideBottom', offset: -5 }}
+              label={{ value: 'Years from Start', position: 'insideBottom', offset: -5 }}
               stroke="#9CA3AF"
             />
             <YAxis 
@@ -155,7 +185,14 @@ export default function ROIResults({ result, institution, program, costs, earnin
             />
             <Tooltip 
               formatter={(value: number) => `$${value.toLocaleString()}`}
-              labelFormatter={(label) => `Year ${label}`}
+              labelFormatter={(label) => {
+                const year = Number(label);
+                if (year < costs.programLength) {
+                  return `Year ${label} (College Year ${year + 1})`;
+                } else {
+                  return `Year ${label} (${year - costs.programLength + 1} years post-grad)`;
+                }
+              }}
               contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #374151', color: '#fff' }}
             />
             <Legend />
@@ -177,11 +214,19 @@ export default function ROIResults({ result, institution, program, costs, earnin
             />
           </AreaChart>
         </ResponsiveContainer>
-        {result.paybackPeriod !== Infinity && (
-          <p className="text-sm text-gray-300 font-medium mt-4 text-center">
-            Break-even point: Year {Math.ceil(result.paybackPeriod)} - Your investment is recovered after this point
-          </p>
-        )}
+        <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500 rounded-lg">
+          {result.paybackPeriod !== Infinity ? (
+            <p className="text-sm text-blue-400 font-medium text-center">
+              <strong>Crossover Point: Year {Math.ceil(result.paybackPeriod)}</strong>
+              <br />
+              The degree path surpasses the non-degree path at this point. Beyond this year, the cumulative earnings with a degree exceed those without.
+            </p>
+          ) : (
+            <p className="text-sm text-red-400 font-medium text-center">
+              Based on current projections, the investment may not break even within a typical career span.
+            </p>
+          )}
+        </div>
       </div>
 
       {/* Cost Breakdown Visualization */}
