@@ -37,7 +37,7 @@ export function OrganizationSchema() {
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Support',
-      email: 'support@collegecomps.com',
+      email: 'fpapalardo@collegecomps.com',
       availableLanguage: 'en',
     },
   };

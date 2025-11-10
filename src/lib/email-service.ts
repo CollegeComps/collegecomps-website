@@ -20,7 +20,7 @@ function getResendClient() {
 }
 
 const FROM_EMAIL = process.env.EMAIL_FROM || 'noreply@collegecomps.com';
-const SUPPORT_EMAIL = process.env.SUPPORT_EMAIL || 'support@collegecomps.com';
+const SUPPORT_EMAIL = process.env.SUPPORT_EMAIL || 'fpapalardo@collegecomps.com';
 const BASE_URL = process.env.NODE_ENV === 'production' 
   ? 'https://www.collegecomps.com' 
   : 'http://localhost:3000';
