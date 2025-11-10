@@ -348,7 +348,7 @@ export default function EFCCalculatorPage() {
               </p>
             </div>
 
-            <div className="p-4 bg-purple-50 rounded-lg">
+            <div className="p-4 bg-blue-50 rounded-lg">
               <h3 className="font-semibold text-white font-bold mb-2">Important Notes</h3>
               <p className="text-sm text-gray-300">
                 This is an estimate using Federal Methodology. Some colleges use their own formulas and may calculate a different family contribution.

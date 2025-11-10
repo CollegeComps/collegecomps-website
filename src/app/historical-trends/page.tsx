@@ -204,12 +204,12 @@ export default function HistoricalTrendsPage() {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl">
+            <div className="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl">
               <ChartBarIcon className="w-8 h-8 text-white" />
             </div>
             <div>
@@ -218,7 +218,7 @@ export default function HistoricalTrendsPage() {
             </div>
           </div>
           
-          <div className="flex items-center gap-2 text-sm text-purple-600 bg-purple-50 px-4 py-2 rounded-lg inline-flex">
+          <div className="flex items-center gap-2 text-sm text-blue-600 bg-blue-50 px-4 py-2 rounded-lg inline-flex">
             <SparklesIcon className="w-5 h-5" />
             <span className="font-semibold">Premium Feature - Powered by AI</span>
           </div>
@@ -327,7 +327,7 @@ export default function HistoricalTrendsPage() {
               <span className="text-gray-300">Historical Data</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-purple-500 rounded"></div>
+              <div className="w-3 h-3 bg-blue-500 rounded"></div>
               <span className="text-gray-300">AI Predictions</span>
             </div>
           </div>
@@ -410,22 +410,22 @@ export default function HistoricalTrendsPage() {
         </div>
 
         {/* Insights */}
-        <div className="mt-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border border-orange-500">
+        <div className="mt-8 bg-gradient-to-r from-blue-50 to-blue-50 rounded-xl p-6 border border-orange-500">
           <div className="flex items-start gap-3">
-            <SparklesIcon className="w-6 h-6 text-purple-600 flex-shrink-0 mt-1" />
+            <SparklesIcon className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
             <div>
               <h3 className="text-lg font-bold text-white font-bold mb-2">AI-Powered Insights</h3>
               <ul className="space-y-2 text-gray-300">
                 <li className="flex items-start gap-2">
-                  <span className="text-purple-600 font-bold">•</span>
+                  <span className="text-blue-600 font-bold">•</span>
                   <span>Technology and healthcare sectors show strongest growth projections through 2028</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-purple-600 font-bold">•</span>
+                  <span className="text-blue-600 font-bold">•</span>
                   <span>College costs are predicted to increase by 4-5% annually, outpacing inflation</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-purple-600 font-bold">•</span>
+                  <span className="text-blue-600 font-bold">•</span>
                   <span>STEM fields maintain highest ROI with average 1.8x returns within 5 years</span>
                 </li>
               </ul>

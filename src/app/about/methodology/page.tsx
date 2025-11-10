@@ -202,7 +202,7 @@ export default function MethodologyPage() {
                 <p className="text-sm font-medium text-gray-400 mb-1">With ROI Data</p>
                 <p className="text-2xl font-bold text-white font-bold">3,209 (52.1%)</p>
               </div>
-              <div className="border-l-4 border-purple-500 pl-4">
+              <div className="border-l-4 border-blue-500 pl-4">
                 <p className="text-sm font-medium text-gray-400 mb-1">With Enrollment Data</p>
                 <p className="text-2xl font-bold text-white font-bold">5,645 (91.6%)</p>
               </div>
@@ -243,7 +243,7 @@ export default function MethodologyPage() {
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="w-2 h-2 bg-purple-600 rounded-full mt-2"></div>
+              <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
               <div>
                 <p className="font-semibold text-white font-bold">ROI Calculations</p>
                 <p className="text-sm text-gray-300">Recalculated immediately when new data is available</p>

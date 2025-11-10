@@ -85,7 +85,7 @@ export default function SavedComparisonsPage() {
 
         {/* Premium Upsell for Free Users */}
         {!isPremium && (
-          <div className="mb-6 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-6 text-white">
+          <div className="mb-6 bg-gradient-to-r from-blue-600 to-blue-600 rounded-lg p-6 text-white">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-bold mb-1">Unlock Unlimited Saved Comparisons</h3>

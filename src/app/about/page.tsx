@@ -151,7 +151,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-6 border border-purple-200">
+            <div className="bg-gradient-to-br from-blue-50 to-pink-50 rounded-lg p-6 border border-blue-200">
               <div className="flex items-start">
                 <LightBulbIcon className="w-8 h-8 text-orange-500 mr-4 flex-shrink-0" />
                 <div>

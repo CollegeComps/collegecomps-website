@@ -144,7 +144,7 @@ export default function PriorityDataPage() {
     switch (category) {
       case 'salary': return 'bg-green-100 text-green-700';
       case 'college': return 'bg-blue-100 text-orange-400';
-      case 'trend': return 'bg-purple-100 text-purple-700';
+      case 'trend': return 'bg-blue-100 text-blue-700';
       case 'insight': return 'bg-orange-100 text-orange-700';
       default: return 'bg-gray-100 text-gray-300';
     }
@@ -236,7 +236,7 @@ export default function PriorityDataPage() {
               onClick={() => setSelectedCategory('trend')}
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
                 selectedCategory === 'trend'
-                  ? 'bg-purple-600 text-white shadow-[0_0_10px_rgba(249,115,22,0.08)]'
+                  ? 'bg-blue-600 text-white shadow-[0_0_10px_rgba(249,115,22,0.08)]'
                   : 'bg-gray-100 text-gray-300 hover:bg-gray-200'
               }`}
             >

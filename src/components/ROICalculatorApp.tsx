@@ -871,17 +871,17 @@ export default function ROICalculatorApp() {
 
                     {/* Program Size & Popularity */}
                     {selectedProgram.total_completions && selectedProgram.total_completions > 0 && (
-                      <div className="bg-purple-50 rounded-lg p-4">
-                        <h4 className="font-semibold text-purple-900 mb-2">Program Popularity</h4>
+                      <div className="bg-blue-50 rounded-lg p-4">
+                        <h4 className="font-semibold text-blue-900 mb-2">Program Popularity</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between items-center">
-                            <span className="text-purple-700">Program Size:</span>
-                            <span className="font-bold text-purple-900">
+                            <span className="text-blue-700">Program Size:</span>
+                            <span className="font-bold text-blue-900">
                               {selectedProgram.total_completions < 50 ? 'Small' : 
                                selectedProgram.total_completions < 200 ? 'Medium' : 'Large'}
                             </span>
                           </div>
-                          <div className="text-xs text-purple-700">
+                          <div className="text-xs text-blue-700">
                             {selectedProgram.total_completions} graduates per year
                             {selectedProgram.total_completions < 50 && ' - More personalized attention'}
                             {selectedProgram.total_completions >= 50 && selectedProgram.total_completions < 200 && ' - Good balance of resources and attention'}

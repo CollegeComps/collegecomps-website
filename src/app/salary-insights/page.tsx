@@ -446,8 +446,8 @@ export default function SalaryInsightsPage() {
                   </div>
 
                   {/* Total Compensation */}
-                  <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 rounded-lg p-4">
-                    <div className="text-xs text-purple-400 font-semibold mb-1">Avg Total Comp</div>
+                  <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30 rounded-lg p-4">
+                    <div className="text-xs text-blue-400 font-semibold mb-1">Avg Total Comp</div>
                     <div className="text-2xl font-bold text-white">
                       {formatCurrency(data.avg_total_comp || data.avg_salary)}
                     </div>

@@ -205,7 +205,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
                     <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
                       institution.control === 'Public' 
                         ? 'bg-green-500/20 text-green-400' 
-                        : 'bg-purple-500/20 text-purple-400'
+                        : 'bg-blue-500/20 text-blue-400'
                     }`}>
                       {institution.control}
                     </span>

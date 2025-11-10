@@ -259,7 +259,7 @@ export default function CollegeDetailPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
             <div className="flex items-center">
-              <AcademicCapIcon className="w-8 h-8 text-purple-500 mr-3" />
+              <AcademicCapIcon className="w-8 h-8 text-blue-500 mr-3" />
               <div>
                 <p className="text-2xl font-bold text-white font-bold">{stats.totalPrograms}</p>
                 <p className="text-sm text-gray-300">Programs</p>
@@ -336,7 +336,7 @@ export default function CollegeDetailPage() {
                       {institution.acceptance_rate && (
                         <div>
                           <dt className="text-sm font-medium text-gray-400 mb-1">Acceptance Rate</dt>
-                          <dd className="text-2xl font-bold text-purple-400">
+                          <dd className="text-2xl font-bold text-blue-400">
                             {(institution.acceptance_rate * 100).toFixed(1)}%
                           </dd>
                         </div>

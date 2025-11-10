@@ -113,7 +113,7 @@ export default function AdminSupportPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'open': return 'bg-blue-100 text-blue-800';
-      case 'in_progress': return 'bg-purple-100 text-purple-800';
+      case 'in_progress': return 'bg-blue-100 text-blue-800';
       case 'resolved': return 'bg-green-100 text-green-800';
       case 'closed': return 'bg-gray-100 text-white font-bold';
       default: return 'bg-gray-100 text-white font-bold';
@@ -124,7 +124,7 @@ export default function AdminSupportPage() {
     const colors: Record<string, string> = {
       free: 'bg-gray-100 text-gray-300',
       premium: 'bg-blue-100 text-orange-400',
-      professional: 'bg-purple-100 text-purple-700'
+      professional: 'bg-blue-100 text-blue-700'
     };
     return colors[tier] || colors.free;
   };
@@ -185,9 +185,9 @@ export default function AdminSupportPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-300">In Progress</p>
-                  <p className="text-2xl font-bold text-purple-600">{stats.in_progress_tickets}</p>
+                  <p className="text-2xl font-bold text-blue-600">{stats.in_progress_tickets}</p>
                 </div>
-                <ChatBubbleLeftRightIcon className="w-10 h-10 text-purple-600" />
+                <ChatBubbleLeftRightIcon className="w-10 h-10 text-blue-600" />
               </div>
             </div>
             <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
