@@ -614,7 +614,7 @@ export default function Home() {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><a href="/about" className="hover:text-orange-500 transition-colors font-medium">About Us</a></li>
                 <li><a href="/support" className="hover:text-orange-500 transition-colors font-medium">Support</a></li>
-                <li><a href="mailto:contact@collegecomps.com" className="hover:text-orange-500 transition-colors font-medium">Contact</a></li>
+                <li><a href="mailto:fpapalardo@collegecomps.com" className="hover:text-orange-500 transition-colors font-medium">Contact</a></li>
               </ul>
             </div>
             <div>
