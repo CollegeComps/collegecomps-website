@@ -375,25 +375,25 @@ export default function AnalyticsPage() {
               </ResponsiveContainer>
 
               {/* Insights */}
-              <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4">
                   <h3 className="text-sm font-semibold text-white font-bold mb-1">Public Institutions</h3>
-                  <p className="text-2xl font-bold text-orange-400">{publicData.length}</p>
-                  <p className="text-xs text-orange-500 mt-1">
+                  <p className="text-2xl font-bold text-orange-400 break-words">{publicData.length}</p>
+                  <p className="text-xs text-orange-500 mt-1 break-words">
                     Avg ROI: ${publicData.length > 0 ? ((publicData.reduce((sum, d) => sum + d.roi, 0) / publicData.length) / 1000000).toFixed(2) : 0}M
                   </p>
                 </div>
-                <div className="bg-green-50 rounded-lg p-4">
-                  <h3 className="text-sm font-semibold text-green-900 mb-1">Private Nonprofit</h3>
-                  <p className="text-2xl font-bold text-green-700">{privateNonprofitData.length}</p>
-                  <p className="text-xs text-green-600 mt-1">
+                <div className="bg-green-500/10 border border-green-500 rounded-lg p-4">
+                  <h3 className="text-sm font-semibold text-white font-bold mb-1">Private Nonprofit</h3>
+                  <p className="text-2xl font-bold text-green-400 break-words">{privateNonprofitData.length}</p>
+                  <p className="text-xs text-green-500 mt-1 break-words">
                     Avg ROI: ${privateNonprofitData.length > 0 ? ((privateNonprofitData.reduce((sum, d) => sum + d.roi, 0) / privateNonprofitData.length) / 1000000).toFixed(2) : 0}M
                   </p>
                 </div>
-                <div className="bg-red-50 rounded-lg p-4">
-                  <h3 className="text-sm font-semibold text-red-900 mb-1">Private For-Profit</h3>
-                  <p className="text-2xl font-bold text-red-700">{privateForProfitData.length}</p>
-                  <p className="text-xs text-red-600 mt-1">
+                <div className="bg-red-500/10 border border-red-500 rounded-lg p-4">
+                  <h3 className="text-sm font-semibold text-white font-bold mb-1">Private For-Profit</h3>
+                  <p className="text-2xl font-bold text-red-400 break-words">{privateForProfitData.length}</p>
+                  <p className="text-xs text-red-500 mt-1 break-words">
                     Avg ROI: ${privateForProfitData.length > 0 ? ((privateForProfitData.reduce((sum, d) => sum + d.roi, 0) / privateForProfitData.length) / 1000000).toFixed(2) : 0}M
                   </p>
                 </div>
