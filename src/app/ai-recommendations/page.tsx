@@ -115,7 +115,7 @@ export default function AIRecommendationsPage() {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
-          <SparklesIcon className="w-16 h-16 text-purple-600 animate-pulse mx-auto mb-4" />
+          <SparklesIcon className="w-16 h-16 text-blue-600 animate-pulse mx-auto mb-4" />
           <p className="text-xl text-gray-300">Analyzing your profile...</p>
           <p className="text-gray-400 mt-2">Finding your perfect matches</p>
         </div>
@@ -128,7 +128,7 @@ export default function AIRecommendationsPage() {
       <div className="min-h-screen bg-black py-12 px-4">
         <div className="max-w-2xl mx-auto">
           <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-8 text-center">
-            <SparklesIcon className="w-16 h-16 text-purple-600 mx-auto mb-4" />
+            <SparklesIcon className="w-16 h-16 text-blue-600 mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-white font-bold mb-4">AI Recommendations</h1>
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
               <p className="text-yellow-700">{error}</p>
@@ -137,7 +137,7 @@ export default function AIRecommendationsPage() {
             {error.includes('Excel') ? (
               <Link
                 href="/pricing"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
               >
                 <SparklesIcon className="w-5 h-5" />
                 Upgrade to Excel
@@ -167,7 +167,7 @@ export default function AIRecommendationsPage() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 mb-4">
-            <SparklesIcon className="w-8 h-8 text-purple-600" />
+            <SparklesIcon className="w-8 h-8 text-blue-600" />
             <h1 className="text-4xl font-bold tracking-tight text-white font-bold">AI-Powered Recommendations</h1>
           </div>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -245,7 +245,7 @@ export default function AIRecommendationsPage() {
                 onClick={() => setActiveTab('all')}
                 className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
                   activeTab === 'all'
-                    ? 'border-b-2 border-purple-600 text-purple-600'
+                    ? 'border-b-2 border-blue-600 text-blue-600'
                     : 'text-gray-300 hover:text-white font-bold'
                 }`}
               >
@@ -299,7 +299,7 @@ export default function AIRecommendationsPage() {
                         <span className={`px-3 py-1 rounded-full text-sm font-medium ${getAdmissionColor(school.admissionChance)}`}>
                           {school.admissionChance} Admission Chance
                         </span>
-                        <span className="px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-700">
+                        <span className="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700">
                           {school.score}% Match
                         </span>
                       </div>
@@ -334,7 +334,7 @@ export default function AIRecommendationsPage() {
                   <div className="mt-4 flex gap-3">
                     <Link
                       href={`/college/${school.id}`}
-                      className="flex-1 px-4 py-2 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors text-center"
+                      className="flex-1 px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors text-center"
                     >
                       View Details
                     </Link>

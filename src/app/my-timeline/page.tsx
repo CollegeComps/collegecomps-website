@@ -130,7 +130,7 @@ export default function MyTimelinePage() {
       case 'enrollment':
         return <AcademicCapIcon className="h-5 w-5 text-orange-500" />;
       case 'semester':
-        return <CalendarIcon className="h-5 w-5 text-purple-600" />;
+        return <CalendarIcon className="h-5 w-5 text-blue-600" />;
       case 'deadline':
         return <ClockIcon className="h-5 w-5 text-orange-600" />;
       default:
@@ -145,7 +145,7 @@ export default function MyTimelinePage() {
       case 'enrollment':
         return 'bg-orange-500/20 text-orange-400 border border-orange-500/50 border-orange-500';
       case 'semester':
-        return 'bg-purple-100 text-purple-800 border-purple-200';
+        return 'bg-blue-100 text-blue-800 border-blue-200';
       case 'deadline':
         return 'bg-orange-100 text-orange-800 border-orange-200';
       default:
@@ -252,7 +252,7 @@ export default function MyTimelinePage() {
             {/* Important Dates Calendar */}
             <div className="bg-gray-900 border border-gray-800 rounded-lg shadow p-6">
               <h2 className="text-xl font-bold text-white font-bold flex items-center gap-2 mb-4">
-                <CalendarIcon className="h-6 w-6 text-purple-600" />
+                <CalendarIcon className="h-6 w-6 text-blue-600" />
                 Important Academic Dates
               </h2>
               
@@ -309,9 +309,9 @@ export default function MyTimelinePage() {
                     {importantDates.filter(d => isUpcoming(d.date) && d.type === 'deadline').length}
                   </span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                   <span className="text-sm text-gray-300">Financial Aid Events</span>
-                  <span className="text-xl font-bold text-purple-600">
+                  <span className="text-xl font-bold text-blue-600">
                     {importantDates.filter(d => d.type === 'financial_aid').length}
                   </span>
                 </div>

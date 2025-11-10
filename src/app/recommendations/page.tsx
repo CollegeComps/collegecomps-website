@@ -218,7 +218,7 @@ export default function RecommendationsPage() {
       case 'match':
         return 'bg-orange-500/10 border border-orange-500 text-white';
       case 'reach':
-        return 'bg-purple-50 border-purple-200 text-purple-900';
+        return 'bg-blue-50 border-blue-200 text-blue-900';
     }
   };
 
@@ -229,7 +229,7 @@ export default function RecommendationsPage() {
       case 'match':
         return 'bg-orange-500/10 border border-orange-500 text-orange-600';
       case 'reach':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-blue-100 text-blue-800';
     }
   };
 
@@ -595,10 +595,10 @@ export default function RecommendationsPage() {
             {recommendations.reach.length > 0 && (
               <div>
                 <div className="flex items-center mb-4">
-                  <h2 className="text-2xl font-bold text-purple-700">
+                  <h2 className="text-2xl font-bold text-blue-700">
                     Reach Schools
                   </h2>
-                  <span className="ml-3 px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
+                  <span className="ml-3 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
                     {recommendations.reach.length}
                   </span>
                 </div>
@@ -630,7 +630,7 @@ function RecommendationCard({ rec }: { rec: RecommendationResult }) {
       case 'match':
         return 'bg-orange-500/10 border border-orange-500 text-orange-600';
       case 'reach':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-blue-100 text-blue-800';
     }
   };
 

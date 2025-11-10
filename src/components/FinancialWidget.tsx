@@ -20,9 +20,9 @@ const colorClasses = {
     value: 'text-green-600'
   },
   purple: {
-    border: 'border-purple-500',
-    icon: 'text-purple-500',
-    value: 'text-purple-600'
+    border: 'border-blue-500',
+    icon: 'text-blue-500',
+    value: 'text-blue-600'
   },
   orange: {
     border: 'border-orange-500',

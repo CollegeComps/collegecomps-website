@@ -185,8 +185,8 @@ export function getCategoryBadge(category: SchoolCategory): CategoryBadge {
     'ivy-league': {
       category: 'ivy-league',
       label: 'Ivy League',
-      color: 'text-purple-800',
-      bgColor: 'bg-purple-100',
+      color: 'text-blue-800',
+      bgColor: 'bg-blue-100',
       description: 'Member of the prestigious Ivy League'
     },
     'public-flagship': {

@@ -574,7 +574,7 @@ export default function SubmitSalaryPage() {
           {/* Job Details Section */}
           <div className="mb-8">
             <h2 className="text-xl font-bold text-white font-bold mb-4 flex items-center">
-              <span className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 mr-3 text-sm font-bold">3</span>
+              <span className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3 text-sm font-bold">3</span>
               Job Details (Optional but Helpful)
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
@@ -766,7 +766,7 @@ export default function SubmitSalaryPage() {
               <span>Secure & Encrypted</span>
             </div>
             <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
                 <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>

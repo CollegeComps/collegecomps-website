@@ -93,7 +93,7 @@ const features = [
     description: 'Real salary data from graduates with detailed breakdowns by major, school, and experience level.',
     icon: SparklesIcon,
     href: '/salary-insights',
-    color: 'bg-gradient-to-br from-purple-500 to-pink-500',
+    color: 'bg-gradient-to-br from-blue-500 to-pink-500',
     stats: 'Premium feature',
     tier: 'premium'
   }
