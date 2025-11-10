@@ -228,8 +228,8 @@ export default function TermsOfServicePage() {
             <h3 className="text-xl font-semibold text-white font-bold mt-6 mb-3">13.1 Informal Resolution</h3>
             <p className="text-gray-300 leading-relaxed">
               If you have any dispute with us, you agree to first contact us at{' '}
-              <a href="mailto:support@collegecomps.com" className="text-orange-500 hover:underline">
-                support@collegecomps.com
+              <a href="mailto:fpapalardo@collegecomps.com" className="text-orange-500 hover:underline">
+                fpapalardo@collegecomps.com
               </a>{' '}
               and attempt to resolve the dispute informally for at least 30 days.
             </p>
@@ -303,7 +303,7 @@ export default function TermsOfServicePage() {
             </p>
             <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
               <p className="text-gray-300"><strong>Email:</strong> legal@collegecomps.com</p>
-              <p className="text-gray-300 mt-2"><strong>Support:</strong> support@collegecomps.com</p>
+              <p className="text-gray-300 mt-2"><strong>Support:</strong> fpapalardo@collegecomps.com</p>
               <p className="text-gray-300 mt-2"><strong>Mail:</strong> CollegeComps<br/>Legal Department<br/>[Your Business Address]</p>
             </div>
           </section>
