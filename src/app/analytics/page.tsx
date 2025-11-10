@@ -122,7 +122,7 @@ export default function AnalyticsPage() {
             <span className="font-semibold">Annual Cost:</span> ${data.cost.toLocaleString()}
           </p>
           <p className="text-sm text-white font-bold">
-            <span className="font-semibold">30-Year ROI:</span> ${data.roi.toLocaleString()}
+            <span className="font-semibold">40-Year ROI:</span> ${data.roi.toLocaleString()}
           </p>
         </div>
       );
