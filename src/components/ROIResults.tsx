@@ -33,7 +33,7 @@ export default function ROIResults({ result, institution, program, costs, earnin
   // Generate earnings trajectory data
   const generateEarningsTrajectory = () => {
     const programLength = costs.programLength;
-    const maxYears = 40; // Show 40-year time horizon
+    const maxYears = earnings.careerLength; // Use user-selected time horizon
     const timeline = [];
     
     let cumulativeWithDegree = 0;
