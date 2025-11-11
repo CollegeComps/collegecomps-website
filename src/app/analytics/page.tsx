@@ -149,10 +149,13 @@ export default function AnalyticsPage() {
   };
 
   const handleDotClick = async (data: any) => {
-    if (data && data.unitid) {
+    // In recharts, the actual data is nested in payload or passed directly
+    const institutionData = data?.payload || data;
+    
+    if (institutionData && institutionData.unitid) {
       try {
         // Fetch top program for this institution by median earnings
-        const programsResponse = await fetch(`/api/institutions/${data.unitid}/programs`);
+        const programsResponse = await fetch(`/api/institutions/${institutionData.unitid}/programs`);
         if (programsResponse.ok) {
           const programsData = await programsResponse.json();
           
@@ -162,7 +165,7 @@ export default function AnalyticsPage() {
             ?.sort((a: any, b: any) => (b.median_earnings_10yr || 0) - (a.median_earnings_10yr || 0))[0];
           
           if (topProgram) {
-            window.location.href = `/roi-calculator?institution=${data.unitid}&program=${topProgram.cip_code}`;
+            window.location.href = `/roi-calculator?institution=${institutionData.unitid}&program=${topProgram.cip_code}`;
             return;
           }
         }
@@ -171,7 +174,7 @@ export default function AnalyticsPage() {
       }
       
       // Fallback: just pass institution without program
-      window.location.href = `/roi-calculator?institution=${data.unitid}`;
+      window.location.href = `/roi-calculator?institution=${institutionData.unitid}`;
     }
   };
 
