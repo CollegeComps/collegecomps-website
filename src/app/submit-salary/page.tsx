@@ -400,10 +400,10 @@ export default function SubmitSalaryPage() {
                     />
                   </div>
 
-                  {/* Additional Degrees Section */}
+                  {/* Additional Degrees Section - Same layout as main degree */}
                   {additionalDegrees.map((degree, index) => (
-                    <div key={index} className="p-4 bg-orange-500/10 border border-orange-500 rounded-lg space-y-3">
-                      <div className="flex justify-between items-center mb-2">
+                    <React.Fragment key={index}>
+                      <div className="md:col-span-2 flex justify-between items-center pt-4 border-t border-gray-700">
                         <h4 className="font-semibold text-white font-bold">Additional Degree {index + 1}</h4>
                         <button
                           type="button"
@@ -413,8 +413,9 @@ export default function SubmitSalaryPage() {
                           Remove
                         </button>
                       </div>
+                      
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-1">Institution</label>
+                        <label className="block text-sm font-semibold text-white font-bold mb-1">College/University *</label>
                         <input
                           type="text"
                           value={degree.institution_name}
@@ -423,12 +424,13 @@ export default function SubmitSalaryPage() {
                             updated[index].institution_name = e.target.value;
                             setAdditionalDegrees(updated);
                           }}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
                           placeholder="e.g., Stanford University"
                         />
                       </div>
+                      
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-1">Degree Level</label>
+                        <label className="block text-sm font-semibold text-white font-bold mb-1">Degree Level *</label>
                         <select
                           value={degree.degree_level}
                           onChange={(e) => {
@@ -436,7 +438,7 @@ export default function SubmitSalaryPage() {
                             updated[index].degree_level = e.target.value;
                             setAdditionalDegrees(updated);
                           }}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
                         >
                           <option value="">Select degree level</option>
                           {DEGREE_LEVELS.filter(l => l.value !== 'none').map(level => (
@@ -444,8 +446,9 @@ export default function SubmitSalaryPage() {
                           ))}
                         </select>
                       </div>
+                      
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-1">Major</label>
+                        <label className="block text-sm font-semibold text-white font-bold mb-1">Major/Field of Study *</label>
                         <input
                           type="text"
                           value={degree.major}
@@ -454,12 +457,13 @@ export default function SubmitSalaryPage() {
                             updated[index].major = e.target.value;
                             setAdditionalDegrees(updated);
                           }}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
                           placeholder="e.g., Computer Science"
                         />
                       </div>
+                      
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-1">Graduation Year</label>
+                        <label className="block text-sm font-semibold text-white font-bold mb-1">Graduation Year *</label>
                         <input
                           type="number"
                           min="1950"
@@ -470,54 +474,57 @@ export default function SubmitSalaryPage() {
                             updated[index].graduation_year = parseInt(e.target.value);
                             setAdditionalDegrees(updated);
                           }}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
                         />
                       </div>
-                    </div>
+                    </React.Fragment>
                   ))}
-
-                  <button
-                    type="button"
-                    onClick={() => setAdditionalDegrees([...additionalDegrees, {
-                      institution_name: '',
-                      degree_level: '',
-                      major: '',
-                      graduation_year: new Date().getFullYear()
-                    }])}
-                    className="w-full py-2 px-4 border-2 border-dashed border-blue-400 text-orange-500 rounded-lg hover:bg-orange-500/10 font-medium transition-colors flex items-center justify-center gap-2"
-                  >
-                    <span className="text-xl">+</span> Add Another Degree
-                  </button>
                 </>
               )}
+            </div>
 
-              {/* Total Years of Experience (for everyone, especially non-degree holders) */}
-              <div>
-                <label className="block text-sm font-semibold text-white font-bold mb-1">
-                  Total Years of Experience in Field *
-                </label>
-                <select
-                  required
-                  value={formData.years_experience}
-                  onChange={(e) => setFormData({ ...formData, years_experience: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
-                >
-                  <option value="">Select years</option>
-                  <option value="0">Less than 1 year</option>
-                  <option value="1">1 year</option>
-                  <option value="2">2 years</option>
-                  <option value="3">3 years</option>
-                  <option value="4">4 years</option>
-                  <option value="5">5 years</option>
-                  <option value="7">7 years</option>
-                  <option value="10">10 years</option>
-                  <option value="15">15 years</option>
-                  <option value="20">20+ years</option>
-                </select>
-                <p className="mt-1 text-xs text-gray-400">
-                  Total time working in this field, including internships and self-taught work
-                </p>
-              </div>
+            {/* Add Another Degree Button - Full width below the grid */}
+            {formData.degree_level !== 'none' && (
+              <button
+                type="button"
+                onClick={() => setAdditionalDegrees([...additionalDegrees, {
+                  institution_name: '',
+                  degree_level: '',
+                  major: '',
+                  graduation_year: new Date().getFullYear()
+                }])}
+                className="w-full py-3 px-4 mt-4 border-2 border-dashed border-blue-400 text-orange-500 rounded-lg hover:bg-orange-500/10 font-medium transition-colors flex items-center justify-center gap-2"
+              >
+                <span className="text-xl">+</span> Add Another Degree
+              </button>
+            )}
+
+            {/* Total Years of Experience - At bottom of Education section */}
+            <div className="mt-4">
+              <label className="block text-sm font-semibold text-white font-bold mb-1">
+                Total Years of Experience in Field *
+              </label>
+              <select
+                required
+                value={formData.years_experience}
+                onChange={(e) => setFormData({ ...formData, years_experience: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white font-bold"
+              >
+                <option value="">Select years</option>
+                <option value="0">Less than 1 year</option>
+                <option value="1">1 year</option>
+                <option value="2">2 years</option>
+                <option value="3">3 years</option>
+                <option value="4">4 years</option>
+                <option value="5">5 years</option>
+                <option value="7">7 years</option>
+                <option value="10">10 years</option>
+                <option value="15">15 years</option>
+                <option value="20">20+ years</option>
+              </select>
+              <p className="mt-1 text-xs text-gray-400">
+                Total time working in this field, including internships and self-taught work
+              </p>
             </div>
           </div>
 
