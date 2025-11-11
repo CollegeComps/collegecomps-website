@@ -78,9 +78,9 @@ export default function AnalyticsPage() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      // Fetch all institutions with ROI and cost data (no limit)
+      // Fetch top 2000 institutions by ROI for performance (reduced from 10000)
       // ROI data comes from institution_avg_roi column, calculated with 40-year career formula (ENG-298)
-      const response = await fetch('/api/institutions?sortBy=roi_high&limit=10000');
+      const response = await fetch('/api/institutions?sortBy=roi_high&limit=2000');
       const result = await response.json();
       
       const dataPoints: InstitutionDataPoint[] = result.institutions
@@ -148,8 +148,29 @@ export default function AnalyticsPage() {
     return null;
   };
 
-  const handleDotClick = (data: any) => {
+  const handleDotClick = async (data: any) => {
     if (data && data.unitid) {
+      try {
+        // Fetch top program for this institution by median earnings
+        const programsResponse = await fetch(`/api/institutions/${data.unitid}/programs`);
+        if (programsResponse.ok) {
+          const programsData = await programsResponse.json();
+          
+          // Get the program with highest median earnings
+          const topProgram = programsData.programs
+            ?.filter((p: any) => p.median_earnings_10yr)
+            ?.sort((a: any, b: any) => (b.median_earnings_10yr || 0) - (a.median_earnings_10yr || 0))[0];
+          
+          if (topProgram) {
+            window.location.href = `/roi-calculator?institution=${data.unitid}&program=${topProgram.cip_code}`;
+            return;
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching programs:', error);
+      }
+      
+      // Fallback: just pass institution without program
       window.location.href = `/roi-calculator?institution=${data.unitid}`;
     }
   };
