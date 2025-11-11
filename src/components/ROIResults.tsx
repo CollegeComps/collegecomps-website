@@ -380,6 +380,33 @@ export default function ROIResults({ result, institution, program, costs, earnin
       </div>
 
       {/* Data Sources & Methodology */}
+      {/* Calculate Another Degree Section */}
+      <div className="mt-8 bg-gradient-to-r from-orange-500/10 to-blue-500/10 border border-orange-500/30 rounded-lg p-6">
+        <h3 className="text-xl font-bold text-white mb-3 flex items-center">
+          <span className="bg-orange-500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-3 text-lg">+</span>
+          Compare with Another Degree
+        </h3>
+        <p className="text-gray-300 mb-4">
+          Want to see how a different degree or institution compares? Calculate ROI for another program to make an informed decision.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <button
+            onClick={() => window.location.href = '/roi-calculator'}
+            className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-semibold transition-colors shadow-lg hover:shadow-xl"
+          >
+            Calculate Another Degree
+          </button>
+          {institution && (
+            <button
+              onClick={() => window.location.href = `/roi-calculator?institution=${institution.unitid}`}
+              className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold transition-colors shadow-lg hover:shadow-xl"
+            >
+              Try Different Program at {institution.name}
+            </button>
+          )}
+        </div>
+      </div>
+
       <DataCitation
         sources={[
           {
