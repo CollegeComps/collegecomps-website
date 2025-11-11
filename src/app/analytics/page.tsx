@@ -124,6 +124,12 @@ export default function AnalyticsPage() {
           <p className="text-sm text-white font-bold">
             <span className="font-semibold">40-Year ROI:</span> ${data.roi.toLocaleString()}
           </p>
+          <button
+            onClick={() => window.location.href = `/roi-calculator?institution=${data.unitid}`}
+            className="mt-3 w-full px-3 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm font-semibold transition-colors"
+          >
+            Calculate ROI for this Institution →
+          </button>
         </div>
       );
     }
@@ -344,7 +350,10 @@ export default function AnalyticsPage() {
                     name="ROI"
                     label={{ value: '40-Year ROI ($)', angle: -90, position: 'insideLeft', offset: -10, style: { textAnchor: 'middle', fill: '#9CA3AF' } }}
                     tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
-                    domain={['auto', 'auto']}
+                    domain={[
+                      (dataMin: number) => Math.floor(dataMin / 1000000) * 1000000,
+                      (dataMax: number) => Math.ceil(dataMax / 1000000) * 1000000
+                    ]}
                   />
                   <ZAxis range={[50, 50]} />
                   <Tooltip content={<CustomTooltip />} />
@@ -374,8 +383,34 @@ export default function AnalyticsPage() {
                 </ScatterChart>
               </ResponsiveContainer>
 
-              {/* Insights */}
-              <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {/* Overall Statistics */}
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-4 gap-4">
+                <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+                  <h3 className="text-xs font-semibold text-gray-400 mb-1">Total Institutions</h3>
+                  <p className="text-2xl font-bold text-white">{filteredData.length}</p>
+                </div>
+                <div className="bg-blue-500/10 border border-blue-500 rounded-lg p-4">
+                  <h3 className="text-xs font-semibold text-blue-400 mb-1">Average ROI</h3>
+                  <p className="text-2xl font-bold text-blue-400">
+                    ${filteredData.length > 0 ? ((filteredData.reduce((sum, d) => sum + d.roi, 0) / filteredData.length) / 1000000).toFixed(2) : 0}M
+                  </p>
+                </div>
+                <div className="bg-green-500/10 border border-green-500 rounded-lg p-4">
+                  <h3 className="text-xs font-semibold text-green-400 mb-1">Maximum ROI</h3>
+                  <p className="text-2xl font-bold text-green-400">
+                    ${filteredData.length > 0 ? (Math.max(...filteredData.map(d => d.roi)) / 1000000).toFixed(2) : 0}M
+                  </p>
+                </div>
+                <div className="bg-red-500/10 border border-red-500 rounded-lg p-4">
+                  <h3 className="text-xs font-semibold text-red-400 mb-1">Minimum ROI</h3>
+                  <p className="text-2xl font-bold text-red-400">
+                    ${filteredData.length > 0 ? (Math.min(...filteredData.map(d => d.roi)) / 1000000).toFixed(2) : 0}M
+                  </p>
+                </div>
+              </div>
+
+              {/* Insights by Institution Type */}
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-4">
                   <h3 className="text-sm font-semibold text-white font-bold mb-1">Public Institutions</h3>
                   <p className="text-2xl font-bold text-orange-400 break-words">{publicData.length}</p>
