@@ -402,8 +402,8 @@ export default function SubmitSalaryPage() {
 
                   {/* Additional Degrees Section - Same layout as main degree */}
                   {additionalDegrees.map((degree, index) => (
-                    <React.Fragment key={index}>
-                      <div className="md:col-span-2 flex justify-between items-center pt-4 border-t border-gray-700">
+                    <>
+                      <div key={`additional-${index}`} className="md:col-span-2 flex justify-between items-center pt-4 border-t border-gray-700">
                         <h4 className="font-semibold text-white font-bold">Additional Degree {index + 1}</h4>
                         <button
                           type="button"
@@ -477,7 +477,7 @@ export default function SubmitSalaryPage() {
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 text-white font-bold"
                         />
                       </div>
-                    </React.Fragment>
+                    </>
                   ))}
                 </>
               )}
