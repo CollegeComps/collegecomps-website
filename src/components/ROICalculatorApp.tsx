@@ -221,11 +221,12 @@ export default function ROICalculatorApp() {
     loadScenario();
   }, [session?.user]); // Only run when session changes
 
-  // Pre-fill from analytics page (institution parameter)
+  // Pre-fill from analytics page (institution and program parameters)
   useEffect(() => {
     const loadInstitutionFromAnalytics = async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const institutionId = urlParams.get('institution');
+      const programCipCode = urlParams.get('program');
       
       if (!institutionId) {
         return;
@@ -259,15 +260,45 @@ export default function ROICalculatorApp() {
           residency: 'in-state'
         });
 
-        // Pre-fill earnings with median earnings if available
-        if (institution.median_earnings_10yr) {
-          setEarnings(prev => ({
-            ...prev,
-            projectedSalary: institution.median_earnings_10yr,
-            baselineSalary: 42000, // Match analytics calculation
-            careerLength: 40, // Match analytics 40-year ROI
-            salaryGrowthRate: 3
-          }));
+        // If program code provided, fetch and pre-fill program data
+        if (programCipCode) {
+          const programsResponse = await fetch(`/api/institutions/${institutionId}/programs`);
+          if (programsResponse.ok) {
+            const programsData = await programsResponse.json();
+            const program = programsData.programs?.find((p: any) => p.cip_code === programCipCode);
+            
+            if (program) {
+              setSelectedProgram(program);
+              setSearchMode('degree');
+              
+              // Pre-fill earnings with program's median earnings
+              if (program.median_earnings_10yr) {
+                setEarnings(prev => ({
+                  ...prev,
+                  projectedSalary: program.median_earnings_10yr,
+                  baselineSalary: 42000, // Match analytics calculation
+                  careerLength: 40, // Match analytics 40-year ROI
+                  salaryGrowthRate: 3
+                }));
+              }
+              
+              // Trigger ROI calculation after pre-fill
+              setTimeout(() => {
+                calculateROI();
+              }, 100);
+            }
+          }
+        } else {
+          // No program specified, use institution median earnings
+          if (institution.median_earnings_10yr) {
+            setEarnings(prev => ({
+              ...prev,
+              projectedSalary: institution.median_earnings_10yr,
+              baselineSalary: 42000, // Match analytics calculation
+              careerLength: 40, // Match analytics 40-year ROI
+              salaryGrowthRate: 3
+            }));
+          }
         }
 
         // Clean URL after loading
