@@ -706,8 +706,8 @@ export default function ROICalculatorApp() {
             />
           )}
 
-          {/* Calculate Button */}
-          {selectedInstitution && (
+          {/* Calculate Button - Only show when both institution and program are selected */}
+          {selectedInstitution && selectedProgram && (
             <button
               onClick={calculateROI}
               className="w-full bg-orange-500 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-orange-600 transition-colors shadow-lg"
