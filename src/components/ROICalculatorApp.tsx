@@ -221,6 +221,66 @@ export default function ROICalculatorApp() {
     loadScenario();
   }, [session?.user]); // Only run when session changes
 
+  // Pre-fill from analytics page (institution parameter)
+  useEffect(() => {
+    const loadInstitutionFromAnalytics = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const institutionId = urlParams.get('institution');
+      
+      if (!institutionId) {
+        return;
+      }
+
+      try {
+        // Fetch institution data
+        const instResponse = await fetch(`/api/institutions/${institutionId}`);
+        if (!instResponse.ok) {
+          throw new Error('Failed to load institution');
+        }
+
+        const instData = await instResponse.json();
+        const institution = instData.institution;
+        
+        setSelectedInstitution(institution);
+        setSearchMode('institution');
+
+        // Pre-fill costs with institution data
+        const tuition = institution.tuition_in_state || institution.tuition_out_state || 0;
+        const fees = institution.fees || 0;
+        const roomBoard = institution.room_board_on_campus || institution.room_board_off_campus || 0;
+        
+        setCosts({
+          tuition,
+          fees,
+          roomBoard,
+          books: 1200,
+          otherExpenses: 2000,
+          programLength: 4,
+          residency: 'in-state'
+        });
+
+        // Pre-fill earnings with median earnings if available
+        if (institution.median_earnings_10yr) {
+          setEarnings(prev => ({
+            ...prev,
+            projectedSalary: institution.median_earnings_10yr,
+            baselineSalary: 42000, // Match analytics calculation
+            careerLength: 40, // Match analytics 40-year ROI
+            salaryGrowthRate: 3
+          }));
+        }
+
+        // Clean URL after loading
+        window.history.replaceState({}, '', '/roi-calculator');
+
+      } catch (error) {
+        console.error('Error loading institution from analytics:', error);
+      }
+    };
+
+    loadInstitutionFromAnalytics();
+  }, []); // Only run once on mount
+
   // Handle beforeunload event to prompt user
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
