@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, ZAxis } from 'recharts';
 
 interface InstitutionDataPoint {
@@ -21,7 +21,6 @@ interface FilterState {
 
 export default function AnalyticsPage() {
   const [data, setData] = useState<InstitutionDataPoint[]>([]);
-  const [filteredData, setFilteredData] = useState<InstitutionDataPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [maxCostInData, setMaxCostInData] = useState(100000);
   const [minROIInData, setMinROIInData] = useState(0);
@@ -43,9 +42,24 @@ export default function AnalyticsPage() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    applyFilters();
-  }, [filters, data]);
+  // Optimize filtering with useMemo to prevent unnecessary recalculations
+  const filteredData = useMemo(() => {
+    let filtered = [...data];
+
+    if (filters.states.length > 0) {
+      filtered = filtered.filter(d => filters.states.includes(d.state));
+    }
+
+    if (filters.controlTypes.length > 0) {
+      filtered = filtered.filter(d => filters.controlTypes.includes(d.control));
+    }
+
+    filtered = filtered.filter(d => 
+      d.roi >= filters.minROI && d.cost <= filters.maxCost
+    );
+
+    return filtered;
+  }, [data, filters]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -110,24 +124,6 @@ export default function AnalyticsPage() {
       console.error('Failed to fetch analytics data:', error);
       setLoading(false);
     }
-  };
-
-  const applyFilters = () => {
-    let filtered = [...data];
-
-    if (filters.states.length > 0) {
-      filtered = filtered.filter(d => filters.states.includes(d.state));
-    }
-
-    if (filters.controlTypes.length > 0) {
-      filtered = filtered.filter(d => filters.controlTypes.includes(d.control));
-    }
-
-    filtered = filtered.filter(d => 
-      d.roi >= filters.minROI && d.cost <= filters.maxCost
-    );
-
-    setFilteredData(filtered);
   };
 
   const CustomTooltip = ({ active, payload }: any) => {
