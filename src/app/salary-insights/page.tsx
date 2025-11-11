@@ -335,23 +335,33 @@ export default function SalaryInsightsPage() {
                 <h4 className="text-white font-semibold mb-3">Premium members get access to:</h4>
                 <ul className="text-left text-gray-300 space-y-2">
                   <li className="flex items-start gap-2">
-                    <span className="text-orange-500 mt-1">[OK]</span>
+                    <svg className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
                     <span>Detailed salary breakdowns by major, school, and experience level</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-orange-500 mt-1">[OK]</span>
+                    <svg className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
                     <span>Min, max, average, and median salary data</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-orange-500 mt-1">[OK]</span>
+                    <svg className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
                     <span>Salary distribution percentiles (25th, 50th, 75th)</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-orange-500 mt-1">[OK]</span>
+                    <svg className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
                     <span>Advanced filtering and sorting options</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-orange-500 mt-1">[OK]</span>
+                    <svg className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
                     <span>Total compensation including bonuses and equity</span>
                   </li>
                 </ul>

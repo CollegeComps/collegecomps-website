@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, ZAxis } from 'recharts';
 
 interface InstitutionDataPoint {
@@ -33,6 +33,11 @@ export default function AnalyticsPage() {
     maxCost: 100000
   });
   const [states, setStates] = useState<string[]>([]);
+  const [stateDropdownOpen, setStateDropdownOpen] = useState(false);
+  const [typeDropdownOpen, setTypeDropdownOpen] = useState(false);
+  
+  const stateDropdownRef = useRef<HTMLDivElement>(null);
+  const typeDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetchData();
@@ -41,6 +46,20 @@ export default function AnalyticsPage() {
   useEffect(() => {
     applyFilters();
   }, [filters, data]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (stateDropdownRef.current && !stateDropdownRef.current.contains(event.target as Node)) {
+        setStateDropdownOpen(false);
+      }
+      if (typeDropdownRef.current && !typeDropdownRef.current.contains(event.target as Node)) {
+        setTypeDropdownOpen(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const fetchData = async () => {
     try {
@@ -124,16 +143,19 @@ export default function AnalyticsPage() {
           <p className="text-sm text-white font-bold">
             <span className="font-semibold">40-Year ROI:</span> ${data.roi.toLocaleString()}
           </p>
-          <button
-            onClick={() => window.location.href = `/roi-calculator?institution=${data.unitid}`}
-            className="mt-3 w-full px-3 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm font-semibold transition-colors"
-          >
-            Calculate ROI for this Institution →
-          </button>
+          <p className="text-xs text-gray-400 mt-3 italic">
+            Click dot to calculate ROI →
+          </p>
         </div>
       );
     }
     return null;
+  };
+
+  const handleDotClick = (data: any) => {
+    if (data && data.unitid) {
+      window.location.href = `/roi-calculator?institution=${data.unitid}`;
+    }
   };
 
   const getColorByControl = (control: string) => {
@@ -170,12 +192,15 @@ export default function AnalyticsPage() {
           <h2 className="text-lg font-semibold text-white font-bold mb-4">Filters</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* State Filter - Multi-select Dropdown */}
-            <div className="relative">
+            <div className="relative" ref={stateDropdownRef}>
               <label className="block text-sm font-medium text-white font-bold mb-2">
                 States {filters.states.length > 0 ? `(${filters.states.length} selected)` : '(All)'}
               </label>
-              <details className="relative">
-                <summary className="cursor-pointer border border-gray-700 rounded-lg bg-black px-3 py-2 text-sm text-gray-300 hover:bg-gray-800 transition-colors list-none">
+              <div className="relative">
+                <button
+                  onClick={() => setStateDropdownOpen(!stateDropdownOpen)}
+                  className="w-full cursor-pointer border border-gray-700 rounded-lg bg-black px-3 py-2 text-sm text-gray-300 hover:bg-gray-800 transition-colors"
+                >
                   <span className="flex items-center justify-between">
                     <span>
                       {filters.states.length === 0 
@@ -188,52 +213,57 @@ export default function AnalyticsPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </span>
-                </summary>
-                <div className="absolute z-10 mt-1 w-full border border-gray-700 rounded-lg bg-gray-900 shadow-lg max-h-64 overflow-y-auto">
-                  <div className="p-2 space-y-1">
-                    {/* Select All / Clear All */}
-                    <div className="flex gap-2 pb-2 border-b border-gray-700 mb-2">
-                      <button
-                        onClick={() => setFilters({ ...filters, states: [...states] })}
-                        className="flex-1 text-xs px-2 py-1 bg-orange-500/20 text-orange-400 rounded hover:bg-orange-500/30 transition-colors"
-                      >
-                        Select All
-                      </button>
-                      <button
-                        onClick={() => setFilters({ ...filters, states: [] })}
-                        className="flex-1 text-xs px-2 py-1 bg-gray-800 text-gray-300 rounded hover:bg-gray-700 transition-colors"
-                      >
-                        Clear All
-                      </button>
+                </button>
+                {stateDropdownOpen && (
+                  <div className="absolute z-10 mt-1 w-full border border-gray-700 rounded-lg bg-gray-900 shadow-lg max-h-64 overflow-y-auto">
+                    <div className="p-2 space-y-1">
+                      {/* Select All / Clear All */}
+                      <div className="flex gap-2 pb-2 border-b border-gray-700 mb-2">
+                        <button
+                          onClick={() => setFilters({ ...filters, states: [...states] })}
+                          className="flex-1 text-xs px-2 py-1 bg-orange-500/20 text-orange-400 rounded hover:bg-orange-500/30 transition-colors"
+                        >
+                          Select All
+                        </button>
+                        <button
+                          onClick={() => setFilters({ ...filters, states: [] })}
+                          className="flex-1 text-xs px-2 py-1 bg-gray-800 text-gray-300 rounded hover:bg-gray-700 transition-colors"
+                        >
+                          Clear All
+                        </button>
+                      </div>
+                      {states.map(state => (
+                        <label key={state} className="flex items-center space-x-2 p-1 hover:bg-gray-800 rounded cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={filters.states.includes(state)}
+                            onChange={(e) => {
+                              const newStates = e.target.checked
+                                ? [...filters.states, state]
+                                : filters.states.filter(s => s !== state);
+                              setFilters({ ...filters, states: newStates });
+                            }}
+                            className="rounded border-gray-600 text-orange-500 focus:ring-orange-500"
+                          />
+                          <span className="text-sm text-gray-300">{state}</span>
+                        </label>
+                      ))}
                     </div>
-                    {states.map(state => (
-                      <label key={state} className="flex items-center space-x-2 p-1 hover:bg-gray-800 rounded cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={filters.states.includes(state)}
-                          onChange={(e) => {
-                            const newStates = e.target.checked
-                              ? [...filters.states, state]
-                              : filters.states.filter(s => s !== state);
-                            setFilters({ ...filters, states: newStates });
-                          }}
-                          className="rounded border-gray-600 text-orange-500 focus:ring-orange-500"
-                        />
-                        <span className="text-sm text-gray-300">{state}</span>
-                      </label>
-                    ))}
                   </div>
-                </div>
-              </details>
+                )}
+              </div>
             </div>
 
             {/* Control Type Filter - Multi-select Dropdown */}
-            <div className="relative">
+            <div className="relative" ref={typeDropdownRef}>
               <label className="block text-sm font-medium text-white font-bold mb-2">
                 Institution Types {filters.controlTypes.length > 0 ? `(${filters.controlTypes.length} selected)` : '(All)'}
               </label>
-              <details className="relative">
-                <summary className="cursor-pointer border border-gray-700 rounded-lg bg-black px-3 py-2 text-sm text-gray-300 hover:bg-gray-800 transition-colors list-none">
+              <div className="relative">
+                <button
+                  onClick={() => setTypeDropdownOpen(!typeDropdownOpen)}
+                  className="w-full cursor-pointer border border-gray-700 rounded-lg bg-black px-3 py-2 text-sm text-gray-300 hover:bg-gray-800 transition-colors"
+                >
                   <span className="flex items-center justify-between">
                     <span>
                       {filters.controlTypes.length === 0 
@@ -246,43 +276,45 @@ export default function AnalyticsPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </span>
-                </summary>
-                <div className="absolute z-10 mt-1 w-full border border-gray-700 rounded-lg bg-gray-900 shadow-lg">
-                  <div className="p-2 space-y-1">
-                    {/* Select All / Clear All */}
-                    <div className="flex gap-2 pb-2 border-b border-gray-700 mb-2">
-                      <button
-                        onClick={() => setFilters({ ...filters, controlTypes: ['Public', 'Private Nonprofit', 'Private For-Profit'] })}
-                        className="flex-1 text-xs px-2 py-1 bg-orange-500/20 text-orange-400 rounded hover:bg-orange-500/30 transition-colors"
-                      >
-                        Select All
-                      </button>
-                      <button
-                        onClick={() => setFilters({ ...filters, controlTypes: [] })}
-                        className="flex-1 text-xs px-2 py-1 bg-gray-800 text-gray-300 rounded hover:bg-gray-700 transition-colors"
-                      >
-                        Clear All
-                      </button>
+                </button>
+                {typeDropdownOpen && (
+                  <div className="absolute z-10 mt-1 w-full border border-gray-700 rounded-lg bg-gray-900 shadow-lg">
+                    <div className="p-2 space-y-1">
+                      {/* Select All / Clear All */}
+                      <div className="flex gap-2 pb-2 border-b border-gray-700 mb-2">
+                        <button
+                          onClick={() => setFilters({ ...filters, controlTypes: ['Public', 'Private Nonprofit', 'Private For-Profit'] })}
+                          className="flex-1 text-xs px-2 py-1 bg-orange-500/20 text-orange-400 rounded hover:bg-orange-500/30 transition-colors"
+                        >
+                          Select All
+                        </button>
+                        <button
+                          onClick={() => setFilters({ ...filters, controlTypes: [] })}
+                          className="flex-1 text-xs px-2 py-1 bg-gray-800 text-gray-300 rounded hover:bg-gray-700 transition-colors"
+                        >
+                          Clear All
+                        </button>
+                      </div>
+                      {['Public', 'Private Nonprofit', 'Private For-Profit'].map(type => (
+                        <label key={type} className="flex items-center space-x-2 p-1 hover:bg-gray-800 rounded cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={filters.controlTypes.includes(type)}
+                            onChange={(e) => {
+                              const newTypes = e.target.checked
+                                ? [...filters.controlTypes, type]
+                                : filters.controlTypes.filter(t => t !== type);
+                              setFilters({ ...filters, controlTypes: newTypes });
+                            }}
+                            className="rounded border-gray-600 text-orange-500 focus:ring-orange-500"
+                          />
+                          <span className="text-sm text-gray-300">{type}</span>
+                        </label>
+                      ))}
                     </div>
-                    {['Public', 'Private Nonprofit', 'Private For-Profit'].map(type => (
-                      <label key={type} className="flex items-center space-x-2 p-1 hover:bg-gray-800 rounded cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={filters.controlTypes.includes(type)}
-                          onChange={(e) => {
-                            const newTypes = e.target.checked
-                              ? [...filters.controlTypes, type]
-                              : filters.controlTypes.filter(t => t !== type);
-                            setFilters({ ...filters, controlTypes: newTypes });
-                          }}
-                          className="rounded border-gray-600 text-orange-500 focus:ring-orange-500"
-                        />
-                        <span className="text-sm text-gray-300">{type}</span>
-                      </label>
-                    ))}
                   </div>
-                </div>
-              </details>
+                )}
+              </div>
             </div>
 
             {/* Min ROI Filter */}
@@ -367,18 +399,24 @@ export default function AnalyticsPage() {
                     data={publicData} 
                     fill="#3B82F6"
                     opacity={0.6}
+                    onClick={handleDotClick}
+                    cursor="pointer"
                   />
                   <Scatter 
                     name="Private Nonprofit" 
                     data={privateNonprofitData} 
                     fill="#10B981"
                     opacity={0.6}
+                    onClick={handleDotClick}
+                    cursor="pointer"
                   />
                   <Scatter 
                     name="Private For-Profit" 
                     data={privateForProfitData} 
                     fill="#EF4444"
                     opacity={0.6}
+                    onClick={handleDotClick}
+                    cursor="pointer"
                   />
                 </ScatterChart>
               </ResponsiveContainer>
