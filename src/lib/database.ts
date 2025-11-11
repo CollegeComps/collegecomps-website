@@ -456,8 +456,10 @@ export class CollegeDataService {
     }
     
     if (filters.name) {
-      query += ` AND i.name LIKE ?`;
-      params.push(`%${filters.name}%`);
+      // Normalize the search query to handle ampersand variations (A&M vs A & M)
+      const normalizedName = filters.name.replace(/\s*&\s*/g, '&');
+      query += ` AND REPLACE(i.name, ' & ', '&') LIKE ?`;
+      params.push(`%${normalizedName}%`);
     }
     
     if (filters.state) {

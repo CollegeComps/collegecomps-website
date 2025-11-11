@@ -299,6 +299,11 @@ export default function ROICalculatorApp() {
               salaryGrowthRate: 3
             }));
           }
+          
+          // Trigger ROI calculation after pre-fill (institution only)
+          setTimeout(() => {
+            calculateROI();
+          }, 100);
         }
 
         // Clean URL after loading
