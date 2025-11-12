@@ -78,10 +78,12 @@ export default function AnalyticsPage() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      // Fetch top 2000 institutions by ROI for performance (reduced from 10000)
+      // Fetch top 5000 institutions by ROI for better coverage (ENG-362)
       // ROI data comes from institution_avg_roi column, calculated with 40-year career formula (ENG-298)
-      const response = await fetch('/api/institutions?sortBy=roi_high&limit=2000');
+      const response = await fetch('/api/institutions?sortBy=roi_high&limit=5000');
       const result = await response.json();
+      
+      console.log('[Analytics] Fetched institutions:', result.institutions?.length);
       
       const dataPoints: InstitutionDataPoint[] = result.institutions
         .filter((inst: any) => 
@@ -96,6 +98,8 @@ export default function AnalyticsPage() {
           state: inst.state,
           unitid: inst.unitid
         }));
+      
+      console.log('[Analytics] Filtered data points:', dataPoints.length);
 
       setData(dataPoints);
       
@@ -152,6 +156,13 @@ export default function AnalyticsPage() {
     // In recharts, the actual data is nested in payload or passed directly
     const institutionData = data?.payload || data;
     
+    console.log('[Analytics] Dot clicked:', {
+      raw: data,
+      extracted: institutionData,
+      unitid: institutionData?.unitid,
+      name: institutionData?.name
+    });
+    
     if (institutionData && institutionData.unitid) {
       try {
         // Fetch top program for this institution by median earnings
@@ -164,8 +175,12 @@ export default function AnalyticsPage() {
             ?.filter((p: any) => p.median_earnings_10yr)
             ?.sort((a: any, b: any) => (b.median_earnings_10yr || 0) - (a.median_earnings_10yr || 0))[0];
           
+          console.log('[Analytics] Top program found:', topProgram);
+          
           if (topProgram) {
-            window.location.href = `/roi-calculator?institution=${institutionData.unitid}&program=${topProgram.cip_code}`;
+            const url = `/roi-calculator?institution=${institutionData.unitid}&program=${topProgram.cip_code}`;
+            console.log('[Analytics] Redirecting to:', url);
+            window.location.href = url;
             return;
           }
         }
@@ -174,7 +189,9 @@ export default function AnalyticsPage() {
       }
       
       // Fallback: just pass institution without program
-      window.location.href = `/roi-calculator?institution=${institutionData.unitid}`;
+      const fallbackUrl = `/roi-calculator?institution=${institutionData.unitid}`;
+      console.log('[Analytics] Fallback redirect to:', fallbackUrl);
+      window.location.href = fallbackUrl;
     }
   };
 
