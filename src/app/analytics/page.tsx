@@ -152,13 +152,14 @@ export default function AnalyticsPage() {
     return null;
   };
 
-  const handleDotClick = async (data: any) => {
-    // In recharts, the actual data is nested in payload or passed directly
-    const institutionData = data?.payload || data;
+  const handleDotClick = async (data: any, index: number) => {
+    // In recharts onClick, the first parameter is the data point
+    // The data structure is: the actual data point object from our array
+    const institutionData = data;
     
     console.log('[Analytics] Dot clicked:', {
       raw: data,
-      extracted: institutionData,
+      index: index,
       unitid: institutionData?.unitid,
       name: institutionData?.name
     });
