@@ -228,6 +228,8 @@ export default function ROICalculatorApp() {
       const institutionId = urlParams.get('institution');
       const programCipCode = urlParams.get('program');
       
+      console.log('[ROI Calculator] URL params:', { institutionId, programCipCode });
+      
       if (!institutionId) {
         return;
       }
@@ -241,6 +243,8 @@ export default function ROICalculatorApp() {
 
         const instData = await instResponse.json();
         const institution = instData.institution;
+        
+        console.log('[ROI Calculator] Loaded institution:', institution.name);
         
         setSelectedInstitution(institution);
         setSearchMode('institution');
@@ -262,10 +266,13 @@ export default function ROICalculatorApp() {
 
         // If program code provided, fetch and pre-fill program data
         if (programCipCode) {
+          console.log('[ROI Calculator] Fetching program with CIP:', programCipCode);
           const programsResponse = await fetch(`/api/institutions/${institutionId}/programs`);
           if (programsResponse.ok) {
             const programsData = await programsResponse.json();
             const program = programsData.programs?.find((p: any) => p.cip_code === programCipCode);
+            
+            console.log('[ROI Calculator] Program found:', program?.title || 'NOT FOUND');
             
             if (program) {
               setSelectedProgram(program);
@@ -282,10 +289,13 @@ export default function ROICalculatorApp() {
                 }));
               }
               
+              console.log('[ROI Calculator] Triggering ROI calculation with program');
               // Trigger ROI calculation after pre-fill
               setTimeout(() => {
                 calculateROI();
               }, 100);
+            } else {
+              console.warn('[ROI Calculator] Program not found with CIP:', programCipCode);
             }
           }
         } else {
@@ -300,6 +310,7 @@ export default function ROICalculatorApp() {
             }));
           }
           
+          console.log('[ROI Calculator] Triggering ROI calculation without program');
           // Trigger ROI calculation after pre-fill (institution only)
           setTimeout(() => {
             calculateROI();
