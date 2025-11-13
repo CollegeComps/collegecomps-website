@@ -532,7 +532,7 @@ export default function CollegeDetailPage() {
               <h3 className="text-lg font-semibold text-white font-bold mb-3">Quick Actions</h3>
               <div className="space-y-3">
                 <button
-                  onClick={() => router.push(`/roi-calculator?unitid=${institution.unitid}`)}
+                  onClick={() => router.push(`/roi-calculator?institution=${institution.unitid}`)}
                   className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   Calculate ROI
