@@ -281,9 +281,23 @@ export default function ROICalculatorApp() {
           const programsResponse = await fetch(`/api/institutions/${institutionId}/programs`);
           if (programsResponse.ok) {
             const programsData = await programsResponse.json();
-            const program = programsData.programs?.find((p: any) => p.cip_code === programCipCode);
             
-            console.log('[ROI Calculator] Program found:', program?.title || 'NOT FOUND');
+            // Normalize CIP codes for comparison (remove dots, trim, compare)
+            const normalizeCip = (cip: string) => cip?.replace(/\./g, '').trim().toLowerCase() || '';
+            const normalizedSearchCip = normalizeCip(programCipCode);
+            
+            const program = programsData.programs?.find((p: any) => {
+              const normalizedProgramCip = normalizeCip(p.cip_code);
+              return normalizedProgramCip === normalizedSearchCip;
+            });
+            
+            console.log('[ROI Calculator] Program search:', {
+              searchCip: programCipCode,
+              normalizedSearchCip,
+              totalPrograms: programsData.programs?.length,
+              found: program?.title || 'NOT FOUND',
+              foundCip: program?.cip_code
+            });
             
             if (program) {
               setSelectedProgram(program);

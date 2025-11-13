@@ -171,47 +171,71 @@ export default function AnalyticsPage() {
   };
 
   const handleDotClick = async (data: any, index: number) => {
-    // In recharts onClick, the first parameter is the data point
-    // The data structure is: the actual data point object from our array
-    const institutionData = data;
+    // In recharts onClick, the data structure can vary
+    // Sometimes it's the direct data point, sometimes nested in payload
+    let institutionData = data;
+    
+    // Handle different Recharts click event structures
+    if (data?.payload) {
+      institutionData = data.payload;
+    }
     
     console.log('[Analytics] Dot clicked:', {
-      raw: data,
+      rawData: data,
+      extractedData: institutionData,
       index: index,
       unitid: institutionData?.unitid,
-      name: institutionData?.name
+      name: institutionData?.name,
+      cost: institutionData?.cost,
+      roi: institutionData?.roi
     });
     
-    if (institutionData && institutionData.unitid) {
-      try {
-        // Fetch top program for this institution by median earnings
-        const programsResponse = await fetch(`/api/institutions/${institutionData.unitid}/programs`);
-        if (programsResponse.ok) {
-          const programsData = await programsResponse.json();
-          
-          // Get the program with highest median earnings
-          const topProgram = programsData.programs
-            ?.filter((p: any) => p.median_earnings_10yr)
-            ?.sort((a: any, b: any) => (b.median_earnings_10yr || 0) - (a.median_earnings_10yr || 0))[0];
-          
-          console.log('[Analytics] Top program found:', topProgram);
-          
-          if (topProgram) {
-            const url = `/roi-calculator?institution=${institutionData.unitid}&program=${topProgram.cip_code}`;
-            console.log('[Analytics] Redirecting to:', url);
-            window.location.href = url;
-            return;
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching programs:', error);
-      }
-      
-      // Fallback: just pass institution without program
-      const fallbackUrl = `/roi-calculator?institution=${institutionData.unitid}`;
-      console.log('[Analytics] Fallback redirect to:', fallbackUrl);
-      window.location.href = fallbackUrl;
+    // Validate we have the right data structure
+    if (!institutionData?.unitid || !institutionData?.name) {
+      console.error('[Analytics] Invalid institution data structure:', institutionData);
+      return;
     }
+    
+    // Add visual feedback
+    console.log('[Analytics] ✅ Confirmed institution:', {
+      name: institutionData.name,
+      unitid: institutionData.unitid,
+      state: institutionData.state
+    });
+    
+    try {
+      // Fetch top program for this institution by median earnings
+      const programsResponse = await fetch(`/api/institutions/${institutionData.unitid}/programs`);
+      if (programsResponse.ok) {
+        const programsData = await programsResponse.json();
+        
+        // Get the program with highest median earnings
+        const topProgram = programsData.programs
+          ?.filter((p: any) => p.median_earnings_10yr)
+          ?.sort((a: any, b: any) => (b.median_earnings_10yr || 0) - (a.median_earnings_10yr || 0))[0];
+        
+        console.log('[Analytics] Top program found:', {
+          institutionName: institutionData.name,
+          programTitle: topProgram?.title || 'NONE',
+          cipCode: topProgram?.cip_code,
+          earnings: topProgram?.median_earnings_10yr
+        });
+        
+        if (topProgram) {
+          const url = `/roi-calculator?institution=${institutionData.unitid}&program=${topProgram.cip_code}`;
+          console.log('[Analytics] 🔗 Redirecting to:', url);
+          window.location.href = url;
+          return;
+        }
+      }
+    } catch (error) {
+      console.error('[Analytics] Error fetching programs:', error);
+    }
+    
+    // Fallback: just pass institution without program
+    const fallbackUrl = `/roi-calculator?institution=${institutionData.unitid}`;
+    console.log('[Analytics] 🔗 Fallback redirect to:', fallbackUrl);
+    window.location.href = fallbackUrl;
   };
 
   const getColorByControl = (control: string) => {
