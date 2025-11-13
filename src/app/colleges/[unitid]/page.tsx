@@ -26,8 +26,8 @@ interface InstitutionDetails {
   stats: {
     totalPrograms: number;
     avgEarnings: number;
-    totalGraduates: number;
-    topPrograms: Array<{ name: string; graduates: number }>;
+    totalDataPoints: number;
+    topPrograms: Array<{ name: string; dataPoints: number }>;
   };
 }
 
@@ -63,7 +63,7 @@ export default function CollegeDetailPage() {
         const programs = programsData.programs || [];
         
         // Calculate stats
-        const totalGraduates = programs.reduce((sum: number, p: AcademicProgram) => 
+        const totalDataPoints = programs.reduce((sum: number, p: AcademicProgram) => 
           sum + (p.total_completions || p.completions || 0), 0);
         
         const topPrograms = programs
@@ -72,7 +72,7 @@ export default function CollegeDetailPage() {
           .slice(0, 5)
           .map((p: AcademicProgram) => ({
             name: p.cip_title || 'Unknown Program',
-            graduates: p.total_completions || p.completions || 0
+            dataPoints: p.total_completions || p.completions || 0
           }));
 
         setDetails({
@@ -81,7 +81,7 @@ export default function CollegeDetailPage() {
           stats: {
             totalPrograms: programs.length,
             avgEarnings: institution.earnings_6_years_after_entry || 0,
-            totalGraduates,
+            totalDataPoints,
             topPrograms
           }
         });
@@ -271,8 +271,8 @@ export default function CollegeDetailPage() {
             <div className="flex items-center">
               <UsersIcon className="w-8 h-8 text-blue-500 mr-3" />
               <div>
-                <p className="text-2xl font-bold text-white font-bold">{stats.totalGraduates.toLocaleString()}</p>
-                <p className="text-sm text-gray-300">Total Graduates</p>
+                <p className="text-2xl font-bold text-white font-bold">{stats.totalDataPoints.toLocaleString()}</p>
+                <p className="text-sm text-gray-300">Total Data Points</p>
               </div>
             </div>
           </div>
@@ -402,12 +402,12 @@ export default function CollegeDetailPage() {
 
                 {stats.topPrograms.length > 0 && (
                   <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
-                    <h2 className="text-xl font-semibold text-white font-bold mb-4">Top Programs by Graduates</h2>
+                    <h2 className="text-xl font-semibold text-white font-bold mb-4">Top Programs by Data Points</h2>
                     <div className="space-y-3">
                       {stats.topPrograms.map((program) => (
                         <div key={program.name} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
                           <span className="font-medium text-white font-bold">{program.name}</span>
-                          <span className="text-sm text-gray-300">{program.graduates} graduates</span>
+                          <span className="text-sm text-gray-300">{program.dataPoints} data points</span>
                         </div>
                       ))}
                     </div>
@@ -441,7 +441,7 @@ export default function CollegeDetailPage() {
                       </div>
                       <div className="text-right">
                         <span className="text-sm text-gray-300">
-                          {(program.total_completions || program.completions || 0).toLocaleString()} graduates
+                          {(program.total_completions || program.completions || 0).toLocaleString()} data points
                         </span>
                       </div>
                     </div>

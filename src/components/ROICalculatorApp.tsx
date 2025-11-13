@@ -975,7 +975,7 @@ export default function ROICalculatorApp() {
                         )}
                         {(selectedProgram.total_completions || selectedProgram.completions) && (
                           <div className="flex justify-between">
-                            <span className="text-orange-500">Annual Graduates:</span>
+                            <span className="text-orange-500">Annual Data Points:</span>
                             <span className="font-semibold text-white font-bold">
                               {(selectedProgram.total_completions || selectedProgram.completions)?.toLocaleString()}
                             </span>
@@ -1033,7 +1033,7 @@ export default function ROICalculatorApp() {
                             </span>
                           </div>
                           <div className="text-xs text-blue-700">
-                            {selectedProgram.total_completions} graduates per year
+                            {selectedProgram.total_completions} data points per year
                             {selectedProgram.total_completions < 50 && ' - More personalized attention'}
                             {selectedProgram.total_completions >= 50 && selectedProgram.total_completions < 200 && ' - Good balance of resources and attention'}
                             {selectedProgram.total_completions >= 200 && ' - Extensive alumni network'}

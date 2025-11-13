@@ -203,38 +203,76 @@ export default function AnalyticsPage() {
       state: institutionData.state
     });
     
-    try {
-      // Fetch top program for this institution by median earnings
+    try:
+      // Fetch institution to get top ROI program (ENG-363)
+      const instResponse = await fetch(`/api/institutions/${institutionData.unitid}`);
+      if (instResponse.ok) {
+        const instData = await instResponse.json();
+        const institution = instData.institution;
+        
+        console.log('[Analytics ENG-363] Institution data:', {
+          name: institution.name,
+          top_roi_program_cip: institution.top_roi_program_cip,
+          top_roi_program_title: institution.top_roi_program_title
+        });
+        
+        // If institution has a top ROI program stored, use that
+        if (institution.top_roi_program_cip) {
+          const url = `/roi-calculator?institution=${institutionData.unitid}&program=${institution.top_roi_program_cip}`;
+          console.log('[Analytics ENG-363] 🔗 Redirecting with top ROI program:', {
+            program: institution.top_roi_program_title,
+            cip: institution.top_roi_program_cip,
+            url
+          });
+          window.location.href = url;
+          return;
+        }
+      }
+      
+      // Fallback: Fetch programs and use highest ROI program
       const programsResponse = await fetch(`/api/institutions/${institutionData.unitid}/programs`);
       if (programsResponse.ok) {
         const programsData = await programsResponse.json();
         
-        // Get the program with highest median earnings
+        // Get the program with highest ROI (if calculated)
         const topProgram = programsData.programs
-          ?.filter((p: any) => p.median_earnings_10yr)
-          ?.sort((a: any, b: any) => (b.median_earnings_10yr || 0) - (a.median_earnings_10yr || 0))[0];
-        
-        console.log('[Analytics] Top program found:', {
-          institutionName: institutionData.name,
-          programTitle: topProgram?.title || 'NONE',
-          cipCode: topProgram?.cip_code,
-          earnings: topProgram?.median_earnings_10yr
-        });
+          ?.filter((p: any) => p.program_roi != null)
+          ?.sort((a: any, b: any) => (b.program_roi || 0) - (a.program_roi || 0))[0];
         
         if (topProgram) {
-          const url = `/roi-calculator?institution=${institutionData.unitid}&program=${topProgram.cip_code}`;
-          console.log('[Analytics] 🔗 Redirecting to:', url);
+          const url = `/roi-calculator?institution=${institutionData.unitid}&program=${topProgram.cipcode}`;
+          console.log('[Analytics] 🔗 Redirecting with top ROI program (from programs):', {
+            program: topProgram.cip_title,
+            roi: topProgram.program_roi,
+            url
+          });
+          window.location.href = url;
+          return;
+        }
+        
+        // Final fallback: Use highest earning program
+        const topEarningProgram = programsData.programs
+          ?.filter((p: any) => p.median_earnings_10yr)
+          ?.sort((a: any, b: any) => (b.median_earnings_10yr || 0) - (a.median_earnings_10yr || 0))[0];
+          
+        if (topEarningProgram) {
+          const url = `/roi-calculator?institution=${institutionData.unitid}&program=${topEarningProgram.cipcode}`;
+          console.log('[Analytics] 🔗 Redirecting with top earning program (fallback):', {
+            program: topEarningProgram.cip_title,
+            earnings: topEarningProgram.median_earnings_10yr,
+            url
+          });
           window.location.href = url;
           return;
         }
       }
     } catch (error) {
-      console.error('[Analytics] Error fetching programs:', error);
+      console.error('[Analytics] Error fetching institution/programs:', error);
     }
     
-    // Fallback: just pass institution without program
+    // Ultimate fallback: just pass institution without program
     const fallbackUrl = `/roi-calculator?institution=${institutionData.unitid}`;
-    console.log('[Analytics] 🔗 Fallback redirect to:', fallbackUrl);
+    console.log('[Analytics] 🔗 Fallback redirect (no program):', fallbackUrl);
     window.location.href = fallbackUrl;
   };
 
