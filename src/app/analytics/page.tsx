@@ -203,7 +203,7 @@ export default function AnalyticsPage() {
       state: institutionData.state
     });
     
-    try:
+    try {
       // Fetch institution to get top ROI program (ENG-363)
       const instResponse = await fetch(`/api/institutions/${institutionData.unitid}`);
       if (instResponse.ok) {
