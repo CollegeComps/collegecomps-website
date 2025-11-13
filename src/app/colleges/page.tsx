@@ -872,20 +872,6 @@ export default function CollegesPage() {
                       </a>
                     </div>
                   )}
-                  
-                  {/* Calculate ROI Link (ENG-363) */}
-                  {((institution as any).institution_avg_roi || (institution as any).implied_roi) && (
-                    <div className="flex items-center">
-                      <CurrencyDollarIcon className="w-4 h-4 mr-2 text-green-500" />
-                      <a 
-                        href={`/roi-calculator?institution=${institution.unitid}`}
-                        className="text-green-500 hover:text-green-400 font-medium"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        Calculate ROI →
-                      </a>
-                    </div>
-                  )}
                 </div>
 
                 {/* Action footer - pushed to bottom */}
