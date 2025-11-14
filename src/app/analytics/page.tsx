@@ -12,6 +12,18 @@ interface InstitutionDataPoint {
   unitid: number;
 }
 
+interface InstitutionDetail {
+  unitid: number;
+  name: string;
+  city: string;
+  state: string;
+  control: string;
+  cost: number;
+  avgROI: number;
+  topProgram: { title: string; roi: number; cipCode: string } | null;
+  bottomProgram: { title: string; roi: number; cipCode: string } | null;
+}
+
 interface FilterState {
   states: string[];
   controlTypes: string[];
@@ -22,6 +34,8 @@ interface FilterState {
 export default function AnalyticsPage() {
   const [data, setData] = useState<InstitutionDataPoint[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedInstitution, setSelectedInstitution] = useState<InstitutionDetail | null>(null);
+  const [institutionLoading, setInstitutionLoading] = useState(false);
   const [maxCostInData, setMaxCostInData] = useState(100000);
   const [minROIInData, setMinROIInData] = useState(0);
   const [maxROIInData, setMaxROIInData] = useState(3000000);
@@ -172,108 +186,64 @@ export default function AnalyticsPage() {
 
   const handleDotClick = async (data: any, index: number) => {
     // In recharts onClick, the data structure can vary
-    // Sometimes it's the direct data point, sometimes nested in payload
     let institutionData = data;
     
-    // Handle different Recharts click event structures
     if (data?.payload) {
       institutionData = data.payload;
     }
     
-    console.log('[Analytics] Dot clicked:', {
-      rawData: data,
-      extractedData: institutionData,
-      index: index,
-      unitid: institutionData?.unitid,
-      name: institutionData?.name,
-      cost: institutionData?.cost,
-      roi: institutionData?.roi
-    });
-    
-    // Validate we have the right data structure
     if (!institutionData?.unitid || !institutionData?.name) {
       console.error('[Analytics] Invalid institution data structure:', institutionData);
       return;
     }
     
-    // Add visual feedback
-    console.log('[Analytics] ✅ Confirmed institution:', {
-      name: institutionData.name,
-      unitid: institutionData.unitid,
-      state: institutionData.state
-    });
+    setInstitutionLoading(true);
     
     try {
-      // Fetch institution to get top ROI program (ENG-363)
+      // Fetch institution details
       const instResponse = await fetch(`/api/institutions/${institutionData.unitid}`);
-      if (instResponse.ok) {
-        const instData = await instResponse.json();
-        const institution = instData.institution;
-        
-        console.log('[Analytics ENG-363] Institution data:', {
-          name: institution.name,
-          top_roi_program_cip: institution.top_roi_program_cip,
-          top_roi_program_title: institution.top_roi_program_title
-        });
-        
-        // If institution has a top ROI program stored, use that
-        if (institution.top_roi_program_cip) {
-          const url = `/roi-calculator?institution=${institutionData.unitid}&program=${institution.top_roi_program_cip}`;
-          console.log('[Analytics ENG-363] 🔗 Redirecting with top ROI program:', {
-            program: institution.top_roi_program_title,
-            cip: institution.top_roi_program_cip,
-            url
-          });
-          window.location.href = url;
-          return;
-        }
-      }
+      if (!instResponse.ok) throw new Error('Failed to fetch institution');
       
-      // Fallback: Fetch programs and use highest ROI program
+      const instData = await instResponse.json();
+      const institution = instData.institution;
+      
+      // Fetch programs to get top and bottom ROI
       const programsResponse = await fetch(`/api/institutions/${institutionData.unitid}/programs`);
-      if (programsResponse.ok) {
-        const programsData = await programsResponse.json();
-        
-        // Get the program with highest ROI (if calculated)
-        const topProgram = programsData.programs
-          ?.filter((p: any) => p.program_roi != null)
-          ?.sort((a: any, b: any) => (b.program_roi || 0) - (a.program_roi || 0))[0];
-        
-        if (topProgram) {
-          const url = `/roi-calculator?institution=${institutionData.unitid}&program=${topProgram.cipcode}`;
-          console.log('[Analytics] 🔗 Redirecting with top ROI program (from programs):', {
-            program: topProgram.cip_title,
-            roi: topProgram.program_roi,
-            url
-          });
-          window.location.href = url;
-          return;
-        }
-        
-        // Final fallback: Use highest earning program
-        const topEarningProgram = programsData.programs
-          ?.filter((p: any) => p.median_earnings_10yr)
-          ?.sort((a: any, b: any) => (b.median_earnings_10yr || 0) - (a.median_earnings_10yr || 0))[0];
-          
-        if (topEarningProgram) {
-          const url = `/roi-calculator?institution=${institutionData.unitid}&program=${topEarningProgram.cipcode}`;
-          console.log('[Analytics] 🔗 Redirecting with top earning program (fallback):', {
-            program: topEarningProgram.cip_title,
-            earnings: topEarningProgram.median_earnings_10yr,
-            url
-          });
-          window.location.href = url;
-          return;
-        }
-      }
+      if (!programsResponse.ok) throw new Error('Failed to fetch programs');
+      
+      const programsData = await programsResponse.json();
+      const programsWithROI = programsData.programs?.filter((p: any) => p.program_roi != null) || [];
+      
+      const sortedPrograms = programsWithROI.sort((a: any, b: any) => (b.program_roi || 0) - (a.program_roi || 0));
+      
+      const topProgram = sortedPrograms[0] || null;
+      const bottomProgram = sortedPrograms[sortedPrograms.length - 1] || null;
+      
+      // Set institution detail for popup
+      setSelectedInstitution({
+        unitid: institution.unitid,
+        name: institution.name,
+        city: institution.city || '',
+        state: institution.state || '',
+        control: institutionData.control,
+        cost: institutionData.cost,
+        avgROI: institutionData.roi,
+        topProgram: topProgram ? {
+          title: topProgram.cip_title,
+          roi: topProgram.program_roi,
+          cipCode: topProgram.cipcode
+        } : null,
+        bottomProgram: bottomProgram ? {
+          title: bottomProgram.cip_title,
+          roi: bottomProgram.program_roi,
+          cipCode: bottomProgram.cipcode
+        } : null
+      });
     } catch (error) {
-      console.error('[Analytics] Error fetching institution/programs:', error);
+      console.error('[Analytics] Error fetching institution details:', error);
+    } finally {
+      setInstitutionLoading(false);
     }
-    
-    // Ultimate fallback: just pass institution without program
-    const fallbackUrl = `/roi-calculator?institution=${institutionData.unitid}`;
-    console.log('[Analytics] 🔗 Fallback redirect (no program):', fallbackUrl);
-    window.location.href = fallbackUrl;
   };
 
   const getColorByControl = (control: string) => {
@@ -538,6 +508,108 @@ export default function AnalyticsPage() {
                   />
                 </ScatterChart>
               </ResponsiveContainer>
+
+              {/* Institution Detail Popup (ENG-365) */}
+              {selectedInstitution && (
+                <div className="mt-6 bg-gradient-to-br from-blue-900/30 to-purple-900/30 border border-blue-500/50 rounded-xl p-6 shadow-xl">
+                  {institutionLoading ? (
+                    <div className="flex items-center justify-center py-8">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+                    </div>
+                  ) : (
+                    <>
+                      {/* Header */}
+                      <div className="mb-4">
+                        <h3 className="text-2xl font-bold text-white mb-1">{selectedInstitution.name}</h3>
+                        <p className="text-sm text-gray-400">
+                          {selectedInstitution.city}, {selectedInstitution.state} • {selectedInstitution.control === 'Public' ? 'Public' : selectedInstitution.control === 'Private nonprofit' ? 'Private Nonprofit' : 'Private For-Profit'}
+                        </p>
+                      </div>
+
+                      {/* Key Metrics */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                        <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-3">
+                          <h4 className="text-xs font-semibold text-gray-400 mb-1">Cost of Attendance</h4>
+                          <p className="text-xl font-bold text-white">${(selectedInstitution.cost / 1000).toFixed(0)}K</p>
+                        </div>
+                        <div className="bg-blue-500/10 border border-blue-500 rounded-lg p-3">
+                          <h4 className="text-xs font-semibold text-blue-400 mb-1">Average ROI</h4>
+                          <p className="text-xl font-bold text-blue-400">${(selectedInstitution.avgROI / 1000000).toFixed(2)}M</p>
+                        </div>
+                        <div className="bg-purple-500/10 border border-purple-500 rounded-lg p-3">
+                          <h4 className="text-xs font-semibold text-purple-400 mb-1">ROI Ratio</h4>
+                          <p className="text-xl font-bold text-purple-400">{(selectedInstitution.avgROI / selectedInstitution.cost).toFixed(1)}x</p>
+                        </div>
+                      </div>
+
+                      {/* Programs */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        {/* Highest ROI Program */}
+                        {selectedInstitution.topProgram ? (
+                          <div className="bg-green-500/10 border border-green-500 rounded-lg p-4">
+                            <h4 className="text-sm font-semibold text-green-400 mb-2">🏆 Highest ROI Program</h4>
+                            <p className="text-white font-medium mb-1 text-sm">{selectedInstitution.topProgram.title}</p>
+                            <p className="text-green-400 font-bold text-lg">${(selectedInstitution.topProgram.roi / 1000000).toFixed(2)}M</p>
+                          </div>
+                        ) : (
+                          <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+                            <h4 className="text-sm font-semibold text-gray-400 mb-2">🏆 Highest ROI Program</h4>
+                            <p className="text-gray-500 text-sm">Data not available</p>
+                          </div>
+                        )}
+
+                        {/* Lowest ROI Program */}
+                        {selectedInstitution.bottomProgram ? (
+                          <div className="bg-red-500/10 border border-red-500 rounded-lg p-4">
+                            <h4 className="text-sm font-semibold text-red-400 mb-2">📉 Lowest ROI Program</h4>
+                            <p className="text-white font-medium mb-1 text-sm">{selectedInstitution.bottomProgram.title}</p>
+                            <p className="text-red-400 font-bold text-lg">${(selectedInstitution.bottomProgram.roi / 1000000).toFixed(2)}M</p>
+                          </div>
+                        ) : (
+                          <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+                            <h4 className="text-sm font-semibold text-gray-400 mb-2">📉 Lowest ROI Program</h4>
+                            <p className="text-gray-500 text-sm">Data not available</p>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-col sm:flex-row gap-3">
+                        <button
+                          onClick={() => window.location.href = `/colleges/${selectedInstitution.unitid}`}
+                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+                        >
+                          📊 View Full Details
+                        </button>
+                        {selectedInstitution.topProgram && (
+                          <button
+                            onClick={() => window.location.href = `/roi-calculator?institution=${selectedInstitution.unitid}&program=${selectedInstitution.topProgram!.cipCode}`}
+                            className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+                          >
+                            💰 Calculate ROI (Highest)
+                          </button>
+                        )}
+                        {selectedInstitution.bottomProgram && (
+                          <button
+                            onClick={() => window.location.href = `/roi-calculator?institution=${selectedInstitution.unitid}&program=${selectedInstitution.bottomProgram!.cipCode}`}
+                            className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+                          >
+                            📉 Calculate ROI (Lowest)
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Close Button */}
+                      <button
+                        onClick={() => setSelectedInstitution(null)}
+                        className="mt-4 w-full text-gray-400 hover:text-white text-sm py-2 transition-colors"
+                      >
+                        Close
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
 
               {/* Overall Statistics */}
               <div className="mt-6 grid grid-cols-1 sm:grid-cols-4 gap-4">
