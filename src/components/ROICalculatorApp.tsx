@@ -46,6 +46,7 @@ export default function ROICalculatorApp() {
   const [selectedDegree, setSelectedDegree] = useState<AcademicProgram | null>(null);
   const [adaptedInstitution, setAdaptedInstitution] = useState<Institution | null>(null);
   const [adaptedProgram, setAdaptedProgram] = useState<Program | null>(null);
+  const [institutionROI, setInstitutionROI] = useState<number | null>(null); // ENG-363: Store institution's pre-calculated ROI
   const [costs, setCosts] = useState<CostInputs>({
     tuition: 0,
     fees: 0,
@@ -244,10 +245,20 @@ export default function ROICalculatorApp() {
         const instData = await instResponse.json();
         const institution = instData.institution;
         
-        console.log('[ROI Calculator] Loaded institution:', institution.name);
+        console.log('[ROI Calculator ENG-363] Loaded institution:', {
+          name: institution.name,
+          unitid: institution.unitid,
+          institution_avg_roi: institution.institution_avg_roi,
+          implied_roi: institution.implied_roi
+        });
         
         setSelectedInstitution(institution);
         setSearchMode('institution');
+        
+        // Store institution's pre-calculated ROI (ENG-363)
+        const preCalculatedROI = institution.institution_avg_roi || institution.implied_roi || null;
+        setInstitutionROI(preCalculatedROI);
+        console.log('[ROI Calculator ENG-363] Institution ROI from DB:', preCalculatedROI);
 
         // Pre-fill costs with institution data
         const tuition = institution.tuition_in_state || institution.tuition_out_state || 0;
@@ -270,9 +281,23 @@ export default function ROICalculatorApp() {
           const programsResponse = await fetch(`/api/institutions/${institutionId}/programs`);
           if (programsResponse.ok) {
             const programsData = await programsResponse.json();
-            const program = programsData.programs?.find((p: any) => p.cip_code === programCipCode);
             
-            console.log('[ROI Calculator] Program found:', program?.title || 'NOT FOUND');
+            // Normalize CIP codes for comparison (remove dots, trim, compare)
+            const normalizeCip = (cip: string) => cip?.replace(/\./g, '').trim().toLowerCase() || '';
+            const normalizedSearchCip = normalizeCip(programCipCode);
+            
+            const program = programsData.programs?.find((p: any) => {
+              const normalizedProgramCip = normalizeCip(p.cip_code);
+              return normalizedProgramCip === normalizedSearchCip;
+            });
+            
+            console.log('[ROI Calculator] Program search:', {
+              searchCip: programCipCode,
+              normalizedSearchCip,
+              totalPrograms: programsData.programs?.length,
+              found: program?.title || 'NOT FOUND',
+              foundCip: program?.cip_code
+            });
             
             if (program) {
               setSelectedProgram(program);
@@ -895,6 +920,25 @@ export default function ROICalculatorApp() {
 
           {roiResult && adaptedInstitution && (
             <>
+              {/* Institution's Pre-calculated ROI (ENG-363) */}
+              {institutionROI !== null && (
+                <div className="bg-green-900/20 border border-green-500 rounded-lg shadow-lg p-6 mb-6">
+                  <h3 className="text-lg font-bold text-green-400 mb-3">Institution's Average ROI</h3>
+                  <div className="space-y-2">
+                    <p className="text-sm text-gray-300">
+                      This institution's average 40-year ROI based on all programs:
+                    </p>
+                    <p className="text-3xl font-bold text-green-400">
+                      ${institutionROI.toLocaleString()}
+                    </p>
+                    <p className="text-xs text-gray-400 mt-2">
+                      This is the average ROI across all programs at {selectedInstitution?.name}. 
+                      Your calculated ROI below may differ based on your specific program and financial situation.
+                    </p>
+                  </div>
+                </div>
+              )}
+              
               <ROIResults
                 result={roiResult}
                 institution={adaptedInstitution}
@@ -931,7 +975,7 @@ export default function ROICalculatorApp() {
                         )}
                         {(selectedProgram.total_completions || selectedProgram.completions) && (
                           <div className="flex justify-between">
-                            <span className="text-orange-500">Annual Graduates:</span>
+                            <span className="text-orange-500">Annual Data Points:</span>
                             <span className="font-semibold text-white font-bold">
                               {(selectedProgram.total_completions || selectedProgram.completions)?.toLocaleString()}
                             </span>
@@ -989,7 +1033,7 @@ export default function ROICalculatorApp() {
                             </span>
                           </div>
                           <div className="text-xs text-blue-700">
-                            {selectedProgram.total_completions} graduates per year
+                            {selectedProgram.total_completions} data points per year
                             {selectedProgram.total_completions < 50 && ' - More personalized attention'}
                             {selectedProgram.total_completions >= 50 && selectedProgram.total_completions < 200 && ' - Good balance of resources and attention'}
                             {selectedProgram.total_completions >= 200 && ' - Extensive alumni network'}

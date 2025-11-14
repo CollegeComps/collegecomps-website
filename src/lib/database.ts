@@ -56,6 +56,9 @@ export interface Institution {
   average_act?: number;
   athletic_conference?: string;
   last_roi_calculation?: string;
+  // Top ROI program (ENG-363)
+  top_roi_program_cip?: string; // CIP code of program with highest ROI
+  top_roi_program_title?: string; // Title of top ROI program
   // Enrollment and demographics (ENG-67)
   total_enrollment?: number;
   undergrad_enrollment?: number;
@@ -101,7 +104,9 @@ export interface AcademicProgram {
   id?: number;
   unitid: number;
   cipcode?: string;
+  cip_code?: string; // Alias for cipcode
   cip_title?: string;
+  title?: string; // Alias for cip_title
   degree_level?: number;
   credential_level?: number;
   credential_name?: string;
@@ -111,6 +116,9 @@ export interface AcademicProgram {
   data_pattern?: string;
   duplication_factor?: number;
   year?: number;
+  program_roi?: number; // 40-year ROI for this specific program
+  program_roi_calculated_at?: string;
+  median_earnings_10yr?: number; // Program-specific earnings (future enhancement)
 }
 
 export class CollegeDataService {
