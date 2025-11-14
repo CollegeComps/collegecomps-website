@@ -28,6 +28,8 @@ interface InstitutionDetails {
     avgEarnings: number;
     totalDataPoints: number;
     topPrograms: Array<{ name: string; dataPoints: number }>;
+    highestROIProgram?: { name: string; roi: number; cipCode: string } | null;
+    lowestROIProgram?: { name: string; roi: number; cipCode: string } | null;
   };
 }
 
@@ -75,6 +77,22 @@ export default function CollegeDetailPage() {
             dataPoints: p.total_completions || p.completions || 0
           }));
 
+        // Calculate ROI programs (ENG-365)
+        const programsWithROI = programs.filter((p: any) => p.program_roi != null);
+        const sortedByROI = [...programsWithROI].sort((a: any, b: any) => (b.program_roi || 0) - (a.program_roi || 0));
+        
+        const highestROIProgram = sortedByROI.length > 0 ? {
+          name: sortedByROI[0].cip_title || 'Unknown Program',
+          roi: sortedByROI[0].program_roi,
+          cipCode: sortedByROI[0].cipcode
+        } : null;
+        
+        const lowestROIProgram = sortedByROI.length > 0 ? {
+          name: sortedByROI[sortedByROI.length - 1].cip_title || 'Unknown Program',
+          roi: sortedByROI[sortedByROI.length - 1].program_roi,
+          cipCode: sortedByROI[sortedByROI.length - 1].cipcode
+        } : null;
+
         setDetails({
           institution,
           programs,
@@ -82,7 +100,9 @@ export default function CollegeDetailPage() {
             totalPrograms: programs.length,
             avgEarnings: institution.earnings_6_years_after_entry || 0,
             totalDataPoints,
-            topPrograms
+            topPrograms,
+            highestROIProgram,
+            lowestROIProgram
           }
         });
       }
@@ -413,6 +433,48 @@ export default function CollegeDetailPage() {
                     </div>
                   </div>
                 )}
+                
+                {/* ROI Programs Section (ENG-365) */}
+                {(stats.highestROIProgram || stats.lowestROIProgram) && (
+                  <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
+                    <h2 className="text-xl font-semibold text-white font-bold mb-4">Return on Investment</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Highest ROI Program */}
+                      {stats.highestROIProgram && (
+                        <div className="bg-green-500/10 border border-green-500/50 rounded-lg p-4">
+                          <h3 className="text-sm font-semibold text-green-400 mb-2">🏆 Highest ROI Program</h3>
+                          <p className="text-white font-medium mb-1 text-sm">{stats.highestROIProgram.name}</p>
+                          <p className="text-green-400 font-bold text-lg mb-3">
+                            ${(stats.highestROIProgram.roi / 1000000).toFixed(2)}M
+                          </p>
+                          <button
+                            onClick={() => router.push(`/roi-calculator?institution=${unitid}&program=${stats.highestROIProgram!.cipCode}`)}
+                            className="w-full bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 px-4 rounded transition-colors"
+                          >
+                            Calculate ROI
+                          </button>
+                        </div>
+                      )}
+                      
+                      {/* Lowest ROI Program */}
+                      {stats.lowestROIProgram && (
+                        <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-4">
+                          <h3 className="text-sm font-semibold text-red-400 mb-2">📉 Lowest ROI Program</h3>
+                          <p className="text-white font-medium mb-1 text-sm">{stats.lowestROIProgram.name}</p>
+                          <p className="text-red-400 font-bold text-lg mb-3">
+                            ${(stats.lowestROIProgram.roi / 1000000).toFixed(2)}M
+                          </p>
+                          <button
+                            onClick={() => router.push(`/roi-calculator?institution=${unitid}&program=${stats.lowestROIProgram!.cipCode}`)}
+                            className="w-full bg-red-600 hover:bg-red-700 text-white text-sm font-medium py-2 px-4 rounded transition-colors"
+                          >
+                            Calculate ROI
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -423,10 +485,10 @@ export default function CollegeDetailPage() {
                 </h2>
                 <div className="space-y-3">
                   {programs.slice(0, 20).map((program, index) => (
-                    <div key={`${program.cipcode}-${index}`} className="flex justify-between items-center py-3 border-b border-gray-800 last:border-b-0">
-                      <div>
+                    <div key={`${program.cipcode}-${index}`} className="flex justify-between items-start py-3 border-b border-gray-800 last:border-b-0">
+                      <div className="flex-1">
                         <h3 className="font-medium text-white font-bold">{program.cip_title || 'Unknown Program'}</h3>
-                        <div className="flex items-center gap-4 mt-1">
+                        <div className="flex items-center gap-4 mt-1 flex-wrap">
                           {program.cipcode && (
                             <span className="px-2 py-1 text-xs rounded bg-gray-700 text-gray-300">
                               CIP: {program.cipcode}
@@ -437,12 +499,25 @@ export default function CollegeDetailPage() {
                               {program.credential_name}
                             </span>
                           )}
+                          {(program as any).program_roi != null && (
+                            <span className="px-2 py-1 text-xs rounded bg-blue-500/20 text-blue-400 font-semibold">
+                              ROI: ${((program as any).program_roi / 1000000).toFixed(2)}M
+                            </span>
+                          )}
                         </div>
                       </div>
-                      <div className="text-right">
-                        <span className="text-sm text-gray-300">
+                      <div className="text-right ml-4">
+                        <span className="text-sm text-gray-300 block">
                           {(program.total_completions || program.completions || 0).toLocaleString()} data points
                         </span>
+                        {(program as any).program_roi != null && (
+                          <button
+                            onClick={() => router.push(`/roi-calculator?institution=${unitid}&program=${program.cipcode}`)}
+                            className="mt-2 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded transition-colors"
+                          >
+                            Calculate
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}
