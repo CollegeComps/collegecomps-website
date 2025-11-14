@@ -24,6 +24,12 @@ const articlesDirectory = path.join(process.cwd(), 'content/articles');
  */
 export function getAllArticles(): Article[] {
   try {
+    // Check if articles directory exists
+    if (!fs.existsSync(articlesDirectory)) {
+      console.warn('[WARN] Articles directory does not exist:', articlesDirectory);
+      return [];
+    }
+
     const fileNames = fs.readdirSync(articlesDirectory);
     const articles = fileNames
       .filter((fileName) => fileName.endsWith('.md'))

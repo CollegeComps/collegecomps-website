@@ -164,7 +164,7 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
                         )}
                         {program.total_completions && (
                           <span className="text-sm text-gray-400">
-                            {program.total_completions} graduates
+                            {program.total_completions} data points
                           </span>
                         )}
                       </div>
