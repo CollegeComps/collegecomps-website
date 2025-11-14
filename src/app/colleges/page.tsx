@@ -754,6 +754,14 @@ export default function CollegesPage() {
                     ));
                   })()}
                 </div>
+                
+                {/* Top ROI Program Hint (ENG-365) */}
+                {(institution as any).top_roi_program_title && (
+                  <div className="text-xs text-gray-400 mb-3 flex items-center">
+                    <span className="mr-1">🏆</span>
+                    <span>Top ROI: {(institution as any).top_roi_program_title}</span>
+                  </div>
+                )}
 
                   {/* Financial Information - Enhanced visibility */}
                   <div className="bg-gray-800 border border-gray-700 rounded-lg p-3 mb-3">
