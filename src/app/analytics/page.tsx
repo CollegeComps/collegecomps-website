@@ -192,32 +192,56 @@ export default function AnalyticsPage() {
       institutionData = data.payload;
     }
     
+    console.log('[Analytics] Dot clicked:', {
+      index,
+      unitid: institutionData?.unitid,
+      name: institutionData?.name,
+      cost: institutionData?.cost,
+      roi: institutionData?.roi,
+      fullData: institutionData
+    });
+    
     if (!institutionData?.unitid || !institutionData?.name) {
       console.error('[Analytics] Invalid institution data structure:', institutionData);
       return;
     }
     
+    // Close any existing popup first
+    setSelectedInstitution(null);
     setInstitutionLoading(true);
     
     try {
       // Fetch institution details
+      console.log('[Analytics] Fetching institution:', institutionData.unitid);
       const instResponse = await fetch(`/api/institutions/${institutionData.unitid}`);
-      if (!instResponse.ok) throw new Error('Failed to fetch institution');
+      if (!instResponse.ok) {
+        console.error('[Analytics] Failed to fetch institution:', instResponse.status);
+        throw new Error('Failed to fetch institution');
+      }
       
       const instData = await instResponse.json();
       const institution = instData.institution;
+      console.log('[Analytics] Institution fetched:', institution.name, institution.unitid);
       
       // Fetch programs to get top and bottom ROI
+      console.log('[Analytics] Fetching programs for:', institutionData.unitid);
       const programsResponse = await fetch(`/api/institutions/${institutionData.unitid}/programs`);
-      if (!programsResponse.ok) throw new Error('Failed to fetch programs');
+      if (!programsResponse.ok) {
+        console.error('[Analytics] Failed to fetch programs:', programsResponse.status);
+        throw new Error('Failed to fetch programs');
+      }
       
       const programsData = await programsResponse.json();
       const programsWithROI = programsData.programs?.filter((p: any) => p.program_roi != null) || [];
+      console.log('[Analytics] Programs with ROI:', programsWithROI.length, 'out of', programsData.programs?.length || 0);
       
       const sortedPrograms = programsWithROI.sort((a: any, b: any) => (b.program_roi || 0) - (a.program_roi || 0));
       
       const topProgram = sortedPrograms[0] || null;
       const bottomProgram = sortedPrograms[sortedPrograms.length - 1] || null;
+      
+      console.log('[Analytics] Top program:', topProgram?.cip_title, topProgram?.program_roi);
+      console.log('[Analytics] Bottom program:', bottomProgram?.cip_title, bottomProgram?.program_roi);
       
       // Set institution detail for popup
       setSelectedInstitution({
@@ -239,8 +263,11 @@ export default function AnalyticsPage() {
           cipCode: bottomProgram.cipcode
         } : null
       });
+      
+      console.log('[Analytics] ✅ Popup data set for:', institution.name);
     } catch (error) {
       console.error('[Analytics] Error fetching institution details:', error);
+      setSelectedInstitution(null);
     } finally {
       setInstitutionLoading(false);
     }
@@ -524,6 +551,7 @@ export default function AnalyticsPage() {
                         <p className="text-sm text-gray-400">
                           {selectedInstitution.city}, {selectedInstitution.state} • {selectedInstitution.control === 'Public' ? 'Public' : selectedInstitution.control === 'Private nonprofit' ? 'Private Nonprofit' : 'Private For-Profit'}
                         </p>
+                        <p className="text-xs text-gray-500 mt-1">Unit ID: {selectedInstitution.unitid}</p>
                       </div>
 
                       {/* Key Metrics */}
@@ -554,7 +582,7 @@ export default function AnalyticsPage() {
                         ) : (
                           <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
                             <h4 className="text-sm font-semibold text-gray-400 mb-2">🏆 Highest ROI Program</h4>
-                            <p className="text-gray-500 text-sm">Data not available</p>
+                            <p className="text-gray-500 text-sm">Program-level ROI data not yet available for this institution. Check back later or view the college detail page for other metrics.</p>
                           </div>
                         )}
 
@@ -568,7 +596,7 @@ export default function AnalyticsPage() {
                         ) : (
                           <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
                             <h4 className="text-sm font-semibold text-gray-400 mb-2">📉 Lowest ROI Program</h4>
-                            <p className="text-gray-500 text-sm">Data not available</p>
+                            <p className="text-gray-500 text-sm">Program-level ROI data not yet available for this institution. Check back later or view the college detail page for other metrics.</p>
                           </div>
                         )}
                       </div>
