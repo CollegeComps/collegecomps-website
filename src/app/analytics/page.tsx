@@ -511,7 +511,7 @@ export default function AnalyticsPage() {
 
               {/* Institution Detail Popup (ENG-365) */}
               {selectedInstitution && (
-                <div className="mt-6 bg-gradient-to-br from-blue-900/30 to-purple-900/30 border border-blue-500/50 rounded-xl p-6 shadow-xl">
+                <div className="mt-6 bg-gradient-to-br from-gray-900/80 to-gray-800/80 border border-blue-500/50 rounded-xl p-6 shadow-xl">
                   {institutionLoading ? (
                     <div className="flex items-center justify-center py-8">
                       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
@@ -536,9 +536,9 @@ export default function AnalyticsPage() {
                           <h4 className="text-xs font-semibold text-blue-400 mb-1">Average ROI</h4>
                           <p className="text-xl font-bold text-blue-400">${(selectedInstitution.avgROI / 1000000).toFixed(2)}M</p>
                         </div>
-                        <div className="bg-purple-500/10 border border-purple-500 rounded-lg p-3">
-                          <h4 className="text-xs font-semibold text-purple-400 mb-1">ROI Ratio</h4>
-                          <p className="text-xl font-bold text-purple-400">{(selectedInstitution.avgROI / selectedInstitution.cost).toFixed(1)}x</p>
+                        <div className="bg-orange-500/10 border border-orange-500 rounded-lg p-3">
+                          <h4 className="text-xs font-semibold text-orange-400 mb-1">ROI Ratio</h4>
+                          <p className="text-xl font-bold text-orange-400">{(selectedInstitution.avgROI / selectedInstitution.cost).toFixed(1)}x</p>
                         </div>
                       </div>
 
