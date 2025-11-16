@@ -502,8 +502,8 @@ export default function AnalyticsPage() {
                       (dataMax: number) => Math.ceil(dataMax / 1000000) * 1000000
                     ]}
                   />
-                  <ZAxis range={[50, 50]} />
-                  <Tooltip content={<CustomTooltip />} />
+                  <ZAxis range={[100, 100]} />
+                  <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: '3 3' }} />
                   <Legend 
                     verticalAlign="top" 
                     height={36}
@@ -535,6 +535,35 @@ export default function AnalyticsPage() {
                   />
                 </ScatterChart>
               </ResponsiveContainer>
+
+              {/* Institution Selector - Alternative to clicking dots (ENG-365) */}
+              <div className="mt-6 bg-gray-900/50 border border-gray-700 rounded-lg p-4">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Can't find the right dot? Search for an institution:
+                </label>
+                <select
+                  className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500"
+                  onChange={(e) => {
+                    const unitid = parseInt(e.target.value);
+                    if (unitid) {
+                      const institution = filteredData.find(d => d.unitid === unitid);
+                      if (institution) {
+                        handleDotClick({ payload: institution }, 0);
+                      }
+                    }
+                  }}
+                  value={selectedInstitution?.unitid || ''}
+                >
+                  <option value="">Select an institution...</option>
+                  {filteredData
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map(inst => (
+                      <option key={inst.unitid} value={inst.unitid}>
+                        {inst.name} ({inst.state})
+                      </option>
+                    ))}
+                </select>
+              </div>
 
               {/* Institution Detail Popup (ENG-365) */}
               {selectedInstitution && (
@@ -575,13 +604,13 @@ export default function AnalyticsPage() {
                         {/* Highest ROI Program */}
                         {selectedInstitution.topProgram ? (
                           <div className="bg-green-500/10 border border-green-500 rounded-lg p-4">
-                            <h4 className="text-sm font-semibold text-green-400 mb-2">🏆 Highest ROI Program</h4>
+                            <h4 className="text-sm font-semibold text-green-400 mb-2">Highest ROI Program</h4>
                             <p className="text-white font-medium mb-1 text-sm">{selectedInstitution.topProgram.title}</p>
                             <p className="text-green-400 font-bold text-lg">${(selectedInstitution.topProgram.roi / 1000000).toFixed(2)}M</p>
                           </div>
                         ) : (
                           <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
-                            <h4 className="text-sm font-semibold text-gray-400 mb-2">🏆 Highest ROI Program</h4>
+                            <h4 className="text-sm font-semibold text-gray-400 mb-2">Highest ROI Program</h4>
                             <p className="text-gray-500 text-sm">Program-level ROI data not yet available for this institution. Check back later or view the college detail page for other metrics.</p>
                           </div>
                         )}
@@ -589,13 +618,13 @@ export default function AnalyticsPage() {
                         {/* Lowest ROI Program */}
                         {selectedInstitution.bottomProgram ? (
                           <div className="bg-red-500/10 border border-red-500 rounded-lg p-4">
-                            <h4 className="text-sm font-semibold text-red-400 mb-2">📉 Lowest ROI Program</h4>
+                            <h4 className="text-sm font-semibold text-red-400 mb-2">Lowest ROI Program</h4>
                             <p className="text-white font-medium mb-1 text-sm">{selectedInstitution.bottomProgram.title}</p>
                             <p className="text-red-400 font-bold text-lg">${(selectedInstitution.bottomProgram.roi / 1000000).toFixed(2)}M</p>
                           </div>
                         ) : (
                           <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
-                            <h4 className="text-sm font-semibold text-gray-400 mb-2">📉 Lowest ROI Program</h4>
+                            <h4 className="text-sm font-semibold text-gray-400 mb-2">Lowest ROI Program</h4>
                             <p className="text-gray-500 text-sm">Program-level ROI data not yet available for this institution. Check back later or view the college detail page for other metrics.</p>
                           </div>
                         )}
@@ -607,14 +636,14 @@ export default function AnalyticsPage() {
                           onClick={() => window.location.href = `/colleges/${selectedInstitution.unitid}`}
                           className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
                         >
-                          📊 View Full Details
+                          View Full Details
                         </button>
                         {selectedInstitution.topProgram && (
                           <button
                             onClick={() => window.location.href = `/roi-calculator?institution=${selectedInstitution.unitid}&program=${selectedInstitution.topProgram!.cipCode}`}
                             className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
                           >
-                            💰 Calculate ROI (Highest)
+                            Calculate ROI (Highest)
                           </button>
                         )}
                         {selectedInstitution.bottomProgram && (
@@ -622,7 +651,7 @@ export default function AnalyticsPage() {
                             onClick={() => window.location.href = `/roi-calculator?institution=${selectedInstitution.unitid}&program=${selectedInstitution.bottomProgram!.cipCode}`}
                             className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
                           >
-                            📉 Calculate ROI (Lowest)
+                            Calculate ROI (Lowest)
                           </button>
                         )}
                       </div>

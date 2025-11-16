@@ -357,6 +357,7 @@ export class CollegeDataService {
 
   // Get programs for an institution (deduplicated and safe)
   async getInstitutionPrograms(unitid: number): Promise<AcademicProgram[]> {
+    // Query from academic_programs to get program_roi data (ENG-365)
     const stmt = this.ensureDb().prepare(`
       SELECT 
         unitid,
@@ -364,14 +365,14 @@ export class CollegeDataService {
         cip_title,
         credential_level,
         credential_name,
-        total_completions,
-        source_records,
-        data_pattern,
-        duplication_factor,
-        year
-      FROM programs_safe_view 
+        completions as total_completions,
+        year,
+        program_roi,
+        program_roi_calculated_at
+      FROM academic_programs
       WHERE unitid = ? AND cip_title IS NOT NULL
-      ORDER BY total_completions DESC, cip_title ASC
+      GROUP BY unitid, cipcode, credential_level
+      ORDER BY completions DESC, cip_title ASC
     `);
     return await stmt.all(unitid) as AcademicProgram[];
   }
