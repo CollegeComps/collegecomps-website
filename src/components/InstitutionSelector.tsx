@@ -6,7 +6,7 @@ import { Institution } from '@/lib/database';
 interface InstitutionSelectorProps {
   selectedInstitution: Institution | null;
   onSelect: (institution: Institution | null) => void;
-  degreeLevel?: '' | 'bachelors' | 'masters';
+  degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate';
 }
 
 export default function InstitutionSelector({ selectedInstitution, onSelect, degreeLevel }: InstitutionSelectorProps) {

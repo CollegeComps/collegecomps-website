@@ -355,7 +355,10 @@ export class CollegeDataService {
   }
 
   // Get programs for an institution (deduplicated and safe)
-  async getInstitutionPrograms(unitid: number, degreeLevel?: 'bachelors' | 'masters'): Promise<AcademicProgram[]> {
+  async getInstitutionPrograms(
+    unitid: number,
+    degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate'
+  ): Promise<AcademicProgram[]> {
     let query = `
       SELECT 
         unitid,
@@ -372,10 +375,16 @@ export class CollegeDataService {
       WHERE unitid = ? AND cip_title IS NOT NULL
     `;
 
-    if (degreeLevel === 'bachelors') {
-      query += ` AND credential_level IN (5,22,31)`;
+    if (degreeLevel === 'associates') {
+      query += ` AND credential_level IN (4)`;
+    } else if (degreeLevel === 'bachelors') {
+      query += ` AND credential_level IN (22,31)`;
     } else if (degreeLevel === 'masters') {
       query += ` AND credential_level IN (7,23)`;
+    } else if (degreeLevel === 'doctorate') {
+      query += ` AND credential_level IN (8,9,24,33)`;
+    } else if (degreeLevel === 'certificate') {
+      query += ` AND credential_level IN (30,32)`;
     }
 
     query += ` ORDER BY total_completions DESC, cip_title ASC`;
@@ -419,7 +428,7 @@ export class CollegeDataService {
     maxTuition?: number;
     minEarnings?: number;
     majorCategory?: string;
-    degreeLevel?: string; // 'bachelors' or 'masters'
+    degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate';
     sortBy?: string;
   }): Promise<Institution[]> {
     const { clause: statesClause, params: stateParams } = getStatesInClause();
@@ -475,12 +484,18 @@ export class CollegeDataService {
       }
     }
     
-    // ENG-367/368: Filter by degree level (bachelors=5/22/31, masters=7/23)
+    // ENG-367/368: Filter by degree level
     if (filters.degreeLevel) {
-      if (filters.degreeLevel === 'bachelors') {
-        query += ` AND ap.credential_level IN (5, 22, 31)`;
+      if (filters.degreeLevel === 'associates') {
+        query += ` AND ap.credential_level IN (4)`;
+      } else if (filters.degreeLevel === 'bachelors') {
+        query += ` AND ap.credential_level IN (22, 31)`;
       } else if (filters.degreeLevel === 'masters') {
         query += ` AND ap.credential_level IN (7, 23)`;
+      } else if (filters.degreeLevel === 'doctorate') {
+        query += ` AND ap.credential_level IN (8, 9, 24, 33)`;
+      } else if (filters.degreeLevel === 'certificate') {
+        query += ` AND ap.credential_level IN (30, 32)`;
       }
     }
     

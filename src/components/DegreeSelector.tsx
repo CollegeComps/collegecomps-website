@@ -6,7 +6,7 @@ import { AcademicProgram } from '@/lib/database';
 interface DegreeSelectorProps {
   selectedDegree: AcademicProgram | null;
   onSelect: (degree: AcademicProgram | null) => void;
-  degreeLevel?: '' | 'bachelors' | 'masters';
+  degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate';
 }
 
 export default function DegreeSelector({ selectedDegree, onSelect, degreeLevel }: DegreeSelectorProps) {

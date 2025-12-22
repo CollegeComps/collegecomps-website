@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
         maxTuition: maxTuition ? parseFloat(maxTuition) : undefined,
         minEarnings: minEarnings ? parseFloat(minEarnings) : undefined,
         majorCategory: majorCategory || undefined,
-        degreeLevel: degreeLevel === 'bachelors' || degreeLevel === 'masters' ? degreeLevel : undefined, // ENG-367/368
+        degreeLevel: (['associates','bachelors','masters','doctorate','certificate'].includes((degreeLevel||'').toLowerCase())) ? (degreeLevel as any) : undefined,
         sortBy: sortBy
       });
     } else {

@@ -5,7 +5,7 @@ import { useState, useEffect, useMemo } from 'react';
 interface InstitutionsByDegreeProps {
   cipcode: string;
   degreeName: string;
-  degreeLevel?: '' | 'bachelors' | 'masters';
+  degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate';
   onSelectInstitution: (institution: any) => void;
 }
 

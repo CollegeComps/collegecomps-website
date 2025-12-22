@@ -7,7 +7,7 @@ interface ProgramSelectorProps {
   institutionId: number;
   selectedProgram: AcademicProgram | null;
   onSelect: (program: AcademicProgram | null) => void;
-  degreeLevel?: '' | 'bachelors' | 'masters';
+  degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate';
   institutionInfo?: {
     name: string;
     state?: string;

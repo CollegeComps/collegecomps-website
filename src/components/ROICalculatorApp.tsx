@@ -44,7 +44,7 @@ export default function ROICalculatorApp() {
   const [selectedInstitution, setSelectedInstitution] = useState<DatabaseInstitution | null>(null);
   const [selectedProgram, setSelectedProgram] = useState<AcademicProgram | null>(null);
   const [selectedDegree, setSelectedDegree] = useState<AcademicProgram | null>(null);
-  const [degreeLevelFilter, setDegreeLevelFilter] = useState<'' | 'bachelors' | 'masters'>('');
+  const [degreeLevelFilter, setDegreeLevelFilter] = useState<'' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate'>('');
   const [adaptedInstitution, setAdaptedInstitution] = useState<Institution | null>(null);
   const [adaptedProgram, setAdaptedProgram] = useState<Program | null>(null);
   const [institutionROI, setInstitutionROI] = useState<number | null>(null); // ENG-363: Store institution's pre-calculated ROI
@@ -656,8 +656,11 @@ export default function ROICalculatorApp() {
                   className="w-full px-3 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white"
                 >
                   <option value="">All levels</option>
+                  <option value="associates">Associate's</option>
                   <option value="bachelors">Bachelors</option>
                   <option value="masters">Masters</option>
+                  <option value="doctorate">Doctorate</option>
+                  <option value="certificate">Certificate</option>
                 </select>
               </div>
               {/* Institution Selection */}
@@ -837,8 +840,11 @@ export default function ROICalculatorApp() {
                   className="w-full px-3 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white"
                 >
                   <option value="">All levels</option>
+                  <option value="associates">Associate's</option>
                   <option value="bachelors">Bachelors</option>
                   <option value="masters">Masters</option>
+                  <option value="doctorate">Doctorate</option>
+                  <option value="certificate">Certificate</option>
                 </select>
               </div>
 

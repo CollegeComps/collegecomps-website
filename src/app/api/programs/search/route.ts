@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const query = searchParams.get('q');
-    const degreeLevel = searchParams.get('degreeLevel'); // 'bachelors' | 'masters'
+    const degreeLevel = searchParams.get('degreeLevel'); // '', 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate'
 
     if (!query || query.length < 2) {
       return NextResponse.json({ programs: [] });
@@ -30,16 +30,50 @@ export async function GET(request: NextRequest) {
     // Split query into individual search terms
     const searchTerms = query.toLowerCase().trim().split(/\s+/).filter(t => t.length > 0);
     
-    // Build WHERE clause with partial matching - each term must appear somewhere
-    // This allows "computer sc" to match "computer science"
-    const conditions = searchTerms.map(() => `LOWER(p.cip_title) LIKE ?`).join(' AND ');
-    const params = searchTerms.map(term => `%${term}%`);
+    // Conservative synonyms: only morphological/phrase variants to avoid broad mismatches
+    const synonyms: Record<string, string[]> = {
+      // Business/Finance
+      'finance': ['financial'],
+      'accounting': ['accountancy'],
+      'economics': ['economic'],
+      'business': ['business administration', 'management'],
+      'marketing': ['marketing management'],
+      // STEM
+      'cs': ['computer science'],
+      'comp': ['computer', 'computer science'],
+      'computing': ['computer'],
+      'computer': ['computing'],
+      'biology': ['biological'],
+      'psychology': ['psych'],
+      'psych': ['psychology'],
+      'engineering': ['engineer'],
+      // Health
+      'nursing': ['nurse']
+    };
+    
+    // For each term, build a group of LIKE conditions including its synonyms
+    const termGroups = searchTerms.map((term) => {
+      const alts = [term, ...(synonyms[term] || [])];
+      const groupConds = alts.map(() => `LOWER(p.cip_title) LIKE ?`).join(' OR ');
+      const groupParams = alts.map(a => `%${a}%`);
+      return { groupConds: `(${groupConds})`, groupParams };
+    });
+    
+    // Combine groups with AND: every term (or one of its synonyms) must match
+    const conditions = termGroups.map(g => g.groupConds).join(' AND ');
+    const params = termGroups.flatMap(g => g.groupParams);
 
     let credentialFilter = '';
-    if (degreeLevel === 'bachelors') {
-      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (5, 22, 31))';
+    if (degreeLevel === 'associates') {
+      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (4))';
+    } else if (degreeLevel === 'bachelors') {
+      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (22, 31))';
     } else if (degreeLevel === 'masters') {
       credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (7, 23))';
+    } else if (degreeLevel === 'doctorate') {
+      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (8, 9, 24, 33))';
+    } else if (degreeLevel === 'certificate') {
+      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (30, 32))';
     }
     
     programs = await db.prepare(`
@@ -63,7 +97,7 @@ export async function GET(request: NextRequest) {
     `).all(...params, query, query, `${query}%`);
     
     // Remove duplicates by cipcode (in case of data inconsistencies)
-    const uniquePrograms = new Map();
+    const uniquePrograms = new Map<string, any>();
     programs.forEach((p: any) => {
       if (!uniquePrograms.has(p.cipcode)) {
         uniquePrograms.set(p.cipcode, p);
@@ -74,7 +108,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ 
       programs: programs.map((p: any) => ({
         ...p,
-        // Add a unique ID for React keys
         id: `${p.cipcode}`
       }))
     });
