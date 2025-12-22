@@ -355,8 +355,8 @@ export class CollegeDataService {
   }
 
   // Get programs for an institution (deduplicated and safe)
-  async getInstitutionPrograms(unitid: number): Promise<AcademicProgram[]> {
-    const stmt = this.ensureDb().prepare(`
+  async getInstitutionPrograms(unitid: number, degreeLevel?: 'bachelors' | 'masters'): Promise<AcademicProgram[]> {
+    let query = `
       SELECT 
         unitid,
         cipcode,
@@ -370,8 +370,17 @@ export class CollegeDataService {
         year
       FROM programs_safe_view 
       WHERE unitid = ? AND cip_title IS NOT NULL
-      ORDER BY total_completions DESC, cip_title ASC
-    `);
+    `;
+
+    if (degreeLevel === 'bachelors') {
+      query += ` AND credential_level IN (5,22,31)`;
+    } else if (degreeLevel === 'masters') {
+      query += ` AND credential_level IN (7,23)`;
+    }
+
+    query += ` ORDER BY total_completions DESC, cip_title ASC`;
+
+    const stmt = this.ensureDb().prepare(query);
     return await stmt.all(unitid) as AcademicProgram[];
   }
 

@@ -6,9 +6,10 @@ import { Institution } from '@/lib/database';
 interface InstitutionSelectorProps {
   selectedInstitution: Institution | null;
   onSelect: (institution: Institution | null) => void;
+  degreeLevel?: '' | 'bachelors' | 'masters';
 }
 
-export default function InstitutionSelector({ selectedInstitution, onSelect }: InstitutionSelectorProps) {
+export default function InstitutionSelector({ selectedInstitution, onSelect, degreeLevel }: InstitutionSelectorProps) {
   const [institutions, setInstitutions] = useState<Institution[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
@@ -27,7 +28,9 @@ export default function InstitutionSelector({ selectedInstitution, onSelect }: I
   const fetchInstitutions = async (search: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/institutions?search=${encodeURIComponent(search)}&limit=10`);
+      const params = new URLSearchParams({ search, limit: '10' });
+      if (degreeLevel) params.set('degreeLevel', degreeLevel);
+      const response = await fetch(`/api/institutions?${params.toString()}`);
       if (response.ok) {
         const data = await response.json();
         setInstitutions(data.institutions || []);

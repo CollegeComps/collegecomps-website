@@ -10,7 +10,8 @@
     "populate-scorecard": "node scripts/populate-scorecard-data.js",
     "apply-roi-migration": "node scripts/apply-roi-migration.js",
     "calculate-roi": "node scripts/calculate-roi.js",
-    "setup-dev-db": "tsx scripts/create-dev-database.ts"
+    "setup-dev-db": "tsx scripts/create-dev-database.ts",
+    "export-masters-without-bachelors": "node scripts/export_masters_without_bachelors.mjs"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

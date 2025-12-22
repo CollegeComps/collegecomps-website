@@ -5,6 +5,7 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const unitid = searchParams.get('unitid');
+    const degreeLevel = searchParams.get('degreeLevel'); // 'bachelors' | 'masters'
     
     if (!unitid) {
       return NextResponse.json({ error: 'unitid is required' }, { status: 400 });
@@ -16,7 +17,7 @@ export async function GET(request: NextRequest) {
     }
 
     const db = new CollegeDataService();
-    const programs = await db.getInstitutionPrograms(unitidNum);
+    const programs = await db.getInstitutionPrograms(unitidNum, degreeLevel === 'bachelors' || degreeLevel === 'masters' ? degreeLevel : undefined);
 
     return NextResponse.json({
       programs,

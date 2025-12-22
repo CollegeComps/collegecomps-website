@@ -44,6 +44,7 @@ export default function ROICalculatorApp() {
   const [selectedInstitution, setSelectedInstitution] = useState<DatabaseInstitution | null>(null);
   const [selectedProgram, setSelectedProgram] = useState<AcademicProgram | null>(null);
   const [selectedDegree, setSelectedDegree] = useState<AcademicProgram | null>(null);
+  const [degreeLevelFilter, setDegreeLevelFilter] = useState<'' | 'bachelors' | 'masters'>('');
   const [adaptedInstitution, setAdaptedInstitution] = useState<Institution | null>(null);
   const [adaptedProgram, setAdaptedProgram] = useState<Program | null>(null);
   const [institutionROI, setInstitutionROI] = useState<number | null>(null); // ENG-363: Store institution's pre-calculated ROI
@@ -639,9 +640,23 @@ export default function ROICalculatorApp() {
         <div className="space-y-6">
           {searchMode === 'institution' ? (
             <>
+              {/* Degree Level Filter (applies to institution + program search) */}
+              <div className="bg-gray-900 border border-gray-800 rounded-lg p-4">
+                <label className="block text-sm font-bold text-gray-300 mb-2">Degree Level (optional)</label>
+                <select
+                  value={degreeLevelFilter}
+                  onChange={(e) => setDegreeLevelFilter(e.target.value as any)}
+                  className="w-full px-3 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white"
+                >
+                  <option value="">All levels</option>
+                  <option value="bachelors">Bachelors</option>
+                  <option value="masters">Masters</option>
+                </select>
+              </div>
               {/* Institution Selection */}
               <InstitutionSelector
                 selectedInstitution={selectedInstitution}
+                degreeLevel={degreeLevelFilter}
                 onSelect={async (institution) => {
                   setSelectedInstitution(institution);
                   setSelectedProgram(null); // Reset program when institution changes
@@ -696,6 +711,7 @@ export default function ROICalculatorApp() {
             <ProgramSelector
               institutionId={selectedInstitution.unitid}
               selectedProgram={selectedProgram}
+              degreeLevel={degreeLevelFilter}
               institutionInfo={{
                 name: selectedInstitution.name,
                 state: selectedInstitution.state,
@@ -804,10 +820,25 @@ export default function ROICalculatorApp() {
                 }}
               />
 
+              {/* Degree Level Filter for Institutions offering selected degree */}
+              <div className="bg-gray-900 border border-gray-800 rounded-lg p-4">
+                <label className="block text-sm font-bold text-gray-300 mb-2">Degree Level (optional)</label>
+                <select
+                  value={degreeLevelFilter}
+                  onChange={(e) => setDegreeLevelFilter(e.target.value as any)}
+                  className="w-full px-3 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white"
+                >
+                  <option value="">All levels</option>
+                  <option value="bachelors">Bachelors</option>
+                  <option value="masters">Masters</option>
+                </select>
+              </div>
+
               {selectedDegree && (
                 <InstitutionsByDegree
                   cipcode={selectedDegree.cipcode || ''}
                   degreeName={selectedDegree.cip_title || ''}
+                  degreeLevel={degreeLevelFilter}
                   onSelectInstitution={handleSelectInstitutionFromDegree}
                 />
               )}
