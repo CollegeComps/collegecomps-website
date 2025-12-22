@@ -79,6 +79,13 @@ export default function ROICalculatorApp() {
   const autoSaveTimerRef = useRef<NodeJS.Timeout | null>(null);
   const lastAutoSaveRef = useRef<string>('');
 
+  // Reset program/degree selections when degree level filter changes to avoid stale mismatches
+  useEffect(() => {
+    setSelectedProgram(null);
+    setAdaptedProgram(null);
+    setSelectedDegree(null);
+  }, [degreeLevelFilter]);
+
   // Update baseline salary when diploma status changes
   // Note: Without HS diploma, both baseline AND projected salaries are lower
   useEffect(() => {
@@ -813,6 +820,7 @@ export default function ROICalculatorApp() {
               {/* Degree-First Flow */}
               <DegreeSelector
                 selectedDegree={selectedDegree}
+                degreeLevel={degreeLevelFilter}
                 onSelect={(degree) => {
                   setSelectedDegree(degree);
                   setSelectedInstitution(null);

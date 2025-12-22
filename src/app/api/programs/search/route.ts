@@ -5,6 +5,7 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const query = searchParams.get('q');
+    const degreeLevel = searchParams.get('degreeLevel'); // 'bachelors' | 'masters'
 
     if (!query || query.length < 2) {
       return NextResponse.json({ programs: [] });
@@ -31,8 +32,15 @@ export async function GET(request: NextRequest) {
     
     // Build WHERE clause with partial matching - each term must appear somewhere
     // This allows "computer sc" to match "computer science"
-    const conditions = searchTerms.map(() => `LOWER(cip_title) LIKE ?`).join(' AND ');
+    const conditions = searchTerms.map(() => `LOWER(p.cip_title) LIKE ?`).join(' AND ');
     const params = searchTerms.map(term => `%${term}%`);
+
+    let credentialFilter = '';
+    if (degreeLevel === 'bachelors') {
+      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (5, 22, 31))';
+    } else if (degreeLevel === 'masters') {
+      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (7, 23))';
+    }
     
     programs = await db.prepare(`
       SELECT 
@@ -46,8 +54,9 @@ export async function GET(request: NextRequest) {
           WHEN LOWER(cip_title) LIKE LOWER(?) THEN 2
           ELSE 3
         END as relevance
-      FROM programs_search_cache
+      FROM programs_search_cache p
       WHERE ${conditions}
+        ${credentialFilter}
       GROUP BY cipcode
       ORDER BY relevance ASC, total_completions DESC
       LIMIT 50

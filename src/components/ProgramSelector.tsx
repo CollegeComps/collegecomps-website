@@ -30,7 +30,7 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
       setAvailablePrograms([]);
       setFilteredPrograms([]);
     }
-  }, [institutionId]);
+  }, [institutionId, degreeLevel]);
 
   // Filter programs when searchTerm changes
   useEffect(() => {

@@ -23,7 +23,7 @@ export default function InstitutionSelector({ selectedInstitution, onSelect, deg
       setInstitutions([]);
       setShowDropdown(false);
     }
-  }, [searchTerm]);
+  }, [searchTerm, degreeLevel]);
 
   const fetchInstitutions = async (search: string) => {
     setLoading(true);
