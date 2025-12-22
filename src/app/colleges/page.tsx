@@ -26,6 +26,7 @@ interface SearchFilters {
   proximityZip: string;
   radiusMiles: string;
   majorCategory: string;
+  degreeLevel: string; // ENG-367/368: 'bachelors' | 'masters' | ''
   control: string[]; // Changed to array for multi-select
   maxTuition: string;
   minEarnings: string;
@@ -103,6 +104,7 @@ export default function CollegesPage() {
     proximityZip: '',
     radiusMiles: '50',
     majorCategory: '',
+    degreeLevel: '', // ENG-367/368
     control: [], // Array for multi-select
     maxTuition: '',
     minEarnings: '',
@@ -214,6 +216,7 @@ export default function CollegesPage() {
         params.append('radiusMiles', filters.radiusMiles || '50');
       }
       if (filters.majorCategory) params.append('majorCategory', filters.majorCategory);
+      if (filters.degreeLevel) params.append('degreeLevel', filters.degreeLevel); // ENG-367/368
       // Send control types as comma-separated string
       if (filters.control && filters.control.length > 0) {
         params.append('control', filters.control.join(','));
@@ -277,6 +280,7 @@ export default function CollegesPage() {
       proximityZip: '',
       radiusMiles: '50',
       majorCategory: '',
+      degreeLevel: '', // ENG-367/368
       control: [], // Array for multi-select
       maxTuition: '',
       minEarnings: '',
@@ -427,6 +431,21 @@ export default function CollegesPage() {
                     <option value="Social Sciences" className="text-white">Social Sciences</option>
                     <option value="Arts" className="text-white">Arts</option>
                     <option value="Other" className="text-white">Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-white mb-1">
+                    Degree Level
+                  </label>
+                  <select
+                    className="w-full p-2 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white font-medium bg-gray-800"
+                    value={filters.degreeLevel}
+                    onChange={(e) => handleFilterChange('degreeLevel', e.target.value)}
+                  >
+                    <option value="" className="text-gray-300">All Levels</option>
+                    <option value="bachelors" className="text-white">Bachelors</option>
+                    <option value="masters" className="text-white">Masters</option>
                   </select>
                 </div>
                 

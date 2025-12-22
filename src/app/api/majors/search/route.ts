@@ -9,22 +9,33 @@ export async function GET(request: NextRequest) {
 
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('q');
+  const degreeLevel = searchParams.get('degreeLevel'); // 'bachelors' or 'masters'
 
   if (!query || query.length < 2) {
     return NextResponse.json({ majors: [] });
   }
 
   try {
+    // Map degree level to credential_level values. Extended codes cover IPEDS variants.
+    let credentialLevelFilter = '';
+    const params = [`%${query}%`];
+
+    if (degreeLevel === 'bachelors') {
+      credentialLevelFilter = 'AND credential_level IN (5, 22, 31)';
+    } else if (degreeLevel === 'masters') {
+      credentialLevelFilter = 'AND credential_level IN (7, 23)';
+    }
+
     const majors = await db
       .prepare(
         `SELECT DISTINCT
           cip_title
         FROM academic_programs
-        WHERE cip_title LIKE ? AND cip_title IS NOT NULL AND cip_title != ''
+        WHERE cip_title LIKE ? AND cip_title IS NOT NULL AND cip_title != '' ${credentialLevelFilter}
         ORDER BY cip_title
         LIMIT 20`
       )
-      .all(`%${query}%`) as { cip_title: string }[];
+      .all(...params) as { cip_title: string }[];
 
     return NextResponse.json({ majors: majors.map(m => m.cip_title) });
   } catch (error) {

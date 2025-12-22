@@ -27,6 +27,7 @@ export async function GET(request: NextRequest) {
     const maxTuition = searchParams.get('maxTuition');
     const minEarnings = searchParams.get('minEarnings');
     const majorCategory = searchParams.get('majorCategory') as MajorCategory | null; // ENG-25: Major category filter
+    const degreeLevel = searchParams.get('degreeLevel'); // ENG-367/368: 'bachelors' | 'masters'
     const sortBy = searchParams.get('sortBy') || 'roi_high'; // Default to ROI sorting (ENG-77)
     const unitid = searchParams.get('unitid');
     const page = parseInt(searchParams.get('page') || '1');
@@ -50,7 +51,7 @@ export async function GET(request: NextRequest) {
     if (unitid) {
       const singleInst = await collegeService.getInstitutionByUnitid(parseInt(unitid));
       institutions = singleInst ? [singleInst] : [];
-    } else if (search || state || city || zipCode || control || maxTuition || minEarnings || majorCategory) {
+    } else if (search || state || city || zipCode || control || maxTuition || minEarnings || majorCategory || degreeLevel) {
       // Use search with filters ONLY when actual filters are applied (not just sorting)
       institutions = await collegeService.searchInstitutions({
         name: search || undefined,
@@ -61,6 +62,7 @@ export async function GET(request: NextRequest) {
         maxTuition: maxTuition ? parseFloat(maxTuition) : undefined,
         minEarnings: minEarnings ? parseFloat(minEarnings) : undefined,
         majorCategory: majorCategory || undefined,
+        degreeLevel: degreeLevel === 'bachelors' || degreeLevel === 'masters' ? degreeLevel : undefined, // ENG-367/368
         sortBy: sortBy
       });
     } else {

@@ -411,12 +411,13 @@ export class CollegeDataService {
     maxTuition?: number;
     minEarnings?: number;
     majorCategory?: string;
+    degreeLevel?: string; // 'bachelors' or 'masters'
     sortBy?: string;
   }): Promise<Institution[]> {
     const { clause: statesClause, params: stateParams } = getStatesInClause();
     
-    // If filtering by major category, we need to join with academic_programs
-    const needsProgramsJoin = filters.majorCategory !== undefined;
+    // If filtering by major category or degree level, we need to join with academic_programs
+    const needsProgramsJoin = filters.majorCategory !== undefined || filters.degreeLevel !== undefined;
     
     // ENG-30: Include admissions and ROI fields
     let query = needsProgramsJoin ? `
@@ -463,6 +464,15 @@ export class CollegeDataService {
         const cipConditions = cipPrefixes.map(() => `ap.cipcode LIKE ?`).join(' OR ');
         query += ` AND (${cipConditions})`;
         cipPrefixes.forEach((prefix: string) => params.push(`${prefix}%`));
+      }
+    }
+    
+    // ENG-367/368: Filter by degree level (bachelors=5/22/31, masters=7/23)
+    if (filters.degreeLevel) {
+      if (filters.degreeLevel === 'bachelors') {
+        query += ` AND ap.credential_level IN (5, 22, 31)`;
+      } else if (filters.degreeLevel === 'masters') {
+        query += ` AND ap.credential_level IN (7, 23)`;
       }
     }
     

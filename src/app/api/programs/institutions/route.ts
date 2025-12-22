@@ -6,6 +6,7 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const cipcode = searchParams.get('cipcode');
+    const degreeLevel = searchParams.get('degreeLevel'); // 'bachelors' or 'masters'
 
     if (!cipcode) {
       return NextResponse.json(
@@ -24,6 +25,14 @@ export async function GET(request: NextRequest) {
     }
 
     try {
+      // Map degree level to credential_level values (include extended codes)
+      let credentialLevelFilter = '';
+      if (degreeLevel === 'bachelors') {
+        credentialLevelFilter = 'AND ap.credential_level IN (5, 22, 31)';
+      } else if (degreeLevel === 'masters') {
+        credentialLevelFilter = 'AND ap.credential_level IN (7, 23)';
+      }
+
       // Get all institutions offering this program
       // Using only guaranteed columns from academic_programs table
       const institutions = await db.prepare(`
@@ -41,11 +50,12 @@ export async function GET(request: NextRequest) {
         WHERE ap.cipcode = ?
           AND i.state IS NOT NULL
           AND i.state != ''
+          ${credentialLevelFilter}
         ORDER BY ap.completions DESC NULLS LAST
         LIMIT 500
       `).all(cipcode);
 
-      console.log(`Found ${institutions.length} institutions for CIP code ${cipcode}`);
+      console.log(`Found ${institutions.length} institutions for CIP code ${cipcode}${degreeLevel ? ` (${degreeLevel})` : ''}`);
 
       // Map credential levels to names
       const credentialNames: { [key: number]: string } = {
