@@ -184,7 +184,7 @@ export default function ROIResults({ result, institution, program, costs, earnin
               stroke="#9CA3AF"
             />
             <Tooltip 
-              formatter={(value: number) => `$${value.toLocaleString()}`}
+              formatter={(value: number | undefined) => value !== undefined ? `$${value.toLocaleString()}` : 'N/A'}
               labelFormatter={(label) => {
                 const year = Number(label);
                 if (year < costs.programLength) {
@@ -251,7 +251,7 @@ export default function ROIResults({ result, institution, program, costs, earnin
                 stroke="#9CA3AF"
               />
               <Tooltip 
-                formatter={(value: number) => `$${value.toLocaleString()}`}
+                formatter={(value: number | undefined) => value !== undefined ? `$${value.toLocaleString()}` : 'N/A'}
                 contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #374151', color: '#fff' }}
               />
               <Bar dataKey="value" fill="#F97316">
