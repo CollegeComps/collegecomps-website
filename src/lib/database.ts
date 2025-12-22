@@ -144,7 +144,6 @@ export class CollegeDataService {
         i.id, i.unitid, i.opeid, i.name, i.city, i.state, i.zip_code, i.region, 
         i.latitude, i.longitude, i.website, i.ownership, i.control_public_private,
         i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference,
-        i.top_roi_program_cip, i.top_roi_program_title,
         f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
         f.net_price, e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
       FROM institutions i
