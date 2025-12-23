@@ -52,10 +52,19 @@ export async function GET(request: NextRequest) {
     };
     
     // For each term, build a group of LIKE conditions including its synonyms
+    // Match terms as whole words, not substrings, to avoid noise (e.g., "international" shouldn't match "international" as substring of unrelated field)
     const termGroups = searchTerms.map((term) => {
       const alts = [term, ...(synonyms[term] || [])];
-      const groupConds = alts.map(() => `LOWER(p.cip_title) LIKE ?`).join(' OR ');
-      const groupParams = alts.map(a => `%${a}%`);
+      // For each term/synonym, create LIKE patterns that require word boundaries
+      const patterns = alts.flatMap(a => [
+        ` ${a} `,    // word surrounded by spaces
+        ` ${a}`,     // at start with space after
+        `${a} `,     // at end with space before  
+        `${a}`,      // standalone (short titles like "CS" programs)
+      ]);
+      
+      const groupConds = patterns.map(() => `LOWER(p.cip_title) LIKE ?`).join(' OR ');
+      const groupParams = patterns.map(p => `%${p}%`);
       return { groupConds: `(${groupConds})`, groupParams };
     });
     

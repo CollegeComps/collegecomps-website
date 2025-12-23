@@ -434,7 +434,7 @@ export class CollegeDataService {
     const { clause: statesClause, params: stateParams } = getStatesInClause();
 
     // Only join programs when an actual filter value is provided (non-empty)
-    const hasDegreeFilter = !!(filters.degreeLevel && filters.degreeLevel !== '');
+    const hasDegreeFilter = !!(filters.degreeLevel);  // Type already excludes empty string when truthy
     const hasCategoryFilter = !!(filters.majorCategory && filters.majorCategory.trim() !== '');
     const needsProgramsJoin = hasDegreeFilter || hasCategoryFilter;
     
