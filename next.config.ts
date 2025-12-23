@@ -23,39 +23,35 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withSentryConfig(nextConfig, {
-  // For all available options, see:
-  // https://www.npmjs.com/package/@sentry/webpack-plugin#options
+export default withSentryConfig(
+  nextConfig,
+  {
+    // For all available options, see:
+    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 
-  org: "collegecomps",
+    // Only print logs when auth token is configured for sourcemap uploads
+    silent: !process.env.SENTRY_AUTH_TOKEN,
 
-  project: "collegecomps",
+    // Disable build-time telemetry noise
+    telemetry: false,
 
-  // Only print logs when auth token is configured for sourcemap uploads
-  silent: !process.env.SENTRY_AUTH_TOKEN,
+    // Upload a larger set of source maps for prettier stack traces (increases build time)
+    widenClientFileUpload: true,
 
-  // Disable sourcemap uploads if running locally or in dev
-  dryRun: process.env.NODE_ENV !== 'production' || !process.env.SENTRY_AUTH_TOKEN,
+    // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
+    // This can increase your server load as well as your hosting bill.
+    // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
+    // side errors will fail.
+    tunnelRoute: "/monitoring",
 
-  // For all available options, see:
-  // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-  // Upload a larger set of source maps for prettier stack traces (increases build time)
-  widenClientFileUpload: true,
-
-  // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
-  // This can increase your server load as well as your hosting bill.
-  // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
-  // side errors will fail.
-  tunnelRoute: "/monitoring",
-
-  // Webpack configuration for Sentry
-  webpack: {
-    // Automatically tree-shake Sentry logger statements to reduce bundle size (replaces deprecated disableLogger)
-    treeshake: {
-      removeDebugLogging: true,
+    // Webpack configuration for Sentry build-time features
+    webpack: {
+      // Automatically tree-shake Sentry logger statements to reduce bundle size (replaces deprecated disableLogger)
+      treeshake: {
+        removeDebugLogging: true,
+      },
+      // Enable automatic instrumentation of Vercel Cron Monitors (replaces deprecated automaticVercelMonitors)
+      automaticVercelMonitors: true,
     },
-    // Enable automatic instrumentation of Vercel Cron Monitors (replaces deprecated automaticVercelMonitors)
-    automaticVercelMonitors: true,
-  },
-});
+  }
+);
