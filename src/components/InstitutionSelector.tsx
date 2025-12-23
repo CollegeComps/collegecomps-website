@@ -29,7 +29,7 @@ export default function InstitutionSelector({ selectedInstitution, onSelect, deg
     setLoading(true);
     try {
       const params = new URLSearchParams({ search, limit: '10' });
-      if (degreeLevel) params.set('degreeLevel', degreeLevel);
+      // Do not pass degreeLevel for institution search; filter by degree happens in Step 2 (ProgramSelector)
       const response = await fetch(`/api/institutions?${params.toString()}`);
       if (response.ok) {
         const data = await response.json();
@@ -46,7 +46,8 @@ export default function InstitutionSelector({ selectedInstitution, onSelect, deg
 
   const handleSelectInstitution = (institution: Institution) => {
     onSelect(institution);
-    setSearchTerm(institution.name);
+    // Do not re-show the institution name in the input after selection
+    setSearchTerm('');
     setShowDropdown(false);
   };
 

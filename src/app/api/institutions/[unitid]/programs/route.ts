@@ -8,6 +8,8 @@ export async function GET(
   try {
     const { unitid } = await params;
     const unitidNum = parseInt(unitid);
+    const searchParams = request.nextUrl.searchParams;
+    const degreeLevel = searchParams.get('degreeLevel');
     
     if (isNaN(unitidNum)) {
       return NextResponse.json(
@@ -17,7 +19,9 @@ export async function GET(
     }
 
     const collegeService = new CollegeDataService();
-    const programs = await collegeService.getInstitutionPrograms(unitidNum);
+    const allowedLevels = new Set(['', 'associates', 'bachelors', 'masters', 'doctorate', 'certificate']);
+    const normalizedLevel = degreeLevel && allowedLevels.has(degreeLevel) ? (degreeLevel as any) : undefined;
+    const programs = await collegeService.getInstitutionPrograms(unitidNum, normalizedLevel);
     
     return NextResponse.json({ programs });
   } catch (error) {
