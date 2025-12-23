@@ -286,7 +286,9 @@ export default function ROICalculatorApp() {
         // If program code provided, fetch and pre-fill program data
         if (programCipCode) {
           console.log('[ROI Calculator] Fetching program with CIP:', programCipCode);
-          const programsResponse = await fetch(`/api/institutions/${institutionId}/programs`);
+          const params = new URLSearchParams();
+          if (degreeLevelFilter) params.set('degreeLevel', degreeLevelFilter);
+          const programsResponse = await fetch(`/api/institutions/${institutionId}/programs?${params.toString()}`);
           if (programsResponse.ok) {
             const programsData = await programsResponse.json();
             
