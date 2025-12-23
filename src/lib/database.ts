@@ -432,9 +432,11 @@ export class CollegeDataService {
     sortBy?: string;
   }): Promise<Institution[]> {
     const { clause: statesClause, params: stateParams } = getStatesInClause();
-    
-    // If filtering by major category or degree level, we need to join with academic_programs
-    const needsProgramsJoin = filters.majorCategory !== undefined || filters.degreeLevel !== undefined;
+
+    // Only join programs when an actual filter value is provided (non-empty)
+    const hasDegreeFilter = !!(filters.degreeLevel && filters.degreeLevel !== '');
+    const hasCategoryFilter = !!(filters.majorCategory && filters.majorCategory.trim() !== '');
+    const needsProgramsJoin = hasDegreeFilter || hasCategoryFilter;
     
     // ENG-30: Include admissions and ROI fields
     let query = needsProgramsJoin ? `
