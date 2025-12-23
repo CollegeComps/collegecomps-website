@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
     } else if (degreeLevel === 'doctorate') {
       credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (8, 9, 24, 33))';
     } else if (degreeLevel === 'certificate') {
-      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (30, 32))';
+      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (30, 32))';  // Occupational certificates only
     }
     
     programs = await db.prepare(`

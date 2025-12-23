@@ -660,7 +660,7 @@ export default function ROICalculatorApp() {
                   <option value="bachelors">Bachelors</option>
                   <option value="masters">Masters</option>
                   <option value="doctorate">Doctorate</option>
-                  <option value="certificate">Certificate</option>
+                  <option value="certificate">Occupational Certificate</option>
                 </select>
               </div>
               {/* Institution Selection */}
@@ -844,7 +844,7 @@ export default function ROICalculatorApp() {
                   <option value="bachelors">Bachelors</option>
                   <option value="masters">Masters</option>
                   <option value="doctorate">Doctorate</option>
-                  <option value="certificate">Certificate</option>
+                  <option value="certificate">Occupational Certificate</option>
                 </select>
               </div>
 

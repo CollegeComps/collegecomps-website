@@ -384,7 +384,7 @@ export class CollegeDataService {
     } else if (degreeLevel === 'doctorate') {
       query += ` AND credential_level IN (8,9,24,33)`;
     } else if (degreeLevel === 'certificate') {
-      query += ` AND credential_level IN (30,32)`;
+      query += ` AND credential_level IN (30,32)`;  // Occupational certificates only
     }
 
     query += ` ORDER BY total_completions DESC, cip_title ASC`;
@@ -484,7 +484,7 @@ export class CollegeDataService {
       }
     }
     
-    // ENG-367/368: Filter by degree level
+    // ENG-367/368: Filter by degree level (separate occupational certificates from bachelors)
     if (filters.degreeLevel) {
       if (filters.degreeLevel === 'associates') {
         query += ` AND ap.credential_level IN (4)`;
