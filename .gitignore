@@ -64,3 +64,4 @@ test_performance.sh
 !README.md
 !.github/*.md
 
+.env*.local

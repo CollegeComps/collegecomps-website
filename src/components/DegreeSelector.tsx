@@ -6,9 +6,10 @@ import { AcademicProgram } from '@/lib/database';
 interface DegreeSelectorProps {
   selectedDegree: AcademicProgram | null;
   onSelect: (degree: AcademicProgram | null) => void;
+  degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate';
 }
 
-export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelectorProps) {
+export default function DegreeSelector({ selectedDegree, onSelect, degreeLevel }: DegreeSelectorProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [degrees, setDegrees] = useState<AcademicProgram[]>([]);
   const [loading, setLoading] = useState(false);
@@ -28,12 +29,14 @@ export default function DegreeSelector({ selectedDegree, onSelect }: DegreeSelec
       setDegrees([]);
       setShowDropdown(false);
     }
-  }, [searchQuery]);
+  }, [searchQuery, degreeLevel]);
 
   const searchDegrees = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/programs/search?q=${encodeURIComponent(searchQuery)}`);
+      const params = new URLSearchParams({ q: searchQuery });
+      if (degreeLevel) params.set('degreeLevel', degreeLevel);
+      const response = await fetch(`/api/programs/search?${params.toString()}`);
       if (response.ok) {
         const data = await response.json();
         const programs = data.programs || [];

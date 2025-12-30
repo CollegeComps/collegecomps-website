@@ -4,6 +4,7 @@ import { CollegeDataService } from '@/lib/database';
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('q');
+  const degreeLevel = searchParams.get('degreeLevel'); // 'bachelors' | 'masters'
 
   if (!query || query.length < 2) {
     return NextResponse.json({ colleges: [] });
@@ -12,9 +13,10 @@ export async function GET(request: NextRequest) {
   try {
     const collegeService = new CollegeDataService();
     
-    // Use the searchInstitutions method with name parameter
+    // Use the searchInstitutions method with name parameter and optional degree filter
     const institutions = await collegeService.searchInstitutions({
-      name: query
+      name: query,
+      degreeLevel: degreeLevel === 'bachelors' || degreeLevel === 'masters' ? degreeLevel : undefined
     });
 
     // Map to the format expected by the frontend

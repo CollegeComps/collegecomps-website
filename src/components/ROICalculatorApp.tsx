@@ -44,6 +44,7 @@ export default function ROICalculatorApp() {
   const [selectedInstitution, setSelectedInstitution] = useState<DatabaseInstitution | null>(null);
   const [selectedProgram, setSelectedProgram] = useState<AcademicProgram | null>(null);
   const [selectedDegree, setSelectedDegree] = useState<AcademicProgram | null>(null);
+  const [degreeLevelFilter, setDegreeLevelFilter] = useState<'' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate'>('');
   const [adaptedInstitution, setAdaptedInstitution] = useState<Institution | null>(null);
   const [adaptedProgram, setAdaptedProgram] = useState<Program | null>(null);
   const [institutionROI, setInstitutionROI] = useState<number | null>(null); // ENG-363: Store institution's pre-calculated ROI
@@ -77,6 +78,13 @@ export default function ROICalculatorApp() {
   const [showAutoSaveModal, setShowAutoSaveModal] = useState(false);
   const autoSaveTimerRef = useRef<NodeJS.Timeout | null>(null);
   const lastAutoSaveRef = useRef<string>('');
+
+  // Reset program/degree selections when degree level filter changes to avoid stale mismatches
+  useEffect(() => {
+    setSelectedProgram(null);
+    setAdaptedProgram(null);
+    setSelectedDegree(null);
+  }, [degreeLevelFilter]);
 
   // Update baseline salary when diploma status changes
   // Note: Without HS diploma, both baseline AND projected salaries are lower
@@ -278,7 +286,9 @@ export default function ROICalculatorApp() {
         // If program code provided, fetch and pre-fill program data
         if (programCipCode) {
           console.log('[ROI Calculator] Fetching program with CIP:', programCipCode);
-          const programsResponse = await fetch(`/api/institutions/${institutionId}/programs`);
+          const params = new URLSearchParams();
+          if (degreeLevelFilter) params.set('degreeLevel', degreeLevelFilter);
+          const programsResponse = await fetch(`/api/institutions/${institutionId}/programs?${params.toString()}`);
           if (programsResponse.ok) {
             const programsData = await programsResponse.json();
             
@@ -639,9 +649,26 @@ export default function ROICalculatorApp() {
         <div className="space-y-6">
           {searchMode === 'institution' ? (
             <>
+              {/* Degree Level Filter (applies to institution + program search) */}
+              <div className="bg-gray-900 border border-gray-800 rounded-lg p-4">
+                <label className="block text-sm font-bold text-gray-300 mb-2">Degree Level (optional)</label>
+                <select
+                  value={degreeLevelFilter}
+                  onChange={(e) => setDegreeLevelFilter(e.target.value as any)}
+                  className="w-full px-3 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white"
+                >
+                  <option value="">All levels</option>
+                  <option value="associates">Associate's</option>
+                  <option value="bachelors">Bachelors</option>
+                  <option value="masters">Masters</option>
+                  <option value="doctorate">Doctorate</option>
+                  <option value="certificate">Occupational Certificate</option>
+                </select>
+              </div>
               {/* Institution Selection */}
               <InstitutionSelector
                 selectedInstitution={selectedInstitution}
+                degreeLevel={degreeLevelFilter}
                 onSelect={async (institution) => {
                   setSelectedInstitution(institution);
                   setSelectedProgram(null); // Reset program when institution changes
@@ -696,6 +723,7 @@ export default function ROICalculatorApp() {
             <ProgramSelector
               institutionId={selectedInstitution.unitid}
               selectedProgram={selectedProgram}
+              degreeLevel={degreeLevelFilter}
               institutionInfo={{
                 name: selectedInstitution.name,
                 state: selectedInstitution.state,
@@ -797,6 +825,7 @@ export default function ROICalculatorApp() {
               {/* Degree-First Flow */}
               <DegreeSelector
                 selectedDegree={selectedDegree}
+                degreeLevel={degreeLevelFilter}
                 onSelect={(degree) => {
                   setSelectedDegree(degree);
                   setSelectedInstitution(null);
@@ -804,10 +833,28 @@ export default function ROICalculatorApp() {
                 }}
               />
 
+              {/* Degree Level Filter for Institutions offering selected degree */}
+              <div className="bg-gray-900 border border-gray-800 rounded-lg p-4">
+                <label className="block text-sm font-bold text-gray-300 mb-2">Degree Level (optional)</label>
+                <select
+                  value={degreeLevelFilter}
+                  onChange={(e) => setDegreeLevelFilter(e.target.value as any)}
+                  className="w-full px-3 py-2 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white"
+                >
+                  <option value="">All levels</option>
+                  <option value="associates">Associate's</option>
+                  <option value="bachelors">Bachelors</option>
+                  <option value="masters">Masters</option>
+                  <option value="doctorate">Doctorate</option>
+                  <option value="certificate">Occupational Certificate</option>
+                </select>
+              </div>
+
               {selectedDegree && (
                 <InstitutionsByDegree
                   cipcode={selectedDegree.cipcode || ''}
                   degreeName={selectedDegree.cip_title || ''}
+                  degreeLevel={degreeLevelFilter}
                   onSelectInstitution={handleSelectInstitutionFromDegree}
                 />
               )}

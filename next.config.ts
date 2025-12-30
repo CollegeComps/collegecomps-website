@@ -23,19 +23,16 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withSentryConfig(nextConfig, {
+// Build Sentry options with conditional project/org only in prod with token
+const sentryOptions: any = {
   // For all available options, see:
-  // https://www.npmjs.com/package/@sentry/webpack-plugin#options
-
-  org: "collegecomps",
-
-  project: "collegecomps",
+  // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 
   // Only print logs when auth token is configured for sourcemap uploads
   silent: !process.env.SENTRY_AUTH_TOKEN,
 
-  // For all available options, see:
-  // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+  // Disable build-time telemetry noise
+  telemetry: false,
 
   // Upload a larger set of source maps for prettier stack traces (increases build time)
   widenClientFileUpload: true,
@@ -46,12 +43,24 @@ export default withSentryConfig(nextConfig, {
   // side errors will fail.
   tunnelRoute: "/monitoring",
 
-  // Automatically tree-shake Sentry logger statements to reduce bundle size
-  disableLogger: true,
+  // Webpack configuration for Sentry build-time features
+  webpack: {
+    // Automatically tree-shake Sentry logger statements to reduce bundle size (replaces deprecated disableLogger)
+    treeshake: {
+      removeDebugLogging: true,
+    },
+    // Enable automatic instrumentation of Vercel Cron Monitors (replaces deprecated automaticVercelMonitors)
+    automaticVercelMonitors: true,
+  },
+};
 
-  // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
-  // See the following for more information:
-  // https://docs.sentry.io/product/crons/
-  // https://vercel.com/docs/cron-jobs
-  automaticVercelMonitors: true,
-});
+if (process.env.NODE_ENV === 'production' && process.env.SENTRY_AUTH_TOKEN) {
+  sentryOptions.org = 'collegecomps';
+  sentryOptions.project = 'collegecomps';
+  // Use Vercel commit SHA when available (optional)
+  if (process.env.VERCEL_GIT_COMMIT_SHA) {
+    sentryOptions.release = process.env.VERCEL_GIT_COMMIT_SHA;
+  }
+}
+
+export default withSentryConfig(nextConfig, sentryOptions);

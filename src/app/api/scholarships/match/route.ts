@@ -3,12 +3,18 @@ import { Scholarship, ScholarshipMatch } from '@/types/scholarship';
 import { createClient } from '@libsql/client';
 
 // Initialize Turso client
-const turso = createClient({
-  url: process.env.TURSO_DATABASE_URL!,
-  authToken: process.env.TURSO_AUTH_TOKEN!,
-});
+const turso = (process.env.TURSO_DATABASE_URL && process.env.TURSO_AUTH_TOKEN) 
+  ? createClient({
+      url: process.env.TURSO_DATABASE_URL,
+      authToken: process.env.TURSO_AUTH_TOKEN,
+    })
+  : null;
 
 export async function POST(request: NextRequest) {
+    if (!turso) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
+    }
+
   try {
     const body = await request.json();
     const { full_name, email, phone, gpa, desired_major, state } = body;
@@ -66,6 +72,9 @@ async function findMatches(
   const matches: ScholarshipMatch[] = [];
 
   try {
+    if (!turso) {
+      return [];
+    }
     // Query active scholarships from database
     const result = await turso.execute({
       sql: `SELECT * FROM scholarships WHERE active = 1 ORDER BY amount_max DESC`,

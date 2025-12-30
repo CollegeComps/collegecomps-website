@@ -4,10 +4,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@libsql/client';
 
-const turso = createClient({
-  url: process.env.TURSO_DATABASE_URL!,
-  authToken: process.env.TURSO_AUTH_TOKEN!,
-});
+const turso = (process.env.TURSO_DATABASE_URL && process.env.TURSO_AUTH_TOKEN)
+  ? createClient({
+      url: process.env.TURSO_DATABASE_URL,
+      authToken: process.env.TURSO_AUTH_TOKEN,
+    })
+  : null;
 
 interface ResendInboundEmail {
   from: string;
@@ -35,6 +37,12 @@ function verifyWebhookSignature(request: NextRequest): boolean {
 
 export async function POST(request: NextRequest) {
   try {
+    if (!turso) {
+      return NextResponse.json(
+        { error: 'Database not configured' },
+        { status: 503 }
+      );
+    }
     // Verify the webhook signature
     if (!verifyWebhookSignature(request)) {
       return NextResponse.json(

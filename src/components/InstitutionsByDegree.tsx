@@ -5,6 +5,7 @@ import { useState, useEffect, useMemo } from 'react';
 interface InstitutionsByDegreeProps {
   cipcode: string;
   degreeName: string;
+  degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate';
   onSelectInstitution: (institution: any) => void;
 }
 
@@ -17,7 +18,7 @@ const US_STATES = [
   'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY', 'DC'
 ];
 
-export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInstitution }: InstitutionsByDegreeProps) {
+export default function InstitutionsByDegree({ cipcode, degreeName, degreeLevel, onSelectInstitution }: InstitutionsByDegreeProps) {
   const [institutions, setInstitutions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [controlFilter, setControlFilter] = useState<'all' | 'public' | 'private'>('all');
@@ -26,7 +27,9 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
   const fetchInstitutions = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/programs/institutions?cipcode=${encodeURIComponent(cipcode)}`);
+      const params = new URLSearchParams({ cipcode });
+      if (degreeLevel) params.set('degreeLevel', degreeLevel);
+      const response = await fetch(`/api/programs/institutions?${params.toString()}`);
       if (response.ok) {
         const data = await response.json();
         setInstitutions(data.institutions || []);
@@ -44,7 +47,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
     setControlFilter('all');
     setStateFilter('all');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cipcode]);
+  }, [cipcode, degreeLevel]);
 
   // Apply filters with useMemo to ensure re-computation on filter changes
   const filteredInstitutions = useMemo(() => {
@@ -98,7 +101,7 @@ export default function InstitutionsByDegree({ cipcode, degreeName, onSelectInst
     <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-white mb-2">
-          Institutions Offering {degreeName}
+          Institutions Offering {degreeName}{degreeLevel ? ` (${degreeLevel})` : ''}
         </h3>
         <p className="text-sm text-gray-300">
           Found {institutions.length} institution{institutions.length !== 1 ? 's' : ''} offering this program
