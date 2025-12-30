@@ -376,15 +376,20 @@ export class CollegeDataService {
     `;
 
     if (degreeLevel === 'associates') {
-      query += ` AND credential_level IN (4)`;
+      // 3 = Associate Degree
+      query += ` AND credential_level IN (3)`;
     } else if (degreeLevel === 'bachelors') {
-      query += ` AND credential_level IN (22,31)`;
+      // 5 = Bachelor's Degree, 22 = Bachelor's Degree (Extended)
+      query += ` AND credential_level IN (5,22)`;
     } else if (degreeLevel === 'masters') {
+      // 7 = Master's Degree, 23 = Master's Degree (Extended)
       query += ` AND credential_level IN (7,23)`;
     } else if (degreeLevel === 'doctorate') {
-      query += ` AND credential_level IN (8,9,24,33)`;
+      // 8,9,17,18 = Doctoral degrees
+      query += ` AND credential_level IN (8,9,17,18)`;
     } else if (degreeLevel === 'certificate') {
-      query += ` AND credential_level IN (30,32)`;  // Occupational certificates only
+      // 1,2,4 = Certificates, 6 = Post-Baccalaureate Certificate, 30,31,32,33 = Occupational certificates
+      query += ` AND credential_level IN (1,2,4,6,30,31,32,33)`;
     }
 
     query += ` ORDER BY total_completions DESC, cip_title ASC`;
@@ -465,15 +470,15 @@ export class CollegeDataService {
       // Credential level filter
       if (hasDegreeFilter && filters.degreeLevel) {
         if (filters.degreeLevel === 'associates') {
-          query += ` AND ap.credential_level IN (4)`;
+          query += ` AND ap.credential_level IN (3)`;
         } else if (filters.degreeLevel === 'bachelors') {
-          query += ` AND ap.credential_level IN (22, 31)`;
+          query += ` AND ap.credential_level IN (5, 22)`;
         } else if (filters.degreeLevel === 'masters') {
           query += ` AND ap.credential_level IN (7, 23)`;
         } else if (filters.degreeLevel === 'doctorate') {
-          query += ` AND ap.credential_level IN (8, 9, 24, 33)`;
+          query += ` AND ap.credential_level IN (8, 9, 17, 18)`;
         } else if (filters.degreeLevel === 'certificate') {
-          query += ` AND ap.credential_level IN (30, 32)`;
+          query += ` AND ap.credential_level IN (1, 2, 4, 6, 30, 31, 32, 33)`;
         }
       }
       
