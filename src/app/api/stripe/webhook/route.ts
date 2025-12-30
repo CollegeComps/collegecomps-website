@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { stripe, STRIPE_WEBHOOK_SECRET } from '@/lib/stripe';
+import { getStripe, STRIPE_WEBHOOK_SECRET } from '@/lib/stripe';
 import { getUsersDb } from '@/lib/db-helper';
 import Stripe from 'stripe';
 
 export async function POST(req: NextRequest) {
+  const stripe = getStripe();
+  if (!stripe) {
+    return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
+  }
   const body = await req.text();
   const signature = req.headers.get('stripe-signature');
 
@@ -12,6 +16,10 @@ export async function POST(req: NextRequest) {
       { error: 'Missing stripe-signature header' },
       { status: 400 }
     );
+  }
+
+  if (!STRIPE_WEBHOOK_SECRET) {
+    return NextResponse.json({ error: 'Webhook secret not configured' }, { status: 503 });
   }
 
   let event: Stripe.Event;

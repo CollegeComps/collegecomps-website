@@ -6,9 +6,10 @@ import { Institution } from '@/lib/database';
 interface InstitutionSelectorProps {
   selectedInstitution: Institution | null;
   onSelect: (institution: Institution | null) => void;
+  degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate';
 }
 
-export default function InstitutionSelector({ selectedInstitution, onSelect }: InstitutionSelectorProps) {
+export default function InstitutionSelector({ selectedInstitution, onSelect, degreeLevel }: InstitutionSelectorProps) {
   const [institutions, setInstitutions] = useState<Institution[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
@@ -22,12 +23,14 @@ export default function InstitutionSelector({ selectedInstitution, onSelect }: I
       setInstitutions([]);
       setShowDropdown(false);
     }
-  }, [searchTerm]);
+  }, [searchTerm, degreeLevel]);
 
   const fetchInstitutions = async (search: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/institutions?search=${encodeURIComponent(search)}&limit=10`);
+      const params = new URLSearchParams({ search, limit: '10' });
+      // Do not pass degreeLevel for institution search; filter by degree happens in Step 2 (ProgramSelector)
+      const response = await fetch(`/api/institutions?${params.toString()}`);
       if (response.ok) {
         const data = await response.json();
         setInstitutions(data.institutions || []);
@@ -43,7 +46,8 @@ export default function InstitutionSelector({ selectedInstitution, onSelect }: I
 
   const handleSelectInstitution = (institution: Institution) => {
     onSelect(institution);
-    setSearchTerm(institution.name);
+    // Do not re-show the institution name in the input after selection
+    setSearchTerm('');
     setShowDropdown(false);
   };
 

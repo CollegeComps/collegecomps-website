@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
-import { stripe, STRIPE_PRODUCTS } from '@/lib/stripe';
+import { getStripe, STRIPE_PRODUCTS } from '@/lib/stripe';
 
 export async function POST(req: NextRequest) {
   try {
+    const stripe = getStripe();
+    if (!stripe) {
+      return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
+    }
     const session = await auth();
     
     if (!session?.user?.email) {

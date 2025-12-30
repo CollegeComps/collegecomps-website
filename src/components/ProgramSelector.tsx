@@ -7,6 +7,7 @@ interface ProgramSelectorProps {
   institutionId: number;
   selectedProgram: AcademicProgram | null;
   onSelect: (program: AcademicProgram | null) => void;
+  degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate';
   institutionInfo?: {
     name: string;
     state?: string;
@@ -14,7 +15,7 @@ interface ProgramSelectorProps {
   };
 }
 
-export default function ProgramSelector({ institutionId, selectedProgram, onSelect, institutionInfo }: ProgramSelectorProps) {
+export default function ProgramSelector({ institutionId, selectedProgram, onSelect, degreeLevel, institutionInfo }: ProgramSelectorProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [availablePrograms, setAvailablePrograms] = useState<AcademicProgram[]>([]);
@@ -29,7 +30,7 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
       setAvailablePrograms([]);
       setFilteredPrograms([]);
     }
-  }, [institutionId]);
+  }, [institutionId, degreeLevel]);
 
   // Filter programs when searchTerm changes
   useEffect(() => {
@@ -47,7 +48,9 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
   const fetchPrograms = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/programs?unitid=${institutionId}`);
+      const params = new URLSearchParams({ unitid: String(institutionId) });
+      if (degreeLevel) params.set('degreeLevel', degreeLevel);
+      const response = await fetch(`/api/programs?${params.toString()}`);
       if (response.ok) {
         const data = await response.json();
         setAvailablePrograms(data.programs || []);
@@ -117,6 +120,7 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
   return (
     <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
       <h2 className="text-xl font-semibold text-white mb-4">Step 2: Select Program</h2>
+      {/* Optional: could add a degree-level badge or hint here based on degreeLevel */}
       
       <div className="relative">
         <input

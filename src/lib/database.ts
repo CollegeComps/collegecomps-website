@@ -144,7 +144,6 @@ export class CollegeDataService {
         i.id, i.unitid, i.opeid, i.name, i.city, i.state, i.zip_code, i.region, 
         i.latitude, i.longitude, i.website, i.ownership, i.control_public_private,
         i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference,
-        i.top_roi_program_cip, i.top_roi_program_title,
         f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
         f.net_price, e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
       FROM institutions i
@@ -356,8 +355,11 @@ export class CollegeDataService {
   }
 
   // Get programs for an institution (deduplicated and safe)
-  async getInstitutionPrograms(unitid: number): Promise<AcademicProgram[]> {
-    const stmt = this.ensureDb().prepare(`
+  async getInstitutionPrograms(
+    unitid: number,
+    degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate'
+  ): Promise<AcademicProgram[]> {
+    let query = `
       SELECT 
         unitid,
         cipcode,
@@ -371,8 +373,28 @@ export class CollegeDataService {
         year
       FROM programs_safe_view 
       WHERE unitid = ? AND cip_title IS NOT NULL
-      ORDER BY total_completions DESC, cip_title ASC
-    `);
+    `;
+
+    if (degreeLevel === 'associates') {
+      // 3 = Associate Degree
+      query += ` AND credential_level IN (3)`;
+    } else if (degreeLevel === 'bachelors') {
+      // 5 = Bachelor's Degree, 22 = Bachelor's Degree (Extended)
+      query += ` AND credential_level IN (5,22)`;
+    } else if (degreeLevel === 'masters') {
+      // 7 = Master's Degree, 23 = Master's Degree (Extended)
+      query += ` AND credential_level IN (7,23)`;
+    } else if (degreeLevel === 'doctorate') {
+      // 8,9,17,18 = Doctoral degrees
+      query += ` AND credential_level IN (8,9,17,18)`;
+    } else if (degreeLevel === 'certificate') {
+      // 1,2,4 = Certificates, 6 = Post-Baccalaureate Certificate, 30,31,32,33 = Occupational certificates
+      query += ` AND credential_level IN (1,2,4,6,30,31,32,33)`;
+    }
+
+    query += ` ORDER BY total_completions DESC, cip_title ASC`;
+
+    const stmt = this.ensureDb().prepare(query);
     return await stmt.all(unitid) as AcademicProgram[];
   }
 
@@ -411,31 +433,20 @@ export class CollegeDataService {
     maxTuition?: number;
     minEarnings?: number;
     majorCategory?: string;
+    degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate';
     sortBy?: string;
   }): Promise<Institution[]> {
     const { clause: statesClause, params: stateParams } = getStatesInClause();
+
+    // Only use EXISTS when an actual filter value is provided (non-empty)
+    const hasDegreeFilter = !!(filters.degreeLevel);
+    const hasCategoryFilter = !!(filters.majorCategory && filters.majorCategory.trim() !== '');
+    const needsProgramsFilter = hasDegreeFilter || hasCategoryFilter;
     
-    // If filtering by major category, we need to join with academic_programs
-    const needsProgramsJoin = filters.majorCategory !== undefined;
+    const params: any[] = [...stateParams];
     
-    // ENG-30: Include admissions and ROI fields
-    let query = needsProgramsJoin ? `
-      SELECT DISTINCT i.*, f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
-             e.earnings_6_years_after_entry, e.earnings_10_years_after_entry,
-             i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference
-      FROM institutions i
-      LEFT JOIN financial_data f ON i.unitid = f.unitid 
-        AND f.year = (
-          SELECT year FROM financial_data 
-          WHERE unitid = i.unitid 
-            AND NOT (i.control_public_private = 1 AND tuition_in_state = tuition_out_state)
-          ORDER BY year DESC 
-          LIMIT 1
-        )
-      LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
-      INNER JOIN academic_programs ap ON i.unitid = ap.unitid
-      WHERE ${statesClause}
-    ` : `
+    // Base query (same for both paths)
+    let query = `
       SELECT i.*, f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
              e.earnings_6_years_after_entry, e.earnings_10_years_after_entry,
              i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference
@@ -452,18 +463,37 @@ export class CollegeDataService {
       WHERE ${statesClause}
     `;
     
-    const params: any[] = [...stateParams];
-    
-    // ENG-25: Filter by major category using CIP code mapping
-    if (filters.majorCategory) {
-      const { getCIPCodesForCategory } = require('@/lib/cip-category-mapping');
-      const cipPrefixes = getCIPCodesForCategory(filters.majorCategory);
+    // Add EXISTS clause with credential level / category filters if needed
+    if (needsProgramsFilter) {
+      query += ` AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.unitid = i.unitid`;
       
-      if (cipPrefixes.length > 0) {
-        const cipConditions = cipPrefixes.map(() => `ap.cipcode LIKE ?`).join(' OR ');
-        query += ` AND (${cipConditions})`;
-        cipPrefixes.forEach((prefix: string) => params.push(`${prefix}%`));
+      // Credential level filter
+      if (hasDegreeFilter && filters.degreeLevel) {
+        if (filters.degreeLevel === 'associates') {
+          query += ` AND ap.credential_level IN (3)`;
+        } else if (filters.degreeLevel === 'bachelors') {
+          query += ` AND ap.credential_level IN (5, 22)`;
+        } else if (filters.degreeLevel === 'masters') {
+          query += ` AND ap.credential_level IN (7, 23)`;
+        } else if (filters.degreeLevel === 'doctorate') {
+          query += ` AND ap.credential_level IN (8, 9, 17, 18)`;
+        } else if (filters.degreeLevel === 'certificate') {
+          query += ` AND ap.credential_level IN (1, 2, 4, 6, 30, 31, 32, 33)`;
+        }
       }
+      
+      // Category filter
+      if (hasCategoryFilter) {
+        const { getCIPCodesForCategory } = require('@/lib/cip-category-mapping');
+        const cipPrefixes = getCIPCodesForCategory(filters.majorCategory!);
+        if (cipPrefixes.length > 0) {
+          const cipConditions = cipPrefixes.map(() => `ap.cipcode LIKE ?`).join(' OR ');
+          query += ` AND (${cipConditions})`;
+          cipPrefixes.forEach((prefix: string) => params.push(`${prefix}%`));
+        }
+      }
+      
+      query += `)`;
     }
     
     if (filters.name) {
