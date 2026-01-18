@@ -94,10 +94,10 @@ const navigation: NavItem[] = [
     requiresAuth: false
   },
   {
-    name: 'Articles',
+    name: 'Why CollegeComps',
     href: '/articles',
     icon: NewspaperIcon,
-    description: 'Expert insights and guides',
+    description: 'Learn why ROI matters',
     requiresAuth: false
   },
   {
