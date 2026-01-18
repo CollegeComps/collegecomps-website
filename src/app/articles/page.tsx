@@ -58,7 +58,7 @@ export default function WhyCollegeCompsPage() {
 
           <div className="my-8 rounded-lg overflow-hidden border border-gray-800">
             <Image
-              src="/articles/images/tuition-growth.png"
+              src="/articles/images/img_1767835065811_055a7c5df6c5.png"
               alt="Tuition cost growth over time"
               width={800}
               height={500}
@@ -84,7 +84,7 @@ export default function WhyCollegeCompsPage() {
 
           <div className="my-8 rounded-lg overflow-hidden border border-gray-800">
             <Image
-              src="/articles/images/wage-premium.png"
+              src="/articles/images/img_1767835218254_9db0199f02542.png"
               alt="College wage premium comparison"
               width={800}
               height={500}
@@ -143,7 +143,7 @@ export default function WhyCollegeCompsPage() {
 
           <div className="my-8 rounded-lg overflow-hidden border border-gray-800">
             <Image
-              src="/articles/images/payback-period.png"
+              src="/articles/images/img_1767835377031_aabfe0716c3cd.png"
               alt="Student loan payback periods"
               width={800}
               height={500}
