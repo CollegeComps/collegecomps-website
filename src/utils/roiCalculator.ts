@@ -38,8 +38,8 @@ export class ROICalculator {
     let currentSalary = earnings.projectedSalary;
     
     // Career starts after program completion
-    // Default to 40 years of earning, but respect user's career length setting
-    const careerYears = 40; // Fixed at 40 years per spec
+    // Use user's configured career length (default 40 years if not set)
+    const careerYears = earnings.careerLength || 40;
     
     for (let year = 1; year <= careerYears; year++) {
       totalEarnings += currentSalary;
@@ -64,8 +64,8 @@ export class ROICalculator {
     let totalEarnings = 0;
     let currentSalary = earnings.baselineSalary;
     
-    // 40-year career (same as degree path, but starts immediately)
-    const careerYears = 40;
+    // Career length mirrors the degree path (default 40 years if not set)
+    const careerYears = earnings.careerLength || 40;
     
     for (let year = 1; year <= careerYears; year++) {
       totalEarnings += currentSalary;

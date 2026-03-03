@@ -404,7 +404,8 @@ export function calculateMonthlyLoanPayment(loanAmount: number, interestRate: nu
 export function estimateDebtBurden(
   efc: number,
   annualNetPrice: number,
-  workStudyIncome: number = 3000 // Typical work-study earnings
+  workStudyIncome: number = 3000, // Typical work-study earnings
+  estimatedStartingSalary: number = 45000 // Override with program/field-specific salary when available
 ): {
   totalDebt: number;
   monthlyPayment: number;
@@ -414,10 +415,9 @@ export function estimateDebtBurden(
   const annualGap = Math.max(0, annualNetPrice - efc - workStudyIncome);
   const totalDebt = annualGap * 4;
   const monthlyPayment = calculateMonthlyLoanPayment(totalDebt);
-  
+
   // Rule of thumb: total debt should not exceed first year salary
   // Monthly payment should not exceed 10% of monthly income
-  const estimatedStartingSalary = 45000; // National average for bachelor's degree
   const debtToIncomeRatio = (totalDebt / estimatedStartingSalary) * 100;
   const isManageable = debtToIncomeRatio <= 100 && monthlyPayment <= (estimatedStartingSalary / 12) * 0.10;
   

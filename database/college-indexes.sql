@@ -57,16 +57,21 @@ GROUP BY f.year;
 
 -- 4. PRE-AGGREGATED VIEW for Top Programs by Completions
 -- --------------------------------------------------------
+-- Includes ALL programs (even zero-completion) so valid degrees at institutions
+-- with no recent completions data are still visible. Uses COALESCE to safely
+-- treat NULL completions as 0 rather than excluding the program entirely.
 
-CREATE VIEW IF NOT EXISTS v_top_programs_by_completions AS
-SELECT 
+DROP VIEW IF EXISTS v_top_programs_by_completions;
+
+CREATE VIEW v_top_programs_by_completions AS
+SELECT
     ap.cipcode,
-    ap.cip_title as program_name,
-    SUM(ap.completions) as total_completions,
-    COUNT(DISTINCT ap.unitid) as school_count,
-    AVG(ap.completions) as avg_completions
+    ap.cip_title AS program_name,
+    SUM(COALESCE(ap.completions, 0)) AS total_completions,
+    COUNT(DISTINCT ap.unitid) AS school_count,
+    AVG(COALESCE(ap.completions, 0)) AS avg_completions
 FROM academic_programs ap
-WHERE ap.cip_title IS NOT NULL 
-    AND ap.completions > 0
+WHERE ap.cip_title IS NOT NULL
+    AND ap.cip_title != ''
 GROUP BY ap.cipcode, ap.cip_title
 ORDER BY total_completions DESC;

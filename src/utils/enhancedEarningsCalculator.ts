@@ -175,19 +175,6 @@ export class EnhancedEarningsCalculator {
     const growthRate = salaryData.growth + (prestigeMultiplier - 1) * 0.5; // Better schools = better growth
     const midCareerSalary = Math.round(startingSalary * Math.pow(1 + growthRate/100, 15)); // 15 years
     
-    console.log(`Enhanced Earnings Calculation:
-      Institution: ${institution.name}
-      Program: ${program.cip_title}
-      Base Median: $${salaryData.median.toLocaleString()}
-      Prestige Multiplier: ${prestigeMultiplier.toFixed(2)}
-      Geographic Multiplier: ${geoMultiplier.toFixed(2)}  
-      Degree Multiplier: ${degreeMultiplier.toFixed(2)}
-      Completion Multiplier: ${completionMultiplier.toFixed(2)}
-      Total Multiplier: ${totalMultiplier.toFixed(2)}
-      Starting Salary: $${startingSalary.toLocaleString()}
-      Growth Rate: ${growthRate.toFixed(1)}%
-      Mid-Career Salary: $${midCareerSalary.toLocaleString()}`);
-    
     return {
       startingSalary,
       midCareerSalary,

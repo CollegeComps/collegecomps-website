@@ -63,17 +63,28 @@ export async function GET(request: NextRequest) {
 
       console.log(`Found ${institutions.length} institutions for CIP code ${cipcode}${degreeLevel ? ` (${degreeLevel})` : ''}`);
 
-      // Map credential levels to names
+      // Map IPEDS credential levels to human-readable names
       const credentialNames: { [key: number]: string } = {
-        1: 'Award of less than 1 academic year',
-        2: 'Award of at least 1 but less than 2 academic years',
-        3: 'Associate\'s degree',
-        4: 'Award of at least 2 but less than 4 academic years',
-        5: 'Bachelor\'s degree',
-        6: 'Postbaccalaureate certificate',
-        7: 'Master\'s degree',
-        8: 'Post-master\'s certificate',
-        9: 'Doctor\'s degree'
+        1:  'Award of less than 1 academic year',
+        2:  'Award of at least 1 but less than 2 academic years',
+        3:  "Associate's degree",
+        4:  'Award of at least 2 but less than 4 academic years',
+        5:  "Bachelor's degree",
+        6:  'Postbaccalaureate certificate',
+        7:  "Master's degree",
+        8:  "Post-master's certificate",
+        9:  "Doctor's degree",
+        17: "Doctor's degree – research/scholarship",
+        18: "Doctor's degree – professional practice",
+        19: "Doctor's degree – other",
+        20: 'Professional certificate',
+        21: 'Professional certificate (graduate level)',
+        22: "Bachelor's degree (extended, 5-yr program)",
+        23: "Master's degree (extended)",
+        30: 'Occupational award (less than 1 year)',
+        31: 'Occupational award (1 to less than 4 years)',
+        32: 'Occupational certificate',
+        33: 'Postbaccalaureate occupational certificate',
       };
 
       return NextResponse.json({ 
