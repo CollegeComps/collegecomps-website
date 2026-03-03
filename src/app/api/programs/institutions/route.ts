@@ -25,12 +25,18 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-      // Map degree level to credential_level values (include extended codes)
+      // Map degree level to canonical credential_level values (IPEDS + extended codes)
       let credentialLevelFilter = '';
-      if (degreeLevel === 'bachelors') {
+      if (degreeLevel === 'associates') {
+        credentialLevelFilter = 'AND ap.credential_level IN (3, 4)';
+      } else if (degreeLevel === 'bachelors') {
         credentialLevelFilter = 'AND ap.credential_level IN (5, 22, 31)';
       } else if (degreeLevel === 'masters') {
         credentialLevelFilter = 'AND ap.credential_level IN (7, 23)';
+      } else if (degreeLevel === 'doctorate') {
+        credentialLevelFilter = 'AND ap.credential_level IN (8, 9, 17, 18, 19)';
+      } else if (degreeLevel === 'certificate') {
+        credentialLevelFilter = 'AND ap.credential_level IN (1, 2, 6, 30, 32, 33)';
       }
 
       // Get all institutions offering this program

@@ -376,20 +376,20 @@ export class CollegeDataService {
     `;
 
     if (degreeLevel === 'associates') {
-      // 3 = Associate Degree
-      query += ` AND credential_level IN (3)`;
+      // 3 = Associate's Degree, 4 = 2-4 year postsecondary award (associate's-level)
+      query += ` AND credential_level IN (3,4)`;
     } else if (degreeLevel === 'bachelors') {
-      // 5 = Bachelor's Degree, 22 = Bachelor's Degree (Extended)
-      query += ` AND credential_level IN (5,22)`;
+      // 5 = Bachelor's Degree, 22 = Bachelor's Degree (Extended), 31 = variant
+      query += ` AND credential_level IN (5,22,31)`;
     } else if (degreeLevel === 'masters') {
       // 7 = Master's Degree, 23 = Master's Degree (Extended)
       query += ` AND credential_level IN (7,23)`;
     } else if (degreeLevel === 'doctorate') {
-      // 8,9,17,18 = Doctoral degrees
-      query += ` AND credential_level IN (8,9,17,18)`;
+      // 8 = Post-master's cert, 9 = Doctor's, 17 = Research/scholarship, 18 = Professional practice, 19 = Other
+      query += ` AND credential_level IN (8,9,17,18,19)`;
     } else if (degreeLevel === 'certificate') {
-      // 1,2,4 = Certificates, 6 = Post-Baccalaureate Certificate, 30,31,32,33 = Occupational certificates
-      query += ` AND credential_level IN (1,2,4,6,30,31,32,33)`;
+      // 1,2 = Short certificates, 6 = Post-Baccalaureate Certificate, 30,32,33 = Occupational certificates
+      query += ` AND credential_level IN (1,2,6,30,32,33)`;
     }
 
     query += ` ORDER BY total_completions DESC, cip_title ASC`;
@@ -467,18 +467,18 @@ export class CollegeDataService {
     if (needsProgramsFilter) {
       query += ` AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.unitid = i.unitid`;
       
-      // Credential level filter
+      // Credential level filter — canonical IPEDS + extended codes
       if (hasDegreeFilter && filters.degreeLevel) {
         if (filters.degreeLevel === 'associates') {
-          query += ` AND ap.credential_level IN (3)`;
+          query += ` AND ap.credential_level IN (3, 4)`;
         } else if (filters.degreeLevel === 'bachelors') {
-          query += ` AND ap.credential_level IN (5, 22)`;
+          query += ` AND ap.credential_level IN (5, 22, 31)`;
         } else if (filters.degreeLevel === 'masters') {
           query += ` AND ap.credential_level IN (7, 23)`;
         } else if (filters.degreeLevel === 'doctorate') {
-          query += ` AND ap.credential_level IN (8, 9, 17, 18)`;
+          query += ` AND ap.credential_level IN (8, 9, 17, 18, 19)`;
         } else if (filters.degreeLevel === 'certificate') {
-          query += ` AND ap.credential_level IN (1, 2, 4, 6, 30, 31, 32, 33)`;
+          query += ` AND ap.credential_level IN (1, 2, 6, 30, 32, 33)`;
         }
       }
       

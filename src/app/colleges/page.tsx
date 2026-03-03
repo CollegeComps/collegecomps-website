@@ -246,8 +246,8 @@ export default function CollegesPage() {
         setPage(1);
       }
       
-      // Check if there are more results
-      setHasMore((data.institutions || []).length === limit);
+      // Check if there are more results — prefer the API's hasMore flag, fall back to length check
+      setHasMore(data.hasMore ?? (data.institutions || []).length >= limit);
     } catch (error) {
       console.error('Error fetching institutions:', error);
       if (!isLoadMore) {
@@ -620,8 +620,7 @@ export default function CollegesPage() {
               )}
               {filters.sortBy !== 'roi_high' && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-orange-500 rounded-full text-sm font-medium text-white font-bold">
-                  Sort: {filters.sortBy === 'roi_high' ? 'ROI (High-Low)' :
-                          filters.sortBy === 'tuition_low' ? 'Tuition (Low-High)' : 
+                  Sort: {filters.sortBy === 'tuition_low' ? 'Tuition (Low-High)' :
                           filters.sortBy === 'tuition_high' ? 'Tuition (High-Low)' :
                           filters.sortBy === 'earnings_high' ? 'Earnings (High-Low)' :
                           filters.sortBy === 'earnings_low' ? 'Earnings (Low-High)' :

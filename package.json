@@ -11,7 +11,12 @@
     "apply-roi-migration": "node scripts/apply-roi-migration.js",
     "calculate-roi": "node scripts/calculate-roi.js",
     "setup-dev-db": "tsx scripts/create-dev-database.ts",
-    "export-masters-without-bachelors": "node scripts/export_masters_without_bachelors.mjs"
+    "export-masters-without-bachelors": "node scripts/export_masters_without_bachelors.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:unit": "vitest run src/tests/credential-levels.test.ts src/tests/search-logic.test.ts src/tests/search-combinations.test.ts",
+    "test:integration": "vitest run src/tests/api-integration.test.ts"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -47,9 +52,11 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/coverage-v8": "^4.0.18",
     "eslint": "^9.38.0",
     "eslint-config-next": "15.5.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.0.18"
   }
 }

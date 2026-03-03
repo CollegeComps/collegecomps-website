@@ -70,18 +70,21 @@ ON programs_search_cache(cip_title_lower);
 CREATE INDEX IF NOT EXISTS idx_programs_cache_completions 
 ON programs_search_cache(total_completions DESC);
 
--- Populate the cache table with aggregated data
+-- Populate the cache table with aggregated data.
+-- Include ALL programs (even those with 0 completions) so that valid degree programs
+-- at institutions that lack recent completions data are still discoverable.
+-- COALESCE treats NULL completions as 0 for safe aggregation.
 INSERT OR REPLACE INTO programs_search_cache (cipcode, cip_title, cip_title_lower, institution_count, total_completions, avg_completions)
-SELECT 
+SELECT
     ap.cipcode,
     ap.cip_title,
     LOWER(ap.cip_title) as cip_title_lower,
     COUNT(DISTINCT ap.unitid) as institution_count,
-    SUM(ap.completions) as total_completions,
-    AVG(ap.completions) as avg_completions
+    SUM(COALESCE(ap.completions, 0)) as total_completions,
+    AVG(COALESCE(ap.completions, 0)) as avg_completions
 FROM academic_programs ap
-WHERE ap.cip_title IS NOT NULL 
-    AND ap.completions > 0
+WHERE ap.cip_title IS NOT NULL
+    AND ap.cip_title != ''
 GROUP BY ap.cipcode, ap.cip_title;
 
 
@@ -143,16 +146,16 @@ SELECT * FROM programs_search_cache WHERE cipcode = '11.0701';
 /*
 DELETE FROM programs_search_cache;
 INSERT INTO programs_search_cache (cipcode, cip_title, cip_title_lower, institution_count, total_completions, avg_completions)
-SELECT 
+SELECT
     ap.cipcode,
     ap.cip_title,
     LOWER(ap.cip_title) as cip_title_lower,
     COUNT(DISTINCT ap.unitid) as institution_count,
-    SUM(ap.completions) as total_completions,
-    AVG(ap.completions) as avg_completions
+    SUM(COALESCE(ap.completions, 0)) as total_completions,
+    AVG(COALESCE(ap.completions, 0)) as avg_completions
 FROM academic_programs ap
-WHERE ap.cip_title IS NOT NULL 
-    AND ap.completions > 0
+WHERE ap.cip_title IS NOT NULL
+    AND ap.cip_title != ''
 GROUP BY ap.cipcode, ap.cip_title;
 
 UPDATE programs_search_cache SET last_updated = CURRENT_TIMESTAMP;
