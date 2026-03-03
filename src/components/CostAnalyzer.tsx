@@ -69,8 +69,8 @@ export default function CostAnalyzer({
             <div>
               <p className="font-medium text-orange-400 mb-2">Total Degree-Based Earnings:</p>
               <ul className="space-y-1 text-gray-300">
-                <li>• 40-year career projection</li>
-                <li>• Earnings begin after graduation (Year 5)</li>
+                <li>• {earnings.careerLength}-year career projection</li>
+                <li>• Earnings begin after graduation (Year {costs.programLength + 1})</li>
                 <li>• Compared to baseline (no-degree earnings)</li>
                 <li>• Salary growth: {earnings.salaryGrowthRate}% annually</li>
               </ul>

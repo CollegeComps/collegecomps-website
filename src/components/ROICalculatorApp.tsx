@@ -503,7 +503,11 @@ export default function ROICalculatorApp() {
     setSelectedInstitution(dbInstitution);
     
     // Set the program from the selected degree
+    let credLevel = 5; // default bachelor's
     if (selectedDegree) {
+      // Use the credential level from the institution row if available, else the degree
+      credLevel = institution.credential_level || selectedDegree.credential_level || 5;
+
       const programData: AcademicProgram = {
         id: 0,
         unitid: institution.unitid,
@@ -511,41 +515,39 @@ export default function ROICalculatorApp() {
         cip_title: institution.cip_title || selectedDegree.cip_title || '',
         total_completions: institution.total_completions,
         completions: institution.total_completions,
-        credential_level: 0,
+        credential_level: credLevel,
         credential_name: institution.credential_name
       };
       setSelectedProgram(programData);
-      
-      // Adapt and set program
-      const adapted = adaptProgram(programData);
-      setAdaptedProgram(adapted);
+      setAdaptedProgram(adaptProgram(programData));
     }
-    
+
+    // Auto-set program length and career horizon from credential level
+    const autoLength = CREDENTIAL_PROGRAM_LENGTH[credLevel] ?? 4;
+    const autoCareer = CREDENTIAL_CAREER_LENGTH[credLevel] ?? 40;
+
     // Update adapted institution
     const adapted = adaptInstitution(dbInstitution);
     setAdaptedInstitution(adapted);
-    
-    // Fetch financial data and program length info
+
+    // Compute earnings projection using enhanced calculator (CIP + institution context)
+    if (selectedDegree) {
+      const est = EnhancedEarningsCalculator.estimateSalaryFromCip(selectedDegree.cipcode || '', credLevel);
+      setEarnings(prev => ({
+        ...prev,
+        projectedSalary: est.startingSalary,
+        salaryGrowthRate: est.growthRate,
+        careerLength: autoCareer,
+      }));
+    }
+
+    // Fetch real financial data and override with actual tuition/fees when available
     try {
-      const [finResponse, earningsResponse, programLengthResponse] = await Promise.all([
+      const [finResponse, earningsResponse] = await Promise.all([
         fetch(`/api/financial-data?unitid=${institution.unitid}`),
         fetch(`/api/earnings-data?unitid=${institution.unitid}`),
-        fetch(`/api/program-length?unitid=${institution.unitid}`)
       ]);
-      
-      // Determine program length (2-year vs 4-year)
-      let programLength = 4; // Default to 4-year
-      if (programLengthResponse.ok) {
-        const lengthData = await programLengthResponse.json();
-        programLength = lengthData.programLength || 4;
-      } else {
-        // Fallback: check institution name for indicators
-        const name = institution.name.toLowerCase();
-        if (name.includes('community college') || name.includes('technical college') || name.includes('junior college')) {
-          programLength = 2;
-        }
-      }
-      
+
       if (finResponse.ok) {
         const finData = await finResponse.json();
         if (finData.financialData) {
@@ -557,23 +559,30 @@ export default function ROICalculatorApp() {
             roomBoard: fin.room_board_on_campus || fin.room_board_off_campus || prev.roomBoard,
             books: fin.books_supplies || prev.books,
             otherExpenses: fin.other_expenses || prev.otherExpenses,
-            programLength: programLength // Set detected program length
+            programLength: autoLength,
           }));
+        } else {
+          setCosts(prev => ({ ...prev, programLength: autoLength }));
         }
+      } else {
+        setCosts(prev => ({ ...prev, programLength: autoLength }));
       }
-      
+
+      // If the college scorecard has real earnings data, prefer it over our estimate
       if (earningsResponse.ok) {
         const earningsData = await earningsResponse.json();
-        if (earningsData.earningsData) {
+        if (earningsData.earningsData?.earnings_6_years_after_entry) {
           const earn = earningsData.earningsData;
           setEarnings(prev => ({
             ...prev,
-            projectedSalary: earn.earnings_6_years_after_entry || prev.projectedSalary
+            projectedSalary: earn.earnings_6_years_after_entry,
           }));
         }
       }
     } catch (error) {
       console.error('Error fetching financial/earnings data:', error);
+      // Fallback already set above via estimateSalaryFromCip
+      setCosts(prev => ({ ...prev, programLength: autoLength }));
     }
   };
 
