@@ -8,42 +8,62 @@ export async function GET() {
       return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
     }
     
+    // Use academic_programs directly to avoid:
+    // 1. programs_safe_view INNER JOIN exclusions (missing institution_metadata rows)
+    // 2. Year-duplicate inflation (programs appear once per year in the view)
+    // We pick each program's peak year count per (unitid, cipcode, credential_level).
+    const dedupeBase = `
+      WITH peak AS (
+        SELECT cipcode, cip_title, unitid,
+               SUM(completions) as year_completions
+        FROM academic_programs
+        WHERE completions > 0 AND cipcode IS NOT NULL AND cipcode != '00.0099'
+              AND cip_title IS NOT NULL
+        GROUP BY unitid, cipcode, credential_level, year
+      ),
+      best AS (
+        SELECT cipcode, cip_title, unitid, MAX(year_completions) as peak_completions
+        FROM peak
+        GROUP BY unitid, cipcode
+      )
+    `;
+
     // Get top programs by total graduates
-    const topPrograms = db.prepare(`
-      SELECT 
-        cipcode, 
-        cip_title, 
-        SUM(total_completions) as total_graduates,
+    const topPrograms = await db.prepare(`
+      ${dedupeBase}
+      SELECT
+        cipcode,
+        MAX(cip_title) as cip_title,
+        SUM(peak_completions) as total_graduates,
         COUNT(DISTINCT unitid) as num_institutions
-      FROM programs_safe_view 
-      WHERE total_completions > 0 AND cipcode != '00.0099'
-      GROUP BY cipcode, cip_title
-      ORDER BY total_graduates DESC 
+      FROM best
+      GROUP BY cipcode
+      ORDER BY total_graduates DESC
       LIMIT 20
     `).all();
 
     // Get program categories (2-digit CIP codes)
-    const categories = db.prepare(`
-      SELECT 
+    const categories = await db.prepare(`
+      ${dedupeBase}
+      SELECT
         SUBSTR(cipcode, 1, 2) as category_code,
         COUNT(DISTINCT cipcode) as num_programs,
-        SUM(total_completions) as total_graduates,
+        SUM(peak_completions) as total_graduates,
         COUNT(DISTINCT unitid) as num_institutions
-      FROM programs_safe_view 
-      WHERE total_completions > 0 AND cipcode != '00.0099'
+      FROM best
       GROUP BY category_code
       ORDER BY total_graduates DESC
       LIMIT 15
     `).all();
 
     // Get overall statistics
-    const stats = db.prepare(`
-      SELECT 
+    const stats = await db.prepare(`
+      ${dedupeBase}
+      SELECT
         COUNT(DISTINCT cipcode) as unique_programs,
         COUNT(DISTINCT unitid) as institutions_offering_programs,
-        SUM(total_completions) as total_graduates
-      FROM programs_safe_view 
-      WHERE total_completions > 0 AND cipcode != '00.0099'
+        SUM(peak_completions) as total_graduates
+      FROM best
     `).get();
 
     return NextResponse.json({

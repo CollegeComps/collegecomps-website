@@ -52,16 +52,6 @@ let collegeDb: Database.Database | TursoAdapter | null | undefined = undefined;
  */
 export function getUsersDb(): TursoAdapter | Database.Database | null {
   if (usersDb === undefined) {
-    // Check environment
-      TURSO_DEV_DATABASE_URL: process.env.TURSO_DEV_DATABASE_URL ? 'SET' : 'NOT SET',
-      TURSO_DEV_AUTH_TOKEN: process.env.TURSO_DEV_AUTH_TOKEN ? 'SET' : 'NOT SET',
-      USERS_DB_URL: process.env.USERS_DB_URL ? 'SET' : 'NOT SET',
-      USERS_DB_TOKEN: process.env.USERS_DB_TOKEN ? 'SET' : 'NOT SET',
-      NODE_ENV: process.env.NODE_ENV,
-      VERCEL: process.env.VERCEL ? 'true' : 'false',
-      isBuildTime: isBuildTime(),
-    });
-
     // Development: Use dev Turso database if configured
     if (process.env.NODE_ENV === 'development' && 
         process.env.TURSO_DEV_DATABASE_URL && 
@@ -114,16 +104,6 @@ export function getUsersDb(): TursoAdapter | Database.Database | null {
  */
 export function getCollegeDb(): Database.Database | TursoAdapter | null {
   if (collegeDb === undefined) {
-    // Check environment
-      TURSO_DEV_DATABASE_URL: process.env.TURSO_DEV_DATABASE_URL ? 'SET' : 'NOT SET',
-      TURSO_DEV_AUTH_TOKEN: process.env.TURSO_DEV_AUTH_TOKEN ? 'SET' : 'NOT SET',
-      TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL ? 'SET' : 'NOT SET',
-      TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN ? 'SET' : 'NOT SET',
-      NODE_ENV: process.env.NODE_ENV,
-      VERCEL: process.env.VERCEL ? 'true' : 'false',
-      isBuildTime: isBuildTime(),
-    });
-
     // Development: Use dev Turso database if configured
     if (process.env.NODE_ENV === 'development' && 
         process.env.TURSO_DEV_DATABASE_URL && 

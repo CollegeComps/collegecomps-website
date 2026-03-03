@@ -566,7 +566,7 @@ export default function ROICalculatorApp() {
       {/* Search Mode Toggle */}
       <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-6">
         <h3 className="text-lg font-bold text-white mb-4">Choose Your Search Method</h3>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <button
             onClick={() => {
               setSearchMode('institution');

@@ -453,7 +453,16 @@ export class CollegeDataService {
 
   // Get program count for a specific institution (separate query for performance)
   async getInstitutionProgramCount(unitid: number): Promise<number> {
-    const stmt = this.ensureDb().prepare('SELECT COUNT(DISTINCT cipcode) as count FROM programs_safe_view WHERE unitid = ?');
+    // Query academic_programs directly to avoid programs_safe_view INNER JOIN exclusions.
+    // Count distinct (cipcode, credential_level) pairs from the most recent year of data.
+    const stmt = this.ensureDb().prepare(`
+      SELECT COUNT(*) as count FROM (
+        SELECT cipcode, credential_level
+        FROM academic_programs
+        WHERE unitid = ? AND cipcode IS NOT NULL AND cip_title IS NOT NULL AND completions > 0
+        GROUP BY cipcode, credential_level
+      )
+    `);
     const result = await stmt.get(unitid) as { count: number } | undefined;
     return result?.count || 0;
   }

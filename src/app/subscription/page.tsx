@@ -70,14 +70,12 @@ export default function SubscriptionPage() {
       // Refresh session multiple times to ensure webhook has processed
       // Webhook may take a few seconds to process and update the database
       const refreshSession = async () => {
-        console.log('Refreshing session to get updated subscription tier...');
         await update();
-        
+
         // Retry after 2 seconds if still not premium
         setTimeout(async () => {
           const currentSession = await update();
           if (currentSession?.user?.subscriptionTier !== 'premium') {
-            console.log('Still not premium, retrying in 2 seconds...');
             setTimeout(() => update(), 2000);
           }
         }, 2000);

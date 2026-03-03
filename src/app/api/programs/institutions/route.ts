@@ -61,7 +61,6 @@ export async function GET(request: NextRequest) {
         LIMIT 500
       `).all(cipcode);
 
-      console.log(`Found ${institutions.length} institutions for CIP code ${cipcode}${degreeLevel ? ` (${degreeLevel})` : ''}`);
 
       // Map IPEDS credential levels to human-readable names
       const credentialNames: { [key: number]: string } = {
