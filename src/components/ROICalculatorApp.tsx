@@ -12,7 +12,7 @@ import SaveROIScenarioModal from './SaveROIScenarioModal';
 import { Institution as DatabaseInstitution, AcademicProgram } from '@/lib/database';
 import { Institution, Program, CostInputs, EarningsInputs, FinancialAid, ROICalculation } from '@/types';
 import { ROICalculator } from '@/utils/roiCalculator';
-import { EnhancedEarningsCalculator } from '@/utils/enhancedEarningsCalculator';
+import { EnhancedEarningsCalculator, CREDENTIAL_PROGRAM_LENGTH, CREDENTIAL_CAREER_LENGTH } from '@/utils/enhancedEarningsCalculator';
 
 // Adapter function to convert database Institution to types Institution
 const adaptInstitution = (dbInst: DatabaseInstitution): Institution => ({
@@ -731,23 +731,36 @@ export default function ROICalculatorApp() {
               }}
               onSelect={(program) => {
                 setSelectedProgram(program);
-                // Update adapted program  
                 if (program) {
                   const adapted = adaptProgram(program);
                   setAdaptedProgram(adapted);
-                  
-                  // Use enhanced earnings calculation
+
+                  const credLevel = program.credential_level || 5;
+
+                  // Auto-set program length and career horizon from credential level
+                  const autoLength = CREDENTIAL_PROGRAM_LENGTH[credLevel] ?? 4;
+                  const autoCareer = CREDENTIAL_CAREER_LENGTH[credLevel] ?? 40;
+
+                  setCosts(prev => ({ ...prev, programLength: autoLength }));
+
+                  // Use enhanced earnings with institution context if available
                   if (selectedInstitution) {
                     const adaptedInst = adaptInstitution(selectedInstitution);
-                    const enhancedEarnings = EnhancedEarningsCalculator.calculateEnhancedEarnings(
-                      adaptedInst,
-                      program
-                    );
-                    
+                    const enhancedEarnings = EnhancedEarningsCalculator.calculateEnhancedEarnings(adaptedInst, program);
                     setEarnings(prev => ({
                       ...prev,
                       projectedSalary: enhancedEarnings.startingSalary,
-                      salaryGrowthRate: enhancedEarnings.growthRate
+                      salaryGrowthRate: enhancedEarnings.growthRate,
+                      careerLength: autoCareer,
+                    }));
+                  } else {
+                    // Fallback: estimate salary from CIP code alone
+                    const est = EnhancedEarningsCalculator.estimateSalaryFromCip(program.cipcode || '', credLevel);
+                    setEarnings(prev => ({
+                      ...prev,
+                      projectedSalary: est.startingSalary,
+                      salaryGrowthRate: est.growthRate,
+                      careerLength: autoCareer,
                     }));
                   }
                 } else {
