@@ -16,6 +16,7 @@ export default function PricingPage() {
   const handleUpgrade = async (tier: string) => {
     
     if (!session) {
+      console.log('[handleUpgrade] No session, redirecting to signin');
       router.push('/auth/signin?callbackUrl=/pricing');
       return;
     }
