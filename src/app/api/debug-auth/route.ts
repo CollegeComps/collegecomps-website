@@ -10,6 +10,10 @@ interface DbUser {
 }
 
 export async function POST(request: Request) {
+  if (process.env.NODE_ENV !== 'development') {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
+
   try {
     const { email, password } = await request.json();
     
@@ -57,8 +61,7 @@ export async function POST(request: Request) {
   } catch (error: any) {
     console.error('[Debug Auth] Error:', error);
     return NextResponse.json({
-      error: error.message,
-      stack: error.stack
+      error: error.message
     }, { status: 500 });
   }
 }
