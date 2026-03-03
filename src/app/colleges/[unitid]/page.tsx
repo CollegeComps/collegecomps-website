@@ -17,8 +17,7 @@ import {
   UsersIcon
 } from '@heroicons/react/24/outline';
 
-// Dynamic import for school categories
-const { getSchoolBadges } = require('@/lib/school-categories');
+import { getSchoolBadges } from '@/lib/school-categories';
 
 interface InstitutionDetails {
   institution: Institution;
@@ -242,7 +241,7 @@ export default function CollegeDetailPage() {
                 const badges = getSchoolBadges({
                   unitid: institution.unitid,
                   historically_black: institution.historically_black,
-                  control_of_institution: institution.control_of_institution,
+                  control_public_private: institution.control_public_private ?? institution.control_of_institution,
                   name: institution.name
                 });
                 return badges.length > 0 && (
@@ -483,50 +482,72 @@ export default function CollegeDetailPage() {
                 <h2 className="text-xl font-semibold text-white font-bold mb-4">
                   Academic Programs ({programs.length})
                 </h2>
-                <div className="space-y-3">
-                  {programs.slice(0, 20).map((program, index) => (
-                    <div key={`${program.cipcode}-${index}`} className="flex justify-between items-start py-3 border-b border-gray-800 last:border-b-0">
-                      <div className="flex-1">
-                        <h3 className="font-medium text-white font-bold">{program.cip_title || 'Unknown Program'}</h3>
-                        <div className="flex items-center gap-4 mt-1 flex-wrap">
-                          {program.cipcode && (
-                            <span className="px-2 py-1 text-xs rounded bg-gray-700 text-gray-300">
-                              CIP: {program.cipcode}
-                            </span>
-                          )}
-                          {program.credential_name && (
-                            <span className="px-2 py-1 text-xs rounded bg-orange-500/20 text-orange-400">
-                              {program.credential_name}
-                            </span>
-                          )}
-                          {(program as any).program_roi != null && (
-                            <span className="px-2 py-1 text-xs rounded bg-blue-500/20 text-blue-400 font-semibold">
-                              ROI: ${((program as any).program_roi / 1000000).toFixed(2)}M
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="text-right ml-4">
-                        <span className="text-sm text-gray-300 block">
-                          {(program.total_completions || program.completions || 0).toLocaleString()} data points
-                        </span>
-                        {(program as any).program_roi != null && (
-                          <button
-                            onClick={() => router.push(`/roi-calculator?institution=${unitid}&program=${program.cipcode}`)}
-                            className="mt-2 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded transition-colors"
-                          >
-                            Calculate
-                          </button>
-                        )}
+                {/* Group programs by credential type for easier browsing */}
+                {(() => {
+                  const groups: Record<string, typeof programs> = {};
+                  for (const p of programs) {
+                    const key = p.credential_name || 'Other';
+                    if (!groups[key]) groups[key] = [];
+                    groups[key].push(p);
+                  }
+                  // Order groups by typical education level (matches credential_name from DB)
+                  const levelOrder = [
+                    "Bachelor's Degree", "Bachelor's Degree (Extended)",
+                    "Master's Degree", "Master's Degree (Extended)",
+                    "Doctoral Degree", "Doctoral Degree (Research/Scholarship)", "Doctoral Degree (Professional Practice)", "Doctoral Degree (Other)",
+                    "Post-Master's Certificate", "Post-Baccalaureate Certificate",
+                    "Professional Certificate (Graduate)", "Professional Certificate",
+                    "Associate Degree",
+                    "Certificate (< 1 year)", "Certificate (1-2 years)", "Certificate (2-4 years)",
+                    "Occupational Certificate (< 1 year)", "Occupational Certificate (1-2 years)", "Occupational Certificate (2-4 years)",
+                    "Academic Certificate", "Other"
+                  ];
+                  const sortedKeys = Object.keys(groups).sort((a, b) => {
+                    const ai = levelOrder.indexOf(a);
+                    const bi = levelOrder.indexOf(b);
+                    return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+                  });
+                  return sortedKeys.map(groupKey => (
+                    <div key={groupKey} className="mb-6">
+                      <h3 className="text-sm font-semibold text-orange-400 uppercase tracking-wide mb-2 border-b border-gray-800 pb-1">
+                        {groupKey} ({groups[groupKey].length})
+                      </h3>
+                      <div className="space-y-2">
+                        {groups[groupKey].map((program, index) => (
+                          <div key={`${program.cipcode}-${index}`} className="flex justify-between items-center py-2 border-b border-gray-800/50 last:border-b-0">
+                            <div className="flex-1 min-w-0">
+                              <span className="text-sm font-medium text-white">{program.cip_title || 'Unknown Program'}</span>
+                              {program.cipcode && (
+                                <span className="ml-2 text-xs text-gray-500">CIP: {program.cipcode}</span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-2 ml-3 shrink-0">
+                              {(program as any).program_roi != null && (
+                                <span className="px-2 py-0.5 text-xs rounded bg-blue-500/20 text-blue-400 font-semibold">
+                                  ROI: ${((program as any).program_roi / 1000000).toFixed(2)}M
+                                </span>
+                              )}
+                              {(program.total_completions || program.completions || 0) > 0 && (
+                                <span className="text-xs text-gray-500">
+                                  {(program.total_completions || program.completions || 0).toLocaleString()} completions
+                                </span>
+                              )}
+                              <button
+                                onClick={() => router.push(`/roi-calculator?institution=${unitid}&program=${program.cipcode}`)}
+                                className="text-xs bg-orange-600 hover:bg-orange-700 text-white px-2 py-1 rounded transition-colors"
+                              >
+                                ROI
+                              </button>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
-                  ))}
-                  {programs.length > 20 && (
-                    <p className="text-center text-gray-400 pt-4">
-                      ... and {programs.length - 20} more programs
-                    </p>
-                  )}
-                </div>
+                  ));
+                })()}
+                {programs.length === 0 && (
+                  <p className="text-center text-gray-400 py-8">No program data available for this institution.</p>
+                )}
               </div>
             )}
 

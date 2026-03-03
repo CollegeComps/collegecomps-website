@@ -6,6 +6,7 @@ import { Institution } from '@/lib/database';
 import { DataSourcesBadge } from '@/components/DataSources';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { getAffordabilityBadge } from '@/lib/financial-calculator';
+import { getSchoolBadges } from '@/lib/school-categories';
 import {
   MagnifyingGlassIcon,
   MapPinIcon,
@@ -752,25 +753,20 @@ export default function CollegesPage() {
                   )}
 
                   {/* School Category Badges */}
-                  {(() => {
-                    const { getSchoolBadges } = require('@/lib/school-categories');
-                    const badges = getSchoolBadges({
-                      unitid: institution.unitid,
-                      historically_black: (institution as any).historically_black,
-                      control_public_private: institution.control_of_institution,
-                      name: institution.name
-                    });
-                    
-                    return badges.map((badge: any) => (
-                      <span
-                        key={badge.category}
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${badge.bgColor} ${badge.color}`}
-                        title={badge.description}
-                      >
-                        {badge.label}
-                      </span>
-                    ));
-                  })()}
+                  {getSchoolBadges({
+                    unitid: institution.unitid,
+                    historically_black: (institution as any).historically_black,
+                    control_public_private: institution.control_of_institution,
+                    name: institution.name
+                  }).map((badge: any) => (
+                    <span
+                      key={badge.category}
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${badge.bgColor} ${badge.color}`}
+                      title={badge.description}
+                    >
+                      {badge.label}
+                    </span>
+                  ))}
                 </div>
                 
                 {/* Top ROI Program Hint (ENG-365) */}

@@ -182,20 +182,25 @@ export class EnhancedEarningsCalculator {
   private static getDegreeMultiplier(credentialLevel: number): number {
     switch (credentialLevel) {
       case 1: case 2: // Certificates under 2 years
+      case 30: case 32: // Occupational awards/certificates under 1 year
         return 0.7;
       case 3: // Associate's degree
+      case 31: // Occupational award 1–4 years
         return 0.8;
-      case 4: // Awards 2-4 years
+      case 4: // Award 2–4 years
         return 0.85;
       case 5: // Bachelor's degree
+      case 22: // Extended Bachelor's (5-year program)
         return 1.0;
       case 6: // Post-baccalaureate certificate
+      case 33: // Post-baccalaureate occupational certificate
         return 1.05;
       case 7: // Master's degree
+      case 23: // Extended Master's
         return 1.25;
       case 8: // Post-master's certificate
         return 1.3;
-      case 17: case 18: case 19: // Doctoral degrees
+      case 9: case 17: case 18: case 19: // Doctoral degrees (all types)
         return 1.4;
       case 20: case 21: // Professional certificates
         return 1.15;
