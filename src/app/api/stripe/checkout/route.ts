@@ -42,13 +42,6 @@ export async function POST(req: NextRequest) {
       );
     }
     
-    console.log('Creating Stripe checkout session:', {
-      tier,
-      billingCycle,
-      priceId: priceId.substring(0, 12) + '...', // Log partial ID for security
-      userEmail: session.user.email
-    });
-
     // Create Stripe checkout session
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: 'subscription',

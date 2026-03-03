@@ -13,8 +13,6 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
     
-    console.log('[Debug Auth] Testing auth for:', email);
-    
     // Step 1: Check database
     const db = getUsersDb();
     if (!db) {
@@ -24,13 +22,9 @@ export async function POST(request: Request) {
       }, { status: 500 });
     }
     
-    console.log('[Debug Auth] DB initialized:', db.constructor.name);
-    
     // Step 2: Query user
     const user = await db.prepare('SELECT * FROM users WHERE email = ?')
       .get(email) as DbUser | undefined;
-    
-    console.log('[Debug Auth] User query result:', user);
     
     if (!user) {
       return NextResponse.json({
@@ -39,12 +33,6 @@ export async function POST(request: Request) {
         email
       }, { status: 404 });
     }
-    
-    console.log('[Debug Auth] User found:', {
-      id: user.id,
-      email: user.email,
-      hasPassword: !!user.password_hash
-    });
     
     if (!user.password_hash) {
       return NextResponse.json({
@@ -55,8 +43,6 @@ export async function POST(request: Request) {
     
     // Step 3: Verify password
     const isValid = await bcrypt.compare(password, user.password_hash);
-    
-    console.log('[Debug Auth] Password valid:', isValid);
     
     return NextResponse.json({
       success: true,
