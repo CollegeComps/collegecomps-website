@@ -18,6 +18,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 import { getSchoolBadges } from '@/lib/school-categories';
+import { formatCurrency, getControlTypeLabel } from '@/lib/formatting';
 
 interface InstitutionDetails {
   institution: Institution;
@@ -112,23 +113,6 @@ export default function CollegeDetailPage() {
     }
   };
 
-  const getControlTypeLabel = (control?: number) => {
-    switch (control) {
-      case 1: return 'Public';
-      case 2: return 'Private Non-profit';
-      case 3: return 'Private For-profit';
-      default: return 'Unknown';
-    }
-  };
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
 
   if (loading) {
     return (
@@ -320,7 +304,7 @@ export default function CollegeDetailPage() {
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-gray-200 mb-6">
+        <div className="border-b border-gray-700 mb-6">
           <nav className="flex space-x-8">
             {[
               { key: 'overview', label: 'Overview' },
@@ -424,7 +408,7 @@ export default function CollegeDetailPage() {
                     <h2 className="text-xl font-semibold text-white font-bold mb-4">Top Programs by Data Points</h2>
                     <div className="space-y-3">
                       {stats.topPrograms.map((program) => (
-                        <div key={program.name} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
+                        <div key={program.name} className="flex justify-between items-center py-2 border-b border-gray-800 last:border-b-0">
                           <span className="font-medium text-white font-bold">{program.name}</span>
                           <span className="text-sm text-gray-300">{program.dataPoints} data points</span>
                         </div>

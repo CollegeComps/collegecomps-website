@@ -82,10 +82,8 @@ export default function TicketDetailPage() {
         throw new Error(data.error || 'Failed to fetch ticket');
       }
 
-      console.log('Fetched ticket data:', data); // Debug log
       setTicket(data.ticket);
       setMessages(Array.isArray(data.messages) ? data.messages : []);
-      console.log('Messages set to:', data.messages); // Debug log
     } catch (err) {
       console.error('Error fetching ticket:', err);
       setError(err instanceof Error ? err.message : 'Failed to load ticket');
@@ -100,7 +98,6 @@ export default function TicketDetailPage() {
 
     setSending(true);
     try {
-      console.log('Sending message:', replyText); // Debug log
       const response = await fetch(`/api/support/tickets/${ticketId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -108,7 +105,6 @@ export default function TicketDetailPage() {
       });
 
       const result = await response.json();
-      console.log('Send message result:', result); // Debug log
 
       if (!response.ok) {
         throw new Error(result.error || 'Failed to send message');

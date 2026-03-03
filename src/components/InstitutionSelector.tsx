@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Institution } from '@/lib/database';
+import { getControlTypeLabel } from '@/lib/formatting';
 
 interface InstitutionSelectorProps {
   selectedInstitution: Institution | null;
@@ -75,14 +76,6 @@ export default function InstitutionSelector({ selectedInstitution, onSelect, deg
     setTimeout(() => setShowDropdown(false), 200);
   };
 
-  const getControlTypeLabel = (control?: number) => {
-    switch (control) {
-      case 1: return 'Public';
-      case 2: return 'Private Non-profit';
-      case 3: return 'Private For-profit';
-      default: return 'Unknown';
-    }
-  };
 
   return (
     <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">

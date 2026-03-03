@@ -2,6 +2,7 @@ import Database from 'better-sqlite3';
 import { getCollegeDb } from './db-helper';
 import type { TursoAdapter } from './turso-adapter';
 import { VALID_US_STATES, getStatesInClause } from './constants';
+import { getCIPCodesForCategory, MajorCategory } from './cip-category-mapping';
 
 export function getDatabase() {
   return getCollegeDb();
@@ -354,14 +355,45 @@ export class CollegeDataService {
     };
   }
 
-  // Get programs for an institution (deduplicated and safe)
-  // Groups across years so each (cipcode, credential_level) appears exactly once,
-  // using the peak completion count to represent program size.
+  // Get programs for an institution — queries academic_programs directly (not via
+  // programs_safe_view) to avoid INNER JOIN against institution_metadata which would
+  // silently exclude programs for any institution missing a metadata row.
+  // Uses a CTE to sum completions per year first, then takes the peak year's count.
   async getInstitutionPrograms(
     unitid: number,
     degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate'
   ): Promise<AcademicProgram[]> {
-    let query = `
+    let degreeLevelClause = '';
+    if (degreeLevel === 'associates') {
+      degreeLevelClause = ` AND credential_level IN (3,4)`;
+    } else if (degreeLevel === 'bachelors') {
+      degreeLevelClause = ` AND credential_level IN (5,22,31)`;
+    } else if (degreeLevel === 'masters') {
+      degreeLevelClause = ` AND credential_level IN (7,23)`;
+    } else if (degreeLevel === 'doctorate') {
+      degreeLevelClause = ` AND credential_level IN (8,9,17,18,19)`;
+    } else if (degreeLevel === 'certificate') {
+      degreeLevelClause = ` AND credential_level IN (1,2,6,30,32,33)`;
+    }
+
+    // CTE: sum completions within each year (IPEDS stores per-gender rows),
+    // then outer query picks the peak year's completion count per program.
+    const query = `
+      WITH yearly AS (
+        SELECT
+          unitid,
+          cipcode,
+          MAX(cip_title) as cip_title,
+          credential_level,
+          year,
+          SUM(completions) as year_completions
+        FROM academic_programs
+        WHERE unitid = ?
+          AND cipcode IS NOT NULL
+          AND cip_title IS NOT NULL
+          ${degreeLevelClause}
+        GROUP BY unitid, cipcode, credential_level, year
+      )
       SELECT
         unitid,
         cipcode,
@@ -390,35 +422,12 @@ export class CollegeDataService {
           WHEN 33 THEN 'Academic Certificate'
           ELSE 'Other'
         END as credential_name,
-        MAX(total_completions) as total_completions,
-        MAX(source_records) as source_records,
-        MAX(data_pattern) as data_pattern,
-        MAX(duplication_factor) as duplication_factor,
+        MAX(year_completions) as total_completions,
         MAX(year) as year
-      FROM programs_safe_view
-      WHERE unitid = ? AND cip_title IS NOT NULL
+      FROM yearly
+      GROUP BY unitid, cipcode, credential_level
+      ORDER BY MAX(year_completions) DESC, MAX(cip_title) ASC
     `;
-
-    if (degreeLevel === 'associates') {
-      // 3 = Associate's Degree, 4 = 2-4 year postsecondary award (associate's-level)
-      query += ` AND credential_level IN (3,4)`;
-    } else if (degreeLevel === 'bachelors') {
-      // 5 = Bachelor's Degree, 22 = Bachelor's Degree (Extended), 31 = variant
-      query += ` AND credential_level IN (5,22,31)`;
-    } else if (degreeLevel === 'masters') {
-      // 7 = Master's Degree, 23 = Master's Degree (Extended)
-      query += ` AND credential_level IN (7,23)`;
-    } else if (degreeLevel === 'doctorate') {
-      // 8 = Post-master's cert, 9 = Doctor's, 17 = Research/scholarship, 18 = Professional practice, 19 = Other
-      query += ` AND credential_level IN (8,9,17,18,19)`;
-    } else if (degreeLevel === 'certificate') {
-      // 1,2 = Short certificates, 6 = Post-Baccalaureate Certificate, 30,32,33 = Occupational certificates
-      query += ` AND credential_level IN (1,2,6,30,32,33)`;
-    }
-
-    // GROUP BY collapses multiple year rows into one per (cipcode, credential_level)
-    query += ` GROUP BY unitid, cipcode, credential_level`;
-    query += ` ORDER BY MAX(total_completions) DESC, MAX(cip_title) ASC`;
 
     const stmt = this.ensureDb().prepare(query);
     return await stmt.all(unitid) as AcademicProgram[];
@@ -510,8 +519,7 @@ export class CollegeDataService {
       
       // Category filter
       if (hasCategoryFilter) {
-        const { getCIPCodesForCategory } = require('@/lib/cip-category-mapping');
-        const cipPrefixes = getCIPCodesForCategory(filters.majorCategory!);
+        const cipPrefixes = getCIPCodesForCategory(filters.majorCategory as MajorCategory);
         if (cipPrefixes.length > 0) {
           const cipConditions = cipPrefixes.map(() => `ap.cipcode LIKE ?`).join(' OR ');
           query += ` AND (${cipConditions})`;

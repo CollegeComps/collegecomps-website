@@ -14,17 +14,14 @@ export default function PricingPage() {
   const currentTier = session?.user?.subscriptionTier || 'free';
 
   const handleUpgrade = async (tier: string) => {
-    console.log('[handleUpgrade] Called with tier:', tier, 'session:', !!session, 'currentTier:', currentTier);
     
     if (!session) {
-      console.log('[handleUpgrade] No session, redirecting to signin');
       router.push('/auth/signin?callbackUrl=/pricing');
       return;
     }
     
     if (tier === 'premium') {
       try {
-        console.log('[handleUpgrade] Starting premium upgrade, billingCycle:', billingCycle);
         setLoading(true);
         await createCheckoutSession('premium', billingCycle);
       } catch (error) {
@@ -233,7 +230,6 @@ export default function PricingPage() {
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  console.log('[Stripe Button] Click detected, tier:', currentTier, 'loading:', loading);
                   handleUpgrade('premium');
                 }}
                 disabled={currentTier === 'premium' || loading}

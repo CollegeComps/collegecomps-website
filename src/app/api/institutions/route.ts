@@ -162,11 +162,19 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    // For the filtered-search path, searchInstitutions() returns all matches (up to 1000)
+    // without pagination. Apply pagination here so the response is consistent.
+    const totalFiltered = institutions.length;
+    const startIdx = (page - 1) * limit;
+    if (startIdx > 0 || totalFiltered > limit) {
+      institutions = institutions.slice(startIdx, startIdx + limit);
+    }
+
     return NextResponse.json({
       institutions,
       page,
       limit,
-      hasMore: institutions.length === limit
+      hasMore: startIdx + institutions.length < totalFiltered
     });
   } catch (error) {
     console.error('Error fetching institutions:', error);
