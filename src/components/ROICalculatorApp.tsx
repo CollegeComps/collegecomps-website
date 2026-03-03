@@ -518,7 +518,7 @@ export default function ROICalculatorApp() {
 
     // Fetch real financial data and override with actual tuition/fees when available
     try {
-      const [finResponse, earningsResponse, programLengthResponse] = await Promise.all([
+      const [finResponse, earningsResponse] = await Promise.all([
         fetch(`/api/financial-data?unitid=${institution.unitid}`),
         fetch(`/api/earnings-data?unitid=${institution.unitid}`),
       ]);
