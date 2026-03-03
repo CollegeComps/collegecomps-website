@@ -2,7 +2,28 @@
  * Financial Aid Calculator - Federal Methodology EFC
  * Based on FAFSA Federal Methodology formula (2024-2025)
  * Provides accurate Expected Family Contribution calculations
+ *
+ * ⚠️  ANNUAL UPDATE REQUIRED: Review and update FAFSA_CONSTANTS each award year.
+ *     Source: https://fsapartners.ed.gov/knowledge-center/fsa-handbook
  */
+
+// ─── FAFSA Federal Constants (2024-2025 Award Year) ──────────────────────────
+// Update these values each July when the new award year tables are published.
+const FAFSA_CONSTANTS = {
+  SS_WAGE_BASE: 168600,               // 2024 Social Security wage base
+  SS_FICA_RATE: 0.0765,               // 6.2% SS + 1.45% Medicare
+  BASE_IPA: 30500,                    // Parent Income Protection Allowance (2-parent, 2-dependent)
+  SINGLE_PARENT_IPA_REDUCTION: 6000,  // Reduction for single-parent households
+  PER_ADDITIONAL_DEPENDENT_IPA: 7200, // Added for each dependent beyond 2
+  PER_ADDITIONAL_IN_COLLEGE: 4500,    // Reduced for each additional family member in college
+  STUDENT_INCOME_PROTECTION: 7600,    // Student Income Protection Allowance
+  MAX_PELL_GRANT: 7395,               // Maximum Pell Grant
+  PARENT_ASSET_RATE: 0.12,            // Parent discretionary net worth assessment rate
+  STUDENT_ASSET_RATE: 0.20,           // Student asset assessment rate
+  STUDENT_INCOME_RATE: 0.50,          // Student available income assessment rate
+  PARENT_EMPLOYMENT_ALLOWANCE_RATE: 0.35, // Two-income household employment expense allowance
+  PARENT_EMPLOYMENT_ALLOWANCE_CAP: 4000,  // Maximum employment expense allowance
+} as const;
 
 export interface FinancialProfile {
   // Student Information
@@ -80,9 +101,8 @@ function calculateStateTaxAllowance(income: number, state?: string): number {
  * Calculate Social Security Tax
  */
 function calculateSocialSecurityTax(income: number): number {
-  const ssWageBase = 160200; // 2024 SS wage base
-  const taxableIncome = Math.min(income, ssWageBase);
-  return taxableIncome * 0.0765; // 7.65% (6.2% SS + 1.45% Medicare)
+  const taxableIncome = Math.min(income, FAFSA_CONSTANTS.SS_WAGE_BASE);
+  return taxableIncome * FAFSA_CONSTANTS.SS_FICA_RATE;
 }
 
 /**
@@ -94,15 +114,11 @@ function getIncomeProtectionAllowance(
   numberOfDependents: number,
   numberOfInCollege: number
 ): number {
-  // Base IPA for 2-parent, 2-dependent household
-  const baseIPA = 30500;
-  
-  // Adjustments
-  const parentAdjustment = numberOfParents === 1 ? -6000 : 0;
-  const dependentAdjustment = (numberOfDependents - 2) * 7200;
-  const collegeAdjustment = (numberOfInCollege - 1) * 4500;
-  
-  return Math.max(0, baseIPA + parentAdjustment + dependentAdjustment - collegeAdjustment);
+  const parentAdjustment = numberOfParents === 1 ? -FAFSA_CONSTANTS.SINGLE_PARENT_IPA_REDUCTION : 0;
+  const dependentAdjustment = (numberOfDependents - 2) * FAFSA_CONSTANTS.PER_ADDITIONAL_DEPENDENT_IPA;
+  const collegeAdjustment = (numberOfInCollege - 1) * FAFSA_CONSTANTS.PER_ADDITIONAL_IN_COLLEGE;
+
+  return Math.max(0, FAFSA_CONSTANTS.BASE_IPA + parentAdjustment + dependentAdjustment - collegeAdjustment);
 }
 
 /**
@@ -149,7 +165,10 @@ function calculateParentContribution(profile: FinancialProfile): {
     numberOfDependents,
     numberOfInCollege
   );
-  const employmentAllowance = Math.min(totalIncome * 0.35, 4000); // 35% up to $4,000
+  const employmentAllowance = Math.min(
+    totalIncome * FAFSA_CONSTANTS.PARENT_EMPLOYMENT_ALLOWANCE_RATE,
+    FAFSA_CONSTANTS.PARENT_EMPLOYMENT_ALLOWANCE_CAP
+  );
 
   const totalAllowances = federalTax + stateTax + socialSecurityTax + 
                           incomeProtection + employmentAllowance;
@@ -176,7 +195,7 @@ function calculateParentContribution(profile: FinancialProfile): {
   // Step 5: Calculate Asset Contribution
   const assetProtection = getAssetProtectionAllowance(parentAge, numberOfParents);
   const discretionaryNetWorth = Math.max(0, parentAssets - assetProtection);
-  const assetContribution = discretionaryNetWorth * 0.12; // 12% asset conversion rate
+  const assetContribution = discretionaryNetWorth * FAFSA_CONSTANTS.PARENT_ASSET_RATE;
 
   // Step 6: Calculate Adjusted Available Income
   const adjustedAvailableIncome = incomeContribution + assetContribution;
@@ -201,15 +220,12 @@ function calculateStudentContribution(profile: FinancialProfile): {
 } {
   const { studentIncome, studentAssets = 0 } = profile;
 
-  // Student Income Protection Allowance (2024-2025)
-  const incomeProtection = 7600;
+  // Calculate available income after student income protection allowance
+  const availableIncome = Math.max(0, studentIncome - FAFSA_CONSTANTS.STUDENT_INCOME_PROTECTION);
+  const incomeContribution = availableIncome * FAFSA_CONSTANTS.STUDENT_INCOME_RATE;
 
-  // Calculate available income (50% assessment rate after protection)
-  const availableIncome = Math.max(0, studentIncome - incomeProtection);
-  const incomeContribution = availableIncome * 0.50;
-
-  // Student assets (20% assessment rate, no protection allowance)
-  const assetContribution = studentAssets * 0.20;
+  // Student assets (no protection allowance)
+  const assetContribution = studentAssets * FAFSA_CONSTANTS.STUDENT_ASSET_RATE;
 
   return {
     contribution: Math.round(incomeContribution + assetContribution),
@@ -280,7 +296,7 @@ export function assessAffordability(
       institutionCost * 0.35;  // Public schools average 35%
   } else if (efc < 10000) {
     // Partial Pell + some institutional aid
-    const pellEligible = Math.max(0, 7395 - (efc * 0.10)); // Sliding Pell scale
+    const pellEligible = Math.max(0, FAFSA_CONSTANTS.MAX_PELL_GRANT - (efc * 0.10)); // Sliding Pell scale
     estimatedGrantAid = pellEligible + (institutionCost * 0.15);
   } else if (efc < 30000) {
     // Merit/need-based institutional aid only
