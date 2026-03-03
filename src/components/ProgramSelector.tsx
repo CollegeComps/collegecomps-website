@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { AcademicProgram } from '@/lib/database';
 
 interface ProgramSelectorProps {
@@ -21,6 +21,20 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
   const [availablePrograms, setAvailablePrograms] = useState<AcademicProgram[]>([]);
   const [filteredPrograms, setFilteredPrograms] = useState<AcademicProgram[]>([]);
   const [loading, setLoading] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside (does NOT block page scroll)
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen]);
 
   // Fetch programs when institutionId changes
   useEffect(() => {
@@ -56,7 +70,6 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
         setAvailablePrograms(data.programs || []);
         setFilteredPrograms(data.programs || []);
       } else {
-        console.error('Failed to fetch programs');
         setAvailablePrograms([]);
         setFilteredPrograms([]);
       }
@@ -78,14 +91,12 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
   const handleInputChange = (value: string) => {
     setSearchTerm(value);
     setIsOpen(true);
-    // Clear selection if user is typing something different
     if (selectedProgram && value !== (selectedProgram.cip_title || 'Unknown Program')) {
       onSelect(null);
     }
   };
 
   const handleInputFocus = () => {
-    // If there's a selected program, clear the field to allow editing
     if (selectedProgram) {
       setSearchTerm('');
       onSelect(null);
@@ -93,96 +104,65 @@ export default function ProgramSelector({ institutionId, selectedProgram, onSele
     setIsOpen(true);
   };
 
-  const handleInputBlur = () => {
-    // Don't close dropdown immediately to allow clicks on options
-    setTimeout(() => setIsOpen(false), 200);
-  };
-
-  const getDegreeLevel = (level?: number) => {
-    switch (level) {
-      case 1: return 'Award of less than 1 academic year';
-      case 2: return 'Award of at least 1 but less than 2 academic years';
-      case 3: return 'Associate\'s degree';
-      case 4: return 'Award of at least 2 but less than 4 academic years';
-      case 5: return 'Bachelor\'s degree';
-      case 6: return 'Postbaccalaureate certificate';
-      case 7: return 'Master\'s degree';
-      case 8: return 'Post-master\'s certificate';
-      case 17: return 'Doctoral degree - research/scholarship';
-      case 18: return 'Doctoral degree - professional practice';
-      case 19: return 'Doctoral degree - other';
-      case 20: return 'Graduate/professional certificate';
-      case 21: return 'Graduate/professional certificate';
-      default: return 'Unknown';
-    }
-  };
-
   return (
     <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6">
       <h2 className="text-xl font-semibold text-white mb-4">Step 2: Select Program</h2>
-      {/* Optional: could add a degree-level badge or hint here based on degreeLevel */}
-      
-      <div className="relative">
+
+      <div className="relative" ref={dropdownRef}>
         <input
           type="text"
           placeholder={selectedProgram ? "Click to change program..." : "Search programs..."}
           value={selectedProgram && searchTerm === '' ? selectedProgram.cip_title || 'Unknown Program' : searchTerm}
           onChange={(e) => handleInputChange(e.target.value)}
           onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
           className="w-full p-3 border border-gray-700 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white placeholder-gray-400"
         />
-        
+
         {loading && (
           <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
             <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>
           </div>
         )}
-        
+
         {isOpen && !loading && (
-          <>
-            <div
-              className="fixed inset-0 z-10"
-              onClick={() => setIsOpen(false)}
-            ></div>
-            <div className="absolute z-20 w-full mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-lg max-h-80 overflow-y-auto">
-              {filteredPrograms.map((program, index) => (
-                <button
-                  key={`${program.cipcode}-${index}`}
-                  onClick={() => handleSelect(program)}
-                  className="w-full p-4 text-left hover:bg-gray-700 border-b border-gray-700 last:border-b-0"
-                >
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-white">{program.cip_title || 'Unknown Program'}</h3>
-                      <div className="flex items-center gap-4 mt-1">
-                        {program.cipcode && (
-                          <span className="px-2 py-1 text-xs rounded bg-gray-700 text-gray-300">
-                            CIP: {program.cipcode}
-                          </span>
-                        )}
-                        {program.credential_name && (
-                          <span className="px-2 py-1 text-xs rounded bg-orange-500/20 text-orange-400">
-                            {program.credential_name}
-                          </span>
-                        )}
-                        {program.total_completions && (
-                          <span className="text-sm text-gray-400">
-                            {program.total_completions} data points
-                          </span>
-                        )}
-                      </div>
+          <div className="absolute z-20 w-full mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-lg max-h-80 overflow-y-auto">
+            {filteredPrograms.map((program, index) => (
+              <button
+                key={`${program.cipcode}-${index}`}
+                onMouseDown={(e) => e.preventDefault()} // prevent blur before click
+                onClick={() => handleSelect(program)}
+                className="w-full p-4 text-left hover:bg-gray-700 border-b border-gray-700 last:border-b-0"
+              >
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-white">{program.cip_title || 'Unknown Program'}</h3>
+                    <div className="flex items-center gap-4 mt-1">
+                      {program.cipcode && (
+                        <span className="px-2 py-1 text-xs rounded bg-gray-700 text-gray-300">
+                          CIP: {program.cipcode}
+                        </span>
+                      )}
+                      {program.credential_name && (
+                        <span className="px-2 py-1 text-xs rounded bg-orange-500/20 text-orange-400">
+                          {program.credential_name}
+                        </span>
+                      )}
+                      {program.total_completions && (
+                        <span className="text-sm text-gray-400">
+                          {program.total_completions} data points
+                        </span>
+                      )}
                     </div>
                   </div>
-                </button>
-              ))}
-              {filteredPrograms.length === 0 && !loading && (
-                <div className="p-4 text-center text-gray-400">
-                  No programs found for this institution
                 </div>
-              )}
-            </div>
-          </>
+              </button>
+            ))}
+            {filteredPrograms.length === 0 && !loading && (
+              <div className="p-4 text-center text-gray-400">
+                No programs found for this institution
+              </div>
+            )}
+          </div>
         )}
       </div>
 

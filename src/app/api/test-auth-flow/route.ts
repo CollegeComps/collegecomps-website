@@ -9,6 +9,10 @@ export const dynamic = 'force-dynamic';
  * This returns detailed information about each step
  */
 export async function POST(request: NextRequest) {
+  if (process.env.NODE_ENV !== 'development') {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
+
   const logs: string[] = [];
   const results: any = {
     success: false,
@@ -75,8 +79,7 @@ export async function POST(request: NextRequest) {
           userId: user.id,
           email: user.email,
           hasPasswordHash: !!user.password_hash,
-          passwordHashLength: user.password_hash?.length,
-          passwordHashPreview: user.password_hash?.substring(0, 20)
+          passwordHashLength: user.password_hash?.length
         };
       } else {
         logs.push('User object is null/undefined');
@@ -88,11 +91,9 @@ export async function POST(request: NextRequest) {
       }
     } catch (error: any) {
       logs.push(`❌ FAILED: Database query error - ${error.message}`);
-      logs.push(`Error stack: ${error.stack}`);
-      results.steps.userQuery = { 
-        passed: false, 
-        error: error.message,
-        stack: error.stack
+      results.steps.userQuery = {
+        passed: false,
+        error: error.message
       };
       results.logs = logs;
       return NextResponse.json(results);
@@ -115,7 +116,6 @@ export async function POST(request: NextRequest) {
 
     // Step 5: Compare password
     logs.push('Step 5: Comparing password with bcrypt...');
-    logs.push(`Password hash from DB: ${user.password_hash.substring(0, 20)}...`);
     
     let isValid: boolean;
     try {
@@ -167,9 +167,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error: any) {
     logs.push(`❌ UNEXPECTED ERROR: ${error.message}`);
-    logs.push(`Stack: ${error.stack}`);
     results.error = error.message;
-    results.stack = error.stack;
     results.logs = logs;
     return NextResponse.json(results, { status: 500 });
   }

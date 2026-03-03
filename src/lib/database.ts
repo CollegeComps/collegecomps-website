@@ -2,6 +2,7 @@ import Database from 'better-sqlite3';
 import { getCollegeDb } from './db-helper';
 import type { TursoAdapter } from './turso-adapter';
 import { VALID_US_STATES, getStatesInClause } from './constants';
+import { getCIPCodesForCategory, MajorCategory } from './cip-category-mapping';
 
 export function getDatabase() {
   return getCollegeDb();
@@ -354,45 +355,79 @@ export class CollegeDataService {
     };
   }
 
-  // Get programs for an institution (deduplicated and safe)
+  // Get programs for an institution — queries academic_programs directly (not via
+  // programs_safe_view) to avoid INNER JOIN against institution_metadata which would
+  // silently exclude programs for any institution missing a metadata row.
+  // Uses a CTE to sum completions per year first, then takes the peak year's count.
   async getInstitutionPrograms(
     unitid: number,
     degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate'
   ): Promise<AcademicProgram[]> {
-    let query = `
-      SELECT 
-        unitid,
-        cipcode,
-        cip_title,
-        credential_level,
-        credential_name,
-        total_completions,
-        source_records,
-        data_pattern,
-        duplication_factor,
-        year
-      FROM programs_safe_view 
-      WHERE unitid = ? AND cip_title IS NOT NULL
-    `;
-
+    let degreeLevelClause = '';
     if (degreeLevel === 'associates') {
-      // 3 = Associate Degree
-      query += ` AND credential_level IN (3)`;
+      degreeLevelClause = ` AND credential_level IN (3,4)`;
     } else if (degreeLevel === 'bachelors') {
-      // 5 = Bachelor's Degree, 22 = Bachelor's Degree (Extended)
-      query += ` AND credential_level IN (5,22)`;
+      degreeLevelClause = ` AND credential_level IN (5,22,31)`;
     } else if (degreeLevel === 'masters') {
-      // 7 = Master's Degree, 23 = Master's Degree (Extended)
-      query += ` AND credential_level IN (7,23)`;
+      degreeLevelClause = ` AND credential_level IN (7,23)`;
     } else if (degreeLevel === 'doctorate') {
-      // 8,9,17,18 = Doctoral degrees
-      query += ` AND credential_level IN (8,9,17,18)`;
+      degreeLevelClause = ` AND credential_level IN (8,9,17,18,19)`;
     } else if (degreeLevel === 'certificate') {
-      // 1,2,4 = Certificates, 6 = Post-Baccalaureate Certificate, 30,31,32,33 = Occupational certificates
-      query += ` AND credential_level IN (1,2,4,6,30,31,32,33)`;
+      degreeLevelClause = ` AND credential_level IN (1,2,6,30,32,33)`;
     }
 
-    query += ` ORDER BY total_completions DESC, cip_title ASC`;
+    // CTE: sum completions within each year (IPEDS stores per-gender rows),
+    // then outer query picks the peak year's completion count per program.
+    const query = `
+      WITH yearly AS (
+        SELECT
+          unitid,
+          cipcode,
+          MAX(cip_title) as cip_title,
+          credential_level,
+          year,
+          SUM(completions) as year_completions
+        FROM academic_programs
+        WHERE unitid = ?
+          AND cipcode IS NOT NULL
+          AND cip_title IS NOT NULL
+          ${degreeLevelClause}
+        GROUP BY unitid, cipcode, credential_level, year
+      )
+      SELECT
+        unitid,
+        cipcode,
+        MAX(cip_title) as cip_title,
+        credential_level,
+        CASE credential_level
+          WHEN 1  THEN 'Certificate (< 1 year)'
+          WHEN 2  THEN 'Certificate (1-2 years)'
+          WHEN 3  THEN 'Associate Degree'
+          WHEN 4  THEN 'Certificate (2-4 years)'
+          WHEN 5  THEN 'Bachelor''s Degree'
+          WHEN 6  THEN 'Post-Baccalaureate Certificate'
+          WHEN 7  THEN 'Master''s Degree'
+          WHEN 8  THEN 'Post-Master''s Certificate'
+          WHEN 9  THEN 'Doctoral Degree'
+          WHEN 17 THEN 'Doctoral Degree (Research/Scholarship)'
+          WHEN 18 THEN 'Doctoral Degree (Professional Practice)'
+          WHEN 19 THEN 'Doctoral Degree (Other)'
+          WHEN 20 THEN 'Professional Certificate'
+          WHEN 21 THEN 'Professional Certificate (Graduate)'
+          WHEN 22 THEN 'Bachelor''s Degree (Extended)'
+          WHEN 23 THEN 'Master''s Degree (Extended)'
+          WHEN 30 THEN 'Occupational Certificate (< 1 year)'
+          WHEN 31 THEN 'Occupational Certificate (1-2 years)'
+          WHEN 32 THEN 'Occupational Certificate (2-4 years)'
+          WHEN 33 THEN 'Academic Certificate'
+          ELSE 'Other'
+        END as credential_name,
+        MAX(year_completions) as total_completions,
+        MAX(year) as year
+      FROM yearly
+      GROUP BY unitid, cipcode, credential_level
+      ORDER BY MAX(year_completions) DESC, MAX(cip_title) ASC
+    `;
 
     const stmt = this.ensureDb().prepare(query);
     return await stmt.all(unitid) as AcademicProgram[];
@@ -418,7 +453,16 @@ export class CollegeDataService {
 
   // Get program count for a specific institution (separate query for performance)
   async getInstitutionProgramCount(unitid: number): Promise<number> {
-    const stmt = this.ensureDb().prepare('SELECT COUNT(DISTINCT cipcode) as count FROM programs_safe_view WHERE unitid = ?');
+    // Query academic_programs directly to avoid programs_safe_view INNER JOIN exclusions.
+    // Count distinct (cipcode, credential_level) pairs from the most recent year of data.
+    const stmt = this.ensureDb().prepare(`
+      SELECT COUNT(*) as count FROM (
+        SELECT cipcode, credential_level
+        FROM academic_programs
+        WHERE unitid = ? AND cipcode IS NOT NULL AND cip_title IS NOT NULL AND completions > 0
+        GROUP BY cipcode, credential_level
+      )
+    `);
     const result = await stmt.get(unitid) as { count: number } | undefined;
     return result?.count || 0;
   }
@@ -467,25 +511,24 @@ export class CollegeDataService {
     if (needsProgramsFilter) {
       query += ` AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.unitid = i.unitid`;
       
-      // Credential level filter
+      // Credential level filter — canonical IPEDS + extended codes
       if (hasDegreeFilter && filters.degreeLevel) {
         if (filters.degreeLevel === 'associates') {
-          query += ` AND ap.credential_level IN (3)`;
+          query += ` AND ap.credential_level IN (3, 4)`;
         } else if (filters.degreeLevel === 'bachelors') {
-          query += ` AND ap.credential_level IN (5, 22)`;
+          query += ` AND ap.credential_level IN (5, 22, 31)`;
         } else if (filters.degreeLevel === 'masters') {
           query += ` AND ap.credential_level IN (7, 23)`;
         } else if (filters.degreeLevel === 'doctorate') {
-          query += ` AND ap.credential_level IN (8, 9, 17, 18)`;
+          query += ` AND ap.credential_level IN (8, 9, 17, 18, 19)`;
         } else if (filters.degreeLevel === 'certificate') {
-          query += ` AND ap.credential_level IN (1, 2, 4, 6, 30, 31, 32, 33)`;
+          query += ` AND ap.credential_level IN (1, 2, 6, 30, 32, 33)`;
         }
       }
       
       // Category filter
       if (hasCategoryFilter) {
-        const { getCIPCodesForCategory } = require('@/lib/cip-category-mapping');
-        const cipPrefixes = getCIPCodesForCategory(filters.majorCategory!);
+        const cipPrefixes = getCIPCodesForCategory(filters.majorCategory as MajorCategory);
         if (cipPrefixes.length > 0) {
           const cipConditions = cipPrefixes.map(() => `ap.cipcode LIKE ?`).join(' OR ');
           query += ` AND (${cipConditions})`;
@@ -610,25 +653,30 @@ export class CollegeDataService {
 
   // Get summary statistics
   async getDatabaseStats() {
-    // Import at top of file: import { VALID_US_STATES, getStatesInClause } from './constants';
     const { clause: statesClause, params: stateParams } = getStatesInClause();
-    
-    // Only count institutions in the 50 US states + DC, excluding territories
-    const institutionsCount = await this.ensureDb().prepare(
-      `SELECT COUNT(*) as count FROM institutions WHERE ${statesClause}`
-    ).all(...stateParams) as any;
-    
-    // Only count programs from institutions in the 50 US states + DC
-    const programsCount = await this.ensureDb().prepare(
-      `SELECT COUNT(*) as count FROM academic_programs ap 
-       WHERE ap.unitid IN (SELECT unitid FROM institutions WHERE ${statesClause})`
-    ).all(...stateParams) as any;
-    
-    // Count distinct states (including DC - showing 50 states + DC = 51)
-    const statesCount = await this.ensureDb().prepare(
-      `SELECT COUNT(DISTINCT state) as count FROM institutions WHERE ${statesClause}`
-    ).all(...stateParams) as any;
-    
+    const db = this.ensureDb();
+
+    // Run all 3 count queries in parallel — avoids 3 sequential round-trips to Turso
+    const [institutionsCount, programsCount, statesCount] = await Promise.all([
+      // Institutions in the 50 US states + DC, excluding territories
+      db.prepare(
+        `SELECT COUNT(*) as count FROM institutions WHERE ${statesClause}`
+      ).all(...stateParams) as Promise<any[]>,
+
+      // Programs from US institutions — JOIN is faster than IN subquery on large tables
+      db.prepare(
+        `SELECT COUNT(*) as count
+         FROM academic_programs ap
+         JOIN institutions i ON i.unitid = ap.unitid
+         WHERE i.${statesClause}`
+      ).all(...stateParams) as Promise<any[]>,
+
+      // Distinct states covered (50 + DC = 51)
+      db.prepare(
+        `SELECT COUNT(DISTINCT state) as count FROM institutions WHERE ${statesClause}`
+      ).all(...stateParams) as Promise<any[]>,
+    ]);
+
     return {
       totalInstitutions: (institutionsCount as any)[0]?.count || 0,
       totalPrograms: (programsCount as any)[0]?.count || 0,

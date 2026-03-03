@@ -21,25 +21,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${BASE_URL}/career-finder`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
-      priority: 0.9,
+      priority: 0.8,
     },
     {
       url: `${BASE_URL}/scholarships`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
-      priority: 0.9,
+      priority: 0.8,
     },
     {
       url: `${BASE_URL}/tools/loan-calculator`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
-      priority: 0.8,
+      priority: 0.7,
     },
     {
       url: `${BASE_URL}/compare`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
-      priority: 0.9,
+      priority: 0.8,
     },
     {
       url: `${BASE_URL}/colleges`,
@@ -51,7 +51,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${BASE_URL}/analytics`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
-      priority: 0.8,
+      priority: 0.7,
     },
     {
       url: `${BASE_URL}/salary-insights`,
@@ -81,10 +81,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Get all college pages from database
   let collegePages: MetadataRoute.Sitemap = [];
-  
+
   try {
     const collegeService = new CollegeDataService();
-    
+
     // Get all institutions (limit to a reasonable number for sitemap)
     const institutions = await collegeService.getInstitutions(10000, 0);
 
@@ -94,8 +94,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     }));
-
-    console.log(`Generated sitemap with ${institutions.length} college pages`);
   } catch (error) {
     console.error('Error generating college pages for sitemap:', error);
     // If database fails, return static pages only

@@ -51,7 +51,6 @@ export default function InstitutionsByDegree({ cipcode, degreeName, degreeLevel,
 
   // Apply filters with useMemo to ensure re-computation on filter changes
   const filteredInstitutions = useMemo(() => {
-    console.log('Applying filters:', { controlFilter, stateFilter, totalInstitutions: institutions.length });
     const filtered = institutions.filter(inst => {
       // Filter by control type
       if (controlFilter !== 'all') {
@@ -69,19 +68,8 @@ export default function InstitutionsByDegree({ cipcode, degreeName, degreeLevel,
       
       return true;
     });
-    console.log('Filtered institutions:', filtered.length);
     return filtered;
   }, [institutions, controlFilter, stateFilter]);
-
-  // Log filter changes for debugging
-  useEffect(() => {
-    console.log('Filters applied:', { 
-      controlFilter, 
-      stateFilter, 
-      total: institutions.length, 
-      filtered: filteredInstitutions.length 
-    });
-  }, [controlFilter, stateFilter, institutions.length, filteredInstitutions.length]);
 
   // Get unique states from institutions
   const availableStates = [...new Set(institutions.map(i => i.state))].filter(Boolean).sort();

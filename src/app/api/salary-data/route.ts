@@ -82,8 +82,12 @@ export async function GET(req: NextRequest) {
     }
 
     if (degreeLevel) {
-      query += ` AND degree_level = ?`
-      params.push(degreeLevel)
+      // Normalize frontend values (e.g. 'bachelors') to DB enum values (e.g. 'Bachelor')
+      const normalizedDegree = normalizeDegreeLevel(degreeLevel)
+      if (normalizedDegree) {
+        query += ` AND degree_level = ?`
+        params.push(normalizedDegree)
+      }
     }
 
     if (yearsRange) {

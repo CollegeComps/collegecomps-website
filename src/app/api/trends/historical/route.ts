@@ -36,7 +36,6 @@ interface CategoryTrend {
 
 export async function GET(req: NextRequest) {
   const startTime = Date.now();
-  console.log('🕐 [TRENDS] Request started at', new Date().toISOString());
   
   const db = getCollegeDb();
   if (!db) {
@@ -45,13 +44,10 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    console.log('Historical Trends: Starting request');
     const authStart = Date.now();
     const session = await auth();
-    console.log(`[TRENDS] Auth took ${Date.now() - authStart}ms`);
     
     if (!session?.user) {
-      console.log('Historical Trends: No session/user');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -61,10 +57,8 @@ export async function GET(req: NextRequest) {
     const category = searchParams.get('category') || 'all';
     const years = parseInt(searchParams.get('years') || '5');
     
-    console.log(`Historical Trends: Fetching data for ${years} years, category: ${category}`);
 
     // Execute all database queries in parallel for maximum speed
-    console.log('Historical Trends: Starting parallel queries...');
     const queryStart = Date.now();
     
     const usersDb = getUsersDb();
@@ -77,14 +71,11 @@ export async function GET(req: NextRequest) {
     let topGrowingFields: any[];
     
     if (isCacheValid) {
-      console.log('[SUCCESS] [TRENDS] Using cached data - skipping DB queries');
       actualData = cachedData!.financial;
       topGrowingFields = cachedData!.programs;
     } else {
-      console.log('[TRENDS] Cache miss or expired - querying database...');
       
       // Query financial data
-      console.log('[TRENDS] Query 1: Financial data...');
       actualData = await db.prepare(`
         SELECT 
           year,
@@ -94,10 +85,8 @@ export async function GET(req: NextRequest) {
         ORDER BY year DESC
         LIMIT 1
       `).get() as any;
-      console.log(`[SUCCESS] [TRENDS] Query 1 complete in ${Date.now() - queryStart}ms`);
       
       // Query top programs from materialized table (fast!)
-      console.log('[TRENDS] Query 2: Top programs...');  
       topGrowingFields = await db.prepare(`
         SELECT 
           cipcode,
@@ -110,7 +99,6 @@ export async function GET(req: NextRequest) {
         ORDER BY total_completions DESC
         LIMIT 9
       `).all() as any[];
-      console.log(`[SUCCESS] [TRENDS] Query 2 complete in ${Date.now() - queryStart}ms`);
       
       // Update cache
       cachedData = {
@@ -118,25 +106,20 @@ export async function GET(req: NextRequest) {
         programs: topGrowingFields,
         timestamp: now
       };
-      console.log('💾 [TRENDS] Cache updated');
     }
     
     // Always query salary data (small, fast query)
-    console.log('[TRENDS] Query 3: Salary submissions...');
     let userSalaryResult = null;
     if (usersDb) {
       try {
         userSalaryResult = await usersDb.prepare(`
           SELECT * FROM v_salary_submissions_summary
         `).get() as any;
-        console.log(`[SUCCESS] [TRENDS] Query 3 complete in ${Date.now() - queryStart}ms`);
       } catch (err) {
         console.warn(`[TRENDS] Query 3 failed:`, err);
       }
     }
     
-    console.log(`[TRENDS] All queries took ${Date.now() - queryStart}ms`);
-    console.log(`Historical Trends: Found actual data for year ${actualData?.year}`);
     
     // Process salary data
     let submissionCount = 0;
@@ -144,7 +127,6 @@ export async function GET(req: NextRequest) {
     
     if (userSalaryResult) {
       submissionCount = userSalaryResult.approved_submissions || 0;
-      console.log(`Historical Trends: Found ${submissionCount} approved salary submissions`);
       
       if (submissionCount >= 100) {
         userSalaryData = {
@@ -154,9 +136,7 @@ export async function GET(req: NextRequest) {
           earliest_grad_year: userSalaryResult.earliest_grad_year,
           latest_grad_year: userSalaryResult.latest_grad_year
         };
-        console.log(`Historical Trends: Using ${userSalaryData.submission_count} user submissions (threshold: 100+ for real data)`);
       } else {
-        console.log(`Historical Trends: Using synthetic data (need 100+ submissions, have ${submissionCount})`);
       }
     }
 
@@ -173,7 +153,6 @@ export async function GET(req: NextRequest) {
       ? `Based on ${submissionCount} real user salary submissions` 
       : `Projected using industry rates (${submissionCount} submissions, need 100+ for real data)`;
     
-    console.log(`Historical Trends: Data source - ${dataSource}, Base salary: $${baseSalary.toLocaleString()}`);
     
     // Pre-calculate inflation factors for each year to optimize loop
     const inflationFactors: { year: number; costFactor: number; salaryFactor: number; }[] = [];
@@ -202,7 +181,6 @@ export async function GET(req: NextRequest) {
       };
     });
     
-    console.log(`Historical Trends: Generated ${trends.length} years of trend data`);
 
     // Get category-specific trends
     const categoryTrends: CategoryTrend[] = [];
@@ -289,7 +267,6 @@ export async function GET(req: NextRequest) {
     }
 
     // Top growing fields already fetched in parallel query above
-    console.log(`Historical Trends: Found ${topGrowingFields.length} top programs with completions data`);
 
     // Fetch real salary data by major from user submissions
     const userDb = await getUsersDb();
@@ -309,7 +286,6 @@ export async function GET(req: NextRequest) {
       `).all() as any[];
     }
     
-    console.log(`Historical Trends: Found ${salaryByMajor.length} majors with real salary data`);
 
     // Create a map for quick lookup (case-insensitive)
     const salaryDataMap = new Map<string, { avgSalary: number; count: number }>();
@@ -371,8 +347,6 @@ export async function GET(req: NextRequest) {
       return { salary: salaryMap[cip] || 60000, isRealData: false, submissionCount: 0 };
     };
 
-    console.log('Historical Trends: Returning response');
-    console.log(`[TRENDS] Total request time: ${Date.now() - startTime}ms`);
     return NextResponse.json({
       historical: trends, // Already in chronological order (oldest to newest)
       predictions,

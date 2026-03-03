@@ -98,22 +98,10 @@ export default function AnalyticsPage() {
       const response = await fetch('/api/institutions?sortBy=roi_high&limit=10000');
       const result = await response.json();
       
-      console.log('[Analytics ENG-363] Raw API response:', {
-        totalFetched: result.institutions?.length,
-        firstFew: result.institutions?.slice(0, 3).map((i: any) => ({
-          name: i.name,
-          roi: i.institution_avg_roi,
-          tuition_in: i.tuition_in_state,
-          tuition_out: i.tuition_out_state
-        }))
-      });
-      
       const dataPoints: InstitutionDataPoint[] = result.institutions
         .filter((inst: any) => {
           const hasROI = inst.institution_avg_roi != null;
           const hasCost = inst.tuition_in_state || inst.tuition_out_state;
-          if (!hasROI) console.log('[Analytics] Filtered out (no ROI):', inst.name);
-          if (!hasCost) console.log('[Analytics] Filtered out (no cost):', inst.name);
           return hasROI && hasCost;
         })
         .map((inst: any) => ({
@@ -125,14 +113,6 @@ export default function AnalyticsPage() {
           unitid: inst.unitid
         }));
       
-      console.log('[Analytics ENG-363] Final data points:', {
-        count: dataPoints.length,
-        roiRange: dataPoints.length > 0 ? {
-          min: Math.min(...dataPoints.map(d => d.roi)),
-          max: Math.max(...dataPoints.map(d => d.roi))
-        } : null
-      });
-
       setData(dataPoints);
       
       // Calculate max cost and min/max ROI from data
@@ -192,57 +172,33 @@ export default function AnalyticsPage() {
       institutionData = data.payload;
     }
     
-    console.log('[Analytics] Dot clicked:', {
-      index,
-      unitid: institutionData?.unitid,
-      name: institutionData?.name,
-      cost: institutionData?.cost,
-      roi: institutionData?.roi,
-      fullData: institutionData
-    });
-    
     if (!institutionData?.unitid || !institutionData?.name) {
-      console.error('[Analytics] Invalid institution data structure:', institutionData);
       return;
     }
-    
+
     // Close any existing popup first
     setSelectedInstitution(null);
     setInstitutionLoading(true);
-    
+
     try {
-      // Fetch institution details
-      console.log('[Analytics] Fetching institution:', institutionData.unitid);
-      const instResponse = await fetch(`/api/institutions/${institutionData.unitid}`);
-      if (!instResponse.ok) {
-        console.error('[Analytics] Failed to fetch institution:', instResponse.status);
-        throw new Error('Failed to fetch institution');
-      }
-      
+      const [instResponse, programsResponse] = await Promise.all([
+        fetch(`/api/institutions/${institutionData.unitid}`),
+        fetch(`/api/institutions/${institutionData.unitid}/programs`),
+      ]);
+
+      if (!instResponse.ok) throw new Error('Failed to fetch institution');
+      if (!programsResponse.ok) throw new Error('Failed to fetch programs');
+
       const instData = await instResponse.json();
       const institution = instData.institution;
-      console.log('[Analytics] Institution fetched:', institution.name, institution.unitid);
-      
-      // Fetch programs to get top and bottom ROI
-      console.log('[Analytics] Fetching programs for:', institutionData.unitid);
-      const programsResponse = await fetch(`/api/institutions/${institutionData.unitid}/programs`);
-      if (!programsResponse.ok) {
-        console.error('[Analytics] Failed to fetch programs:', programsResponse.status);
-        throw new Error('Failed to fetch programs');
-      }
-      
+
       const programsData = await programsResponse.json();
       const programsWithROI = programsData.programs?.filter((p: any) => p.program_roi != null) || [];
-      console.log('[Analytics] Programs with ROI:', programsWithROI.length, 'out of', programsData.programs?.length || 0);
-      
       const sortedPrograms = programsWithROI.sort((a: any, b: any) => (b.program_roi || 0) - (a.program_roi || 0));
-      
+
       const topProgram = sortedPrograms[0] || null;
       const bottomProgram = sortedPrograms[sortedPrograms.length - 1] || null;
-      
-      console.log('[Analytics] Top program:', topProgram?.cip_title, topProgram?.program_roi);
-      console.log('[Analytics] Bottom program:', bottomProgram?.cip_title, bottomProgram?.program_roi);
-      
+
       // Set institution detail for popup
       setSelectedInstitution({
         unitid: institution.unitid,
@@ -263,8 +219,6 @@ export default function AnalyticsPage() {
           cipCode: bottomProgram.cipcode
         } : null
       });
-      
-      console.log('[Analytics] ✅ Popup data set for:', institution.name);
     } catch (error) {
       console.error('[Analytics] Error fetching institution details:', error);
       setSelectedInstitution(null);

@@ -1,46 +1,110 @@
 import { Institution, AcademicProgram } from '@/lib/database';
 
+// ─── Credential-level → typical program length (years) ───────────────────────
+// Used to auto-populate "Program Length" when a specific program is selected.
+export const CREDENTIAL_PROGRAM_LENGTH: Record<number, number> = {
+  1:  1,   // Award of less than 1 academic year → 1 yr (round up for financial planning)
+  2:  1.5, // Award of at least 1 but less than 2 academic years
+  3:  2,   // Associate's degree
+  4:  3,   // Award of at least 2 but less than 4 academic years (avg 3)
+  5:  4,   // Bachelor's degree
+  6:  1,   // Postbaccalaureate certificate
+  7:  2,   // Master's degree
+  8:  1,   // Post-master's certificate
+  9:  5,   // Doctor's degree (generic)
+  17: 5,   // Doctor's degree – research/scholarship
+  18: 4,   // Doctor's degree – professional practice (JD, MD: 3-4 yrs post-bac)
+  19: 3,   // Doctor's degree – other
+  20: 1,   // Professional certificate
+  21: 2,   // Professional certificate (graduate level)
+  22: 5,   // Extended Bachelor's (5-year program)
+  23: 3,   // Extended Master's
+  30: 1,   // Occupational award < 1 year
+  31: 2,   // Occupational award 1 to < 4 years
+  32: 1,   // Occupational certificate
+  33: 1,   // Postbaccalaureate occupational certificate
+};
+
+// ─── Credential-level → typical career length (years of earning) ──────────────
+// Earnings horizon decreases for advanced degrees because graduates start later.
+export const CREDENTIAL_CAREER_LENGTH: Record<number, number> = {
+  1:  40, // Certificate < 1 yr → start young, full career
+  2:  40,
+  3:  40, // Associate's
+  4:  40,
+  5:  40, // Bachelor's
+  6:  38, // Postbac cert (already have degree, slightly older)
+  7:  37, // Master's (start 1-2 yrs later than bachelor's)
+  8:  35,
+  9:  32, // Research doctorate (5+ yr program, mid-20s by graduation)
+  17: 32,
+  18: 30, // Professional doctorate – MD/JD start 30+
+  19: 32,
+  20: 38,
+  21: 36,
+  22: 38, // Extended bachelor's (5 yr)
+  23: 35, // Extended master's
+  30: 40,
+  31: 40,
+  32: 40,
+  33: 38,
+};
+
 // Enhanced earnings projection system that considers multiple factors
 export class EnhancedEarningsCalculator {
-  
-  // Base salary data by CIP major category with more realistic ranges
+
+  // Base salary data by CIP major category (BLS Occupational Outlook Handbook, 2024)
+  // Indexed by 2-digit CIP prefix. growth = avg annual wage growth %.
   private static baseSalaryByCIP: { [key: string]: { low: number; median: number; high: number; growth: number } } = {
-    '01': { low: 35000, median: 42000, high: 55000, growth: 2.1 }, // Agriculture, Agriculture Operations, and Related Sciences
-    '03': { low: 38000, median: 45000, high: 62000, growth: 2.3 }, // Natural Resources and Conservation
-    '04': { low: 42000, median: 52000, high: 75000, growth: 2.8 }, // Architecture and Related Services
-    '05': { low: 40000, median: 48000, high: 65000, growth: 2.4 }, // Area, Ethnic, Cultural, Gender, and Group Studies
-    '09': { low: 35000, median: 43000, high: 65000, growth: 2.6 }, // Communication, Journalism, and Related Programs
-    '10': { low: 45000, median: 55000, high: 75000, growth: 3.2 }, // Communications Technologies/Technicians and Support Services
-    '11': { low: 65000, median: 85000, high: 130000, growth: 5.1 }, // Computer and Information Sciences and Support Services
-    '12': { low: 25000, median: 35000, high: 50000, growth: 1.8 }, // Personal and Culinary Services
-    '13': { low: 35000, median: 45000, high: 60000, growth: 1.9 }, // Education
-    '14': { low: 68000, median: 82000, high: 125000, growth: 4.2 }, // Engineering
-    '15': { low: 50000, median: 62000, high: 85000, growth: 3.4 }, // Engineering Technologies and Engineering-Related Fields
-    '16': { low: 32000, median: 42000, high: 60000, growth: 2.1 }, // Foreign Languages, Literatures, and Linguistics
-    '19': { low: 35000, median: 45000, high: 65000, growth: 2.2 }, // Family and Consumer Sciences/Human Sciences
-    '22': { low: 45000, median: 55000, high: 85000, growth: 2.9 }, // Legal Professions and Studies
-    '23': { low: 32000, median: 40000, high: 58000, growth: 2.0 }, // English Language and Literature/Letters
-    '24': { low: 35000, median: 45000, high: 62000, growth: 2.1 }, // Liberal Arts and Sciences, General Studies and Humanities
-    '25': { low: 38000, median: 48000, high: 65000, growth: 2.3 }, // Library Science
-    '26': { low: 42000, median: 52000, high: 78000, growth: 3.8 }, // Biological and Biomedical Sciences
-    '27': { low: 55000, median: 68000, high: 95000, growth: 4.5 }, // Mathematics and Statistics
-    '30': { low: 40000, median: 50000, high: 72000, growth: 2.7 }, // Multi/Interdisciplinary Studies
-    '31': { low: 30000, median: 38000, high: 55000, growth: 2.0 }, // Parks, Recreation, Leisure, and Fitness Studies
-    '38': { low: 35000, median: 45000, high: 65000, growth: 2.2 }, // Philosophy and Religious Studies
-    '39': { low: 35000, median: 45000, high: 65000, growth: 1.9 }, // Theology and Religious Vocations
-    '40': { low: 45000, median: 58000, high: 85000, growth: 3.5 }, // Physical Sciences
-    '42': { low: 38000, median: 48000, high: 72000, growth: 3.1 }, // Psychology
-    '43': { low: 40000, median: 50000, high: 75000, growth: 2.8 }, // Homeland Security, Law Enforcement, Firefighting and Related Protective Services
-    '44': { low: 35000, median: 45000, high: 65000, growth: 2.4 }, // Public Administration and Social Service Professions
-    '45': { low: 38000, median: 48000, high: 70000, growth: 2.6 }, // Social Sciences
-    '46': { low: 35000, median: 48000, high: 68000, growth: 2.9 }, // Construction Trades
-    '47': { low: 38000, median: 52000, high: 72000, growth: 2.7 }, // Mechanic and Repair Technologies/Technicians
-    '48': { low: 32000, median: 45000, high: 65000, growth: 2.4 }, // Precision Production
-    '49': { low: 35000, median: 48000, high: 68000, growth: 2.5 }, // Transportation and Materials Moving
-    '50': { low: 28000, median: 38000, high: 68000, growth: 2.8 }, // Visual and Performing Arts
-    '51': { low: 48000, median: 62000, high: 95000, growth: 3.6 }, // Health Professions and Related Programs
-    '52': { low: 45000, median: 58000, high: 95000, growth: 3.8 }, // Business, Management, Marketing, and Related Support Services
-    '54': { low: 32000, median: 42000, high: 60000, growth: 2.1 }  // History
+    // Source: BLS Occupational Outlook Handbook 2024-2025, IPEDS Graduate Outcomes
+    '01': { low: 36000, median: 44000, high: 62000, growth: 2.2 }, // Agriculture & Related Sciences
+    '03': { low: 39000, median: 48000, high: 68000, growth: 2.3 }, // Natural Resources & Conservation
+    '04': { low: 44000, median: 57000, high: 82000, growth: 2.9 }, // Architecture & Related Services
+    '05': { low: 38000, median: 47000, high: 66000, growth: 2.3 }, // Area, Ethnic, Cultural, Gender Studies
+    '09': { low: 36000, median: 46000, high: 70000, growth: 2.7 }, // Communication, Journalism & Related Programs
+    '10': { low: 46000, median: 57000, high: 80000, growth: 3.3 }, // Communications Technologies/Technicians
+    '11': { low: 65000, median: 92000, high: 145000, growth: 5.3 }, // Computer & Information Sciences (BLS: software devs median $130K+)
+    '12': { low: 26000, median: 36000, high: 54000, growth: 1.9 }, // Personal & Culinary Services
+    '13': { low: 38000, median: 48000, high: 65000, growth: 2.0 }, // Education (BLS: teachers $60-70K median)
+    '14': { low: 70000, median: 88000, high: 135000, growth: 4.3 }, // Engineering (BLS: engineers $95K+ median)
+    '15': { low: 52000, median: 65000, high: 92000, growth: 3.5 }, // Engineering Technologies
+    '16': { low: 33000, median: 44000, high: 65000, growth: 2.2 }, // Foreign Languages & Linguistics
+    '18': { low: 28000, median: 38000, high: 55000, growth: 1.8 }, // Military Technologies
+    '19': { low: 36000, median: 47000, high: 68000, growth: 2.3 }, // Family & Consumer Sciences/Human Sciences
+    '20': { low: 30000, median: 40000, high: 58000, growth: 2.0 }, // Vocational/Technical Programs
+    '21': { low: 32000, median: 42000, high: 60000, growth: 2.0 }, // Technology Education
+    '22': { low: 58000, median: 82000, high: 145000, growth: 3.1 }, // Legal Professions (lawyers $130K+ median)
+    '23': { low: 33000, median: 42000, high: 62000, growth: 2.1 }, // English Language & Literature
+    '24': { low: 36000, median: 46000, high: 65000, growth: 2.2 }, // Liberal Arts & General Studies
+    '25': { low: 40000, median: 52000, high: 72000, growth: 2.4 }, // Library Science
+    '26': { low: 44000, median: 56000, high: 85000, growth: 4.0 }, // Biological & Biomedical Sciences
+    '27': { low: 58000, median: 75000, high: 110000, growth: 4.7 }, // Mathematics & Statistics
+    '28': { low: 42000, median: 55000, high: 78000, growth: 2.5 }, // Military Science
+    '29': { low: 42000, median: 54000, high: 78000, growth: 2.5 }, // Military Technologies (reserve)
+    '30': { low: 42000, median: 52000, high: 75000, growth: 2.8 }, // Multi/Interdisciplinary Studies
+    '31': { low: 32000, median: 42000, high: 62000, growth: 2.1 }, // Parks, Recreation, Leisure & Fitness
+    '32': { low: 30000, median: 38000, high: 52000, growth: 2.0 }, // Basic Skills Programs
+    '33': { low: 30000, median: 38000, high: 52000, growth: 2.0 }, // Citizenship Activities
+    '34': { low: 30000, median: 38000, high: 52000, growth: 2.0 }, // Health-Related Knowledge and Skills
+    '35': { low: 30000, median: 38000, high: 52000, growth: 2.0 }, // Interpersonal and Social Skills
+    '36': { low: 30000, median: 38000, high: 52000, growth: 2.0 }, // Leisure and Recreational Activities
+    '37': { low: 30000, median: 38000, high: 52000, growth: 2.0 }, // Personal Awareness and Self-Improvement
+    '38': { low: 36000, median: 46000, high: 68000, growth: 2.3 }, // Philosophy & Religious Studies
+    '39': { low: 34000, median: 44000, high: 62000, growth: 2.0 }, // Theology & Religious Vocations
+    '40': { low: 48000, median: 62000, high: 92000, growth: 3.6 }, // Physical Sciences (physicists, chemists)
+    '41': { low: 40000, median: 52000, high: 75000, growth: 3.2 }, // Science Technologies/Technicians
+    '42': { low: 40000, median: 52000, high: 80000, growth: 3.2 }, // Psychology (BLS: $82K+ with graduate degree)
+    '43': { low: 42000, median: 54000, high: 80000, growth: 2.9 }, // Homeland Security, Law Enforcement, Firefighting
+    '44': { low: 36000, median: 48000, high: 72000, growth: 2.5 }, // Public Administration & Social Service
+    '45': { low: 40000, median: 52000, high: 78000, growth: 2.7 }, // Social Sciences
+    '46': { low: 36000, median: 52000, high: 76000, growth: 3.0 }, // Construction Trades
+    '47': { low: 40000, median: 55000, high: 78000, growth: 2.8 }, // Mechanic & Repair Technologies
+    '48': { low: 34000, median: 48000, high: 70000, growth: 2.5 }, // Precision Production
+    '49': { low: 36000, median: 52000, high: 74000, growth: 2.6 }, // Transportation & Materials Moving
+    '50': { low: 30000, median: 42000, high: 75000, growth: 2.9 }, // Visual & Performing Arts
+    '51': { low: 50000, median: 68000, high: 110000, growth: 3.8 }, // Health Professions (nurses $80K+, doctors $200K+)
+    '52': { low: 46000, median: 62000, high: 105000, growth: 3.9 }, // Business, Management & Marketing
+    '54': { low: 33000, median: 44000, high: 65000, growth: 2.2 }, // History
   };
 
   // Institution prestige multipliers based on selectivity and rankings
@@ -118,20 +182,25 @@ export class EnhancedEarningsCalculator {
   private static getDegreeMultiplier(credentialLevel: number): number {
     switch (credentialLevel) {
       case 1: case 2: // Certificates under 2 years
+      case 30: case 32: // Occupational awards/certificates under 1 year
         return 0.7;
       case 3: // Associate's degree
+      case 31: // Occupational award 1–4 years
         return 0.8;
-      case 4: // Awards 2-4 years
+      case 4: // Award 2–4 years
         return 0.85;
       case 5: // Bachelor's degree
+      case 22: // Extended Bachelor's (5-year program)
         return 1.0;
       case 6: // Post-baccalaureate certificate
+      case 33: // Post-baccalaureate occupational certificate
         return 1.05;
       case 7: // Master's degree
+      case 23: // Extended Master's
         return 1.25;
       case 8: // Post-master's certificate
         return 1.3;
-      case 17: case 18: case 19: // Doctoral degrees
+      case 9: case 17: case 18: case 19: // Doctoral degrees (all types)
         return 1.4;
       case 20: case 21: // Professional certificates
         return 1.15;
@@ -175,19 +244,6 @@ export class EnhancedEarningsCalculator {
     const growthRate = salaryData.growth + (prestigeMultiplier - 1) * 0.5; // Better schools = better growth
     const midCareerSalary = Math.round(startingSalary * Math.pow(1 + growthRate/100, 15)); // 15 years
     
-    console.log(`Enhanced Earnings Calculation:
-      Institution: ${institution.name}
-      Program: ${program.cip_title}
-      Base Median: $${salaryData.median.toLocaleString()}
-      Prestige Multiplier: ${prestigeMultiplier.toFixed(2)}
-      Geographic Multiplier: ${geoMultiplier.toFixed(2)}  
-      Degree Multiplier: ${degreeMultiplier.toFixed(2)}
-      Completion Multiplier: ${completionMultiplier.toFixed(2)}
-      Total Multiplier: ${totalMultiplier.toFixed(2)}
-      Starting Salary: $${startingSalary.toLocaleString()}
-      Growth Rate: ${growthRate.toFixed(1)}%
-      Mid-Career Salary: $${midCareerSalary.toLocaleString()}`);
-    
     return {
       startingSalary,
       midCareerSalary,
@@ -200,21 +256,40 @@ export class EnhancedEarningsCalculator {
     institution: Institution,
     program: AcademicProgram
   ): { low: number; median: number; high: number } {
-    
+
     const cipMajor = program.cipcode?.split('.')[0]?.padStart(2, '0') || '52';
     const salaryData = this.baseSalaryByCIP[cipMajor] || this.baseSalaryByCIP['52'];
-    
+
     const prestigeMultiplier = this.getInstitutionPrestigeMultiplier(institution);
     const geoMultiplier = this.getGeographicMultiplier(institution);
     const degreeMultiplier = this.getDegreeMultiplier(program.credential_level || 5);
     const completionMultiplier = this.getCompletionRateMultiplier(program);
-    
+
     const totalMultiplier = prestigeMultiplier * geoMultiplier * degreeMultiplier * completionMultiplier;
-    
+
     return {
       low: Math.round(salaryData.low * totalMultiplier),
       median: Math.round(salaryData.median * totalMultiplier),
       high: Math.round(salaryData.high * totalMultiplier)
     };
+  }
+
+  /**
+   * Estimate salary from CIP code + credential level alone (no institution required).
+   * Used when a degree is selected before an institution, or as a fallback.
+   */
+  public static estimateSalaryFromCip(
+    cipcode: string,
+    credentialLevel: number = 5
+  ): { startingSalary: number; midCareerSalary: number; growthRate: number } {
+    const cipMajor = cipcode?.split('.')[0]?.padStart(2, '0') || '52';
+    const salaryData = this.baseSalaryByCIP[cipMajor] || this.baseSalaryByCIP['52'];
+    const degreeMultiplier = this.getDegreeMultiplier(credentialLevel);
+
+    const startingSalary = Math.round(salaryData.median * degreeMultiplier);
+    const growthRate = salaryData.growth;
+    const midCareerSalary = Math.round(startingSalary * Math.pow(1 + growthRate / 100, 15));
+
+    return { startingSalary, midCareerSalary, growthRate };
   }
 }

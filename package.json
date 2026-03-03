@@ -11,12 +11,17 @@
     "apply-roi-migration": "node scripts/apply-roi-migration.js",
     "calculate-roi": "node scripts/calculate-roi.js",
     "setup-dev-db": "tsx scripts/create-dev-database.ts",
-    "export-masters-without-bachelors": "node scripts/export_masters_without_bachelors.mjs"
+    "export-masters-without-bachelors": "node scripts/export_masters_without_bachelors.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:unit": "vitest run src/tests/credential-levels.test.ts src/tests/search-logic.test.ts src/tests/search-combinations.test.ts",
+    "test:integration": "vitest run src/tests/api-integration.test.ts"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@libsql/client": "^0.15.15",
-    "@sentry/nextjs": "^10.32.1",
+    "@sentry/nextjs": "^10.41.0",
     "@stripe/stripe-js": "^8.6.0",
     "@types/bcryptjs": "^2.4.6",
     "@vercel/analytics": "^1.6.1",
@@ -26,9 +31,9 @@
     "dotenv": "^17.2.3",
     "exceljs": "^4.4.0",
     "gray-matter": "^4.0.3",
-    "jspdf": "^3.0.4",
-    "jspdf-autotable": "^5.0.2",
-    "next": "^15.5.9",
+    "jspdf": "^4.2.0",
+    "jspdf-autotable": "^5.0.7",
+    "next": "^15.5.12",
     "next-auth": "^4.24.13",
     "react": "19.2.3",
     "react-dom": "19.2.3",
@@ -47,9 +52,11 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/coverage-v8": "^4.0.18",
     "eslint": "^9.38.0",
     "eslint-config-next": "15.5.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.0.18"
   }
 }

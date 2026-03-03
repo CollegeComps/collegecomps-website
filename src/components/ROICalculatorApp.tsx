@@ -12,7 +12,7 @@ import SaveROIScenarioModal from './SaveROIScenarioModal';
 import { Institution as DatabaseInstitution, AcademicProgram } from '@/lib/database';
 import { Institution, Program, CostInputs, EarningsInputs, FinancialAid, ROICalculation } from '@/types';
 import { ROICalculator } from '@/utils/roiCalculator';
-import { EnhancedEarningsCalculator } from '@/utils/enhancedEarningsCalculator';
+import { EnhancedEarningsCalculator, CREDENTIAL_PROGRAM_LENGTH, CREDENTIAL_CAREER_LENGTH } from '@/utils/enhancedEarningsCalculator';
 
 // Adapter function to convert database Institution to types Institution
 const adaptInstitution = (dbInst: DatabaseInstitution): Institution => ({
@@ -59,9 +59,9 @@ export default function ROICalculatorApp() {
   });
   const [hasHighSchoolDiploma, setHasHighSchoolDiploma] = useState<boolean>(true);
   const [earnings, setEarnings] = useState<EarningsInputs>({
-    baselineSalary: 42000, // With diploma default
+    baselineSalary: 42000, // With diploma default — BLS median for HS diploma holders
     projectedSalary: 50000,
-    careerLength: 30,
+    careerLength: 40, // 40-year career horizon matches analytics page ROI methodology
     salaryGrowthRate: 3
   });
   const [financialAid, setFinancialAid] = useState<FinancialAid>({
@@ -236,9 +236,7 @@ export default function ROICalculatorApp() {
       const urlParams = new URLSearchParams(window.location.search);
       const institutionId = urlParams.get('institution');
       const programCipCode = urlParams.get('program');
-      
-      console.log('[ROI Calculator] URL params:', { institutionId, programCipCode });
-      
+
       if (!institutionId) {
         return;
       }
@@ -252,21 +250,12 @@ export default function ROICalculatorApp() {
 
         const instData = await instResponse.json();
         const institution = instData.institution;
-        
-        console.log('[ROI Calculator ENG-363] Loaded institution:', {
-          name: institution.name,
-          unitid: institution.unitid,
-          institution_avg_roi: institution.institution_avg_roi,
-          implied_roi: institution.implied_roi
-        });
-        
         setSelectedInstitution(institution);
         setSearchMode('institution');
         
         // Store institution's pre-calculated ROI (ENG-363)
         const preCalculatedROI = institution.institution_avg_roi || institution.implied_roi || null;
         setInstitutionROI(preCalculatedROI);
-        console.log('[ROI Calculator ENG-363] Institution ROI from DB:', preCalculatedROI);
 
         // Pre-fill costs with institution data
         const tuition = institution.tuition_in_state || institution.tuition_out_state || 0;
@@ -285,7 +274,6 @@ export default function ROICalculatorApp() {
 
         // If program code provided, fetch and pre-fill program data
         if (programCipCode) {
-          console.log('[ROI Calculator] Fetching program with CIP:', programCipCode);
           const params = new URLSearchParams();
           if (degreeLevelFilter) params.set('degreeLevel', degreeLevelFilter);
           const programsResponse = await fetch(`/api/institutions/${institutionId}/programs?${params.toString()}`);
@@ -295,20 +283,11 @@ export default function ROICalculatorApp() {
             // Normalize CIP codes for comparison (remove dots, trim, compare)
             const normalizeCip = (cip: string) => cip?.replace(/\./g, '').trim().toLowerCase() || '';
             const normalizedSearchCip = normalizeCip(programCipCode);
-            
             const program = programsData.programs?.find((p: any) => {
               const normalizedProgramCip = normalizeCip(p.cip_code);
               return normalizedProgramCip === normalizedSearchCip;
             });
-            
-            console.log('[ROI Calculator] Program search:', {
-              searchCip: programCipCode,
-              normalizedSearchCip,
-              totalPrograms: programsData.programs?.length,
-              found: program?.title || 'NOT FOUND',
-              foundCip: program?.cip_code
-            });
-            
+
             if (program) {
               setSelectedProgram(program);
               setSearchMode('degree');
@@ -324,13 +303,10 @@ export default function ROICalculatorApp() {
                 }));
               }
               
-              console.log('[ROI Calculator] Triggering ROI calculation with program');
               // Trigger ROI calculation after pre-fill
               setTimeout(() => {
                 calculateROI();
               }, 100);
-            } else {
-              console.warn('[ROI Calculator] Program not found with CIP:', programCipCode);
             }
           }
         } else {
@@ -339,13 +315,12 @@ export default function ROICalculatorApp() {
             setEarnings(prev => ({
               ...prev,
               projectedSalary: institution.median_earnings_10yr,
-              baselineSalary: 42000, // Match analytics calculation
-              careerLength: 40, // Match analytics 40-year ROI
+              baselineSalary: 42000,
+              careerLength: 40,
               salaryGrowthRate: 3
             }));
           }
-          
-          console.log('[ROI Calculator] Triggering ROI calculation without program');
+
           // Trigger ROI calculation after pre-fill (institution only)
           setTimeout(() => {
             calculateROI();
@@ -503,7 +478,11 @@ export default function ROICalculatorApp() {
     setSelectedInstitution(dbInstitution);
     
     // Set the program from the selected degree
+    let credLevel = 5; // default bachelor's
     if (selectedDegree) {
+      // Use the credential level from the institution row if available, else the degree
+      credLevel = institution.credential_level || selectedDegree.credential_level || 5;
+
       const programData: AcademicProgram = {
         id: 0,
         unitid: institution.unitid,
@@ -511,41 +490,39 @@ export default function ROICalculatorApp() {
         cip_title: institution.cip_title || selectedDegree.cip_title || '',
         total_completions: institution.total_completions,
         completions: institution.total_completions,
-        credential_level: 0,
+        credential_level: credLevel,
         credential_name: institution.credential_name
       };
       setSelectedProgram(programData);
-      
-      // Adapt and set program
-      const adapted = adaptProgram(programData);
-      setAdaptedProgram(adapted);
+      setAdaptedProgram(adaptProgram(programData));
     }
-    
+
+    // Auto-set program length and career horizon from credential level
+    const autoLength = CREDENTIAL_PROGRAM_LENGTH[credLevel] ?? 4;
+    const autoCareer = CREDENTIAL_CAREER_LENGTH[credLevel] ?? 40;
+
     // Update adapted institution
     const adapted = adaptInstitution(dbInstitution);
     setAdaptedInstitution(adapted);
-    
-    // Fetch financial data and program length info
+
+    // Compute earnings projection using enhanced calculator (CIP + institution context)
+    if (selectedDegree) {
+      const est = EnhancedEarningsCalculator.estimateSalaryFromCip(selectedDegree.cipcode || '', credLevel);
+      setEarnings(prev => ({
+        ...prev,
+        projectedSalary: est.startingSalary,
+        salaryGrowthRate: est.growthRate,
+        careerLength: autoCareer,
+      }));
+    }
+
+    // Fetch real financial data and override with actual tuition/fees when available
     try {
-      const [finResponse, earningsResponse, programLengthResponse] = await Promise.all([
+      const [finResponse, earningsResponse] = await Promise.all([
         fetch(`/api/financial-data?unitid=${institution.unitid}`),
         fetch(`/api/earnings-data?unitid=${institution.unitid}`),
-        fetch(`/api/program-length?unitid=${institution.unitid}`)
       ]);
-      
-      // Determine program length (2-year vs 4-year)
-      let programLength = 4; // Default to 4-year
-      if (programLengthResponse.ok) {
-        const lengthData = await programLengthResponse.json();
-        programLength = lengthData.programLength || 4;
-      } else {
-        // Fallback: check institution name for indicators
-        const name = institution.name.toLowerCase();
-        if (name.includes('community college') || name.includes('technical college') || name.includes('junior college')) {
-          programLength = 2;
-        }
-      }
-      
+
       if (finResponse.ok) {
         const finData = await finResponse.json();
         if (finData.financialData) {
@@ -557,23 +534,30 @@ export default function ROICalculatorApp() {
             roomBoard: fin.room_board_on_campus || fin.room_board_off_campus || prev.roomBoard,
             books: fin.books_supplies || prev.books,
             otherExpenses: fin.other_expenses || prev.otherExpenses,
-            programLength: programLength // Set detected program length
+            programLength: autoLength,
           }));
+        } else {
+          setCosts(prev => ({ ...prev, programLength: autoLength }));
         }
+      } else {
+        setCosts(prev => ({ ...prev, programLength: autoLength }));
       }
-      
+
+      // If the college scorecard has real earnings data, prefer it over our estimate
       if (earningsResponse.ok) {
         const earningsData = await earningsResponse.json();
-        if (earningsData.earningsData) {
+        if (earningsData.earningsData?.earnings_6_years_after_entry) {
           const earn = earningsData.earningsData;
           setEarnings(prev => ({
             ...prev,
-            projectedSalary: earn.earnings_6_years_after_entry || prev.projectedSalary
+            projectedSalary: earn.earnings_6_years_after_entry,
           }));
         }
       }
     } catch (error) {
       console.error('Error fetching financial/earnings data:', error);
+      // Fallback already set above via estimateSalaryFromCip
+      setCosts(prev => ({ ...prev, programLength: autoLength }));
     }
   };
 
@@ -582,7 +566,7 @@ export default function ROICalculatorApp() {
       {/* Search Mode Toggle */}
       <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-6">
         <h3 className="text-lg font-bold text-white mb-4">Choose Your Search Method</h3>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <button
             onClick={() => {
               setSearchMode('institution');
@@ -731,23 +715,36 @@ export default function ROICalculatorApp() {
               }}
               onSelect={(program) => {
                 setSelectedProgram(program);
-                // Update adapted program  
                 if (program) {
                   const adapted = adaptProgram(program);
                   setAdaptedProgram(adapted);
-                  
-                  // Use enhanced earnings calculation
+
+                  const credLevel = program.credential_level || 5;
+
+                  // Auto-set program length and career horizon from credential level
+                  const autoLength = CREDENTIAL_PROGRAM_LENGTH[credLevel] ?? 4;
+                  const autoCareer = CREDENTIAL_CAREER_LENGTH[credLevel] ?? 40;
+
+                  setCosts(prev => ({ ...prev, programLength: autoLength }));
+
+                  // Use enhanced earnings with institution context if available
                   if (selectedInstitution) {
                     const adaptedInst = adaptInstitution(selectedInstitution);
-                    const enhancedEarnings = EnhancedEarningsCalculator.calculateEnhancedEarnings(
-                      adaptedInst,
-                      program
-                    );
-                    
+                    const enhancedEarnings = EnhancedEarningsCalculator.calculateEnhancedEarnings(adaptedInst, program);
                     setEarnings(prev => ({
                       ...prev,
                       projectedSalary: enhancedEarnings.startingSalary,
-                      salaryGrowthRate: enhancedEarnings.growthRate
+                      salaryGrowthRate: enhancedEarnings.growthRate,
+                      careerLength: autoCareer,
+                    }));
+                  } else {
+                    // Fallback: estimate salary from CIP code alone
+                    const est = EnhancedEarningsCalculator.estimateSalaryFromCip(program.cipcode || '', credLevel);
+                    setEarnings(prev => ({
+                      ...prev,
+                      projectedSalary: est.startingSalary,
+                      salaryGrowthRate: est.growthRate,
+                      careerLength: autoCareer,
                     }));
                   }
                 } else {
@@ -1033,32 +1030,32 @@ export default function ROICalculatorApp() {
 
                     {/* Institution-wide Outcomes (for this program's context) */}
                     {earnings && earnings.projectedSalary > 0 && (
-                      <div className="bg-green-50 rounded-lg p-4">
-                        <h4 className="font-semibold text-green-900 mb-2">
+                      <div className="bg-green-500/10 border border-green-700 rounded-lg p-4">
+                        <h4 className="font-semibold text-green-400 mb-2">
                           Expected Earnings Outlook
                         </h4>
-                        <p className="text-xs text-green-700 mb-3">
-                          Based on institution-wide graduate outcomes
+                        <p className="text-xs text-green-500 mb-3">
+                          Based on CIP code and institution graduate outcomes
                         </p>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between">
-                            <span className="text-green-700">Projected Annual Salary:</span>
-                            <span className="font-bold text-green-900 text-lg">
+                            <span className="text-green-400">Projected Annual Salary:</span>
+                            <span className="font-bold text-white text-lg">
                               ${earnings.projectedSalary.toLocaleString()}/year
                             </span>
                           </div>
                           {earnings.baselineSalary > 0 && (
                             <div className="flex justify-between">
-                              <span className="text-green-700">Baseline Salary (No Degree):</span>
-                              <span className="font-semibold text-green-700">
+                              <span className="text-green-400">Baseline Salary (No Degree):</span>
+                              <span className="font-semibold text-gray-300">
                                 ${earnings.baselineSalary.toLocaleString()}/year
                               </span>
                             </div>
                           )}
                           {earnings.projectedSalary > earnings.baselineSalary && (
-                            <div className="flex justify-between border-t border-green-200 pt-2 mt-2">
-                              <span className="text-green-700">Salary Increase:</span>
-                              <span className="font-bold text-green-900">
+                            <div className="flex justify-between border-t border-green-800 pt-2 mt-2">
+                              <span className="text-green-400">Salary Increase:</span>
+                              <span className="font-bold text-green-400">
                                 +${(earnings.projectedSalary - earnings.baselineSalary).toLocaleString()}/year
                               </span>
                             </div>
@@ -1069,17 +1066,17 @@ export default function ROICalculatorApp() {
 
                     {/* Program Size & Popularity */}
                     {selectedProgram.total_completions && selectedProgram.total_completions > 0 && (
-                      <div className="bg-blue-50 rounded-lg p-4">
-                        <h4 className="font-semibold text-blue-900 mb-2">Program Popularity</h4>
+                      <div className="bg-blue-500/10 border border-blue-700 rounded-lg p-4">
+                        <h4 className="font-semibold text-blue-400 mb-2">Program Popularity</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between items-center">
-                            <span className="text-blue-700">Program Size:</span>
-                            <span className="font-bold text-blue-900">
-                              {selectedProgram.total_completions < 50 ? 'Small' : 
+                            <span className="text-blue-400">Program Size:</span>
+                            <span className="font-bold text-white">
+                              {selectedProgram.total_completions < 50 ? 'Small' :
                                selectedProgram.total_completions < 200 ? 'Medium' : 'Large'}
                             </span>
                           </div>
-                          <div className="text-xs text-blue-700">
+                          <div className="text-xs text-blue-400">
                             {selectedProgram.total_completions} data points per year
                             {selectedProgram.total_completions < 50 && ' - More personalized attention'}
                             {selectedProgram.total_completions >= 50 && selectedProgram.total_completions < 200 && ' - Good balance of resources and attention'}

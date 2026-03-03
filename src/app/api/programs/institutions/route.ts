@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCollegeDb } from '@/lib/db-helper';
-import { getStatesInClause } from '@/lib/constants';
+
 
 export async function GET(request: NextRequest) {
   try {
@@ -25,49 +25,66 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-      // Map degree level to credential_level values (include extended codes)
+      // Map degree level to canonical credential_level values (IPEDS + extended codes)
       let credentialLevelFilter = '';
-      if (degreeLevel === 'bachelors') {
+      if (degreeLevel === 'associates') {
+        credentialLevelFilter = 'AND ap.credential_level IN (3, 4)';
+      } else if (degreeLevel === 'bachelors') {
         credentialLevelFilter = 'AND ap.credential_level IN (5, 22, 31)';
       } else if (degreeLevel === 'masters') {
         credentialLevelFilter = 'AND ap.credential_level IN (7, 23)';
+      } else if (degreeLevel === 'doctorate') {
+        credentialLevelFilter = 'AND ap.credential_level IN (8, 9, 17, 18, 19)';
+      } else if (degreeLevel === 'certificate') {
+        credentialLevelFilter = 'AND ap.credential_level IN (1, 2, 6, 30, 32, 33)';
       }
 
       // Get all institutions offering this program
-      // Using only guaranteed columns from academic_programs table
+      // Group by unitid to avoid duplicates from multiple years/gender breakdowns in IPEDS data
       const institutions = await db.prepare(`
-        SELECT DISTINCT
+        SELECT
           i.unitid,
           i.name,
           i.city,
           i.state,
           i.control_public_private,
-          ap.cip_title,
-          ap.completions as total_completions,
-          COALESCE(ap.credential_level, 0) as credential_level
+          MAX(ap.cip_title) as cip_title,
+          SUM(ap.completions) as total_completions,
+          COALESCE(MAX(ap.credential_level), 0) as credential_level
         FROM institutions i
         INNER JOIN academic_programs ap ON i.unitid = ap.unitid
         WHERE ap.cipcode = ?
           AND i.state IS NOT NULL
           AND i.state != ''
           ${credentialLevelFilter}
-        ORDER BY ap.completions DESC NULLS LAST
+        GROUP BY i.unitid, i.name, i.city, i.state, i.control_public_private
+        ORDER BY total_completions DESC NULLS LAST
         LIMIT 500
       `).all(cipcode);
 
-      console.log(`Found ${institutions.length} institutions for CIP code ${cipcode}${degreeLevel ? ` (${degreeLevel})` : ''}`);
 
-      // Map credential levels to names
+      // Map IPEDS credential levels to human-readable names
       const credentialNames: { [key: number]: string } = {
-        1: 'Award of less than 1 academic year',
-        2: 'Award of at least 1 but less than 2 academic years',
-        3: 'Associate\'s degree',
-        4: 'Award of at least 2 but less than 4 academic years',
-        5: 'Bachelor\'s degree',
-        6: 'Postbaccalaureate certificate',
-        7: 'Master\'s degree',
-        8: 'Post-master\'s certificate',
-        9: 'Doctor\'s degree'
+        1:  'Award of less than 1 academic year',
+        2:  'Award of at least 1 but less than 2 academic years',
+        3:  "Associate's degree",
+        4:  'Award of at least 2 but less than 4 academic years',
+        5:  "Bachelor's degree",
+        6:  'Postbaccalaureate certificate',
+        7:  "Master's degree",
+        8:  "Post-master's certificate",
+        9:  "Doctor's degree",
+        17: "Doctor's degree – research/scholarship",
+        18: "Doctor's degree – professional practice",
+        19: "Doctor's degree – other",
+        20: 'Professional certificate',
+        21: 'Professional certificate (graduate level)',
+        22: "Bachelor's degree (extended, 5-yr program)",
+        23: "Master's degree (extended)",
+        30: 'Occupational award (less than 1 year)',
+        31: 'Occupational award (1 to less than 4 years)',
+        32: 'Occupational certificate',
+        33: 'Postbaccalaureate occupational certificate',
       };
 
       return NextResponse.json({ 

@@ -6,6 +6,8 @@ import { Institution } from '@/lib/database';
 import { DataSourcesBadge } from '@/components/DataSources';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { getAffordabilityBadge } from '@/lib/financial-calculator';
+import { getSchoolBadges } from '@/lib/school-categories';
+import { getControlTypeLabel } from '@/lib/formatting';
 import {
   MagnifyingGlassIcon,
   MapPinIcon,
@@ -246,8 +248,8 @@ export default function CollegesPage() {
         setPage(1);
       }
       
-      // Check if there are more results
-      setHasMore((data.institutions || []).length === limit);
+      // Check if there are more results — prefer the API's hasMore flag, fall back to length check
+      setHasMore(data.hasMore ?? (data.institutions || []).length >= limit);
     } catch (error) {
       console.error('Error fetching institutions:', error);
       if (!isLoadMore) {
@@ -286,15 +288,6 @@ export default function CollegesPage() {
       minEarnings: '',
       sortBy: 'roi_high'
     });
-  };
-
-  const getControlTypeLabel = (control?: number) => {
-    switch (control) {
-      case 1: return 'Public';
-      case 2: return 'Private Non-profit';
-      case 3: return 'Private For-profit';
-      default: return 'Unknown';
-    }
   };
 
   return (
@@ -609,7 +602,7 @@ export default function CollegesPage() {
               })}
               {filters.maxTuition && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-orange-500 rounded-full text-sm font-medium text-white font-bold">
-                  Max Tuition: ${parseInt(filters.maxTuition).toLocaleString()}
+                  Max Tuition: ${(parseInt(filters.maxTuition) || 0).toLocaleString()}
                   <button
                     onClick={() => handleFilterChange('maxTuition', '')}
                     className="hover:bg-orange-500/20 rounded-full p-0.5"
@@ -620,8 +613,7 @@ export default function CollegesPage() {
               )}
               {filters.sortBy !== 'roi_high' && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 border border-orange-500 rounded-full text-sm font-medium text-white font-bold">
-                  Sort: {filters.sortBy === 'roi_high' ? 'ROI (High-Low)' :
-                          filters.sortBy === 'tuition_low' ? 'Tuition (Low-High)' : 
+                  Sort: {filters.sortBy === 'tuition_low' ? 'Tuition (Low-High)' :
                           filters.sortBy === 'tuition_high' ? 'Tuition (High-Low)' :
                           filters.sortBy === 'earnings_high' ? 'Earnings (High-Low)' :
                           filters.sortBy === 'earnings_low' ? 'Earnings (Low-High)' :
@@ -753,25 +745,20 @@ export default function CollegesPage() {
                   )}
 
                   {/* School Category Badges */}
-                  {(() => {
-                    const { getSchoolBadges } = require('@/lib/school-categories');
-                    const badges = getSchoolBadges({
-                      unitid: institution.unitid,
-                      historically_black: (institution as any).historically_black,
-                      control_public_private: institution.control_of_institution,
-                      name: institution.name
-                    });
-                    
-                    return badges.map((badge: any) => (
-                      <span
-                        key={badge.category}
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${badge.bgColor} ${badge.color}`}
-                        title={badge.description}
-                      >
-                        {badge.label}
-                      </span>
-                    ));
-                  })()}
+                  {getSchoolBadges({
+                    unitid: institution.unitid,
+                    historically_black: (institution as any).historically_black,
+                    control_public_private: institution.control_of_institution,
+                    name: institution.name
+                  }).map((badge: any) => (
+                    <span
+                      key={badge.category}
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${badge.bgColor} ${badge.color}`}
+                      title={badge.description}
+                    >
+                      {badge.label}
+                    </span>
+                  ))}
                 </div>
                 
                 {/* Top ROI Program Hint (ENG-365) */}
@@ -799,13 +786,13 @@ export default function CollegesPage() {
                         {institution.tuition_in_state && institution.tuition_out_state && institution.control_of_institution === 1 && (
                           <div className="flex items-center justify-between text-sm">
                             <span className="text-gray-300">Out-of-state:</span>
-                            <span className="font-semibold text-white">${institution.tuition_out_state.toLocaleString()}</span>
+                            <span className="font-semibold text-white">${(institution.tuition_out_state ?? 0).toLocaleString()}</span>
                           </div>
                         )}
                         {institution.room_board_on_campus && (
                           <div className="flex items-center justify-between text-sm">
                             <span className="text-gray-300">Room & Board:</span>
-                            <span className="font-semibold text-white">${institution.room_board_on_campus.toLocaleString()}</span>
+                            <span className="font-semibold text-white">${(institution.room_board_on_campus ?? 0).toLocaleString()}</span>
                           </div>
                         )}
                       </div>
@@ -815,7 +802,7 @@ export default function CollegesPage() {
                     
                     {/* Affordability Badge (ENG-29) */}
                     {(institution as any).affordability && (
-                      <div className="mt-3 pt-3 border-t border-gray-200">
+                      <div className="mt-3 pt-3 border-t border-gray-700">
                         {(() => {
                           const affordability = (institution as any).affordability;
                           const badge = getAffordabilityBadge(affordability.tier);
