@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCollegeDb } from '@/lib/db-helper';
-import { getStatesInClause } from '@/lib/constants';
+
 
 export async function GET(request: NextRequest) {
   try {
@@ -40,24 +40,25 @@ export async function GET(request: NextRequest) {
       }
 
       // Get all institutions offering this program
-      // Using only guaranteed columns from academic_programs table
+      // Group by unitid to avoid duplicates from multiple years/gender breakdowns in IPEDS data
       const institutions = await db.prepare(`
-        SELECT DISTINCT
+        SELECT
           i.unitid,
           i.name,
           i.city,
           i.state,
           i.control_public_private,
-          ap.cip_title,
-          ap.completions as total_completions,
-          COALESCE(ap.credential_level, 0) as credential_level
+          MAX(ap.cip_title) as cip_title,
+          SUM(ap.completions) as total_completions,
+          COALESCE(MAX(ap.credential_level), 0) as credential_level
         FROM institutions i
         INNER JOIN academic_programs ap ON i.unitid = ap.unitid
         WHERE ap.cipcode = ?
           AND i.state IS NOT NULL
           AND i.state != ''
           ${credentialLevelFilter}
-        ORDER BY ap.completions DESC NULLS LAST
+        GROUP BY i.unitid, i.name, i.city, i.state, i.control_public_private
+        ORDER BY total_completions DESC NULLS LAST
         LIMIT 500
       `).all(cipcode);
 
