@@ -165,11 +165,15 @@ export default function ROICalculatorApp() {
           throw new Error('Scenario not found');
         }
 
-        // Load institution
-        const instResponse = await fetch(`/api/institutions/${scenario.institution_unitid}`);
+        // Load institution (use query-param endpoint for joined financial data)
+        const instResponse = await fetch(`/api/institutions?unitid=${scenario.institution_unitid}`);
         if (instResponse.ok) {
           const instData = await instResponse.json();
-          setSelectedInstitution(instData.institution);
+          const inst = instData.institutions?.[0];
+          if (inst) {
+            setSelectedInstitution(inst);
+            setAdaptedInstitution(adaptInstitution(inst));
+          }
         }
 
         // Load program if available
@@ -242,90 +246,152 @@ export default function ROICalculatorApp() {
       }
 
       try {
-        // Fetch institution data
-        const instResponse = await fetch(`/api/institutions/${institutionId}`);
+        // Fetch institution (query-param endpoint returns data with financial/earnings JOINed)
+        const instResponse = await fetch(`/api/institutions?unitid=${institutionId}`);
         if (!instResponse.ok) {
           throw new Error('Failed to load institution');
         }
 
         const instData = await instResponse.json();
-        const institution = instData.institution;
+        const institution = instData.institutions?.[0];
+        if (!institution) {
+          throw new Error('Institution not found');
+        }
         setSelectedInstitution(institution);
         setSearchMode('institution');
-        
+
         // Store institution's pre-calculated ROI (ENG-363)
         const preCalculatedROI = institution.institution_avg_roi || institution.implied_roi || null;
         setInstitutionROI(preCalculatedROI);
 
-        // Pre-fill costs with institution data
-        const tuition = institution.tuition_in_state || institution.tuition_out_state || 0;
-        const fees = institution.fees || 0;
-        const roomBoard = institution.room_board_on_campus || institution.room_board_off_campus || 0;
-        
-        setCosts({
-          tuition,
-          fees,
-          roomBoard,
-          books: 1200,
-          otherExpenses: 2000,
-          programLength: 4,
-          residency: 'in-state'
-        });
+        // Update adapted institution for enhanced earnings calculations
+        const adapted = adaptInstitution(institution);
+        setAdaptedInstitution(adapted);
 
-        // If program code provided, fetch and pre-fill program data
+        // Fetch detailed financial data, earnings, and (optionally) programs in parallel
+        const fetches: Promise<Response>[] = [
+          fetch(`/api/financial-data?unitid=${institutionId}`),
+          fetch(`/api/earnings-data?unitid=${institutionId}`),
+        ];
         if (programCipCode) {
           const params = new URLSearchParams();
           if (degreeLevelFilter) params.set('degreeLevel', degreeLevelFilter);
-          const programsResponse = await fetch(`/api/institutions/${institutionId}/programs?${params.toString()}`);
-          if (programsResponse.ok) {
-            const programsData = await programsResponse.json();
-            
-            // Normalize CIP codes for comparison (remove dots, trim, compare)
-            const normalizeCip = (cip: string) => cip?.replace(/\./g, '').trim().toLowerCase() || '';
-            const normalizedSearchCip = normalizeCip(programCipCode);
-            const program = programsData.programs?.find((p: any) => {
-              const normalizedProgramCip = normalizeCip(p.cip_code);
-              return normalizedProgramCip === normalizedSearchCip;
-            });
+          fetches.push(fetch(`/api/institutions/${institutionId}/programs?${params.toString()}`));
+        }
 
-            if (program) {
-              setSelectedProgram(program);
-              setSearchMode('degree');
-              
-              // Pre-fill earnings with program's median earnings
-              if (program.median_earnings_10yr) {
-                setEarnings(prev => ({
-                  ...prev,
-                  projectedSalary: program.median_earnings_10yr,
-                  baselineSalary: 42000, // Match analytics calculation
-                  careerLength: 40, // Match analytics 40-year ROI
-                  salaryGrowthRate: 3
-                }));
-              }
-              
-              // Trigger ROI calculation after pre-fill
-              setTimeout(() => {
-                calculateROI();
-              }, 100);
-            }
+        const responses = await Promise.all(fetches);
+        const [finResponse, earningsResponse] = responses;
+        const programsResponse = responses[2]; // may be undefined
+
+        // Pre-fill costs from detailed financial data (most recent year)
+        let autoLength = 4;
+        if (finResponse.ok) {
+          const finData = await finResponse.json();
+          if (finData.financialData) {
+            const fin = finData.financialData;
+            setCosts({
+              tuition: fin.tuition_in_state || fin.tuition_out_state || institution.tuition_in_state || 0,
+              fees: fin.fees || institution.fees || 0,
+              roomBoard: fin.room_board_on_campus || fin.room_board_off_campus || institution.room_board_on_campus || 0,
+              books: fin.books_supplies || 1200,
+              otherExpenses: fin.other_expenses || 2000,
+              programLength: autoLength,
+              residency: 'in-state'
+            });
+          } else {
+            setCosts({
+              tuition: institution.tuition_in_state || institution.tuition_out_state || 0,
+              fees: institution.fees || 0,
+              roomBoard: institution.room_board_on_campus || 0,
+              books: 1200, otherExpenses: 2000, programLength: autoLength, residency: 'in-state'
+            });
           }
         } else {
-          // No program specified, use institution median earnings
-          if (institution.median_earnings_10yr) {
+          setCosts({
+            tuition: institution.tuition_in_state || institution.tuition_out_state || 0,
+            fees: institution.fees || 0,
+            roomBoard: institution.room_board_on_campus || 0,
+            books: 1200, otherExpenses: 2000, programLength: autoLength, residency: 'in-state'
+          });
+        }
+
+        // Earnings priority: 1) IPEDS actual → 2) BLS occupation → 3) Institution average
+        let earningsPreFilled = false;
+
+        // 1) IPEDS actual earnings from earnings_outcomes
+        if (earningsResponse.ok) {
+          const earningsData = await earningsResponse.json();
+          if (earningsData.earningsData?.earnings_6_years_after_entry) {
             setEarnings(prev => ({
               ...prev,
-              projectedSalary: institution.median_earnings_10yr,
-              baselineSalary: 42000,
-              careerLength: 40,
-              salaryGrowthRate: 3
+              projectedSalary: earningsData.earningsData.earnings_6_years_after_entry,
+              baselineSalary: 42000, careerLength: 40, salaryGrowthRate: 3
+            }));
+            earningsPreFilled = true;
+          }
+        }
+
+        // If program code provided, find and pre-fill program data
+        if (programCipCode && programsResponse?.ok) {
+          const programsData = await programsResponse.json();
+
+          const normalizeCip = (cip: string) => cip?.replace(/\./g, '').trim().toLowerCase() || '';
+          const normalizedSearchCip = normalizeCip(programCipCode);
+          const matchedProgram = programsData.programs?.find((p: any) => {
+            const normalizedProgramCip = normalizeCip(p.cipcode || p.cip_code || '');
+            return normalizedProgramCip === normalizedSearchCip;
+          });
+
+          if (matchedProgram) {
+            setSelectedProgram(matchedProgram);
+            setAdaptedProgram(adaptProgram(matchedProgram));
+
+            // Auto-set program length from credential level
+            const credLevel = matchedProgram.credential_level || 5;
+            autoLength = CREDENTIAL_PROGRAM_LENGTH[credLevel] ?? 4;
+            const autoCareer = CREDENTIAL_CAREER_LENGTH[credLevel] ?? 40;
+            setCosts(prev => ({ ...prev, programLength: autoLength }));
+            setEarnings(prev => ({ ...prev, careerLength: autoCareer }));
+
+            // 2) Try BLS occupation salary for better program-specific earnings
+            if (!earningsPreFilled) {
+              const cipcode = matchedProgram.cipcode || matchedProgram.cip_code;
+              if (cipcode) {
+                try {
+                  const occRes = await fetch(`/api/occupation-salary?cipcode=${encodeURIComponent(cipcode)}&limit=10`);
+                  if (occRes.ok) {
+                    const occData = await occRes.json();
+                    if (occData.summary?.median) {
+                      setEarnings(prev => ({
+                        ...prev,
+                        projectedSalary: occData.summary.median,
+                        baselineSalary: 42000, careerLength: autoCareer, salaryGrowthRate: 3
+                      }));
+                      earningsPreFilled = true;
+                    }
+                  }
+                } catch { /* keep fallback */ }
+              }
+            }
+          }
+        }
+
+        // 3) Fallback to institution-level earnings
+        if (!earningsPreFilled) {
+          const instEarnings = institution.mean_earnings_10_years || institution.mean_earnings_6_years;
+          if (instEarnings) {
+            setEarnings(prev => ({
+              ...prev,
+              projectedSalary: instEarnings,
+              baselineSalary: 42000, careerLength: 40, salaryGrowthRate: 3
             }));
           }
-
-          // Trigger ROI calculation after pre-fill (institution only)
-          setTimeout(() => {
-            calculateROI();
-          }, 100);
         }
+
+        // Trigger ROI calculation after all state updates settle
+        setTimeout(() => {
+          calculateROI();
+        }, 200);
 
         // Clean URL after loading
         window.history.replaceState({}, '', '/roi-calculator');

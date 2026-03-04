@@ -14,19 +14,20 @@ export const getAllInstitutions = cache(async () => {
     throw new Error('College database unavailable');
   }
   const result = await db.prepare(`
-    SELECT 
-      unitid,
-      name,
-      city,
-      state,
-      control_public_private,
-      institution_avg_roi,
-      median_earnings_10yr,
-      acceptance_rate,
-      total_enrollment
-    FROM institutions 
-    WHERE name IS NOT NULL
-    ORDER BY name
+    SELECT
+      i.unitid,
+      i.name,
+      i.city,
+      i.state,
+      i.control_public_private,
+      i.institution_avg_roi,
+      e.earnings_10_years_after_entry as median_earnings_10yr,
+      i.acceptance_rate,
+      i.size_category as total_enrollment
+    FROM institutions i
+    LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
+    WHERE i.name IS NOT NULL
+    ORDER BY i.name
   `).all();
   return result;
 });
@@ -67,16 +68,17 @@ export const getTopInstitutionsByROI = cache(async (limit: number = 100) => {
     throw new Error('College database unavailable');
   }
   const result = await db.prepare(`
-    SELECT 
-      unitid,
-      name,
-      state,
-      institution_avg_roi,
-      median_earnings_10yr,
-      acceptance_rate
-    FROM institutions 
-    WHERE institution_avg_roi IS NOT NULL
-    ORDER BY institution_avg_roi DESC
+    SELECT
+      i.unitid,
+      i.name,
+      i.state,
+      i.institution_avg_roi,
+      e.earnings_10_years_after_entry as median_earnings_10yr,
+      i.acceptance_rate
+    FROM institutions i
+    LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
+    WHERE i.institution_avg_roi IS NOT NULL
+    ORDER BY i.institution_avg_roi DESC
     LIMIT ${limit}
   `).all();
   return result;
@@ -103,20 +105,21 @@ export const getStateStatistics = cache(async (state: string) => {
     throw new Error('College database unavailable');
   }
   const result = await db.prepare(`
-    SELECT 
+    SELECT
       COUNT(*) as total_institutions,
-      AVG(institution_avg_roi) as avg_roi,
-      AVG(median_earnings_10yr) as avg_earnings,
-      AVG(acceptance_rate) as avg_acceptance_rate
-    FROM institutions 
-    WHERE state = ? AND institution_avg_roi IS NOT NULL
+      AVG(i.institution_avg_roi) as avg_roi,
+      AVG(e.earnings_10_years_after_entry) as avg_earnings,
+      AVG(i.acceptance_rate) as avg_acceptance_rate
+    FROM institutions i
+    LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
+    WHERE i.state = ? AND i.institution_avg_roi IS NOT NULL
   `).get(state);
   return result;
 });
 
 // Paginated institutions (for large lists)
 export const getInstitutionsPaginated = cache(async (
-  offset: number = 0, 
+  offset: number = 0,
   limit: number = 50,
   state?: string,
   sortBy: string = 'name'
@@ -125,42 +128,52 @@ export const getInstitutionsPaginated = cache(async (
   if (!db) {
     throw new Error('College database unavailable');
   }
-  
+
+  // Validate sortBy to prevent SQL injection (only allow known column names)
+  const allowedSorts: Record<string, string> = {
+    'name': 'i.name',
+    'institution_avg_roi': 'i.institution_avg_roi',
+    'acceptance_rate': 'i.acceptance_rate',
+    'median_earnings_10yr': 'e.earnings_10_years_after_entry',
+  };
+  const sortColumn = allowedSorts[sortBy] || 'i.name';
+
   let sql = `
-    SELECT 
-      unitid,
-      name,
-      city,
-      state,
-      control_public_private,
-      institution_avg_roi,
-      median_earnings_10yr,
-      acceptance_rate,
-      total_enrollment
-    FROM institutions 
-    WHERE name IS NOT NULL
+    SELECT
+      i.unitid,
+      i.name,
+      i.city,
+      i.state,
+      i.control_public_private,
+      i.institution_avg_roi,
+      e.earnings_10_years_after_entry as median_earnings_10yr,
+      i.acceptance_rate,
+      i.size_category as total_enrollment
+    FROM institutions i
+    LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
+    WHERE i.name IS NOT NULL
   `;
-  
+
   const args: any[] = [];
-  
+
   if (state) {
-    sql += ` AND state = ?`;
+    sql += ` AND i.state = ?`;
     args.push(state);
   }
-  
-  sql += ` ORDER BY ${sortBy} LIMIT ? OFFSET ?`;
+
+  sql += ` ORDER BY ${sortColumn} LIMIT ? OFFSET ?`;
   args.push(limit, offset);
-  
+
   const result = await db.prepare(sql).all(...args);
-  
+
   // Get total count for pagination
-  const countSql = state 
+  const countSql = state
     ? `SELECT COUNT(*) as total FROM institutions WHERE name IS NOT NULL AND state = ?`
     : `SELECT COUNT(*) as total FROM institutions WHERE name IS NOT NULL`;
-  
+
   const countArgs = state ? [state] : [];
   const countResult = await db.prepare(countSql).get(...countArgs);
-  
+
   return {
     data: result,
     total: (countResult as any).total,

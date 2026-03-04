@@ -119,7 +119,7 @@ export interface AcademicProgram {
   year?: number;
   program_roi?: number; // 40-year ROI for this specific program
   program_roi_calculated_at?: string;
-  median_earnings_10yr?: number; // Program-specific earnings (future enhancement)
+  median_earnings_10yr?: number; // Not in DB — populated via cached-queries JOIN with earnings_outcomes
 }
 
 export class CollegeDataService {

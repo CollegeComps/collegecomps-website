@@ -34,8 +34,8 @@ export async function GET(request: NextRequest) {
       admission_rate: null,
       sat_avg: null,
       act_median: null,
-      median_earnings_6yr: inst.earnings_6_years_after_entry,
-      median_earnings_10yr: null
+      median_earnings_6yr: inst.earnings_6_years_after_entry || inst.mean_earnings_6_years,
+      median_earnings_10yr: inst.mean_earnings_10_years || null
     }));
 
     return NextResponse.json({ colleges });
