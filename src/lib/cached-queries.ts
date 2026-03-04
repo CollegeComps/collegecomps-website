@@ -23,7 +23,7 @@ export const getAllInstitutions = cache(async () => {
       i.institution_avg_roi,
       e.earnings_10_years_after_entry as median_earnings_10yr,
       i.acceptance_rate,
-      i.size_category as total_enrollment
+      COALESCE(i.total_enrollment, i.size_category) as total_enrollment
     FROM institutions i
     LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
     WHERE i.name IS NOT NULL
@@ -148,7 +148,7 @@ export const getInstitutionsPaginated = cache(async (
       i.institution_avg_roi,
       e.earnings_10_years_after_entry as median_earnings_10yr,
       i.acceptance_rate,
-      i.size_category as total_enrollment
+      COALESCE(i.total_enrollment, i.size_category) as total_enrollment
     FROM institutions i
     LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
     WHERE i.name IS NOT NULL

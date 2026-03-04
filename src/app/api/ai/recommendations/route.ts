@@ -69,17 +69,19 @@ export async function GET(req: NextRequest) {
 
     // Get college data with available fields
     const colleges = await collegeDb.prepare(`
-      SELECT 
+      SELECT
         i.unitid as id,
         i.name,
         i.state,
         i.control_public_private as control,
+        i.acceptance_rate,
+        i.website,
         (COALESCE(f.tuition_out_state, f.tuition_in_state, 0) + COALESCE(f.fees, 0) + COALESCE(f.room_board_on_campus, 0)) as cost,
-        im.total_enrollment as enrollment,
-        im.url as website
+        COALESCE(e.earnings_10_years_after_entry, e.earnings_6_years_after_entry) as avg_salary
       FROM institutions i
       LEFT JOIN financial_data f ON i.unitid = f.unitid
-      LEFT JOIN institution_metadata im ON i.unitid = im.unitid
+        AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
+      LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
       WHERE (f.tuition_in_state IS NOT NULL OR f.tuition_out_state IS NOT NULL)
         AND i.name IS NOT NULL
       GROUP BY i.unitid
@@ -129,24 +131,32 @@ export async function GET(req: NextRequest) {
         }
       }
 
-      // Determine admission chance based on cost (simplified without SAT/ACT data)
+      // Determine admission chance using acceptance rate when available
       let admissionChance: 'High' | 'Moderate' | 'Reach' = 'Moderate';
-      if (college.cost && profile.budget) {
+      if (college.acceptance_rate) {
+        if (college.acceptance_rate > 0.6) {
+          admissionChance = 'High';
+          matchReasons.push('Higher acceptance rate');
+        } else if (college.acceptance_rate > 0.25) {
+          admissionChance = 'Moderate';
+        } else {
+          admissionChance = 'Reach';
+          matchReasons.push('Highly selective');
+        }
+      } else if (college.cost && profile.budget) {
+        // Fallback to cost-based estimate
         const affordabilityRatio = profile.budget / college.cost;
         if (affordabilityRatio >= 1.2) {
           admissionChance = 'High';
-          matchReasons.push('Highly affordable');
         } else if (affordabilityRatio >= 0.8) {
           admissionChance = 'Moderate';
         } else {
           admissionChance = 'Reach';
-          matchReasons.push('Financial reach');
         }
       }
 
-      // Calculate estimated ROI (simplified without salary data)
-      // Estimate: Lower cost = better ROI potential
-      const estimatedSalary = 60000; // National average for college grads
+      // Calculate ROI using actual earnings data when available
+      const estimatedSalary = college.avg_salary || 60000; // Use actual data, fallback to national average
       const totalCost = college.cost ? (college.cost * 4) : 0;
       const roi = totalCost > 0 ? ((estimatedSalary * 10) - totalCost) : 0;
 

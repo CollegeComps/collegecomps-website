@@ -217,7 +217,8 @@ export class CollegeDataService {
       zipcode: row.zip_code,
       latitude: row.latitude,
       longitude: row.longitude,
-      website_url: row.website_url,
+      website: row.website,
+      website_url: row.website,
       control_of_institution: row.control_public_private,
       control_public_private: row.control_public_private,
       level_of_institution: undefined, // Will be filled from detailed queries if needed
@@ -237,6 +238,7 @@ export class CollegeDataService {
       tuition_out_state: row.tuition_out_state,
       fees: row.fees,
       room_board_on_campus: row.room_board_on_campus,
+      net_price: row.net_price,
       mean_earnings_6_years: row.earnings_6_years_after_entry,
       mean_earnings_10_years: row.earnings_10_years_after_entry,
       earnings_6_years_after_entry: row.earnings_6_years_after_entry,
@@ -257,19 +259,22 @@ export class CollegeDataService {
     const { clause: statesClause, params: stateParams } = getStatesInClause();
     
     const query = `
-      SELECT 
-        i.id, i.unitid, i.opeid, i.name, i.city, i.state, i.zip_code, i.region, 
+      SELECT
+        i.id, i.unitid, i.opeid, i.name, i.city, i.state, i.zip_code, i.region,
         i.latitude, i.longitude, i.website, i.ownership, i.control_public_private,
+        i.historically_black, i.predominately_black, i.tribal,
+        i.asian_american_native_american_pacific_islander, i.hispanic_serving,
+        i.carnegie_basic, i.carnegie_size, i.locale,
         i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference,
         f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
         f.net_price, e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
       FROM institutions i
-      LEFT JOIN financial_data f ON i.unitid = f.unitid 
+      LEFT JOIN financial_data f ON i.unitid = f.unitid
         AND f.year = (
-          SELECT year FROM financial_data 
-          WHERE unitid = i.unitid 
+          SELECT year FROM financial_data
+          WHERE unitid = i.unitid
             AND NOT (i.control_public_private = 1 AND tuition_in_state = tuition_out_state)
-          ORDER BY year DESC 
+          ORDER BY year DESC
           LIMIT 1
         )
       LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
@@ -290,22 +295,18 @@ export class CollegeDataService {
       state: result.state,
       state_postal_code: result.state,
       zipcode: result.zip_code,
+      website: result.website,
       website_url: result.website,
       control_of_institution: result.control_public_private,
       control_public_private: result.control_public_private,
-      level_of_institution: undefined,
-      highest_level_offering: undefined,
-      highest_degree_awarded: undefined,
-      carnegie_basic: undefined,
-      carnegie_size: undefined,
-      carnegie_setting: undefined,
-      locale: undefined,
-      historically_black: undefined,
-      predominantly_black: undefined,
-      tribal_college: undefined,
-      asian_american_native_american_pacific_islander: undefined,
-      hispanic_serving: undefined,
-      open_admission_policy: undefined,
+      carnegie_basic: result.carnegie_basic,
+      carnegie_size: result.carnegie_size,
+      locale: result.locale,
+      historically_black: result.historically_black,
+      predominantly_black: result.predominately_black,  // DB uses misspelled 'predominately'
+      tribal_college: result.tribal,  // DB column is 'tribal'
+      asian_american_native_american_pacific_islander: result.asian_american_native_american_pacific_islander,
+      hispanic_serving: result.hispanic_serving,
       tuition_in_state: result.tuition_in_state,
       tuition_out_state: result.tuition_out_state,
       fees: result.fees,
@@ -495,7 +496,7 @@ export class CollegeDataService {
     // Base query (same for both paths)
     let query = `
       SELECT i.*, f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
-             e.earnings_6_years_after_entry, e.earnings_10_years_after_entry,
+             f.net_price, e.earnings_6_years_after_entry, e.earnings_10_years_after_entry,
              i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference
       FROM institutions i
       LEFT JOIN financial_data f ON i.unitid = f.unitid 
@@ -589,19 +590,37 @@ export class CollegeDataService {
       params.push(filters.minEarnings);
     }
     
-    // Add sorting
+    // Add sorting — match all options supported by getInstitutions()
     switch (filters.sortBy) {
+      case 'implied_roi':
+      case 'roi':
+      case 'roi_high':
+        query += ` ORDER BY COALESCE(i.institution_avg_roi, -999999) DESC, i.name ASC`;
+        break;
+      case 'roi_low':
+        query += ` ORDER BY COALESCE(i.institution_avg_roi, 999999) ASC, i.name ASC`;
+        break;
       case 'tuition_asc':
-        query += ` ORDER BY COALESCE(f.tuition_in_state, f.tuition_out_state) ASC NULLS LAST`;
+      case 'tuition_low':
+        query += ` ORDER BY COALESCE(f.tuition_in_state, f.tuition_out_state, 999999) ASC`;
         break;
       case 'tuition_desc':
-        query += ` ORDER BY COALESCE(f.tuition_in_state, f.tuition_out_state) DESC NULLS LAST`;
+      case 'tuition_high':
+        query += ` ORDER BY COALESCE(f.tuition_in_state, f.tuition_out_state, 0) DESC`;
         break;
       case 'earnings_asc':
-        query += ` ORDER BY e.earnings_6_years_after_entry ASC NULLS LAST`;
+      case 'earnings_low':
+        query += ` ORDER BY COALESCE(e.earnings_10_years_after_entry, e.earnings_6_years_after_entry, 999999) ASC`;
         break;
       case 'earnings_desc':
-        query += ` ORDER BY e.earnings_6_years_after_entry DESC NULLS LAST`;
+      case 'earnings_high':
+        query += ` ORDER BY COALESCE(e.earnings_10_years_after_entry, e.earnings_6_years_after_entry, 0) DESC`;
+        break;
+      case 'acceptance_rate_low':
+        query += ` ORDER BY COALESCE(i.acceptance_rate, 999999) ASC, i.name ASC`;
+        break;
+      case 'acceptance_rate_high':
+        query += ` ORDER BY COALESCE(i.acceptance_rate, 0) DESC, i.name ASC`;
         break;
       case 'name':
       default:
@@ -623,7 +642,8 @@ export class CollegeDataService {
       zipcode: row.zip_code,
       latitude: row.latitude,
       longitude: row.longitude,
-      website_url: row.website_url,
+      website: row.website,
+      website_url: row.website,
       control_of_institution: row.control_public_private,
       level_of_institution: row.level_of_institution,
       highest_level_offering: row.highest_level_offering,
@@ -642,6 +662,7 @@ export class CollegeDataService {
       tuition_out_state: row.tuition_out_state,
       fees: row.fees,
       room_board_on_campus: row.room_board_on_campus,
+      net_price: row.net_price,
       mean_earnings_6_years: row.earnings_6_years_after_entry,
       mean_earnings_10_years: row.earnings_10_years_after_entry,
       // ENG-30: Add admissions and ROI fields
