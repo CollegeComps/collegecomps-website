@@ -433,8 +433,19 @@ export class CollegeDataService {
       ORDER BY MAX(year_completions) DESC, MAX(cip_title) ASC
     `;
 
-    const stmt = this.ensureDb().prepare(query);
-    return await stmt.all(unitid) as AcademicProgram[];
+    try {
+      const stmt = this.ensureDb().prepare(query);
+      return await stmt.all(unitid) as AcademicProgram[];
+    } catch (error: any) {
+      // Fallback: program_roi column may not exist in some environments
+      if (error?.message?.includes('program_roi')) {
+        const fallbackQuery = query
+          .replace(/,\s*MAX\(program_roi\) as program_roi/g, ', NULL as program_roi');
+        const stmt = this.ensureDb().prepare(fallbackQuery);
+        return await stmt.all(unitid) as AcademicProgram[];
+      }
+      throw error;
+    }
   }
 
   // Get financial data for an institution
