@@ -4,7 +4,7 @@ import { CollegeDataService } from '@/lib/database';
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('q');
-  const degreeLevel = searchParams.get('degreeLevel'); // 'bachelors' | 'masters'
+  const degreeLevel = searchParams.get('degreeLevel'); // 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate'
 
   if (!query || query.length < 2) {
     return NextResponse.json({ colleges: [] });
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     // Use the searchInstitutions method with name parameter and optional degree filter
     const institutions = await collegeService.searchInstitutions({
       name: query,
-      degreeLevel: degreeLevel === 'bachelors' || degreeLevel === 'masters' ? degreeLevel : undefined
+      degreeLevel: (['associates', 'bachelors', 'masters', 'doctorate', 'certificate'].includes(degreeLevel || '')) ? (degreeLevel as any) : undefined
     });
 
     // Map to the format expected by the frontend
@@ -31,11 +31,11 @@ export async function GET(request: NextRequest) {
       tuition_in_state: inst.tuition_in_state,
       tuition_out_state: inst.tuition_out_state,
       avg_net_price: inst.net_price,
-      admission_rate: null,
-      sat_avg: null,
-      act_median: null,
-      median_earnings_6yr: inst.earnings_6_years_after_entry,
-      median_earnings_10yr: null
+      admission_rate: inst.acceptance_rate || null,
+      sat_avg: inst.average_sat || null,
+      act_median: inst.average_act || null,
+      median_earnings_6yr: inst.earnings_6_years_after_entry || inst.mean_earnings_6_years,
+      median_earnings_10yr: inst.mean_earnings_10_years || null
     }));
 
     return NextResponse.json({ colleges });

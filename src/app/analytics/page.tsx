@@ -36,6 +36,7 @@ export default function AnalyticsPage() {
   const [loading, setLoading] = useState(true);
   const [selectedInstitution, setSelectedInstitution] = useState<InstitutionDetail | null>(null);
   const [institutionLoading, setInstitutionLoading] = useState(false);
+  const [institutionError, setInstitutionError] = useState<string | null>(null);
   const [maxCostInData, setMaxCostInData] = useState(100000);
   const [minROIInData, setMinROIInData] = useState(0);
   const [maxROIInData, setMaxROIInData] = useState(3000000);
@@ -48,9 +49,12 @@ export default function AnalyticsPage() {
   const [states, setStates] = useState<string[]>([]);
   const [stateDropdownOpen, setStateDropdownOpen] = useState(false);
   const [typeDropdownOpen, setTypeDropdownOpen] = useState(false);
-  
+
   const stateDropdownRef = useRef<HTMLDivElement>(null);
   const typeDropdownRef = useRef<HTMLDivElement>(null);
+  const detailPopupRef = useRef<HTMLDivElement>(null);
+  // Track the hovered data point via tooltip (reliable chart-level tracking)
+  const hoveredDataRef = useRef<InstitutionDataPoint | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -145,6 +149,8 @@ export default function AnalyticsPage() {
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
+      // Track hovered point for chart-level click handling
+      hoveredDataRef.current = data;
       return (
         <div className="bg-gray-900 p-4 border border-gray-800 rounded-lg shadow-[0_0_12px_rgba(249,115,22,0.08)]">
           <p className="font-semibold text-white font-bold">{data.name}</p>
@@ -156,29 +162,31 @@ export default function AnalyticsPage() {
             <span className="font-semibold">40-Year ROI:</span> ${data.roi.toLocaleString()}
           </p>
           <p className="text-xs text-gray-400 mt-3 italic">
-            Click dot to calculate ROI →
+            Click to view details →
           </p>
         </div>
       );
     }
+    hoveredDataRef.current = null;
     return null;
   };
 
-  const handleDotClick = async (data: any, index: number) => {
-    // In recharts onClick, the data structure can vary
-    let institutionData = data;
-    
-    if (data?.payload) {
-      institutionData = data.payload;
-    }
-    
+  const handleDotClick = async (institutionData: InstitutionDataPoint) => {
     if (!institutionData?.unitid || !institutionData?.name) {
       return;
     }
 
-    // Close any existing popup first
+    // Close any existing popup first and show loading
     setSelectedInstitution(null);
+    setInstitutionError(null);
     setInstitutionLoading(true);
+
+    // Scroll to the detail section after React renders the loading spinner
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        detailPopupRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 0);
+    });
 
     try {
       const [instResponse, programsResponse] = await Promise.all([
@@ -199,7 +207,6 @@ export default function AnalyticsPage() {
       const topProgram = sortedPrograms[0] || null;
       const bottomProgram = sortedPrograms[sortedPrograms.length - 1] || null;
 
-      // Set institution detail for popup
       setSelectedInstitution({
         unitid: institution.unitid,
         name: institution.name,
@@ -222,8 +229,18 @@ export default function AnalyticsPage() {
     } catch (error) {
       console.error('[Analytics] Error fetching institution details:', error);
       setSelectedInstitution(null);
+      setInstitutionError(`Failed to load details for ${institutionData.name}`);
     } finally {
       setInstitutionLoading(false);
+    }
+  };
+
+  // Chart-level click handler: uses tooltip tracking to identify clicked point.
+  // Recharts calls this as handler(chartState, event) inside a requestAnimationFrame.
+  const handleChartClick = (chartState: any) => {
+    // Only fire if tooltip is active (user is hovering a data point)
+    if (chartState?.isTooltipActive && hoveredDataRef.current) {
+      handleDotClick(hoveredDataRef.current);
     }
   };
 
@@ -436,18 +453,22 @@ export default function AnalyticsPage() {
                 40-Year ROI vs Annual Cost
               </h2>
               <ResponsiveContainer width="100%" height={500}>
-                <ScatterChart margin={{ top: 20, right: 20, bottom: 60, left: 100 }}>
+                <ScatterChart
+                  margin={{ top: 20, right: 20, bottom: 60, left: 100 }}
+                  onClick={handleChartClick}
+                  style={{ cursor: 'crosshair' }}
+                >
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis 
-                    type="number" 
-                    dataKey="cost" 
+                  <XAxis
+                    type="number"
+                    dataKey="cost"
                     name="Annual Cost"
                     label={{ value: 'Total Annual Cost ($)', position: 'bottom', offset: 40 }}
                     tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
                   />
-                  <YAxis 
-                    type="number" 
-                    dataKey="roi" 
+                  <YAxis
+                    type="number"
+                    dataKey="roi"
                     name="ROI"
                     label={{ value: '40-Year ROI ($)', angle: -90, position: 'insideLeft', offset: -10, style: { textAnchor: 'middle', fill: '#9CA3AF' } }}
                     tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
@@ -457,48 +478,60 @@ export default function AnalyticsPage() {
                     ]}
                   />
                   <ZAxis range={[50, 50]} />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Legend 
-                    verticalAlign="top" 
+                  <Tooltip content={<CustomTooltip />} trigger="hover" />
+                  <Legend
+                    verticalAlign="top"
                     height={36}
                     wrapperStyle={{ paddingBottom: '20px' }}
                   />
-                  <Scatter 
-                    name="Public" 
-                    data={publicData} 
+                  <Scatter
+                    name="Public"
+                    data={publicData}
                     fill="#3B82F6"
                     opacity={0.6}
-                    onClick={handleDotClick}
-                    cursor="pointer"
+                    isAnimationActive={false}
                   />
-                  <Scatter 
-                    name="Private Nonprofit" 
-                    data={privateNonprofitData} 
+                  <Scatter
+                    name="Private Nonprofit"
+                    data={privateNonprofitData}
                     fill="#10B981"
                     opacity={0.6}
-                    onClick={handleDotClick}
-                    cursor="pointer"
+                    isAnimationActive={false}
                   />
-                  <Scatter 
-                    name="Private For-Profit" 
-                    data={privateForProfitData} 
+                  <Scatter
+                    name="Private For-Profit"
+                    data={privateForProfitData}
                     fill="#EF4444"
                     opacity={0.6}
-                    onClick={handleDotClick}
-                    cursor="pointer"
+                    isAnimationActive={false}
                   />
                 </ScatterChart>
               </ResponsiveContainer>
 
-              {/* Institution Detail Popup (ENG-365) */}
-              {selectedInstitution && (
-                <div className="mt-6 bg-gradient-to-br from-gray-900/80 to-gray-800/80 border border-blue-500/50 rounded-xl p-6 shadow-xl">
-                  {institutionLoading ? (
-                    <div className="flex items-center justify-center py-8">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+              {/* Institution Detail Popup */}
+              {(institutionLoading || institutionError || selectedInstitution) && (
+                <div ref={detailPopupRef} className="mt-6">
+                  {institutionLoading && (
+                    <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/80 border border-blue-500/50 rounded-xl p-6 shadow-xl">
+                      <div className="flex items-center justify-center py-8 gap-3">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+                        <span className="text-gray-400">Loading institution details...</span>
+                      </div>
                     </div>
-                  ) : (
-                    <>
+                  )}
+                  {institutionError && !institutionLoading && (
+                    <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/80 border border-red-500/50 rounded-xl p-6 shadow-xl">
+                      <p className="text-red-400 text-center">{institutionError}</p>
+                      <button
+                        onClick={() => setInstitutionError(null)}
+                        className="mt-2 w-full text-gray-400 hover:text-white text-sm py-1 transition-colors"
+                      >
+                        Dismiss
+                      </button>
+                    </div>
+                  )}
+                  {selectedInstitution && !institutionLoading && (
+                    <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/80 border border-blue-500/50 rounded-xl p-6 shadow-xl">
                       {/* Header */}
                       <div className="mb-4">
                         <h3 className="text-2xl font-bold text-white mb-1">{selectedInstitution.name}</h3>
@@ -588,7 +621,7 @@ export default function AnalyticsPage() {
                       >
                         Close
                       </button>
-                    </>
+                    </div>
                   )}
                 </div>
               )}

@@ -19,6 +19,7 @@ import {
 
 import { getSchoolBadges } from '@/lib/school-categories';
 import { formatCurrency, getControlTypeLabel } from '@/lib/formatting';
+import { CareerOutlook } from '@/components/CareerOutlook';
 
 interface InstitutionDetails {
   institution: Institution;
@@ -41,6 +42,7 @@ export default function CollegeDetailPage() {
   const [details, setDetails] = useState<InstitutionDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'overview' | 'programs' | 'costs'>('overview');
+  const [expandedProgram, setExpandedProgram] = useState<string | null>(null);
 
   useEffect(() => {
     if (unitid) {
@@ -496,35 +498,47 @@ export default function CollegeDetailPage() {
                       <h3 className="text-sm font-semibold text-orange-400 uppercase tracking-wide mb-2 border-b border-gray-800 pb-1">
                         {groupKey} ({groups[groupKey].length})
                       </h3>
-                      <div className="space-y-2">
-                        {groups[groupKey].map((program, index) => (
-                          <div key={`${program.cipcode}-${index}`} className="flex justify-between items-center py-2 border-b border-gray-800/50 last:border-b-0">
-                            <div className="flex-1 min-w-0">
-                              <span className="text-sm font-medium text-white">{program.cip_title || 'Unknown Program'}</span>
-                              {program.cipcode && (
-                                <span className="ml-2 text-xs text-gray-500">CIP: {program.cipcode}</span>
-                              )}
-                            </div>
-                            <div className="flex items-center gap-2 ml-3 shrink-0">
-                              {(program as any).program_roi != null && (
-                                <span className="px-2 py-0.5 text-xs rounded bg-blue-500/20 text-blue-400 font-semibold">
-                                  ROI: ${((program as any).program_roi / 1000000).toFixed(2)}M
-                                </span>
-                              )}
-                              {(program.total_completions || program.completions || 0) > 0 && (
-                                <span className="text-xs text-gray-500">
-                                  {(program.total_completions || program.completions || 0).toLocaleString()} completions
-                                </span>
-                              )}
-                              <button
-                                onClick={() => router.push(`/roi-calculator?institution=${unitid}&program=${program.cipcode}`)}
-                                className="text-xs bg-orange-600 hover:bg-orange-700 text-white px-2 py-1 rounded transition-colors"
+                      <div className="space-y-1">
+                        {groups[groupKey].map((program, index) => {
+                          const programKey = `${program.cipcode}-${index}`;
+                          const isExpanded = expandedProgram === programKey;
+                          return (
+                            <div key={programKey}>
+                              <div
+                                className="flex justify-between items-center py-2 border-b border-gray-800/50 last:border-b-0 cursor-pointer hover:bg-gray-800/30 rounded px-1 transition-colors"
+                                onClick={() => setExpandedProgram(isExpanded ? null : programKey)}
                               >
-                                ROI
-                              </button>
+                                <div className="flex-1 min-w-0">
+                                  <span className="text-sm font-medium text-white">{program.cip_title || 'Unknown Program'}</span>
+                                  {program.cipcode && (
+                                    <span className="ml-2 text-xs text-gray-500">CIP: {program.cipcode}</span>
+                                  )}
+                                </div>
+                                <div className="flex items-center gap-2 ml-3 shrink-0">
+                                  {(program as any).program_roi != null && (
+                                    <span className="px-2 py-0.5 text-xs rounded bg-blue-500/20 text-blue-400 font-semibold">
+                                      ROI: ${((program as any).program_roi / 1000000).toFixed(2)}M
+                                    </span>
+                                  )}
+                                  {(program.total_completions || program.completions || 0) > 0 && (
+                                    <span className="text-xs text-gray-500">
+                                      {(program.total_completions || program.completions || 0).toLocaleString()} completions
+                                    </span>
+                                  )}
+                                  <button
+                                    onClick={(e) => { e.stopPropagation(); router.push(`/roi-calculator?institution=${unitid}&program=${program.cipcode}`); }}
+                                    className="text-xs bg-orange-600 hover:bg-orange-700 text-white px-2 py-1 rounded transition-colors"
+                                  >
+                                    ROI
+                                  </button>
+                                </div>
+                              </div>
+                              {isExpanded && program.cipcode && (
+                                <CareerOutlook cipcode={program.cipcode} programTitle={program.cip_title} initialCount={5} />
+                              )}
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </div>
                   ));

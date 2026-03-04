@@ -3,6 +3,7 @@
 import { ROICalculation, Institution, Program, CostInputs, EarningsInputs } from '@/types';
 import { ROICalculator } from '@/utils/roiCalculator';
 import DataCitation from './DataCitation';
+import { CareerOutlook } from './CareerOutlook';
 import {
   LineChart,
   Line,
@@ -140,7 +141,7 @@ export default function ROIResults({ result, institution, program, costs, earnin
         
         <div className="space-y-4">
           <div className="flex justify-between items-center py-2 border-b border-gray-800">
-            <span className="text-gray-300 font-medium">Total Education Cost</span>
+            <span className="text-gray-300 font-medium">Total Investment (Costs + Lost Earnings)</span>
             <span className="font-bold text-red-500">
               -{ROICalculator.formatCurrency(result.totalCost)}
             </span>
@@ -325,6 +326,15 @@ export default function ROIResults({ result, institution, program, costs, earnin
               </div>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Career Outlook for selected program */}
+      {program?.cipcode && (
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-6">
+          <h3 className="text-xl font-bold text-white mb-2">Related Career Salaries</h3>
+          <p className="text-sm text-gray-400 mb-3">BLS salary data for occupations related to this program</p>
+          <CareerOutlook cipcode={program.cipcode} programTitle={program.cip_title} initialCount={8} />
         </div>
       )}
 

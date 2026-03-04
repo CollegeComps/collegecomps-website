@@ -30,13 +30,13 @@ export async function GET(request: NextRequest) {
       if (degreeLevel === 'associates') {
         credentialLevelFilter = 'AND ap.credential_level IN (3, 4)';
       } else if (degreeLevel === 'bachelors') {
-        credentialLevelFilter = 'AND ap.credential_level IN (5, 22, 31)';
+        credentialLevelFilter = 'AND ap.credential_level IN (5, 22)';
       } else if (degreeLevel === 'masters') {
         credentialLevelFilter = 'AND ap.credential_level IN (7, 23)';
       } else if (degreeLevel === 'doctorate') {
         credentialLevelFilter = 'AND ap.credential_level IN (8, 9, 17, 18, 19)';
       } else if (degreeLevel === 'certificate') {
-        credentialLevelFilter = 'AND ap.credential_level IN (1, 2, 6, 30, 32, 33)';
+        credentialLevelFilter = 'AND ap.credential_level IN (1, 2, 6, 30, 31, 32, 33)';
       }
 
       // Get all institutions offering this program
@@ -98,14 +98,14 @@ export async function GET(request: NextRequest) {
     } catch (queryError) {
       console.error('Database query error:', queryError);
       return NextResponse.json(
-        { error: 'Database query failed', details: String(queryError) },
+        { error: 'Database query failed' },
         { status: 500 }
       );
     }
   } catch (error) {
     console.error('Error fetching institutions by program:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch institutions', details: String(error) },
+      { error: 'Failed to fetch institutions' },
       { status: 500 }
     );
   }

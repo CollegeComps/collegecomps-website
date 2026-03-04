@@ -167,13 +167,13 @@ export async function GET(request: NextRequest) {
     if (degreeLevel === 'associates') {
       credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (3, 4))';
     } else if (degreeLevel === 'bachelors') {
-      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (5, 22, 31))';
+      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (5, 22))';
     } else if (degreeLevel === 'masters') {
       credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (7, 23))';
     } else if (degreeLevel === 'doctorate') {
       credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (8, 9, 17, 18, 19))';
     } else if (degreeLevel === 'certificate') {
-      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (1, 2, 6, 30, 32, 33))';
+      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (1, 2, 6, 30, 31, 32, 33))';
     }
 
     // Relevance ranking: exact match > starts with > contains anywhere > other match
@@ -211,13 +211,13 @@ export async function GET(request: NextRequest) {
       if (degreeLevel === 'associates') {
         fallbackCredFilter = 'AND ap.credential_level IN (3, 4)';
       } else if (degreeLevel === 'bachelors') {
-        fallbackCredFilter = 'AND ap.credential_level IN (5, 22, 31)';
+        fallbackCredFilter = 'AND ap.credential_level IN (5, 22)';
       } else if (degreeLevel === 'masters') {
         fallbackCredFilter = 'AND ap.credential_level IN (7, 23)';
       } else if (degreeLevel === 'doctorate') {
         fallbackCredFilter = 'AND ap.credential_level IN (8, 9, 17, 18, 19)';
       } else if (degreeLevel === 'certificate') {
-        fallbackCredFilter = 'AND ap.credential_level IN (1, 2, 6, 30, 32, 33)';
+        fallbackCredFilter = 'AND ap.credential_level IN (1, 2, 6, 30, 31, 32, 33)';
       }
 
       const fallbackResults = await db.prepare(`

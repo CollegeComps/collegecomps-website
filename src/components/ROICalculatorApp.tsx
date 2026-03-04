@@ -21,10 +21,12 @@ const adaptInstitution = (dbInst: DatabaseInstitution): Institution => ({
   name: dbInst.name,
   city: dbInst.city || '',
   state: dbInst.state || '',
-  control: dbInst.control_public_private === 1 ? 'Public' : 
+  control: dbInst.control_public_private === 1 ? 'Public' :
            dbInst.control_public_private === 2 ? 'Private nonprofit' : 'Private for-profit',
   ownership: dbInst.ownership || 0,
-  website: dbInst.website
+  website: dbInst.website,
+  earnings_6_years: dbInst.mean_earnings_6_years || dbInst.earnings_6_years_after_entry,
+  earnings_10_years: dbInst.mean_earnings_10_years,
 });
 
 // Adapter function to convert AcademicProgram to Program
@@ -165,11 +167,15 @@ export default function ROICalculatorApp() {
           throw new Error('Scenario not found');
         }
 
-        // Load institution
-        const instResponse = await fetch(`/api/institutions/${scenario.institution_unitid}`);
+        // Load institution (use query-param endpoint for joined financial data)
+        const instResponse = await fetch(`/api/institutions?unitid=${scenario.institution_unitid}`);
         if (instResponse.ok) {
           const instData = await instResponse.json();
-          setSelectedInstitution(instData.institution);
+          const inst = instData.institutions?.[0];
+          if (inst) {
+            setSelectedInstitution(inst);
+            setAdaptedInstitution(adaptInstitution(inst));
+          }
         }
 
         // Load program if available
@@ -242,90 +248,152 @@ export default function ROICalculatorApp() {
       }
 
       try {
-        // Fetch institution data
-        const instResponse = await fetch(`/api/institutions/${institutionId}`);
+        // Fetch institution (query-param endpoint returns data with financial/earnings JOINed)
+        const instResponse = await fetch(`/api/institutions?unitid=${institutionId}`);
         if (!instResponse.ok) {
           throw new Error('Failed to load institution');
         }
 
         const instData = await instResponse.json();
-        const institution = instData.institution;
+        const institution = instData.institutions?.[0];
+        if (!institution) {
+          throw new Error('Institution not found');
+        }
         setSelectedInstitution(institution);
         setSearchMode('institution');
-        
+
         // Store institution's pre-calculated ROI (ENG-363)
         const preCalculatedROI = institution.institution_avg_roi || institution.implied_roi || null;
         setInstitutionROI(preCalculatedROI);
 
-        // Pre-fill costs with institution data
-        const tuition = institution.tuition_in_state || institution.tuition_out_state || 0;
-        const fees = institution.fees || 0;
-        const roomBoard = institution.room_board_on_campus || institution.room_board_off_campus || 0;
-        
-        setCosts({
-          tuition,
-          fees,
-          roomBoard,
-          books: 1200,
-          otherExpenses: 2000,
-          programLength: 4,
-          residency: 'in-state'
-        });
+        // Update adapted institution for enhanced earnings calculations
+        const adapted = adaptInstitution(institution);
+        setAdaptedInstitution(adapted);
 
-        // If program code provided, fetch and pre-fill program data
+        // Fetch detailed financial data, earnings, and (optionally) programs in parallel
+        const fetches: Promise<Response>[] = [
+          fetch(`/api/financial-data?unitid=${institutionId}`),
+          fetch(`/api/earnings-data?unitid=${institutionId}`),
+        ];
         if (programCipCode) {
           const params = new URLSearchParams();
           if (degreeLevelFilter) params.set('degreeLevel', degreeLevelFilter);
-          const programsResponse = await fetch(`/api/institutions/${institutionId}/programs?${params.toString()}`);
-          if (programsResponse.ok) {
-            const programsData = await programsResponse.json();
-            
-            // Normalize CIP codes for comparison (remove dots, trim, compare)
-            const normalizeCip = (cip: string) => cip?.replace(/\./g, '').trim().toLowerCase() || '';
-            const normalizedSearchCip = normalizeCip(programCipCode);
-            const program = programsData.programs?.find((p: any) => {
-              const normalizedProgramCip = normalizeCip(p.cip_code);
-              return normalizedProgramCip === normalizedSearchCip;
-            });
+          fetches.push(fetch(`/api/institutions/${institutionId}/programs?${params.toString()}`));
+        }
 
-            if (program) {
-              setSelectedProgram(program);
-              setSearchMode('degree');
-              
-              // Pre-fill earnings with program's median earnings
-              if (program.median_earnings_10yr) {
-                setEarnings(prev => ({
-                  ...prev,
-                  projectedSalary: program.median_earnings_10yr,
-                  baselineSalary: 42000, // Match analytics calculation
-                  careerLength: 40, // Match analytics 40-year ROI
-                  salaryGrowthRate: 3
-                }));
-              }
-              
-              // Trigger ROI calculation after pre-fill
-              setTimeout(() => {
-                calculateROI();
-              }, 100);
-            }
+        const responses = await Promise.all(fetches);
+        const [finResponse, earningsResponse] = responses;
+        const programsResponse = responses[2]; // may be undefined
+
+        // Pre-fill costs from detailed financial data (most recent year)
+        let autoLength = 4;
+        if (finResponse.ok) {
+          const finData = await finResponse.json();
+          if (finData.financialData) {
+            const fin = finData.financialData;
+            setCosts({
+              tuition: fin.tuition_in_state || fin.tuition_out_state || institution.tuition_in_state || 0,
+              fees: fin.fees || institution.fees || 0,
+              roomBoard: fin.room_board_on_campus || fin.room_board_off_campus || institution.room_board_on_campus || 0,
+              books: fin.books_supplies || 1200,
+              otherExpenses: fin.other_expenses || 2000,
+              programLength: autoLength,
+              residency: 'in-state'
+            });
+          } else {
+            setCosts({
+              tuition: institution.tuition_in_state || institution.tuition_out_state || 0,
+              fees: institution.fees || 0,
+              roomBoard: institution.room_board_on_campus || 0,
+              books: 1200, otherExpenses: 2000, programLength: autoLength, residency: 'in-state'
+            });
           }
         } else {
-          // No program specified, use institution median earnings
-          if (institution.median_earnings_10yr) {
+          setCosts({
+            tuition: institution.tuition_in_state || institution.tuition_out_state || 0,
+            fees: institution.fees || 0,
+            roomBoard: institution.room_board_on_campus || 0,
+            books: 1200, otherExpenses: 2000, programLength: autoLength, residency: 'in-state'
+          });
+        }
+
+        // Earnings priority: 1) IPEDS actual → 2) BLS occupation → 3) Institution average
+        let earningsPreFilled = false;
+
+        // 1) IPEDS actual earnings from earnings_outcomes
+        if (earningsResponse.ok) {
+          const earningsData = await earningsResponse.json();
+          if (earningsData.earningsData?.earnings_6_years_after_entry) {
             setEarnings(prev => ({
               ...prev,
-              projectedSalary: institution.median_earnings_10yr,
-              baselineSalary: 42000,
-              careerLength: 40,
-              salaryGrowthRate: 3
+              projectedSalary: earningsData.earningsData.earnings_6_years_after_entry,
+              baselineSalary: 42000, careerLength: 40, salaryGrowthRate: 3
+            }));
+            earningsPreFilled = true;
+          }
+        }
+
+        // If program code provided, find and pre-fill program data
+        if (programCipCode && programsResponse?.ok) {
+          const programsData = await programsResponse.json();
+
+          const normalizeCip = (cip: string) => cip?.replace(/\./g, '').trim().toLowerCase() || '';
+          const normalizedSearchCip = normalizeCip(programCipCode);
+          const matchedProgram = programsData.programs?.find((p: any) => {
+            const normalizedProgramCip = normalizeCip(p.cipcode || p.cip_code || '');
+            return normalizedProgramCip === normalizedSearchCip;
+          });
+
+          if (matchedProgram) {
+            setSelectedProgram(matchedProgram);
+            setAdaptedProgram(adaptProgram(matchedProgram));
+
+            // Auto-set program length from credential level
+            const credLevel = matchedProgram.credential_level || 5;
+            autoLength = CREDENTIAL_PROGRAM_LENGTH[credLevel] ?? 4;
+            const autoCareer = CREDENTIAL_CAREER_LENGTH[credLevel] ?? 40;
+            setCosts(prev => ({ ...prev, programLength: autoLength }));
+            setEarnings(prev => ({ ...prev, careerLength: autoCareer }));
+
+            // 2) Try BLS occupation salary for better program-specific earnings
+            if (!earningsPreFilled) {
+              const cipcode = matchedProgram.cipcode || matchedProgram.cip_code;
+              if (cipcode) {
+                try {
+                  const occRes = await fetch(`/api/occupation-salary?cipcode=${encodeURIComponent(cipcode)}&limit=10`);
+                  if (occRes.ok) {
+                    const occData = await occRes.json();
+                    if (occData.summary?.median) {
+                      setEarnings(prev => ({
+                        ...prev,
+                        projectedSalary: occData.summary.median,
+                        baselineSalary: 42000, careerLength: autoCareer, salaryGrowthRate: 3
+                      }));
+                      earningsPreFilled = true;
+                    }
+                  }
+                } catch { /* keep fallback */ }
+              }
+            }
+          }
+        }
+
+        // 3) Fallback to institution-level earnings
+        if (!earningsPreFilled) {
+          const instEarnings = institution.mean_earnings_10_years || institution.mean_earnings_6_years;
+          if (instEarnings) {
+            setEarnings(prev => ({
+              ...prev,
+              projectedSalary: instEarnings,
+              baselineSalary: 42000, careerLength: 40, salaryGrowthRate: 3
             }));
           }
-
-          // Trigger ROI calculation after pre-fill (institution only)
-          setTimeout(() => {
-            calculateROI();
-          }, 100);
         }
+
+        // Trigger ROI calculation after all state updates settle
+        setTimeout(() => {
+          calculateROI();
+        }, 200);
 
         // Clean URL after loading
         window.history.replaceState({}, '', '/roi-calculator');
@@ -516,12 +584,21 @@ export default function ROICalculatorApp() {
       }));
     }
 
-    // Fetch real financial data and override with actual tuition/fees when available
+    // Fetch real financial data, earnings, and BLS occupation salary data
+    const cipcode = selectedDegree?.cipcode || selectedProgram?.cipcode || '';
     try {
-      const [finResponse, earningsResponse] = await Promise.all([
+      const fetches: Promise<Response>[] = [
         fetch(`/api/financial-data?unitid=${institution.unitid}`),
         fetch(`/api/earnings-data?unitid=${institution.unitid}`),
-      ]);
+      ];
+      // Also fetch BLS occupation salary data if we have a CIP code
+      if (cipcode) {
+        fetches.push(fetch(`/api/occupation-salary?cipcode=${encodeURIComponent(cipcode)}&limit=10`));
+      }
+
+      const responses = await Promise.all(fetches);
+      const [finResponse, earningsResponse] = responses;
+      const occResponse = responses[2]; // may be undefined
 
       if (finResponse.ok) {
         const finData = await finResponse.json();
@@ -543,7 +620,10 @@ export default function ROICalculatorApp() {
         setCosts(prev => ({ ...prev, programLength: autoLength }));
       }
 
-      // If the college scorecard has real earnings data, prefer it over our estimate
+      // Priority: 1) IPEDS actual earnings → 2) BLS occupation median → 3) hardcoded estimate (already set)
+      let usedRealData = false;
+
+      // If the college scorecard has real earnings data, prefer it
       if (earningsResponse.ok) {
         const earningsData = await earningsResponse.json();
         if (earningsData.earningsData?.earnings_6_years_after_entry) {
@@ -551,6 +631,18 @@ export default function ROICalculatorApp() {
           setEarnings(prev => ({
             ...prev,
             projectedSalary: earn.earnings_6_years_after_entry,
+          }));
+          usedRealData = true;
+        }
+      }
+
+      // If no IPEDS earnings, try BLS occupation salary data as a better fallback
+      if (!usedRealData && occResponse?.ok) {
+        const occData = await occResponse.json();
+        if (occData.summary?.median) {
+          setEarnings(prev => ({
+            ...prev,
+            projectedSalary: occData.summary.median,
           }));
         }
       }
@@ -713,7 +805,7 @@ export default function ROICalculatorApp() {
                 state: selectedInstitution.state,
                 control_public_private: selectedInstitution.control_public_private
               }}
-              onSelect={(program) => {
+              onSelect={async (program) => {
                 setSelectedProgram(program);
                 if (program) {
                   const adapted = adaptProgram(program);
@@ -727,25 +819,43 @@ export default function ROICalculatorApp() {
 
                   setCosts(prev => ({ ...prev, programLength: autoLength }));
 
-                  // Use enhanced earnings with institution context if available
+                  // Set initial estimate from enhanced calculator (hardcoded fallback)
+                  let initialSalary: number;
+                  let initialGrowthRate: number;
                   if (selectedInstitution) {
                     const adaptedInst = adaptInstitution(selectedInstitution);
                     const enhancedEarnings = EnhancedEarningsCalculator.calculateEnhancedEarnings(adaptedInst, program);
-                    setEarnings(prev => ({
-                      ...prev,
-                      projectedSalary: enhancedEarnings.startingSalary,
-                      salaryGrowthRate: enhancedEarnings.growthRate,
-                      careerLength: autoCareer,
-                    }));
+                    initialSalary = enhancedEarnings.startingSalary;
+                    initialGrowthRate = enhancedEarnings.growthRate;
                   } else {
-                    // Fallback: estimate salary from CIP code alone
                     const est = EnhancedEarningsCalculator.estimateSalaryFromCip(program.cipcode || '', credLevel);
-                    setEarnings(prev => ({
-                      ...prev,
-                      projectedSalary: est.startingSalary,
-                      salaryGrowthRate: est.growthRate,
-                      careerLength: autoCareer,
-                    }));
+                    initialSalary = est.startingSalary;
+                    initialGrowthRate = est.growthRate;
+                  }
+
+                  setEarnings(prev => ({
+                    ...prev,
+                    projectedSalary: initialSalary,
+                    salaryGrowthRate: initialGrowthRate,
+                    careerLength: autoCareer,
+                  }));
+
+                  // Fetch BLS occupation salary data for a better estimate
+                  if (program.cipcode) {
+                    try {
+                      const occRes = await fetch(`/api/occupation-salary?cipcode=${encodeURIComponent(program.cipcode)}&limit=10`);
+                      if (occRes.ok) {
+                        const occData = await occRes.json();
+                        if (occData.summary?.median) {
+                          setEarnings(prev => ({
+                            ...prev,
+                            projectedSalary: occData.summary.median,
+                          }));
+                        }
+                      }
+                    } catch {
+                      // BLS fetch failed, keep enhanced calculator estimate
+                    }
                   }
                 } else {
                   setAdaptedProgram(null);
@@ -951,13 +1061,13 @@ export default function ROICalculatorApp() {
                     className="mr-3 h-4 w-4 text-orange-500 focus:ring-orange-500"
                   />
                   <div className="flex-1">
-                    <span className="font-medium text-white">Without Diploma</span>
+                    <span className="font-medium text-white">Without High School Diploma</span>
                     <span className="ml-2 text-green-500 font-bold">$33,000/year</span>
                   </div>
                 </label>
               </div>
               <p className="text-xs text-gray-400 font-medium mt-2">
-                This baseline salary is used to calculate your ROI. Note: Without a diploma, both baseline and projected earnings are typically lower.
+                Baseline salary from BLS median earnings (2022). This is what you would earn without the degree, used to calculate your earnings premium and opportunity cost.
               </p>
             </div>
           </div>

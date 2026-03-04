@@ -14,8 +14,8 @@ export interface Scholarship {
   id: number;
   name: string;
   provider: string;
-  amount_min: number;
-  amount_max: number;
+  amount_min: number | null;
+  amount_max: number | null;
   gpa_requirement: number;
   major_categories: string[]; // e.g., ['STEM', 'Engineering']
   eligible_states: string[]; // e.g., ['CA', 'NY', 'ALL']

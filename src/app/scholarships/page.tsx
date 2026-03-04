@@ -155,7 +155,10 @@ export default function ScholarshipMatchingPage() {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    if (!dateString || dateString === 'Rolling') return 'Rolling';
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return dateString;
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -215,12 +218,16 @@ export default function ScholarshipMatchingPage() {
                   <div className="flex items-center gap-2 text-white">
                     <CurrencyDollarIcon className="h-5 w-5 text-orange-500" />
                     <span className="font-bold">
-                      {formatCurrency(match.scholarship.amount_min)} - {formatCurrency(match.scholarship.amount_max)}
+                      {match.scholarship.amount_min != null && match.scholarship.amount_max != null
+                        ? `${formatCurrency(match.scholarship.amount_min)} - ${formatCurrency(match.scholarship.amount_max)}`
+                        : match.scholarship.amount_max != null
+                        ? `Up to ${formatCurrency(match.scholarship.amount_max)}`
+                        : 'Amount varies'}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-white">
                     <AcademicCapIcon className="h-5 w-5 text-orange-500" />
-                    <span className="font-medium">GPA {match.scholarship.gpa_requirement}+ required</span>
+                    <span className="font-medium">{match.scholarship.gpa_requirement > 0 ? `GPA ${match.scholarship.gpa_requirement}+ required` : 'No GPA minimum'}</span>
                   </div>
                   <div className="flex items-center gap-2 text-white">
                     <CalendarIcon className="h-5 w-5 text-orange-500" />

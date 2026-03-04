@@ -333,13 +333,13 @@ export default function AIRecommendationsPage() {
 
                   <div className="mt-4 flex gap-3">
                     <Link
-                      href={`/college/${school.id}`}
+                      href={`/colleges/${school.id}`}
                       className="flex-1 px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors text-center"
                     >
                       View Details
                     </Link>
                     <Link
-                      href={`/roi-calculator?college=${school.id}`}
+                      href={`/roi-calculator?institution=${school.id}`}
                       className="flex-1 px-4 py-2 bg-gray-100 text-gray-300 font-medium rounded-lg hover:bg-gray-200 transition-colors text-center"
                     >
                       Calculate ROI

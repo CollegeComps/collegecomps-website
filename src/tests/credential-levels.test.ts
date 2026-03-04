@@ -12,12 +12,14 @@ import { describe, it, expect } from 'vitest';
 
 // ─── Canonical truth ──────────────────────────────────────────────────────────
 // These are the CORRECT credential level sets. Every file must agree with these.
+// Note: Level 31 is an occupational certificate (cosmetology, welding, etc.),
+// NOT a bachelor's degree. It belongs in the certificate group.
 const CANONICAL = {
   associates:  [3, 4],
-  bachelors:   [5, 22, 31],
+  bachelors:   [5, 22],
   masters:     [7, 23],
   doctorate:   [8, 9, 17, 18, 19],
-  certificate: [1, 2, 6, 30, 32, 33],
+  certificate: [1, 2, 6, 30, 31, 32, 33],
 } as const;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -36,43 +38,43 @@ function sorted(arr: readonly number[]): number[] {
 // These mirror exactly what each file produces. If you change the source, update here.
 
 const DATABASE_TS_GET_PROGRAMS: Record<string, string> = {
-  associates:  'AND credential_level IN (3,4)',
-  bachelors:   'AND credential_level IN (5,22,31)',
-  masters:     'AND credential_level IN (7,23)',
-  doctorate:   'AND credential_level IN (8,9,17,18,19)',
-  certificate: 'AND credential_level IN (1,2,6,30,32,33)',
+  associates:  'AND credential_level IN (3, 4)',
+  bachelors:   'AND credential_level IN (5, 22)',
+  masters:     'AND credential_level IN (7, 23)',
+  doctorate:   'AND credential_level IN (8, 9, 17, 18, 19)',
+  certificate: 'AND credential_level IN (1, 2, 6, 30, 31, 32, 33)',
 };
 
 const DATABASE_TS_SEARCH_INSTITUTIONS: Record<string, string> = {
   associates:  'AND ap.credential_level IN (3, 4)',
-  bachelors:   'AND ap.credential_level IN (5, 22, 31)',
+  bachelors:   'AND ap.credential_level IN (5, 22)',
   masters:     'AND ap.credential_level IN (7, 23)',
   doctorate:   'AND ap.credential_level IN (8, 9, 17, 18, 19)',
-  certificate: 'AND ap.credential_level IN (1, 2, 6, 30, 32, 33)',
+  certificate: 'AND ap.credential_level IN (1, 2, 6, 30, 31, 32, 33)',
 };
 
 const PROGRAMS_SEARCH_ROUTE: Record<string, string> = {
   associates:  'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (3, 4))',
-  bachelors:   'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (5, 22, 31))',
+  bachelors:   'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (5, 22))',
   masters:     'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (7, 23))',
   doctorate:   'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (8, 9, 17, 18, 19))',
-  certificate: 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (1, 2, 6, 30, 32, 33))',
+  certificate: 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (1, 2, 6, 30, 31, 32, 33))',
 };
 
 const PROGRAMS_INSTITUTIONS_ROUTE: Record<string, string> = {
   associates:  'AND ap.credential_level IN (3, 4)',
-  bachelors:   'AND ap.credential_level IN (5, 22, 31)',
+  bachelors:   'AND ap.credential_level IN (5, 22)',
   masters:     'AND ap.credential_level IN (7, 23)',
   doctorate:   'AND ap.credential_level IN (8, 9, 17, 18, 19)',
-  certificate: 'AND ap.credential_level IN (1, 2, 6, 30, 32, 33)',
+  certificate: 'AND ap.credential_level IN (1, 2, 6, 30, 31, 32, 33)',
 };
 
 const MAJORS_SEARCH_ROUTE: Record<string, string> = {
   associates:  'AND credential_level IN (3, 4)',
-  bachelors:   'AND credential_level IN (5, 22, 31)',
+  bachelors:   'AND credential_level IN (5, 22)',
   masters:     'AND credential_level IN (7, 23)',
   doctorate:   'AND credential_level IN (8, 9, 17, 18, 19)',
-  certificate: 'AND credential_level IN (1, 2, 6, 30, 32, 33)',
+  certificate: 'AND credential_level IN (1, 2, 6, 30, 31, 32, 33)',
 };
 
 // ─── Test helper ──────────────────────────────────────────────────────────────
@@ -103,6 +105,14 @@ describe('Credential Level Consistency', () => {
 
     it('bachelors must include level 22 (extended Bachelor)', () => {
       expect(CANONICAL.bachelors).toContain(22);
+    });
+
+    it('bachelors must NOT include level 31 (occupational certificate)', () => {
+      expect(CANONICAL.bachelors).not.toContain(31);
+    });
+
+    it('certificate must include level 31 (occupational certificate)', () => {
+      expect(CANONICAL.certificate).toContain(31);
     });
 
     it('masters must include level 7 (standard Master)', () => {

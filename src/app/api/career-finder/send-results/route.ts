@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
     if (error) {
       console.error('❌ Resend error:', error);
       return NextResponse.json(
-        { error: 'Failed to send email', details: error },
+        { error: 'Failed to send email' },
         { status: 500 }
       );
     }
@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error('❌ Error in career-finder send-results:', error);
     return NextResponse.json(
-      { error: 'Internal server error', details: error.message },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }
