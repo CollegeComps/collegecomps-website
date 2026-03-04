@@ -516,12 +516,21 @@ export default function ROICalculatorApp() {
       }));
     }
 
-    // Fetch real financial data and override with actual tuition/fees when available
+    // Fetch real financial data, earnings, and BLS occupation salary data
+    const cipcode = selectedDegree?.cipcode || selectedProgram?.cipcode || '';
     try {
-      const [finResponse, earningsResponse] = await Promise.all([
+      const fetches: Promise<Response>[] = [
         fetch(`/api/financial-data?unitid=${institution.unitid}`),
         fetch(`/api/earnings-data?unitid=${institution.unitid}`),
-      ]);
+      ];
+      // Also fetch BLS occupation salary data if we have a CIP code
+      if (cipcode) {
+        fetches.push(fetch(`/api/occupation-salary?cipcode=${encodeURIComponent(cipcode)}&limit=10`));
+      }
+
+      const responses = await Promise.all(fetches);
+      const [finResponse, earningsResponse] = responses;
+      const occResponse = responses[2]; // may be undefined
 
       if (finResponse.ok) {
         const finData = await finResponse.json();
@@ -543,7 +552,10 @@ export default function ROICalculatorApp() {
         setCosts(prev => ({ ...prev, programLength: autoLength }));
       }
 
-      // If the college scorecard has real earnings data, prefer it over our estimate
+      // Priority: 1) IPEDS actual earnings → 2) BLS occupation median → 3) hardcoded estimate (already set)
+      let usedRealData = false;
+
+      // If the college scorecard has real earnings data, prefer it
       if (earningsResponse.ok) {
         const earningsData = await earningsResponse.json();
         if (earningsData.earningsData?.earnings_6_years_after_entry) {
@@ -551,6 +563,18 @@ export default function ROICalculatorApp() {
           setEarnings(prev => ({
             ...prev,
             projectedSalary: earn.earnings_6_years_after_entry,
+          }));
+          usedRealData = true;
+        }
+      }
+
+      // If no IPEDS earnings, try BLS occupation salary data as a better fallback
+      if (!usedRealData && occResponse?.ok) {
+        const occData = await occResponse.json();
+        if (occData.summary?.median) {
+          setEarnings(prev => ({
+            ...prev,
+            projectedSalary: occData.summary.median,
           }));
         }
       }

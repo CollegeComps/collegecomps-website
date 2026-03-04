@@ -35,8 +35,15 @@ export async function GET(request: NextRequest) {
 
     try {
       let occupations;
+      let cipInfo: any = null;
 
       if (cipcode) {
+        // Look up official CIP title/definition from cip_codes_ref
+        cipInfo = await db.prepare(`
+          SELECT cip_title, cip_definition, cip_family
+          FROM cip_codes_ref WHERE cip_code = ?
+        `).get(cipcode);
+
         // Exact CIP code → related occupations with salary data
         occupations = await db.prepare(`
           SELECT
@@ -102,6 +109,11 @@ export async function GET(request: NextRequest) {
           related_programs: o.related_programs,
         })),
         summary,
+        cipInfo: cipInfo ? {
+          title: cipInfo.cip_title,
+          definition: cipInfo.cip_definition,
+          family: cipInfo.cip_family,
+        } : null,
         query: cipcode ? { cipcode } : { cip2 },
       });
     } catch (queryError) {
