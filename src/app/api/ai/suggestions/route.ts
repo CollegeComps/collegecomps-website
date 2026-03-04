@@ -87,38 +87,38 @@ async function getIntelligentSuggestions(
   if (type === 'school') {
     // Smart school matching with context
     const schools = await db.prepare(`
-      SELECT DISTINCT 
-        i.institution_name as name,
+      SELECT DISTINCT
+        i.name,
         i.state,
         i.city,
-        i.control,
+        i.control_public_private,
+        i.acceptance_rate,
         fd.tuition_in_state,
-        fd.tuition_out_state,
-        ad.admission_rate
+        fd.tuition_out_state
       FROM institutions i
-      LEFT JOIN financial_data fd ON i.institution_id = fd.institution_id
-      LEFT JOIN admissions_data ad ON i.institution_id = ad.institution_id
-      WHERE i.institution_name LIKE ?
-      ORDER BY 
-        CASE 
-          WHEN i.institution_name LIKE ? THEN 1
+      LEFT JOIN financial_data fd ON i.unitid = fd.unitid
+        AND fd.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
+      WHERE i.name LIKE ?
+      ORDER BY
+        CASE
+          WHEN i.name LIKE ? THEN 1
           ELSE 2
         END,
-        i.institution_name
+        i.name
       LIMIT 8
     `).all(`%${query}%`, `${query}%`);
 
     suggestions = schools.map((school: any) => {
       let reason = '';
-      let type = 'match';
+      let schoolType = 'match';
 
       // Determine school type based on admission rate
-      if (school.admission_rate) {
-        if (school.admission_rate < 0.20) {
-          type = 'reach';
+      if (school.acceptance_rate) {
+        if (school.acceptance_rate < 0.20) {
+          schoolType = 'reach';
           reason = 'Highly selective institution';
-        } else if (school.admission_rate > 0.60) {
-          type = 'safety';
+        } else if (school.acceptance_rate > 0.60) {
+          schoolType = 'safety';
           reason = 'More accessible admission rates';
         } else {
           reason = 'Competitive but achievable';
@@ -129,16 +129,14 @@ async function getIntelligentSuggestions(
       if (context.budget_range === 'low' && school.tuition_in_state < 15000) {
         reason += ' • Affordable in-state tuition';
       }
-      if (school.control === 'Public') {
-        reason += ' • Public institution';
-      } else if (school.control === 'Private not-for-profit') {
-        reason += ' • Private institution';
-      }
+      const controlLabel = school.control_public_private === 1 ? 'Public' :
+                           school.control_public_private === 2 ? 'Private nonprofit' : 'Private for-profit';
+      reason += ` • ${controlLabel} institution`;
 
       return {
         name: school.name,
         reason: reason || 'Matches your search',
-        type,
+        type: schoolType,
         location: `${school.city}, ${school.state}`,
         tuition: school.tuition_in_state || school.tuition_out_state,
       };
@@ -147,16 +145,16 @@ async function getIntelligentSuggestions(
   } else if (type === 'major') {
     // Smart major matching
     const majors = await db.prepare(`
-      SELECT DISTINCT 
-        program_title as name,
+      SELECT DISTINCT
+        cip_title as name,
         credential_level,
         COUNT(*) as school_count
       FROM academic_programs
-      WHERE program_title LIKE ?
-      GROUP BY program_title, credential_level
-      ORDER BY 
-        CASE 
-          WHEN program_title LIKE ? THEN 1
+      WHERE cip_title LIKE ?
+      GROUP BY cip_title, credential_level
+      ORDER BY
+        CASE
+          WHEN cip_title LIKE ? THEN 1
           ELSE 2
         END,
         school_count DESC

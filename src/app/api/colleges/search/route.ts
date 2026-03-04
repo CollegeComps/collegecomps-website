@@ -31,9 +31,9 @@ export async function GET(request: NextRequest) {
       tuition_in_state: inst.tuition_in_state,
       tuition_out_state: inst.tuition_out_state,
       avg_net_price: inst.net_price,
-      admission_rate: null,
-      sat_avg: null,
-      act_median: null,
+      admission_rate: inst.acceptance_rate || null,
+      sat_avg: inst.average_sat || null,
+      act_median: inst.average_act || null,
       median_earnings_6yr: inst.earnings_6_years_after_entry || inst.mean_earnings_6_years,
       median_earnings_10yr: inst.mean_earnings_10_years || null
     }));
