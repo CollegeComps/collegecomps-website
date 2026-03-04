@@ -30,13 +30,13 @@ export async function GET(request: NextRequest) {
       if (degreeLevel === 'associates') {
         credentialLevelFilter = 'AND ap.credential_level IN (3, 4)';
       } else if (degreeLevel === 'bachelors') {
-        credentialLevelFilter = 'AND ap.credential_level IN (5, 22, 31)';
+        credentialLevelFilter = 'AND ap.credential_level IN (5, 22)';
       } else if (degreeLevel === 'masters') {
         credentialLevelFilter = 'AND ap.credential_level IN (7, 23)';
       } else if (degreeLevel === 'doctorate') {
         credentialLevelFilter = 'AND ap.credential_level IN (8, 9, 17, 18, 19)';
       } else if (degreeLevel === 'certificate') {
-        credentialLevelFilter = 'AND ap.credential_level IN (1, 2, 6, 30, 32, 33)';
+        credentialLevelFilter = 'AND ap.credential_level IN (1, 2, 6, 30, 31, 32, 33)';
       }
 
       // Get all institutions offering this program

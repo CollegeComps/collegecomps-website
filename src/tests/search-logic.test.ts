@@ -142,10 +142,10 @@ function relevance(title: string, query: string): number {
 // ─── Credential level filter SQL ──────────────────────────────────────────────
 const CRED_FILTERS: Record<string, string> = {
   associates:  'AND ap.credential_level IN (3, 4)',
-  bachelors:   'AND ap.credential_level IN (5, 22, 31)',
+  bachelors:   'AND ap.credential_level IN (5, 22)',
   masters:     'AND ap.credential_level IN (7, 23)',
   doctorate:   'AND ap.credential_level IN (8, 9, 17, 18, 19)',
-  certificate: 'AND ap.credential_level IN (1, 2, 6, 30, 32, 33)',
+  certificate: 'AND ap.credential_level IN (1, 2, 6, 30, 31, 32, 33)',
 };
 
 // ─── Tests ────────────────────────────────────────────────────────────────────

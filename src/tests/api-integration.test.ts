@@ -254,7 +254,8 @@ describe('GET /api/majors/search', () => {
     const q = lastQuery();
     expect(q?.sql).toContain('5');
     expect(q?.sql).toContain('22');
-    expect(q?.sql).toContain('31');
+    // Level 31 is an occupational certificate, not a bachelor's degree
+    expect(q?.sql).not.toContain('31');
   });
 
   it('applies associates filter with credential levels 3 and 4', async () => {

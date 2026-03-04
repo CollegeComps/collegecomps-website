@@ -368,13 +368,13 @@ export class CollegeDataService {
     if (degreeLevel === 'associates') {
       degreeLevelClause = ` AND credential_level IN (3,4)`;
     } else if (degreeLevel === 'bachelors') {
-      degreeLevelClause = ` AND credential_level IN (5,22,31)`;
+      degreeLevelClause = ` AND credential_level IN (5, 22)`;
     } else if (degreeLevel === 'masters') {
       degreeLevelClause = ` AND credential_level IN (7,23)`;
     } else if (degreeLevel === 'doctorate') {
       degreeLevelClause = ` AND credential_level IN (8,9,17,18,19)`;
     } else if (degreeLevel === 'certificate') {
-      degreeLevelClause = ` AND credential_level IN (1,2,6,30,32,33)`;
+      degreeLevelClause = ` AND credential_level IN (1, 2, 6, 30, 31, 32, 33)`;
     }
 
     // CTE: sum completions within each year (IPEDS stores per-gender rows),
@@ -519,13 +519,13 @@ export class CollegeDataService {
         if (filters.degreeLevel === 'associates') {
           query += ` AND ap.credential_level IN (3, 4)`;
         } else if (filters.degreeLevel === 'bachelors') {
-          query += ` AND ap.credential_level IN (5, 22, 31)`;
+          query += ` AND ap.credential_level IN (5, 22)`;
         } else if (filters.degreeLevel === 'masters') {
           query += ` AND ap.credential_level IN (7, 23)`;
         } else if (filters.degreeLevel === 'doctorate') {
           query += ` AND ap.credential_level IN (8, 9, 17, 18, 19)`;
         } else if (filters.degreeLevel === 'certificate') {
-          query += ` AND ap.credential_level IN (1, 2, 6, 30, 32, 33)`;
+          query += ` AND ap.credential_level IN (1, 2, 6, 30, 31, 32, 33)`;
         }
       }
       
