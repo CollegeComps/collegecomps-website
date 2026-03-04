@@ -34,9 +34,8 @@ export async function GET() {
     console.error('Profile fetch error:', error);
     console.error('Error details:', error instanceof Error ? error.message : String(error));
     console.error('Stack:', error instanceof Error ? error.stack : 'No stack');
-    return NextResponse.json({ 
-      error: 'Failed to fetch profile',
-      details: error instanceof Error ? error.message : String(error)
+    return NextResponse.json({
+      error: 'Failed to fetch profile'
     }, { status: 500 });
   }
 }

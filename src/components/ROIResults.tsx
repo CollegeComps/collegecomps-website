@@ -3,6 +3,7 @@
 import { ROICalculation, Institution, Program, CostInputs, EarningsInputs } from '@/types';
 import { ROICalculator } from '@/utils/roiCalculator';
 import DataCitation from './DataCitation';
+import { CareerOutlook } from './CareerOutlook';
 import {
   LineChart,
   Line,
@@ -325,6 +326,15 @@ export default function ROIResults({ result, institution, program, costs, earnin
               </div>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Career Outlook for selected program */}
+      {program?.cipcode && (
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-6">
+          <h3 className="text-xl font-bold text-white mb-2">Related Career Salaries</h3>
+          <p className="text-sm text-gray-400 mb-3">BLS salary data for occupations related to this program</p>
+          <CareerOutlook cipcode={program.cipcode} programTitle={program.cip_title} initialCount={8} />
         </div>
       )}
 

@@ -98,14 +98,14 @@ export async function GET(request: NextRequest) {
     } catch (queryError) {
       console.error('Database query error:', queryError);
       return NextResponse.json(
-        { error: 'Database query failed', details: String(queryError) },
+        { error: 'Database query failed' },
         { status: 500 }
       );
     }
   } catch (error) {
     console.error('Error fetching institutions by program:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch institutions', details: String(error) },
+      { error: 'Failed to fetch institutions' },
       { status: 500 }
     );
   }

@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Use zippopotam.us API - free, no API key required
-    const response = await fetch(`http://api.zippopotam.us/us/${zip}`, {
+    const response = await fetch(`https://api.zippopotam.us/us/${zip}`, {
       next: { revalidate: 86400 } // Cache for 24 hours
     });
 
