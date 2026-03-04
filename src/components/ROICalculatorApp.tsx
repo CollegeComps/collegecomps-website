@@ -1061,13 +1061,13 @@ export default function ROICalculatorApp() {
                     className="mr-3 h-4 w-4 text-orange-500 focus:ring-orange-500"
                   />
                   <div className="flex-1">
-                    <span className="font-medium text-white">Without Diploma</span>
+                    <span className="font-medium text-white">Without High School Diploma</span>
                     <span className="ml-2 text-green-500 font-bold">$33,000/year</span>
                   </div>
                 </label>
               </div>
               <p className="text-xs text-gray-400 font-medium mt-2">
-                This baseline salary is used to calculate your ROI. Note: Without a diploma, both baseline and projected earnings are typically lower.
+                Baseline salary from BLS median earnings (2022). This is what you would earn without the degree, used to calculate your earnings premium and opportunity cost.
               </p>
             </div>
           </div>

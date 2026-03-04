@@ -116,43 +116,51 @@ async function findMatches(
       // Check major compatibility with improved matching
       const majorCategories = getMajorCategories(major);
       const scholarshipMajor = scholarship.major_category || 'any';
-      
+
       if (scholarshipMajor === 'any' || scholarshipMajor.toLowerCase() === 'all') {
         matchScore += 15;
         matchReasons.push('Open to all majors');
       } else {
-        // Check for exact or close match
+        // Check for match between user's major categories and scholarship's major
         let matched = false;
+        const scholarshipMajorLower = scholarshipMajor.toLowerCase();
+
+        // Split scholarship major_category by comma in case it has multiple
+        const scholarshipCategories = scholarshipMajorLower.split(',').map(s => s.trim());
+
         for (const userCategory of majorCategories) {
-          const scholarshipMajorLower = scholarshipMajor.toLowerCase();
+          if (userCategory === 'ALL') continue; // skip the catch-all
           const userCategoryLower = userCategory.toLowerCase();
-          
-          // Perfect match
-          if (scholarshipMajorLower === userCategoryLower ||
-              scholarshipMajorLower.includes(userCategoryLower) ||
-              userCategoryLower.includes(scholarshipMajorLower)) {
-            matchScore += 40;
-            matchReasons.push(`Perfect match for ${scholarshipMajor}`);
-            matched = true;
-            break;
+
+          for (const schCat of scholarshipCategories) {
+            // Exact match or substring match in either direction
+            if (schCat === userCategoryLower ||
+                schCat.includes(userCategoryLower) ||
+                userCategoryLower.includes(schCat)) {
+              matchScore += 40;
+              matchReasons.push(`Major match: ${scholarshipMajor}`);
+              matched = true;
+              break;
+            }
           }
+          if (matched) break;
         }
-        
-        // If no match but scholarship is "ANY" category, give partial points
-        if (!matched && majorCategories.includes('ALL')) {
-          matchScore += 10;
-        } else if (!matched) {
-          // Skip scholarships that don't match the user's major
+
+        if (!matched) {
+          // No major match - skip this scholarship
           continue;
         }
       }
 
-      // Check state residency
-      const scholarshipStates = (scholarship.state_residency || 'any').split(',').map(s => s.trim());
-      
+      // Check state residency (normalize to uppercase for safe comparison)
+      const scholarshipStates = (scholarship.state_residency || 'any')
+        .split(',')
+        .map(s => s.trim().toUpperCase());
+      const userState = state.toUpperCase();
+
       // If user selects "ANY", show all scholarships (nationwide and state-specific)
-      if (state === 'ANY') {
-        if (!scholarship.state_residency || scholarship.state_residency === 'any' || scholarshipStates.includes('any')) {
+      if (userState === 'ANY') {
+        if (!scholarship.state_residency || scholarshipStates.includes('ANY')) {
           matchScore += 20;
           matchReasons.push('Available nationwide');
         } else {
@@ -161,10 +169,10 @@ async function findMatches(
         }
       } else {
         // User selected specific state
-        if (!scholarship.state_residency || scholarship.state_residency === 'any' || scholarshipStates.includes('any')) {
+        if (!scholarship.state_residency || scholarshipStates.includes('ANY')) {
           matchScore += 15;
           matchReasons.push('Available nationwide');
-        } else if (scholarshipStates.includes(state)) {
+        } else if (scholarshipStates.includes(userState)) {
           matchScore += 30;
           matchReasons.push(`Available in ${state}`);
         } else {
@@ -173,17 +181,20 @@ async function findMatches(
         }
       }
 
-      // Add deadline urgency bonus
+      // Check deadline - handle expired, upcoming, and invalid dates
       if (scholarship.deadline) {
         const deadlineDate = new Date(scholarship.deadline);
-        const today = new Date();
-        const daysUntilDeadline = Math.floor((deadlineDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-        
-        if (daysUntilDeadline > 0 && daysUntilDeadline < 90) {
+        const daysUntilDeadline = isNaN(deadlineDate.getTime())
+          ? null
+          : Math.floor((deadlineDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+
+        if (daysUntilDeadline !== null && daysUntilDeadline < -365) {
+          // Skip scholarships expired over a year ago (likely need updated dates)
+          // Don't skip recently-expired ones since many scholarships have annual cycles
+          continue;
+        } else if (daysUntilDeadline !== null && daysUntilDeadline > 0 && daysUntilDeadline < 90) {
           matchScore += 10;
           matchReasons.push(`Deadline approaching: ${scholarship.deadline}`);
-        } else if (daysUntilDeadline < 0) {
-          continue; // Skip expired scholarships
         }
       }
 
@@ -194,8 +205,8 @@ async function findMatches(
             id: scholarship.id,
             name: scholarship.name,
             provider: scholarship.organization,
-            amount_min: scholarship.amount_min || 0,
-            amount_max: scholarship.amount_max || 0,
+            amount_min: scholarship.amount_min ?? null,
+            amount_max: scholarship.amount_max ?? null,
             gpa_requirement: scholarship.gpa_min || 0.0,
             major_categories: scholarship.major_category ? [scholarship.major_category] : ['ALL'],
             eligible_states: scholarship.state_residency?.split(',').map(s => s.trim()) || ['ALL'],
