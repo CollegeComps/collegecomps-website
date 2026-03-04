@@ -633,8 +633,8 @@ export class CollegeDataService {
       carnegie_setting: row.carnegie_setting,
       locale: row.locale,
       historically_black: row.historically_black,
-      predominantly_black: row.predominantly_black,
-      tribal_college: row.tribal_college,
+      predominantly_black: row.predominately_black,  // DB uses misspelled 'predominately'
+      tribal_college: row.tribal,  // DB column is 'tribal'
       asian_american_native_american_pacific_islander: row.asian_american_native_american_pacific_islander,
       hispanic_serving: row.hispanic_serving,
       open_admission_policy: row.open_admission_policy,

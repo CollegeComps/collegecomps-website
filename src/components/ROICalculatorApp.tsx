@@ -21,10 +21,12 @@ const adaptInstitution = (dbInst: DatabaseInstitution): Institution => ({
   name: dbInst.name,
   city: dbInst.city || '',
   state: dbInst.state || '',
-  control: dbInst.control_public_private === 1 ? 'Public' : 
+  control: dbInst.control_public_private === 1 ? 'Public' :
            dbInst.control_public_private === 2 ? 'Private nonprofit' : 'Private for-profit',
   ownership: dbInst.ownership || 0,
-  website: dbInst.website
+  website: dbInst.website,
+  earnings_6_years: dbInst.mean_earnings_6_years || dbInst.earnings_6_years_after_entry,
+  earnings_10_years: dbInst.mean_earnings_10_years,
 });
 
 // Adapter function to convert AcademicProgram to Program
