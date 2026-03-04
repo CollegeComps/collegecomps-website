@@ -141,7 +141,7 @@ export default function ROIResults({ result, institution, program, costs, earnin
         
         <div className="space-y-4">
           <div className="flex justify-between items-center py-2 border-b border-gray-800">
-            <span className="text-gray-300 font-medium">Total Education Cost</span>
+            <span className="text-gray-300 font-medium">Total Investment (Costs + Lost Earnings)</span>
             <span className="font-bold text-red-500">
               -{ROICalculator.formatCurrency(result.totalCost)}
             </span>

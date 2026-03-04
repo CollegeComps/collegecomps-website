@@ -310,6 +310,7 @@ export class CollegeDataService {
       tuition_out_state: result.tuition_out_state,
       fees: result.fees,
       room_board_on_campus: result.room_board_on_campus,
+      net_price: result.net_price,
       mean_earnings_6_years: result.earnings_6_years_after_entry,
       mean_earnings_10_years: result.earnings_10_years_after_entry,
       earnings_6_years_after_entry: result.earnings_6_years_after_entry,
@@ -386,7 +387,8 @@ export class CollegeDataService {
           MAX(cip_title) as cip_title,
           credential_level,
           year,
-          SUM(completions) as year_completions
+          SUM(completions) as year_completions,
+          MAX(program_roi) as program_roi
         FROM academic_programs
         WHERE unitid = ?
           AND cipcode IS NOT NULL
@@ -423,7 +425,8 @@ export class CollegeDataService {
           ELSE 'Other'
         END as credential_name,
         MAX(year_completions) as total_completions,
-        MAX(year) as year
+        MAX(year) as year,
+        MAX(program_roi) as program_roi
       FROM yearly
       GROUP BY unitid, cipcode, credential_level
       ORDER BY MAX(year_completions) DESC, MAX(cip_title) ASC

@@ -76,11 +76,29 @@ export class ROICalculator {
   }
 
   /**
-   * Calculate payback period in years
+   * Calculate payback period in years using year-by-year accumulation with salary growth.
+   * Finds the year when cumulative additional earnings (degree salary − baseline salary)
+   * first exceed the total cost of the degree.
    */
-  static calculatePaybackPeriod(totalCost: number, annualSalaryIncrease: number): number {
+  static calculatePaybackPeriod(totalCost: number, annualSalaryIncrease: number, growthRate: number = 3): number {
     if (annualSalaryIncrease <= 0) return Infinity;
-    return totalCost / annualSalaryIncrease;
+    if (totalCost <= 0) return 0;
+
+    let cumulative = 0;
+    let currentIncrease = annualSalaryIncrease;
+
+    for (let year = 1; year <= 50; year++) {
+      cumulative += currentIncrease;
+      if (cumulative >= totalCost) {
+        // Interpolate within the year for fractional result
+        const prevCumulative = cumulative - currentIncrease;
+        const remaining = totalCost - prevCumulative;
+        return year - 1 + remaining / currentIncrease;
+      }
+      currentIncrease *= (1 + growthRate / 100);
+    }
+
+    return Infinity;
   }
 
   /**
@@ -107,29 +125,41 @@ export class ROICalculator {
     // Use the validated salary for calculations
     const validatedEarnings = { ...earnings, projectedSalary };
     
-    // Calculate Total Degree-Based Earnings (40-year career post-graduation)
+    // Calculate Total Degree-Based Earnings (career post-graduation)
     const degreeEarnings = this.calculateDegreeEarnings(validatedEarnings, costs.programLength);
     const baselineEarnings = this.calculateBaselineEarnings(validatedEarnings);
-    
-    // Total earnings benefit from degree
+
+    // Opportunity cost: baseline earnings lost during program years (the HS grad
+    // earns money while the college student is in school paying tuition)
+    let opportunityCost = 0;
+    let baselineDuringSchool = validatedEarnings.baselineSalary;
+    for (let year = 0; year < costs.programLength; year++) {
+      opportunityCost += baselineDuringSchool;
+      baselineDuringSchool *= (1 + validatedEarnings.salaryGrowthRate / 100);
+    }
+
+    // Total earnings benefit from degree (salary premium over career)
     const totalDegreeBasedEarnings = degreeEarnings - baselineEarnings;
+
+    // Net ROI = Salary Premium - Direct Costs - Opportunity Cost
+    const netROI = totalDegreeBasedEarnings - totalCostOfDegree - opportunityCost;
     
-    // Net ROI = Total Degree-Based Earnings - Total Cost of Degree
-    const netROI = totalDegreeBasedEarnings - totalCostOfDegree;
-    
-    // ROI Percentage = (Net ROI / Total Cost of Degree) × 100%
-    const roiPercentage = totalCostOfDegree > 0 
-      ? (netROI / totalCostOfDegree) * 100 
+    // Total investment = direct costs + opportunity cost (what you gave up)
+    const totalInvestment = totalCostOfDegree + opportunityCost;
+
+    // ROI Percentage = (Net ROI / Total Investment) × 100%
+    const roiPercentage = totalInvestment > 0
+      ? (netROI / totalInvestment) * 100
       : 0;
-    
-    // Calculate payback period
+
+    // Payback period: how long to recoup total investment (direct + opportunity)
     const annualSalaryIncrease = validatedEarnings.projectedSalary - validatedEarnings.baselineSalary;
-    const paybackPeriod = this.calculatePaybackPeriod(totalCostOfDegree, annualSalaryIncrease);
-    
-    const breakEvenPoint = totalCostOfDegree; // Point where cumulative extra earnings equal total cost
+    const paybackPeriod = this.calculatePaybackPeriod(totalInvestment, annualSalaryIncrease, validatedEarnings.salaryGrowthRate);
+
+    const breakEvenPoint = totalInvestment;
 
     return {
-      totalCost: totalCostOfDegree,
+      totalCost: totalInvestment,
       expectedEarnings: totalDegreeBasedEarnings,
       netROI,
       roiPercentage,

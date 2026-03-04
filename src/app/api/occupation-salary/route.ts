@@ -86,11 +86,16 @@ export async function GET(request: NextRequest) {
 
       // Compute summary stats
       const withSalary = occupations.filter((o: any) => o.median_annual_wage != null);
-      const salaries = withSalary.map((o: any) => o.median_annual_wage);
+      const salaries = withSalary.map((o: any) => o.median_annual_wage).sort((a: number, b: number) => a - b);
+
+      const computeMedian = (arr: number[]) => {
+        const mid = Math.floor(arr.length / 2);
+        return arr.length % 2 === 0 ? Math.round((arr[mid - 1] + arr[mid]) / 2) : arr[mid];
+      };
 
       const summary = salaries.length > 0 ? {
         count: salaries.length,
-        median: salaries.sort((a: number, b: number) => a - b)[Math.floor(salaries.length / 2)],
+        median: computeMedian(salaries),
         min: Math.min(...salaries),
         max: Math.max(...salaries),
         avg: Math.round(salaries.reduce((s: number, v: number) => s + v, 0) / salaries.length),

@@ -737,7 +737,7 @@ export default function ROICalculatorApp() {
                 state: selectedInstitution.state,
                 control_public_private: selectedInstitution.control_public_private
               }}
-              onSelect={(program) => {
+              onSelect={async (program) => {
                 setSelectedProgram(program);
                 if (program) {
                   const adapted = adaptProgram(program);
@@ -751,25 +751,43 @@ export default function ROICalculatorApp() {
 
                   setCosts(prev => ({ ...prev, programLength: autoLength }));
 
-                  // Use enhanced earnings with institution context if available
+                  // Set initial estimate from enhanced calculator (hardcoded fallback)
+                  let initialSalary: number;
+                  let initialGrowthRate: number;
                   if (selectedInstitution) {
                     const adaptedInst = adaptInstitution(selectedInstitution);
                     const enhancedEarnings = EnhancedEarningsCalculator.calculateEnhancedEarnings(adaptedInst, program);
-                    setEarnings(prev => ({
-                      ...prev,
-                      projectedSalary: enhancedEarnings.startingSalary,
-                      salaryGrowthRate: enhancedEarnings.growthRate,
-                      careerLength: autoCareer,
-                    }));
+                    initialSalary = enhancedEarnings.startingSalary;
+                    initialGrowthRate = enhancedEarnings.growthRate;
                   } else {
-                    // Fallback: estimate salary from CIP code alone
                     const est = EnhancedEarningsCalculator.estimateSalaryFromCip(program.cipcode || '', credLevel);
-                    setEarnings(prev => ({
-                      ...prev,
-                      projectedSalary: est.startingSalary,
-                      salaryGrowthRate: est.growthRate,
-                      careerLength: autoCareer,
-                    }));
+                    initialSalary = est.startingSalary;
+                    initialGrowthRate = est.growthRate;
+                  }
+
+                  setEarnings(prev => ({
+                    ...prev,
+                    projectedSalary: initialSalary,
+                    salaryGrowthRate: initialGrowthRate,
+                    careerLength: autoCareer,
+                  }));
+
+                  // Fetch BLS occupation salary data for a better estimate
+                  if (program.cipcode) {
+                    try {
+                      const occRes = await fetch(`/api/occupation-salary?cipcode=${encodeURIComponent(program.cipcode)}&limit=10`);
+                      if (occRes.ok) {
+                        const occData = await occRes.json();
+                        if (occData.summary?.median) {
+                          setEarnings(prev => ({
+                            ...prev,
+                            projectedSalary: occData.summary.median,
+                          }));
+                        }
+                      }
+                    } catch {
+                      // BLS fetch failed, keep enhanced calculator estimate
+                    }
                   }
                 } else {
                   setAdaptedProgram(null);
