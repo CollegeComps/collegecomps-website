@@ -20,16 +20,19 @@ export async function GET(request: NextRequest) {
     let credentialLevelFilter = '';
     const params = [`%${query}%`];
 
+    // Urban Institute / IPEDS data uses non-standard award_level codes:
+    //   4 = Associate's, 7 = Bachelor's, 9 = Master's/Graduate,
+    //   22 = Extended Bachelor's, 23 = Extended Master's
     if (degreeLevel === 'associates') {
-      credentialLevelFilter = 'AND credential_level IN (3, 4)';
+      credentialLevelFilter = 'AND credential_level IN (4)';
     } else if (degreeLevel === 'bachelors') {
-      credentialLevelFilter = 'AND credential_level IN (5, 22)';
+      credentialLevelFilter = 'AND credential_level IN (7, 22)';
     } else if (degreeLevel === 'masters') {
-      credentialLevelFilter = 'AND credential_level IN (7, 23)';
+      credentialLevelFilter = 'AND credential_level IN (9, 23)';
     } else if (degreeLevel === 'doctorate') {
-      credentialLevelFilter = 'AND credential_level IN (8, 9, 17, 18, 19)';
+      credentialLevelFilter = 'AND credential_level IN (9, 17, 18, 19)';
     } else if (degreeLevel === 'certificate') {
-      credentialLevelFilter = 'AND credential_level IN (1, 2, 6, 30, 31, 32, 33)';
+      credentialLevelFilter = 'AND credential_level IN (8, 24, 30, 31, 32, 33)';
     }
 
     const majors = await db

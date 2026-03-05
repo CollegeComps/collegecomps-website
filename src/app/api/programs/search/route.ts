@@ -163,17 +163,20 @@ export async function GET(request: NextRequest) {
     //  22:   Bachelor's degree (extended program)
     //  23:   Master's degree (extended program)
     //  30-33: Occupational/vocational certificate variants
+    // Urban Institute / IPEDS data uses non-standard award_level codes:
+    //   4 = Associate's, 7 = Bachelor's, 9 = Master's/Graduate,
+    //   22 = Extended Bachelor's, 23 = Extended Master's
     let credentialFilter = '';
     if (degreeLevel === 'associates') {
-      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (3, 4))';
+      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (4))';
     } else if (degreeLevel === 'bachelors') {
-      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (5, 22))';
+      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (7, 22))';
     } else if (degreeLevel === 'masters') {
-      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (7, 23))';
+      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (9, 23))';
     } else if (degreeLevel === 'doctorate') {
-      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (8, 9, 17, 18, 19))';
+      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (9, 17, 18, 19))';
     } else if (degreeLevel === 'certificate') {
-      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (1, 2, 6, 30, 31, 32, 33))';
+      credentialFilter = 'AND EXISTS (SELECT 1 FROM academic_programs ap WHERE ap.cipcode = p.cipcode AND ap.credential_level IN (8, 24, 30, 31, 32, 33))';
     }
 
     // Relevance ranking: exact match > starts with > contains anywhere > other match
@@ -209,15 +212,15 @@ export async function GET(request: NextRequest) {
 
       let fallbackCredFilter = '';
       if (degreeLevel === 'associates') {
-        fallbackCredFilter = 'AND ap.credential_level IN (3, 4)';
+        fallbackCredFilter = 'AND ap.credential_level IN (4)';
       } else if (degreeLevel === 'bachelors') {
-        fallbackCredFilter = 'AND ap.credential_level IN (5, 22)';
+        fallbackCredFilter = 'AND ap.credential_level IN (7, 22)';
       } else if (degreeLevel === 'masters') {
-        fallbackCredFilter = 'AND ap.credential_level IN (7, 23)';
+        fallbackCredFilter = 'AND ap.credential_level IN (9, 23)';
       } else if (degreeLevel === 'doctorate') {
-        fallbackCredFilter = 'AND ap.credential_level IN (8, 9, 17, 18, 19)';
+        fallbackCredFilter = 'AND ap.credential_level IN (9, 17, 18, 19)';
       } else if (degreeLevel === 'certificate') {
-        fallbackCredFilter = 'AND ap.credential_level IN (1, 2, 6, 30, 31, 32, 33)';
+        fallbackCredFilter = 'AND ap.credential_level IN (8, 24, 30, 31, 32, 33)';
       }
 
       const fallbackResults = await db.prepare(`

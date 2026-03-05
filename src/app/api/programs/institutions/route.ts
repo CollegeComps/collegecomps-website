@@ -27,16 +27,19 @@ export async function GET(request: NextRequest) {
     try {
       // Map degree level to canonical credential_level values (IPEDS + extended codes)
       let credentialLevelFilter = '';
+      // Urban Institute / IPEDS data uses non-standard award_level codes:
+      //   4 = Associate's, 7 = Bachelor's, 9 = Master's/Graduate,
+      //   22 = Extended Bachelor's, 23 = Extended Master's
       if (degreeLevel === 'associates') {
-        credentialLevelFilter = 'AND ap.credential_level IN (3, 4)';
+        credentialLevelFilter = 'AND ap.credential_level IN (4)';
       } else if (degreeLevel === 'bachelors') {
-        credentialLevelFilter = 'AND ap.credential_level IN (5, 22)';
+        credentialLevelFilter = 'AND ap.credential_level IN (7, 22)';
       } else if (degreeLevel === 'masters') {
-        credentialLevelFilter = 'AND ap.credential_level IN (7, 23)';
+        credentialLevelFilter = 'AND ap.credential_level IN (9, 23)';
       } else if (degreeLevel === 'doctorate') {
-        credentialLevelFilter = 'AND ap.credential_level IN (8, 9, 17, 18, 19)';
+        credentialLevelFilter = 'AND ap.credential_level IN (9, 17, 18, 19)';
       } else if (degreeLevel === 'certificate') {
-        credentialLevelFilter = 'AND ap.credential_level IN (1, 2, 6, 30, 31, 32, 33)';
+        credentialLevelFilter = 'AND ap.credential_level IN (8, 24, 30, 31, 32, 33)';
       }
 
       // Get all institutions offering this program
@@ -63,24 +66,15 @@ export async function GET(request: NextRequest) {
       `).all(cipcode);
 
 
-      // Map IPEDS credential levels to human-readable names
+      // Map credential levels to human-readable names (Urban Institute coding)
       const credentialNames: { [key: number]: string } = {
-        1:  'Award of less than 1 academic year',
-        2:  'Award of at least 1 but less than 2 academic years',
-        3:  "Associate's degree",
-        4:  'Award of at least 2 but less than 4 academic years',
-        5:  "Bachelor's degree",
-        6:  'Postbaccalaureate certificate',
-        7:  "Master's degree",
-        8:  "Post-master's certificate",
-        9:  "Doctor's degree",
-        17: "Doctor's degree – research/scholarship",
-        18: "Doctor's degree – professional practice",
-        19: "Doctor's degree – other",
-        20: 'Professional certificate',
-        21: 'Professional certificate (graduate level)',
+        4:  "Associate's degree",
+        7:  "Bachelor's degree",
+        8:  'Post-baccalaureate certificate',
+        9:  "Master's degree",
         22: "Bachelor's degree (extended, 5-yr program)",
         23: "Master's degree (extended)",
+        24: "Doctoral degree",
         30: 'Occupational award (less than 1 year)',
         31: 'Occupational award (1 to less than 4 years)',
         32: 'Occupational certificate',

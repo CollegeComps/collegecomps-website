@@ -2,49 +2,34 @@ import { Institution, AcademicProgram } from '@/lib/database';
 
 // ─── Credential-level → typical program length (years) ───────────────────────
 // Used to auto-populate "Program Length" when a specific program is selected.
+// NOTE: Urban Institute IPEDS data uses non-standard award_level codes.
+//   4 = Associate's, 7 = Bachelor's, 9 = Master's/Graduate,
+//   22 = Extended Bachelor's, 23 = Extended Master's
 export const CREDENTIAL_PROGRAM_LENGTH: Record<number, number> = {
-  1:  1,   // Award of less than 1 academic year → 1 yr (round up for financial planning)
-  2:  1.5, // Award of at least 1 but less than 2 academic years
-  3:  2,   // Associate's degree
-  4:  3,   // Award of at least 2 but less than 4 academic years (avg 3)
-  5:  4,   // Bachelor's degree
-  6:  1,   // Postbaccalaureate certificate
-  7:  2,   // Master's degree
-  8:  1,   // Post-master's certificate
-  9:  5,   // Doctor's degree (generic)
-  17: 5,   // Doctor's degree – research/scholarship
-  18: 4,   // Doctor's degree – professional practice (JD, MD: 3-4 yrs post-bac)
-  19: 3,   // Doctor's degree – other
-  20: 1,   // Professional certificate
-  21: 2,   // Professional certificate (graduate level)
+  4:  2,   // Associate's degree
+  7:  4,   // Bachelor's degree
+  8:  1,   // Post-baccalaureate certificate
+  9:  2,   // Master's degree
   22: 5,   // Extended Bachelor's (5-year program)
   23: 3,   // Extended Master's
+  24: 5,   // Doctoral degree
   30: 1,   // Occupational award < 1 year
   31: 2,   // Occupational award 1 to < 4 years
   32: 1,   // Occupational certificate
-  33: 1,   // Postbaccalaureate occupational certificate
+  33: 1,   // Academic certificate
 };
 
 // ─── Credential-level → typical career length (years of earning) ──────────────
 // Earnings horizon decreases for advanced degrees because graduates start later.
 export const CREDENTIAL_CAREER_LENGTH: Record<number, number> = {
-  1:  40, // Certificate < 1 yr → start young, full career
-  2:  40,
-  3:  40, // Associate's
-  4:  40,
-  5:  40, // Bachelor's
-  6:  38, // Postbac cert (already have degree, slightly older)
-  7:  37, // Master's (start 1-2 yrs later than bachelor's)
-  8:  35,
-  9:  32, // Research doctorate (5+ yr program, mid-20s by graduation)
-  17: 32,
-  18: 30, // Professional doctorate – MD/JD start 30+
-  19: 32,
-  20: 38,
-  21: 36,
+  4:  40, // Associate's
+  7:  40, // Bachelor's
+  8:  38, // Post-bac certificate
+  9:  37, // Master's (start 1-2 yrs later than bachelor's)
   22: 38, // Extended bachelor's (5 yr)
   23: 35, // Extended master's
-  30: 40,
+  24: 32, // Doctoral degree
+  30: 40, // Occupational cert < 1 yr
   31: 40,
   32: 40,
   33: 38,
