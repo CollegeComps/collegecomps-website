@@ -452,6 +452,7 @@ export default function AnalyticsPage() {
               <h2 className="text-lg font-semibold text-white font-bold mb-6">
                 40-Year ROI vs Annual Cost
               </h2>
+              <div style={{ userSelect: 'none', WebkitUserSelect: 'none' }} className="[&_svg]:outline-none [&_*]:outline-none">
               <ResponsiveContainer width="100%" height={500}>
                 <ScatterChart
                   margin={{ top: 20, right: 20, bottom: 60, left: 100 }}
@@ -507,6 +508,7 @@ export default function AnalyticsPage() {
                   />
                 </ScatterChart>
               </ResponsiveContainer>
+              </div>
 
               {/* Institution Detail Popup */}
               {(institutionLoading || institutionError || selectedInstitution) && (
