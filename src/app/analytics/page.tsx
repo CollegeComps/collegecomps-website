@@ -456,7 +456,7 @@ export default function AnalyticsPage() {
                 <ScatterChart
                   margin={{ top: 20, right: 20, bottom: 60, left: 100 }}
                   onClick={handleChartClick}
-                  style={{ cursor: 'crosshair' }}
+                  style={{ cursor: 'crosshair', outline: 'none' }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis
