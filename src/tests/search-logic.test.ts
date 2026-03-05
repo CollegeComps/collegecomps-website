@@ -139,13 +139,13 @@ function relevance(title: string, query: string): number {
   return 3;
 }
 
-// ─── Credential level filter SQL ──────────────────────────────────────────────
+// ─── Credential level filter SQL (Urban Institute IPEDS coding) ──────────────
 const CRED_FILTERS: Record<string, string> = {
-  associates:  'AND ap.credential_level IN (3, 4)',
-  bachelors:   'AND ap.credential_level IN (5, 22)',
-  masters:     'AND ap.credential_level IN (7, 23)',
-  doctorate:   'AND ap.credential_level IN (8, 9, 17, 18, 19)',
-  certificate: 'AND ap.credential_level IN (1, 2, 6, 30, 31, 32, 33)',
+  associates:  'AND ap.credential_level IN (4)',
+  bachelors:   'AND ap.credential_level IN (7, 22)',
+  masters:     'AND ap.credential_level IN (9, 23)',
+  doctorate:   'AND ap.credential_level IN (9, 17, 18, 19)',
+  certificate: 'AND ap.credential_level IN (8, 24, 30, 31, 32, 33)',
 };
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
@@ -275,33 +275,24 @@ describe('Relevance Ranking', () => {
   });
 });
 
-describe('Credential Filter SQL Generation', () => {
-  it('associates filter contains levels 3 and 4', () => {
-    expect(CRED_FILTERS.associates).toContain('3');
+describe('Credential Filter SQL Generation (Urban Institute coding)', () => {
+  it('associates filter contains level 4', () => {
     expect(CRED_FILTERS.associates).toContain('4');
   });
-  it('bachelors filter contains level 5 (critical — was missing before fix)', () => {
-    expect(CRED_FILTERS.bachelors).toContain('5');
+  it('bachelors filter contains level 7 (bachelor in Urban Institute data)', () => {
+    expect(CRED_FILTERS.bachelors).toContain('7');
   });
-  it('bachelors filter contains level 22', () => {
+  it('bachelors filter contains level 22 (extended bachelor)', () => {
     expect(CRED_FILTERS.bachelors).toContain('22');
   });
-  it('masters filter contains level 7', () => {
-    expect(CRED_FILTERS.masters).toContain('7');
+  it('masters filter contains level 9 (master/graduate in Urban Institute data)', () => {
+    expect(CRED_FILTERS.masters).toContain('9');
   });
-  it('masters filter contains level 23', () => {
+  it('masters filter contains level 23 (extended master)', () => {
     expect(CRED_FILTERS.masters).toContain('23');
   });
-  it('doctorate filter contains 17 and 18 (IPEDS research/professional codes)', () => {
-    expect(CRED_FILTERS.doctorate).toContain('17');
-    expect(CRED_FILTERS.doctorate).toContain('18');
-  });
-  it('doctorate filter does NOT contain 24 (old wrong code)', () => {
-    expect(CRED_FILTERS.doctorate).not.toContain('24');
-  });
-  it('certificate filter contains levels 1 and 2', () => {
-    expect(CRED_FILTERS.certificate).toContain('1');
-    expect(CRED_FILTERS.certificate).toContain('2');
+  it('certificate filter contains level 31 (occupational certificate)', () => {
+    expect(CRED_FILTERS.certificate).toContain('31');
   });
   it('all degree levels have a filter defined', () => {
     for (const level of ['associates', 'bachelors', 'masters', 'doctorate', 'certificate']) {

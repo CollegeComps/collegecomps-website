@@ -366,16 +366,19 @@ export class CollegeDataService {
     degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate'
   ): Promise<AcademicProgram[]> {
     let degreeLevelClause = '';
+    // Urban Institute / IPEDS data uses non-standard award_level codes:
+    //   4 = Associate's, 7 = Bachelor's, 9 = Master's/Graduate,
+    //   22 = Extended Bachelor's, 23 = Extended Master's
     if (degreeLevel === 'associates') {
-      degreeLevelClause = ` AND credential_level IN (3,4)`;
+      degreeLevelClause = ` AND credential_level IN (4)`;
     } else if (degreeLevel === 'bachelors') {
-      degreeLevelClause = ` AND credential_level IN (5, 22)`;
+      degreeLevelClause = ` AND credential_level IN (7, 22)`;
     } else if (degreeLevel === 'masters') {
-      degreeLevelClause = ` AND credential_level IN (7,23)`;
+      degreeLevelClause = ` AND credential_level IN (9, 23)`;
     } else if (degreeLevel === 'doctorate') {
-      degreeLevelClause = ` AND credential_level IN (8,9,17,18,19)`;
+      degreeLevelClause = ` AND credential_level IN (9, 17, 18, 19)`;
     } else if (degreeLevel === 'certificate') {
-      degreeLevelClause = ` AND credential_level IN (1, 2, 6, 30, 31, 32, 33)`;
+      degreeLevelClause = ` AND credential_level IN (8, 24, 30, 31, 32, 33)`;
     }
 
     // CTE: sum completions within each year (IPEDS stores per-gender rows),
@@ -403,22 +406,13 @@ export class CollegeDataService {
         MAX(cip_title) as cip_title,
         credential_level,
         CASE credential_level
-          WHEN 1  THEN 'Certificate (< 1 year)'
-          WHEN 2  THEN 'Certificate (1-2 years)'
-          WHEN 3  THEN 'Associate Degree'
-          WHEN 4  THEN 'Certificate (2-4 years)'
-          WHEN 5  THEN 'Bachelor''s Degree'
-          WHEN 6  THEN 'Post-Baccalaureate Certificate'
-          WHEN 7  THEN 'Master''s Degree'
-          WHEN 8  THEN 'Post-Master''s Certificate'
-          WHEN 9  THEN 'Doctoral Degree'
-          WHEN 17 THEN 'Doctoral Degree (Research/Scholarship)'
-          WHEN 18 THEN 'Doctoral Degree (Professional Practice)'
-          WHEN 19 THEN 'Doctoral Degree (Other)'
-          WHEN 20 THEN 'Professional Certificate'
-          WHEN 21 THEN 'Professional Certificate (Graduate)'
+          WHEN 4  THEN 'Associate Degree'
+          WHEN 7  THEN 'Bachelor''s Degree'
+          WHEN 8  THEN 'Post-Baccalaureate Certificate'
+          WHEN 9  THEN 'Master''s Degree'
           WHEN 22 THEN 'Bachelor''s Degree (Extended)'
           WHEN 23 THEN 'Master''s Degree (Extended)'
+          WHEN 24 THEN 'Doctoral Degree'
           WHEN 30 THEN 'Occupational Certificate (< 1 year)'
           WHEN 31 THEN 'Occupational Certificate (1-2 years)'
           WHEN 32 THEN 'Occupational Certificate (2-4 years)'
