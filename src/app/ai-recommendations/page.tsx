@@ -130,8 +130,8 @@ export default function AIRecommendationsPage() {
           <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] p-8 text-center">
             <SparklesIcon className="w-16 h-16 text-blue-600 mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-white font-bold mb-4">AI Recommendations</h1>
-            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-              <p className="text-yellow-700">{error}</p>
+            <div className="bg-yellow-500/10 border-l-4 border-yellow-500 p-4 mb-6">
+              <p className="text-yellow-400">{error}</p>
             </div>
             
             {error.includes('Excel') ? (
@@ -220,26 +220,26 @@ export default function AIRecommendationsPage() {
 
         {/* Summary Cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-green-50 rounded-xl p-6 border-2 border-green-200">
-            <h3 className="text-lg font-semibold text-green-900 mb-2">Safety Schools</h3>
-            <p className="text-3xl font-bold tracking-tight text-green-600">{data.summary.safetySchools}</p>
-            <p className="text-sm text-green-700 mt-2">High admission chance</p>
+          <div className="bg-green-500/10 rounded-xl p-6 border-2 border-green-500/30">
+            <h3 className="text-lg font-semibold text-green-400 mb-2">Safety Schools</h3>
+            <p className="text-3xl font-bold tracking-tight text-green-400">{data.summary.safetySchools}</p>
+            <p className="text-sm text-green-500 mt-2">High admission chance</p>
           </div>
-          <div className="bg-yellow-50 rounded-xl p-6 border-2 border-yellow-200">
-            <h3 className="text-lg font-semibold text-yellow-900 mb-2">Target Schools</h3>
-            <p className="text-3xl font-bold tracking-tight text-yellow-600">{data.summary.targetSchools}</p>
-            <p className="text-sm text-yellow-700 mt-2">Good fit schools</p>
+          <div className="bg-yellow-500/10 rounded-xl p-6 border-2 border-yellow-500/30">
+            <h3 className="text-lg font-semibold text-yellow-400 mb-2">Target Schools</h3>
+            <p className="text-3xl font-bold tracking-tight text-yellow-400">{data.summary.targetSchools}</p>
+            <p className="text-sm text-yellow-500 mt-2">Good fit schools</p>
           </div>
-          <div className="bg-orange-50 rounded-xl p-6 border-2 border-orange-200">
-            <h3 className="text-lg font-semibold text-orange-900 mb-2">Reach Schools</h3>
-            <p className="text-3xl font-bold tracking-tight text-orange-600">{data.summary.reachSchools}</p>
-            <p className="text-sm text-orange-700 mt-2">Stretch goals</p>
+          <div className="bg-orange-500/10 rounded-xl p-6 border-2 border-orange-500/30">
+            <h3 className="text-lg font-semibold text-orange-400 mb-2">Reach Schools</h3>
+            <p className="text-3xl font-bold tracking-tight text-orange-400">{data.summary.reachSchools}</p>
+            <p className="text-sm text-orange-500 mt-2">Stretch goals</p>
           </div>
         </div>
 
         {/* Tabs */}
         <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_12px_rgba(249,115,22,0.08)] overflow-hidden">
-          <div className="border-b border-gray-200">
+          <div className="border-b border-gray-700">
             <div className="flex">
               <button
                 onClick={() => setActiveTab('all')}
@@ -290,7 +290,7 @@ export default function AIRecommendationsPage() {
               {currentRecommendations.map((school) => (
                 <div
                   key={school.id}
-                  className="border border-gray-200 rounded-lg p-6 hover:shadow-[0_0_10px_rgba(249,115,22,0.08)] transition-shadow"
+                  className="border border-gray-800 rounded-lg p-6 hover:shadow-[0_0_10px_rgba(249,115,22,0.08)] transition-shadow"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
@@ -309,14 +309,14 @@ export default function AIRecommendationsPage() {
                             key={idx}
                             className="px-2 py-1 bg-orange-500/10 text-orange-400 text-xs rounded-full"
                           >
-                            [OK] {reason}
+                            {reason}
                           </span>
                         ))}
                       </div>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-gray-200">
+                  <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-gray-700">
                     <div>
                       <p className="text-sm text-gray-300 mb-1">Estimated Cost</p>
                       <p className="text-lg font-semibold text-white font-bold">{formatCurrency(school.estimatedCost)}</p>
@@ -340,7 +340,7 @@ export default function AIRecommendationsPage() {
                     </Link>
                     <Link
                       href={`/roi-calculator?institution=${school.id}`}
-                      className="flex-1 px-4 py-2 bg-gray-100 text-gray-300 font-medium rounded-lg hover:bg-gray-200 transition-colors text-center"
+                      className="flex-1 px-4 py-2 bg-gray-800 text-gray-300 font-medium rounded-lg hover:bg-gray-700 transition-colors text-center border border-gray-700"
                     >
                       Calculate ROI
                     </Link>

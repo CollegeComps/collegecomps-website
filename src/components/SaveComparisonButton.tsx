@@ -92,7 +92,7 @@ export default function SaveComparisonButton({ colleges, programData, onAuthRequ
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
           <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-gray-900">Save Comparison</h3>
+              <h3 className="text-xl font-bold text-white">Save Comparison</h3>
               <button
                 onClick={() => setShowModal(false)}
                 className="text-gray-400 hover:text-gray-300"
@@ -104,8 +104,8 @@ export default function SaveComparisonButton({ colleges, programData, onAuthRequ
             </div>
 
             {error && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-sm text-red-600">{error}</p>
+              <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                <p className="text-sm text-red-400">{error}</p>
               </div>
             )}
 

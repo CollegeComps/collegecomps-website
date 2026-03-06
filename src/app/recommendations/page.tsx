@@ -392,7 +392,7 @@ export default function RecommendationsPage() {
               <select
                 value={maxDistance}
                 onChange={(e) => setMaxDistance(parseInt(e.target.value))}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-white font-medium focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white font-medium focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               >
                 <option value="25">Within 25 miles</option>
                 <option value="50">Within 50 miles</option>
@@ -440,7 +440,7 @@ export default function RecommendationsPage() {
             </div>
 
             {zipCodeError && (
-              <div className="w-full text-sm text-red-600">
+              <div className="w-full text-sm text-red-400">
                 {zipCodeError}
               </div>
             )}
@@ -551,10 +551,10 @@ export default function RecommendationsPage() {
             {recommendations.safety.length > 0 && (
               <div>
                 <div className="flex items-center mb-4">
-                  <h2 className="text-2xl font-bold text-green-700">
+                  <h2 className="text-2xl font-bold text-green-400">
                     Safety Schools
                   </h2>
-                  <span className="ml-3 px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                  <span className="ml-3 px-3 py-1 bg-green-500/10 text-green-400 rounded-full text-sm font-medium">
                     {recommendations.safety.length}
                   </span>
                 </div>
@@ -595,10 +595,10 @@ export default function RecommendationsPage() {
             {recommendations.reach.length > 0 && (
               <div>
                 <div className="flex items-center mb-4">
-                  <h2 className="text-2xl font-bold text-blue-700">
+                  <h2 className="text-2xl font-bold text-blue-400">
                     Reach Schools
                   </h2>
-                  <span className="ml-3 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                  <span className="ml-3 px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full text-sm font-medium">
                     {recommendations.reach.length}
                   </span>
                 </div>
@@ -646,7 +646,7 @@ function RecommendationCard({ rec }: { rec: RecommendationResult }) {
   return (
     <div
       onClick={() => router.push(`/colleges/${institution.unitid}`)}
-      className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border-gray-200 p-6 hover:shadow-[0_0_10px_rgba(249,115,22,0.08)] transition-shadow cursor-pointer"
+      className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] p-6 hover:shadow-[0_0_10px_rgba(249,115,22,0.08)] transition-shadow cursor-pointer"
     >
       <div className="mb-3">
         <div className="flex items-start justify-between mb-2">
@@ -695,7 +695,7 @@ function RecommendationCard({ rec }: { rec: RecommendationResult }) {
         )}
       </div>
 
-      <div className="mt-4 pt-4 border-t border-gray-100">
+      <div className="mt-4 pt-4 border-t border-gray-700">
         <button className="w-full flex items-center justify-center text-orange-500 hover:text-orange-400 font-medium text-sm">
           View Details
           <ArrowRightIcon className="w-4 h-4 ml-2" />

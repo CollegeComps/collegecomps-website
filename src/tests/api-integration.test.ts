@@ -4,9 +4,13 @@
  * Tests API routes by mocking the database layer.
  * Verifies that:
  *   - Query parameters are correctly parsed
- *   - Credential level filters are applied
+ *   - Credential level filters use Urban Institute coding (NOT standard IPEDS)
  *   - Edge cases (empty query, short query, missing params) are handled
  *   - Response shape is correct
+ *
+ * Urban Institute IPEDS credential level codes:
+ *   4 = Associate's, 7 = Bachelor's, 9 = Master's/Graduate,
+ *   22 = Extended Bachelor's, 23 = Extended Master's
  *
  * Run: npx vitest run src/tests/api-integration.test.ts
  */
@@ -82,45 +86,41 @@ describe('GET /api/programs/search', () => {
     expect(q?.sql).toContain('programs_search_cache');
   });
 
-  it('uses bachelors credential filter containing level 5', async () => {
+  it('uses bachelors credential filter containing level 7 (Urban Institute coding)', async () => {
     const { GET } = await import('@/app/api/programs/search/route');
     const req = makeRequest('/api/programs/search?q=nursing&degreeLevel=bachelors');
     await GET(req as any);
-    // Find the query that references academic_programs for the credential filter
-    const credQuery = capturedQueries.find(q => q.sql.includes('credential_level') && q.sql.includes('academic_programs'));
-    // The credential filter is embedded in the main SQL via EXISTS, so check the main cache query
     const cacheQuery = capturedQueries.find(q => q.sql.includes('programs_search_cache'));
-    expect(cacheQuery?.sql).toContain('5');   // level 5 = standard Bachelor
+    expect(cacheQuery?.sql).toContain('7');   // level 7 = Bachelor in Urban Institute data
     expect(cacheQuery?.sql).toContain('22');  // level 22 = extended Bachelor
   });
 
-  it('uses associates credential filter containing levels 3 and 4', async () => {
+  it('uses associates credential filter containing level 4', async () => {
     const { GET } = await import('@/app/api/programs/search/route');
     const req = makeRequest('/api/programs/search?q=nursing&degreeLevel=associates');
     await GET(req as any);
     const cacheQuery = capturedQueries.find(q => q.sql.includes('programs_search_cache'));
-    expect(cacheQuery?.sql).toContain('3');
     expect(cacheQuery?.sql).toContain('4');
   });
 
-  it('uses masters credential filter containing levels 7 and 23', async () => {
+  it('uses masters credential filter containing levels 9 and 23', async () => {
     const { GET } = await import('@/app/api/programs/search/route');
     const req = makeRequest('/api/programs/search?q=business&degreeLevel=masters');
     await GET(req as any);
     const cacheQuery = capturedQueries.find(q => q.sql.includes('programs_search_cache'));
-    expect(cacheQuery?.sql).toContain('7');
+    expect(cacheQuery?.sql).toContain('9');
     expect(cacheQuery?.sql).toContain('23');
   });
 
-  it('uses doctorate credential filter with correct IPEDS codes', async () => {
+  it('uses doctorate credential filter with correct codes', async () => {
     const { GET } = await import('@/app/api/programs/search/route');
     const req = makeRequest('/api/programs/search?q=psychology&degreeLevel=doctorate');
     await GET(req as any);
     const cacheQuery = capturedQueries.find(q => q.sql.includes('programs_search_cache'));
+    expect(cacheQuery?.sql).toContain('9');   // master's/graduate (also used for doctoral search)
     expect(cacheQuery?.sql).toContain('17');  // research/scholarship
     expect(cacheQuery?.sql).toContain('18');  // professional practice
-    expect(cacheQuery?.sql).not.toContain('24'); // old wrong code
-    expect(cacheQuery?.sql).not.toContain(' 33'); // old wrong code (33 is a cert)
+    expect(cacheQuery?.sql).toContain('19');  // other doctoral
   });
 
   it('applies no credential filter when degreeLevel is empty', async () => {
@@ -162,22 +162,22 @@ describe('GET /api/programs (by institution)', () => {
     expect(res.status).toBe(400);
   });
 
-  it('queries programs_safe_view with bachelors credential filter', async () => {
+  it('queries programs_safe_view with bachelors credential filter (level 7)', async () => {
     const { GET } = await import('@/app/api/programs/route');
     const req = makeRequest('/api/programs?unitid=228778&degreeLevel=bachelors');
     await GET(req as any);
     const q = lastQuery();
     expect(q?.sql).toContain('programs_safe_view');
-    expect(q?.sql).toContain('5');   // standard Bachelor
+    expect(q?.sql).toContain('7');   // Bachelor in Urban Institute data
     expect(q?.sql).toContain('22');
   });
 
-  it('queries programs_safe_view with masters credential filter', async () => {
+  it('queries programs_safe_view with masters credential filter (level 9)', async () => {
     const { GET } = await import('@/app/api/programs/route');
     const req = makeRequest('/api/programs?unitid=228778&degreeLevel=masters');
     await GET(req as any);
     const q = lastQuery();
-    expect(q?.sql).toContain('7');
+    expect(q?.sql).toContain('9');
     expect(q?.sql).toContain('23');
   });
 
@@ -219,7 +219,6 @@ describe('GET /api/institutions/search', () => {
     const req = makeRequest('/api/institutions/search?q=Texas+A%26M');
     await GET(req as any);
     const q = lastQuery();
-    // The query should normalize the name: replace ' & ' with '&'
     expect(q?.sql).toContain('REPLACE');
   });
 });
@@ -247,23 +246,22 @@ describe('GET /api/majors/search', () => {
     expect(q?.sql).toContain('LIKE');
   });
 
-  it('applies bachelors filter with correct credential levels including 5', async () => {
+  it('applies bachelors filter with level 7 (Urban Institute coding)', async () => {
     const { GET } = await import('@/app/api/majors/search/route');
     const req = makeRequest('/api/majors/search?q=nursing&degreeLevel=bachelors');
     await GET(req as any);
     const q = lastQuery();
-    expect(q?.sql).toContain('5');
+    expect(q?.sql).toContain('7');
     expect(q?.sql).toContain('22');
     // Level 31 is an occupational certificate, not a bachelor's degree
     expect(q?.sql).not.toContain('31');
   });
 
-  it('applies associates filter with credential levels 3 and 4', async () => {
+  it('applies associates filter with credential level 4', async () => {
     const { GET } = await import('@/app/api/majors/search/route');
     const req = makeRequest('/api/majors/search?q=nursing&degreeLevel=associates');
     await GET(req as any);
     const q = lastQuery();
-    expect(q?.sql).toContain('3');
     expect(q?.sql).toContain('4');
   });
 
@@ -299,11 +297,11 @@ describe('GET /api/programs/institutions', () => {
     expect(q?.sql).toContain('academic_programs');
   });
 
-  it('applies bachelors filter with level 5 for cipcode lookup', async () => {
+  it('applies bachelors filter with level 7 for cipcode lookup', async () => {
     const { GET } = await import('@/app/api/programs/institutions/route');
     const req = makeRequest('/api/programs/institutions?cipcode=51.3801&degreeLevel=bachelors');
     await GET(req as any);
     const q = lastQuery();
-    expect(q?.sql).toContain('5');
+    expect(q?.sql).toContain('7');
   });
 });

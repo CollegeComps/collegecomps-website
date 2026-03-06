@@ -504,7 +504,7 @@ export default function Home() {
                   $6.99
                   <span className="text-lg text-gray-400 font-normal">/month</span>
                 </div>
-                <p className="text-gray-300 font-medium">or $59.99/year (save $24)</p>
+                <p className="text-gray-300 font-medium">or $66.99/year (save 20%)</p>
               </div>
               <ul className="space-y-3 mb-8 flex-grow">
                 <li className="flex items-start">
@@ -562,7 +562,7 @@ export default function Home() {
       </div>
 
       {/* CTA Section */}
-      <div className="py-16 bg-gradient-to-r from-orange-600 to-orange-500 border-t border-orange-500/20">
+      <div className="py-16 bg-gradient-to-r from-orange-800 to-orange-700 border-t border-orange-700/20">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
             Ready to Explore Your Options?
