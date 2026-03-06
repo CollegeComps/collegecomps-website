@@ -111,7 +111,7 @@ export default function RotatingTestimonials() {
               {testimonial.initials}
             </div>
             <div className="ml-4">
-              <div className="font-semibold text-gray-900">{testimonial.name}</div>
+              <div className="font-semibold text-white">{testimonial.name}</div>
               <div className="text-sm text-gray-400">{testimonial.role}</div>
             </div>
           </div>

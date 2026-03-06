@@ -562,7 +562,7 @@ export default function Home() {
       </div>
 
       {/* CTA Section */}
-      <div className="py-16 bg-gradient-to-r from-orange-600 to-orange-500 border-t border-orange-500/20">
+      <div className="py-16 bg-gradient-to-r from-orange-800 to-orange-700 border-t border-orange-700/20">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
             Ready to Explore Your Options?
