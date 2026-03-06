@@ -75,8 +75,8 @@ export default function SaveROIScenarioModal({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-900">Save ROI Scenario</h2>
+        <div className="sticky top-0 bg-gray-800 border-b border-gray-700 px-6 py-4 flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-white">Save ROI Scenario</h2>
           <button
             onClick={handleClose}
             className="text-gray-400 hover:text-gray-300 transition-colors"
@@ -104,7 +104,7 @@ export default function SaveROIScenarioModal({
                 setError(null);
               }}
               placeholder={suggestedName}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
               disabled={saving}
             />
             <button
@@ -136,22 +136,22 @@ export default function SaveROIScenarioModal({
 
           {/* Summary Preview */}
           <div className="bg-gray-800 rounded-lg p-4 space-y-3">
-            <h3 className="font-semibold text-gray-900 mb-3">Scenario Summary</h3>
+            <h3 className="font-semibold text-white mb-3">Scenario Summary</h3>
             
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-gray-300">Institution</p>
-                <p className="font-semibold text-gray-900">{institution.name}</p>
+                <p className="font-semibold text-white">{institution.name}</p>
               </div>
               {program && (
                 <div>
                   <p className="text-gray-300">Program</p>
-                  <p className="font-semibold text-gray-900">{program.cip_title}</p>
+                  <p className="font-semibold text-white">{program.cip_title}</p>
                 </div>
               )}
               <div>
                 <p className="text-gray-300">Total Investment</p>
-                <p className="font-semibold text-gray-900">${result.totalCost.toLocaleString()}</p>
+                <p className="font-semibold text-white">${result.totalCost.toLocaleString()}</p>
               </div>
               <div>
                 <p className="text-gray-300">Net ROI</p>
@@ -167,7 +167,7 @@ export default function SaveROIScenarioModal({
               </div>
               <div>
                 <p className="text-gray-300">Payback Period</p>
-                <p className="font-semibold text-gray-900">
+                <p className="font-semibold text-white">
                   {result.paybackPeriod === Infinity ? 'Never' : `${result.paybackPeriod.toFixed(1)} years`}
                 </p>
               </div>
@@ -175,11 +175,11 @@ export default function SaveROIScenarioModal({
           </div>
 
           {/* Additional Details */}
-          <details className="bg-blue-50 rounded-lg p-4">
-            <summary className="font-semibold text-blue-900 cursor-pointer">
+          <details className="bg-blue-500/10 rounded-lg p-4">
+            <summary className="font-semibold text-blue-400 cursor-pointer">
               View Full Calculation Details
             </summary>
-            <div className="mt-3 space-y-2 text-sm text-blue-800">
+            <div className="mt-3 space-y-2 text-sm text-blue-300">
               <div className="grid grid-cols-2 gap-2">
                 <span>Tuition (per year):</span>
                 <span className="font-semibold">${costs.tuition.toLocaleString()}</span>
@@ -211,11 +211,11 @@ export default function SaveROIScenarioModal({
           </details>
 
           {/* Info Note */}
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 flex">
-            <svg className="w-5 h-5 text-yellow-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+          <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 flex">
+            <svg className="w-5 h-5 text-yellow-500 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
             </svg>
-            <div className="text-sm text-yellow-800">
+            <div className="text-sm text-yellow-300">
               <p className="font-semibold mb-1">Saved scenarios help you:</p>
               <ul className="list-disc list-inside space-y-1">
                 <li>Compare different programs side-by-side</li>

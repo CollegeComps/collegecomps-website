@@ -296,15 +296,13 @@ export default function CollegesPage() {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
         <div className="mb-8">
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight text-white mb-2">
-                College Explorer
-              </h1>
-              <p className="text-gray-300 text-lg">
-                Browse and compare thousands of institutions with detailed information about costs, outcomes, and programs.
-              </p>
-            </div>
+          <div className="mb-4">
+            <h1 className="text-3xl font-bold tracking-tight text-white mb-2">
+              College Explorer
+            </h1>
+            <p className="text-gray-300 text-lg mb-3">
+              Browse and compare thousands of institutions with detailed information about costs, outcomes, and programs.
+            </p>
             <DataSourcesBadge />
           </div>
         </div>

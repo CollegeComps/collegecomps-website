@@ -10,6 +10,9 @@ export const CREDENTIAL_PROGRAM_LENGTH: Record<number, number> = {
   7:  4,   // Bachelor's degree
   8:  1,   // Post-baccalaureate certificate
   9:  2,   // Master's degree
+  17: 5,   // Doctoral degree - research/scholarship
+  18: 4,   // Doctoral degree - professional practice (MD/JD)
+  19: 5,   // Doctoral degree - other
   22: 5,   // Extended Bachelor's (5-year program)
   23: 3,   // Extended Master's
   24: 5,   // Doctoral degree
@@ -26,6 +29,9 @@ export const CREDENTIAL_CAREER_LENGTH: Record<number, number> = {
   7:  40, // Bachelor's
   8:  38, // Post-bac certificate
   9:  37, // Master's (start 1-2 yrs later than bachelor's)
+  17: 30, // Doctoral - research/scholarship
+  18: 32, // Doctoral - professional practice (MD/JD)
+  19: 30, // Doctoral - other
   22: 38, // Extended bachelor's (5 yr)
   23: 35, // Extended master's
   24: 32, // Doctoral degree
@@ -164,31 +170,30 @@ export class EnhancedEarningsCalculator {
   }
 
   // Degree level multipliers
+  // Urban Institute IPEDS credential level codes:
+  //   4 = Associate's, 7 = Bachelor's, 9 = Master's/Graduate,
+  //   22 = Extended Bachelor's, 23 = Extended Master's
   private static getDegreeMultiplier(credentialLevel: number): number {
     switch (credentialLevel) {
-      case 1: case 2: // Certificates under 2 years
-      case 30: case 32: // Occupational awards/certificates under 1 year
+      case 30: case 32: // Occupational certificates (< 1 year)
         return 0.7;
-      case 3: // Associate's degree
       case 31: // Occupational award 1–4 years
         return 0.8;
-      case 4: // Award 2–4 years
+      case 4: // Associate's degree
         return 0.85;
-      case 5: // Bachelor's degree
+      case 33: // Academic certificate
+        return 0.9;
+      case 7: // Bachelor's degree
       case 22: // Extended Bachelor's (5-year program)
         return 1.0;
-      case 6: // Post-baccalaureate certificate
-      case 33: // Post-baccalaureate occupational certificate
-        return 1.05;
-      case 7: // Master's degree
+      case 8: // Post-baccalaureate certificate
+        return 1.1;
+      case 9: // Master's/Graduate degree
       case 23: // Extended Master's
         return 1.25;
-      case 8: // Post-master's certificate
-        return 1.3;
-      case 9: case 17: case 18: case 19: // Doctoral degrees (all types)
+      case 24: // Doctoral degree (generic)
+      case 17: case 18: case 19: // Doctoral sub-types
         return 1.4;
-      case 20: case 21: // Professional certificates
-        return 1.15;
       default:
         return 1.0;
     }
@@ -218,7 +223,7 @@ export class EnhancedEarningsCalculator {
     // Calculate multipliers
     const prestigeMultiplier = this.getInstitutionPrestigeMultiplier(institution);
     const geoMultiplier = this.getGeographicMultiplier(institution);
-    const degreeMultiplier = this.getDegreeMultiplier(program.credential_level || 5);
+    const degreeMultiplier = this.getDegreeMultiplier(program.credential_level || 7);
     const completionMultiplier = this.getCompletionRateMultiplier(program);
     
     // Combined multiplier
@@ -247,7 +252,7 @@ export class EnhancedEarningsCalculator {
 
     const prestigeMultiplier = this.getInstitutionPrestigeMultiplier(institution);
     const geoMultiplier = this.getGeographicMultiplier(institution);
-    const degreeMultiplier = this.getDegreeMultiplier(program.credential_level || 5);
+    const degreeMultiplier = this.getDegreeMultiplier(program.credential_level || 7);
     const completionMultiplier = this.getCompletionRateMultiplier(program);
 
     const totalMultiplier = prestigeMultiplier * geoMultiplier * degreeMultiplier * completionMultiplier;

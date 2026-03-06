@@ -102,7 +102,7 @@ export default function SalaryInsightsPage() {
   };
 
   const formatCurrency = (value: number | null | undefined) => {
-    if (!value) return 'N/A';
+    if (value === null || value === undefined) return 'N/A';
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -183,7 +183,7 @@ export default function SalaryInsightsPage() {
               <select
                 value={selectedMajor}
                 onChange={(e) => setSelectedMajor(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
               >
                 <option value="" className="text-gray-300">All Majors</option>
                 {majors.map((major) => (
@@ -200,7 +200,7 @@ export default function SalaryInsightsPage() {
               <select
                 value={selectedInstitution}
                 onChange={(e) => setSelectedInstitution(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
               >
                 <option value="" className="text-gray-300">All Schools</option>
                 {institutions.map((institution) => (
@@ -217,7 +217,7 @@ export default function SalaryInsightsPage() {
               <select
                 value={selectedDegree}
                 onChange={(e) => setSelectedDegree(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
               >
                 <option value="" className="text-gray-300">All Degrees</option>
                 <option value="bachelors">Bachelor's</option>
@@ -235,7 +235,7 @@ export default function SalaryInsightsPage() {
               <select
                 value={selectedYears}
                 onChange={(e) => setSelectedYears(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white"
               >
                 <option value="" className="text-gray-300">All Ranges</option>
                 <option value="0-2">0-2 years</option>
@@ -292,7 +292,7 @@ export default function SalaryInsightsPage() {
         ) : error ? (
           <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-14 text-center">
             
-            <h3 className="text-xl font-semibold text-red-700 mb-2">
+            <h3 className="text-xl font-semibold text-red-400 mb-2">
               {error.includes('Premium') ? 'Premium Access Required' : 'Unable to Load Data'}
             </h3>
             <p className="text-gray-300 mb-6 max-w-lg mx-auto">
@@ -550,9 +550,9 @@ export default function SalaryInsightsPage() {
         )}
 
         {/* Footer CTA */}
-        <div className="mt-12 bg-orange-500 rounded-xl p-8 text-center text-white">
+        <div className="mt-12 bg-orange-700 rounded-xl p-8 text-center text-white">
           <h2 className="text-2xl font-bold mb-2">Help Build the Most Comprehensive Salary Database</h2>
-          <p className="text-orange-100 mb-6 max-w-2xl mx-auto">
+          <p className="text-orange-200 mb-6 max-w-2xl mx-auto">
             Your anonymous salary data helps thousands of students make better college decisions. Share your story.
           </p>
           <Link

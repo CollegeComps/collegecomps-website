@@ -142,7 +142,7 @@ export default function PricingPage() {
               onClick={() => !session ? router.push('/auth/signin') : router.push('/roi-calculator')}
               className="w-full py-3 px-6 rounded-lg font-bold transition-all bg-gray-800 text-white hover:bg-gray-700 shadow-[0_0_10px_rgba(249,115,22,0.08)]"
             >
-              {currentTier === 'free' ? '[OK] Current Plan' : 'Get Started Free'}
+              {currentTier === 'free' ? 'Current Plan' : 'Get Started Free'}
             </button>
           </div>
 
@@ -165,11 +165,11 @@ export default function PricingPage() {
                 </div>
                 <h3 className="text-3xl font-bold text-white mb-2">Premium</h3>
                 <div className="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600 mb-2">
-                  ${billingCycle === 'monthly' ? '6.99' : '4.99'}
+                  ${billingCycle === 'monthly' ? '6.99' : '5.59'}
                   <span className="text-xl text-gray-400 font-normal">/month</span>
                 </div>
                 <p className="text-gray-300 font-medium">
-                  {billingCycle === 'annual' ? 'Billed annually at $59.99' : 'or $59.99/year (save $24)'}
+                  {billingCycle === 'annual' ? 'Billed annually at $66.99' : 'or $66.99/year (save 20%)'}
                 </p>
               </div>
             </div>

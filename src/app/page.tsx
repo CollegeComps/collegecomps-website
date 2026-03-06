@@ -504,7 +504,7 @@ export default function Home() {
                   $6.99
                   <span className="text-lg text-gray-400 font-normal">/month</span>
                 </div>
-                <p className="text-gray-300 font-medium">or $59.99/year (save $24)</p>
+                <p className="text-gray-300 font-medium">or $66.99/year (save 20%)</p>
               </div>
               <ul className="space-y-3 mb-8 flex-grow">
                 <li className="flex items-start">

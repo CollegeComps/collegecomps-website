@@ -37,7 +37,7 @@ export function CollegeLocationMap({
     <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-sm border p-6">
       <div className="flex items-center mb-4">
         <MapPinIcon className="w-6 h-6 text-blue-600 mr-2" />
-        <h2 className="text-xl font-semibold text-gray-900">Location</h2>
+        <h2 className="text-xl font-semibold text-white">Location</h2>
       </div>
       
       {fullAddress && (
