@@ -146,6 +146,9 @@ export default function CollegesPage() {
     const unitid = institution.unitid;
     const isBookmarked = bookmarkedUnitids.has(unitid);
 
+    // Save old state for revert
+    const previousBookmarks = new Set(bookmarkedUnitids);
+
     // Optimistic update
     setBookmarkLoading(prev => new Set(prev).add(unitid));
     const newBookmarks = new Set(bookmarkedUnitids);
@@ -172,14 +175,14 @@ export default function CollegesPage() {
 
       if (!response.ok) {
         // Revert on error
-        setBookmarkedUnitids(bookmarkedUnitids);
+        setBookmarkedUnitids(previousBookmarks);
         const data = await response.json();
         alert(data.error || 'Failed to update bookmark');
       }
     } catch (error) {
       console.error('Error toggling bookmark:', error);
       // Revert on error
-      setBookmarkedUnitids(bookmarkedUnitids);
+      setBookmarkedUnitids(previousBookmarks);
       alert('Failed to update bookmark');
     } finally {
       setBookmarkLoading(prev => {
@@ -303,7 +306,6 @@ export default function CollegesPage() {
             <p className="text-gray-300 text-lg mb-3">
               Browse and compare thousands of institutions with detailed information about costs, outcomes, and programs.
             </p>
-            <DataSourcesBadge />
           </div>
         </div>
 
@@ -627,6 +629,11 @@ export default function CollegesPage() {
             </div>
           </div>
         )}
+
+        {/* Data Source Badge */}
+        <div className="mb-4">
+          <DataSourcesBadge />
+        </div>
 
         {/* Results Header - ENG-99 */}
         {!loading && institutions.length > 0 && (
