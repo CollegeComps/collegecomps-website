@@ -11,10 +11,23 @@ export function getStripe(): Stripe | null {
 }
 
 // Stripe product IDs (different for dev/prod environments)
+// Note: 'premium' kept as alias for backward compatibility, maps to 'plus' tier
 export const STRIPE_PRODUCTS = {
   premium: {
     monthly: process.env.STRIPE_PREMIUM_MONTHLY_PRICE_ID || '',
     annual: process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID || '',
+  },
+  plus: {
+    monthly: process.env.STRIPE_PLUS_MONTHLY_PRICE_ID || process.env.STRIPE_PREMIUM_MONTHLY_PRICE_ID || '',
+    annual: process.env.STRIPE_PLUS_ANNUAL_PRICE_ID || process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID || '',
+  },
+  ai_pro: {
+    monthly: process.env.STRIPE_AI_PRO_MONTHLY_PRICE_ID || '',
+    annual: process.env.STRIPE_AI_PRO_ANNUAL_PRICE_ID || '',
+  },
+  family: {
+    monthly: process.env.STRIPE_FAMILY_MONTHLY_PRICE_ID || '',
+    annual: process.env.STRIPE_FAMILY_ANNUAL_PRICE_ID || '',
   },
 };
 

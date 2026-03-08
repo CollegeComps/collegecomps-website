@@ -52,6 +52,15 @@ function formatStatNumber(num: number, type?: 'institutions' | 'programs' | 'sta
 
 const features = [
   {
+    title: 'AI College Advisor',
+    description: 'Get personalized, data-backed college guidance from our AI advisor trained on 6,000+ institutions. Ask anything about ROI, admissions, or careers.',
+    icon: SparklesIcon,
+    href: '/ai-advisor',
+    color: 'bg-gradient-to-br from-orange-500 to-orange-600',
+    stats: 'AI-powered guidance',
+    tier: 'free'
+  },
+  {
     title: 'ROI Calculator',
     description: 'Calculate the return on investment for different college programs and make informed decisions about your education.',
     icon: CalculatorIcon,

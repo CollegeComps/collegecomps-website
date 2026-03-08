@@ -38,6 +38,13 @@ interface NavItem {
 
 const navigation: NavItem[] = [
   {
+    name: 'AI Advisor',
+    href: '/ai-advisor',
+    icon: SparklesIcon,
+    description: 'AI-powered college guidance with real data',
+    requiresAuth: false
+  },
+  {
     name: 'ROI Calculator',
     href: '/roi-calculator',
     icon: CalculatorIcon,

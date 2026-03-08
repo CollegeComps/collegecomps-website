@@ -3,8 +3,21 @@ import { NextResponse } from 'next/server';
 
 /**
  * Subscription tier types
+ * Tier hierarchy: free < plus < ai_pro < family
+ * Note: 'premium' is kept as an alias for 'plus' for backward compatibility
  */
-export type SubscriptionTier = 'free' | 'premium';
+export type SubscriptionTier = 'free' | 'plus' | 'ai_pro' | 'family' | 'premium';
+
+/**
+ * Tier hierarchy for comparison (higher number = higher tier)
+ */
+const TIER_LEVELS: Record<string, number> = {
+  free: 0,
+  plus: 1,
+  premium: 1, // backward compat: 'premium' maps to same level as 'plus'
+  ai_pro: 2,
+  family: 3,
+};
 
 /**
  * Check if a user has a specific subscription tier or higher
@@ -24,10 +37,10 @@ export function hasMinimumTier(
     return true;
   }
 
-  if (requiredTier === 'free') return true;
-  if (requiredTier === 'premium') return userTier === 'premium';
+  const userLevel = TIER_LEVELS[userTier] ?? 0;
+  const requiredLevel = TIER_LEVELS[requiredTier] ?? 0;
 
-  return false;
+  return userLevel >= requiredLevel;
 }
 
 /**
@@ -102,7 +115,9 @@ export function getUserTier(session: Session | null): SubscriptionTier {
   if (!session?.user) return 'free';
   const user = session.user as any;
   // Check both camelCase (NextAuth session) and snake_case (database) formats
-  return (user.subscriptionTier || user.subscription_tier || 'free') as SubscriptionTier;
+  const tier = user.subscriptionTier || user.subscription_tier || 'free';
+  // Normalize 'premium' to 'plus' for new tier system
+  return tier as SubscriptionTier;
 }
 
 /**
