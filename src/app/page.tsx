@@ -157,13 +157,17 @@ export default function Home() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
           <div className="text-center">
             <h1 className="text-5xl sm:text-7xl font-extrabold text-white mb-8 tracking-tight">
-              Make Smarter{' '}
+              Education Is an{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600">
-                Education Decisions
+                Investment.
+              </span>
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600">
+                Treat It Like One.
               </span>
             </h1>
             <p className="text-xl sm:text-2xl text-gray-300 mb-10 max-w-4xl mx-auto leading-relaxed">
-              Comprehensive college data analysis platform with ROI calculators, program comparisons, 
+              Comprehensive college data analysis platform with ROI calculators, program comparisons,
               and career outcome insights to help you choose the right educational path.
             </p>
             
@@ -225,6 +229,13 @@ export default function Home() {
                 className="bg-gradient-to-r from-orange-600 to-orange-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-orange-700 hover:to-orange-600 transition-all shadow-[0_0_20px_rgba(249,115,22,0.2)] active:scale-95 inline-flex items-center justify-center group"
               >
                 Start Calculating ROI
+                <ArrowRightIcon className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                href="/articles"
+                className="bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-bold text-lg border border-white/20 hover:bg-white/20 transition-all active:scale-95 inline-flex items-center justify-center group"
+              >
+                Why CollegeComps?
                 <ArrowRightIcon className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
