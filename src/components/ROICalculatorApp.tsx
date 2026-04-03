@@ -42,6 +42,12 @@ const adaptProgram = (acadProg: AcademicProgram): Program => ({
 
 export default function ROICalculatorApp() {
   const { data: session } = useSession();
+  const [initialSchoolSearch] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return new URLSearchParams(window.location.search).get('school') || '';
+    }
+    return '';
+  });
   const [searchMode, setSearchMode] = useState<'institution' | 'degree'>('institution');
   const [selectedInstitution, setSelectedInstitution] = useState<DatabaseInstitution | null>(null);
   const [selectedProgram, setSelectedProgram] = useState<AcademicProgram | null>(null);
@@ -745,6 +751,7 @@ export default function ROICalculatorApp() {
               <InstitutionSelector
                 selectedInstitution={selectedInstitution}
                 degreeLevel={degreeLevelFilter}
+                initialSearch={initialSchoolSearch}
                 onSelect={async (institution) => {
                   setSelectedInstitution(institution);
                   setSelectedProgram(null); // Reset program when institution changes

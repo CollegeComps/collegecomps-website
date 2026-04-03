@@ -8,11 +8,12 @@ interface InstitutionSelectorProps {
   selectedInstitution: Institution | null;
   onSelect: (institution: Institution | null) => void;
   degreeLevel?: '' | 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate';
+  initialSearch?: string;
 }
 
-export default function InstitutionSelector({ selectedInstitution, onSelect, degreeLevel }: InstitutionSelectorProps) {
+export default function InstitutionSelector({ selectedInstitution, onSelect, degreeLevel, initialSearch }: InstitutionSelectorProps) {
   const [institutions, setInstitutions] = useState<Institution[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(initialSearch || '');
   const [loading, setLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 

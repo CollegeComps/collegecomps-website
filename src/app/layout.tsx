@@ -81,10 +81,7 @@ export default function RootLayout({
     <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
       <head>
         <meta name="color-scheme" content="dark" />
-        {/* TODO: Replace with your actual Google Search Console verification code */}
-        {process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION && (
-          <meta name="google-site-verification" content={process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION} />
-        )}
+        <meta name="google-site-verification" content="EO0OEf4SRlUbvUooBY-Ym-u2w20gDBIxYjJFv6Ko_Tg" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}

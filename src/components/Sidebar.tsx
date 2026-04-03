@@ -208,9 +208,10 @@ export default function Sidebar({ children }: SidebarProps) {
                   href={item.href}
                   onClick={() => setSidebarOpen(false)}
                   className={`
-                    group flex items-center py-2.5 px-3 text-sm font-medium rounded-lg transition-all duration-500
-                    ${isActive 
-                      ? 'bg-orange-500/10 text-orange-500' 
+                    group flex items-center py-2.5 text-sm font-medium rounded-lg transition-all duration-500
+                    ${isExpanded ? 'px-3' : 'px-0 justify-center'}
+                    ${isActive
+                      ? 'bg-orange-500/10 text-orange-500'
                       : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                     }
                   `}
