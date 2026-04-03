@@ -8,6 +8,7 @@ import OnboardingCheck from "@/components/OnboardingCheck";
 import CookieConsent from "@/components/CookieConsent";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,9 +47,9 @@ export const metadata: Metadata = {
     description: 'Make smarter education decisions with our comprehensive college ROI calculator. Compare colleges, analyze costs, and predict graduate salaries based on real data.',
     images: [
       {
-        url: 'https://collegecomps.com/og-image.png',
-        width: 1200,
-        height: 630,
+        url: 'https://collegecomps.com/logo.png',
+        width: 2752,
+        height: 1536,
         alt: 'CollegeComps - College ROI Calculator',
       },
     ],
@@ -57,7 +58,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'CollegeComps - College ROI Calculator & Comparison Tool',
     description: 'Make smarter education decisions with our comprehensive college ROI calculator.',
-    images: ['https://collegecomps.com/og-image.png'],
+    images: ['https://collegecomps.com/logo.png'],
     creator: '@collegecomps',
   },
   alternates: {
@@ -80,6 +81,10 @@ export default function RootLayout({
     <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
       <head>
         <meta name="color-scheme" content="dark" />
+        {/* TODO: Replace with your actual Google Search Console verification code */}
+        {process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION && (
+          <meta name="google-site-verification" content={process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION} />
+        )}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
@@ -92,6 +97,7 @@ export default function RootLayout({
           </OnboardingCheck>
           <CookieConsent />
         </SessionProvider>
+        <GoogleAnalytics />
         <Analytics />
         <SpeedInsights />
       </body>

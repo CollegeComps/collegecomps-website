@@ -68,15 +68,15 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
     },
   ]);
 
-  const isPremium = session?.user?.subscriptionTier === 'premium';
+  const isPremium = true;
 
   useEffect(() => {
-    if (session && isPremium) {
+    if (session) {
       fetchAlertPreferences();
     } else {
       setLoading(false);
     }
-  }, [session, isPremium]);
+  }, [session]);
 
   const fetchAlertPreferences = async () => {
     try {
@@ -101,8 +101,6 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
   };
 
   const handleSave = async () => {
-    if (!isPremium) return;
-    
     setSaving(true);
     setMessage(null);
 
@@ -125,30 +123,6 @@ export default function AlertSettings({ compact = false }: AlertSettingsProps) {
       setSaving(false);
     }
   };
-
-  if (!isPremium) {
-    return (
-      <div className="bg-gradient-to-br from-gray-900 to-gray-800 border-2 border-orange-500/30 rounded-xl p-6">
-        <div className="flex items-start gap-4">
-          <BellAlertIcon className="w-8 h-8 text-orange-500 flex-shrink-0" />
-          <div>
-            <h3 className="text-lg font-bold text-white mb-2">
-              Alert Notifications - Premium Feature
-            </h3>
-            <p className="text-gray-300 mb-4">
-              Get instant notifications about salary updates, ROI changes, scholarship deadlines, and more!
-            </p>
-            <a
-              href="/pricing"
-              className="inline-block px-6 py-2 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold rounded-lg hover:shadow-lg transition-all"
-            >
-              Upgrade to Premium
-            </a>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   if (loading) {
     return (

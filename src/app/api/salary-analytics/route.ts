@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getCollegeDb } from '@/lib/db-helper';
-import { requireTier } from '@/lib/auth-helpers';
+
 
 // Salary Analytics - PREMIUM FEATURE
 export async function GET(req: NextRequest) {
-  // Verify authentication and premium subscription
+  // Verify authentication
   const session = await auth();
-  const tierError = requireTier(session, 'premium');
-  if (tierError) return tierError;
+  if (!session?.user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
   const db = getCollegeDb();
   if (!db) {

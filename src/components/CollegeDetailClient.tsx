@@ -1,0 +1,501 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Institution, AcademicProgram } from '@/lib/database';
+import { CollegeLocationMap } from '@/components/CollegeLocationMap';
+import { EnrollmentCharts } from '@/components/EnrollmentCharts';
+import {
+  ArrowLeftIcon,
+  MapPinIcon,
+  BuildingOffice2Icon,
+  CurrencyDollarIcon,
+  AcademicCapIcon,
+  GlobeAltIcon,
+  ChartBarIcon,
+  UsersIcon
+} from '@heroicons/react/24/outline';
+
+import { getSchoolBadges } from '@/lib/school-categories';
+import { formatCurrency, getControlTypeLabel } from '@/lib/formatting';
+import { CareerOutlook } from '@/components/CareerOutlook';
+
+interface CollegeDetailStats {
+  totalPrograms: number;
+  avgEarnings: number;
+  totalDataPoints: number;
+  topPrograms: Array<{ name: string; dataPoints: number }>;
+  highestROIProgram?: { name: string; roi: number; cipCode: string } | null;
+  lowestROIProgram?: { name: string; roi: number; cipCode: string } | null;
+}
+
+interface CollegeDetailClientProps {
+  institution: Institution;
+  programs: AcademicProgram[];
+  stats: CollegeDetailStats;
+  unitid: string;
+}
+
+export default function CollegeDetailClient({ institution, programs, stats, unitid }: CollegeDetailClientProps) {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<'overview' | 'programs' | 'costs'>('overview');
+  const [expandedProgram, setExpandedProgram] = useState<string | null>(null);
+
+  return (
+    <div className="max-w-6xl mx-auto">
+      {/* Header */}
+      <div className="mb-6">
+        <button
+          onClick={() => router.push('/colleges')}
+          className="flex items-center text-orange-500 hover:text-orange-400 mb-4"
+        >
+          <ArrowLeftIcon className="w-5 h-5 mr-2" />
+          Back to College Explorer
+        </button>
+
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <h1 className="text-3xl font-bold tracking-tight text-white font-bold mb-2">
+              {institution.name}
+            </h1>
+            <div className="flex items-center text-gray-300 text-lg mb-3">
+              <MapPinIcon className="w-5 h-5 mr-2" />
+              {institution.city}, {institution.state}
+            </div>
+
+            {/* School Category Badges */}
+            {(() => {
+              const badges = getSchoolBadges({
+                unitid: institution.unitid,
+                historically_black: institution.historically_black,
+                control_public_private: institution.control_public_private ?? institution.control_of_institution,
+                name: institution.name
+              });
+              return badges.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {badges.map((badge: any) => (
+                    <span
+                      key={badge.category}
+                      className={`px-3 py-1 rounded-full text-sm font-medium ${badge.color} ${badge.bgColor}`}
+                      title={badge.description}
+                    >
+                      {badge.label}
+                    </span>
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
+
+          {institution.website && (
+            <a
+              href={institution.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            >
+              <GlobeAltIcon className="w-5 h-5 mr-2" />
+              Visit Website
+            </a>
+          )}
+        </div>
+      </div>
+
+      {/* Quick Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
+          <div className="flex items-center">
+            <AcademicCapIcon className="w-8 h-8 text-blue-500 mr-3" />
+            <div>
+              <p className="text-2xl font-bold text-white font-bold">{stats.totalPrograms}</p>
+              <p className="text-sm text-gray-300">Programs</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
+          <div className="flex items-center">
+            <UsersIcon className="w-8 h-8 text-blue-500 mr-3" />
+            <div>
+              <p className="text-2xl font-bold text-white font-bold">{stats.totalDataPoints.toLocaleString()}</p>
+              <p className="text-sm text-gray-300">Total Data Points</p>
+            </div>
+          </div>
+        </div>
+
+        {stats.avgEarnings > 0 && (
+          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
+            <div className="flex items-center">
+              <ChartBarIcon className="w-8 h-8 text-green-500 mr-3" />
+              <div>
+                <p className="text-2xl font-bold text-white font-bold">{formatCurrency(stats.avgEarnings)}</p>
+                <p className="text-sm text-gray-300">Avg Earnings</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
+          <div className="flex items-center">
+            <BuildingOffice2Icon className="w-8 h-8 text-orange-500 mr-3" />
+            <div>
+              <p className="text-lg font-bold text-white font-bold">{getControlTypeLabel(institution.control_public_private)}</p>
+              <p className="text-sm text-gray-300">Institution Type</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="border-b border-gray-700 mb-6">
+        <nav className="flex space-x-8">
+          {[
+            { key: 'overview', label: 'Overview' },
+            { key: 'programs', label: 'Programs' },
+            { key: 'costs', label: 'Costs & Financial Aid' }
+          ].map(tab => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key as any)}
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                activeTab === tab.key
+                  ? 'border-orange-500 text-orange-500'
+                  : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {/* Tab Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          {activeTab === 'overview' && (
+            <div className="space-y-6">
+              {/* Admissions Data */}
+              {(institution.acceptance_rate || institution.average_sat || institution.average_act) && (
+                <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
+                  <h2 className="text-xl font-semibold text-white font-bold mb-4">Admissions</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    {institution.acceptance_rate && (
+                      <div>
+                        <dt className="text-sm font-medium text-gray-400 mb-1">Acceptance Rate</dt>
+                        <dd className="text-2xl font-bold text-blue-400">
+                          {(institution.acceptance_rate * 100).toFixed(1)}%
+                        </dd>
+                      </div>
+                    )}
+                    {institution.average_sat && (
+                      <div>
+                        <dt className="text-sm font-medium text-gray-400 mb-1">Average SAT</dt>
+                        <dd className="text-2xl font-bold text-indigo-400">
+                          {institution.average_sat}
+                        </dd>
+                      </div>
+                    )}
+                    {institution.average_act && (
+                      <div>
+                        <dt className="text-sm font-medium text-gray-400 mb-1">Average ACT</dt>
+                        <dd className="text-2xl font-bold text-indigo-400">
+                          {institution.average_act}
+                        </dd>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Enrollment and Gender Demographics Charts */}
+              <EnrollmentCharts
+                undergrad_enrollment={institution.undergrad_enrollment}
+                grad_enrollment={institution.grad_enrollment}
+                percent_male={institution.percent_male}
+                percent_female={institution.percent_female}
+                total_enrollment={institution.total_enrollment}
+              />
+
+              <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
+                <h2 className="text-xl font-semibold text-white font-bold mb-4">Institution Information</h2>
+                <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <dt className="text-sm font-medium text-gray-400">Type</dt>
+                    <dd className="text-lg text-white font-bold">{getControlTypeLabel(institution.control_of_institution)}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm font-medium text-gray-400">Location</dt>
+                    <dd className="text-lg text-white font-bold">{institution.city}, {institution.state}</dd>
+                  </div>
+                  {institution.zip_code && (
+                    <div>
+                      <dt className="text-sm font-medium text-gray-400">ZIP Code</dt>
+                      <dd className="text-lg text-white font-bold">{institution.zip_code}</dd>
+                    </div>
+                  )}
+                  {institution.athletic_conference && (
+                    <div>
+                      <dt className="text-sm font-medium text-gray-400">Athletic Conference</dt>
+                      <dd className="text-lg text-white font-bold">{institution.athletic_conference}</dd>
+                    </div>
+                  )}
+                  <div>
+                    <dt className="text-sm font-medium text-gray-400">Unit ID</dt>
+                    <dd className="text-lg text-white font-bold">{institution.unitid}</dd>
+                  </div>
+                </dl>
+              </div>
+
+              {stats.topPrograms.length > 0 && (
+                <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
+                  <h2 className="text-xl font-semibold text-white font-bold mb-4">Top Programs by Data Points</h2>
+                  <div className="space-y-3">
+                    {stats.topPrograms.map((program) => (
+                      <div key={program.name} className="flex justify-between items-center py-2 border-b border-gray-800 last:border-b-0">
+                        <span className="font-medium text-white font-bold">{program.name}</span>
+                        <span className="text-sm text-gray-300">{program.dataPoints} data points</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* ROI Programs Section (ENG-365) */}
+              {(stats.highestROIProgram || stats.lowestROIProgram) && (
+                <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
+                  <h2 className="text-xl font-semibold text-white font-bold mb-4">Return on Investment</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Highest ROI Program */}
+                    {stats.highestROIProgram && (
+                      <div className="bg-green-500/10 border border-green-500/50 rounded-lg p-4">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">Highest ROI Program</h3>
+                        <p className="text-white font-medium mb-1 text-sm">{stats.highestROIProgram.name}</p>
+                        <p className="text-green-400 font-bold text-lg mb-3">
+                          ${(stats.highestROIProgram.roi / 1000000).toFixed(2)}M
+                        </p>
+                        <button
+                          onClick={() => router.push(`/roi-calculator?institution=${unitid}&program=${stats.highestROIProgram!.cipCode}`)}
+                          className="w-full bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 px-4 rounded transition-colors"
+                        >
+                          Calculate ROI
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Lowest ROI Program */}
+                    {stats.lowestROIProgram && (
+                      <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-4">
+                        <h3 className="text-sm font-semibold text-red-400 mb-2">Lowest ROI Program</h3>
+                        <p className="text-white font-medium mb-1 text-sm">{stats.lowestROIProgram.name}</p>
+                        <p className="text-red-400 font-bold text-lg mb-3">
+                          ${(stats.lowestROIProgram.roi / 1000000).toFixed(2)}M
+                        </p>
+                        <button
+                          onClick={() => router.push(`/roi-calculator?institution=${unitid}&program=${stats.lowestROIProgram!.cipCode}`)}
+                          className="w-full bg-red-600 hover:bg-red-700 text-white text-sm font-medium py-2 px-4 rounded transition-colors"
+                        >
+                          Calculate ROI
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'programs' && (
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
+              <h2 className="text-xl font-semibold text-white font-bold mb-4">
+                Academic Programs ({programs.length})
+              </h2>
+              {/* Group programs by credential type for easier browsing */}
+              {(() => {
+                const groups: Record<string, typeof programs> = {};
+                for (const p of programs) {
+                  const key = p.credential_name || 'Other';
+                  if (!groups[key]) groups[key] = [];
+                  groups[key].push(p);
+                }
+                // Order groups by typical education level (matches credential_name from DB)
+                const levelOrder = [
+                  "Bachelor's Degree", "Bachelor's Degree (Extended)",
+                  "Master's Degree", "Master's Degree (Extended)",
+                  "Doctoral Degree", "Doctoral Degree (Research/Scholarship)", "Doctoral Degree (Professional Practice)", "Doctoral Degree (Other)",
+                  "Post-Master's Certificate", "Post-Baccalaureate Certificate",
+                  "Professional Certificate (Graduate)", "Professional Certificate",
+                  "Associate Degree",
+                  "Certificate (< 1 year)", "Certificate (1-2 years)", "Certificate (2-4 years)",
+                  "Occupational Certificate (< 1 year)", "Occupational Certificate (1-2 years)", "Occupational Certificate (2-4 years)",
+                  "Academic Certificate", "Other"
+                ];
+                const sortedKeys = Object.keys(groups).sort((a, b) => {
+                  const ai = levelOrder.indexOf(a);
+                  const bi = levelOrder.indexOf(b);
+                  return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+                });
+                return sortedKeys.map(groupKey => (
+                  <div key={groupKey} className="mb-6">
+                    <h3 className="text-sm font-semibold text-orange-400 uppercase tracking-wide mb-2 border-b border-gray-800 pb-1">
+                      {groupKey} ({groups[groupKey].length})
+                    </h3>
+                    <div className="space-y-1">
+                      {groups[groupKey].map((program, index) => {
+                        const programKey = `${program.cipcode}-${index}`;
+                        const isExpanded = expandedProgram === programKey;
+                        return (
+                          <div key={programKey}>
+                            <div
+                              className="flex justify-between items-center py-2 border-b border-gray-800/50 last:border-b-0 cursor-pointer hover:bg-gray-800/30 rounded px-1 transition-colors"
+                              onClick={() => setExpandedProgram(isExpanded ? null : programKey)}
+                            >
+                              <div className="flex-1 min-w-0">
+                                <span className="text-sm font-medium text-white">{program.cip_title || 'Unknown Program'}</span>
+                                {program.cipcode && (
+                                  <span className="ml-2 text-xs text-gray-500">CIP: {program.cipcode}</span>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-2 ml-3 shrink-0">
+                                {(program as any).program_roi != null && (
+                                  <span className="px-2 py-0.5 text-xs rounded bg-blue-500/20 text-blue-400 font-semibold">
+                                    ROI: ${((program as any).program_roi / 1000000).toFixed(2)}M
+                                  </span>
+                                )}
+                                {(program.total_completions || program.completions || 0) > 0 && (
+                                  <span className="text-xs text-gray-500">
+                                    {(program.total_completions || program.completions || 0).toLocaleString()} completions
+                                  </span>
+                                )}
+                                <button
+                                  onClick={(e) => { e.stopPropagation(); router.push(`/roi-calculator?institution=${unitid}&program=${program.cipcode}`); }}
+                                  className="text-xs bg-orange-600 hover:bg-orange-700 text-white px-2 py-1 rounded transition-colors"
+                                >
+                                  ROI
+                                </button>
+                              </div>
+                            </div>
+                            {isExpanded && program.cipcode && (
+                              <CareerOutlook cipcode={program.cipcode} programTitle={program.cip_title} initialCount={5} />
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ));
+              })()}
+              {programs.length === 0 && (
+                <p className="text-center text-gray-400 py-8">No program data available for this institution.</p>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'costs' && (
+            <div className="space-y-6">
+              <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
+                <h2 className="text-xl font-semibold text-white font-bold mb-4">Tuition & Fees</h2>
+                <div className="space-y-4">
+                  {institution.tuition_in_state && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">In-State Tuition</span>
+                      <span className="font-semibold text-white font-bold">{formatCurrency(institution.tuition_in_state)}</span>
+                    </div>
+                  )}
+                  {institution.tuition_out_state && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Out-of-State Tuition</span>
+                      <span className="font-semibold text-white font-bold">{formatCurrency(institution.tuition_out_state)}</span>
+                    </div>
+                  )}
+                  {institution.fees && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Fees</span>
+                      <span className="font-semibold text-white font-bold">{formatCurrency(institution.fees)}</span>
+                    </div>
+                  )}
+                  {institution.room_board_on_campus && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Room & Board</span>
+                      <span className="font-semibold text-white font-bold">{formatCurrency(institution.room_board_on_campus)}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {institution.net_price && (
+                <div className="bg-green-900/20 rounded-lg border border-green-800 p-6">
+                  <h3 className="text-lg font-semibold text-green-400 mb-2">Average Net Price</h3>
+                  <p className="text-3xl font-bold tracking-tight text-green-300">{formatCurrency(institution.net_price)}</p>
+                  <p className="text-sm text-green-400/80 mt-2">
+                    This is the average amount students pay after financial aid
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Sidebar */}
+        <div className="space-y-6">
+          {(institution.earnings_6_years_after_entry || institution.mean_earnings_10_years) && (
+            <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
+              <h3 className="text-lg font-semibold text-white font-bold mb-4">Graduate Outcomes</h3>
+              <div className="space-y-4">
+                {institution.earnings_6_years_after_entry && (
+                  <div>
+                    <p className="text-sm text-gray-300 mb-1">Average Earnings (6 years)</p>
+                    <div className="flex items-center">
+                      <CurrencyDollarIcon className="w-5 h-5 text-green-500 mr-2" />
+                      <p className="text-2xl font-bold text-white font-bold">{formatCurrency(institution.earnings_6_years_after_entry)}</p>
+                    </div>
+                  </div>
+                )}
+                {institution.mean_earnings_10_years && (
+                  <div>
+                    <p className="text-sm text-gray-300 mb-1">Average Earnings (10 years)</p>
+                    <div className="flex items-center">
+                      <CurrencyDollarIcon className="w-5 h-5 text-blue-500 mr-2" />
+                      <p className="text-2xl font-bold text-white font-bold">{formatCurrency(institution.mean_earnings_10_years)}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          <div className="bg-gray-900 border border-gray-800 rounded-lg shadow-[0_0_8px_rgba(249,115,22,0.06)] border p-6">
+            <h3 className="text-lg font-semibold text-white font-bold mb-3">Quick Actions</h3>
+            <div className="space-y-3">
+              <button
+                onClick={() => router.push(`/roi-calculator?institution=${institution.unitid}`)}
+                className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Calculate ROI
+              </button>
+              {institution.website && (
+                <a
+                  href={institution.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full bg-gray-800 text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-700 text-center transition-colors border border-gray-700"
+                >
+                  Visit Website
+                </a>
+              )}
+            </div>
+          </div>
+
+          {/* Location Map */}
+          <CollegeLocationMap
+            name={institution.name}
+            latitude={institution.latitude}
+            longitude={institution.longitude}
+            city={institution.city}
+            state={institution.state}
+            zip_code={institution.zip_code}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}

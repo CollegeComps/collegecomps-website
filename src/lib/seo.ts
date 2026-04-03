@@ -13,7 +13,7 @@ export function generateSEOMetadata({
   title,
   description,
   path = '',
-  image = '/og-image.png',
+  image = '/logo.png',
   type = 'website',
   noindex = false,
 }: SEOProps): Metadata {

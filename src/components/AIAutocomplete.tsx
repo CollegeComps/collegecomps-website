@@ -41,7 +41,7 @@ export default function AIAutocomplete({
   const [skipSearch, setSkipSearch] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const isPremium = session?.user?.subscriptionTier === 'premium';
+  const isPremium = true;
 
   // Close suggestions when clicking outside
   useEffect(() => {
@@ -166,11 +166,6 @@ export default function AIAutocomplete({
           </button>
         )}
 
-        {!isPremium && (
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-            <LockClosedIcon className="w-5 h-5 text-gray-300" />
-          </div>
-        )}
       </div>
 
       {/* Loading indicator */}
@@ -245,28 +240,6 @@ export default function AIAutocomplete({
         </div>
       )}
 
-      {/* Premium Upsell */}
-      {!isPremium && value.length >= 2 && (
-        <div className="mt-2 p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
-          <div className="flex items-start gap-2">
-            <SparklesIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-            <div className="flex-1">
-              <p className="text-sm font-medium text-blue-900">
-                Get AI-powered suggestions with Premium
-              </p>
-              <p className="text-xs text-blue-700 mt-1">
-                Smart recommendations based on your profile, budget, and goals
-              </p>
-              <a
-                href="/pricing"
-                className="inline-block mt-2 text-xs font-semibold text-blue-600 hover:text-blue-700"
-              >
-                Upgrade now →
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

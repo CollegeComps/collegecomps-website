@@ -44,7 +44,7 @@ export default function ComparisonManagerPage() {
   const [newFolderName, setNewFolderName] = useState('');
   const [newFolderColor, setNewFolderColor] = useState('#3B82F6');
 
-  const isPremium = session?.user?.subscriptionTier === 'premium';
+  const isPremium = true;
 
   useEffect(() => {
     if (!session) {
@@ -52,13 +52,8 @@ export default function ComparisonManagerPage() {
       return;
     }
 
-    if (!isPremium) {
-      setLoading(false);
-      return;
-    }
-
     fetchData();
-  }, [session, isPremium]);
+  }, [session]);
 
   const fetchData = async () => {
     try {
@@ -140,53 +135,6 @@ export default function ComparisonManagerPage() {
 
   // Get all unique tags
   const allTags = Array.from(new Set(comparisons.flatMap(c => c.tags || [])));
-
-  if (!isPremium) {
-    return (
-      <div className="min-h-screen bg-black py-8 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.15)] p-8 text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-600 to-orange-700 rounded-full mb-6">
-              <LockClosedIcon className="w-10 h-10 text-white" />
-            </div>
-            <h1 className="text-4xl font-bold tracking-tight text-white font-bold mb-4">
-              Premium Feature
-            </h1>
-            <p className="text-xl text-gray-300 mb-8">
-              Comparison Manager with Folders & Tags is available for Premium subscribers
-            </p>
-            <div className="bg-orange-500/10 rounded-lg p-6 mb-8">
-              <h3 className="font-bold text-white font-bold mb-4">Organize like a pro:</h3>
-              <ul className="text-left space-y-3 text-gray-300">
-                <li className="flex items-start gap-3">
-                  <FolderIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>Folders:</strong> Organize comparisons by type (reach, match, safety)</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <TagIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>Tags:</strong> Label comparisons with custom tags for easy filtering</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <MagnifyingGlassIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>Search & Filter:</strong> Quickly find any comparison</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <PencilIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>Bulk Operations:</strong> Move or tag multiple comparisons at once</span>
-                </li>
-              </ul>
-            </div>
-            <Link
-              href="/pricing"
-              className="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-4 rounded-lg text-lg shadow-[0_4px_15px_rgba(249,115,22,0.3)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.4)] transition-all active:scale-95"
-            >
-              Upgrade to Premium
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   if (loading) {
     return (

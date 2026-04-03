@@ -28,7 +28,7 @@ export default function ExportsPage() {
   const [selectedComparison, setSelectedComparison] = useState<number | null>(null);
   const [exporting, setExporting] = useState(false);
 
-  const isPremium = session?.user?.subscriptionTier === 'premium';
+  const isPremium = true;
 
   useEffect(() => {
     if (!session) {
@@ -36,13 +36,8 @@ export default function ExportsPage() {
       return;
     }
 
-    if (!isPremium) {
-      setLoading(false);
-      return;
-    }
-
     fetchComparisons();
-  }, [session, isPremium]);
+  }, [session]);
 
   const fetchComparisons = async () => {
     try {
@@ -125,53 +120,6 @@ export default function ExportsPage() {
       alert('An error occurred while creating share link');
     }
   };
-
-  if (!isPremium) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full mb-6">
-              <LockClosedIcon className="w-10 h-10 text-white" />
-            </div>
-            <h1 className="text-4xl font-bold tracking-tight text-white font-bold mb-4">
-              Premium Feature
-            </h1>
-            <p className="text-xl text-gray-300 mb-8">
-              Export & Reports is available for Premium subscribers
-            </p>
-            <div className="bg-orange-500/10 rounded-lg p-6 mb-8">
-              <h3 className="font-bold text-white font-bold mb-4">Unlock powerful export options:</h3>
-              <ul className="text-left space-y-3 text-gray-300">
-                <li className="flex items-start gap-3">
-                  <DocumentTextIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>PDF Export:</strong> Professional reports with charts and analysis</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <TableCellsIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>Excel/CSV Export:</strong> Full data for your own analysis</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <ShareIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>Shareable Links:</strong> Share comparisons with counselors and family</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircleIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>Custom Reports:</strong> Include your personal data and preferences</span>
-                </li>
-              </ul>
-            </div>
-            <Link
-              href="/pricing"
-              className="inline-block bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-[0_0_12px_rgba(249,115,22,0.08)] transition-all transform hover:-translate-y-1"
-            >
-              Upgrade to Premium
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   if (loading) {
     return (
