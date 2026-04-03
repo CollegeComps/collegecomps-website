@@ -69,7 +69,7 @@ export default function AlertsPage() {
     },
   ]);
 
-  const isPremium = session?.user?.subscriptionTier === 'premium';
+  const isPremium = true;
 
   useEffect(() => {
     if (!session) {
@@ -77,13 +77,8 @@ export default function AlertsPage() {
       return;
     }
 
-    if (!isPremium) {
-      setLoading(false);
-      return;
-    }
-
     fetchAlertPreferences();
-  }, [session, isPremium]);
+  }, [session]);
 
   const fetchAlertPreferences = async () => {
     try {
@@ -130,53 +125,6 @@ export default function AlertsPage() {
       setSaving(false);
     }
   };
-
-  if (!isPremium) {
-    return (
-      <div className="min-h-screen bg-black py-8 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-600 to-orange-700 rounded-full mb-6">
-              <LockClosedIcon className="w-10 h-10 text-white" />
-            </div>
-            <h1 className="text-4xl font-bold tracking-tight text-white font-bold mb-4">
-              Premium Feature
-            </h1>
-            <p className="text-xl text-gray-300 mb-8">
-              Custom Alerts & Notifications is available for Premium subscribers
-            </p>
-            <div className="bg-orange-500/10 rounded-lg p-6 mb-8">
-              <h3 className="font-bold text-white font-bold mb-4">Stay informed with:</h3>
-              <ul className="text-left space-y-3 text-gray-300">
-                <li className="flex items-start gap-3">
-                  <EnvelopeIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>Email Alerts:</strong> Instant notifications for new salary data matching your profile</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <BellAlertIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>ROI Changes:</strong> Get notified when college costs or outcomes change</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircleIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>Deadline Reminders:</strong> Never miss scholarship or financial aid deadlines</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <BriefcaseIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>Career Insights:</strong> Weekly trends and opportunities for your major</span>
-                </li>
-              </ul>
-            </div>
-            <Link
-              href="/pricing"
-              className="inline-block bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-[0_0_12px_rgba(249,115,22,0.08)] transition-all transform hover:-translate-y-1"
-            >
-              Upgrade to Premium
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   if (loading) {
     return (

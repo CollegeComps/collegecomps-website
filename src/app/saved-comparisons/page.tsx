@@ -21,7 +21,7 @@ export default function SavedComparisonsPage() {
   const [comparisons, setComparisons] = useState<SavedComparison[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const isPremium = session?.user?.subscriptionTier === 'premium';
+  const isPremium = true;
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -72,36 +72,8 @@ export default function SavedComparisonsPage() {
           </h1>
           <p className="text-gray-300">
             Manage your saved college comparisons
-            {!isPremium && (
-              <span className="ml-2 text-sm">
-                ({comparisons.length}/3 used · 
-                <Link href="/pricing" className="text-orange-500 hover:text-orange-600 ml-1">
-                  Upgrade for unlimited
-                </Link>)
-              </span>
-            )}
           </p>
         </div>
-
-        {/* Premium Upsell for Free Users */}
-        {!isPremium && (
-          <div className="mb-6 bg-gradient-to-r from-blue-600 to-blue-600 rounded-lg p-6 text-white">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-bold mb-1">Unlock Unlimited Saved Comparisons</h3>
-                <p className="text-orange-100">
-                  Save as many comparisons as you want with Premium, plus get export features and more.
-                </p>
-              </div>
-              <Link
-                href="/pricing"
-                className="px-6 py-3 bg-white text-orange-500 rounded-lg font-semibold hover:bg-orange-500/10 transition-colors whitespace-nowrap"
-              >
-                Upgrade Now
-              </Link>
-            </div>
-          </div>
-        )}
 
         {/* Comparisons List */}
         {comparisons.length === 0 ? (

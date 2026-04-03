@@ -66,7 +66,7 @@ export default function UserMenu({ isInSidebar = false, isExpanded = false }: Us
     );
   }
 
-  const isPremium = session?.user?.subscriptionTier === 'premium';
+  const isPremium = true; // All features free during growth phase
 
   // Sidebar version - simple logout button (only show if logged in)
   if (isInSidebar && session?.user) {

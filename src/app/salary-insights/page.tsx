@@ -111,7 +111,7 @@ export default function SalaryInsightsPage() {
     }).format(value);
   };
 
-  const isPremium = session?.user?.subscriptionTier === 'premium';
+  const isPremium = true;
 
   return (
     <div className="min-h-screen bg-black py-12 px-4 sm:px-6 lg:px-8">
@@ -133,14 +133,6 @@ export default function SalaryInsightsPage() {
             >
               Contribute Your Data
             </Link>
-            {!isPremium && (
-              <Link
-                href="/pricing"
-                className="inline-flex items-center px-6 py-3 bg-gray-900 border-2 border-orange-500 text-orange-500 font-bold rounded-lg hover:bg-orange-500 hover:text-white transition-all"
-              >
-                Upgrade for Full Insights
-              </Link>
-            )}
           </div>
         </div>
 
@@ -316,67 +308,6 @@ export default function SalaryInsightsPage() {
               )}
             </div>
           </div>
-        ) : salaryData.length === 0 && !apiIsPremium ? (
-          // Free users - show premium upgrade prompt
-          <div className="bg-gradient-to-br from-gray-900 to-gray-800 border-2 border-orange-500/30 rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.15)] p-12 text-center">
-            <div className="max-w-2xl mx-auto">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-orange-500/20 rounded-full mb-6">
-                <svg className="w-10 h-10 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <h3 className="text-3xl font-bold text-white mb-4">
-                Unlock Detailed Salary Insights
-              </h3>
-              <p className="text-lg text-gray-300 mb-6">
-                We have {summary.totalDataPoints.toLocaleString()} real salary data points from {summary.uniqueMajors} majors across {summary.uniqueInstitutions} institutions.
-              </p>
-              <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-6 mb-6">
-                <h4 className="text-white font-semibold mb-3">Premium members get access to:</h4>
-                <ul className="text-left text-gray-300 space-y-2">
-                  <li className="flex items-start gap-2">
-                    <svg className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    <span>Detailed salary breakdowns by major, school, and experience level</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <svg className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    <span>Min, max, average, and median salary data</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <svg className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    <span>Salary distribution percentiles (25th, 50th, 75th)</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <svg className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    <span>Advanced filtering and sorting options</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <svg className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    <span>Total compensation including bonuses and equity</span>
-                  </li>
-                </ul>
-              </div>
-              <Link
-                href="/pricing"
-                className="inline-flex items-center px-8 py-4 bg-orange-500 text-white text-lg font-bold rounded-lg hover:bg-orange-600 transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)]"
-              >
-                Upgrade to Premium →
-              </Link>
-              <p className="text-sm text-gray-400 mt-4">
-                Starting at $9.99/month • Cancel anytime
-              </p>
-            </div>
-          </div>
         ) : salaryData.length === 0 ? (
           <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-14 text-center">
             
@@ -508,42 +439,6 @@ export default function SalaryInsightsPage() {
                   </div>
                 )}
 
-                {/* Locked Premium Content */}
-                {!isPremium && (
-                  <div className="mt-6 pt-6 border-t border-gray-700">
-                    <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 text-center relative overflow-hidden">
-                      <div className="absolute inset-0 backdrop-blur-sm bg-gray-900/70 flex items-center justify-center">
-                        <div>
-                          <p className="text-gray-300 font-semibold text-lg mb-2">Premium Feature</p>
-                          <p className="text-gray-400 text-sm mb-4">Unlock detailed salary percentiles</p>
-                          <Link
-                            href="/pricing"
-                            className="inline-block px-6 py-3 bg-orange-500 text-white text-sm font-semibold rounded-lg hover:bg-orange-600 transition-all shadow-[0_0_12px_rgba(249,115,22,0.3)]"
-                          >
-                            Upgrade to Premium
-                          </Link>
-                        </div>
-                      </div>
-                      <div className="opacity-20 blur-sm">
-                        <div className="text-sm text-gray-400 mb-3 font-semibold">Salary Distribution</div>
-                        <div className="grid grid-cols-3 gap-4 text-gray-500">
-                          <div>
-                            <div className="text-xs mb-1">25th</div>
-                            <div className="font-bold">$XX,XXX</div>
-                          </div>
-                          <div>
-                            <div className="text-xs mb-1">Median</div>
-                            <div className="font-bold">$XX,XXX</div>
-                          </div>
-                          <div>
-                            <div className="text-xs mb-1">75th</div>
-                            <div className="font-bold">$XX,XXX</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
             ))}
           </div>

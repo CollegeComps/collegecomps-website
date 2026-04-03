@@ -29,7 +29,7 @@ export default function AdvancedAnalyticsPage() {
   const [userPreferences, setUserPreferences] = useState<any>(null);
   const [selectedView, setSelectedView] = useState<'percentiles' | 'trajectory' | 'peer' | 'geographic'>('percentiles');
 
-  const isPremium = session?.user?.subscriptionTier === 'premium';
+  const isPremium = true;
 
   useEffect(() => {
     if (!session) {
@@ -37,14 +37,8 @@ export default function AdvancedAnalyticsPage() {
       return;
     }
 
-    if (!isPremium) {
-      // Show premium gate but don't redirect
-      setLoading(false);
-      return;
-    }
-
     fetchData();
-  }, [session, isPremium]);
+  }, [session]);
 
   const fetchData = async () => {
     try {
@@ -67,53 +61,6 @@ export default function AdvancedAnalyticsPage() {
       setLoading(false);
     }
   };
-
-  if (!isPremium) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.1)] p-8 text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full mb-6">
-              <LockClosedIcon className="w-10 h-10 text-white" />
-            </div>
-            <h1 className="text-4xl font-bold tracking-tight text-white font-bold mb-4">
-              Premium Feature
-            </h1>
-            <p className="text-xl text-gray-300 mb-8">
-              Advanced Salary Analytics is available for Premium subscribers
-            </p>
-            <div className="bg-orange-500/10 rounded-lg p-6 mb-8">
-              <h3 className="font-bold text-white font-bold mb-4">Unlock powerful insights:</h3>
-              <ul className="text-left space-y-3 text-gray-300">
-                <li className="flex items-start gap-3">
-                  <ChartBarIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>Percentile Analysis:</strong> See P25/P50/P75 salary ranges for your field</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <ArrowTrendingUpIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>Career Trajectory:</strong> Project your 10-20 year earning potential</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <UserGroupIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>Peer Comparison:</strong> See how you compare to others in your cohort</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <MapPinIcon className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>Geographic Heatmaps:</strong> Visualize salary variations by location</span>
-                </li>
-              </ul>
-            </div>
-            <Link
-              href="/pricing"
-              className="inline-block bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-[0_0_12px_rgba(249,115,22,0.08)] transition-all transform hover:-translate-y-1"
-            >
-              Upgrade to Premium
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   if (loading) {
     return (

@@ -266,6 +266,7 @@ export class CollegeDataService {
         i.asian_american_native_american_pacific_islander, i.hispanic_serving,
         i.carnegie_basic, i.carnegie_size, i.locale,
         i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference,
+        i.total_enrollment, i.undergrad_enrollment, i.grad_enrollment, i.percent_male, i.percent_female,
         f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
         f.net_price, e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
       FROM institutions i
@@ -294,7 +295,10 @@ export class CollegeDataService {
       city: result.city,
       state: result.state,
       state_postal_code: result.state,
+      zip_code: result.zip_code,
       zipcode: result.zip_code,
+      latitude: result.latitude,
+      longitude: result.longitude,
       website: result.website,
       website_url: result.website,
       control_of_institution: result.control_public_private,
@@ -321,7 +325,13 @@ export class CollegeDataService {
       acceptance_rate: result.acceptance_rate,
       average_sat: result.average_sat,
       average_act: result.average_act,
-      athletic_conference: result.athletic_conference
+      athletic_conference: result.athletic_conference,
+      // Enrollment and demographics
+      total_enrollment: result.total_enrollment,
+      undergrad_enrollment: result.undergrad_enrollment,
+      grad_enrollment: result.grad_enrollment,
+      percent_male: result.percent_male,
+      percent_female: result.percent_female
     };
   }
 

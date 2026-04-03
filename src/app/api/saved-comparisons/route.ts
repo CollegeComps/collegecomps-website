@@ -67,19 +67,6 @@ export async function POST(req: NextRequest) {
     // Use institutions if provided, fallback to colleges for backwards compatibility
     const institutionsList = institutions || colleges;
 
-    // Check limit for free users
-    if (session.user.subscriptionTier === 'free') {
-      const count = await userDb.prepare('SELECT COUNT(*) as count FROM saved_comparisons WHERE user_id = ?')
-        .get(parseInt(session.user.id)) as { count: number }
-      
-      if (count.count >= 1) {
-        return NextResponse.json(
-          { error: 'Free users can only save 1 comparison. Upgrade to Premium for unlimited comparisons.' },
-          { status: 403 }
-        )
-      }
-    }
-
     const result = await userDb.prepare(`
       INSERT INTO saved_comparisons (user_id, name, institutions, program_data, notes)
       VALUES (?, ?, ?, ?, ?)

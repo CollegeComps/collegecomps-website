@@ -26,7 +26,7 @@ function normalizeDegreeLevel(degreeLevel: string | null | undefined): string | 
   const normalized = mapping[degreeLevel.toLowerCase()] || mapping[degreeLevel];
   return normalized && normalized !== '' ? normalized : null;
 }
-import { requireTier } from '@/lib/auth-helpers'
+
 
 
 // GET - Fetch salary submissions (for analytics/display) - PREMIUM FEATURE
@@ -37,8 +37,6 @@ export async function GET(req: NextRequest) {
   if (!session?.user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-
-  const isPremium = session.user.subscriptionTier === 'premium' || session.user.subscriptionTier === 'professional';
 
   const db = getUsersDb();
   if (!db) {
@@ -131,24 +129,6 @@ export async function GET(req: NextRequest) {
     query += ` ORDER BY ${orderByClause}`;
 
     const results = await db.prepare(query).all(...params)
-
-    // For free users, return summary stats only (no detailed data)
-    if (!isPremium) {
-      const totalDataPoints = results.reduce((sum: number, r: any) => sum + r.sample_size, 0);
-      const uniqueMajors = [...new Set(results.map((r: any) => r.major))].length;
-      const uniqueInstitutions = [...new Set(results.map((r: any) => r.institution_name))].length;
-      
-      return NextResponse.json({ 
-        data: [], // No detailed salary cards for free users
-        summary: {
-          totalDataPoints,
-          uniqueMajors,
-          uniqueInstitutions
-        },
-        isPremium: false,
-        success: true 
-      });
-    }
 
     return NextResponse.json({ data: results, isPremium: true, success: true })
   } catch (error) {
@@ -348,29 +328,6 @@ export async function POST(req: NextRequest) {
         { error: 'Account flagged for suspicious activity. Please contact support.' },
         { status: 403 }
       )
-    }
-
-    // Relaxed submission limits for all users (free and premium can submit)
-    // Premium users: unlimited submissions
-    // Free users: 5 submissions per day (to prevent spam while allowing contribution)
-    if (session.user.subscriptionTier === 'free') {
-      try {
-        const todaySubmissions = await db.prepare(`
-          SELECT COUNT(*) as count 
-          FROM salary_submissions 
-          WHERE user_id = ? AND DATE(created_at) = DATE('now')
-        `).get(parseInt(session.user.id)) as { count: number } | undefined;
-
-        if (todaySubmissions && todaySubmissions.count >= 5) {
-          return NextResponse.json(
-            { error: 'Daily submission limit reached (5 per day). Upgrade to Premium for unlimited submissions or try again tomorrow.' },
-            { status: 429 } // 429 Too Many Requests is more appropriate than 403
-          )
-        }
-      } catch (err) {
-        console.error('Error checking daily submissions:', err);
-        // Allow submission if check fails (fail open for better UX)
-      }
     }
 
     // Calculate data quality score (simple algorithm)

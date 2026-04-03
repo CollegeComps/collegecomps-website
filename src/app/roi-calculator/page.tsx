@@ -1,5 +1,8 @@
 import ROICalculatorApp from '@/components/ROICalculatorApp';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { generateSEOMetadata, seoPresets } from '@/lib/seo';
+
+export const metadata = generateSEOMetadata(seoPresets.roiCalculator);
 
 export default function ROICalculatorPage() {
   return (
