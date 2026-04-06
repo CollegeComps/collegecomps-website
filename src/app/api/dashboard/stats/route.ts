@@ -1,7 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { rateLimitByIP } from '@/lib/rate-limit';
 import { getDatabase } from '@/lib/database';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const limited = rateLimitByIP(request, 'dashboard', { limit: 5, windowSeconds: 60 });
+  if (limited) return limited;
+
   try {
     const db = getDatabase();
     if (!db) {

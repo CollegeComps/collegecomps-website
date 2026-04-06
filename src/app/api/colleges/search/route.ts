@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { rateLimitByIP } from '@/lib/rate-limit';
 import { CollegeDataService } from '@/lib/database';
 
 export async function GET(request: NextRequest) {
+  const limited = rateLimitByIP(request, 'college-search', { limit: 20, windowSeconds: 60 });
+  if (limited) return limited;
+
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('q');
   const degreeLevel = searchParams.get('degreeLevel'); // 'associates' | 'bachelors' | 'masters' | 'doctorate' | 'certificate'

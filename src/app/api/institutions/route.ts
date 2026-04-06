@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { rateLimitByIP } from '@/lib/rate-limit';
 import { CollegeDataService } from '@/lib/database';
 import { 
   getZipCodeCoordinates, 
@@ -14,6 +15,9 @@ import {
 } from '@/lib/financial-calculator';
 
 export async function GET(request: NextRequest) {
+  const limited = rateLimitByIP(request, 'institutions', { limit: 30, windowSeconds: 60 });
+  if (limited) return limited;
+
   try {
     const { searchParams } = new URL(request.url);
     const search = searchParams.get('search');

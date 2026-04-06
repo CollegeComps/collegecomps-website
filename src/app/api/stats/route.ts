@@ -1,10 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { rateLimitByIP } from '@/lib/rate-limit';
 import { CollegeDataService } from '@/lib/database';
 
 // Cache stats for 1 hour — counts change only when new data is loaded
 export const revalidate = 3600;
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const limited = rateLimitByIP(request, 'stats', { limit: 10, windowSeconds: 60 });
+  if (limited) return limited;
+
   try {
     const collegeService = new CollegeDataService();
     const stats = await collegeService.getDatabaseStats();

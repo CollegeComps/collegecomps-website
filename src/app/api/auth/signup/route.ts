@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { rateLimitByIP } from '@/lib/rate-limit';
 import bcrypt from 'bcryptjs';
 import { getUsersDb } from '@/lib/db-helper';
 
 export async function POST(request: NextRequest) {
+  const limited = rateLimitByIP(request, 'signup', { limit: 5, windowSeconds: 300 });
+  if (limited) return limited;
+
   try {
     const { email, password, name } = await request.json();
 

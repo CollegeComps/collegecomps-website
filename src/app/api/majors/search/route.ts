@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { rateLimitByIP } from '@/lib/rate-limit';
 import { getCollegeDb } from '@/lib/db-helper';
 
 export async function GET(request: NextRequest) {
+  const limited = rateLimitByIP(request, 'major-search', { limit: 20, windowSeconds: 60 });
+  if (limited) return limited;
+
   const db = getCollegeDb();
   if (!db) {
     return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });

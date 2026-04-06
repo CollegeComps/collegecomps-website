@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { rateLimitByIP } from '@/lib/rate-limit';
 import { getCollegeDb } from '@/lib/db-helper';
 
 
 export async function GET(request: NextRequest) {
+  const limited = rateLimitByIP(request, 'prog-inst', { limit: 20, windowSeconds: 60 });
+  if (limited) return limited;
+
   try {
     const searchParams = request.nextUrl.searchParams;
     const cipcode = searchParams.get('cipcode');

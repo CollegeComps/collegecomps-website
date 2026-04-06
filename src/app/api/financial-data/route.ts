@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { rateLimitByIP } from '@/lib/rate-limit';
 import { CollegeDataService } from '@/lib/database';
 
 export async function GET(request: NextRequest) {
+  const limited = rateLimitByIP(request, 'financial', { limit: 30, windowSeconds: 60 });
+  if (limited) return limited;
+
   try {
     const searchParams = request.nextUrl.searchParams;
     const unitid = searchParams.get('unitid');

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { rateLimitByIP } from '@/lib/rate-limit';
 import { getCollegeDb } from '@/lib/db-helper';
 
 /**
@@ -12,6 +13,9 @@ import { getCollegeDb } from '@/lib/db-helper';
  *   limit    – max results (default 20)
  */
 export async function GET(request: NextRequest) {
+  const limited = rateLimitByIP(request, 'occ-salary', { limit: 20, windowSeconds: 60 });
+  if (limited) return limited;
+
   try {
     const searchParams = request.nextUrl.searchParams;
     const cipcode = searchParams.get('cipcode');
