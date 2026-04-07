@@ -1,6 +1,30 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+// Legitimate crawlers that should NEVER be blocked
+const ALLOWED_BOTS = [
+  'Googlebot',
+  'Google-InspectionTool',
+  'Storebot-Google',
+  'GoogleOther',
+  'AdsBot-Google',
+  'Mediapartners-Google',
+  'APIs-Google',
+  'google-site-verification',
+  'Bingbot',
+  'Slurp',           // Yahoo
+  'DuckDuckBot',
+  'facebookexternalhit',
+  'Twitterbot',
+  'LinkedInBot',
+  'WhatsApp',
+  'Discordbot',
+  'Slackbot',
+  'TelegramBot',
+  'Applebot',
+  'Vercel',
+];
+
 // Known malicious or aggressive bot user agents to block
 const BLOCKED_BOTS = [
   'AhrefsBot',
@@ -45,8 +69,13 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // Block known scraper bots on API routes
-  if (pathname.startsWith('/api/')) {
+  // Check if this is a legitimate crawler (always allow)
+  const isAllowedBot = ALLOWED_BOTS.some((bot) =>
+    userAgent.toLowerCase().includes(bot.toLowerCase())
+  );
+
+  // Block known scraper bots on API routes (but never block allowed bots)
+  if (pathname.startsWith('/api/') && !isAllowedBot) {
     const isBlockedBot = BLOCKED_BOTS.some((bot) =>
       userAgent.toLowerCase().includes(bot.toLowerCase())
     );
@@ -78,7 +107,7 @@ export function middleware(request: NextRequest) {
     'camera=(), microphone=(), geolocation=()'
   );
 
-  // CORS: restrict API access to own domain
+  // CORS: restrict cross-origin API access
   if (pathname.startsWith('/api/')) {
     const origin = request.headers.get('origin');
     const allowedOrigins = [
@@ -86,15 +115,13 @@ export function middleware(request: NextRequest) {
       'https://www.collegecomps.com',
     ];
 
-    // Allow same-origin requests (no origin header) and allowed origins
-    if (origin && !allowedOrigins.includes(origin)) {
-      // In dev, allow localhost
-      if (
-        process.env.NODE_ENV !== 'development' &&
-        !origin.startsWith('http://localhost')
-      ) {
-        response.headers.set('Access-Control-Allow-Origin', 'https://collegecomps.com');
+    if (origin) {
+      if (allowedOrigins.includes(origin) ||
+          process.env.NODE_ENV === 'development' ||
+          origin.startsWith('http://localhost')) {
+        response.headers.set('Access-Control-Allow-Origin', origin);
       }
+      // No origin header = same-origin or server-side request (Google renderer, SSR) — always allowed
     }
   }
 
