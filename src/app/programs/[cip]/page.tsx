@@ -10,6 +10,16 @@ import { formatCurrency } from '@/lib/formatting';
 // cache is safe and dramatically cuts DB reads.
 export const revalidate = 2592000;
 
+// Pre-build all 15 program category pages at deploy time. This means the DB
+// is queried ONCE per CIP code per deploy, not on first visit. After deploy,
+// these pages are served as static HTML with zero DB reads until revalidation.
+export function generateStaticParams() {
+  return [
+    '11', '14', '52', '51', '26', '27', '42', '13',
+    '23', '45', '50', '40', '22', '09', '03',
+  ].map((cip) => ({ cip }));
+}
+
 interface PageProps {
   params: Promise<{ cip: string }>;
 }

@@ -1,12 +1,42 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { CollegeDataService, AcademicProgram } from '@/lib/database';
+import { getCollegeDb } from '@/lib/db-helper';
 import { CollegeSchema, BreadcrumbSchema } from '@/components/StructuredData';
 import { getControlTypeLabel } from '@/lib/formatting';
 import CollegeDetailClient from '@/components/CollegeDetailClient';
 
 // ISR: revalidate every 30 days. IPEDS data refreshes yearly.
 export const revalidate = 2592000;
+
+// Allow any unitid outside the pre-built top 500 to be lazily generated
+// on first request and cached via ISR.
+export const dynamicParams = true;
+
+// Pre-build the top 500 most-relevant college detail pages at deploy time.
+// These pages will be served as static HTML with zero DB reads until
+// revalidation (every 30 days). Pages outside this list are lazily generated
+// on first visit and cached for 30 days.
+//
+// We pick the top 500 by institution_avg_roi so the highest-value pages
+// (most likely to be searched/linked) are always pre-built.
+export async function generateStaticParams() {
+  try {
+    const db = getCollegeDb();
+    if (!db) return [];
+    const rows = (await db
+      .prepare(
+        `SELECT unitid FROM institutions
+         WHERE name IS NOT NULL
+         ORDER BY COALESCE(institution_avg_roi, -999999) DESC
+         LIMIT 500`
+      )
+      .all()) as { unitid: number }[];
+    return rows.map((r) => ({ unitid: String(r.unitid) }));
+  } catch {
+    return [];
+  }
+}
 
 interface PageProps {
   params: Promise<{ unitid: string }>;

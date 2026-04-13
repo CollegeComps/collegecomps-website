@@ -1,60 +1,91 @@
 /**
- * Simple in-memory cache for API responses. Survives warm invocations on
- * the same Vercel serverless instance. Reset on cold start — which is fine
- * since data is public and reproducible.
+ * Persistent cache for DB queries backed by Next.js's Data Cache.
  *
- * Use this for endpoints where:
- * - The response is the same for all users, or
- * - The variation is small enough to key by query params
+ * Why this matters:
+ * - Vercel runs multiple serverless instances in multiple regions
+ * - Pure in-memory caches only help on warm invocations on the same instance
+ * - unstable_cache stores results in Vercel's Data Cache which is shared
+ *   across ALL instances and ALL regions — a true global cache
  *
- * Do NOT use for user-specific data.
+ * Usage:
+ *   const data = await cached('my-key', 2592000, async () => {
+ *     return db.prepare('SELECT ...').all();
+ *   });
+ *
+ * Cache invalidation:
+ * - Automatic on deploy (new build id invalidates the cache)
+ * - Manual via revalidateTag('db-data')
+ * - Time-based via the ttlSeconds argument
+ *
+ * For the CollegeComps use case (IPEDS data, yearly refresh):
+ * Use 2592000 (30 days) as the default TTL. Data rarely changes.
  */
 
+import { unstable_cache } from 'next/cache';
+
+const DEFAULT_TAG = 'db-data';
+
+// Simple in-memory fallback for cases where we need sync cache or backup.
 interface CacheEntry<T> {
   data: T;
   expires: number;
 }
+const inMemory = new Map<string, CacheEntry<unknown>>();
 
-const store = new Map<string, CacheEntry<unknown>>();
-
-// Periodic cleanup to prevent unbounded growth
 let lastCleanup = 0;
 function cleanup() {
   const now = Date.now();
-  if (now - lastCleanup < 300_000) return; // every 5 minutes
+  if (now - lastCleanup < 300_000) return;
   lastCleanup = now;
-  for (const [key, entry] of store) {
-    if (entry.expires < now) store.delete(key);
+  for (const [key, entry] of inMemory) {
+    if (entry.expires < now) inMemory.delete(key);
   }
 }
 
-export function getCached<T>(key: string): T | null {
-  cleanup();
-  const entry = store.get(key);
-  if (!entry || entry.expires < Date.now()) return null;
-  return entry.data as T;
-}
-
-export function setCached<T>(key: string, data: T, ttlSeconds: number): void {
-  store.set(key, {
-    data,
-    expires: Date.now() + ttlSeconds * 1000,
-  });
-}
-
 /**
- * Fetch with in-memory cache wrapper. Returns cached value if available,
- * otherwise calls fetcher() and caches the result.
+ * Cache a fetcher function's result in Vercel's Data Cache.
+ * Persists across all serverless instances and regions.
  */
 export async function cached<T>(
   key: string,
   ttlSeconds: number,
   fetcher: () => Promise<T>
 ): Promise<T> {
-  const hit = getCached<T>(key);
-  if (hit !== null) return hit;
+  // If ttl is 0, bypass cache entirely (e.g., user-specific data)
+  if (ttlSeconds === 0) {
+    return fetcher();
+  }
 
-  const fresh = await fetcher();
-  setCached(key, fresh, ttlSeconds);
-  return fresh;
+  const wrapped = unstable_cache(
+    fetcher,
+    [key], // cache key parts
+    {
+      revalidate: ttlSeconds,
+      tags: [DEFAULT_TAG, key],
+    }
+  );
+
+  return wrapped();
+}
+
+/**
+ * Synchronous in-memory getter — kept for routes that need early return
+ * without async. Only useful within a single warm invocation.
+ */
+export function getCached<T>(key: string): T | null {
+  cleanup();
+  const entry = inMemory.get(key);
+  if (!entry || entry.expires < Date.now()) return null;
+  return entry.data as T;
+}
+
+/**
+ * Synchronous in-memory setter — companion to getCached.
+ */
+export function setCached<T>(key: string, data: T, ttlSeconds: number): void {
+  if (ttlSeconds === 0) return;
+  inMemory.set(key, {
+    data,
+    expires: Date.now() + ttlSeconds * 1000,
+  });
 }
