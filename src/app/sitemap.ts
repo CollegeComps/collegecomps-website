@@ -2,9 +2,9 @@ import { MetadataRoute } from 'next';
 import { getCollegeDb } from '@/lib/db-helper';
 import { US_STATES } from '@/lib/constants/states';
 
-// Cache the sitemap at the edge for 24 hours.
-// Without this, every sitemap.xml request re-queries the database.
-export const revalidate = 86400;
+// Cache the sitemap for 30 days. URLs only change when we add new pages,
+// and the file regenerates automatically on deploys anyway.
+export const revalidate = 2592000;
 
 const BASE_URL = 'https://collegecomps.com';
 

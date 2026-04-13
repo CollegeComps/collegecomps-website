@@ -55,9 +55,9 @@ export async function GET(request: NextRequest) {
     const effectiveLimit = proximityZip ? 1000 : limit; // Get up to 1000 for proximity, then filter
     const effectiveOffset = proximityZip ? 0 : (page - 1) * limit;
     
-    // Cache the base DB result for 10 minutes. Only bypass cache when user-specific
+    // Cache the base DB result for 30 days. Only bypass cache when user-specific
     // financial filtering is applied (since that modifies the data shape).
-    institutions = await cached(cacheKey, hasFinancialProfile ? 0 : 600, async () => {
+    institutions = await cached(cacheKey, hasFinancialProfile ? 0 : 2592000, async () => {
       // Handle single institution lookup by unitid
       if (unitid) {
         const singleInst = await collegeService.getInstitutionByUnitid(parseInt(unitid));
@@ -187,9 +187,9 @@ export async function GET(request: NextRequest) {
       limit,
       hasMore: startIdx + institutions.length < totalFiltered
     });
-    // HTTP cache for anonymous results (no user financial profile)
+    // HTTP cache for anonymous results (no user financial profile). 30 days.
     if (!hasFinancialProfile) {
-      response.headers.set('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=3600');
+      response.headers.set('Cache-Control', 'public, s-maxage=2592000, stale-while-revalidate=604800');
     }
     return response;
   } catch (error) {

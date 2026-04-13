@@ -5,8 +5,8 @@ import { CollegeSchema, BreadcrumbSchema } from '@/components/StructuredData';
 import { getControlTypeLabel } from '@/lib/formatting';
 import CollegeDetailClient from '@/components/CollegeDetailClient';
 
-// ISR: revalidate every 24 hours
-export const revalidate = 86400;
+// ISR: revalidate every 30 days. IPEDS data refreshes yearly.
+export const revalidate = 2592000;
 
 interface PageProps {
   params: Promise<{ unitid: string }>;

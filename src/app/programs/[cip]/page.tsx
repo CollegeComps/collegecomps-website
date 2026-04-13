@@ -6,8 +6,9 @@ import { getCollegeDb } from '@/lib/db-helper';
 import { BreadcrumbSchema } from '@/components/StructuredData';
 import { formatCurrency } from '@/lib/formatting';
 
-// ISR: revalidate every 24 hours
-export const revalidate = 86400;
+// ISR: revalidate every 30 days. IPEDS data refreshes yearly, so a month's
+// cache is safe and dramatically cuts DB reads.
+export const revalidate = 2592000;
 
 interface PageProps {
   params: Promise<{ cip: string }>;

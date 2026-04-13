@@ -23,8 +23,8 @@ export async function GET(request: NextRequest) {
     // Normalize both the query and database names to handle ampersand variations
     const normalizedQuery = query.replace(/\s*&\s*/g, '&').toLowerCase();
 
-    // Cache each search term for 1 hour. Autocomplete queries repeat heavily.
-    const names = await cached(`inst-search:${normalizedQuery}`, 3600, async () => {
+    // Cache each search term for 30 days. Institution names rarely change.
+    const names = await cached(`inst-search:${normalizedQuery}`, 2592000, async () => {
       const rows = await db
         .prepare(
           `SELECT DISTINCT name
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     });
 
     const response = NextResponse.json({ institutions: names });
-    response.headers.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+    response.headers.set('Cache-Control', 'public, s-maxage=2592000, stale-while-revalidate=604800');
     return response;
   } catch (error) {
     console.error('Institution search error:', error);

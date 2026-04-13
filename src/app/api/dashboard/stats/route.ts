@@ -2,13 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { rateLimitByIP } from '@/lib/rate-limit';
 import { getDatabase } from '@/lib/database';
 
-// Cache dashboard stats for 1 hour. This data changes at most yearly
-// (IPEDS release cadence) so aggressive caching is safe.
-export const revalidate = 3600;
+// Cache dashboard stats for 30 days. IPEDS data changes at most yearly.
+export const revalidate = 2592000;
 
 // In-memory cache — survives warm invocations on the same Vercel instance.
 let cachedPayload: { data: unknown; expires: number } | null = null;
-const CACHE_TTL_MS = 3600 * 1000; // 1 hour
+const CACHE_TTL_MS = 2592000 * 1000; // 30 days
 
 export async function GET(request: NextRequest) {
   const limited = rateLimitByIP(request, 'dashboard', { limit: 5, windowSeconds: 60 });
@@ -17,7 +16,7 @@ export async function GET(request: NextRequest) {
   // Serve from in-memory cache if fresh
   if (cachedPayload && cachedPayload.expires > Date.now()) {
     return NextResponse.json(cachedPayload.data, {
-      headers: { 'Cache-Control': 'public, max-age=3600, s-maxage=3600' },
+      headers: { 'Cache-Control': 'public, max-age=2592000, s-maxage=2592000, stale-while-revalidate=604800' },
     });
   }
 
@@ -185,7 +184,7 @@ export async function GET(request: NextRequest) {
     cachedPayload = { data: payload, expires: Date.now() + CACHE_TTL_MS };
 
     return NextResponse.json(payload, {
-      headers: { 'Cache-Control': 'public, max-age=3600, s-maxage=3600' },
+      headers: { 'Cache-Control': 'public, max-age=2592000, s-maxage=2592000, stale-while-revalidate=604800' },
     });
   } catch (error) {
     console.error('Error fetching dashboard stats:', error);

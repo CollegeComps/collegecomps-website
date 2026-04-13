@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { rateLimitByIP } from '@/lib/rate-limit';
 import { getCollegeDb } from '@/lib/db-helper';
+import { cached } from '@/lib/api-cache';
+
+export const revalidate = 2592000;
 
 export async function GET(request: NextRequest) {
   const limited = rateLimitByIP(request, 'major-search', { limit: 20, windowSeconds: 60 });
@@ -39,18 +42,27 @@ export async function GET(request: NextRequest) {
       credentialLevelFilter = 'AND credential_level IN (8, 24, 30, 31, 32, 33)';
     }
 
-    const majors = await db
-      .prepare(
-        `SELECT DISTINCT
-          cip_title
-        FROM academic_programs
-        WHERE cip_title LIKE ? AND cip_title IS NOT NULL AND cip_title != '' ${credentialLevelFilter}
-        ORDER BY cip_title
-        LIMIT 20`
-      )
-      .all(...params) as { cip_title: string }[];
+    const names = await cached(
+      `major-search:${query.toLowerCase()}:${degreeLevel || 'all'}`,
+      2592000,
+      async () => {
+        const rows = await db
+          .prepare(
+            `SELECT DISTINCT
+              cip_title
+            FROM academic_programs
+            WHERE cip_title LIKE ? AND cip_title IS NOT NULL AND cip_title != '' ${credentialLevelFilter}
+            ORDER BY cip_title
+            LIMIT 20`
+          )
+          .all(...params) as { cip_title: string }[];
+        return rows.map((m) => m.cip_title);
+      }
+    );
 
-    return NextResponse.json({ majors: majors.map(m => m.cip_title) });
+    const response = NextResponse.json({ majors: names });
+    response.headers.set('Cache-Control', 'public, s-maxage=2592000, stale-while-revalidate=604800');
+    return response;
   } catch (error) {
     console.error('Major search error:', error);
     return NextResponse.json({ error: 'Failed to search majors' }, { status: 500 });

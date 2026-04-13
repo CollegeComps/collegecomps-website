@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { rateLimitByIP } from '@/lib/rate-limit';
 import { CollegeDataService } from '@/lib/database';
+import { cached } from '@/lib/api-cache';
+
+// Data refreshes yearly, cache aggressively.
+export const revalidate = 2592000;
 
 export async function GET(request: NextRequest) {
   const limited = rateLimitByIP(request, 'financial', { limit: 30, windowSeconds: 60 });
@@ -9,7 +13,7 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const unitid = searchParams.get('unitid');
-    
+
     if (!unitid) {
       return NextResponse.json({ error: 'unitid is required' }, { status: 400 });
     }
@@ -19,14 +23,14 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'unitid must be a valid number' }, { status: 400 });
     }
 
-    const db = new CollegeDataService();
-    const financialData = await db.getInstitutionFinancialData(unitidNum);
-
-    return NextResponse.json({
-      financialData,
-      unitid: unitidNum
+    const financialData = await cached(`financial:${unitidNum}`, 2592000, async () => {
+      const db = new CollegeDataService();
+      return db.getInstitutionFinancialData(unitidNum);
     });
 
+    const response = NextResponse.json({ financialData, unitid: unitidNum });
+    response.headers.set('Cache-Control', 'public, s-maxage=2592000, stale-while-revalidate=604800');
+    return response;
   } catch (error) {
     console.error('Error fetching financial data:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

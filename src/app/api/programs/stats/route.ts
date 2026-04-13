@@ -1,10 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { rateLimitByIP } from '@/lib/rate-limit';
 import { getDatabase } from '@/lib/database';
+import { getCached, setCached } from '@/lib/api-cache';
+
+export const revalidate = 2592000;
 
 export async function GET(request: NextRequest) {
   const limited = rateLimitByIP(request, 'prog-stats', { limit: 10, windowSeconds: 60 });
   if (limited) return limited;
+
+  // Serve from cache if available — this query is very expensive
+  const cacheKey = `prog-stats:${request.url}`;
+  const cachedResponse = getCached<unknown>(cacheKey);
+  if (cachedResponse) {
+    return NextResponse.json(cachedResponse, {
+      headers: { 'Cache-Control': 'public, s-maxage=2592000, stale-while-revalidate=604800' },
+    });
+  }
 
   try {
     const db = getDatabase();
@@ -70,11 +82,15 @@ export async function GET(request: NextRequest) {
       FROM best
     `).get();
 
-    return NextResponse.json({
+    const payload = {
       topPrograms,
       categories,
       stats,
       success: true
+    };
+    setCached(cacheKey, payload, 2592000);
+    return NextResponse.json(payload, {
+      headers: { 'Cache-Control': 'public, s-maxage=2592000, stale-while-revalidate=604800' },
     });
 
   } catch (error) {
