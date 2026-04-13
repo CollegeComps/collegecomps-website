@@ -87,26 +87,23 @@ async function getIntelligentSuggestions(
 
   if (type === 'school') {
     // Smart school matching with context
+    // Filter institutions first (LIMIT 8), then join financial_data only for those 8.
+    // This avoids scanning the full financial_data table on every keystroke.
     const schools = await db.prepare(`
-      SELECT DISTINCT
-        i.name,
-        i.state,
-        i.city,
-        i.control_public_private,
-        i.acceptance_rate,
-        fd.tuition_in_state,
-        fd.tuition_out_state
-      FROM institutions i
-      LEFT JOIN financial_data fd ON i.unitid = fd.unitid
-        AND fd.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
-      WHERE i.name LIKE ?
-      ORDER BY
-        CASE
-          WHEN i.name LIKE ? THEN 1
-          ELSE 2
-        END,
-        i.name
-      LIMIT 8
+      WITH matched AS (
+        SELECT i.unitid, i.name, i.state, i.city, i.control_public_private, i.acceptance_rate
+        FROM institutions i
+        WHERE i.name LIKE ?
+        ORDER BY
+          CASE WHEN i.name LIKE ? THEN 1 ELSE 2 END,
+          i.name
+        LIMIT 8
+      )
+      SELECT m.name, m.state, m.city, m.control_public_private, m.acceptance_rate,
+             fd.tuition_in_state, fd.tuition_out_state
+      FROM matched m
+      LEFT JOIN financial_data fd ON m.unitid = fd.unitid
+        AND fd.year = (SELECT MAX(year) FROM financial_data WHERE unitid = m.unitid)
     `).all(`%${query}%`, `${query}%`);
 
     suggestions = schools.map((school: any) => {

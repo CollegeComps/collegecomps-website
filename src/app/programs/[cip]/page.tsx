@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -25,30 +26,51 @@ interface ProgramRow {
   earnings_10_years_after_entry: number | null;
 }
 
-async function getProgramData(cipPrefix: string) {
+// React.cache deduplicates calls within a single render so generateMetadata
+// and the page component share one DB query instead of running it twice.
+const getProgramData = cache(async (cipPrefix: string) => {
   const db = getCollegeDb();
   if (!db) return null;
 
+  // Optimized: pre-aggregate top 50 unitids first (one scan of academic_programs),
+  // THEN join to institutions and the pre-computed latest-year financial data.
+  // This avoids the correlated subquery which was scanning ~14.7M rows per execution.
   const rows = (await db
     .prepare(
-      `SELECT ap.cipcode, ap.cip_title, ap.program_roi,
+      `WITH top_programs AS (
+         SELECT ap.unitid,
+                MAX(ap.cipcode) AS cipcode,
+                MAX(ap.cip_title) AS cip_title,
+                MAX(ap.program_roi) AS program_roi
+         FROM academic_programs ap
+         WHERE ap.cipcode LIKE ? AND ap.cip_title IS NOT NULL
+         GROUP BY ap.unitid
+         ORDER BY COALESCE(MAX(ap.program_roi), -999999) DESC
+         LIMIT 50
+       ),
+       latest_financial AS (
+         SELECT f.unitid, f.tuition_in_state, f.tuition_out_state
+         FROM financial_data f
+         INNER JOIN (
+           SELECT unitid, MAX(year) AS max_year
+           FROM financial_data
+           GROUP BY unitid
+         ) latest ON f.unitid = latest.unitid AND f.year = latest.max_year
+       )
+       SELECT tp.cipcode, tp.cip_title, tp.program_roi,
               i.unitid, i.name, i.city, i.state,
-              f.tuition_in_state, f.tuition_out_state,
+              lf.tuition_in_state, lf.tuition_out_state,
               e.earnings_10_years_after_entry
-       FROM academic_programs ap
-       JOIN institutions i ON ap.unitid = i.unitid
-       LEFT JOIN financial_data f ON i.unitid = f.unitid
-         AND f.year = (SELECT year FROM financial_data WHERE unitid = i.unitid ORDER BY year DESC LIMIT 1)
+       FROM top_programs tp
+       JOIN institutions i ON tp.unitid = i.unitid
+       LEFT JOIN latest_financial lf ON i.unitid = lf.unitid
        LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
-       WHERE ap.cipcode LIKE ? AND ap.cip_title IS NOT NULL
-       GROUP BY i.unitid
-       ORDER BY COALESCE(ap.program_roi, -999999) DESC
-       LIMIT 50`
+       ORDER BY COALESCE(tp.program_roi, -999999) DESC`
     )
     .all(cipPrefix + '%')) as ProgramRow[];
 
   return rows;
-}
+});
 
 export async function generateMetadata({
   params,

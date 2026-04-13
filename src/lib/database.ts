@@ -139,23 +139,27 @@ export class CollegeDataService {
   // Get all institutions with basic info and financial data (optimized)
   async getInstitutions(limit: number = 100, offset: number = 0, search?: string, sortBy: string = 'name'): Promise<Institution[]> {
     const { clause: statesClause, params: stateParams } = getStatesInClause();
-    
+
+    // Pre-compute the latest valid financial year per institution using a window
+    // function. This replaces a correlated subquery that was running once per row
+    // and scanning financial_data repeatedly.
     let query = `
-      SELECT 
-        i.id, i.unitid, i.opeid, i.name, i.city, i.state, i.zip_code, i.region, 
+      WITH latest_financial AS (
+        SELECT f.unitid, f.tuition_in_state, f.tuition_out_state, f.fees,
+               f.room_board_on_campus, f.net_price,
+               ROW_NUMBER() OVER (PARTITION BY f.unitid ORDER BY f.year DESC) AS rn
+        FROM financial_data f
+        JOIN institutions ins ON f.unitid = ins.unitid
+        WHERE NOT (ins.control_public_private = 1 AND f.tuition_in_state = f.tuition_out_state)
+      )
+      SELECT
+        i.id, i.unitid, i.opeid, i.name, i.city, i.state, i.zip_code, i.region,
         i.latitude, i.longitude, i.website, i.ownership, i.control_public_private,
         i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference,
         f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
         f.net_price, e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
       FROM institutions i
-      LEFT JOIN financial_data f ON i.unitid = f.unitid 
-        AND f.year = (
-          SELECT year FROM financial_data 
-          WHERE unitid = i.unitid 
-            AND NOT (i.control_public_private = 1 AND tuition_in_state = tuition_out_state)
-          ORDER BY year DESC 
-          LIMIT 1
-        )
+      LEFT JOIN latest_financial f ON i.unitid = f.unitid AND f.rn = 1
       LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
       WHERE ${statesClause}
     `;
@@ -508,20 +512,22 @@ export class CollegeDataService {
     
     const params: any[] = [...stateParams];
     
-    // Base query (same for both paths)
+    // Base query (same for both paths). Uses a pre-computed latest_financial CTE
+    // instead of a per-row correlated subquery — scans financial_data once.
     let query = `
+      WITH latest_financial AS (
+        SELECT f.unitid, f.tuition_in_state, f.tuition_out_state, f.fees,
+               f.room_board_on_campus, f.net_price,
+               ROW_NUMBER() OVER (PARTITION BY f.unitid ORDER BY f.year DESC) AS rn
+        FROM financial_data f
+        JOIN institutions ins ON f.unitid = ins.unitid
+        WHERE NOT (ins.control_public_private = 1 AND f.tuition_in_state = f.tuition_out_state)
+      )
       SELECT i.*, f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
              f.net_price, e.earnings_6_years_after_entry, e.earnings_10_years_after_entry,
              i.implied_roi, i.institution_avg_roi, i.acceptance_rate, i.average_sat, i.average_act, i.athletic_conference
       FROM institutions i
-      LEFT JOIN financial_data f ON i.unitid = f.unitid 
-        AND f.year = (
-          SELECT year FROM financial_data 
-          WHERE unitid = i.unitid 
-            AND NOT (i.control_public_private = 1 AND tuition_in_state = tuition_out_state)
-          ORDER BY year DESC 
-          LIMIT 1
-        )
+      LEFT JOIN latest_financial f ON i.unitid = f.unitid AND f.rn = 1
       LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
       WHERE ${statesClause}
     `;

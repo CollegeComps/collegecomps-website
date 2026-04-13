@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -42,6 +43,55 @@ export function generateStaticParams() {
   return US_STATES.map((s) => ({ state: s.code.toLowerCase() }));
 }
 
+// Optimized query: pre-compute latest-year financial data ONCE instead of
+// running a correlated subquery per row. Also pre-filters to the 50 top
+// institutions before joining expensive tables.
+const QUERY = `
+WITH top_colleges AS (
+  SELECT unitid, name, city, state, control_public_private,
+         institution_avg_roi, acceptance_rate
+  FROM institutions
+  WHERE state = ?
+  ORDER BY COALESCE(institution_avg_roi, -999999) DESC
+  LIMIT 50
+),
+latest_financial AS (
+  SELECT f.unitid, f.tuition_in_state, f.tuition_out_state, f.net_price
+  FROM financial_data f
+  INNER JOIN (
+    SELECT unitid, MAX(year) AS max_year
+    FROM financial_data
+    GROUP BY unitid
+  ) latest ON f.unitid = latest.unitid AND f.year = latest.max_year
+)
+SELECT tc.unitid, tc.name, tc.city, tc.state, tc.control_public_private,
+       tc.institution_avg_roi, tc.acceptance_rate,
+       lf.tuition_in_state, lf.tuition_out_state, lf.net_price,
+       e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
+FROM top_colleges tc
+LEFT JOIN latest_financial lf ON tc.unitid = lf.unitid
+LEFT JOIN earnings_outcomes e ON tc.unitid = e.unitid
+ORDER BY COALESCE(tc.institution_avg_roi, -999999) DESC
+`;
+
+// React.cache deduplicates calls within a render so metadata + page share one query.
+const getStateData = cache(async (stateCode: string) => {
+  const db = getCollegeDb();
+  if (!db) return { colleges: [] as StateCollege[], totalCount: 0 };
+
+  const [collegesResult, totalRowResult] = await Promise.all([
+    db.prepare(QUERY).all(stateCode),
+    db.prepare('SELECT COUNT(*) as cnt FROM institutions WHERE state = ?').get(stateCode),
+  ]);
+  const colleges = collegesResult as unknown as StateCollege[];
+  const totalRow = totalRowResult as unknown as { cnt: number } | undefined;
+
+  return {
+    colleges,
+    totalCount: totalRow?.cnt ?? colleges.length,
+  };
+});
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { state } = await params;
   const stateInfo = getStateInfo(state);
@@ -50,39 +100,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'State Not Found | CollegeComps' };
   }
 
-  const db = getCollegeDb();
-  let count = 0;
-  if (db) {
-    const row = (await db
-      .prepare('SELECT COUNT(*) as cnt FROM institutions WHERE state = ?')
-      .get(stateInfo.code)) as { cnt: number } | undefined;
-    count = row?.cnt ?? 0;
-  }
+  const { totalCount } = await getStateData(stateInfo.code);
 
   return {
     title: `Best ROI Colleges in ${stateInfo.name} | CollegeComps`,
-    description: `Compare the top colleges in ${stateInfo.name} by return on investment. See tuition, earnings, and ROI data for ${count}+ institutions.`,
+    description: `Compare the top colleges in ${stateInfo.name} by return on investment. See tuition, earnings, and ROI data for ${totalCount}+ institutions.`,
     openGraph: {
       title: `Best ROI Colleges in ${stateInfo.name} | CollegeComps`,
-      description: `Compare the top colleges in ${stateInfo.name} by return on investment. See tuition, earnings, and ROI data for ${count}+ institutions.`,
+      description: `Compare the top colleges in ${stateInfo.name} by return on investment. See tuition, earnings, and ROI data for ${totalCount}+ institutions.`,
       url: `https://collegecomps.com/colleges/state/${stateInfo.code.toLowerCase()}`,
     },
   };
 }
-
-const QUERY = `
-SELECT i.unitid, i.name, i.city, i.state, i.control_public_private,
-       i.institution_avg_roi, i.acceptance_rate,
-       f.tuition_in_state, f.tuition_out_state, f.net_price,
-       e.earnings_6_years_after_entry, e.earnings_10_years_after_entry
-FROM institutions i
-LEFT JOIN financial_data f ON i.unitid = f.unitid
-  AND f.year = (SELECT year FROM financial_data WHERE unitid = i.unitid ORDER BY year DESC LIMIT 1)
-LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
-WHERE i.state = ?
-ORDER BY COALESCE(i.institution_avg_roi, -999999) DESC
-LIMIT 50
-`;
 
 export default async function StatePage({ params }: PageProps) {
   const { state } = await params;
@@ -101,7 +130,7 @@ export default async function StatePage({ params }: PageProps) {
     );
   }
 
-  const colleges = (await db.prepare(QUERY).all(stateInfo.code)) as StateCollege[];
+  const { colleges, totalCount } = await getStateData(stateInfo.code);
 
   // Compute summary stats
   const withROI = colleges.filter((c) => c.institution_avg_roi != null);
@@ -119,12 +148,6 @@ export default async function StatePage({ params }: PageProps) {
     withEarnings.length > 0
       ? withEarnings.reduce((sum, c) => sum + (c.earnings_10_years_after_entry ?? 0), 0) / withEarnings.length
       : null;
-
-  // Total count for the state
-  const totalRow = (await db
-    .prepare('SELECT COUNT(*) as cnt FROM institutions WHERE state = ?')
-    .get(stateInfo.code)) as { cnt: number } | undefined;
-  const totalCount = totalRow?.cnt ?? colleges.length;
 
   return (
     <div className="min-h-screen bg-black text-white">

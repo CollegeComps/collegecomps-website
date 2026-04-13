@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { rateLimitByIP } from '@/lib/rate-limit';
 import { getCollegeDb } from '@/lib/db-helper';
+import { cached } from '@/lib/api-cache';
 
 export async function GET(request: NextRequest) {
   const limited = rateLimitByIP(request, 'inst-search', { limit: 20, windowSeconds: 60 });
@@ -20,22 +21,25 @@ export async function GET(request: NextRequest) {
 
   try {
     // Normalize both the query and database names to handle ampersand variations
-    // This allows "A&M" to match "A & M" and vice versa
-    // Replace spaces around ampersands in the query
-    const normalizedQuery = query.replace(/\s*&\s*/g, '&');
-    
-    const institutions = await db
-      .prepare(
-        `SELECT DISTINCT
-          name
-        FROM institutions
-        WHERE REPLACE(name, ' & ', '&') LIKE ?
-        ORDER BY name
-        LIMIT 15`
-      )
-      .all(`%${normalizedQuery}%`) as { name: string }[];
+    const normalizedQuery = query.replace(/\s*&\s*/g, '&').toLowerCase();
 
-    return NextResponse.json({ institutions: institutions.map(i => i.name) });
+    // Cache each search term for 1 hour. Autocomplete queries repeat heavily.
+    const names = await cached(`inst-search:${normalizedQuery}`, 3600, async () => {
+      const rows = await db
+        .prepare(
+          `SELECT DISTINCT name
+           FROM institutions
+           WHERE REPLACE(name, ' & ', '&') LIKE ?
+           ORDER BY name
+           LIMIT 15`
+        )
+        .all(`%${normalizedQuery}%`) as { name: string }[];
+      return rows.map((r) => r.name);
+    });
+
+    const response = NextResponse.json({ institutions: names });
+    response.headers.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+    return response;
   } catch (error) {
     console.error('Institution search error:', error);
     return NextResponse.json({ error: 'Failed to search institutions' }, { status: 500 });

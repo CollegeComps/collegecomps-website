@@ -59,9 +59,10 @@ test_performance.sh
 .env.sentry-build-plugin
 
 
-# Documentation - only allow README.md and .github docs
+# Documentation - only allow README.md, .github docs, and article content
 *.md
 !README.md
 !.github/*.md
+!content/articles/*.md
 
 .env*.local

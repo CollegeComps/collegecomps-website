@@ -67,8 +67,14 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Get college data with available fields
+    // Get college data with available fields.
+    // Uses a pre-aggregated latest-year CTE to avoid correlated subquery scans.
     const colleges = await collegeDb.prepare(`
+      WITH latest_financial AS (
+        SELECT f.unitid, f.tuition_in_state, f.tuition_out_state, f.fees, f.room_board_on_campus,
+               ROW_NUMBER() OVER (PARTITION BY f.unitid ORDER BY f.year DESC) AS rn
+        FROM financial_data f
+      )
       SELECT
         i.unitid as id,
         i.name,
@@ -79,12 +85,10 @@ export async function GET(req: NextRequest) {
         (COALESCE(f.tuition_out_state, f.tuition_in_state, 0) + COALESCE(f.fees, 0) + COALESCE(f.room_board_on_campus, 0)) as cost,
         COALESCE(e.earnings_10_years_after_entry, e.earnings_6_years_after_entry) as avg_salary
       FROM institutions i
-      LEFT JOIN financial_data f ON i.unitid = f.unitid
-        AND f.year = (SELECT MAX(year) FROM financial_data WHERE unitid = i.unitid)
+      LEFT JOIN latest_financial f ON i.unitid = f.unitid AND f.rn = 1
       LEFT JOIN earnings_outcomes e ON i.unitid = e.unitid
       WHERE (f.tuition_in_state IS NOT NULL OR f.tuition_out_state IS NOT NULL)
         AND i.name IS NOT NULL
-      GROUP BY i.unitid
       ORDER BY RANDOM()
       LIMIT 500
     `).all() as any[];

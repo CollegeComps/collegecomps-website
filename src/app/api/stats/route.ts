@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { rateLimitByIP } from '@/lib/rate-limit';
 import { CollegeDataService } from '@/lib/database';
+import { cached } from '@/lib/api-cache';
 
 // Cache stats for 1 hour — counts change only when new data is loaded
 export const revalidate = 3600;
@@ -10,8 +11,10 @@ export async function GET(request: NextRequest) {
   if (limited) return limited;
 
   try {
-    const collegeService = new CollegeDataService();
-    const stats = await collegeService.getDatabaseStats();
+    const stats = await cached('stats:db', 3600, async () => {
+      const collegeService = new CollegeDataService();
+      return collegeService.getDatabaseStats();
+    });
 
     const response = NextResponse.json(stats);
     // CDN/browser cache: fresh for 1hr, stale-while-revalidate for 24hrs

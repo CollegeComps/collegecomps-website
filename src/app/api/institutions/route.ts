@@ -1,17 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { rateLimitByIP } from '@/lib/rate-limit';
 import { CollegeDataService } from '@/lib/database';
-import { 
-  getZipCodeCoordinates, 
-  filterByProximity, 
-  normalizeZipCode 
+import { cached } from '@/lib/api-cache';
+import {
+  getZipCodeCoordinates,
+  filterByProximity,
+  normalizeZipCode
 } from '@/lib/geo-utils';
 import { MajorCategory } from '@/lib/cip-category-mapping';
-import { 
-  calculateEFC, 
-  assessAffordability, 
+import {
+  calculateEFC,
+  assessAffordability,
   getInstitutionType,
-  type FinancialProfile 
+  type FinancialProfile
 } from '@/lib/financial-calculator';
 
 export async function GET(request: NextRequest) {
@@ -20,6 +21,8 @@ export async function GET(request: NextRequest) {
 
   try {
     const { searchParams } = new URL(request.url);
+    // Cache key built from full URL so each unique filter combo gets its own entry.
+    const cacheKey = `institutions:${request.url}`;
     const search = searchParams.get('search');
     const state = searchParams.get('state');
     const city = searchParams.get('city');
@@ -44,35 +47,39 @@ export async function GET(request: NextRequest) {
     const maxCostMultiplier = parseFloat(searchParams.get('maxCostMultiplier') || '1.5'); // Allow up to 150% of EFC
 
     const collegeService = new CollegeDataService();
-    
+    const hasFinancialProfile = !!(studentIncome || parentIncome || parentAssets);
+
     let institutions;
     
     // If proximity filtering, get more results before filtering (pagination will be applied after)
     const effectiveLimit = proximityZip ? 1000 : limit; // Get up to 1000 for proximity, then filter
     const effectiveOffset = proximityZip ? 0 : (page - 1) * limit;
     
-    // Handle single institution lookup by unitid
-    if (unitid) {
-      const singleInst = await collegeService.getInstitutionByUnitid(parseInt(unitid));
-      institutions = singleInst ? [singleInst] : [];
-    } else if (search || state || city || zipCode || control || maxTuition || minEarnings || majorCategory || degreeLevel) {
-      // Use search with filters ONLY when actual filters are applied (not just sorting)
-      institutions = await collegeService.searchInstitutions({
-        name: search || undefined,
-        state: state || undefined,
-        city: city || undefined,
-        zipCode: zipCode || undefined,
-        control: control || undefined, // Now accepts array of numbers
-        maxTuition: maxTuition ? parseFloat(maxTuition) : undefined,
-        minEarnings: minEarnings ? parseFloat(minEarnings) : undefined,
-        majorCategory: majorCategory || undefined,
-        degreeLevel: (['associates','bachelors','masters','doctorate','certificate'].includes((degreeLevel||'').toLowerCase())) ? (degreeLevel as any) : undefined,
-        sortBy: sortBy
-      });
-    } else {
-      // Get all institutions with pagination (handles all sorting including roi_high)
-      institutions = await collegeService.getInstitutions(effectiveLimit, effectiveOffset, search || undefined, sortBy);
-    }
+    // Cache the base DB result for 10 minutes. Only bypass cache when user-specific
+    // financial filtering is applied (since that modifies the data shape).
+    institutions = await cached(cacheKey, hasFinancialProfile ? 0 : 600, async () => {
+      // Handle single institution lookup by unitid
+      if (unitid) {
+        const singleInst = await collegeService.getInstitutionByUnitid(parseInt(unitid));
+        return singleInst ? [singleInst] : [];
+      } else if (search || state || city || zipCode || control || maxTuition || minEarnings || majorCategory || degreeLevel) {
+        // Use search with filters ONLY when actual filters are applied (not just sorting)
+        return collegeService.searchInstitutions({
+          name: search || undefined,
+          state: state || undefined,
+          city: city || undefined,
+          zipCode: zipCode || undefined,
+          control: control || undefined,
+          maxTuition: maxTuition ? parseFloat(maxTuition) : undefined,
+          minEarnings: minEarnings ? parseFloat(minEarnings) : undefined,
+          majorCategory: majorCategory || undefined,
+          degreeLevel: (['associates','bachelors','masters','doctorate','certificate'].includes((degreeLevel||'').toLowerCase())) ? (degreeLevel as any) : undefined,
+          sortBy: sortBy
+        });
+      } else {
+        return collegeService.getInstitutions(effectiveLimit, effectiveOffset, search || undefined, sortBy);
+      }
+    });
 
     // ENG-29: Apply financial affordability filtering if financial data provided
     if (studentIncome || parentIncome || parentAssets) {
@@ -174,12 +181,17 @@ export async function GET(request: NextRequest) {
       institutions = institutions.slice(startIdx, startIdx + limit);
     }
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       institutions,
       page,
       limit,
       hasMore: startIdx + institutions.length < totalFiltered
     });
+    // HTTP cache for anonymous results (no user financial profile)
+    if (!hasFinancialProfile) {
+      response.headers.set('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=3600');
+    }
+    return response;
   } catch (error) {
     console.error('Error fetching institutions:', error);
     return NextResponse.json(

@@ -134,11 +134,10 @@ export default function Home() {
               Stop Guessing. Start Calculating.
             </p>
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white mb-6 tracking-tight leading-tight">
-              Is Your Degree{' '}
+              Which Degree Path Is Best for Your{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600">
-                (Really)
+                Financial Future?
               </span>
-              {' '}Worth the Debt?
             </h1>
             <p className="text-lg sm:text-xl text-gray-400 mb-10 max-w-3xl mx-auto leading-relaxed">
               Compare the ROI of undergraduate degrees, trade schools, and graduate programs.

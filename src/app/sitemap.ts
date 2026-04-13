@@ -1,6 +1,10 @@
 import { MetadataRoute } from 'next';
-import { CollegeDataService } from '@/lib/database';
+import { getCollegeDb } from '@/lib/db-helper';
 import { US_STATES } from '@/lib/constants/states';
+
+// Cache the sitemap at the edge for 24 hours.
+// Without this, every sitemap.xml request re-queries the database.
+export const revalidate = 86400;
 
 const BASE_URL = 'https://collegecomps.com';
 
@@ -117,21 +121,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error generating article pages for sitemap:', error);
   }
 
-  // Get all college pages from database
+  // Get college unitids for sitemap — lightweight query, only what's needed.
+  // Previously this called getInstitutions(10000, 0) which runs a heavy JOIN on
+  // financial_data and earnings_outcomes. We only need unitid for the URL.
   let collegePages: MetadataRoute.Sitemap = [];
 
   try {
-    const collegeService = new CollegeDataService();
+    const db = getCollegeDb();
+    if (db) {
+      const rows = (await db
+        .prepare('SELECT unitid FROM institutions WHERE name IS NOT NULL ORDER BY unitid LIMIT 2000')
+        .all()) as { unitid: number }[];
 
-    // Get all institutions (limit to a reasonable number for sitemap)
-    const institutions = await collegeService.getInstitutions(10000, 0);
-
-    collegePages = institutions.map((college) => ({
-      url: `${BASE_URL}/colleges/${college.unitid}`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    }));
+      collegePages = rows.map((r) => ({
+        url: `${BASE_URL}/colleges/${r.unitid}`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly' as const,
+        priority: 0.7,
+      }));
+    }
   } catch (error) {
     console.error('Error generating college pages for sitemap:', error);
     // If database fails, return static pages only
