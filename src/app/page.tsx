@@ -122,9 +122,8 @@ export default function Home() {
       <OrganizationSchema />
       <WebApplicationSchema />
       
-      {/* Hero Section */}
-      <div className="relative bg-black overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-black to-orange-950/20"></div>
+      {/* Hero Section — transparent so starfield shows through */}
+      <div className="relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-orange-500/10 to-transparent rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-orange-600/10 to-transparent rounded-full blur-3xl"></div>
 
@@ -174,7 +173,7 @@ export default function Home() {
       </div>
 
       {/* Persona Tiles */}
-      <div className="py-16 bg-gradient-to-b from-black to-gray-950 border-t border-gray-900">
+      <div className="py-16 border-t border-gray-900">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Tile 1: College-bound */}
@@ -238,7 +237,7 @@ export default function Home() {
       </div>
 
       {/* Path Comparison Section */}
-      <div className="py-20 bg-gradient-to-br from-gray-900 to-black">
+      <div className="py-20 bg-gray-950/50 backdrop-blur-sm border-t border-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
@@ -336,7 +335,7 @@ export default function Home() {
       </div>
 
       {/* Features Section */}
-      <div className="py-20 bg-black border-t border-gray-900">
+      <div className="py-20 border-t border-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
@@ -382,7 +381,7 @@ export default function Home() {
       </div>
 
       {/* Data Trust Section */}
-      <div className="py-16 bg-black border-t border-gray-900">
+      <div className="py-16 border-t border-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
@@ -466,7 +465,7 @@ export default function Home() {
       </div>
 
       {/* Browse By Section - Internal Linking for SEO */}
-      <div className="py-16 bg-black border-t border-gray-900">
+      <div className="py-16 border-t border-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Browse by State */}
           <div className="mb-12">
@@ -535,7 +534,7 @@ export default function Home() {
       <DataSourcesFooter />
 
       {/* Legal Footer */}
-      <footer className="bg-black text-white py-12 border-t border-gray-900">
+      <footer className="bg-black/80 backdrop-blur-md text-white py-12 border-t border-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>

@@ -150,19 +150,19 @@ export default function Sidebar({ children }: SidebarProps) {
   });
 
   return (
-    <div className="flex h-screen bg-gray-800">
+    <div className="flex h-screen">
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-40 bg-gray-600 bg-opacity-75 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
-      <div 
+      <div
         className={`
-          fixed inset-y-0 left-0 z-50 bg-black shadow-lg transition-all duration-500 ease-in-out flex flex-col
+          fixed inset-y-0 left-0 z-50 bg-black/90 backdrop-blur-md shadow-lg transition-all duration-500 ease-in-out flex flex-col
           lg:relative lg:translate-x-0
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           ${isExpanded ? 'w-64' : 'w-20'}
@@ -265,8 +265,8 @@ export default function Sidebar({ children }: SidebarProps) {
         {/* Top auth bar - floating on page content */}
         <TopAuthBar onMenuClick={() => setSidebarOpen(true)} />
         
-        {/* Page content */}
-        <main className="flex-1 overflow-y-auto bg-black">{children}</main>
+        {/* Page content — transparent so starfield shows through behind cards */}
+        <main className="flex-1 overflow-y-auto">{children}</main>
       </div>
     </div>
   );

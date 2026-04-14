@@ -6,6 +6,7 @@ import Sidebar from "@/components/Sidebar";
 import SessionProvider from "@/components/SessionProvider";
 import OnboardingCheck from "@/components/OnboardingCheck";
 import CookieConsent from "@/components/CookieConsent";
+import StarfieldBackground from "@/components/StarfieldBackground";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
@@ -86,14 +87,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
       >
-        <SessionProvider>
-          <OnboardingCheck>
-            <Sidebar>
-              {children}
-            </Sidebar>
-          </OnboardingCheck>
-          <CookieConsent />
-        </SessionProvider>
+        <StarfieldBackground />
+        <div className="relative z-10">
+          <SessionProvider>
+            <OnboardingCheck>
+              <Sidebar>
+                {children}
+              </Sidebar>
+            </OnboardingCheck>
+            <CookieConsent />
+          </SessionProvider>
+        </div>
         <GoogleAnalytics />
         <Analytics />
         <SpeedInsights />
