@@ -47,6 +47,7 @@ export interface Institution {
   room_board_on_campus?: number;
   net_price?: number;
   earnings_6_years_after_entry?: number;
+  earnings_10_years_after_entry?: number;
   mean_earnings_6_years?: number; // For compatibility
   mean_earnings_10_years?: number; // For compatibility
   // New ROI and admissions fields (ENG-16)
