@@ -4,6 +4,25 @@ import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createCheckoutSession } from '@/lib/stripe-client';
+import { FAQSchema } from '@/components/StructuredData';
+
+const FAQS = [
+  {
+    question: 'Can I cancel anytime?',
+    answer:
+      "Yes! You can cancel your subscription at any time. You'll continue to have access until the end of your billing period.",
+  },
+  {
+    question: 'What payment methods do you accept?',
+    answer:
+      'We accept all major credit cards (Visa, MasterCard, American Express) through our secure payment processor, Stripe.',
+  },
+  {
+    question: 'Is there a student discount?',
+    answer:
+      "We're working on a student verification system. For now, the annual plan offers the best value with 20% savings.",
+  },
+];
 
 export default function PricingPage() {
   const { data: session } = useSession();
@@ -37,6 +56,7 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen bg-black py-12 px-4 sm:px-6 lg:px-8">
+      <FAQSchema faqs={FAQS} />
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">

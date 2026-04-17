@@ -26,13 +26,21 @@ export function OrganizationSchema() {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': 'https://collegecomps.com/#organization',
     name: 'CollegeComps',
     url: 'https://collegecomps.com',
-    logo: 'https://collegecomps.com/logo.png',
-    description: 'Make smarter education decisions with data-driven college ROI analysis and comparisons.',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://collegecomps.com/logo.png',
+      width: 2752,
+      height: 1536,
+    },
+    description:
+      'Compare the ROI of 6,000+ US colleges, trade schools, and graduate programs using federal IPEDS data.',
     sameAs: [
       'https://twitter.com/collegecomps',
       'https://www.linkedin.com/company/collegecomps',
+      'https://www.reddit.com/r/CollegeComps/',
     ],
     contactPoint: {
       '@type': 'ContactPoint',
@@ -40,6 +48,36 @@ export function OrganizationSchema() {
       email: 'fpapalardo@collegecomps.com',
       availableLanguage: 'en',
     },
+  };
+
+  return <StructuredData data={schema} />;
+}
+
+/**
+ * WebSite Schema with SearchAction — tells Google our site has internal
+ * search, which enables the sitelinks search box in search results.
+ */
+export function WebSiteSchema() {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': 'https://collegecomps.com/#website',
+    url: 'https://collegecomps.com',
+    name: 'CollegeComps',
+    description:
+      'College ROI calculator and comparison tool using federal IPEDS data.',
+    publisher: {
+      '@id': 'https://collegecomps.com/#organization',
+    },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: 'https://collegecomps.com/colleges?search={search_term_string}',
+      },
+      'query-input': 'required name=search_term_string',
+    },
+    inLanguage: 'en-US',
   };
 
   return <StructuredData data={schema} />;
@@ -55,20 +93,28 @@ export function WebApplicationSchema() {
     '@type': 'WebApplication',
     name: 'CollegeComps ROI Calculator',
     url: 'https://collegecomps.com/roi-calculator',
-    applicationCategory: 'EducationalApplication',
+    // Dual categories — EducationalApplication is the primary subject,
+    // FinanceApplication captures the ROI-calculation purpose.
+    applicationCategory: ['EducationalApplication', 'FinanceApplication'],
     operatingSystem: 'Any',
+    browserRequirements: 'Requires JavaScript. Requires HTML5.',
     offers: {
       '@type': 'Offer',
       price: '0',
       priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
     },
-    description: 'Calculate the return on investment for any college program. Compare tuition costs, projected salaries, and lifetime earnings to make informed education decisions.',
+    aggregateRating: undefined, // Add once we have real reviews
+    description:
+      'Calculate the return on investment for any college program. Compare tuition costs, projected salaries, and lifetime earnings to make informed education decisions.',
     featureList: [
       'College ROI Calculator',
       'Salary Projections',
       'Cost Analysis',
       'Program Comparison',
+      'Trade School vs. Degree',
     ],
+    isAccessibleForFree: true,
   };
 
   return <StructuredData data={schema} />;

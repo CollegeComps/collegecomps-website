@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { DataSourcesFooter } from '@/components/DataSources';
-import { OrganizationSchema, WebApplicationSchema } from '@/components/StructuredData';
+import { OrganizationSchema, WebApplicationSchema, WebSiteSchema } from '@/components/StructuredData';
 import SocialShare from '@/components/SocialShare';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import HeroSearchBar from '@/components/HeroSearchBar';
@@ -120,6 +120,7 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Structured Data for SEO */}
       <OrganizationSchema />
+      <WebSiteSchema />
       <WebApplicationSchema />
       
       {/* Hero Section */}

@@ -9,48 +9,46 @@ interface SEOProps {
   noindex?: boolean;
 }
 
+/**
+ * Generate page-level metadata that inherits from the root layout's
+ * metadataBase. Canonical URLs use relative paths so they resolve against
+ * metadataBase automatically.
+ */
 export function generateSEOMetadata({
   title,
   description,
   path = '',
-  image = '/logo.png',
+  image = '/opengraph-image',
   type = 'website',
   noindex = false,
 }: SEOProps): Metadata {
   const siteName = 'CollegeComps';
   const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
-  const url = `https://collegecomps.com${path}`;
 
   return {
     title: fullTitle,
     description,
-    keywords: [
-      'college ROI',
-      'return on investment',
-      'college comparison',
-      'college costs',
-      'student debt',
-      'graduate salary',
-      'college worth',
-      'education ROI',
-      'college decision',
-      'higher education',
-    ],
-    authors: [{ name: 'CollegeComps' }],
-    creator: 'CollegeComps',
-    publisher: 'CollegeComps',
     robots: noindex
       ? { index: false, follow: false }
-      : { index: true, follow: true, googleBot: { index: true, follow: true } },
+      : {
+          index: true,
+          follow: true,
+          googleBot: {
+            index: true,
+            follow: true,
+            'max-image-preview': 'large',
+            'max-snippet': -1,
+          },
+        },
     openGraph: {
       type,
       title: fullTitle,
       description,
-      url,
+      url: path || '/',
       siteName,
       images: [
         {
-          url: image.startsWith('http') ? image : `https://collegecomps.com${image}`,
+          url: image,
           width: 1200,
           height: 630,
           alt: title,
@@ -62,78 +60,75 @@ export function generateSEOMetadata({
       card: 'summary_large_image',
       title: fullTitle,
       description,
-      images: [image.startsWith('http') ? image : `https://collegecomps.com${image}`],
+      images: [image],
       creator: '@collegecomps',
       site: '@collegecomps',
     },
     alternates: {
-      canonical: url,
-    },
-    other: {
-      'application-name': siteName,
-      'apple-mobile-web-app-status-bar-style': 'default',
-      'apple-mobile-web-app-title': siteName,
-      'format-detection': 'telephone=no',
-      'mobile-web-app-capable': 'yes',
+      // Relative canonical — resolves to full URL via root metadataBase.
+      canonical: path || '/',
     },
   };
 }
 
-// Common SEO presets for different pages
+/**
+ * Search-targeted page titles and descriptions. The title should match what
+ * a user would actually type into Google. Descriptions are under 160 chars.
+ */
 export const seoPresets = {
   home: {
-    title: 'CollegeComps - College ROI Calculator & Comparison Tool',
+    title: 'CollegeComps — Is Your Degree Really Worth the Debt?',
     description:
-      'Make smarter education decisions with our comprehensive college ROI calculator. Compare colleges, analyze costs, and predict graduate salaries based on real data.',
+      'Compare the ROI of 6,000+ US colleges, trade schools, and graduate programs using federal IPEDS data. See real tuition vs. earnings before you borrow.',
     path: '/',
   },
   roiCalculator: {
-    title: 'ROI Calculator - Calculate College Return on Investment',
+    title: 'Free College ROI Calculator — See If Your Degree Is Worth It',
     description:
-      'Calculate the return on investment for any college program. Compare tuition costs, projected salaries, and lifetime earnings to make informed decisions.',
+      'Calculate the 30-year return on investment for any US college or program. Uses real IPEDS tuition and graduate earnings data. No account required.',
     path: '/roi-calculator',
   },
   compareColleges: {
-    title: 'Compare Colleges - Side-by-Side College Comparison',
+    title: 'Compare Colleges Side-by-Side — Costs, Salaries & ROI',
     description:
-      'Compare colleges side-by-side with detailed metrics on costs, admission rates, graduate salaries, and more. Make data-driven college choices.',
+      'Compare up to 4 colleges at once on tuition, acceptance rate, graduate earnings, and lifetime ROI. Free comparison tool using federal data.',
     path: '/compare',
   },
   collegeExplorer: {
-    title: 'College Explorer - Browse 7,000+ US Colleges',
+    title: 'Browse 6,000+ US Colleges by ROI, Cost & Outcomes',
     description:
-      'Explore comprehensive data on over 7,000 US colleges and universities. Filter by location, costs, programs, and outcomes to find your perfect match.',
+      'Search and filter over 6,000 US colleges by location, cost, acceptance rate, and graduate earnings. Built on federal IPEDS data.',
     path: '/colleges',
   },
   salaryInsights: {
-    title: 'Salary Insights - Real Graduate Salary Data',
+    title: 'Real Graduate Salary Data — By Major and Institution',
     description:
-      'Access real salary data from college graduates. See what alumni earn by major, institution, and years of experience.',
+      'See what college graduates actually earn by major, school, and years of experience. Data from federal Bureau of Labor Statistics and alumni submissions.',
     path: '/salary-insights',
   },
   historicalTrends: {
-    title: 'Historical Trends - College Cost & Salary Predictions',
+    title: 'College Cost & Salary Trends — Historical Analysis',
     description:
-      'Analyze historical trends in college costs and graduate salaries. AI-powered predictions help you understand future education value.',
+      'See how college costs and graduate salaries have changed over time. Historical data visualizations powered by federal education statistics.',
     path: '/historical-trends',
   },
   pricing: {
-    title: 'Pricing - CollegeComps Plans & Features',
+    title: 'Pricing — Free & Premium Plans for College ROI Analysis',
     description:
-      'Choose the right plan for your college search. Free and Premium tiers with unlimited ROI calculations, comparisons, and salary insights.',
+      'CollegeComps is free for all core tools. Upgrade for unlimited saved comparisons, detailed salary insights, and advanced ROI analytics.',
     path: '/pricing',
   },
   privacy: {
-    title: 'Privacy Policy - How We Protect Your Data',
+    title: 'Privacy Policy',
     description:
-      'Learn how CollegeComps collects, uses, and protects your personal information. GDPR and CCPA compliant privacy practices.',
+      'How CollegeComps collects, uses, and protects your personal information. GDPR and CCPA compliant.',
     path: '/privacy',
     noindex: true,
   },
   terms: {
-    title: 'Terms of Service - CollegeComps User Agreement',
+    title: 'Terms of Service',
     description:
-      'Read our Terms of Service to understand your rights and responsibilities when using CollegeComps.',
+      'Terms of Service covering your use of CollegeComps and our data.',
     path: '/terms',
     noindex: true,
   },

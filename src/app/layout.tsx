@@ -21,51 +21,71 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://collegecomps.com'),
   title: {
-    default: 'CollegeComps - College ROI Calculator & Comparison Tool',
+    default: 'CollegeComps — Is Your Degree Really Worth the Debt?',
     template: '%s | CollegeComps',
   },
-  description: 'Make smarter education decisions with our comprehensive college ROI calculator. Compare colleges, analyze costs, and predict graduate salaries based on real data.',
-  keywords: ['college ROI', 'return on investment', 'college comparison', 'college costs', 'student debt', 'graduate salary', 'college worth', 'education ROI'],
+  description: 'Compare the ROI of 6,000+ US colleges, trade schools, and graduate programs using federal IPEDS data. See real tuition vs. earnings before you borrow.',
+  keywords: [
+    'college ROI calculator',
+    'is college worth it',
+    'trade school vs college',
+    'college return on investment',
+    'graduate salary by major',
+    'student debt calculator',
+    'compare colleges',
+    'college tuition comparison',
+    'best ROI colleges',
+    'IPEDS data',
+  ],
   authors: [{ name: 'CollegeComps' }],
   creator: 'CollegeComps',
   publisher: 'CollegeComps',
+  applicationName: 'CollegeComps',
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
     },
+  },
+  alternates: {
+    // Next.js generates <link rel="canonical"> pointing at the current URL
+    // on every page, inheriting from metadataBase.
+    canonical: './',
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://collegecomps.com',
     siteName: 'CollegeComps',
-    title: 'CollegeComps - College ROI Calculator & Comparison Tool',
-    description: 'Make smarter education decisions with our comprehensive college ROI calculator. Compare colleges, analyze costs, and predict graduate salaries based on real data.',
+    title: 'CollegeComps — Is Your Degree Really Worth the Debt?',
+    description: 'Compare the ROI of 6,000+ US colleges, trade schools, and graduate programs using federal IPEDS data. See real tuition vs. earnings before you borrow.',
     images: [
       {
-        url: 'https://collegecomps.com/logo.png',
-        width: 2752,
-        height: 1536,
-        alt: 'CollegeComps - College ROI Calculator',
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'CollegeComps — College ROI Calculator',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CollegeComps - College ROI Calculator & Comparison Tool',
-    description: 'Make smarter education decisions with our comprehensive college ROI calculator.',
-    images: ['https://collegecomps.com/logo.png'],
+    title: 'CollegeComps — Is Your Degree Really Worth the Debt?',
+    description: 'Compare the ROI of 6,000+ US colleges, trade schools, and graduate programs using federal IPEDS data.',
+    images: ['/opengraph-image'],
     creator: '@collegecomps',
+    site: '@collegecomps',
   },
-  alternates: {
-    canonical: 'https://collegecomps.com',
+  verification: {
+    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || 'EO0OEf4SRlUbvUooBY-Ym-u2w20gDBIxYjJFv6Ko_Tg',
   },
   other: {
-    'application-name': 'CollegeComps',
     'mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
     'apple-mobile-web-app-title': 'CollegeComps',
@@ -81,7 +101,6 @@ export default function RootLayout({
     <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
       <head>
         <meta name="color-scheme" content="dark" />
-        <meta name="google-site-verification" content="EO0OEf4SRlUbvUooBY-Ym-u2w20gDBIxYjJFv6Ko_Tg" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
